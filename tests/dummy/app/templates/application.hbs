@@ -1,3 +1,10 @@
 <h2 id="title">Welcome to Ember</h2>
 
-{{outlet}}
+{{#ember-dropdown as |dropdown|}}
+  <button>
+    This is the trigger
+  </button>
+{{else}}
+  <p>This is the content</p>
+  <h3>It can contain anything.</h3>
+{{/ember-dropdown}}

@@ -1,0 +1,10 @@
+<div class="ember-dropdown-trigger" tabindex="{{tabindex}}" onkeydown={{action "keydown"}} onclick={{action "toggle"}}>
+  {{yield this}}
+</div>
+{{#if _opened}}
+  {{#ember-wormhole to=_wormholeDestination renderInPlace=renderInPlace}}
+    <div class="ember-dropdown-content {{_dropdownPositionClass}}">
+      {{yield this to="inverse"}}
+    </div>
+  {{/ember-wormhole}}
+{{/if}}
