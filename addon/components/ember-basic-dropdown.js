@@ -2,9 +2,11 @@ import Ember from 'ember';
 import layout from '../templates/components/ember-basic-dropdown';
 
 const { Component, run, computed } = Ember;
+const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 export default Component.extend({
   layout: layout,
+  disabled: false,
   renderInPlace: false,
   dropdownPosition: 'auto', // auto | above | below
   classNames: ['ember-basic-dropdown'],
@@ -121,6 +123,23 @@ export default Component.extend({
     window.addEventListener('scroll', this.handleRepositioningEvent);
     window.addEventListener('resize', this.handleRepositioningEvent);
     window.addEventListener('orientationchange', this.handleRepositioningEvent);
+    if (MutationObserver) {
+      this.mutationObserver = new MutationObserver(mutations => {
+        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
+          this.handleRepositioningEvent();
+        }
+      });
+      run.schedule('afterRender', this, function() {
+        const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+        this.mutationObserver.observe(dropdown, { childList: true });
+      });
+    } else {
+      run.schedule('afterRender', this, function() {
+        const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+        dropdown.addEventListener('DOMNodeInserted', this.handleRepositioningEvent, false);
+        dropdown.addEventListener('DOMNodeRemoved', this.handleRepositioningEvent, false);
+      });
+    }
   },
 
   removeGlobalEvents() {
@@ -128,5 +147,13 @@ export default Component.extend({
     window.removeEventListener('scroll', this.handleRepositioningEvent);
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
+    if (MutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
+    } else {
+      const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+      dropdown.removeEventListener('DOMNodeInserted', this.handleRepositioningEvent);
+      dropdown.removeEventListener('DOMNodeRemoved', this.handleRepositioningEvent);
+    }
   }
 });
