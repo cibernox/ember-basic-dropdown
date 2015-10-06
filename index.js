@@ -2,10 +2,10 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-dropdown',
+  name: 'ember-basic-dropdown',
   contentFor: function(type, config) {
     if (config.environment !== 'test' && type === 'body-footer') {
-      return '<div id="ember-dropdown-wormhole"></div>';
+      return '<div id="ember-basic-dropdown-wormhole"></div>';
     }
   }
 };

@@ -1,8 +1,8 @@
 /* globals blanket, module */
 
 var options = {
-  modulePrefix: 'ember-dropdown',
-  filter: '//.*ember-dropdown/.*/',
+  modulePrefix: 'ember-basic-dropdown',
+  filter: '//.*ember-basic-dropdown/.*/',
   antifilter: '//.*(tests|template).*/',
   loaderExclusions: [],
   enableCoverage: true,

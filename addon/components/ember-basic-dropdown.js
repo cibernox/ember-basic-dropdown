@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/ember-dropdown';
+import layout from '../templates/components/ember-basic-dropdown';
 
 const { Component, run, computed } = Ember;
 
@@ -7,9 +7,9 @@ export default Component.extend({
   layout: layout,
   renderInPlace: false,
   dropdownPosition: 'auto', // auto | above | below
-  classNames: ['ember-dropdown'],
+  classNames: ['ember-basic-dropdown'],
   classNameBindings: ['_opened:opened', 'renderInPlace', '_dropdownPositionClass'],
-  _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-dropdown-wormhole'),
+  _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
 
   // Lifecycle hooks
   init() {
@@ -66,7 +66,7 @@ export default Component.extend({
   repositionDropdown() {
     if (this.get('renderInPlace')) { return; }
     const dropdownPositionStrategy = this.get('dropdownPosition');
-    const dropdown = this.appRoot.querySelector('.ember-dropdown-content');
+    const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
     if (this.get('matchTriggerWidth')) {
       const width = this.element.offsetWidth;
       dropdown.style.width = `${width}px`;
@@ -100,7 +100,7 @@ export default Component.extend({
   },
 
   handleRootClick(e) {
-    if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-dropdown-content').contains(e.target)) {
+    if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
       this.close();
     }
   },
