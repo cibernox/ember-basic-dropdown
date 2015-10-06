@@ -23,6 +23,11 @@ export default Component.extend({
     this.repositionDropdown = this.repositionDropdown.bind(this);
   },
 
+  willDestroy() {
+    this._super(...arguments);
+    this.removeGlobalEvents();
+  },
+
   // CPs
   tabindex: computed('disabled', function() {
     return !this.get('disabled') ? "0" : "-1";
@@ -149,8 +154,10 @@ export default Component.extend({
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
     if (MutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = null;
+      if (this.mutationObserver) {
+        this.mutationObserver.disconnect();
+        this.mutationObserver = null;
+      }
     } else {
       const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
       dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
