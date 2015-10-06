@@ -67,9 +67,11 @@ export default Component.extend({
     if (this.get('renderInPlace')) { return; }
     const dropdownPositionStrategy = this.get('dropdownPosition');
     const dropdown = this.appRoot.querySelector('.ember-dropdown-content');
-    const width = this.element.offsetWidth;
+    if (this.get('matchTriggerWidth')) {
+      const width = this.element.offsetWidth;
+      dropdown.style.width = `${width}px`;
+    }
     let left = this.element.offsetLeft;
-    dropdown.style.width = `${width}px`;
     let top;
     if (dropdownPositionStrategy === 'above') {
       top = this.element.offsetTop - dropdown.offsetHeight;
@@ -84,12 +86,13 @@ export default Component.extend({
       const enoughRoomAbove = selectTop - viewportTop > dropdownHeight;
       let positionClass = this.get('_dropdownPositionClass');
       if (positionClass === 'below' && !enoughRoomBelow && enoughRoomAbove) {
-        positionClass = this.set('_dropdownPositionClass', 'above');
+        this.set('_dropdownPositionClass', 'above');
       } else if (positionClass === 'above' && !enoughRoomAbove && enoughRoomBelow) {
-        positionClass = this.set('_dropdownPositionClass', 'below');
+        this.set('_dropdownPositionClass', 'below');
       } else if (!positionClass) {
-        positionClass = this.set('_dropdownPositionClass', enoughRoomBelow ? 'below' : 'above');
+        this.set('_dropdownPositionClass', enoughRoomBelow ? 'below' : 'above');
       }
+      positionClass = this.get('_dropdownPositionClass'); // It might have changed
       top = selectTop + (positionClass === 'below' ? this.element.offsetHeight : -dropdownHeight);
     }
     dropdown.style.top = `${top}px`;

@@ -14,4 +14,5 @@ $ember-dropdown-border-color: #aaaaaa !default;
   z-index: 2;
   background-color: $ember-dropdown-content-background-color;
   border: 1px solid $ember-dropdown-border-color;
+  width: auto;
 }
