@@ -49,17 +49,24 @@ export default Component.extend({
     this.set('_opened', true);
     this.addGlobalEvents();
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
+    let onOpen = this.get('onOpen');
+    if (onOpen) { onOpen(e); }
   },
 
   close(e) {
     this.set('_opened', false);
     this.removeGlobalEvents();
+    let onClose = this.get('onClose');
+    if (onClose) { onClose(e); }
   },
 
   handleKeydown(e) {
     if (this.get('disabled')) { return; }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
+    } else {
+      let onKeydown = this.get('onKeydown');
+      if (onKeydown) { onKeydown(e); }
     }
   },
 
