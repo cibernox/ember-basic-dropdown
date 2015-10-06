@@ -20,6 +20,7 @@ export default Component.extend({
     this.appRoot = document.querySelector(rootSelector);
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
+    this.repositionDropdown = this.repositionDropdown.bind(this);
   },
 
   // CPs
@@ -126,18 +127,18 @@ export default Component.extend({
     if (MutationObserver) {
       this.mutationObserver = new MutationObserver(mutations => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
-          this.handleRepositioningEvent();
+          this.repositionDropdown();
         }
       });
       run.schedule('afterRender', this, function() {
         const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-        this.mutationObserver.observe(dropdown, { childList: true });
+        this.mutationObserver.observe(dropdown, { childList: true, subtree: true });
       });
     } else {
       run.schedule('afterRender', this, function() {
         const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-        dropdown.addEventListener('DOMNodeInserted', this.handleRepositioningEvent, false);
-        dropdown.addEventListener('DOMNodeRemoved', this.handleRepositioningEvent, false);
+        dropdown.addEventListener('DOMNodeInserted', this.repositionDropdown, false);
+        dropdown.addEventListener('DOMNodeRemoved', this.repositionDropdown, false);
       });
     }
   },
@@ -152,8 +153,8 @@ export default Component.extend({
       this.mutationObserver = null;
     } else {
       const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-      dropdown.removeEventListener('DOMNodeInserted', this.handleRepositioningEvent);
-      dropdown.removeEventListener('DOMNodeRemoved', this.handleRepositioningEvent);
+      dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
+      dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
   }
 });
