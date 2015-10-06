@@ -1,25 +1,47 @@
-# Ember-dropdown
+# Ember-basic-dropdown
 
-This README outlines the details of collaborating on this Ember addon.
+This a very minimal dropdown. That means that is very agnostic about what is going to contain.
 
-## Installation
+It is intended to be a building block for more complex components but is perfectly usable.
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+### Installation
 
-## Running
+```
+ember install ember-basic-dropdown
+```
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+### Usage
 
-## Running Tests
+```hbs
+{{#ember-basic-dropdown}}
+  Content of the trigger
+{{else}}
+  Content of the dropdown once it appears
+{{/ember-basic-dropdown}}
+```
 
-* `ember test`
-* `ember test --server`
+### Features
 
-## Building
+#### Renders on the body or in place
 
-* `ember build`
+By default this component will render the dropdown in the body using ember-wormhole and absolutely
+position it to place it in the proper coordinates.
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
+below the trigger.
+
+#### Intelligent dropdown position
+
+This component is smart about where to position the dropdown. It will detect the best place to render
+it based on the space around the trigger, and also will take care of reposition if if the screen is
+resized, scrolled or the device changes it orientation.
+
+You can force the component to be fixed in one position by passing `dropdownPosition=above|below`.
+
+#### Closed automatically when click outside the component
+
+You don't need to care about adding or removing events, it does that for you.
+
+#### Keyboard support
+
+The trigger of the component is focusable by default, and when focused can be triggered using enter.

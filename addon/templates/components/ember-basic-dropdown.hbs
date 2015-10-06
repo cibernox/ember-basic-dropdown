@@ -1,4 +1,4 @@
-<div class="ember-basic-dropdown-trigger" tabindex="{{tabindex}}" onkeydown={{action "keydown"}} onclick={{action "toggle"}}>
+<div class="ember-basic-dropdown-trigger" tabindex={{tabindex}} onkeydown={{action "keydown"}} onclick={{action "toggle"}}>
   {{yield this}}
 </div>
 {{#if _opened}}
