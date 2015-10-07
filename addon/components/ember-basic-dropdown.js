@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/ember-basic-dropdown';
 
 const { Component, run, computed } = Ember;
-const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+const _MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 export default Component.extend({
   layout: layout,
@@ -25,6 +25,10 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    const self = this;
+    this.element.addEventListener('dropdown:toggle', function(e) {
+      self.send('toggle', e);
+    });
     if (this.attrs.onReady) {
       (this.attrs.onReady.value || this.attrs.onReady)(this);
     }
@@ -139,8 +143,8 @@ export default Component.extend({
     window.addEventListener('scroll', this.handleRepositioningEvent);
     window.addEventListener('resize', this.handleRepositioningEvent);
     window.addEventListener('orientationchange', this.handleRepositioningEvent);
-    if (MutationObserver) {
-      this.mutationObserver = new MutationObserver(mutations => {
+    if (_MutationObserver) {
+      this.mutationObserver = new _MutationObserver(mutations => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
           this.repositionDropdown();
         }
@@ -163,7 +167,7 @@ export default Component.extend({
     window.removeEventListener('scroll', this.handleRepositioningEvent);
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
-    if (MutationObserver) {
+    if (_MutationObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
         this.mutationObserver = null;
