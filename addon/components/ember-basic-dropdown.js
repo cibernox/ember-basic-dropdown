@@ -26,12 +26,9 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     const self = this;
-    this.element.addEventListener('dropdown:toggle', function(e) {
-      self.send('toggle', e);
-    });
-    if (this.attrs.onReady) {
-      (this.attrs.onReady.value || this.attrs.onReady)(this);
-    }
+    this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
+    this.element.addEventListener('dropdown:open', e => this.open(e));
+    this.element.addEventListener('dropdown:close', e => this.close(e, true));
   },
 
   willDestroy() {
@@ -52,6 +49,11 @@ export default Component.extend({
 
     keydown(e) {
       this.handleKeydown(e);
+    },
+
+    focusTrigger(e) {
+      let onFocus = this.get('onFocus');
+      if (onFocus) { onFocus(e); }
     }
   },
 
@@ -73,11 +75,13 @@ export default Component.extend({
     if (onOpen) { onOpen(e); }
   },
 
-  close(e) {
+  close(e, skipFocus) {
     this.set('_opened', false);
     this.removeGlobalEvents();
     let onClose = this.get('onClose');
     if (onClose) { onClose(e); }
+    if (skipFocus) { return; }
+    this.element.querySelector('.ember-basic-dropdown-trigger').focus();
   },
 
   handleKeydown(e) {
@@ -130,7 +134,7 @@ export default Component.extend({
 
   handleRootClick(e) {
     if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
-      this.close(e);
+      this.close(e, true);
     }
   },
 

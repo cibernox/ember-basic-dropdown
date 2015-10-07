@@ -41,15 +41,15 @@
 </p>
 
 {{#ember-basic-dropdown as |dropdown|}}
-  <button>
-    This is the trigger
-  </button>
-{{else}}
   <p>This is the content</p>
   <h3>It can contain anything.</h3>
   {{#if showImage}}
     <img src="/grumpy-cat.png" alt="grumpy cat">
   {{/if}}
+{{else}}
+  <button>
+    This is the trigger
+  </button>
 {{/ember-basic-dropdown}}
 
 <p>
@@ -57,15 +57,15 @@
 </p>
 
 {{#ember-basic-dropdown triggerTag="button" class="dropdown-300px" matchTriggerWidth=true as |dropdown|}}
-  <button>
-    Fixed with
-  </button>
-{{else}}
   <p>This is the content</p>
   <h3>It can contain anything.</h3>
   {{#if showImage}}
     <img src="/grumpy-cat.png" alt="grumpy cat">
   {{/if}}
+{{else}}
+  <button>
+    Fixed with
+  </button>
 {{/ember-basic-dropdown}}
 
 <p>
