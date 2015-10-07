@@ -23,6 +23,13 @@ export default Component.extend({
     this.repositionDropdown = this.repositionDropdown.bind(this);
   },
 
+  didInsertElement() {
+    this._super(...arguments);
+    if (this.attrs.onReady) {
+      (this.attrs.onReady.value || this.attrs.onReady)(this);
+    }
+  },
+
   willDestroy() {
     this._super(...arguments);
     this.removeGlobalEvents();
@@ -54,6 +61,7 @@ export default Component.extend({
   },
 
   open(e) {
+    if (this.get('disabled')) { return; }
     this.set('_opened', true);
     this.addGlobalEvents();
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
@@ -72,6 +80,8 @@ export default Component.extend({
     if (this.get('disabled')) { return; }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
+    } else if (e.keyCode === 27) {
+      this.close(e);
     } else {
       let onKeydown = this.get('onKeydown');
       if (onKeydown) { onKeydown(e); }
@@ -116,7 +126,7 @@ export default Component.extend({
 
   handleRootClick(e) {
     if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
-      this.close();
+      this.close(e);
     }
   },
 
