@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/ember-basic-dropdown';
 
 const { Component, run, computed } = Ember;
-const _MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+const MutObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 export default Component.extend({
   layout: layout,
@@ -25,7 +25,6 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    const self = this;
     this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
     this.element.addEventListener('dropdown:open', e => this.open(e));
     this.element.addEventListener('dropdown:close', e => this.close(e, true));
@@ -90,10 +89,9 @@ export default Component.extend({
       this.toggle(e);
     } else if (e.keyCode === 27) {
       this.close(e);
-    } else {
-      let onKeydown = this.get('onKeydown');
-      if (onKeydown) { onKeydown(e); }
     }
+    let onKeydown = this.get('onKeydown');
+    if (onKeydown) { onKeydown(e); }
   },
 
   repositionDropdown() {
@@ -147,8 +145,8 @@ export default Component.extend({
     window.addEventListener('scroll', this.handleRepositioningEvent);
     window.addEventListener('resize', this.handleRepositioningEvent);
     window.addEventListener('orientationchange', this.handleRepositioningEvent);
-    if (_MutationObserver) {
-      this.mutationObserver = new _MutationObserver(mutations => {
+    if (MutObserver) {
+      this.mutationObserver = new MutObserver(mutations => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
           this.repositionDropdown();
         }
@@ -171,7 +169,7 @@ export default Component.extend({
     window.removeEventListener('scroll', this.handleRepositioningEvent);
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
-    if (_MutationObserver) {
+    if (MutObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
         this.mutationObserver = null;
