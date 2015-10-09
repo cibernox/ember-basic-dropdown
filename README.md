@@ -13,7 +13,7 @@ ember install ember-basic-dropdown
 ### Usage
 
 ```hbs
-{{#ember-basic-dropdown as |toggleAction|}}
+{{#ember-basic-dropdown as |dropdown|}}
   Content of the dropdown once it appears
 {{else}}
   Content of the trigger

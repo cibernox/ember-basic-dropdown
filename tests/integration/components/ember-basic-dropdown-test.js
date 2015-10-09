@@ -180,13 +180,13 @@ test('It can be toggleed by firing a custom "dropdown:toggle" event', function(a
   assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
 
-test('It yields a toggle action that can be used from within the content of the dropdown', function(assert) {
+test('It yields an object with a toggle action that can be used from within the content of the dropdown', function(assert) {
   assert.expect(3);
 
   this.render(hbs`
-    {{#ember-basic-dropdown as |toggle|}}
+    {{#ember-basic-dropdown as |dropdown|}}
       <h3>Content of the dropdown</h3>
-      <span id="click-to-close" onclick={{toggle}}></span>
+      <span id="click-to-close" onclick={{dropdown.toggle}}></span>
     {{else}}
       <button>Press me</button>
     {{/ember-basic-dropdown}}
