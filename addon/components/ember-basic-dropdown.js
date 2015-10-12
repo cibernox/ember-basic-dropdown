@@ -103,17 +103,16 @@ export default Component.extend({
       const width = this.element.offsetWidth;
       dropdown.style.width = `${width}px`;
     }
-    let left = this.element.offsetLeft;
-    let top;
+    let { left, top } = this.$().offset();
     if (dropdownPositionStrategy === 'above') {
-      top = this.element.offsetTop - dropdown.offsetHeight;
+      top = top - dropdown.offsetHeight;
     } else if (dropdownPositionStrategy === 'below') {
-      top = this.element.offsetTop + this.element.offsetHeight;
+      top = top + this.element.offsetHeight;
     } else { // auto
       const viewportTop = document.body.scrollTop;
       const viewportBottom = window.scrollY + window.innerHeight;
       const dropdownHeight = dropdown.offsetHeight;
-      const selectTop = this.element.offsetTop;
+      const selectTop = top;
       const enoughRoomBelow = selectTop + this.element.offsetHeight + dropdownHeight < viewportBottom;
       const enoughRoomAbove = selectTop - viewportTop > dropdownHeight;
       let positionClass = this.get('_dropdownPositionClass');
