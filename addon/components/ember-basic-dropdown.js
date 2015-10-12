@@ -76,6 +76,7 @@ export default Component.extend({
 
   close(e, skipFocus) {
     this.set('_opened', false);
+    this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
     let onClose = this.get('onClose');
     if (onClose) { onClose(e); }

@@ -3,3 +3,12 @@
 .dropdown-300px {
   width: 300px;
 }
+
+.ember-basic-dropdown-content {
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  img {
+    display: block;
+    width: 100%;
+  }
+}
