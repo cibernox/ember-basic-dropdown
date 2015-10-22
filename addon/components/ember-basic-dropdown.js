@@ -23,19 +23,23 @@ export default Component.extend({
     this.repositionDropdown = this.repositionDropdown.bind(this);
   },
 
-  didInsertElement() {
+  didInitAttrs() {
     this._super(...arguments);
-    this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
-    this.element.addEventListener('dropdown:open', e => this.open(e));
-    this.element.addEventListener('dropdown:close', e => this.close(e, true));
     const registerActionsInParent = this.get('registerActionsInParent');
     if (registerActionsInParent) {
       registerActionsInParent({
         open: this.open.bind(this),
         close: this.close.bind(this),
-        toggle: this.actions.toggle.bind(this)
+        toggle: this._actions.toggle.bind(this)
       });
     }
+  },
+
+  didInsertElement() {
+    this._super(...arguments);
+    this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
+    this.element.addEventListener('dropdown:open', e => this.open(e));
+    this.element.addEventListener('dropdown:close', e => this.close(e, true));
   },
 
   willDestroy() {
