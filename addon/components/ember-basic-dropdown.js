@@ -28,6 +28,14 @@ export default Component.extend({
     this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
     this.element.addEventListener('dropdown:open', e => this.open(e));
     this.element.addEventListener('dropdown:close', e => this.close(e, true));
+    const registerActionsInParent = this.get('registerActionsInParent');
+    if (registerActionsInParent) {
+      registerActionsInParent({
+        open: this.open.bind(this),
+        close: this.close.bind(this),
+        toggle: this.actions.toggle.bind(this)
+      });
+    }
   },
 
   willDestroy() {
