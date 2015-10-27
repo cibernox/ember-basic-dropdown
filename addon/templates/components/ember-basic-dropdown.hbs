@@ -4,7 +4,7 @@
 {{#if _opened}}
   {{#ember-wormhole to=_wormholeDestination renderInPlace=renderInPlace}}
     <div class="ember-basic-dropdown-content {{dropdownClass}} {{_dropdownPositionClass}}">
-      {{yield (hash open=(action open) close=(action close) toggle=(action toggle))}}
+      {{yield publicAPI}}
     </div>
   {{/ember-wormhole}}
 {{/if}}

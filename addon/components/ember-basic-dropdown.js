@@ -21,25 +21,19 @@ export default Component.extend({
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
+    this.publicAPI = {
+      open: this.open.bind(this),
+      close: this.close.bind(this),
+      toggle: this._actions.toggle.bind(this)
+    };
   },
 
   didInitAttrs() {
     this._super(...arguments);
     const registerActionsInParent = this.get('registerActionsInParent');
     if (registerActionsInParent) {
-      registerActionsInParent({
-        open: this.open.bind(this),
-        close: this.close.bind(this),
-        toggle: this._actions.toggle.bind(this)
-      });
+      registerActionsInParent(this.publicAPI);
     }
-  },
-
-  didInsertElement() {
-    this._super(...arguments);
-    this.element.addEventListener('dropdown:toggle', e => this.toggle(e));
-    this.element.addEventListener('dropdown:open', e => this.open(e));
-    this.element.addEventListener('dropdown:close', e => this.close(e, true));
   },
 
   willDestroy() {
@@ -98,13 +92,14 @@ export default Component.extend({
 
   handleKeydown(e) {
     if (this.get('disabled')) { return; }
+    let onKeydown = this.get('onKeydown');
+    if (onKeydown) { onKeydown(this.publicAPI, e); }
+    if (e.defaultPrevented) { return; }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
     } else if (e.keyCode === 27) {
       this.close(e);
     }
-    let onKeydown = this.get('onKeydown');
-    if (onKeydown) { onKeydown(e); }
   },
 
   repositionDropdown() {
