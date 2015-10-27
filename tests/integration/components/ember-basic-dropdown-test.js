@@ -128,7 +128,7 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
-  Ember.run(() => createEventDispatcher(this.$('.ember-basic-dropdown-trigger')[0]).keydown(65));
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 65));
 });
 
 test('Pressing Enter while the trigger is focused show the content', function(assert) {
@@ -147,7 +147,7 @@ test('Pressing Enter while the trigger is focused show the content', function(as
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => createEventDispatcher(this.$('.ember-basic-dropdown-trigger')[0]).keydown(13));
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
 });
 
@@ -168,7 +168,7 @@ test('Pressing Enter while the trigger is focused doesn\'t show the content if t
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => createEventDispatcher(this.$('.ember-basic-dropdown-trigger')[0]).keydown(13));
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
@@ -189,7 +189,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened', fun
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
-  Ember.run(() => createEventDispatcher(this.$('.ember-basic-dropdown-trigger')[0]).keydown(27));
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
 });
 
@@ -211,7 +211,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened doesn
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
-  Ember.run(() => createEventDispatcher(this.$('.ember-basic-dropdown-trigger')[0]).keydown(27));
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is still rendered');
 });
 
@@ -234,29 +234,18 @@ test('It yields an object with a toggle action that can be used from within the 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
 
-function createEventDispatcher(domElement) {
-  const Podium = {};
-  Podium.keydown = function(k) {
-    var oEvent = document.createEvent('KeyboardEvent');
+function triggerKeydown(domElement, k) {
+  var oEvent = document.createEvent("Events");
+  oEvent.initEvent('keydown', true, true);
+  $.extend(oEvent, {
+    view: window,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    keyCode: k,
+    charCode: k
+  });
 
-    // Chromium Hack
-    Object.defineProperty(oEvent, 'keyCode', {
-      get() { return this.keyCodeVal; }
-    });
-    Object.defineProperty(oEvent, 'which', {
-      get() {
-          return this.keyCodeVal;
-      }
-    });
-
-    if (oEvent.initKeyboardEvent) {
-      oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, false, false, k, k);
-    } else {
-      oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, k, 0);
-    }
-
-    oEvent.keyCodeVal = k;
-    domElement.dispatchEvent(oEvent);
-  };
-  return Podium;
+  domElement.dispatchEvent(oEvent);
 }
