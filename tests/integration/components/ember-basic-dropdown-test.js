@@ -31,7 +31,7 @@ test('It toggles when the trigger is clicked', function(assert) {
   `);
 
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -111,11 +111,31 @@ test('It can receive an onFocus action that is fired when the trigger gets the f
 });
 
 test('It can receive an onKeyDown action that is fired when a key is pressed while the trigger is focused', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
 
-  this.didKeydown = function(e) {
+  this.didKeydown = function(publicAPI, e) {
     assert.ok(true, 'onKeydown action was invoked');
-    assert.equal(e.keyCode, 13, 'it receives the keydown event');
+    assert.equal(e.keyCode, 65, 'it receives the keydown event');
+    assert.ok(publicAPI.open && publicAPI.close && publicAPI.toggle, 'it receives an object with `open`, `close` and `toggle` functions');
+  };
+
+  this.render(hbs`
+    {{#ember-basic-dropdown onKeydown=didKeydown}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/ember-basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 65));
+});
+
+test('Pressing Enter while the trigger is focused show the content', function(assert) {
+  assert.expect(3);
+
+  this.didKeydown = function(/* publicAPI, e */) {
+    assert.ok(true, 'onKeydown action was invoked');
   };
   this.render(hbs`
     {{#ember-basic-dropdown onKeydown=didKeydown}}
@@ -126,30 +146,40 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger($.Event('keydown', { keyCode: 13 })));
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
 });
 
-test('It can be opened by firing a custom "dropdown:open" event', function(assert) {
-  assert.expect(2);
+test('Pressing Enter while the trigger is focused doesn\'t show the content if the event is default precented in the onKeydown action', function(assert) {
+  assert.expect(3);
 
+  this.didKeydown = function(publicAPI, e) {
+    assert.ok(true, 'onKeydown action was invoked');
+    e.preventDefault();
+  };
   this.render(hbs`
-    {{#ember-basic-dropdown}}
+    {{#ember-basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
     {{/ember-basic-dropdown}}
   `);
 
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => this.$('.ember-basic-dropdown')[0].dispatchEvent(new window.Event('dropdown:open')));
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
-test('It can be closeed by firing a custom "dropdown:close" event', function(assert) {
-  assert.expect(2);
+test('Pressing ESC while the trigger is focused and the dropdown is opened', function(assert) {
+  assert.expect(3);
 
+  this.didKeydown = function(/* publicAPI, e */) {
+    assert.ok(true, 'onKeydown action was invoked');
+  };
   this.render(hbs`
-    {{#ember-basic-dropdown}}
+    {{#ember-basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -157,27 +187,32 @@ test('It can be closeed by firing a custom "dropdown:close" event', function(ass
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => this.$('.ember-basic-dropdown')[0].dispatchEvent(new window.Event('dropdown:close')));
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
 });
 
-test('It can be toggleed by firing a custom "dropdown:toggle" event', function(assert) {
+test('Pressing ESC while the trigger is focused and the dropdown is opened doesn\'t closes the dropdown if the event is defaultprevented', function(assert) {
   assert.expect(3);
 
+  this.didKeydown = function(publicAPI, e) {
+    assert.ok(true, 'onKeydown action was invoked');
+    e.preventDefault();
+  };
   this.render(hbs`
-    {{#ember-basic-dropdown}}
+    {{#ember-basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
     {{/ember-basic-dropdown}}
   `);
 
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => this.$('.ember-basic-dropdown')[0].dispatchEvent(new window.Event('dropdown:toggle')));
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => this.$('.ember-basic-dropdown')[0].dispatchEvent(new window.Event('dropdown:toggle')));
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is still rendered');
 });
 
 test('It yields an object with a toggle action that can be used from within the content of the dropdown', function(assert) {
@@ -192,9 +227,25 @@ test('It yields an object with a toggle action that can be used from within the 
     {{/ember-basic-dropdown}}
   `);
 
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   Ember.run(() => $('#click-to-close').click());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
+
+function triggerKeydown(domElement, k) {
+  var oEvent = document.createEvent("Events");
+  oEvent.initEvent('keydown', true, true);
+  $.extend(oEvent, {
+    view: window,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    keyCode: k,
+    charCode: k
+  });
+
+  domElement.dispatchEvent(oEvent);
+}
