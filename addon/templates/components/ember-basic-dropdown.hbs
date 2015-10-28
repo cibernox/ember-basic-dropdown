@@ -1,7 +1,7 @@
 <div class="ember-basic-dropdown-trigger {{triggerClass}}" tabindex={{tabindex}} onkeydown={{action "keydown"}} onclick={{action "toggle"}} onfocus={{action "focusTrigger"}}>
   {{yield to="inverse"}}
 </div>
-{{#if _opened}}
+{{#if publicAPI.isOpen}}
   {{#ember-wormhole to=_wormholeDestination renderInPlace=renderInPlace}}
     <div class="ember-basic-dropdown-content {{dropdownClass}} {{_dropdownPositionClass}}">
       {{yield publicAPI}}

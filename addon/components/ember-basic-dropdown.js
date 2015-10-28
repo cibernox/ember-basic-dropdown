@@ -10,7 +10,7 @@ export default Component.extend({
   renderInPlace: false,
   dropdownPosition: 'auto', // auto | above | below
   classNames: ['ember-basic-dropdown'],
-  classNameBindings: ['_opened:opened', 'disabled', 'renderInPlace', '_dropdownPositionClass'],
+  classNameBindings: ['publicAPI.isOpen:opened', 'disabled', 'renderInPlace', '_dropdownPositionClass'],
   _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
 
   // Lifecycle hooks
@@ -29,7 +29,8 @@ export default Component.extend({
     this.set('publicAPI', {
       open: this.open.bind(this),
       close: this.close.bind(this),
-      toggle: this._actions.toggle.bind(this)
+      toggle: this._actions.toggle.bind(this),
+      isOpen: false
     });
     if (registerActionsInParent) {
       registerActionsInParent(this.get('publicAPI'));
@@ -64,7 +65,7 @@ export default Component.extend({
 
   // Methods
   toggle(e) {
-    if (this.get('_opened')) {
+    if (this.get('publicAPI.isOpen')) {
       this.close(e);
     } else {
       this.open(e);
@@ -73,7 +74,7 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled')) { return; }
-    this.set('_opened', true);
+    this.set('publicAPI.isOpen', true);
     this.addGlobalEvents();
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
     let onOpen = this.get('onOpen');
@@ -81,7 +82,7 @@ export default Component.extend({
   },
 
   close(e, skipFocus) {
-    this.set('_opened', false);
+    this.set('publicAPI.isOpen', false);
     this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
     let onClose = this.get('onClose');
