@@ -21,18 +21,18 @@ export default Component.extend({
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
-    this.publicAPI = {
-      open: this.open.bind(this),
-      close: this.close.bind(this),
-      toggle: this._actions.toggle.bind(this)
-    };
   },
 
   didInitAttrs() {
     this._super(...arguments);
     const registerActionsInParent = this.get('registerActionsInParent');
+    this.set('publicAPI', {
+      open: this.open.bind(this),
+      close: this.close.bind(this),
+      toggle: this._actions.toggle.bind(this)
+    });
     if (registerActionsInParent) {
-      registerActionsInParent(this.publicAPI);
+      registerActionsInParent(this.get('publicAPI'));
     }
   },
 
