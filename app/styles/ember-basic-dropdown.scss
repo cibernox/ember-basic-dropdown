@@ -1,4 +1,5 @@
 $ember-basic-dropdown-content-background-color: #FFF !default;
+$ember-basic-dropdown-content-z-index: 1000 !default;
 
 .ember-basic-dropdown {
   position: relative;
@@ -10,7 +11,7 @@ $ember-basic-dropdown-content-background-color: #FFF !default;
 .ember-basic-dropdown-content {
   position: absolute;
   width: 100%;
-  z-index: 2;
+  z-index: $ember-basic-dropdown-content-z-index;
   background-color: $ember-basic-dropdown-content-background-color;
   width: auto;
 }
