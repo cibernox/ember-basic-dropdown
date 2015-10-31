@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/ember-basic-dropdown';
+import layout from '../templates/components/basic-dropdown';
 
 const { Component, run, computed } = Ember;
 const MutObserver = window.MutationObserver || window.WebKitMutationObserver;
