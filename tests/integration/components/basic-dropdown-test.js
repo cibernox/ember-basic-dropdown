@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-moduleForComponent('ember-basic-dropdown', 'Integration | Component | ember basic dropdown', {
+moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
   integration: true
 });
 
@@ -23,11 +23,11 @@ test('It toggles when the trigger is clicked', function(assert) {
   assert.expect(5);
 
   this.render(hbs`
-    {{#ember-basic-dropdown}}
+    {{#basic-dropdown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
@@ -44,11 +44,11 @@ test('It closes when you click outside the component and the trigger is not focu
 
   this.render(hbs`
     <div id="not-the-dropdown"></div>
-    {{#ember-basic-dropdown}}
+    {{#basic-dropdown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -65,11 +65,11 @@ test('It can receive an onOpen action that is fired when the component opens', f
     assert.ok(true, 'onOpen action was invoked');
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onOpen=didOpen}}
+    {{#basic-dropdown onOpen=didOpen}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -82,11 +82,11 @@ test('It can receive an onClose action that is fired when the component closes',
     assert.ok(true, 'onClose action was invoked');
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onClose=didClose}}
+    {{#basic-dropdown onClose=didClose}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -100,11 +100,11 @@ test('It can receive an onFocus action that is fired when the trigger gets the f
     assert.ok(true, 'onFocus action was invoked');
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onFocus=didFocus}}
+    {{#basic-dropdown onFocus=didFocus}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
@@ -120,11 +120,11 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   };
 
   this.render(hbs`
-    {{#ember-basic-dropdown onKeydown=didKeydown}}
+    {{#basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
@@ -138,11 +138,11 @@ test('Pressing Enter while the trigger is focused show the content', function(as
     assert.ok(true, 'onKeydown action was invoked');
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onKeydown=didKeydown}}
+    {{#basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
@@ -159,11 +159,11 @@ test('Pressing Enter while the trigger is focused doesn\'t show the content if t
     e.preventDefault();
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onKeydown=didKeydown}}
+    {{#basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
@@ -179,11 +179,11 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened', fun
     assert.ok(true, 'onKeydown action was invoked');
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onKeydown=didKeydown}}
+    {{#basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -201,11 +201,11 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened doesn
     e.preventDefault();
   };
   this.render(hbs`
-    {{#ember-basic-dropdown onKeydown=didKeydown}}
+    {{#basic-dropdown onKeydown=didKeydown}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
@@ -219,12 +219,12 @@ test('It yields an object with a toggle action that can be used from within the 
   assert.expect(3);
 
   this.render(hbs`
-    {{#ember-basic-dropdown as |dropdown|}}
+    {{#basic-dropdown as |dropdown|}}
       <h3>Content of the dropdown</h3>
       <span id="click-to-close" onclick={{dropdown.toggle}}></span>
     {{else}}
       <button>Press me</button>
-    {{/ember-basic-dropdown}}
+    {{/basic-dropdown}}
   `);
 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');

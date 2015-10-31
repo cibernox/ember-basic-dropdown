@@ -10,7 +10,7 @@ $ember-basic-dropdown-content-z-index: 1000 !default;
 
 .ember-basic-dropdown-content {
   position: absolute;
-  width: 100%;
+  width: auto;
   z-index: $ember-basic-dropdown-content-z-index;
   background-color: $ember-basic-dropdown-content-background-color;
 }
