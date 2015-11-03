@@ -29,7 +29,7 @@ export default Component.extend({
     this.set('publicAPI', {
       open: this.open.bind(this),
       close: this.close.bind(this),
-      toggle: this._actions.toggle.bind(this),
+      toggle: this.toggle.bind(this),
       isOpen: false
     });
     if (registerActionsInParent) {
