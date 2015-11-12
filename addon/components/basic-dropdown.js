@@ -109,8 +109,8 @@ export default Component.extend({
     const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
     if (this.get('matchTriggerWidth')) {
       const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-      const clientWidth = trigger.clientWidth; // Don't include borders
-      dropdown.style.width = `${clientWidth}px`;
+      const triggerRect = trigger.getBoundingClientRect();
+      dropdown.style.width = `${triggerRect.width}px`;
     }
     let { left, top } = this.$().offset();
     if (dropdownPositionStrategy === 'above') {
