@@ -107,23 +107,22 @@ export default Component.extend({
     if (this.get('renderInPlace')) { return; }
     const dropdownPositionStrategy = this.get('dropdownPosition');
     const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
+    let viewportTop  = document.body.scrollTop;
+    let top = topWithoutScroll + viewportTop;
     if (this.get('matchTriggerWidth')) {
-      const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-      const triggerRect = trigger.getBoundingClientRect();
-      dropdown.style.width = `${triggerRect.width}px`;
+      dropdown.style.width = `${width}px`;
     }
-    let { left, top } = this.$().offset();
     if (dropdownPositionStrategy === 'above') {
-      top = top - dropdown.offsetHeight;
+      top = top - dropdown.getBoundingClientRect().height;
     } else if (dropdownPositionStrategy === 'below') {
-      top = top + this.element.offsetHeight;
+      top = top + height;
     } else { // auto
-      const viewportTop = document.body.scrollTop;
       const viewportBottom = window.scrollY + window.innerHeight;
-      const dropdownHeight = dropdown.offsetHeight;
-      const selectTop = top;
-      const enoughRoomBelow = selectTop + this.element.offsetHeight + dropdownHeight < viewportBottom;
-      const enoughRoomAbove = selectTop - viewportTop > dropdownHeight;
+      const dropdownHeight = dropdown.getBoundingClientRect().height;
+      const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
+      const enoughRoomAbove = topWithoutScroll > dropdownHeight;
       let positionClass = this.get('_dropdownPositionClass');
       if (positionClass === 'below' && !enoughRoomBelow && enoughRoomAbove) {
         this.set('_dropdownPositionClass', 'above');
@@ -133,7 +132,7 @@ export default Component.extend({
         this.set('_dropdownPositionClass', enoughRoomBelow ? 'below' : 'above');
       }
       positionClass = this.get('_dropdownPositionClass'); // It might have changed
-      top = selectTop + (positionClass === 'below' ? this.element.offsetHeight : -dropdownHeight);
+      top = top + (positionClass === 'below' ? height : -dropdownHeight);
     }
     dropdown.style.top = `${top}px`;
     dropdown.style.left = `${left}px`;
