@@ -10,6 +10,7 @@ export default Component.extend({
   renderInPlace: false,
   dropdownPosition: 'auto', // auto | above | below
   classNames: ['ember-basic-dropdown'],
+  attributeBindings: ['dir'],
   classNameBindings: ['publicAPI.isOpen:opened', 'disabled', 'renderInPlace', '_dropdownPositionClass'],
   _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
 
