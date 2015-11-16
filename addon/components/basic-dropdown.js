@@ -11,7 +11,7 @@ export default Component.extend({
   dropdownPosition: 'auto', // auto | above | below
   classNames: ['ember-basic-dropdown'],
   attributeBindings: ['dir'],
-  classNameBindings: ['publicAPI.isOpen:opened', 'disabled', 'renderInPlace', '_dropdownPositionClass'],
+  classNameBindings: ['publicAPI.isOpen:ember-basic-dropdown--opened', 'disabled:ember-basic-dropdown--disabled', 'renderInPlace:ember-basic-dropdown--in-place', '_dropdownPositionClass'],
   _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
 
   // Lifecycle hooks
@@ -128,15 +128,15 @@ export default Component.extend({
       const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
       const enoughRoomAbove = topWithoutScroll > dropdownHeight;
       let positionClass = this.get('_dropdownPositionClass');
-      if (positionClass === 'below' && !enoughRoomBelow && enoughRoomAbove) {
-        this.set('_dropdownPositionClass', 'above');
-      } else if (positionClass === 'above' && !enoughRoomAbove && enoughRoomBelow) {
-        this.set('_dropdownPositionClass', 'below');
+      if (positionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
+        this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
+      } else if (positionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
+        this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
       } else if (!positionClass) {
-        this.set('_dropdownPositionClass', enoughRoomBelow ? 'below' : 'above');
+        this.set('_dropdownPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
       }
       positionClass = this.get('_dropdownPositionClass'); // It might have changed
-      top = top + (positionClass === 'below' ? height : -dropdownHeight);
+      top = top + (positionClass === 'ember-basic-dropdown--below' ? height : -dropdownHeight);
     }
     dropdown.style.top = `${top}px`;
     dropdown.style.left = `${left}px`;
