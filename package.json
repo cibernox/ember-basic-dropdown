@@ -1,6 +1,6 @@
 {
   "name": "ember-basic-dropdown",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
