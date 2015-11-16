@@ -43,8 +43,8 @@ export default Component.extend({
   },
 
   // CPs
-  tabindex: computed('disabled', function() {
-    return !this.get('disabled') ? "0" : "-1";
+  tabIndex: computed('disabled', function() {
+    return !this.get('disabled') ? (this.get('tabindex') || '0') : "-1";
   }),
 
   // Actions

@@ -17,6 +17,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic drop
   h) [DONE] It can be closeed by firing a custom 'dropdown:close' event.
   i) [DONE] It can be toggleed by firing a custom 'dropdown:toggle' event.
   j) [DONE] It yields a toggle action that can be used from within the content of the dropdown.
+  k) [DONE] It allows to customize the tabindex, but passing `disabled=true` still wins
 */
 
 test('It toggles when the trigger is clicked', function(assert) {
@@ -232,6 +233,23 @@ test('It yields an object with a toggle action that can be used from within the 
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   Ember.run(() => $('#click-to-close').click());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+});
+
+test('It allows to customize the tabindex, but passing `disabled=true` still wins', function(assert) {
+  assert.expect(2);
+
+  this.foo = false;
+  this.render(hbs`
+    {{#basic-dropdown tabindex=3 disabled=foo as |dropdown|}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '3', 'Tab index is the given one');
+  Ember.run(this, 'set', 'foo', true);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '-1', 'Tab index is the given one');
 });
 
 function triggerKeydown(domElement, k) {
