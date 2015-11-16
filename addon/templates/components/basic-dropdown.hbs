@@ -3,7 +3,7 @@
 </div>
 {{#if publicAPI.isOpen}}
   {{#ember-wormhole to=_wormholeDestination renderInPlace=renderInPlace}}
-    <div class="ember-basic-dropdown-content {{dropdownClass}} {{_dropdownPositionClass}}">
+    <div class="ember-basic-dropdown-content {{dropdownClass}} {{_dropdownPositionClass}}" dir={{dir}}>
       {{yield publicAPI}}
     </div>
   {{/ember-wormhole}}
