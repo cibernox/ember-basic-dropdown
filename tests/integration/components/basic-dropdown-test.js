@@ -7,7 +7,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic drop
 });
 
 /**
-  a) [DONE] It toggles when the trigger is clicked.
+  a) [DONE] It toggles when the trigger is clicked and focuses the trigger.
   b) [DONE] It closes when you click outside the component and the trigger is not focused
   c) [DONE] It can receive an onOpen action that is fired when the component opens.
   d) [DONE] It can receive an onClose action that is fired when the component closes.
@@ -18,9 +18,10 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic drop
   i) [DONE] It can be toggleed by firing a custom 'dropdown:toggle' event.
   j) [DONE] It yields a toggle action that can be used from within the content of the dropdown.
   k) [DONE] It allows to customize the tabindex, but passing `disabled=true` still wins
+  l) [DONE] It toggles when the trigger is clicked BUT doesn't focus the trigger if it's tabidex is negative.
 */
 
-test('It toggles when the trigger is clicked', function(assert) {
+test('It toggles when the trigger is clicked and focuses the trigger', function(assert) {
   assert.expect(5);
 
   this.render(hbs`
@@ -251,6 +252,28 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
   Ember.run(this, 'set', 'foo', true);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '-1', 'Tab index is the given one');
 });
+
+
+test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if its tabidex is negative', function(assert) {
+  assert.expect(5);
+
+  this.render(hbs`
+    {{#basic-dropdown tabindex="-1"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+  assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
+});
+
 
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");

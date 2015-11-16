@@ -88,7 +88,10 @@ export default Component.extend({
     let onClose = this.get('onClose');
     if (onClose) { onClose(e); }
     if (skipFocus) { return; }
-    this.element.querySelector('.ember-basic-dropdown-trigger').focus();
+    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    if (trigger.tabIndex > -1) {
+      trigger.focus();
+    }
   },
 
   handleKeydown(e) {
