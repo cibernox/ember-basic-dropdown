@@ -118,7 +118,7 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   this.didKeydown = function(publicAPI, e) {
     assert.ok(true, 'onKeydown action was invoked');
     assert.equal(e.keyCode, 65, 'it receives the keydown event');
-    assert.ok(publicAPI.open && publicAPI.close && publicAPI.toggle, 'it receives an object with `open`, `close` and `toggle` functions');
+    assert.ok(publicAPI.actions.open && publicAPI.actions.close && publicAPI.actions.toggle, 'it receives an object with `open`, `close` and `toggle` functions');
   };
 
   this.render(hbs`
@@ -223,7 +223,7 @@ test('It yields an object with a toggle action that can be used from within the 
   this.render(hbs`
     {{#basic-dropdown as |dropdown|}}
       <h3>Content of the dropdown</h3>
-      <span id="click-to-close" onclick={{dropdown.toggle}}></span>
+      <span id="click-to-close" onclick={{dropdown.actions.toggle}}></span>
     {{else}}
       <button>Press me</button>
     {{/basic-dropdown}}

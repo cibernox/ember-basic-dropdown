@@ -28,10 +28,12 @@ export default Component.extend({
     this._super(...arguments);
     const registerActionsInParent = this.get('registerActionsInParent');
     this.set('publicAPI', {
-      open: this.open.bind(this),
-      close: this.close.bind(this),
-      toggle: this.toggle.bind(this),
-      isOpen: false
+      isOpen: false,
+      actions: {
+        open: this.open.bind(this),
+        close: this.close.bind(this),
+        toggle: this.toggle.bind(this),
+      }
     });
     if (registerActionsInParent) {
       registerActionsInParent(this.get('publicAPI'));
