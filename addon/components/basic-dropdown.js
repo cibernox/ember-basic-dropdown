@@ -122,8 +122,10 @@ export default Component.extend({
     }
     if (dropdownPositionStrategy === 'above') {
       top = top - dropdown.getBoundingClientRect().height;
+      this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
     } else if (dropdownPositionStrategy === 'below') {
       top = top + height;
+      this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
     } else { // auto
       const viewportBottom = window.scrollY + window.innerHeight;
       const dropdownHeight = dropdown.getBoundingClientRect().height;

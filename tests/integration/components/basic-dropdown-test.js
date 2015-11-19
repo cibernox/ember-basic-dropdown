@@ -19,6 +19,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic drop
   j) [DONE] It yields a toggle action that can be used from within the content of the dropdown.
   k) [DONE] It allows to customize the tabindex, but passing `disabled=true` still wins
   l) [DONE] It toggles when the trigger is clicked BUT doesn't focus the trigger if it's tabidex is negative.
+  m) [PENDING] It adds the proper class when a specific dropdown position is given.
 */
 
 test('It toggles when the trigger is clicked and focuses the trigger', function(assert) {
@@ -253,7 +254,6 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '-1', 'Tab index is the given one');
 });
 
-
 test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if its tabidex is negative', function(assert) {
   assert.expect(5);
 
@@ -274,6 +274,20 @@ test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if i
   assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
 
+test('It adds the proper class when a specific dropdown position is given', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown dropdownPosition="above"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
+});
 
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
