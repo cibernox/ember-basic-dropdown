@@ -97,10 +97,12 @@ test('It can receive an onClose action that is fired when the component closes',
 });
 
 test('It can receive an onFocus action that is fired when the trigger gets the focus', function(assert) {
+  var done = assert.async();
   assert.expect(1);
 
   this.didFocus = function() {
     assert.ok(true, 'onFocus action was invoked');
+    done();
   };
   this.render(hbs`
     {{#basic-dropdown onFocus=didFocus}}
