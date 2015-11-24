@@ -110,40 +110,7 @@ export default Component.extend({
   },
 
   repositionDropdown() {
-    if (this.get('renderInPlace')) { return; }
-    const dropdownPositionStrategy = this.get('dropdownPosition');
-    const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
-    let viewportTop  = Ember.$(window).scrollTop();
-    let top = topWithoutScroll + viewportTop;
-    if (this.get('matchTriggerWidth')) {
-      dropdown.style.width = `${width}px`;
-    }
-    if (dropdownPositionStrategy === 'above') {
-      top = top - dropdown.getBoundingClientRect().height;
-      this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
-    } else if (dropdownPositionStrategy === 'below') {
-      top = top + height;
-      this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
-    } else { // auto
-      const viewportBottom = window.scrollY + window.innerHeight;
-      const dropdownHeight = dropdown.getBoundingClientRect().height;
-      const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
-      const enoughRoomAbove = topWithoutScroll > dropdownHeight;
-      let positionClass = this.get('_dropdownPositionClass');
-      if (positionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
-        this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
-      } else if (positionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
-        this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
-      } else if (!positionClass) {
-        this.set('_dropdownPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
-      }
-      positionClass = this.get('_dropdownPositionClass'); // It might have changed
-      top = top + (positionClass === 'ember-basic-dropdown--below' ? height : -dropdownHeight);
-    }
-    dropdown.style.top = `${top}px`;
-    dropdown.style.left = `${left}px`;
+    Ember.run(this, this._runloopAwareRepositionDropdown);
   },
 
   handleRootClick(e) {
@@ -195,5 +162,42 @@ export default Component.extend({
       dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
       dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
+  },
+
+  _runloopAwareRepositionDropdown() {
+    if (this.get('renderInPlace')) { return; }
+    const dropdownPositionStrategy = this.get('dropdownPosition');
+    const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
+    let viewportTop  = Ember.$(window).scrollTop();
+    let top = topWithoutScroll + viewportTop;
+    if (this.get('matchTriggerWidth')) {
+      dropdown.style.width = `${width}px`;
+    }
+    if (dropdownPositionStrategy === 'above') {
+      top = top - dropdown.getBoundingClientRect().height;
+      this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
+    } else if (dropdownPositionStrategy === 'below') {
+      top = top + height;
+      this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
+    } else { // auto
+      const viewportBottom = window.scrollY + window.innerHeight;
+      const dropdownHeight = dropdown.getBoundingClientRect().height;
+      const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
+      const enoughRoomAbove = topWithoutScroll > dropdownHeight;
+      let positionClass = this.get('_dropdownPositionClass');
+      if (positionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
+        this.set('_dropdownPositionClass', 'ember-basic-dropdown--above');
+      } else if (positionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
+        this.set('_dropdownPositionClass', 'ember-basic-dropdown--below');
+      } else if (!positionClass) {
+        this.set('_dropdownPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
+      }
+      positionClass = this.get('_dropdownPositionClass'); // It might have changed
+      top = top + (positionClass === 'ember-basic-dropdown--below' ? height : -dropdownHeight);
+    }
+    dropdown.style.top = `${top}px`;
+    dropdown.style.left = `${left}px`;
   }
 });
