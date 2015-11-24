@@ -115,7 +115,7 @@ export default Component.extend({
     const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
     const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
-    let viewportTop  = $(window).scrollTop();
+    let viewportTop  = Ember.$(window).scrollTop();
     let top = topWithoutScroll + viewportTop;
     if (this.get('matchTriggerWidth')) {
       dropdown.style.width = `${width}px`;
