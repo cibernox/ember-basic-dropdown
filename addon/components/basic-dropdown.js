@@ -110,7 +110,7 @@ export default Component.extend({
   },
 
   repositionDropdown() {
-    Ember.run(this, this._runloopAwareRepositionDropdown);
+    run(this, this._runloopAwareRepositionDropdown);
   },
 
   handleRootClick(e) {
