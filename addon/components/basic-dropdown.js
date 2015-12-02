@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/basic-dropdown';
+import getOwner from 'ember-getowner-polyfill';
 
 const { Component, run, computed } = Ember;
 const MutObserver = window.MutationObserver || window.WebKitMutationObserver;
@@ -17,7 +18,7 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    const rootSelector = Ember.testing ? '#ember-testing' : this.container.lookup('application:main').rootElement;
+    const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
     this.appRoot = document.querySelector(rootSelector);
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
