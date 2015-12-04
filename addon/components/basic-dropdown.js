@@ -41,6 +41,18 @@ export default Component.extend({
     }
   },
 
+  didReceiveAttrs({ oldAttrs, newAttrs }) {
+    this._super(...arguments);
+    let oldOpened = (oldAttrs || false) && (oldAttrs.opened || false) && (oldAttrs.opened.value || oldAttrs.opened || false);
+    let newOpened = (newAttrs || false) && (newAttrs.opened || false) && (newAttrs.opened.value || newAttrs.opened || false);
+    if (!oldOpened && newOpened) {
+      this.open();
+    } else if (oldOpened && !oldOpened) {
+      this.close();
+    }
+    // this.set('publicAPI.isOpen', this.get('opened') || false);
+  },
+
   willDestroy() {
     this._super(...arguments);
     this.removeGlobalEvents();
