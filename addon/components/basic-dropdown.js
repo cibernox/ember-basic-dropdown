@@ -125,7 +125,7 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    this.appRoot.addEventListener('click', this.handleRootClick);
+    this.appRoot.addEventListener('click', this.handleRootClick, true);
     window.addEventListener('scroll', this.handleRepositioningEvent);
     window.addEventListener('resize', this.handleRepositioningEvent);
     window.addEventListener('orientationchange', this.handleRepositioningEvent);
@@ -149,7 +149,7 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    this.appRoot.removeEventListener('click', this.handleRootClick);
+    this.appRoot.removeEventListener('click', this.handleRootClick, true);
     window.removeEventListener('scroll', this.handleRepositioningEvent);
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
@@ -166,7 +166,7 @@ export default Component.extend({
   },
 
   _runloopAwareRepositionDropdown() {
-    if (this.get('renderInPlace')) { return; }
+    if (this.get('renderInPlace') || !this.get('publicAPI.isOpen')) { return; }
     const dropdownPositionStrategy = this.get('dropdownPosition');
     const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
     const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
