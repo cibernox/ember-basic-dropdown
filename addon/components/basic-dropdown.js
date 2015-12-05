@@ -23,11 +23,6 @@ export default Component.extend({
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
-  },
-
-  didInitAttrs() {
-    this._super(...arguments);
-    const registerActionsInParent = this.get('registerActionsInParent');
     this.set('publicAPI', {
       isOpen: false,
       actions: {
@@ -36,6 +31,11 @@ export default Component.extend({
         toggle: this.toggle.bind(this),
       }
     });
+  },
+
+  didInitAttrs() {
+    this._super(...arguments);
+    const registerActionsInParent = this.get('registerActionsInParent');
     if (registerActionsInParent) {
       registerActionsInParent(this.get('publicAPI'));
     }
@@ -43,14 +43,13 @@ export default Component.extend({
 
   didReceiveAttrs({ oldAttrs, newAttrs }) {
     this._super(...arguments);
-    let oldOpened = (oldAttrs || false) && (oldAttrs.opened || false) && (oldAttrs.opened.value || oldAttrs.opened || false);
-    let newOpened = (newAttrs || false) && (newAttrs.opened || false) && (newAttrs.opened.value || newAttrs.opened || false);
+    let oldOpened = (oldAttrs || false) && (oldAttrs.opened || false) && (oldAttrs.opened.value || false);
+    let newOpened = (newAttrs || false) && (newAttrs.opened || false) && (newAttrs.opened.value || false);
     if (!oldOpened && newOpened) {
       this.open();
-    } else if (oldOpened && !oldOpened) {
+    } else if (oldOpened && !newOpened) {
       this.close();
     }
-    // this.set('publicAPI.isOpen', this.get('opened') || false);
   },
 
   willDestroy() {
@@ -90,6 +89,7 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled')) { return; }
+    this.set('opened', true);
     this.set('publicAPI.isOpen', true);
     this.addGlobalEvents();
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
@@ -98,6 +98,7 @@ export default Component.extend({
   },
 
   close(e, skipFocus) {
+    this.set('opened', false);
     this.set('publicAPI.isOpen', false);
     this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
