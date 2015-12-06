@@ -23,14 +23,6 @@ export default Component.extend({
     this.handleRootClick = this.handleRootClick.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
-    this.set('publicAPI', {
-      isOpen: false,
-      actions: {
-        open: this.open.bind(this),
-        close: this.close.bind(this),
-        toggle: this.toggle.bind(this),
-      }
-    });
   },
 
   didInitAttrs() {
@@ -38,17 +30,6 @@ export default Component.extend({
     const registerActionsInParent = this.get('registerActionsInParent');
     if (registerActionsInParent) {
       registerActionsInParent(this.get('publicAPI'));
-    }
-  },
-
-  didReceiveAttrs({ oldAttrs }) {
-    this._super(...arguments);
-    let oldOpened = (oldAttrs || false) && (oldAttrs.opened || false) && (oldAttrs.opened.value || false);
-    let newOpened = this.get('opened') || false;
-    if (!oldOpened && newOpened) {
-      this.open();
-    } else if (oldOpened && !newOpened) {
-      this.close();
     }
   },
 
@@ -60,6 +41,30 @@ export default Component.extend({
   // CPs
   tabIndex: computed('disabled', function() {
     return !this.get('disabled') ? (this.get('tabindex') || '0') : "-1";
+  }),
+
+  publicAPI: computed(function() {
+    return {
+      isOpen: false,
+      actions: {
+        open: this.open.bind(this),
+        close: this.close.bind(this),
+        toggle: this.toggle.bind(this),
+      }
+    };
+  }),
+
+  opened: computed('publicAPI.isOpen', {
+    get() { return this.get('publicAPI.isOpen'); },
+    set(_, newOpened) {
+      const oldOpened = this.get('publicAPI.isOpen');
+      if (!oldOpened && newOpened) {
+        this.open();
+      } else if (oldOpened && !newOpened) {
+        this.close();
+      }
+      return this.get('publicAPI.isOpen');
+    }
   }),
 
   // Actions
@@ -89,16 +94,14 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled')) { return; }
-    this.set('opened', true);
     this.set('publicAPI.isOpen', true);
-    this.addGlobalEvents();
+    run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(e); }
   },
 
   close(e, skipFocus) {
-    this.set('opened', false);
     this.set('publicAPI.isOpen', false);
     this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
@@ -114,7 +117,7 @@ export default Component.extend({
   handleKeydown(e) {
     if (this.get('disabled')) { return; }
     let onKeydown = this.get('onKeydown');
-    if (onKeydown) { onKeydown(this.publicAPI, e); }
+    if (onKeydown) { onKeydown(this.get('publicAPI'), e); }
     if (e.defaultPrevented) { return; }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
