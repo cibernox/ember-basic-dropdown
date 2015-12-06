@@ -41,10 +41,10 @@ export default Component.extend({
     }
   },
 
-  didReceiveAttrs({ oldAttrs, newAttrs }) {
+  didReceiveAttrs({ oldAttrs }) {
     this._super(...arguments);
     let oldOpened = (oldAttrs || false) && (oldAttrs.opened || false) && (oldAttrs.opened.value || false);
-    let newOpened = (newAttrs || false) && (newAttrs.opened || false) && (newAttrs.opened.value || false);
+    let newOpened = this.get('opened') || false;
     if (!oldOpened && newOpened) {
       this.open();
     } else if (oldOpened && !newOpened) {
