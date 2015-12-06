@@ -40,17 +40,19 @@
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>
 
-{{#basic-dropdown tabindex=-1 as |dropdown|}}
+{{#basic-dropdown opened=opened tabindex=-1 as |dropdown|}}
   <p>This is the content</p>
   <h3>It can contain anything.</h3>
   {{#if showImage}}
-    <img src="/grumpy-cat.png" alt="grumpy cat">
+    <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
   {{/if}}
 {{else}}
   <strong tabindex="0">
     This is the trigger
   </strong>
 {{/basic-dropdown}}
+
+<a href="#" {{action "toggleOpened"}}>Toggle the dropdown above</a>
 
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
