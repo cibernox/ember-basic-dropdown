@@ -79,7 +79,7 @@ export default Component.extend({
 
     focusTrigger(e) {
       let onFocus = this.get('onFocus');
-      if (onFocus) { onFocus(e); }
+      if (onFocus) { onFocus(this.get('publicAPI'), e); }
     }
   },
 
@@ -98,7 +98,7 @@ export default Component.extend({
     run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
     let onOpen = this.get('onOpen');
-    if (onOpen) { onOpen(e); }
+    if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
 
   close(e, skipFocus) {
@@ -106,7 +106,7 @@ export default Component.extend({
     this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
     let onClose = this.get('onClose');
-    if (onClose) { onClose(e); }
+    if (onClose) { onClose(this.get('publicAPI'), e); }
     if (skipFocus) { return; }
     const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     if (trigger.tabIndex > -1) {
