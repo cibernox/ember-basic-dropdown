@@ -62,9 +62,12 @@ test('It closes when you click outside the component and the trigger is not focu
 });
 
 test('It can receive an onOpen action that is fired when the component opens', function(assert) {
-  assert.expect(1);
+  assert.expect(4);
 
-  this.didOpen = function() {
+  this.didOpen = function(dropdown, e) {
+    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
+    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+    assert.ok(!!e, 'Receives an argument as second argument');
     assert.ok(true, 'onOpen action was invoked');
   };
   this.render(hbs`
@@ -79,9 +82,12 @@ test('It can receive an onOpen action that is fired when the component opens', f
 });
 
 test('It can receive an onClose action that is fired when the component closes', function(assert) {
-  assert.expect(1);
+  assert.expect(4);
 
-  this.didClose = function() {
+  this.didClose = function(dropdown, e) {
+    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
+    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+    assert.ok(!!e, 'Receives an argument as second argument');
     assert.ok(true, 'onClose action was invoked');
   };
   this.render(hbs`
@@ -98,9 +104,12 @@ test('It can receive an onClose action that is fired when the component closes',
 
 test('It can receive an onFocus action that is fired when the trigger gets the focus', function(assert) {
   var done = assert.async();
-  assert.expect(1);
+  assert.expect(4);
 
-  this.didFocus = function() {
+  this.didFocus = function(dropdown, e) {
+    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
+    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+    assert.ok(e instanceof(window.Event), 'The second argument is an event');
     assert.ok(true, 'onFocus action was invoked');
     done();
   };
