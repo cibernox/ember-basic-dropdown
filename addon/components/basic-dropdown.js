@@ -20,7 +20,7 @@ export default Component.extend({
     this._super(...arguments);
     const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
     this.appRoot = document.querySelector(rootSelector);
-    this.handleRootClick = this.handleRootClick.bind(this);
+    this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
   },
@@ -131,7 +131,7 @@ export default Component.extend({
     run(this, this._runloopAwareRepositionDropdown);
   },
 
-  handleRootClick(e) {
+  handleRootMouseDown(e) {
     if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
       this.close(e, true);
     }
@@ -142,7 +142,7 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    this.appRoot.addEventListener('click', this.handleRootClick, true);
+    this.appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
     window.addEventListener('scroll', this.handleRepositioningEvent);
     window.addEventListener('resize', this.handleRepositioningEvent);
     window.addEventListener('orientationchange', this.handleRepositioningEvent);
@@ -166,7 +166,7 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    this.appRoot.removeEventListener('click', this.handleRootClick, true);
+    this.appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
     window.removeEventListener('scroll', this.handleRepositioningEvent);
     window.removeEventListener('resize', this.handleRepositioningEvent);
     window.removeEventListener('orientationchange', this.handleRepositioningEvent);
