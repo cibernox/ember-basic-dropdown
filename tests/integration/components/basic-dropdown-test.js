@@ -355,6 +355,48 @@ test('When the dropdown is opened and closed normally and the passed `opened` pr
   assert.ok(!this.get('opened'), 'The local property has been updated again');
 });
 
+test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+  assert.expect(1);
+  let onOpenCalls = 0;
+  this.onFocus = (dropdown) => {
+    dropdown.actions.open();
+    dropdown.actions.open();
+  };
+  this.onOpen = () => {
+    onOpenCalls++;
+  };
+
+  this.render(hbs`
+    {{#basic-dropdown onFocus=onFocus onOpen=onOpen}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+});
+
+test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+  assert.expect(1);
+  let onCloseCalls = 0;
+  this.onFocus = (dropdown) => {
+    dropdown.actions.close();
+  };
+  this.onClose = () => {
+    onCloseCalls++;
+  };
+
+  this.render(hbs`
+    {{#basic-dropdown onFocus=onFocus onClose=onClose}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal(onCloseCalls, 0, 'onClose has been called only once');
+});
 
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
