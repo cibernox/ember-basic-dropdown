@@ -35,9 +35,9 @@ test('It toggles when the trigger is clicked and focuses the trigger', function(
 
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
   assert.equal(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is focused');
 });
@@ -54,9 +54,12 @@ test('It closes when you click outside the component and the trigger is not focu
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => this.$('#not-the-dropdown').click());
+  Ember.run(() => {
+    let event = new window.Event('mousedown');
+    this.$('#not-the-dropdown')[0].dispatchEvent(event);
+  });
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
   assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
@@ -78,7 +81,7 @@ test('It can receive an onOpen action that is fired when the component opens', f
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
 });
 
 test('It can receive an onClose action that is fired when the component closes', function(assert) {
@@ -98,8 +101,8 @@ test('It can receive an onClose action that is fired when the component closes',
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
 });
 
 test('It can receive an onFocus action that is fired when the trigger gets the focus', function(assert) {
@@ -200,7 +203,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened', fun
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
   Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
@@ -222,7 +225,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened doesn
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
   Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
@@ -242,7 +245,7 @@ test('It yields an object with a toggle action that can be used from within the 
   `);
 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   Ember.run(() => $('#click-to-close').click());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
@@ -278,9 +281,9 @@ test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if i
 
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
   assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
@@ -296,7 +299,7 @@ test('It adds the proper class when a specific dropdown position is given', func
     {{/basic-dropdown}}
   `);
 
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
 });
 
@@ -347,10 +350,10 @@ test('When the dropdown is opened and closed normally and the passed `opened` pr
   `);
 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is closed');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
   assert.ok(this.get('opened'), 'The local property has been updated');
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger').click());
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is again');
   assert.ok(!this.get('opened'), 'The local property has been updated again');
 });
