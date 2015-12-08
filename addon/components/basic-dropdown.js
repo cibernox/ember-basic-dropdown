@@ -93,7 +93,7 @@ export default Component.extend({
   },
 
   open(e) {
-    if (this.get('disabled')) { return; }
+    if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
     this.set('publicAPI.isOpen', true);
     run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
@@ -102,6 +102,7 @@ export default Component.extend({
   },
 
   close(e, skipFocus) {
+    if (!this.get('publicAPI.isOpen')) { return; }
     this.set('publicAPI.isOpen', false);
     this.set('_dropdownPositionClass', null);
     this.removeGlobalEvents();
