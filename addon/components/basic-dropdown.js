@@ -154,6 +154,7 @@ export default Component.extend({
       });
       run.schedule('afterRender', this, function() {
         const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+        if (!dropdown) { return; }
         this.mutationObserver.observe(dropdown, { childList: true, subtree: true });
       });
     } else {
