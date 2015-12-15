@@ -94,6 +94,7 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
+    if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
     run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     run.scheduleOnce('afterRender', this, this.repositionDropdown);
