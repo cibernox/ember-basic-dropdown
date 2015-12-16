@@ -401,6 +401,27 @@ test('Calling the `close` method while the dropdown is already opened does not c
   assert.equal(onCloseCalls, 0, 'onClose has been called only once');
 });
 
+test('BUGFIX: The mousedown event that opens the dropdown is default prevented to avoid select a range of text if the user moves the finger before the mouseup', function(assert) {
+  assert.expect(1);
+
+  this.onOpen = (dropdown, event) => {
+    assert.ok(event.defaultPrevented, 'The mousedown that opened the select is default prevented');
+  };
+
+  this.render(hbs`
+    {{#basic-dropdown onOpen=onOpen}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => {
+    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
+    this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
+  });
+});
+
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
   oEvent.initEvent('keydown', true, true);
