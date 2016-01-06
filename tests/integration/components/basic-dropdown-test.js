@@ -288,11 +288,11 @@ test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if i
   assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
 
-test('It adds the proper class when a specific dropdown position is given', function(assert) {
+test('It adds the proper class when a specific vertical position is given', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
-    {{#basic-dropdown dropdownPosition="above"}}
+    {{#basic-dropdown verticalPosition="top"}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -300,8 +300,24 @@ test('It adds the proper class when a specific dropdown position is given', func
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
-  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--top'), 'The proper class has been added');
 });
+
+test('It adds the proper class when a specific horizontal position is given', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown horizontalPosition="left"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--left'), 'The proper class has been added');
+});
+
 
 test('It can be rendered already when the `opened=true`', function(assert) {
   assert.expect(1);
