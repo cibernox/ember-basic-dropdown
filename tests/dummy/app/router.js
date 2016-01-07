@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('runloop');
   this.route('opening-closing-order');
+  this.route('open-and-immediatly-close');
 });
 
 export default Router;
