@@ -136,8 +136,10 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
-    if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
-      this.close(e, true);
+    if (!this.get('renderInPlace')) {
+      if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
+        this.close(e, true);
+      }
     }
   },
 
