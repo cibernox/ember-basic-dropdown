@@ -37,7 +37,7 @@ it based on the space around the trigger, and also will take care of reposition 
 resized, scrolled, the device changes it orientation or the content of the dropdown changes
 (implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
 
-You can force the component to be fixed in one position by passing `dropdownPosition=above|below`.
+You can force the component to be fixed in one position by passing `verticalPosition = top | bottom` and/or `horizontalPosition = right | left`.
 
 #### Closed automatically when click outside the component
 
