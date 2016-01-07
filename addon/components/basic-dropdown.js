@@ -96,8 +96,8 @@ export default Component.extend({
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
     if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
-    run.scheduleOnce('afterRender', this, this.addGlobalEvents);
-    run.scheduleOnce('afterRender', this, this.repositionDropdown);
+    this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
+    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.repositionDropdown);
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
@@ -106,6 +106,9 @@ export default Component.extend({
     if (!this.get('publicAPI.isOpen')) { return; }
     this.set('publicAPI.isOpen', false);
     this.set('_dropdownPositionClass', null);
+    run.cancel(this.addGlobalEventsTimer);
+    run.cancel(this.repositionDropdownTimer);
+    this.addGlobalEventsTimer = this.repositionDropdownTimer = null;
     this.removeGlobalEvents();
     let onClose = this.get('onClose');
     if (onClose) { onClose(this.get('publicAPI'), e); }
