@@ -196,7 +196,7 @@ export default Component.extend({
     let verticalPositionStrategy = this.get('verticalPosition');
     let horizontalPositionStrategy = this.get('horizontalPosition');
     let { left: triggerLeft, top: triggerTopWithoutScroll, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-    let { width: dropdownWidth, height: dropdownHeight } = dropdown.getBoundingClientRect();
+    let { width: dropdownWidth } = dropdown.getBoundingClientRect();
     let viewportTop  = Ember.$(window).scrollTop();
     let triggerTop = triggerTopWithoutScroll + viewportTop;
     let top, left;
