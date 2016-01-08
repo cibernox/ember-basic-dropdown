@@ -2,25 +2,18 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
-  integration: true
+var lastDeprecationMsg;
+Ember.Debug.registerDeprecationHandler(function(message, options, next) {
+  lastDeprecationMsg = message;
+  next(message, options);
 });
 
-/**
-  a) [DONE] It toggles when the trigger is clicked and focuses the trigger.
-  b) [DONE] It closes when you click outside the component and the trigger is not focused
-  c) [DONE] It can receive an onOpen action that is fired when the component opens.
-  d) [DONE] It can receive an onClose action that is fired when the component closes.
-  e) [DONE] It can receive an onFocus action that is fired when the trigger gets the focus.
-  f) [DONE] It can receive an onKeyDown action that is fired when a key is pressed while the trigger is focused.
-  g) [DONE] It can be opened by firing a custom 'dropdown:open' event.
-  h) [DONE] It can be closeed by firing a custom 'dropdown:close' event.
-  i) [DONE] It can be toggleed by firing a custom 'dropdown:toggle' event.
-  j) [DONE] It yields a toggle action that can be used from within the content of the dropdown.
-  k) [DONE] It allows to customize the tabindex, but passing `disabled=true` still wins
-  l) [DONE] It toggles when the trigger is clicked BUT doesn't focus the trigger if it's tabidex is negative.
-  m) [PENDING] It adds the proper class when a specific dropdown position is given.
-*/
+moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
+  integration: true,
+  beforeEach() {
+    lastDeprecationMsg = null;
+  }
+});
 
 test('It toggles when the trigger is clicked and focuses the trigger', function(assert) {
   assert.expect(5);
@@ -292,7 +285,7 @@ test('It adds the proper class when a specific vertical position is given', func
   assert.expect(1);
 
   this.render(hbs`
-    {{#basic-dropdown verticalPosition="top"}}
+    {{#basic-dropdown verticalPosition="above"}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -300,14 +293,14 @@ test('It adds the proper class when a specific vertical position is given', func
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
-  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--top'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
 });
 
 test('It adds the proper class when a specific horizontal position is given', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
-    {{#basic-dropdown horizontalPosition="left"}}
+    {{#basic-dropdown horizontalPosition="right"}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -315,9 +308,8 @@ test('It adds the proper class when a specific horizontal position is given', fu
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
-  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--left'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--right'), 'The proper class has been added');
 });
-
 
 test('It can be rendered already when the `opened=true`', function(assert) {
   assert.expect(1);
@@ -436,6 +428,19 @@ test('BUGFIX: The mousedown event that opens the dropdown is default prevented t
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
   });
+});
+
+test('BUGFIX: The user can pass `dropdownPosition=above|below` and that will be aliased to `verticalPosition` and throw a deprecation', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown dropdownPosition="below"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+  assert.equal(lastDeprecationMsg, "Usage of `dropdownPosition` is deprecated, use `verticalPosition` instead.");
 });
 
 function triggerKeydown(domElement, k) {
