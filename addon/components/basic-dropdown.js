@@ -193,48 +193,51 @@ export default Component.extend({
 
   _runloopAwareRepositionDropdown() {
     if (this.get('renderInPlace') || !this.get('publicAPI.isOpen')) { return; }
-    const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     let verticalPositionStrategy = this.get('verticalPosition');
-    let horizontalPositionStrategy = this.get('horizontalPosition');
-    let { left: triggerLeft, top: triggerTopWithoutScroll, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-    let { width: dropdownWidth } = dropdown.getBoundingClientRect();
+    let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    let { left, top: topWithoutScroll, width: triggerWidth, height } = trigger.getBoundingClientRect();
+    let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
     let viewportTop  = Ember.$(window).scrollTop();
-    let triggerTop = triggerTopWithoutScroll + viewportTop;
-    let top, left;
+    let top = topWithoutScroll + viewportTop;
     if (this.get('matchTriggerWidth')) {
-      dropdownWidth = triggerWidth;
       dropdown.style.width = `${triggerWidth}px`;
     }
-
-    if(['above', 'below'].indexOf(verticalPositionStrategy) === -1) {
-      // vertical auto
+    if (verticalPositionStrategy === 'above') {
+      top = top - dropdown.getBoundingClientRect().height;
+      this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
+    } else if (verticalPositionStrategy === 'below') {
+      top = top + height;
+      this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
+    } else { // auto
       const viewportBottom = window.scrollY + window.innerHeight;
-      const roomForBottom = viewportBottom - triggerTop;
-      const roomForTop = triggerTopWithoutScroll;
-      verticalPositionStrategy = roomForTop > roomForBottom ? 'above' : 'below';
+      const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
+      const enoughRoomAbove = topWithoutScroll > dropdownHeight;
+
+      let verticalPositionClass = this.get('_verticalPositionClass');
+      if (verticalPositionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
+        this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
+      } else if (verticalPositionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
+        this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
+      } else if (!verticalPositionClass) {
+        this.set('_verticalPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
+      }
+      verticalPositionClass = this.get('_verticalPositionClass'); // It might have changed
+      top = top + (verticalPositionClass === 'ember-basic-dropdown--below' ? height : -dropdownHeight);
     }
+
+    let horizontalPositionStrategy = this.get('horizontalPosition');
 
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
-      const viewportRight = window.scrollX + window.innerWidth;
-      const roomForRight = viewportRight - triggerLeft;
-      const roomForLeft = triggerLeft;
+      let viewportRight = window.scrollX + window.innerWidth;
+      let roomForRight = viewportRight - left;
+      let roomForLeft = left;
 
       horizontalPositionStrategy = roomForRight > roomForLeft ? 'left' : 'right';
     }
-
-    if (verticalPositionStrategy === 'above') {
-      top = triggerTop - dropdown.getBoundingClientRect().height;
-    } else {
-      top = triggerTop + triggerHeight;
-    }
-    this.set('_verticalPositionClass', `ember-basic-dropdown--${verticalPositionStrategy}`);
-
     if (horizontalPositionStrategy === 'right') {
-      left = triggerLeft + triggerWidth - dropdownWidth;
-    } else {
-      left = triggerLeft;
+      left = left + triggerWidth - dropdownWidth;
     }
     this.set('_horizontalPositionClass', `ember-basic-dropdown--${horizontalPositionStrategy}`);
 
