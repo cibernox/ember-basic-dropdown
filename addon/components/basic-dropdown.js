@@ -197,12 +197,13 @@ export default Component.extend({
     let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     let { left, top: topWithoutScroll, width: triggerWidth, height } = trigger.getBoundingClientRect();
-    let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let viewportTop  = Ember.$(window).scrollTop();
-    let top = topWithoutScroll + viewportTop;
     if (this.get('matchTriggerWidth')) {
       dropdown.style.width = `${triggerWidth}px`;
     }
+    let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
+    let viewportTop  = Ember.$(window).scrollTop();
+    let top = topWithoutScroll + viewportTop;
+
     if (verticalPositionStrategy === 'above') {
       top = top - dropdown.getBoundingClientRect().height;
       this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
