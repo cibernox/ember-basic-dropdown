@@ -409,6 +409,18 @@ test('Calling the `close` method while the dropdown is already opened does not c
   assert.equal(onCloseCalls, 0, 'onClose has been called only once');
 });
 
+test('It supports setting the aria-labelledby property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown ariaLabelledBy="foo123"}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-labelledby'), 'foo123');
+});
+
+test('It supports setting the aria-describedby property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown ariaDescribedBy="foo123"}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-describedby'), 'foo123');
+});
+
 test('BUGFIX: The mousedown event that opens the dropdown is default prevented to avoid select a range of text if the user moves the finger before the mouseup', function(assert) {
   assert.expect(1);
 
