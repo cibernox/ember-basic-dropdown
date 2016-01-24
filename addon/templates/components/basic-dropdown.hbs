@@ -1,7 +1,10 @@
 <div class="ember-basic-dropdown-trigger {{triggerClass}}"
      tabindex={{tabIndex}}
+     role={{role}}
      aria-labelledby={{ariaLabelledBy}}
      aria-describedby={{ariaDescribedBy}}
+     aria-required={{ariaRequired}}
+     aria-invalid={{ariaInvalid}}
      onkeydown={{action "keydown"}}
      onmousedown={{action "toggle"}}
      onfocus={{action "focusTrigger"}}>

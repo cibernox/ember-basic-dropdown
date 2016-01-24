@@ -421,6 +421,24 @@ test('It supports setting the aria-describedby property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-describedby'), 'foo123');
 });
 
+test('It supports setting the aria-required property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown ariaRequired=true}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true');
+});
+
+test('It supports setting the aria-invalid property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown ariaInvalid=true}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true');
+});
+
+test('It supports setting the role property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown role="listbox"}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'listbox');
+});
+
 test('BUGFIX: The mousedown event that opens the dropdown is default prevented to avoid select a range of text if the user moves the finger before the mouseup', function(assert) {
   assert.expect(1);
 
