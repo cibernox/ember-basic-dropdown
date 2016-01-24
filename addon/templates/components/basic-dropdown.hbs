@@ -1,4 +1,10 @@
-<div class="ember-basic-dropdown-trigger {{triggerClass}}" tabindex={{tabIndex}} onkeydown={{action "keydown"}} onmousedown={{action "toggle"}} onfocus={{action "focusTrigger"}}>
+<div class="ember-basic-dropdown-trigger {{triggerClass}}"
+     tabindex={{tabIndex}}
+     aria-labelledby={{ariaLabelledBy}}
+     aria-describedby={{ariaDescribedBy}}
+     onkeydown={{action "keydown"}}
+     onmousedown={{action "toggle"}}
+     onfocus={{action "focusTrigger"}}>
   {{yield to="inverse"}}
 </div>
 {{#if opened}}
