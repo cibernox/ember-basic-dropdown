@@ -201,7 +201,8 @@ export default Component.extend({
       dropdown.style.width = `${triggerWidth}px`;
     }
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let viewportTop  = Ember.$(window).scrollTop();
+    let $window = Ember.$(window);
+    let viewportTop = $window.scrollTop();
     let top = topWithoutScroll + viewportTop;
 
     if (verticalPositionStrategy === 'above') {
@@ -211,7 +212,7 @@ export default Component.extend({
       top = top + height;
       this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
     } else { // auto
-      const viewportBottom = window.scrollY + window.innerHeight;
+      const viewportBottom = viewportTop + window.innerHeight;
       const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
       const enoughRoomAbove = topWithoutScroll > dropdownHeight;
 
@@ -231,7 +232,7 @@ export default Component.extend({
 
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
-      let viewportRight = window.scrollX + window.innerWidth;
+      let viewportRight = $window.scrollLeft() + window.innerWidth;
       let roomForRight = viewportRight - left;
       let roomForLeft = left;
 
