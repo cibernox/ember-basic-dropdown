@@ -36,7 +36,9 @@ export default Component.extend({
 
   willDestroy() {
     this._super(...arguments);
-    this.removeGlobalEvents();
+    if (this.get('publicAPI.isOpen')) {
+      this.removeGlobalEvents();
+    }
   },
 
 
@@ -186,10 +188,8 @@ export default Component.extend({
       }
     } else {
       let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-      if (dropdown) {
-        dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
-        dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
-      }
+      dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
+      dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
   },
 

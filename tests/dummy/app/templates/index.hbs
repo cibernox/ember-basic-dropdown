@@ -57,7 +57,7 @@
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>
-
+{{#unless hidden}}
 <div style="margin: 50px; padding: 25px; position: absolute; left: 40px">
   <div>
     {{#basic-dropdown class="dropdown-300px" matchTriggerWidth=true as |dropdown|}}
@@ -73,6 +73,9 @@
     {{/basic-dropdown}}
   </div>
 </div>
+{{/unless}}
+
+<button onclick={{action (mut hidden) true}}>Hide</button>
 
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
