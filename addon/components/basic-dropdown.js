@@ -185,9 +185,11 @@ export default Component.extend({
         this.mutationObserver = null;
       }
     } else {
-      const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
-      dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
-      dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
+      let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+      if (dropdown) {
+        dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
+        dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
+      }
     }
   },
 
