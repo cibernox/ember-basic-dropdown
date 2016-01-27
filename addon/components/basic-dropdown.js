@@ -103,7 +103,7 @@ export default Component.extend({
     if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
     this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
-    this.repositionDropdownTimer = this.repositionDropdown();
+    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.repositionDropdown);
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
@@ -139,7 +139,7 @@ export default Component.extend({
   },
 
   repositionDropdown() {
-    return run.scheduleOnce('afterRender', this, this._performReposition);
+    run.join(this, this._performReposition);
   },
 
   handleRootMouseDown(e) {
