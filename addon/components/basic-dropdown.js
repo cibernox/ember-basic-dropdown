@@ -55,6 +55,7 @@ export default Component.extend({
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
+        reposition: this.handleRepositioningEvent.bind(this)
       }
     };
   }),
@@ -102,7 +103,7 @@ export default Component.extend({
     if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
     this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
-    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.repositionDropdown);
+    this.repositionDropdownTimer = this.repositionDropdown();
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
@@ -138,7 +139,7 @@ export default Component.extend({
   },
 
   repositionDropdown() {
-    run(this, this._runloopAwareRepositionDropdown);
+    return run.scheduleOnce('afterRender', this, this._performReposition);
   },
 
   handleRootMouseDown(e) {
@@ -193,10 +194,11 @@ export default Component.extend({
     }
   },
 
-  _runloopAwareRepositionDropdown() {
+  _performReposition() {
     if (this.get('renderInPlace') || !this.get('publicAPI.isOpen')) { return; }
-    let verticalPositionStrategy = this.get('verticalPosition');
     let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+    if (!dropdown) { return ;}
+    let verticalPositionStrategy = this.get('verticalPosition');
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     let { left, top: topWithoutScroll, width: triggerWidth, height } = trigger.getBoundingClientRect();
     if (this.get('matchTriggerWidth')) {

@@ -126,7 +126,7 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   this.didKeydown = function(publicAPI, e) {
     assert.ok(true, 'onKeydown action was invoked');
     assert.equal(e.keyCode, 65, 'it receives the keydown event');
-    assert.ok(publicAPI.actions.open && publicAPI.actions.close && publicAPI.actions.toggle, 'it receives an object with `open`, `close` and `toggle` functions');
+    assert.ok(publicAPI.actions.open && publicAPI.actions.close && publicAPI.actions.toggle && publicAPI.actions.toggle && publicAPI.actions.reposition, 'it receives an object with `open`, `close`, `toggle` and `reposition` functions');
   };
 
   this.render(hbs`
