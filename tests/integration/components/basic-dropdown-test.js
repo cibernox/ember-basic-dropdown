@@ -244,7 +244,7 @@ test('It yields an object with a toggle action that can be used from within the 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
 
-test('It allows to customize the tabindex, but passing `disabled=true` still wins', function(assert) {
+test('It allows to customize the tabindex, but passing `disabled=true` still wins and removes it', function(assert) {
   assert.expect(2);
 
   this.foo = false;
@@ -258,7 +258,7 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
 
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '3', 'Tab index is the given one');
   Ember.run(this, 'set', 'foo', true);
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '-1', 'Tab index is the given one');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), undefined, 'Tab index is the given one');
 });
 
 test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if its tabidex is negative', function(assert) {

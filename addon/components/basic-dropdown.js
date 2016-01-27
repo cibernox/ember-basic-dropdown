@@ -45,7 +45,7 @@ export default Component.extend({
   // CPs
   dropdownPosition: computed.deprecatingAlias('verticalPosition', { id: 'basic-dropdown-position', until: 0.8 }),
   tabIndex: computed('disabled', function() {
-    return !this.get('disabled') ? (this.get('tabindex') || '0') : "-1";
+    return !this.get('disabled') ? (this.get('tabindex') || '0') : null;
   }),
 
   publicAPI: computed(function() {
