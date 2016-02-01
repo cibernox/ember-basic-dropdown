@@ -41,7 +41,6 @@ export default Component.extend({
 
 
   // CPs
-  dropdownPosition: computed.deprecatingAlias('verticalPosition', { id: 'basic-dropdown-position', until: 0.8 }),
   appRoot: computed(function() {
     const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
     return self.document.querySelector(rootSelector);

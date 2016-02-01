@@ -460,19 +460,6 @@ test('BUGFIX: The mousedown event that opens the dropdown is default prevented t
   });
 });
 
-test('BUGFIX: The user can pass `dropdownPosition=above|below` and that will be aliased to `verticalPosition` and throw a deprecation', function(assert) {
-  assert.expect(1);
-
-  this.render(hbs`
-    {{#basic-dropdown dropdownPosition="below"}}
-      <h3>Content of the dropdown</h3>
-    {{else}}
-      <button>Press me</button>
-    {{/basic-dropdown}}
-  `);
-  assert.equal(lastDeprecationMsg, "Usage of `dropdownPosition` is deprecated, use `verticalPosition` instead.");
-});
-
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
   oEvent.initEvent('keydown', true, true);
