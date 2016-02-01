@@ -3,7 +3,7 @@ import layout from '../templates/components/basic-dropdown';
 import getOwner from 'ember-getowner-polyfill';
 
 const { Component, run, computed } = Ember;
-const MutObserver = window.MutationObserver || window.WebKitMutationObserver;
+const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 
 export default Component.extend({
   layout: layout,
@@ -19,8 +19,6 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
-    this.appRoot = document.querySelector(rootSelector);
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
@@ -44,6 +42,10 @@ export default Component.extend({
 
   // CPs
   dropdownPosition: computed.deprecatingAlias('verticalPosition', { id: 'basic-dropdown-position', until: 0.8 }),
+  appRoot: computed(function() {
+    const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
+    return self.document.querySelector(rootSelector);
+  }),
   tabIndex: computed('disabled', function() {
     return !this.get('disabled') ? (this.get('tabindex') || '0') : null;
   }),
@@ -103,7 +105,7 @@ export default Component.extend({
     if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
     this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
-    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.repositionDropdown);
+    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.handleRepositioningEvent);
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
@@ -139,11 +141,12 @@ export default Component.extend({
   },
 
   repositionDropdown() {
+    if (!self.document) { return; }
     run.join(this, this._performReposition);
   },
 
   handleRootMouseDown(e) {
-    if (!this.element.contains(e.target) && !this.appRoot.querySelector('.ember-basic-dropdown-content').contains(e.target)) {
+    if (!this.element.contains(e.target) && !this.get('appRoot').querySelector('.ember-basic-dropdown-content').contains(e.target)) {
       this.close(e, true);
     }
   },
@@ -153,10 +156,11 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    this.appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
-    window.addEventListener('scroll', this.handleRepositioningEvent);
-    window.addEventListener('resize', this.handleRepositioningEvent);
-    window.addEventListener('orientationchange', this.handleRepositioningEvent);
+    if (!self.document) { return; }
+    this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
+    self.window.addEventListener('scroll', this.handleRepositioningEvent);
+    self.window.addEventListener('resize', this.handleRepositioningEvent);
+    self.window.addEventListener('orientationchange', this.handleRepositioningEvent);
     if (MutObserver) {
       this.mutationObserver = new MutObserver(mutations => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
@@ -164,13 +168,13 @@ export default Component.extend({
         }
       });
       run.schedule('afterRender', this, function() {
-        const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+        const dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
         if (!dropdown) { return; }
         this.mutationObserver.observe(dropdown, { childList: true, subtree: true });
       });
     } else {
       run.schedule('afterRender', this, function() {
-        const dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+        const dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
         dropdown.addEventListener('DOMNodeInserted', this.repositionDropdown, false);
         dropdown.addEventListener('DOMNodeRemoved', this.repositionDropdown, false);
       });
@@ -178,17 +182,18 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    this.appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
-    window.removeEventListener('scroll', this.handleRepositioningEvent);
-    window.removeEventListener('resize', this.handleRepositioningEvent);
-    window.removeEventListener('orientationchange', this.handleRepositioningEvent);
+    if (!self.document) { return; }
+    this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
+    self.window.removeEventListener('scroll', this.handleRepositioningEvent);
+    self.window.removeEventListener('resize', this.handleRepositioningEvent);
+    self.window.removeEventListener('orientationchange', this.handleRepositioningEvent);
     if (MutObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
         this.mutationObserver = null;
       }
     } else {
-      let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+      let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
       dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
       dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
@@ -196,7 +201,7 @@ export default Component.extend({
 
   _performReposition() {
     if (this.get('renderInPlace') || !this.get('publicAPI.isOpen')) { return; }
-    let dropdown = this.appRoot.querySelector('.ember-basic-dropdown-content');
+    let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
     if (!dropdown) { return ;}
     let verticalPositionStrategy = this.get('verticalPosition');
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
@@ -205,7 +210,7 @@ export default Component.extend({
       dropdown.style.width = `${triggerWidth}px`;
     }
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let $window = Ember.$(window);
+    let $window = Ember.$(self.window);
     let viewportTop = $window.scrollTop();
     let top = topWithoutScroll + viewportTop;
 
@@ -216,7 +221,7 @@ export default Component.extend({
       top = top + height;
       this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
     } else { // auto
-      const viewportBottom = viewportTop + window.innerHeight;
+      const viewportBottom = viewportTop + self.window.innerHeight;
       const enoughRoomBelow = top + height + dropdownHeight < viewportBottom;
       const enoughRoomAbove = topWithoutScroll > dropdownHeight;
 
@@ -236,7 +241,7 @@ export default Component.extend({
 
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
-      let viewportRight = $window.scrollLeft() + window.innerWidth;
+      let viewportRight = $window.scrollLeft() + self.window.innerWidth;
       let roomForRight = viewportRight - left;
       let roomForLeft = left;
 
