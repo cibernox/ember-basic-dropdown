@@ -140,7 +140,7 @@ export default Component.extend({
   },
 
   repositionDropdown() {
-    if (!self.document) { return; }
+    if (self.FastBoot) { return; }
     run.join(this, this._performReposition);
   },
 
@@ -155,7 +155,7 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    if (!self.document) { return; }
+    if (self.FastBoot) { return; }
     this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
     self.window.addEventListener('scroll', this.handleRepositioningEvent);
     self.window.addEventListener('resize', this.handleRepositioningEvent);
@@ -181,7 +181,7 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    if (!self.document) { return; }
+    if (self.FastBoot) { return; }
     this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
     self.window.removeEventListener('scroll', this.handleRepositioningEvent);
     self.window.removeEventListener('resize', this.handleRepositioningEvent);
