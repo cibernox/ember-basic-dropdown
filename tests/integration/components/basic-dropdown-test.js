@@ -460,6 +460,22 @@ test('BUGFIX: The mousedown event that opens the dropdown is default prevented t
   });
 });
 
+test('The trigger can be customized with custom id and class', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown triggerClass="foo-class" triggerId="foo-id"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok($trigger.hasClass('foo-class'), 'The trigger has the given class');
+  assert.equal($trigger.attr('id'), 'foo-id', 'The trigger has the given id');
+});
+
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
   oEvent.initEvent('keydown', true, true);
