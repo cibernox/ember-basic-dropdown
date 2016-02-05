@@ -444,6 +444,12 @@ test('It supports setting the aria-required property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true');
 });
 
+test('It has a aria-haspopup property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-haspopup'), 'true');
+});
+
 test('It supports setting the aria-invalid property', function(assert) {
   this.render(hbs`
     {{#basic-dropdown ariaInvalid=true}} {{else}} {{/basic-dropdown}}`);
