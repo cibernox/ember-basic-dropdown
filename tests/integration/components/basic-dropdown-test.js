@@ -450,6 +450,14 @@ test('It has a aria-haspopup property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-haspopup'), 'true');
 });
 
+test('It has `aria-expanded=true` when it is open', function(assert) {
+  assert.expect(2);
+  this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'false');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'true');
+});
+
 test('It supports setting the aria-invalid property', function(assert) {
   this.render(hbs`
     {{#basic-dropdown ariaInvalid=true}} {{else}} {{/basic-dropdown}}`);

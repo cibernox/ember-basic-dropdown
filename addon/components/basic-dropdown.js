@@ -13,7 +13,7 @@ export default Component.extend({
   horizontalPosition: 'auto', // right | left
   classNames: ['ember-basic-dropdown'],
   attributeBindings: ['dir'],
-  classNameBindings: ['publicAPI.isOpen:ember-basic-dropdown--opened', 'renderInPlace:ember-basic-dropdown--in-place', '_verticalPositionClass', '_horizontalPositionClass'],
+  classNameBindings: ['renderInPlace:ember-basic-dropdown--in-place', '_verticalPositionClass', '_horizontalPositionClass'],
   _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
 
   // Lifecycle hooks

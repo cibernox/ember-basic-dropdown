@@ -1,8 +1,9 @@
 <div class="ember-basic-dropdown-trigger {{triggerClass}}"
-    aria-disabled={{disabled}}
     id={{triggerId}}
     tabindex={{tabIndex}}
     role={{role}}
+    aria-expanded={{publicAPI.isOpen}}
+    aria-disabled={{disabled}}
     aria-haspopup="true"
     aria-labelledby={{ariaLabelledBy}}
     aria-describedby={{ariaDescribedBy}}
