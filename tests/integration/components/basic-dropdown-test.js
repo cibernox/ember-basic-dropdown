@@ -261,6 +261,23 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), undefined, 'Tab index is the given one');
 });
 
+test('Passing `disabled=true` sets `aria-disabled=true` for a11y', function(assert) {
+  assert.expect(2);
+
+  this.foo = true;
+  this.render(hbs`
+    {{#basic-dropdown disabled=foo as |dropdown|}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'true', 'The component is marked as disabled');
+  Ember.run(this, 'set', 'foo', false);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'false', 'The component is marked as enabled');
+});
+
 test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if its tabidex is negative', function(assert) {
   assert.expect(5);
 
