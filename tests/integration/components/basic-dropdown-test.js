@@ -507,6 +507,25 @@ test('The trigger can be customized with custom id and class', function(assert) 
   assert.equal($trigger.attr('id'), 'foo-id', 'The trigger has the given id');
 });
 
+
+test('The content of the dropdown has a unique ID and the trigger has `aria-owns=that-id`', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
+  let dropdownId = $('.ember-basic-dropdown-content').attr('id');
+  assert.ok(dropdownId.match(/^ember-basic-dropdown-content-ember\d+$/), 'The dropdown has a unique id');
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('aria-owns'), dropdownId, 'The trigger aria-owns=<id-of-the-dropdown-content>');
+});
+
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
   oEvent.initEvent('keydown', true, true);
