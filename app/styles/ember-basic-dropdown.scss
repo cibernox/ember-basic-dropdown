@@ -8,6 +8,10 @@ $ember-basic-dropdown-content-z-index: 1000 !default;
   box-sizing: border-box;
 }
 
+.ember-basic-dropdown-text-select-disabled {
+  user-select: none;
+  -webkit-user-select: none;
+}
 .ember-basic-dropdown-content {
   position: absolute;
   width: auto;

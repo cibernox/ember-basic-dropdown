@@ -11,8 +11,8 @@
     aria-required={{ariaRequired}}
     aria-invalid={{ariaInvalid}}
     onkeydown={{action "keydown"}}
-    onmousedown={{action "toggle"}}
-    onfocus={{action "focusTrigger"}}>
+    onmousedown={{action "handleMousedown"}}
+    onfocus={{action "handleFocus"}}>
   {{yield to="inverse"}}
 </div>
 {{#if opened}}

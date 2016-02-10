@@ -35,8 +35,8 @@ test('It toggles when the trigger is clicked and focuses the trigger', function(
   assert.equal(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is focused');
 });
 
-test('It closes when you click outside the component and the trigger is not focuse', function(assert) {
-  assert.expect(3);
+test('It closes when you click outside the component', function(assert) {
+  assert.expect(2);
 
   this.render(hbs`
     <div id="not-the-dropdown"></div>
@@ -54,7 +54,6 @@ test('It closes when you click outside the component and the trigger is not focu
     this.$('#not-the-dropdown')[0].dispatchEvent(event);
   });
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
-  assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
 
 test('It can receive an onOpen action that is fired when the component opens', function(assert) {
@@ -278,8 +277,8 @@ test('Passing `disabled=true` sets `aria-disabled=true` for a11y', function(asse
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'false', 'The component is marked as enabled');
 });
 
-test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if its tabidex is negative', function(assert) {
-  assert.expect(5);
+test('It toggles when the trigger is clicked', function(assert) {
+  assert.expect(4);
 
   this.render(hbs`
     {{#basic-dropdown tabindex="-1"}}
@@ -295,7 +294,6 @@ test('It toggles when the trigger is clicked BUT doesn\'t focus the trigger if i
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
-  assert.notEqual(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is not focused');
 });
 
 test('It adds the proper class when a specific vertical position is given', function(assert) {
@@ -470,12 +468,8 @@ test('It supports setting the role property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'listbox');
 });
 
-test('BUGFIX: The mousedown event that opens the dropdown is default prevented to avoid select a range of text if the user moves the finger before the mouseup', function(assert) {
-  assert.expect(1);
-
-  this.onOpen = (dropdown, event) => {
-    assert.ok(event.defaultPrevented, 'The mousedown that opened the select is default prevented');
-  };
+test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
+  assert.expect(2);
 
   this.render(hbs`
     {{#basic-dropdown onOpen=onOpen}}
@@ -489,6 +483,12 @@ test('BUGFIX: The mousedown event that opens the dropdown is default prevented t
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
   });
+  assert.equal($('#ember-testing').css('user-select'), 'none', 'Text selection is disabled in the entire app');
+  Ember.run(() => {
+    let event = new window.Event('mouseup', { bubbles: true, cancelable: true, view: window });
+    this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
+  });
+  assert.notEqual($('#ember-testing').css('user-select'), 'none', 'Text selection is not disabled in the entire app');
 });
 
 test('The trigger can be customized with custom id and class', function(assert) {
