@@ -81,7 +81,8 @@ export default Component.extend({
 
   // Actions
   actions: {
-    toggle(e) {
+    handleMousedown(e) {
+      this.stopTextSelectionUntilMouseup();
       this.toggle(e);
     },
 
@@ -89,7 +90,7 @@ export default Component.extend({
       this.handleKeydown(e);
     },
 
-    focusTrigger(e) {
+    handleFocus(e) {
       let onFocus = this.get('onFocus');
       if (onFocus) { onFocus(this.get('publicAPI'), e); }
     }
@@ -106,7 +107,6 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
-    if (e) { e.preventDefault(); }
     this.set('publicAPI.isOpen', true);
     this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.handleRepositioningEvent);
@@ -183,6 +183,17 @@ export default Component.extend({
         dropdown.addEventListener('DOMNodeRemoved', this.repositionDropdown, false);
       });
     }
+  },
+
+  stopTextSelectionUntilMouseup() {
+    if (self.FastBoot) { return; }
+    let $appRoot = Ember.$(this.get('appRoot'));
+    let mouseupHandler = function() {
+      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
+      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
+    };
+    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
+    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   removeGlobalEvents() {
