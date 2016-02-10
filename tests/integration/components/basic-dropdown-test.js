@@ -448,12 +448,14 @@ test('It has a aria-haspopup property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-haspopup'), 'true');
 });
 
-test('It has `aria-expanded=true` when it is open', function(assert) {
-  assert.expect(2);
+test('It has `aria-expanded=true` and `aria-pressed=true` when it is open', function(assert) {
+  assert.expect(4);
   this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'false');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'false');
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').trigger('mousedown'));
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'true');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true');
 });
 
 test('It supports setting the aria-invalid property', function(assert) {
@@ -462,9 +464,13 @@ test('It supports setting the aria-invalid property', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true');
 });
 
+test('The default role of the trigger is button', function(assert) {
+  this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'button');
+});
+
 test('It supports setting the role property', function(assert) {
-  this.render(hbs`
-    {{#basic-dropdown role="listbox"}} {{else}} {{/basic-dropdown}}`);
+  this.render(hbs`{{#basic-dropdown role="listbox"}} {{else}} {{/basic-dropdown}}`);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'listbox');
 });
 
@@ -507,8 +513,7 @@ test('The trigger can be customized with custom id and class', function(assert) 
   assert.equal($trigger.attr('id'), 'foo-id', 'The trigger has the given id');
 });
 
-
-test('The content of the dropdown has a unique ID and the trigger has `aria-owns=that-id`', function(assert) {
+test('The content of the dropdown has a unique ID and the trigger has `aria-controls=that-id`', function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -523,7 +528,7 @@ test('The content of the dropdown has a unique ID and the trigger has `aria-owns
   let dropdownId = $('.ember-basic-dropdown-content').attr('id');
   assert.ok(dropdownId.match(/^ember-basic-dropdown-content-ember\d+$/), 'The dropdown has a unique id');
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-owns'), dropdownId, 'The trigger aria-owns=<id-of-the-dropdown-content>');
+  assert.equal($trigger.attr('aria-controls'), dropdownId, 'The trigger aria-owns=<id-of-the-dropdown-content>');
 });
 
 function triggerKeydown(domElement, k) {

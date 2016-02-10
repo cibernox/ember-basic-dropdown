@@ -9,6 +9,7 @@ export default Component.extend({
   layout: layout,
   disabled: false,
   renderInPlace: false,
+  role: 'button',
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | left
   classNames: ['ember-basic-dropdown'],
