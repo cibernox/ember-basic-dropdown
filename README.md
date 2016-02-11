@@ -1,6 +1,6 @@
 # Ember-basic-dropdown
 
-This a very minimal dropdown. That means that is very agnostic about what is going to contain.
+This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
 It is intended to be a building block for more complex components but is perfectly usable.
 
