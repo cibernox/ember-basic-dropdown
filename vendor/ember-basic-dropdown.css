@@ -1,0 +1,15 @@
+.ember-basic-dropdown {
+  position: relative; }
+
+.ember-basic-dropdown, .ember-basic-dropdown *, .ember-basic-dropdown-content, .ember-basic-dropdown-content * {
+  box-sizing: border-box; }
+
+.ember-basic-dropdown-text-select-disabled {
+  user-select: none;
+  -webkit-user-select: none; }
+
+.ember-basic-dropdown-content {
+  position: absolute;
+  width: auto;
+  z-index: 1000;
+  background-color: #FFF; }
