@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/basic-dropdown';
 import getOwner from 'ember-getowner-polyfill';
+import config from 'ember-get-config';
 
 const { Component, run, computed } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
+const destination = Ember.testing ? 'ember-testing' : (config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole');
 
 export default Component.extend({
   layout: layout,
@@ -15,7 +17,7 @@ export default Component.extend({
   classNames: ['ember-basic-dropdown'],
   attributeBindings: ['dir'],
   classNameBindings: ['renderInPlace:ember-basic-dropdown--in-place', '_verticalPositionClass', '_horizontalPositionClass'],
-  _wormholeDestination: (Ember.testing ? 'ember-testing' : 'ember-basic-dropdown-wormhole'),
+  destination,
 
   // Lifecycle hooks
   init() {
@@ -39,7 +41,6 @@ export default Component.extend({
       this.removeGlobalEvents();
     }
   },
-
 
   // CPs
   appRoot: computed(function() {
