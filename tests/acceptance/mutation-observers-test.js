@@ -27,7 +27,7 @@ test('repositionDropdown should be run loop aware on re-render', function(assert
   let mutations = [{addedNodes: {length: 1}}];
 
   visit('/runloop');
-  click('.ember-basic-dropdown-trigger');
+  nativeClick('.ember-basic-dropdown-trigger');
 
   andThen(function() {
     func(mutations);
