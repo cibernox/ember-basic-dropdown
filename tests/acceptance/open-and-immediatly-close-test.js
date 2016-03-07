@@ -11,7 +11,7 @@ test('BUGFIX: Opening and immediatly closing the component doesn\' leaves global
   visit('/open-and-immediatly-close');
 
   andThen(() => {
-    click('.ember-basic-dropdown-trigger');
+    nativeClick('.ember-basic-dropdown-trigger');
   });
 
   andThen(() => {
