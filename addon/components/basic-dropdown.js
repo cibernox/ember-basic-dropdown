@@ -6,6 +6,7 @@ import config from 'ember-get-config';
 const { Component, run, computed } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+const isTouchDevice = (!!self.window && 'ontouchstart' in window);
 
 export default Component.extend({
   layout: layout,
@@ -25,6 +26,7 @@ export default Component.extend({
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
+    this._touchMoveHandler = this._touchMoveHandler.bind(this);
   },
 
   didInitAttrs() {
@@ -35,11 +37,27 @@ export default Component.extend({
     }
   },
 
+  didInsertElement() {
+    this._super(...arguments);
+    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    if (isTouchDevice) {
+      trigger.addEventListener('touchstart', e => {
+        this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
+      });
+      trigger.addEventListener('touchend', e => {
+        e.preventDefault(); // Prevent synthetic click
+        this.send('handleTouchEnd', e)
+      });
+    }
+    trigger.addEventListener('mousedown', e => this.send('handleMousedown', e));
+  },
+
   willDestroy() {
     this._super(...arguments);
     if (this.get('publicAPI.isOpen')) {
       this.removeGlobalEvents();
     }
+    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   // CPs
@@ -87,6 +105,13 @@ export default Component.extend({
 
   // Actions
   actions: {
+    handleTouchEnd(e) {
+      if (!this.hasMoved) {
+        this.toggle(e);
+      }
+      this.hasMoved = false;
+    },
+
     handleMousedown(e) {
       this.stopTextSelectionUntilMouseup();
       this.toggle(e);
@@ -156,6 +181,7 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
+    // debugger;
     if (!this.element.contains(e.target) && !this.get('appRoot').querySelector('.ember-basic-dropdown-content').contains(e.target)) {
       this.close(e, true);
     }
@@ -275,5 +301,10 @@ export default Component.extend({
 
     dropdown.style.top = `${top}px`;
     dropdown.style.left = `${left}px`;
+  },
+
+  _touchMoveHandler(e) {
+    this.hasMoved = true;
+    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   }
 });

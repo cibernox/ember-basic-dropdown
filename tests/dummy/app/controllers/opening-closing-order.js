@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
     },
 
     onCloseFirst() {
+      // debugger;
       this.calls.push('close1');
     },
 
