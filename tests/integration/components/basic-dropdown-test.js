@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
-import { clickTrigger } from '../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger } from '../../helpers/ember-basic-dropdown';
 
 var lastDeprecationMsg;
 Ember.Debug.registerDeprecationHandler(function(message, options, next) {
@@ -530,6 +530,45 @@ test('The content of the dropdown has a unique ID and the trigger has `aria-cont
   assert.ok(dropdownId.match(/^ember-basic-dropdown-content-ember\d+$/), 'The dropdown has a unique id');
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('aria-controls'), dropdownId, 'The trigger aria-owns=<id-of-the-dropdown-content>');
+});
+
+test('in touch devices it can be opened and closed taping on the trigger', function(assert) {
+  assert.expect(5);
+
+  this.render(hbs`
+    {{#basic-dropdown isTouchDevice=true}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  tapTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
+  tapTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+  assert.equal(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is focused');
+});
+
+test('if between the touchstart and touchend there is any touchmove (the user scrolls) the component wont\'t open', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    {{#basic-dropdown isTouchDevice=true}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchstart', { bubbles: true, cancelable: true, view: window })));
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchmove', { bubbles: true, cancelable: true, view: window })));
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchend', { bubbles: true, cancelable: true, view: window })));
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown remains closed');
 });
 
 function triggerKeydown(domElement, k) {

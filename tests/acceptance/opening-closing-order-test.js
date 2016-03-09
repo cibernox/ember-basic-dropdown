@@ -16,6 +16,7 @@ test('when a dropdown is opened and another dropdown is clicked, the first one c
 
   andThen(() => {
     let calls = this.application.__container__.lookup('controller:opening-closing-order').calls;
+    // console.debug(calls);
     assert.equal(calls.length, 3);
     assert.equal(calls[0], 'open1');
     assert.equal(calls[1], 'close1');
