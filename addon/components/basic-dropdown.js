@@ -6,10 +6,10 @@ import config from 'ember-get-config';
 const { Component, run, computed } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
-const isTouchDevice = (!!self.window && 'ontouchstart' in window);
 
 export default Component.extend({
   layout: layout,
+  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   disabled: false,
   renderInPlace: false,
   role: 'button',
@@ -40,7 +40,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    if (isTouchDevice) {
+    if (this.isTouchDevice) {
       trigger.addEventListener('touchstart', e => {
         this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
