@@ -247,7 +247,10 @@ export default Component.extend({
   },
 
   _performReposition() {
-    if (this.get('renderInPlace') || !this.get('publicAPI.isOpen')) { return; }
+    if (!this.get('publicAPI.isOpen')) { return; }
+    if (this.get('renderInPlace')) {
+      return this._setFloatDirection();
+    }
     let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
     if (!dropdown) { return ;}
     let verticalPositionStrategy = this.get('verticalPosition');
@@ -301,6 +304,22 @@ export default Component.extend({
 
     dropdown.style.top = `${top}px`;
     dropdown.style.left = `${left}px`;
+  },
+
+  _setFloatDirection() {
+    let horizontalPositionStrategy = this.get('horizontalPosition');
+
+    if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
+      // horizontal auto
+      let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+      let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+      let { left } = trigger.getBoundingClientRect();
+      let { width } = dropdown.getBoundingClientRect();
+      let $window = Ember.$(self.window);
+      let viewportRight = $window.scrollLeft() + self.window.innerWidth;
+      horizontalPositionStrategy = left + width > viewportRight ? 'right' : 'left';
+    }
+    this.set('_horizontalPositionClass', `ember-basic-dropdown--${horizontalPositionStrategy}`);
   },
 
   _touchMoveHandler(e) {
