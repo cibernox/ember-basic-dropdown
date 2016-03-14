@@ -181,8 +181,7 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
-    // debugger;
-    if (!this.element.contains(e.target) && !this.get('appRoot').querySelector('.ember-basic-dropdown-content').contains(e.target)) {
+    if (!this.element.contains(e.target) && !self.document.getElementById(this.get('dropdownId')).contains(e.target)) {
       this.close(e, true);
     }
   },
@@ -204,13 +203,13 @@ export default Component.extend({
         }
       });
       run.schedule('afterRender', this, function() {
-        const dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+        let dropdown = self.document.getElementById(this.get('dropdownId'));
         if (!dropdown) { return; }
         this.mutationObserver.observe(dropdown, { childList: true, subtree: true });
       });
     } else {
       run.schedule('afterRender', this, function() {
-        const dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+        let dropdown = self.document.getElementById(this.get('dropdownId'));
         dropdown.addEventListener('DOMNodeInserted', this.repositionDropdown, false);
         dropdown.addEventListener('DOMNodeRemoved', this.repositionDropdown, false);
       });
@@ -240,7 +239,7 @@ export default Component.extend({
         this.mutationObserver = null;
       }
     } else {
-      let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+      let dropdown = self.document.getElementById(this.get('dropdownId'));
       dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
       dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
@@ -251,7 +250,7 @@ export default Component.extend({
     if (this.get('renderInPlace')) {
       return this._setFloatDirection();
     }
-    let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+    let dropdown = self.document.getElementById(this.get('dropdownId'));
     if (!dropdown) { return ;}
     let verticalPositionStrategy = this.get('verticalPosition');
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
@@ -311,7 +310,7 @@ export default Component.extend({
 
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
-      let dropdown = this.get('appRoot').querySelector('.ember-basic-dropdown-content');
+      let dropdown = self.document.getElementById(this.get('dropdownId'));
       let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
       let { left } = trigger.getBoundingClientRect();
       let { width } = dropdown.getBoundingClientRect();
