@@ -161,13 +161,19 @@ export default Component.extend({
     if (!dropdown) { return; }
     this.set('transitionClass', 'ember-basic-dropdown--transitioning-out');
     run.scheduleOnce('afterRender', () => {
-      let transitionDuration = self.window.getComputedStyle(dropdown).transitionDuration;
-      if (transitionDuration !== '0s') {
+      let computedStyle = self.window.getComputedStyle(dropdown);
+      if (computedStyle.transitionDuration !== '0s') {
         this.closeAnimationEndEventHanlder = () =>  {
           dropdown.removeEventListener('transitionend', this.closeAnimationEndEventHanlder);
           this._performClose(event, skipFocus);
         }
         dropdown.addEventListener('transitionend', this.closeAnimationEndEventHanlder);
+      } else if (computedStyle.animation) {
+        this.closeAnimationEndEventHanlder = () =>  {
+          dropdown.removeEventListener('animationend', this.closeAnimationEndEventHanlder);
+          this._performClose(event, skipFocus);
+        }
+        dropdown.addEventListener('animationend', this.closeAnimationEndEventHanlder);
       } else {
         this._performClose(event, skipFocus);
       }

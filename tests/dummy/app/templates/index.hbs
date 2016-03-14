@@ -114,6 +114,16 @@
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>
+{{#basic-dropdown tabindex=-1 disabled=false dropdownClass="complex-animation-dropdown" as |dropdown|}}
+  <p>This dropdown has a complext animation</p>
+  {{#if showImage}}
+    <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
+  {{/if}}
+{{else}}
+  <strong tabindex="0">
+    This is the trigger
+  </strong>
+{{/basic-dropdown}}
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>

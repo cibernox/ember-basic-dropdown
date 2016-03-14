@@ -20,3 +20,44 @@
     opacity: 1;
   }
 }
+
+@keyframes grow-bounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  90% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shrink-bounce {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  10% { transform: scale(0.97); }
+  30% { transform: scale(1.05); }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.ember-basic-dropdown-content.complex-animation-dropdown {
+  animation-fill-mode: both;
+  &.ember-basic-dropdown--transitioned-in {
+    animation: grow-bounce .33s;
+  }
+  &.ember-basic-dropdown--transitioning-out {
+    opacity: 0;
+    animation: shrink-bounce .33s;
+  }
+}
