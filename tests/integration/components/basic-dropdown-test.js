@@ -120,6 +120,50 @@ test('It can receive an onFocus action that is fired when the trigger gets the f
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
 });
 
+test('It can receive an onMouseEnter action that is fired when the trigger is entered with the mouse', function(assert) {
+  var done = assert.async();
+  assert.expect(4);
+
+  this.didMouseEnter = function(dropdown, e) {
+    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
+    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+    assert.ok(e instanceof(window.Event), 'The second argument is an event');
+    assert.ok(true, 'onMouseEnter action was invoked');
+    done();
+  };
+  this.render(hbs`
+    {{#basic-dropdown onMouseEnter=didMouseEnter}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('mouseenter', { bubbles: true, cancelable: true, view: window })));
+});
+
+test('It can receive an onMouseLeave action that is fired when the trigger is entered with the mouse', function(assert) {
+  var done = assert.async();
+  assert.expect(4);
+
+  this.didMouseLeave = function(dropdown, e) {
+    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
+    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+    assert.ok(e instanceof(window.Event), 'The second argument is an event');
+    assert.ok(true, 'onMouseLeave action was invoked');
+    done();
+  };
+  this.render(hbs`
+    {{#basic-dropdown onMouseLeave=didMouseLeave}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('mouseleave', { bubbles: true, cancelable: true, view: window })));
+});
+
 test('It can receive an onKeyDown action that is fired when a key is pressed while the trigger is focused', function(assert) {
   assert.expect(3);
 
