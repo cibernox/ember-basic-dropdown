@@ -50,6 +50,16 @@ export default Component.extend({
       });
     }
     trigger.addEventListener('mousedown', e => this.send('handleMousedown', e));
+
+    let onMouseEnter = this.get('onMouseEnter');
+    if (onMouseEnter) {
+      trigger.addEventListener('mouseenter', e => onMouseEnter(this.get('publicAPI'), e));
+    }
+
+    let onMouseLeave = this.get('onMouseLeave');
+    if (onMouseLeave) {
+      trigger.addEventListener('mouseleave', e => onMouseLeave(this.get('publicAPI'), e));
+    }
   },
 
   willDestroy() {
