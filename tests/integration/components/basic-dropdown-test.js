@@ -240,7 +240,10 @@ test('It yields an object with a toggle action that can be used from within the 
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
   clickTrigger();
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-  Ember.run(() => $('#click-to-close').click());
+  Ember.run(() => {
+    let event = new window.Event('click');
+    $('#click-to-close')[0].dispatchEvent(event);
+  });
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
 
