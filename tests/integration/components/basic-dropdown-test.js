@@ -618,6 +618,90 @@ test('if between the touchstart and touchend there is any touchmove (the user sc
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown remains closed');
 });
 
+test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has transitions', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    <style>
+      .fade-dropdown-test-class {
+        transition: opacity .2s;
+        opacity: 0;
+      }
+      .fade-dropdown-test-class.ember-basic-dropdown--transitioned-in {
+        opacity: 1;
+      }
+    </style>
+    {{#basic-dropdown dropdownClass="fade-dropdown-test-class"}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is opened');
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is still opened');
+  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--transitioning-out'), 'It has the transitioning-out class');
+});
+
+// This is commented because this test fails in phantom, probably because of being an ancient version
+// of webkit.
+//
+//
+// test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has an animation', function(assert) {
+//   assert.expect(3);
+
+//   this.render(hbs`
+//     <style>
+//       @keyframes grow-bounce {
+//         0% { transform: scale(0); }
+//         70% { transform: scale(1.05); }
+//         90% { transform: scale(0.97); }
+//         100% { transform: scale(1); }
+//       }
+//       @-webkit-keyframes grow-bounce {
+//         0% { transform: scale(0); }
+//         70% { transform: scale(1.05); }
+//         90% { transform: scale(0.97); }
+//         100% { transform: scale(1); }
+//       }
+//       @-webkit-keyframes shrink-bounce {
+//         0% { transform: scale(1); }
+//         10% { transform: scale(0.97); }
+//         30% { transform: scale(1.05); }
+//         100% { transform: scale(0); }
+//       }
+//       @keyframes shrink-bounce {
+//         0% { transform: scale(1); }
+//         10% { transform: scale(0.97); }
+//         30% { transform: scale(1.05); }
+//         100% { transform: scale(0); }
+//       }
+//       .complex-animation-dropdown-test-class {
+//         animation-fill-mode: both;
+//       }
+//       .complex-animation-dropdown-test-class.ember-basic-dropdown--transitioned-in {
+//         animation: grow-bounce .33s;
+//       }
+//       .complex-animation-dropdown-test-class.ember-basic-dropdown--transitioning-out {
+//         animation: shrink-bounce .33s;
+//       }
+//     </style>
+//     {{#basic-dropdown dropdownClass="complex-animation-dropdown-test-class"}}
+//       <h3>Content of the dropdown</h3>
+//     {{else}}
+//       <button>Press me</button>
+//     {{/basic-dropdown}}
+//   `);
+
+//   clickTrigger();
+//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is opened');
+//   clickTrigger();
+//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is still opened');
+//   assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--transitioning-out'), 'It has the transitioning-out class');
+// });
+
 function triggerKeydown(domElement, k) {
   var oEvent = document.createEvent("Events");
   oEvent.initEvent('keydown', true, true);
