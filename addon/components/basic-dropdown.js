@@ -151,26 +151,27 @@ export default Component.extend({
     this.set('publicAPI.isOpen', true);
     this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
     this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.handleRepositioningEvent);
+    this.addTransitionClassTimer = run.scheduleOnce('afterRender', this, 'set', 'transitionClass', 'ember-basic-dropdown--transitioned-in');
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
 
-  close(e, skipFocus) {
-    if (!this.get('publicAPI.isOpen')) { return; }
-    this.set('publicAPI.isOpen', false);
-    this.set('_verticalPositionClass', null);
-    this.set('_horizontalPositionClass', null);
-    run.cancel(this.addGlobalEventsTimer);
-    run.cancel(this.repositionDropdownTimer);
-    this.addGlobalEventsTimer = this.repositionDropdownTimer = null;
-    this.removeGlobalEvents();
-    let onClose = this.get('onClose');
-    if (onClose) { onClose(this.get('publicAPI'), e); }
-    if (skipFocus) { return; }
-    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    if (trigger.tabIndex > -1) {
-      trigger.focus();
-    }
+  close(event, skipFocus) {
+    let dropdown = self.document.getElementById(this.get('dropdownId'));
+    if (!dropdown) { return; }
+    this.set('transitionClass', 'ember-basic-dropdown--transitioning-out');
+    run.scheduleOnce('afterRender', () => {
+      let transitionDuration = self.window.getComputedStyle(dropdown).transitionDuration;
+      if (transitionDuration !== '0s') {
+        this.closeAnimationEndEventHanlder = () =>  {
+          dropdown.removeEventListener('transitionend', this.closeAnimationEndEventHanlder);
+          this._performClose(event, skipFocus);
+        }
+        dropdown.addEventListener('transitionend', this.closeAnimationEndEventHanlder);
+      } else {
+        this._performClose(event, skipFocus);
+      }
+    });
   },
 
   handleKeydown(e) {
@@ -334,5 +335,23 @@ export default Component.extend({
   _touchMoveHandler(e) {
     this.hasMoved = true;
     this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+  },
+
+  _performClose(event, skipFocus) {
+    if (!this.get('publicAPI.isOpen')) { return; }
+    this.set('publicAPI.isOpen', false);
+    this.setProperties({ transitionClass: null, _verticalPositionClass: null, _horizontalPositionClass: null });
+    run.cancel(this.addGlobalEventsTimer);
+    run.cancel(this.repositionDropdownTimer);
+    run.cancel(this.addTransitionClassTimer);
+    this.addGlobalEventsTimer = this.repositionDropdownTimer = this.addTransitionClassTimer = null;
+    this.removeGlobalEvents();
+    let onClose = this.get('onClose');
+    if (onClose) { onClose(this.get('publicAPI'), event); }
+    if (skipFocus) { return; }
+    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    if (trigger.tabIndex > -1) {
+      trigger.focus();
+    }
   }
 });
