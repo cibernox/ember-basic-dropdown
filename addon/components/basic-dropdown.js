@@ -168,7 +168,7 @@ export default Component.extend({
           this._performClose(event, skipFocus);
         }
         dropdown.addEventListener('transitionend', this.closeAnimationEndEventHanlder);
-      } else if (computedStyle.animationPlayState === 'running') {
+      } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
         this.closeAnimationEndEventHanlder = () =>  {
           dropdown.removeEventListener('animationend', this.closeAnimationEndEventHanlder);
           this._performClose(event, skipFocus);
