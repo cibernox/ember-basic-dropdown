@@ -161,7 +161,6 @@ export default Component.extend({
     this.setProperties({ _verticalPositionClass: null, _horizontalPositionClass: null });
     run.cancel(this.addGlobalEventsTimer);
     run.cancel(this.repositionDropdownTimer);
-    run.cancel(this.addTransitionClassTimer);
     this.addGlobalEventsTimer = this.repositionDropdownTimer = this.addTransitionClassTimer = null;
     this.removeGlobalEvents();
     let onClose = this.get('onClose');

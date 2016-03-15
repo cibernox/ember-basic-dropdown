@@ -7,9 +7,17 @@ const { run } = Ember;
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
   if (computedStyle.transitionDuration !== '0s') {
-    element.addEventListener('transitionend', callback);
+    let eventCallback = function() {
+      element.removeEventListener('transitionend', eventCallback);
+      callback();
+    }
+    element.addEventListener('transitionend', eventCallback);
   } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
-    element.addEventListener('animationend', callback);
+    let eventCallback = function() {
+      element.removeEventListener('animationend', eventCallback);
+      callback();
+    }
+    element.addEventListener('animationend', eventCallback);
   } else {
     callback();
   }
@@ -38,6 +46,9 @@ export default WormholeComponent.extend({
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
     let clone = dropdown.cloneNode(true);
     let parentElement = dropdown.parentElement;
+    if (this.get('renderInPlace')) {
+      parentElement = parentElement.parentElement;
+    }
     clone.id = clone.id + '--clone';
     run.schedule('afterRender', function() {
       parentElement.appendChild(clone);
