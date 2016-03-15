@@ -3,6 +3,11 @@ import Ember from 'ember';
 import layout from '../../templates/components/basic-dropdown/content';
 
 const { run } = Ember;
+let rAF = run;
+if (!Ember.testing && self.window && self.window.requestAnimationFrame) {
+  rAF = self.window.requestAnimationFrame;
+}
+
 
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
@@ -32,7 +37,7 @@ export default WormholeComponent.extend({
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
     run.schedule('afterRender', this, function() {
       dropdown.classList.add('ember-basic-dropdown--transitioning-in');
-        requestAnimationFrame(function() {
+      rAF(function() {
         waitForAnimations(dropdown, function() {
           dropdown.classList.remove('ember-basic-dropdown--transitioning-in');
           dropdown.classList.add('ember-basic-dropdown--transitioned-in');
@@ -52,7 +57,7 @@ export default WormholeComponent.extend({
     clone.id = clone.id + '--clone';
     run.schedule('afterRender', function() {
       parentElement.appendChild(clone);
-      requestAnimationFrame(function() {
+      rAF(function() {
         clone.classList.remove('ember-basic-dropdown--transitioned-in');
         clone.classList.remove('ember-basic-dropdown--transitioning-in');
         clone.classList.add('ember-basic-dropdown--transitioning-out');
