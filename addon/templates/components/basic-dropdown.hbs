@@ -17,8 +17,10 @@
 </div>
 {{#if opened}}
   {{#ember-wormhole to=wormholeDestination renderInPlace=renderInPlace}}
-    <div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{_verticalPositionClass}} {{_horizontalPositionClass}}" dir={{dir}}>
-      {{yield publicAPI}}
-    </div>
+    {{#transition-group transition-class="exampletwo"}}
+      <div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{_verticalPositionClass}} {{_horizontalPositionClass}}" dir={{dir}}>
+        {{yield publicAPI}}
+      </div>
+    {{/transition-group}}
   {{/ember-wormhole}}
 {{/if}}
