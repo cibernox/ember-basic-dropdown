@@ -16,9 +16,14 @@
   {{yield to="inverse"}}
 </div>
 {{#if opened}}
-  {{#ember-wormhole to=wormholeDestination renderInPlace=renderInPlace}}
-    <div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{_verticalPositionClass}} {{_horizontalPositionClass}}" dir={{dir}}>
-      {{yield publicAPI}}
-    </div>
-  {{/ember-wormhole}}
+  {{#basic-dropdown/content
+    to=wormholeDestination
+    renderInPlace=renderInPlace
+    dropdownId=dropdownId
+    dropdownClass=dropdownClass
+    verticalPositionClass=_verticalPositionClass
+    horizontalPositionClass=_horizontalPositionClass
+    dir=dir}}
+    {{yield publicAPI}}
+  {{/basic-dropdown/content}}
 {{/if}}

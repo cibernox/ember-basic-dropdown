@@ -16,7 +16,7 @@
 .ember-basic-dropdown-content.fade-in-dropdown {
   transition: opacity .2s;
   opacity: 0;
-  &.ember-basic-dropdown--transitioned-in {
+  &.ember-basic-dropdown--transitioning-in, &.ember-basic-dropdown--transitioned-in {
     opacity: 1;
   }
 }
