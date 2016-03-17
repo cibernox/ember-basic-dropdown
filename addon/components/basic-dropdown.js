@@ -200,7 +200,7 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    if (self.FastBoot) { return; }
+    if (self.FastBoot || this.get('renderInPlace')) { return; }
     this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
     self.window.addEventListener('scroll', this.handleRepositioningEvent);
     self.window.addEventListener('resize', this.handleRepositioningEvent);
@@ -320,6 +320,7 @@ export default Component.extend({
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
       let dropdown = self.document.getElementById(this.get('dropdownId'));
+      if (!dropdown) { return; }
       let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
       let { left } = trigger.getBoundingClientRect();
       let { width } = dropdown.getBoundingClientRect();
