@@ -200,8 +200,9 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    if (self.FastBoot || this.get('renderInPlace')) { return; }
+    if (self.FastBoot) { return; }
     this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
+    if (this.get('renderInPlace')) { return; }
     self.window.addEventListener('scroll', this.handleRepositioningEvent);
     self.window.addEventListener('resize', this.handleRepositioningEvent);
     self.window.addEventListener('orientationchange', this.handleRepositioningEvent);
