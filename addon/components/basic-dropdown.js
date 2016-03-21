@@ -190,7 +190,10 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
-    if (!this.element.contains(e.target) && !self.document.getElementById(this.get('dropdownId')).contains(e.target)) {
+    const elementContainsTarget = this.element.contains(e.target);
+    const dropdownContainsTarget = self.document.getElementById(this.get('dropdownId')).contains(e.target);
+  
+    if (!elementContainsTarget && !dropdownContainsTarget) {
       this.close(e, true);
     }
   },
