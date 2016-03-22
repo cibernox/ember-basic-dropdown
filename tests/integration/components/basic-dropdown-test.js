@@ -374,12 +374,11 @@ test('It adds the proper class when a specific horizontal position is given', fu
   assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--right'), 'The proper class has been added');
 });
 
-test('It can be rendered already when the `opened=true`', function(assert) {
+test('It can be rendered already opened when the `initiallyOpened=true`', function(assert) {
   assert.expect(1);
 
-  this.opened = true;
   this.render(hbs`
-    {{#basic-dropdown opened=true}}
+    {{#basic-dropdown initiallyOpened=true}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -387,46 +386,6 @@ test('It can be rendered already when the `opened=true`', function(assert) {
   `);
 
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
-});
-
-test('It opened and closed by toggling the property passed to `opened`', function(assert) {
-  assert.expect(3);
-
-  this.opened = false;
-  this.render(hbs`
-    {{#basic-dropdown opened=opened}}
-      <h3>Content of the dropdown</h3>
-    {{else}}
-      <button>Press me</button>
-    {{/basic-dropdown}}
-  `);
-
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is closed');
-  Ember.run(() => this.set('opened', true));
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
-  Ember.run(() => this.set('opened', false));
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is again');
-});
-
-test('When the dropdown is opened and closed normally and the passed `opened` property is mutable, it gets mutated too', function(assert) {
-  assert.expect(5);
-
-  this.opened = false;
-  this.render(hbs`
-    {{#basic-dropdown opened=opened}}
-      <h3>Content of the dropdown</h3>
-    {{else}}
-      <button>Press me</button>
-    {{/basic-dropdown}}
-  `);
-
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is closed');
-  clickTrigger();
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
-  assert.ok(this.get('opened'), 'The local property has been updated');
-  clickTrigger();
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is again');
-  assert.ok(!this.get('opened'), 'The local property has been updated again');
 });
 
 test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {

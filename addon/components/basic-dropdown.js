@@ -14,6 +14,7 @@ export default Component.extend({
   renderInPlace: false,
   role: 'button',
   destination: null,
+  initiallyOpened: false,
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | left
   classNames: ['ember-basic-dropdown'],
@@ -90,7 +91,7 @@ export default Component.extend({
 
   publicAPI: computed(function() {
     return {
-      isOpen: false,
+      isOpen: this.get('initiallyOpened'),
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -98,19 +99,6 @@ export default Component.extend({
         reposition: this.handleRepositioningEvent.bind(this)
       }
     };
-  }),
-
-  opened: computed('publicAPI.isOpen', {
-    get() { return this.get('publicAPI.isOpen'); },
-    set(_, newOpened) {
-      const oldOpened = this.get('publicAPI.isOpen');
-      if (!oldOpened && newOpened) {
-        this.open();
-      } else if (oldOpened && !newOpened) {
-        this.close();
-      }
-      return this.get('publicAPI.isOpen');
-    }
   }),
 
   // Actions
@@ -190,9 +178,9 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
-    const elementContainsTarget = this.element.contains(e.target);
-    const dropdownContainsTarget = self.document.getElementById(this.get('dropdownId')).contains(e.target);
-  
+    let elementContainsTarget = this.element.contains(e.target);
+    let dropdownContainsTarget = self.document.getElementById(this.get('dropdownId')).contains(e.target);
+
     if (!elementContainsTarget && !dropdownContainsTarget) {
       this.close(e, true);
     }

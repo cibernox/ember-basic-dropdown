@@ -15,7 +15,7 @@
     onfocus={{action "handleFocus"}}>
   {{yield to="inverse"}}
 </div>
-{{#if opened}}
+{{#if publicAPI.isOpen}}
   {{#basic-dropdown/content
     to=wormholeDestination
     renderInPlace=renderInPlace
