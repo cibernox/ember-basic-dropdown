@@ -604,6 +604,22 @@ test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has
   assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--transitioning-out'), 'It has the transitioning-out class');
 });
 
+test('if the option `triggerDisabled` is set to true, the component won\'t respond open or close with mouse/touch events', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown triggerDisabled=true}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
+});
+
 // This is commented because this test fails in phantom, probably because of being an ancient version
 // of webkit.
 //

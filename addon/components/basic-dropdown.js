@@ -14,6 +14,7 @@ export default Component.extend({
   renderInPlace: false,
   role: 'button',
   destination: null,
+  triggerDisabled: false,
   initiallyOpened: false,
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | left
@@ -40,6 +41,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    if (this.get('triggerDisabled')) { return; }
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     if (this.isTouchDevice) {
       trigger.addEventListener('touchstart', e => {
@@ -163,8 +165,9 @@ export default Component.extend({
   handleKeydown(e) {
     if (this.get('disabled')) { return; }
     let onKeydown = this.get('onKeydown');
-    if (onKeydown) { onKeydown(this.get('publicAPI'), e); }
-    if (e.defaultPrevented) { return; }
+    let returnVal;
+    if (onKeydown) { returnVal = onKeydown(this.get('publicAPI'), e); }
+    if (returnVal === false || e.defaultPrevented) { return; }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
     } else if (e.keyCode === 27) {
