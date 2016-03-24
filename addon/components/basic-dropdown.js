@@ -106,6 +106,7 @@ export default Component.extend({
   // Actions
   actions: {
     handleTouchEnd(e) {
+      if (e && e.defaulPrevented) { return; }
       if (!this.hasMoved) {
         this.toggle(e);
       }
@@ -113,6 +114,7 @@ export default Component.extend({
     },
 
     handleMousedown(e) {
+      if (e && e.defaulPrevented) { return; }
       this.stopTextSelectionUntilMouseup();
       this.toggle(e);
     },
