@@ -35,6 +35,10 @@ export default WormholeComponent.extend({
   didInsertElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+    if (!this.get('renderInPlace')) {
+      dropdown.addEventListener('focusin', this.get('onFocusIn'));
+      dropdown.addEventListener('focusout', this.get('onFocusOut'));
+    }
     run.schedule('afterRender', this, function() {
       dropdown.classList.add('ember-basic-dropdown--transitioning-in');
       rAF(function() {
@@ -53,6 +57,9 @@ export default WormholeComponent.extend({
     let parentElement = dropdown.parentElement;
     if (this.get('renderInPlace')) {
       parentElement = parentElement.parentElement;
+    } else {
+      dropdown.removeEventListener('focusin', this.get('onFocusIn'));
+      dropdown.removeEventListener('focusout', this.get('onFocusOut'));
     }
     clone.id = clone.id + '--clone';
     run.schedule('afterRender', function() {
