@@ -54,8 +54,8 @@ export default Component.extend({
         this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
       trigger.addEventListener('touchend', e => {
-        e.preventDefault(); // Prevent synthetic click
         this.send('handleTouchEnd', e)
+        e.preventDefault(); // Prevent synthetic click
       });
     }
     trigger.addEventListener('mousedown', e => this.send('handleMousedown', e));
