@@ -620,6 +620,60 @@ test('if the option `triggerDisabled` is set to true, the component won\'t respo
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
+test('when some element inside the trigger of a dropdown gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    {{#basic-dropdown}}
+      <input type="text" id="input-inside-dropdown-content"/>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  clickTrigger();
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  Ember.run(() => this.$('button')[0].focus());
+  assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
+});
+
+test('when some element inside the dropdown-content when the component gets `renderedInPlace=true` gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    {{#basic-dropdown renderedInPlace=true}}
+      <input type="text" id="input-inside-dropdown-content"/>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  clickTrigger();
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  Ember.run(() => $('#input-inside-dropdown-content')[0].focus());
+  assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
+});
+
+test('when some element inside the dropdown-content when the component gets `renderedInPlace=false` gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    {{#basic-dropdown renderedInPlace=false}}
+      <input type="text" id="input-inside-dropdown-content"/>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  clickTrigger();
+  assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
+  Ember.run(() => $('#input-inside-dropdown-content')[0].focus());
+  assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
+});
+
 // This is commented because this test fails in phantom, probably because of being an ancient version
 // of webkit.
 //

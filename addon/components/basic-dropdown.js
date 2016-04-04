@@ -16,11 +16,17 @@ export default Component.extend({
   destination: null,
   triggerDisabled: false,
   initiallyOpened: false,
+  hasFocusInside: false,
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | left
   classNames: ['ember-basic-dropdown'],
   attributeBindings: ['dir'],
-  classNameBindings: ['renderInPlace:ember-basic-dropdown--in-place', '_verticalPositionClass', '_horizontalPositionClass'],
+  classNameBindings: [
+    'renderInPlace:ember-basic-dropdown--in-place',
+    'hasFocusInside:ember-basic-dropdown--focus-inside',
+    '_verticalPositionClass',
+    '_horizontalPositionClass'
+  ],
 
   // Lifecycle hooks
   init() {
@@ -48,8 +54,8 @@ export default Component.extend({
         this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
       trigger.addEventListener('touchend', e => {
-        e.preventDefault(); // Prevent synthetic click
         this.send('handleTouchEnd', e)
+        e.preventDefault(); // Prevent synthetic click
       });
     }
     trigger.addEventListener('mousedown', e => this.send('handleMousedown', e));
@@ -71,6 +77,15 @@ export default Component.extend({
       this.removeGlobalEvents();
     }
     this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+  },
+
+  // Events
+  focusIn(e) {
+    this.send('handleFocusIn', e);
+  },
+
+  focusOut(e) {
+    this.send('handleFocusOut', e);
   },
 
   // CPs
@@ -126,7 +141,15 @@ export default Component.extend({
     handleFocus(e) {
       let onFocus = this.get('onFocus');
       if (onFocus) { onFocus(this.get('publicAPI'), e); }
-    }
+    },
+
+    handleFocusIn() {
+      this.set('hasFocusInside', true);
+    },
+
+    handleFocusOut() {
+      this.set('hasFocusInside', false);
+    },
   },
 
   // Methods
