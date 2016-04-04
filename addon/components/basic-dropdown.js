@@ -200,14 +200,16 @@ export default Component.extend({
     if (!dropdown) { return ;}
     let verticalPositionStrategy = this.get('verticalPosition');
     let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    let { left, top: topWithoutScroll, width: triggerWidth, height } = trigger.getBoundingClientRect();
+    let { left: leftWithoutScroll, top: topWithoutScroll, width: triggerWidth, height } = trigger.getBoundingClientRect();
     if (this.get('matchTriggerWidth')) {
       dropdown.style.width = `${triggerWidth}px`;
     }
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
     let $window = Ember.$(window);
     let viewportTop = $window.scrollTop();
+    let viewportLeft = $window.scrollLeft();
     let top = topWithoutScroll + viewportTop;
+    let left = leftWithoutScroll + viewportLeft;
 
     if (verticalPositionStrategy === 'above') {
       top = top - dropdown.getBoundingClientRect().height;
@@ -237,8 +239,8 @@ export default Component.extend({
     if(['right', 'left'].indexOf(horizontalPositionStrategy) === -1) {
       // horizontal auto
       let viewportRight = $window.scrollLeft() + window.innerWidth;
-      let roomForRight = viewportRight - left;
-      let roomForLeft = left;
+      let roomForRight = viewportRight - leftWithoutScroll;
+      let roomForLeft = leftWithoutScroll;
 
       horizontalPositionStrategy = roomForRight > roomForLeft ? 'left' : 'right';
     }
