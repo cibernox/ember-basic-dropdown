@@ -325,6 +325,17 @@ test('Passing `disabled=true` sets `aria-disabled=true` for a11y', function(asse
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'false', 'The component is marked as enabled');
 });
 
+test('Passing a string to `ariaLabel` sets `aria-label` on the trigger', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown ariaLabel='ariaLabelString' as |dropdown|}}
+    {{else}}
+    {{/basic-dropdown}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-label'), 'ariaLabelString', 'The trigger DOM element has the correct `aria-label`');
+});
+
 test('It toggles when the trigger is clicked', function(assert) {
   assert.expect(4);
 

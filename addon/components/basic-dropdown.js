@@ -1,3 +1,4 @@
+/*jshint unused:false*/
 import Ember from 'ember';
 import layout from '../templates/components/basic-dropdown';
 import getOwner from 'ember-getowner-polyfill';
@@ -54,7 +55,7 @@ export default Component.extend({
         this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
       trigger.addEventListener('touchend', e => {
-        this.send('handleTouchEnd', e)
+        this.send('handleTouchEnd', e);
         e.preventDefault(); // Prevent synthetic click
       });
     }

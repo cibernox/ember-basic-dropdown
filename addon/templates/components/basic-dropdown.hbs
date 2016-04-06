@@ -1,18 +1,20 @@
 <div class="ember-basic-dropdown-trigger {{triggerClass}}"
-    id={{triggerId}}
-    tabindex={{tabIndex}}
-    role={{role}}
-    aria-disabled={{disabled}}
-    aria-expanded={{publicAPI.isOpen}}
-    aria-pressed={{publicAPI.isOpen}}
-    aria-haspopup="true"
-    aria-controls={{dropdownId}}
-    aria-labelledby={{ariaLabelledBy}}
-    aria-describedby={{ariaDescribedBy}}
-    aria-required={{ariaRequired}}
-    aria-invalid={{ariaInvalid}}
-    onkeydown={{action "keydown"}}
-    onfocus={{action "handleFocus"}}>
+  aria-controls={{dropdownId}}
+  aria-describedby={{ariaDescribedBy}}
+  aria-disabled={{disabled}}
+  aria-expanded={{publicAPI.isOpen}}
+  aria-haspopup="true"
+  aria-invalid={{ariaInvalid}}
+  aria-label={{ariaLabel}}
+  aria-labelledby={{ariaLabelledBy}}
+  aria-pressed={{publicAPI.isOpen}}
+  aria-required={{ariaRequired}}
+  id={{triggerId}}
+  onfocus={{action "handleFocus"}}
+  onkeydown={{action "keydown"}}
+  role={{role}}
+  tabindex={{tabIndex}}
+>
   {{yield to="inverse"}}
 </div>
 {{#if publicAPI.isOpen}}
