@@ -74,6 +74,7 @@ export default Component.extend({
 
   willDestroy() {
     this._super(...arguments);
+    if (self.FastBoot) { return; }
     if (this.get('publicAPI.isOpen')) {
       this.removeGlobalEvents();
     }
