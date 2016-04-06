@@ -15,13 +15,13 @@ function waitForAnimations(element, callback) {
     let eventCallback = function() {
       element.removeEventListener('transitionend', eventCallback);
       callback();
-    }
+    };
     element.addEventListener('transitionend', eventCallback);
   } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
     let eventCallback = function() {
       element.removeEventListener('animationend', eventCallback);
       callback();
-    }
+    };
     element.addEventListener('animationend', eventCallback);
   } else {
     callback();
