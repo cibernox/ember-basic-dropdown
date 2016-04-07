@@ -208,12 +208,16 @@ export default Component.extend({
   },
 
   handleRootMouseDown(e) {
-    let elementContainsTarget = this.element.contains(e.target);
-    let dropdownContainsTarget = self.document.getElementById(this.get('dropdownId')).contains(e.target);
-
-    if (!elementContainsTarget && !dropdownContainsTarget) {
-      this.close(e, true);
+    if (this.element.contains(e.target)) { return; }
+    let dropdownContent = self.document.getElementById(this.get('dropdownId'));
+    if (dropdownContent.contains(e.target)) { return; }
+    let closestDDcontent = $(e.target).closest('.ember-basic-dropdown-content')[0];
+    if (closestDDcontent) {
+      let closestDropdownId = closestDDcontent.id.match(/ember\d+$/)[0];
+      let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
+      if (clickedOnNestedDropdown) { return; }
     }
+    this.close(e, true);
   },
 
   handleRepositioningEvent(/* e */) {

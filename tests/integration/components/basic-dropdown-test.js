@@ -685,6 +685,38 @@ test('when some element inside the dropdown-content when the component gets `ren
   assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
 });
 
+test('Clicking in the dropdown-content of a nested dropdown doesn\'t close it despite of the element being in the root of the body', function(assert) {
+  assert.expect(4);
+
+  this.render(hbs`
+    {{#basic-dropdown as |dropdown|}}
+      <p id="first-dd-content">First level of the dropdpwn</p>
+      {{#basic-dropdown as |dropdown|}}
+        <p id="second-dd-content">Second level of the second</p>
+      {{else}}
+        <button>Trigger of the second dropdown</button>
+      {{/basic-dropdown}}
+    {{else}}
+      <button>Trigger of the first dropdown</button>
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the first dropdown appeared');
+  clickTrigger('.ember-basic-dropdown-content'); // Click on the trigger inside the second dropdown
+  assert.equal($('.ember-basic-dropdown-content').length, 2, 'The content of the second dropdown appeared');
+  Ember.run(() => {
+    let event = new window.Event('mousedown');
+    $('#second-dd-content')[0].dispatchEvent(event);
+  });
+  assert.equal($('.ember-basic-dropdown-content').length, 2, 'Both dropdowns are still opened');
+  Ember.run(() => {
+    let event = new window.Event('mousedown');
+    $('#first-dd-content')[0].dispatchEvent(event);
+  });
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'Only the first dropdown remain open');
+});
+
 // This is commented because this test fails in phantom, probably because of being an ancient version
 // of webkit.
 //

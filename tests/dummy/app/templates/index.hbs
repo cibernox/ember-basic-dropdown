@@ -92,6 +92,27 @@
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>
 
+<h4>Nested dropdowns</h4>
+
+{{#basic-dropdown as |dropdown|}}
+  <p style="color: green;">
+    <br>
+      First level of the dropdpwn
+    <br>
+  </p>
+  {{#basic-dropdown as |dropdown|}}
+    <p style="color: red;">
+      <br>
+      Second level of the second
+      <br>
+    </p>
+  {{else}}
+    <button>Trigger of the second dropdown</button>
+  {{/basic-dropdown}}
+{{else}}
+  <button>Trigger of the first dropdown</button>
+{{/basic-dropdown}}
+
 <p>
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
 </p>
