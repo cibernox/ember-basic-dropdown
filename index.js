@@ -11,7 +11,9 @@ module.exports = {
       this._super.included.apply(this, arguments);
       // Don't include the precompiled css file if the user uses ember-cli-sass
       if (!app.registry.availablePlugins['ember-cli-sass']) {
+        console.log('has sass!');
         if (!app.__skipEmberBasicDropdownStyles) {
+          console.log('importing!!!!');
           app.import('vendor/ember-basic-dropdown.css');
         }
       }
