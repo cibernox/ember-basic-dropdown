@@ -36,9 +36,22 @@ export default WormholeComponent.extend({
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
     if (!this.get('renderInPlace')) {
-      dropdown.addEventListener('focusin', this.get('onFocusIn'));
-      dropdown.addEventListener('focusout', this.get('onFocusOut'));
+      this._subscribeToFocusEvents(dropdown);
     }
+    this._animateIn(dropdown);
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+    if (!this.get('renderInPlace')) {
+      this._unsubscribeToFocusEvents(dropdown);
+    }
+    this._animateOut(dropdown);
+  },
+
+  // Methods
+  _animateIn(dropdown) {
     run.schedule('afterRender', this, function() {
       dropdown.classList.add('ember-basic-dropdown--transitioning-in');
       rAF(function() {
@@ -50,16 +63,11 @@ export default WormholeComponent.extend({
     });
   },
 
-  willDestroyElement() {
-    this._super(...arguments);
-    let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+  _animateOut(dropdown) {
     let clone = dropdown.cloneNode(true);
     let parentElement = dropdown.parentElement;
     if (this.get('renderInPlace')) {
       parentElement = parentElement.parentElement;
-    } else {
-      dropdown.removeEventListener('focusin', this.get('onFocusIn'));
-      dropdown.removeEventListener('focusout', this.get('onFocusOut'));
     }
     clone.id = clone.id + '--clone';
     run.schedule('afterRender', function() {
@@ -73,5 +81,15 @@ export default WormholeComponent.extend({
         });
       });
     });
+  },
+
+  _subscribeToFocusEvents(dropdown) {
+    dropdown.addEventListener('focusin', this.get('onFocusIn'));
+    dropdown.addEventListener('focusout', this.get('onFocusOut'));
+  },
+
+  _unsubscribeToFocusEvents(dropdown) {
+    dropdown.addEventListener('focusin', this.get('onFocusIn'));
+    dropdown.addEventListener('focusout', this.get('onFocusOut'));
   }
 });
