@@ -3,11 +3,6 @@ import Ember from 'ember';
 import layout from '../../templates/components/basic-dropdown/content';
 
 const { run } = Ember;
-let rAF = run;
-if (!Ember.testing && self.window && self.window.requestAnimationFrame) {
-  rAF = self.window.requestAnimationFrame;
-}
-
 
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
@@ -59,14 +54,12 @@ export default WormholeComponent.extend({
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
     clone.id = clone.id + '--clone';
+    clone.classList.remove('ember-basic-dropdown--transitioned-in');
+    clone.classList.remove('ember-basic-dropdown--transitioning-in');
+    clone.classList.add('ember-basic-dropdown--transitioning-out');
     parentElement.appendChild(clone);
-    rAF(function() {
-      clone.classList.remove('ember-basic-dropdown--transitioned-in');
-      clone.classList.remove('ember-basic-dropdown--transitioning-in');
-      clone.classList.add('ember-basic-dropdown--transitioning-out');
-      waitForAnimations(clone, function() {
-        parentElement.removeChild(clone);
-      });
+    waitForAnimations(clone, function() {
+      parentElement.removeChild(clone);
     });
   },
 
