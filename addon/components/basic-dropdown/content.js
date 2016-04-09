@@ -3,11 +3,6 @@ import Ember from 'ember';
 import layout from '../../templates/components/basic-dropdown/content';
 
 const { run } = Ember;
-let rAF = run;
-if (!Ember.testing && self.window && self.window.requestAnimationFrame) {
-  rAF = self.window.requestAnimationFrame;
-}
-
 
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
@@ -30,6 +25,7 @@ function waitForAnimations(element, callback) {
 
 export default WormholeComponent.extend({
   layout,
+  transitionClass: 'ember-basic-dropdown--transitioning-in',
 
   // Lifecycle hooks
   didInsertElement() {
@@ -44,51 +40,30 @@ export default WormholeComponent.extend({
   willDestroyElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
-    if (!this.get('renderInPlace')) {
-      this._unsubscribeToFocusEvents(dropdown);
-    }
     this._animateOut(dropdown);
   },
 
   // Methods
   _animateIn(dropdown) {
-    run.schedule('afterRender', this, function() {
-      dropdown.classList.add('ember-basic-dropdown--transitioning-in');
-      rAF(function() {
-        waitForAnimations(dropdown, function() {
-          dropdown.classList.remove('ember-basic-dropdown--transitioning-in');
-          dropdown.classList.add('ember-basic-dropdown--transitioned-in');
-        });
-      });
+    waitForAnimations(dropdown, () => {
+      this.set('animationClass', 'ember-basic-dropdown--transitioned-in');
     });
   },
 
   _animateOut(dropdown) {
+    let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
-    let parentElement = dropdown.parentElement;
-    if (this.get('renderInPlace')) {
-      parentElement = parentElement.parentElement;
-    }
     clone.id = clone.id + '--clone';
-    run.schedule('afterRender', function() {
-      parentElement.appendChild(clone);
-      rAF(function() {
-        clone.classList.remove('ember-basic-dropdown--transitioned-in');
-        clone.classList.remove('ember-basic-dropdown--transitioning-in');
-        clone.classList.add('ember-basic-dropdown--transitioning-out');
-        waitForAnimations(clone, function() {
-          parentElement.removeChild(clone);
-        });
-      });
+    clone.classList.remove('ember-basic-dropdown--transitioned-in');
+    clone.classList.remove('ember-basic-dropdown--transitioning-in');
+    clone.classList.add('ember-basic-dropdown--transitioning-out');
+    parentElement.appendChild(clone);
+    waitForAnimations(clone, function() {
+      parentElement.removeChild(clone);
     });
   },
 
   _subscribeToFocusEvents(dropdown) {
-    dropdown.addEventListener('focusin', this.get('onFocusIn'));
-    dropdown.addEventListener('focusout', this.get('onFocusOut'));
-  },
-
-  _unsubscribeToFocusEvents(dropdown) {
     dropdown.addEventListener('focusin', this.get('onFocusIn'));
     dropdown.addEventListener('focusout', this.get('onFocusOut'));
   }
