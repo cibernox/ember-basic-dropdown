@@ -41,11 +41,11 @@ export default WormholeComponent.extend({
   willDestroyElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
-    this._animateOut(dropdown);
+    this.animateOut(dropdown);
   },
 
   // Methods
-  _animateOut(dropdown) {
+  animateOut(dropdown) {
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
     clone.id = clone.id + '--clone';
