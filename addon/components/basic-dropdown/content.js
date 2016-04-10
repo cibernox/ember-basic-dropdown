@@ -32,9 +32,10 @@ export default WormholeComponent.extend({
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
     if (!this.get('renderInPlace')) {
-      this._subscribeToFocusEvents(dropdown);
+      dropdown.addEventListener('focusin', this.get('onFocusIn'));
+      dropdown.addEventListener('focusout', this.get('onFocusOut'));
     }
-    this._animateIn(dropdown);
+    waitForAnimations(dropdown, () => this.set('animationClass', 'ember-basic-dropdown--transitioned-in'));
   },
 
   willDestroyElement() {
@@ -44,12 +45,6 @@ export default WormholeComponent.extend({
   },
 
   // Methods
-  _animateIn(dropdown) {
-    waitForAnimations(dropdown, () => {
-      this.set('animationClass', 'ember-basic-dropdown--transitioned-in');
-    });
-  },
-
   _animateOut(dropdown) {
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
@@ -61,10 +56,5 @@ export default WormholeComponent.extend({
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
-  },
-
-  _subscribeToFocusEvents(dropdown) {
-    dropdown.addEventListener('focusin', this.get('onFocusIn'));
-    dropdown.addEventListener('focusout', this.get('onFocusOut'));
   }
 });
