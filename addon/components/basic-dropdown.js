@@ -5,7 +5,6 @@ import getOwner from 'ember-getowner-polyfill';
 import config from 'ember-get-config';
 
 const { Component, run, computed } = Ember;
-const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 
 export default Component.extend({
@@ -32,8 +31,6 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
-    this.repositionDropdown = this.repositionDropdown.bind(this);
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
   },
 
@@ -74,9 +71,6 @@ export default Component.extend({
   willDestroy() {
     this._super(...arguments);
     if (self.FastBoot) { return; }
-    if (this.get('publicAPI.isOpen')) {
-      this.removeGlobalEvents();
-    }
     this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
 
@@ -114,7 +108,7 @@ export default Component.extend({
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
-        reposition: this.handleRepositioningEvent.bind(this)
+        reposition: this._performReposition.bind(this)
       }
     };
   }),
@@ -165,8 +159,6 @@ export default Component.extend({
   open(e) {
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
     this.set('publicAPI.isOpen', true);
-    this.addGlobalEventsTimer = run.scheduleOnce('afterRender', this, this.addGlobalEvents);
-    this.repositionDropdownTimer = run.scheduleOnce('afterRender', this, this.handleRepositioningEvent);
     let onOpen = this.get('onOpen');
     if (onOpen) { onOpen(this.get('publicAPI'), e); }
   },
@@ -175,10 +167,6 @@ export default Component.extend({
     if (!this.get('publicAPI.isOpen')) { return; }
     this.set('publicAPI.isOpen', false);
     this.setProperties({ _verticalPositionClass: null, _horizontalPositionClass: null });
-    run.cancel(this.addGlobalEventsTimer);
-    run.cancel(this.repositionDropdownTimer);
-    this.addGlobalEventsTimer = this.repositionDropdownTimer = this.addTransitionClassTimer = null;
-    this.removeGlobalEvents();
     let onClose = this.get('onClose');
     if (onClose) { onClose(this.get('publicAPI'), event); }
     if (skipFocus) { return; }
@@ -198,58 +186,6 @@ export default Component.extend({
       this.toggle(e);
     } else if (e.keyCode === 27) {
       this.close(e);
-    }
-  },
-
-  repositionDropdown() {
-    if (self.FastBoot) { return; }
-    run.join(this, this._performReposition);
-  },
-
-  handleRepositioningEvent(/* e */) {
-    run.throttle(this, 'repositionDropdown', 60, true);
-  },
-
-  addGlobalEvents() {
-    if (self.FastBoot) { return; }
-    if (this.get('renderInPlace')) { return; }
-    self.window.addEventListener('scroll', this.handleRepositioningEvent);
-    self.window.addEventListener('resize', this.handleRepositioningEvent);
-    self.window.addEventListener('orientationchange', this.handleRepositioningEvent);
-    if (MutObserver) {
-      this.mutationObserver = new MutObserver(mutations => {
-        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
-          this.repositionDropdown();
-        }
-      });
-      run.schedule('afterRender', this, function() {
-        let dropdown = self.document.getElementById(this.get('dropdownId'));
-        if (!dropdown) { return; }
-        this.mutationObserver.observe(dropdown, { childList: true, subtree: true });
-      });
-    } else {
-      run.schedule('afterRender', this, function() {
-        let dropdown = self.document.getElementById(this.get('dropdownId'));
-        dropdown.addEventListener('DOMNodeInserted', this.repositionDropdown, false);
-        dropdown.addEventListener('DOMNodeRemoved', this.repositionDropdown, false);
-      });
-    }
-  },
-
-  removeGlobalEvents() {
-    if (self.FastBoot) { return; }
-    self.window.removeEventListener('scroll', this.handleRepositioningEvent);
-    self.window.removeEventListener('resize', this.handleRepositioningEvent);
-    self.window.removeEventListener('orientationchange', this.handleRepositioningEvent);
-    if (MutObserver) {
-      if (this.mutationObserver) {
-        this.mutationObserver.disconnect();
-        this.mutationObserver = null;
-      }
-    } else {
-      let dropdown = self.document.getElementById(this.get('dropdownId'));
-      dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
-      dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
   },
 
