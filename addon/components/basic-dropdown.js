@@ -108,7 +108,7 @@ export default Component.extend({
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
-        reposition: this._performReposition.bind(this)
+        reposition: () => run.join(this, this._performReposition)
       }
     };
   }),
