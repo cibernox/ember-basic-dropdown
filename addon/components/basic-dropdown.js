@@ -212,14 +212,22 @@ export default Component.extend({
 
     // hPosition
     let hPosition = this.get('horizontalPosition');
-    if (['right', 'left'].indexOf(hPosition) === -1) {
-      let viewportRight = scrollLeft + self.window.innerWidth;
-      debugger;
-      hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
+    if (this.get('renderInPlace')) {
+      if (['right', 'left'].indexOf(hPosition) === -1) {
+        let viewportRight = scrollLeft + self.window.innerWidth;
+        hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
+      }
+      return this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
+    } else {
+      if (['right', 'left'].indexOf(hPosition) === -1) {
+        let viewportRight = scrollLeft + self.window.innerWidth;
+        let roomForRight = viewportRight - triggerLeft;
+        let roomForLeft = triggerLeft;
+        hPosition = roomForRight > roomForLeft ? 'left' : 'right';
+      }
+      if (hPosition === 'right') { dropdownLeft = triggerLeft + triggerWidth - dropdownWidth; }
+      this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
     }
-    this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
-    if (this.get('renderInPlace')) { return; }
-    if (hPosition === 'right') { dropdownLeft = triggerLeft + triggerWidth - dropdownWidth; }
 
     // vPosition
     let vPosition = this.get('verticalPosition');
