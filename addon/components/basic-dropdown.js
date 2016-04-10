@@ -68,9 +68,8 @@ export default Component.extend({
     }
   },
 
-  willDestroy() {
+  willDestroyElement() {
     this._super(...arguments);
-    if (self.FastBoot) { return; }
     this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
 
