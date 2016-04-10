@@ -1,8 +1,5 @@
 import WormholeComponent from 'ember-wormhole/components/ember-wormhole';
-import Ember from 'ember';
 import layout from '../../templates/components/basic-dropdown/content';
-
-const { run } = Ember;
 
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
