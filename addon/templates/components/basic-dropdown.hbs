@@ -20,10 +20,12 @@
   {{#basic-dropdown/content
     to=wormholeDestination
     renderInPlace=renderInPlace
+    appRoot=appRoot
     dropdownId=dropdownId
     dropdownClass=dropdownClass
     verticalPositionClass=_verticalPositionClass
     horizontalPositionClass=_horizontalPositionClass
+    close=(action close)
     onFocusIn=(action 'handleFocusIn')
     onFocusOut=(action 'handleFocusOut')
     dir=dir}}

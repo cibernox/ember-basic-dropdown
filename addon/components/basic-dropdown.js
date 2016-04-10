@@ -32,7 +32,6 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.handleRepositioningEvent = this.handleRepositioningEvent.bind(this);
     this.repositionDropdown = this.repositionDropdown.bind(this);
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
@@ -151,7 +150,7 @@ export default Component.extend({
 
     handleFocusOut() {
       this.set('hasFocusInside', false);
-    },
+    }
   },
 
   // Methods
@@ -207,26 +206,12 @@ export default Component.extend({
     run.join(this, this._performReposition);
   },
 
-  handleRootMouseDown(e) {
-    if (this.element.contains(e.target)) { return; }
-    let dropdownContent = self.document.getElementById(this.get('dropdownId'));
-    if (dropdownContent.contains(e.target)) { return; }
-    let closestDDcontent = $(e.target).closest('.ember-basic-dropdown-content')[0];
-    if (closestDDcontent) {
-      let closestDropdownId = closestDDcontent.id.match(/ember\d+$/)[0];
-      let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
-      if (clickedOnNestedDropdown) { return; }
-    }
-    this.close(e, true);
-  },
-
   handleRepositioningEvent(/* e */) {
     run.throttle(this, 'repositionDropdown', 60, true);
   },
 
   addGlobalEvents() {
     if (self.FastBoot) { return; }
-    this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('renderInPlace')) { return; }
     self.window.addEventListener('scroll', this.handleRepositioningEvent);
     self.window.addEventListener('resize', this.handleRepositioningEvent);
@@ -251,20 +236,8 @@ export default Component.extend({
     }
   },
 
-  stopTextSelectionUntilMouseup() {
-    if (self.FastBoot) { return; }
-    let $appRoot = Ember.$(this.get('appRoot'));
-    let mouseupHandler = function() {
-      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
-      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
-    };
-    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
-    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
-  },
-
   removeGlobalEvents() {
     if (self.FastBoot) { return; }
-    this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
     self.window.removeEventListener('scroll', this.handleRepositioningEvent);
     self.window.removeEventListener('resize', this.handleRepositioningEvent);
     self.window.removeEventListener('orientationchange', this.handleRepositioningEvent);
@@ -278,6 +251,17 @@ export default Component.extend({
       dropdown.removeEventListener('DOMNodeInserted', this.repositionDropdown);
       dropdown.removeEventListener('DOMNodeRemoved', this.repositionDropdown);
     }
+  },
+
+  stopTextSelectionUntilMouseup() {
+    if (self.FastBoot) { return; }
+    let $appRoot = Ember.$(this.get('appRoot'));
+    let mouseupHandler = function() {
+      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
+      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
+    };
+    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
+    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   _performReposition() {

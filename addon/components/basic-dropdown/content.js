@@ -28,6 +28,8 @@ export default WormholeComponent.extend({
   didInsertElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+    this.handleRootMouseDown = this.handleRootMouseDown.bind(this, dropdown);
+    this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
     if (!this.get('renderInPlace')) {
       dropdown.addEventListener('focusin', this.get('onFocusIn'));
       dropdown.addEventListener('focusout', this.get('onFocusOut'));
@@ -38,6 +40,7 @@ export default WormholeComponent.extend({
   willDestroyElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+    this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
     this.animateOut(dropdown);
   },
 
@@ -53,5 +56,17 @@ export default WormholeComponent.extend({
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
-  }
+  },
+
+  handleRootMouseDown(dropdownContent, e) {
+    let comesFromInside = this.element.parentElement.contains(e.target) || dropdownContent.contains(e.target);
+    if (comesFromInside) { return; }
+    let closestDDcontent = $(e.target).closest('.ember-basic-dropdown-content')[0];
+    if (closestDDcontent) {
+      let closestDropdownId = closestDDcontent.id.match(/ember\d+$/)[0];
+      let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
+      if (clickedOnNestedDropdown) { return; }
+    }
+    this.get('close')(e, true);
+  },
 });
