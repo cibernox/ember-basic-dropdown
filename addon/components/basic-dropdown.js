@@ -157,17 +157,27 @@ export default Component.extend({
 
   open(e) {
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
-    this.set('publicAPI.isOpen', true);
     let onOpen = this.get('onOpen');
-    if (onOpen) { onOpen(this.get('publicAPI'), e); }
+    if (onOpen) {
+      let returnValue = onOpen(this.get('publicAPI'), e);
+      if (returnValue === false || (e && e.defaultPrevented)) {
+        return;
+      }
+    }
+    this.set('publicAPI.isOpen', true);
   },
 
-  close(event, skipFocus) {
+  close(e, skipFocus) {
     if (!this.get('publicAPI.isOpen')) { return; }
+    let onClose = this.get('onClose');
+    if (onClose) {
+      let returnValue = onClose(this.get('publicAPI'), e);
+      if (returnValue === false || (e && e.defaultPrevented)) {
+        return;
+      }
+    }
     this.set('publicAPI.isOpen', false);
     this.setProperties({ _verticalPositionClass: null, _horizontalPositionClass: null });
-    let onClose = this.get('onClose');
-    if (onClose) { onClose(this.get('publicAPI'), event); }
     if (skipFocus) { return; }
     const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     if (trigger.tabIndex > -1) {
