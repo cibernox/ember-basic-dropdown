@@ -95,24 +95,6 @@ test('returning false from the `onOpen` action prevents the dropdown from openin
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is still closed');
 });
 
-test('calling `e.preventDefault()` on the event received by the `onOpen` action prevents the dropdown from opening', function(assert) {
-  assert.expect(1);
-
-  this.didOpen = function(dropdown, e) {
-    return e.preventDefault();
-  };
-  this.render(hbs`
-    {{#basic-dropdown onOpen=didOpen}}
-      <h3>Content of the dropdown</h3>
-    {{else}}
-      <button>Press me</button>
-    {{/basic-dropdown}}
-  `);
-
-  clickTrigger();
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is still closed');
-});
-
 test('It can receive an onClose action that is fired when the component closes', function(assert) {
   assert.expect(7);
 
@@ -157,28 +139,6 @@ test('returning false from the `onClose` action prevents the dropdown from closi
   clickTrigger();
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is still opened');
 });
-
-test('calling `e.preventDefault()` on the event received by the `onClose` action prevents the dropdown from closing', function(assert) {
-  assert.expect(3);
-
-  this.willClose = function(dropdown, e) {
-    return e.preventDefault();
-  };
-  this.render(hbs`
-    {{#basic-dropdown onClose=willClose}}
-      <h3>Content of the dropdown</h3>
-    {{else}}
-      <button>Press me</button>
-    {{/basic-dropdown}}
-  `);
-
-  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The dropdown is closed');
-  clickTrigger();
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
-  clickTrigger();
-  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is still opened');
-});
-
 
 test('It can receive an onFocus action that is fired when the trigger gets the focus', function(assert) {
   var done = assert.async();
@@ -287,12 +247,12 @@ test('Pressing Enter while the trigger is focused show the content', function(as
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
 });
 
-test('Pressing Enter while the trigger is focused doesn\'t show the content if the event is default precented in the onKeydown action', function(assert) {
+test('Pressing Enter while the trigger is focused doesn\'t show the content if the onKeydown action returns false', function(assert) {
   assert.expect(3);
 
-  this.didKeydown = function(publicAPI, e) {
+  this.didKeydown = function() {
     assert.ok(true, 'onKeydown action was invoked');
-    e.preventDefault();
+    return false;
   };
   this.render(hbs`
     {{#basic-dropdown onKeydown=didKeydown}}
@@ -329,12 +289,12 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened', fun
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
 });
 
-test('Pressing ESC while the trigger is focused and the dropdown is opened doesn\'t closes the dropdown if the event is defaultprevented', function(assert) {
+test('Pressing ESC while the trigger is focused and the dropdown is opened doesn\'t closes the dropdown the onKeydown action returns false', function(assert) {
   assert.expect(3);
 
-  this.didKeydown = function(publicAPI, e) {
+  this.didKeydown = function() {
     assert.ok(true, 'onKeydown action was invoked');
-    e.preventDefault();
+    return false;
   };
   this.render(hbs`
     {{#basic-dropdown onKeydown=didKeydown}}

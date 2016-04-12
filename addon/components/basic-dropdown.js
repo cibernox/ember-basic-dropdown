@@ -158,24 +158,14 @@ export default Component.extend({
   open(e) {
     if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
     let onOpen = this.get('onOpen');
-    if (onOpen) {
-      let returnValue = onOpen(this.get('publicAPI'), e);
-      if (returnValue === false || (e && e.defaultPrevented)) {
-        return;
-      }
-    }
+    if (onOpen && onOpen(this.get('publicAPI'), e) === false) { return; }
     this.set('publicAPI.isOpen', true);
   },
 
   close(e, skipFocus) {
     if (!this.get('publicAPI.isOpen')) { return; }
     let onClose = this.get('onClose');
-    if (onClose) {
-      let returnValue = onClose(this.get('publicAPI'), e);
-      if (returnValue === false || (e && e.defaultPrevented)) {
-        return;
-      }
-    }
+    if (onClose && onClose(this.get('publicAPI'), e) === false) { return; }
     this.set('publicAPI.isOpen', false);
     this.setProperties({ _verticalPositionClass: null, _horizontalPositionClass: null });
     if (skipFocus) { return; }
@@ -188,9 +178,9 @@ export default Component.extend({
   handleKeydown(e) {
     if (this.get('disabled')) { return; }
     let onKeydown = this.get('onKeydown');
-    let returnVal;
-    if (onKeydown) { returnVal = onKeydown(this.get('publicAPI'), e); }
-    if (returnVal === false || e.defaultPrevented) { return; }
+    if (onKeydown && onKeydown(this.get('publicAPI'), e) === false) {
+      return;
+    }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
     } else if (e.keyCode === 27) {
