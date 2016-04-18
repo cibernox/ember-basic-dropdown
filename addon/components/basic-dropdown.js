@@ -32,10 +32,6 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
-  },
-
-  didInitAttrs() {
-    this._super(...arguments);
     const registerActionsInParent = this.get('registerActionsInParent');
     if (registerActionsInParent) {
       registerActionsInParent(this.get('publicAPI'));
