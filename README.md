@@ -10,6 +10,18 @@ It is intended to be a building block for more complex components but is perfect
 ember install ember-basic-dropdown
 ```
 
+If you are using this addon in an application that uses ember-cli-sass, you need to import the
+styles explicitly.
+
+Add to your `app.scss` this line:
+
+```scss
+@import 'ember-basic-dropdown';
+```
+
+If you are using [ember-power-select](https://github.com/cibernox/ember-power-select) you don't need
+any of those steps because you already have this addon :D
+
 ### Usage
 
 ```hbs
