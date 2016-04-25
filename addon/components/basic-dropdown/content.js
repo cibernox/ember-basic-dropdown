@@ -26,7 +26,6 @@ function waitForAnimations(element, callback) {
 export default WormholeComponent.extend({
   layout,
   mutationObserver: null,
-  transitionClass: 'ember-basic-dropdown--transitioning-in',
 
   // Lifecycle hooks
   didInsertElement() {
@@ -40,7 +39,9 @@ export default WormholeComponent.extend({
       this.addGlobalEvents(dropdown);
     }
     run.scheduleOnce('actions', this.get('reposition'));
-    waitForAnimations(dropdown, () => this.set('animationClass', 'ember-basic-dropdown--transitioned-in'));
+    if (this.get('animationEnabled')) {
+      run.scheduleOnce('actions', this, this.animateIn, dropdown);
+    }
   },
 
   willDestroyElement() {
@@ -48,10 +49,17 @@ export default WormholeComponent.extend({
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
     this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
     this.removeGlobalEvents(dropdown);
-    this.animateOut(dropdown);
+    if (this.get('animationEnabled')) {
+      this.animateOut(dropdown);
+    }
   },
 
   // Methods
+  animateIn(dropdown) {
+    this.set('transitionClass', 'ember-basic-dropdown--transitioning-in');
+    waitForAnimations(dropdown, () => this.set('ember-basic-dropdown--transitioned-in'));
+  },
+
   animateOut(dropdown) {
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);

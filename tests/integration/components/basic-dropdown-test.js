@@ -643,7 +643,7 @@ test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has
         opacity: 1;
       }
     </style>
-    {{#basic-dropdown dropdownClass="fade-dropdown-test-class"}}
+    {{#basic-dropdown dropdownClass="fade-dropdown-test-class" animationEnabled=true}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>

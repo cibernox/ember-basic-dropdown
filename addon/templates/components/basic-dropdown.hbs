@@ -18,18 +18,19 @@
 </div>
 {{#if publicAPI.isOpen}}
   {{#basic-dropdown/content
-    to=wormholeDestination
-    renderInPlace=renderInPlace
+    animationEnabled=animationEnabled
     appRoot=appRoot
-    dropdownId=dropdownId
-    dropdownClass=dropdownClass
-    verticalPositionClass=_verticalPositionClass
-    horizontalPositionClass=_horizontalPositionClass
     close=publicAPI.actions.close
-    reposition=publicAPI.actions.reposition
+    dir=dir
+    dropdownClass=dropdownClass
+    dropdownId=dropdownId
+    horizontalPositionClass=_horizontalPositionClass
     onFocusIn=(action 'handleFocusIn')
     onFocusOut=(action 'handleFocusOut')
-    dir=dir}}
+    renderInPlace=renderInPlace
+    reposition=publicAPI.actions.reposition
+    to=wormholeDestination
+    verticalPositionClass=_verticalPositionClass}}
     {{yield publicAPI}}
   {{/basic-dropdown/content}}
 {{/if}}

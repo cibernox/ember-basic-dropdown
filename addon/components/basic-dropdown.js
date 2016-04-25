@@ -9,6 +9,7 @@ const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic
 
 export default Component.extend({
   layout: layout,
+  animationEnabled: !Ember.testing,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   disabled: false,
   renderInPlace: false,
