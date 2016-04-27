@@ -268,6 +268,47 @@ test('Pressing Enter while the trigger is focused doesn\'t show the content if t
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
+test('Pressing Space while the trigger is focused show the content', function(assert) {
+  assert.expect(3);
+
+  this.didKeydown = function(/* publicAPI, e */) {
+    assert.ok(true, 'onKeydown action was invoked');
+  };
+  this.render(hbs`
+    {{#basic-dropdown onKeydown=didKeydown}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 32)); // Space
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
+});
+
+test('Pressing Space while the trigger is focused doesn\'t show the content if the onKeydown action returns false', function(assert) {
+  assert.expect(3);
+
+  this.didKeydown = function() {
+    assert.ok(true, 'onKeydown action was invoked');
+    return false;
+  };
+  this.render(hbs`
+    {{#basic-dropdown onKeydown=didKeydown}}
+      <h3>Content of the dropdown</h3>
+    {{else}}
+      <button>Press me</button>
+    {{/basic-dropdown}}
+  `);
+
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 32)); // Space
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
+});
+
 test('Pressing ESC while the trigger is focused and the dropdown is opened', function(assert) {
   assert.expect(3);
 

@@ -180,6 +180,9 @@ export default Component.extend({
     }
     if (e.keyCode === 13) {  // Enter
       this.toggle(e);
+    } else if (e.keyCode === 32) { // Space
+      this.toggle(e);
+      e.preventDefault(); // prevents the space to trigger a scroll page-next
     } else if (e.keyCode === 27) {
       this.close(e);
     }
