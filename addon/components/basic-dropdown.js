@@ -208,7 +208,8 @@ export default Component.extend({
       dropdownHeight, dropdownWidth,                        // dropdown dimensions
       scrollTop, scrollLeft                                 // scroll
     } = this._getPositionInfo(dropdown);
-    let dropdownTop, dropdownLeft = triggerLeft;
+    let triggerLeftWithScroll = triggerLeft + scrollLeft;
+    let dropdownTop, dropdownLeft = triggerLeftWithScroll;
 
     // hPosition
     let hPosition = this.get('horizontalPosition');
@@ -225,7 +226,7 @@ export default Component.extend({
         let roomForLeft = triggerLeft;
         hPosition = roomForRight > roomForLeft ? 'left' : 'right';
       }
-      if (hPosition === 'right') { dropdownLeft = triggerLeft + triggerWidth - dropdownWidth; }
+      if (hPosition === 'right') { dropdownLeft = triggerLeftWithScroll + triggerWidth - dropdownWidth; }
       this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
     }
 
