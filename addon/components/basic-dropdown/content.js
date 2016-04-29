@@ -27,12 +27,25 @@ export default WormholeComponent.extend({
   layout,
   mutationObserver: null,
 
+  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
+
   // Lifecycle hooks
   didInsertElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
+    let appRoot = this.get('appRoot');
+
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this, dropdown);
-    this.get('appRoot').addEventListener('mousedown', this.handleRootMouseDown, true);
+    this.touchStartHandler = this.touchStartHandler.bind(this);
+    this.touchMoveHandler = this.touchMoveHandler.bind(this);
+
+    appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
+
+    if(this.get('isTouchDevice')){
+      appRoot.addEventListener('touchstart', this.touchStartHandler, true);
+      appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
+    }
+
     if (!this.get('renderInPlace')) {
       dropdown.addEventListener('focusin', this.get('onFocusIn'));
       dropdown.addEventListener('focusout', this.get('onFocusOut'));
@@ -47,7 +60,15 @@ export default WormholeComponent.extend({
   willDestroyElement() {
     this._super(...arguments);
     let dropdown = self.window.document.getElementById(this.get('dropdownId'));
-    this.get('appRoot').removeEventListener('mousedown', this.handleRootMouseDown, true);
+    let appRoot = this.get('appRoot');
+
+    appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+
+    if(this.get('isTouchDevice')){
+      appRoot.removeEventListener('touchstart', this.touchStartHandler, true);
+      appRoot.removeEventListener('touchend', this.handleRootMouseDown, true);
+    }
+
     this.removeGlobalEvents(dropdown);
     if (this.get('animationEnabled')) {
       this.animateOut(dropdown);
@@ -74,7 +95,12 @@ export default WormholeComponent.extend({
   },
 
   handleRootMouseDown(dropdownContent, e) {
-    let comesFromInside = this.element.parentElement.contains(e.target) || dropdownContent.contains(e.target);
+    if(this.hasMoved){
+      this.hasMoved = false;
+      return;
+    }
+
+    let comesFromInside = (this.element ? this.element.parentElement.contains(e.target) : false) || dropdownContent.contains(e.target);
     if (comesFromInside) { return; }
     let closestDDcontent = Ember.$(e.target).closest('.ember-basic-dropdown-content')[0];
     if (closestDDcontent) {
@@ -117,5 +143,15 @@ export default WormholeComponent.extend({
       dropdown.removeEventListener('DOMNodeInserted', reposition);
       dropdown.removeEventListener('DOMNodeRemoved', reposition);
     }
+  },
+
+  touchMoveHandler () {
+    let appRoot = this.get('appRoot');
+    this.hasMoved = true;
+    appRoot.removeEventListener('touchmove', this.touchMoveHandler, true);
+  },
+
+  touchStartHandler () {
+    this.get('appRoot').addEventListener('touchmove', this.touchMoveHandler, true);
   }
 });
