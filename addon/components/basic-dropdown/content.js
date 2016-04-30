@@ -6,7 +6,7 @@ const { run } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
-  if (computedStyle.transitionDuration !== '0s') {
+  if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
     let eventCallback = function() {
       element.removeEventListener('transitionend', eventCallback);
       callback();
