@@ -64,10 +64,11 @@ export default WormholeComponent.extend({
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
     clone.id = clone.id + '--clone';
-    clone.classList.remove('ember-basic-dropdown--transitioned-in');
-    clone.classList.remove('ember-basic-dropdown--transitioning-in');
-    clone.classList.add('ember-basic-dropdown--transitioning-out');
     parentElement.appendChild(clone);
+    let $clone = Ember.$('#' + parentElement.id + ' #' + clone.id);
+    $clone.removeClass('ember-basic-dropdown--transitioned-in');
+    $clone.removeClass('ember-basic-dropdown--transitioning-in');
+    $clone.addClass('ember-basic-dropdown--transitioning-out');
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
