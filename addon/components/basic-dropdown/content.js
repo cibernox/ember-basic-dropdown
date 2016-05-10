@@ -6,7 +6,7 @@ const { run } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 function waitForAnimations(element, callback) {
   let computedStyle = self.window.getComputedStyle(element);
-  if (computedStyle.transitionDuration !== '0s') {
+  if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
     let eventCallback = function() {
       element.removeEventListener('transitionend', eventCallback);
       callback();
@@ -64,9 +64,10 @@ export default WormholeComponent.extend({
     let parentElement = this.get('renderInPlace') ? dropdown.parentElement.parentElement : dropdown.parentElement;
     let clone = dropdown.cloneNode(true);
     clone.id = clone.id + '--clone';
-    clone.classList.remove('ember-basic-dropdown--transitioned-in');
-    clone.classList.remove('ember-basic-dropdown--transitioning-in');
-    clone.classList.add('ember-basic-dropdown--transitioning-out');
+    let $clone = Ember.$(clone);
+    $clone.removeClass('ember-basic-dropdown--transitioned-in');
+    $clone.removeClass('ember-basic-dropdown--transitioning-in');
+    $clone.addClass('ember-basic-dropdown--transitioning-out');
     parentElement.appendChild(clone);
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
