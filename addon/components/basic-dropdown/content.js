@@ -108,7 +108,6 @@ export default WormholeComponent.extend({
       let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
       if (clickedOnNestedDropdown) { return; }
     }
-    console.debug('handleRootMouseDown');
     this.get('close')(e, true);
   },
 
