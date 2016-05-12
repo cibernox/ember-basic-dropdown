@@ -25,8 +25,8 @@ function waitForAnimations(element, callback) {
 
 export default WormholeComponent.extend({
   layout,
+  hasMoved: false,
   mutationObserver: null,
-
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
 
   // Lifecycle hooks
@@ -41,7 +41,7 @@ export default WormholeComponent.extend({
 
     appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
 
-    if(this.get('isTouchDevice')){
+    if (this.get('isTouchDevice')){
       appRoot.addEventListener('touchstart', this.touchStartHandler, true);
       appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
     }
@@ -64,7 +64,7 @@ export default WormholeComponent.extend({
 
     appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
 
-    if(this.get('isTouchDevice')){
+    if (this.get('isTouchDevice')){
       appRoot.removeEventListener('touchstart', this.touchStartHandler, true);
       appRoot.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
@@ -96,11 +96,10 @@ export default WormholeComponent.extend({
   },
 
   handleRootMouseDown(dropdownContent, e) {
-    if(this.hasMoved){
+    if (this.hasMoved){
       this.hasMoved = false;
       return;
     }
-
     let comesFromInside = (this.element ? this.element.parentElement.contains(e.target) : false) || dropdownContent.contains(e.target);
     if (comesFromInside) { return; }
     let closestDDcontent = Ember.$(e.target).closest('.ember-basic-dropdown-content')[0];
@@ -109,6 +108,7 @@ export default WormholeComponent.extend({
       let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
       if (clickedOnNestedDropdown) { return; }
     }
+    console.debug('handleRootMouseDown');
     this.get('close')(e, true);
   },
 
@@ -147,9 +147,8 @@ export default WormholeComponent.extend({
   },
 
   touchMoveHandler () {
-    let appRoot = this.get('appRoot');
     this.hasMoved = true;
-    appRoot.removeEventListener('touchmove', this.touchMoveHandler, true);
+    this.get('appRoot').removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   touchStartHandler () {
