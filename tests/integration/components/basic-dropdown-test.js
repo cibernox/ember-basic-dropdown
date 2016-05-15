@@ -438,7 +438,7 @@ test('It toggles when the trigger is clicked', function(assert) {
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
 });
 
-test('It adds the proper class when a specific vertical position is given', function(assert) {
+test('It adds the proper class when `horizontalPosition=right` is given', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -453,11 +453,11 @@ test('It adds the proper class when a specific vertical position is given', func
   assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
 });
 
-test('It adds the proper class when a specific horizontal position is given', function(assert) {
+test('It adds the proper class when `horizontalPosition=center` is given', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
-    {{#basic-dropdown horizontalPosition="right"}}
+    {{#basic-dropdown horizontalPosition="center"}}
       <h3>Content of the dropdown</h3>
     {{else}}
       <button>Press me</button>
@@ -465,7 +465,7 @@ test('It adds the proper class when a specific horizontal position is given', fu
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--right'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--center'), 'The proper class has been added');
 });
 
 test('It can be rendered already opened when the `initiallyOpened=true`', function(assert) {
