@@ -19,7 +19,7 @@ export default Component.extend({
   initiallyOpened: false,
   hasFocusInside: false,
   verticalPosition: 'auto', // above | below
-  horizontalPosition: 'auto', // right | left
+  horizontalPosition: 'auto', // right | center | left
   classNames: ['ember-basic-dropdown'],
   attributeBindings: ['dir'],
   classNameBindings: [
@@ -213,19 +213,23 @@ export default Component.extend({
     // hPosition
     let hPosition = this.get('horizontalPosition');
     if (this.get('renderInPlace')) {
-      if (['right', 'left'].indexOf(hPosition) === -1) {
+      if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
         let viewportRight = scrollLeft + self.window.innerWidth;
         hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
       }
       return this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
     } else {
-      if (['right', 'left'].indexOf(hPosition) === -1) {
+      if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
         let viewportRight = scrollLeft + self.window.innerWidth;
         let roomForRight = viewportRight - triggerLeft;
         let roomForLeft = triggerLeft;
         hPosition = roomForRight > roomForLeft ? 'left' : 'right';
       }
-      if (hPosition === 'right') { dropdownLeft = triggerLeft + triggerWidth - dropdownWidth; }
+      if (hPosition === 'right') {
+        dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
+      } else if (hPosition === 'center') {
+        dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
+      }
       this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
     }
 
