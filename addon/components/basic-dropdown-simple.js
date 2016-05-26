@@ -4,10 +4,8 @@ import computed from 'ember-computed';
 import get from  'ember-metal/get';
 import set, { setProperties } from  'ember-metal/set';
 import layout from '../templates/components/basic-dropdown-simple';
-import config from 'ember-get-config';
 
 const { testing, getOwner } = Ember;
-const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 
 export default Component.extend({
   layout,
@@ -16,7 +14,6 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this.wormholeDestination = testing ? 'ember-testing' : defaultDestination;
     this.dropdownId = `ember-basic-dropdown-content-${this.elementId}`;
 
     this.publicAPI = {
