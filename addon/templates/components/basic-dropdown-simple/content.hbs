@@ -1,0 +1,11 @@
+{{#if dropdown.isOpen}}
+  {{#basic-dropdown/content
+    appRoot=(readonly appRoot)
+    to=(readonly to)
+    dropdownId=(readonly dropdownId)
+    onFocusIn=onFocusIn
+    onFocusOut=onFocusOut
+    reposition=dropdown.actions.reposition}}
+    {{yield}}
+  {{/basic-dropdown/content}}
+{{/if}}
