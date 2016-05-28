@@ -12,6 +12,7 @@ export default Ember.Component.extend({
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | center | left
   matchTriggerWidth: false,
+  animationEnabled: true,
 
   // Actions
   actions: {

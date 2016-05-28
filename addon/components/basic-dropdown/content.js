@@ -52,7 +52,7 @@ export default WormholeComponent.extend({
       this.addGlobalEvents(dropdown);
     }
     run.scheduleOnce('actions', this.get('reposition'));
-    if (this.get('animationEnabled')) {
+    if (this.getAttr('animationEnabled')) {
       run.scheduleOnce('actions', this, this.animateIn, dropdown);
     }
   },
@@ -70,7 +70,7 @@ export default WormholeComponent.extend({
     }
 
     this.removeGlobalEvents(dropdown);
-    if (this.get('animationEnabled')) {
+    if (this.getAttr('animationEnabled')) {
       this.animateOut(dropdown);
     }
   },
