@@ -1,12 +1,15 @@
-import Ember from 'ember';
 import layout from '../../templates/components/basic-dropdown-simple/trigger';
+import $ from 'jquery';
+import Component from 'ember-component';
+import computed from 'ember-computed';
 
 const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   isTouchDevice,
   classNames: ['ember-basic-dropdown-trigger'],
+  attributeBindings: ['tabindex'],
 
   // Lifecycle hooks
   didInsertElement() {
@@ -31,6 +34,7 @@ export default Ember.Component.extend({
     if (onMouseLeave) {
       this.element.addEventListener('mouseleave', e => onMouseLeave(dropdown, e));
     }
+    this.element.addEventListener('keydown', e => this.send('handleKeydown', e));
     this.element.addEventListener('focus', (e) => {
       let action = this.getAttr('onFocus');
       if (action) { action(e); }
@@ -41,6 +45,11 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.getAttr('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
+
+  // CPs
+  tabindex: computed('disabled', 'tabIndex', function() {
+    return this.getAttr('disabled') ? -1 : (this.getAttr('tabIndex') || 0);
+  }),
 
   // Actions
   actions: {
@@ -56,6 +65,23 @@ export default Ember.Component.extend({
         this.getAttr('dropdown').actions.toggle(e);
       }
       this.hasMoved = false;
+    },
+
+    handleKeydown(e) {
+      if (this.getAttr('disabled')) { return; }
+      let onKeydown = this.getAttr('onKeydown');
+      let dropdown = this.getAttr('dropdown');
+      if (onKeydown && onKeydown(dropdown, e) === false) {
+        return;
+      }
+      if (e.keyCode === 13) {  // Enter
+        dropdown.actions.toggle(e);
+      } else if (e.keyCode === 32) { // Space
+        dropdown.actions.toggle(e);
+        e.preventDefault(); // prevents the space to trigger a scroll page-next
+      } else if (e.keyCode === 27) {
+        dropdown.actions.close(e);
+      }
     }
   },
 
@@ -66,7 +92,7 @@ export default Ember.Component.extend({
   },
 
   stopTextSelectionUntilMouseup() {
-    let $appRoot = Ember.$(this.get('appRoot'));
+    let $appRoot = $(this.get('appRoot'));
     let mouseupHandler = function() {
       $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
       $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
