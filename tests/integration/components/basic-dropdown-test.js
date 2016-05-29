@@ -400,51 +400,179 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('tabindex'), '-1', 'Tab index is -1');
 });
 
-// test('Passing `disabled=true` sets `aria-disabled=true` for a11y', function(assert) {
-//   assert.expect(2);
+test('Passing `disabled=true` sets `aria-disabled=true` for a11y', function(assert) {
+  assert.expect(2);
 
-//   this.foo = true;
-//   this.render(hbs`
-//     {{#basic-dropdown disabled=foo as |dropdown|}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
+  this.foo = true;
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger disabled=foo}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
 
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'true', 'The component is marked as disabled');
-//   Ember.run(this, 'set', 'foo', false);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'false', 'The component is marked as enabled');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'true', 'The component is marked as disabled');
+  Ember.run(this, 'set', 'foo', false);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-disabled'), 'false', 'The component is marked as enabled');
+});
+
+test('Passing a string to `ariaLabel` sets `aria-label` on the trigger', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger ariaLabel="ariaLabelString"}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-label'), 'ariaLabelString', 'The trigger DOM element has the correct `aria-label`');
+});
+
+test('It toggles when the trigger is clicked', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
+  clickTrigger();
+  assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+});
+
+test('It can be rendered already opened when the `initiallyOpened=true`', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown-simple initiallyOpened=true as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+
+  assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
+});
+
+test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+  assert.expect(1);
+  let onOpenCalls = 0;
+  this.onFocus = (dropdown, e) => {
+    dropdown.actions.open(e);
+    dropdown.actions.open(e);
+  };
+  this.onOpen = () => {
+    onOpenCalls++;
+  };
+
+  this.render(hbs`
+    {{#basic-dropdown-simple onOpen=onOpen as |dropdown|}}
+      {{#dropdown.trigger onFocus=onFocus}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+});
+
+test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+  assert.expect(1);
+  let onCloseCalls = 0;
+  this.onFocus = (dropdown) => {
+    dropdown.actions.close();
+  };
+  this.onClose = () => {
+    onCloseCalls++;
+  };
+
+  this.render(hbs`
+    {{#basic-dropdown-simple onClose=onClose as |dropdown|}}
+      {{#dropdown.trigger onFocus=onFocus}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
+  assert.equal(onCloseCalls, 0, 'onClose has been called only once');
+});
+
+test('It supports setting the aria-labelledby property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger ariaLabelledBy="foo123"}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-labelledby'), 'foo123');
+});
+
+test('It supports setting the aria-describedby property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger ariaDescribedBy="foo123"}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-describedby'), 'foo123');
+});
+
+test('It supports setting the aria-required property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger ariaRequired=true}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true');
+});
+
+test('It has a aria-haspopup property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-haspopup'), 'true');
+});
+
+test('It has `aria-expanded=true` and `aria-pressed=true` when it is open', function(assert) {
+  assert.expect(4);
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'false');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'false');
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'true');
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true');
+});
+
+test('It supports setting the aria-invalid property', function(assert) {
+  this.render(hbs`
+    {{#basic-dropdown-simple as |dropdown|}}
+      {{#dropdown.trigger ariaInvalid=true}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown-simple}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true');
+});
+
+// test('The default role of the trigger is button', function(assert) {
+//   this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
+//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'button');
 // });
 
-// test('Passing a string to `ariaLabel` sets `aria-label` on the trigger', function(assert) {
-//   assert.expect(1);
-
-//   this.render(hbs`
-//     {{#basic-dropdown ariaLabel='ariaLabelString' as |dropdown|}}
-//     {{else}}
-//     {{/basic-dropdown}}
-//   `);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-label'), 'ariaLabelString', 'The trigger DOM element has the correct `aria-label`');
-// });
-
-// test('It toggles when the trigger is clicked', function(assert) {
-//   assert.expect(4);
-
-//   this.render(hbs`
-//     {{#basic-dropdown tabindex="-1"}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-//   clickTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-//   clickTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
+// test('It supports setting the role property', function(assert) {
+//   this.render(hbs`{{#basic-dropdown role="listbox"}} {{else}} {{/basic-dropdown}}`);
+//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'listbox');
 // });
 
 // test('It adds the proper class when `horizontalPosition=right` is given', function(assert) {
@@ -475,113 +603,6 @@ test('It allows to customize the tabindex, but passing `disabled=true` still win
 
 //   clickTrigger();
 //   assert.ok(this.$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--center'), 'The proper class has been added');
-// });
-
-// test('It can be rendered already opened when the `initiallyOpened=true`', function(assert) {
-//   assert.expect(1);
-
-//   this.render(hbs`
-//     {{#basic-dropdown initiallyOpened=true}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The dropdown is opened');
-// });
-
-// test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
-//   assert.expect(1);
-//   let onOpenCalls = 0;
-//   this.onFocus = (dropdown) => {
-//     dropdown.actions.open();
-//     dropdown.actions.open();
-//   };
-//   this.onOpen = () => {
-//     onOpenCalls++;
-//   };
-
-//   this.render(hbs`
-//     {{#basic-dropdown onFocus=onFocus onOpen=onOpen}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-//   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
-//   assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
-// });
-
-// test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
-//   assert.expect(1);
-//   let onCloseCalls = 0;
-//   this.onFocus = (dropdown) => {
-//     dropdown.actions.close();
-//   };
-//   this.onClose = () => {
-//     onCloseCalls++;
-//   };
-
-//   this.render(hbs`
-//     {{#basic-dropdown onFocus=onFocus onClose=onClose}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-//   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
-//   assert.equal(onCloseCalls, 0, 'onClose has been called only once');
-// });
-
-// test('It supports setting the aria-labelledby property', function(assert) {
-//   this.render(hbs`
-//     {{#basic-dropdown ariaLabelledBy="foo123"}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-labelledby'), 'foo123');
-// });
-
-// test('It supports setting the aria-describedby property', function(assert) {
-//   this.render(hbs`
-//     {{#basic-dropdown ariaDescribedBy="foo123"}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-describedby'), 'foo123');
-// });
-
-// test('It supports setting the aria-required property', function(assert) {
-//   this.render(hbs`
-//     {{#basic-dropdown ariaRequired=true}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true');
-// });
-
-// test('It has a aria-haspopup property', function(assert) {
-//   this.render(hbs`
-//     {{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-haspopup'), 'true');
-// });
-
-// test('It has `aria-expanded=true` and `aria-pressed=true` when it is open', function(assert) {
-//   assert.expect(4);
-//   this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'false');
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'false');
-//   clickTrigger();
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'true');
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true');
-// });
-
-// test('It supports setting the aria-invalid property', function(assert) {
-//   this.render(hbs`
-//     {{#basic-dropdown ariaInvalid=true}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true');
-// });
-
-// test('The default role of the trigger is button', function(assert) {
-//   this.render(hbs`{{#basic-dropdown}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'button');
-// });
-
-// test('It supports setting the role property', function(assert) {
-//   this.render(hbs`{{#basic-dropdown role="listbox"}} {{else}} {{/basic-dropdown}}`);
-//   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('role'), 'listbox');
 // });
 
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {

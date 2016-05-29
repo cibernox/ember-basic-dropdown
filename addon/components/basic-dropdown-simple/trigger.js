@@ -9,7 +9,19 @@ export default Component.extend({
   layout,
   isTouchDevice,
   classNames: ['ember-basic-dropdown-trigger'],
-  attributeBindings: ['tabindex'],
+  'aria-haspopup': true,
+  attributeBindings: [
+    'tabindex',
+    'disabled:aria-disabled',
+    'ariaLabel:aria-label',
+    'ariaLabelledBy:aria-labelledby',
+    'ariaDescribedBy:aria-describedby',
+    'ariaRequired:aria-required',
+    'ariaInvalid:aria-invalid',
+    'aria-haspopup',
+    'dropdown.isOpen:aria-expanded',
+    'dropdown.isOpen:aria-pressed'
+  ],
 
   // Lifecycle hooks
   didInsertElement() {
@@ -37,7 +49,7 @@ export default Component.extend({
     this.element.addEventListener('keydown', e => this.send('handleKeydown', e));
     this.element.addEventListener('focus', (e) => {
       let action = this.getAttr('onFocus');
-      if (action) { action(e); }
+      if (action) { action(dropdown, e); }
     });
   },
 
