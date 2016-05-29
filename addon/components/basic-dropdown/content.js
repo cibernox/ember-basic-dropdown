@@ -100,7 +100,8 @@ export default WormholeComponent.extend({
       this.hasMoved = false;
       return;
     }
-    let comesFromInside = (this.element ? this.element.parentElement.contains(e.target) : false) || dropdownContent.contains(e.target);
+    let triggerElement = document.getElementById(this.getAttr('triggerId'));
+    let comesFromInside = dropdownContent.contains(e.target) || triggerElement.contains(e.target);
     if (comesFromInside) { return; }
     let closestDDcontent = Ember.$(e.target).closest('.ember-basic-dropdown-content')[0];
     if (closestDDcontent) {
@@ -108,7 +109,7 @@ export default WormholeComponent.extend({
       let clickedOnNestedDropdown = !!dropdownContent.querySelector('#' + closestDropdownId);
       if (clickedOnNestedDropdown) { return; }
     }
-    this.get('close')(e, true);
+    this.get('dropdown.actions.close')(e, true);
   },
 
   addGlobalEvents(dropdown) {

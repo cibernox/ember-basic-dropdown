@@ -19,7 +19,7 @@ export default Component.extend({
     this.dropdownId = `ember-basic-dropdown-content-${this.elementId}`;
 
     this.publicAPI = {
-      isOpen: this.getAttr('initiallyOpened'),
+      isOpen: this.getAttr('initiallyOpened') || false,
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -42,7 +42,12 @@ export default Component.extend({
 
     handleFocusOut() {
       this.set('hasFocusInside', false);
-    }
+    },
+
+    handleFocus(e) {
+      let onFocus = this.get('onFocus');
+      if (onFocus) { onFocus(this.get('publicAPI'), e); }
+    },
   },
 
   // Methods

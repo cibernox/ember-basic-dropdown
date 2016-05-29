@@ -1,8 +1,10 @@
 {{#if dropdown.isOpen}}
   {{#basic-dropdown/content
+    dropdown=(readonly dropdown)
     dropdownClass=(readonly class)
     appRoot=(readonly appRoot)
     to=(readonly to)
+    triggerId=(readonly triggerId)
     dropdownId=(readonly dropdownId)
     onFocusIn=onFocusIn
     onFocusOut=onFocusOut

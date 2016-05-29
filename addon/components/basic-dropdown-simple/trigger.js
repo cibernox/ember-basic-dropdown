@@ -31,6 +31,10 @@ export default Ember.Component.extend({
     if (onMouseLeave) {
       this.element.addEventListener('mouseleave', e => onMouseLeave(dropdown, e));
     }
+    this.element.addEventListener('focus', (e) => {
+      let action = this.getAttr('onFocus');
+      if (action) { action(e); }
+    });
   },
 
   willDestroyElement() {
