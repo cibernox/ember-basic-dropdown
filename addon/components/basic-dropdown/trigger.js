@@ -26,33 +26,15 @@ export default Component.extend({
   ],
 
   // Lifecycle hooks
-  didInsertElement() {
+  init() {
     this._super(...arguments);
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
-    let dropdown = this.getAttr('dropdown')
-    if (this.get('isTouchDevice')) {
-      this.element.addEventListener('touchstart', e => {
-        this.getAttr('appRoot').addEventListener('touchmove', this._touchMoveHandler);
-      });
-      this.element.addEventListener('touchend', e => {
-        this.send('handleTouchEnd', e);
-        e.preventDefault(); // Prevent synthetic click
-      });
-    }
-    this.element.addEventListener('mousedown', e => this.send('handleMousedown', e));
-    let onMouseEnter = this.getAttr('onMouseEnter');
-    if (onMouseEnter) {
-      this.element.addEventListener('mouseenter', e => onMouseEnter(dropdown, e));
-    }
-    let onMouseLeave = this.getAttr('onMouseLeave');
-    if (onMouseLeave) {
-      this.element.addEventListener('mouseleave', e => onMouseLeave(dropdown, e));
-    }
-    this.element.addEventListener('keydown', e => this.send('handleKeydown', e));
-    this.element.addEventListener('focus', (e) => {
-      let action = this.getAttr('onFocus');
-      if (action) { action(dropdown, e); }
-    });
+  },
+
+  didInsertElement() {
+    this._super(...arguments);
+    this.addMandatoryHandlers();
+    this.addOptionalHandlers();
   },
 
   willDestroyElement() {
@@ -68,13 +50,13 @@ export default Component.extend({
   // Actions
   actions: {
     handleMousedown(e) {
-      if (e && e.defaultPrevented) { return; }
+      if (e && e.defaultPrevented || this.getAttr('disabled')) { return; }
       this.stopTextSelectionUntilMouseup();
       this.getAttr('dropdown').actions.toggle(e);
     },
 
     handleTouchEnd(e) {
-      if (e && e.defaultPrevented) { return; }
+      if (e && e.defaultPrevented || this.getAttr('disabled')) { return; }
       if (!this.hasMoved) {
         this.getAttr('dropdown').actions.toggle(e);
       }
@@ -91,8 +73,8 @@ export default Component.extend({
       if (e.keyCode === 13) {  // Enter
         dropdown.actions.toggle(e);
       } else if (e.keyCode === 32) { // Space
-        dropdown.actions.toggle(e);
         e.preventDefault(); // prevents the space to trigger a scroll page-next
+        dropdown.actions.toggle(e);
       } else if (e.keyCode === 27) {
         dropdown.actions.close(e);
       }
@@ -114,4 +96,34 @@ export default Component.extend({
     $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
     $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
   },
+
+  addMandatoryHandlers() {
+    if (this.get('isTouchDevice')) {
+      this.element.addEventListener('touchstart', e => {
+        this.getAttr('appRoot').addEventListener('touchmove', this._touchMoveHandler);
+      });
+      this.element.addEventListener('touchend', e => {
+        this.send('handleTouchEnd', e);
+        e.preventDefault(); // Prevent synthetic click
+      });
+    }
+    this.element.addEventListener('mousedown', e => this.send('handleMousedown', e));
+    this.element.addEventListener('keydown', e => this.send('handleKeydown', e));
+  },
+
+  addOptionalHandlers() {
+    let dropdown = this.getAttr('dropdown')
+    let onMouseEnter = this.getAttr('onMouseEnter');
+    if (onMouseEnter) {
+      this.element.addEventListener('mouseenter', e => onMouseEnter(dropdown, e));
+    }
+    let onMouseLeave = this.getAttr('onMouseLeave');
+    if (onMouseLeave) {
+      this.element.addEventListener('mouseleave', e => onMouseLeave(dropdown, e));
+    }
+    let onFocus = this.getAttr('onFocus');
+    if (onFocus) {
+      this.element.addEventListener('focus', e => onFocus(dropdown, e));
+    }
+  }
 });

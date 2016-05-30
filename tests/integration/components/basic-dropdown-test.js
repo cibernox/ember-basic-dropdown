@@ -1,29 +1,13 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
-import { clickTrigger, tapTrigger } from '../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger, fireKeydown } from '../../helpers/ember-basic-dropdown';
 
 var lastDeprecationMsg;
 Ember.Debug.registerDeprecationHandler(function(message, options, next) {
   lastDeprecationMsg = message;
   next(message, options);
 });
-
-function triggerKeydown(domElement, k) {
-  var oEvent = document.createEvent("Events");
-  oEvent.initEvent('keydown', true, true);
-  $.extend(oEvent, {
-    view: window,
-    ctrlKey: false,
-    altKey: false,
-    shiftKey: false,
-    metaKey: false,
-    keyCode: k,
-    charCode: k
-  });
-
-  domElement.dispatchEvent(oEvent);
-}
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
   integration: true,
@@ -48,7 +32,6 @@ test('It toggles when the trigger is clicked and focuses the trigger', function(
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
   clickTrigger();
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
-
 
 
   // TODO: Not sure if this is relevant
@@ -175,51 +158,6 @@ test('It can receive an onFocus action that is fired when the trigger gets the f
   Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].focus());
 });
 
-test('It can receive an onMouseEnter action that is fired when the trigger is entered with the mouse', function(assert) {
-  var done = assert.async();
-  assert.expect(4);
-
-  this.didMouseEnter = function(dropdown, e) {
-    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
-    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
-    assert.ok(e instanceof(window.Event), 'The second argument is an event');
-    assert.ok(true, 'onMouseEnter action was invoked');
-    done();
-  };
-  this.render(hbs`
-    {{#basic-dropdown as |dropdown|}}
-      {{#dropdown.trigger onMouseEnter=didMouseEnter}}Press me{{/dropdown.trigger}}
-      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-    {{/basic-dropdown}}
-  `);
-
-  Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('mouseenter', { bubbles: true, cancelable: true, view: window })));
-});
-
-test('It can receive an onMouseLeave action that is fired when the trigger is entered with the mouse', function(assert) {
-  var done = assert.async();
-  assert.expect(4);
-
-  this.didMouseLeave = function(dropdown, e) {
-    assert.ok(dropdown.hasOwnProperty('isOpen'), 'The received dropdown has a `isOpen` property');
-    assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
-    assert.ok(e instanceof(window.Event), 'The second argument is an event');
-    assert.ok(true, 'onMouseLeave action was invoked');
-    done();
-  };
-  this.render(hbs`
-    {{#basic-dropdown as |dropdown|}}
-      {{#dropdown.trigger onMouseLeave=didMouseLeave}}Press me{{/dropdown.trigger}}
-      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-    {{/basic-dropdown}}
-  `);
-
-  Ember.run(() => {
-    let event = new window.Event('mouseleave', { bubbles: true, cancelable: true, view: window });
-    this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
-  });
-});
-
 test('It can receive an onKeyDown action that is fired when a key is pressed while the trigger is focused', function(assert) {
   assert.expect(5);
 
@@ -242,7 +180,7 @@ test('It can receive an onKeyDown action that is fired when a key is pressed whi
   `);
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 65));
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 65));
 });
 
 test('Pressing Enter while the trigger is focused show the content', function(assert) {
@@ -260,7 +198,7 @@ test('Pressing Enter while the trigger is focused show the content', function(as
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 13));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
 });
 
@@ -280,7 +218,7 @@ test('Pressing Enter while the trigger is focused doesn\'t show the content if t
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 13));
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 13));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
@@ -299,7 +237,7 @@ test('Pressing Space while the trigger is focused show the content', function(as
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 32)); // Space
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 32)); // Space
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
 });
 
@@ -319,7 +257,7 @@ test('Pressing Space while the trigger is focused doesn\'t show the content if t
 
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 32)); // Space
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 32)); // Space
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 });
 
@@ -339,7 +277,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened close
   clickTrigger();
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 27));
   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
 });
 
@@ -360,7 +298,7 @@ test('Pressing ESC while the trigger is focused and the dropdown is opened doesn
   clickTrigger();
   Ember.run(() => this.$('.ember-basic-dropdown-trigger').focus());
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is rendered');
-  Ember.run(() => triggerKeydown(this.$('.ember-basic-dropdown-trigger')[0], 27));
+  Ember.run(() => fireKeydown('.ember-basic-dropdown-trigger', 27));
   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown is still rendered');
 });
 
@@ -550,45 +488,6 @@ test('Calling the `close` method while the dropdown is already opened does not c
 //   assert.equal($trigger.attr('id'), 'foo-id', 'The trigger has the given id');
 // });
 
-// test('in touch devices it can be opened and closed taping on the trigger', function(assert) {
-//   assert.expect(5);
-
-//   this.render(hbs`
-//     {{#basic-dropdown isTouchDevice=true}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-//   tapTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'The content of the dropdown appeared');
-//   tapTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown disappeared');
-//   assert.equal(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is focused');
-// });
-
-// test('if between the touchstart and touchend there is any touchmove (the user scrolls) the component wont\'t open', function(assert) {
-//   assert.expect(3);
-
-//   this.render(hbs`
-//     {{#basic-dropdown isTouchDevice=true}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'Is rendered');
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-//   Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchstart', { bubbles: true, cancelable: true, view: window })));
-//   Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchmove', { bubbles: true, cancelable: true, view: window })));
-//   Ember.run(() => this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(new window.Event('touchend', { bubbles: true, cancelable: true, view: window })));
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown remains closed');
-// });
-
 // test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has transitions', function(assert) {
 //   assert.expect(3);
 
@@ -614,22 +513,6 @@ test('Calling the `close` method while the dropdown is already opened does not c
 //   clickTrigger();
 //   assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is still opened');
 //   assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--transitioning-out'), 'It has the transitioning-out class');
-// });
-
-// test('if the option `triggerDisabled` is set to true, the component won\'t respond open or close with mouse/touch events', function(assert) {
-//   assert.expect(2);
-
-//   this.render(hbs`
-//     {{#basic-dropdown triggerDisabled=true}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is not rendered');
-//   clickTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 0, 'The content of the dropdown is still not rendered');
 // });
 
 // test('when some element inside the trigger of a dropdown gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
