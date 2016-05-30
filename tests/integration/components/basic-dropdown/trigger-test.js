@@ -3,13 +3,12 @@ import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, fireKeydown } from '../../../helpers/ember-basic-dropdown';
 import run from 'ember-runloop';
 import set from 'ember-metal/set';
-// import Ember from 'ember';
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/trigger', {
   integration: true
 });
 
-test('It renders the given block in a div with class `basic-dropdown-trigger`, with no wrapper around', function(assert) {
+test('It renders the given block in a div with class `ember-basic-dropdown-trigger`, with no wrapper around', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
   this.render(hbs`

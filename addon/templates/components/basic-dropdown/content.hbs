@@ -1,5 +1,11 @@
 {{#if dropdown.isOpen}}
-  {{#basic-dropdown/wormhole
+  {{#ember-wormhole to=to renderInPlace=renderInPlace}}
+    {{!-- <div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{verticalPositionClass}} {{horizontalPositionClass}}" dir={{dir}}> --}}
+    <div id={{elementId}} class="ember-basic-dropdown-content {{class}}">
+      {{yield}}
+    </div>
+  {{/ember-wormhole}}
+{{!--   {{#basic-dropdown/wormhole
     dropdown=(readonly dropdown)
     dropdownClass=(readonly class)
     appRoot=(readonly appRoot)
@@ -12,5 +18,5 @@
     animationEnabled=(readonly animationEnabled)
     reposition=(action "reposition")}}
     {{yield}}
-  {{/basic-dropdown/wormhole}}
+  {{/basic-dropdown/wormhole}} --}}
 {{/if}}
