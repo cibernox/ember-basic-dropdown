@@ -13,6 +13,7 @@ export default Component.extend({
   'aria-haspopup': true,
   attributeBindings: [
     'tabIndex:tabindex',
+    'dropdownId:aria-controls',
     'disabled:aria-disabled',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',

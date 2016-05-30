@@ -144,6 +144,16 @@ test('If the received dropdown is open, it has an `aria-pressed="true"` attribut
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true', 'the aria-pressed is true');
 });
 
+test('If it receives dropdownId="foo123" it gets an `aria-controls="foo123"` attribute', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot dropdownId="foo123"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('aria-controls'), 'foo123');
+});
+
 test('It has `aria-haspopup=true`', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
@@ -154,19 +164,19 @@ test('It has `aria-haspopup=true`', function(assert) {
   assert.equal($trigger.attr('aria-haspopup'), 'true', 'Has `aria-haspopup=true`');
 });
 
-// test('Clicking invokes the `toggle` action on the dropdown', function(assert) {
-//   assert.expect(2);
-//   this.appRoot = document.querySelector('#ember-testing');
-//   this.dropdown = {
-//     actions: {
-//       toggle(e) {
-//         assert.ok(true, 'The `toggle()` action has been fired');
-//         assert.ok(e instanceof Event && arguments.length === 1, 'It receives the event as first and only argument');
-//       }
-//     }
-//   };
-//   this.render(hbs`
-//     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
-//   `);
-//   clickTrigger();
-// });
+test('Clicking invokes the `toggle` action on the dropdown', function(assert) {
+  assert.expect(2);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = {
+    actions: {
+      toggle(e) {
+        assert.ok(true, 'The `toggle()` action has been fired');
+        assert.ok(e instanceof Event && arguments.length === 1, 'It receives the event as first and only argument');
+      }
+    }
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  clickTrigger();
+});

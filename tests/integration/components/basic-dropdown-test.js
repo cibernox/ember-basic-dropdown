@@ -550,24 +550,6 @@ test('Calling the `close` method while the dropdown is already opened does not c
 //   assert.equal($trigger.attr('id'), 'foo-id', 'The trigger has the given id');
 // });
 
-// test('The content of the dropdown has a unique ID and the trigger has `aria-controls=that-id`', function(assert) {
-//   assert.expect(2);
-
-//   this.render(hbs`
-//     {{#basic-dropdown}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   clickTrigger();
-//   let dropdownId = $('.ember-basic-dropdown-content').attr('id');
-//   assert.ok(dropdownId.match(/^ember-basic-dropdown-content-ember\d+$/), 'The dropdown has a unique id');
-//   let $trigger = this.$('.ember-basic-dropdown-trigger');
-//   assert.equal($trigger.attr('aria-controls'), dropdownId, 'The trigger aria-owns=<id-of-the-dropdown-content>');
-// });
-
 // test('in touch devices it can be opened and closed taping on the trigger', function(assert) {
 //   assert.expect(5);
 
