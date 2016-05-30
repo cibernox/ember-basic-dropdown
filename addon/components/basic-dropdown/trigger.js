@@ -9,9 +9,10 @@ export default Component.extend({
   layout,
   isTouchDevice,
   classNames: ['ember-basic-dropdown-trigger'],
+  tabindex: 0,
   'aria-haspopup': true,
   attributeBindings: [
-    'tabindex',
+    'tabIndex:tabindex',
     'disabled:aria-disabled',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
@@ -59,8 +60,8 @@ export default Component.extend({
   },
 
   // CPs
-  tabindex: computed('disabled', 'tabIndex', function() {
-    return this.getAttr('disabled') ? -1 : (this.getAttr('tabIndex') || 0);
+  tabIndex: computed('disabled', 'tabIndex', function() {
+    return this.get('disabled') ? -1 : this.get('tabindex');
   }),
 
   // Actions
