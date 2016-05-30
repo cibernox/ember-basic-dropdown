@@ -1,0 +1,36 @@
+<div class="ember-basic-dropdown-trigger {{triggerClass}}"
+  aria-controls={{dropdownId}}
+  aria-describedby={{ariaDescribedBy}}
+  aria-disabled={{disabled}}
+  aria-expanded={{publicAPI.isOpen}}
+  aria-haspopup="true"
+  aria-invalid={{ariaInvalid}}
+  aria-label={{ariaLabel}}
+  aria-labelledby={{ariaLabelledBy}}
+  aria-pressed={{publicAPI.isOpen}}
+  aria-required={{ariaRequired}}
+  id={{triggerId}}
+  onfocus={{action "handleFocus"}}
+  onkeydown={{action "keydown"}}
+  role={{role}}
+  tabindex={{tabIndex}}>
+  {{yield to="inverse"}}
+</div>
+{{#if publicAPI.isOpen}}
+  {{#basic-dropdown/content
+    animationEnabled=animationEnabled
+    appRoot=appRoot
+    close=publicAPI.actions.close
+    dir=dir
+    dropdownClass=dropdownClass
+    dropdownId=dropdownId
+    horizontalPositionClass=_horizontalPositionClass
+    onFocusIn=(action 'handleFocusIn')
+    onFocusOut=(action 'handleFocusOut')
+    renderInPlace=renderInPlace
+    reposition=publicAPI.actions.reposition
+    to=wormholeDestination
+    verticalPositionClass=_verticalPositionClass}}
+    {{yield publicAPI}}
+  {{/basic-dropdown/content}}
+{{/if}}

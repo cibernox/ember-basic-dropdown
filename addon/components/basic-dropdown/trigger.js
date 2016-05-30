@@ -1,4 +1,4 @@
-import layout from '../../templates/components/basic-dropdown-simple/trigger';
+import layout from '../../templates/components/basic-dropdown/trigger';
 import $ from 'jquery';
 import Component from 'ember-component';
 import computed from 'ember-computed';

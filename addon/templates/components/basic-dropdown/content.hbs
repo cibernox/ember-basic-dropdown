@@ -1,3 +1,16 @@
-<div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{verticalPositionClass}} {{horizontalPositionClass}}" dir={{dir}}>
-  {{yield}}
-</div>
+{{#if dropdown.isOpen}}
+  {{#basic-dropdown/wormhole
+    dropdown=(readonly dropdown)
+    dropdownClass=(readonly class)
+    appRoot=(readonly appRoot)
+    to=(readonly to)
+    triggerId=(readonly triggerId)
+    dropdownId=(readonly dropdownId)
+    onFocusIn=onFocusIn
+    onFocusOut=onFocusOut
+    renderInPlace=(readonly renderInPlace)
+    animationEnabled=(readonly animationEnabled)
+    reposition=(action "reposition")}}
+    {{yield}}
+  {{/basic-dropdown/wormhole}}
+{{/if}}
