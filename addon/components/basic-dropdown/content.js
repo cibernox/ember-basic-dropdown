@@ -1,6 +1,7 @@
 import Component from 'ember-component';
 import layout from '../../templates/components/basic-dropdown/content';
 import config from 'ember-get-config';
+import $ from 'jquery';
 import Ember from 'ember';
 
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
@@ -10,6 +11,42 @@ export default Component.extend({
   layout,
   tagName: '',
   to: testing ? 'ember-testing' : defaultDestination,
+
+  // Lifecycle hooks
+  init() {
+    this._super(...arguments);
+    this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
+    // this.touchStartHandler = this.touchStartHandler.bind(this);
+    // this.touchMoveHandler = this.touchMoveHandler.bind(this);
+  },
+
+  // Actions
+  actions: {
+    didInsert() {
+      let appRoot = this.getAttr('appRoot');
+      this.dropdownElement = document.getElementById(this.elementId);
+      let triggerId = this.getAttr('triggerId');
+      if (triggerId) {
+        this.triggerElement = document.getElementById(triggerId);
+      }
+      appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
+    },
+
+    willDestroy() {
+      let appRoot = this.getAttr('appRoot');
+      this.dropdownElement = this.triggerElement = null;
+      appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    }
+  },
+
+  // Methods
+  handleRootMouseDown(e) {
+    if (this.dropdownElement.contains(e.target)) { return; }
+    if (this.triggerElement && this.triggerElement.contains(e.target)) { return; }
+    this.getAttr('dropdown').actions.close(e);
+  },
+
+
 
 
 

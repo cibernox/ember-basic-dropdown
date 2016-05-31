@@ -1,3 +1,21 @@
+import WormholeComponent from 'ember-wormhole/components/ember-wormhole';
+import layout from '../../templates/components/basic-dropdown/wormhole';
+
+export default WormholeComponent.extend({
+  didInsertElement() {
+    this._super(...arguments);
+    let didInsert = this.getAttr('didInsert');
+    didInsert && didInsert();
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    let willDestroy = this.getAttr('willDestroy');
+    willDestroy && willDestroy();
+  }
+});
+
+
 // import WormholeComponent from 'ember-wormhole/components/ember-wormhole';
 // import Ember from 'ember';
 // import layout from '../../templates/components/basic-dropdown/wormhole';

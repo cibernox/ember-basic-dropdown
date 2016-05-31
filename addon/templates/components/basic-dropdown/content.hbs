@@ -1,10 +1,10 @@
 {{#if dropdown.isOpen}}
-  {{#ember-wormhole to=to renderInPlace=renderInPlace}}
+  {{#basic-dropdown/wormhole to=to renderInPlace=renderInPlace didInsert=(action "didInsert") willDestroy=(action "willDestroy")}}
     {{!-- <div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{verticalPositionClass}} {{horizontalPositionClass}}" dir={{dir}}> --}}
     <div id={{elementId}} class="ember-basic-dropdown-content {{class}}">
       {{yield}}
     </div>
-  {{/ember-wormhole}}
+  {{/basic-dropdown/wormhole}}
 {{!--   {{#basic-dropdown/wormhole
     dropdown=(readonly dropdown)
     dropdownClass=(readonly class)
