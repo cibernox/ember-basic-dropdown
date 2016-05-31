@@ -3,17 +3,8 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import { clickTrigger, tapTrigger, fireKeydown } from '../../helpers/ember-basic-dropdown';
 
-var lastDeprecationMsg;
-Ember.Debug.registerDeprecationHandler(function(message, options, next) {
-  lastDeprecationMsg = message;
-  next(message, options);
-});
-
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
-  integration: true,
-  beforeEach() {
-    lastDeprecationMsg = null;
-  }
+  integration: true
 });
 
 test('It toggles when the trigger is clicked and focuses the trigger', function(assert) {

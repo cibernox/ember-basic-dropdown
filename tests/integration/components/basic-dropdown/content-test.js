@@ -80,6 +80,39 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   assert.equal($content.length, 1, 'The dropdown contains that class');
 });
 
+test('If it receives `verticalPositionClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown verticalPositionClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  let $content = $('.ember-basic-dropdown-content.foo123');
+  assert.equal($content.length, 1, 'The dropdown contains that class');
+});
+
+test('If it receives `horizontalPositionClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown horizontalPositionClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  let $content = $('.ember-basic-dropdown-content.foo123');
+  assert.equal($content.length, 1, 'The dropdown contains that class');
+});
+
+test('If it receives `dir="rtl"`, the rendered content will have the attribute set', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  let $content = $('.ember-basic-dropdown-content');
+  assert.equal($content.attr('dir'), 'rtl', 'The dropdown has `dir="rtl"`');
+});
+
 // Clicking while the component is opened
 test('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
   assert.expect(1);
@@ -99,7 +132,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     this.$('#other-div')[0].dispatchEvent(event);
-  })
+  });
 });
 
 test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', function(assert) {
@@ -119,7 +152,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     $('#inside-div')[0].dispatchEvent(event);
-  })
+  });
 });
 
 test('Clicking in the trigger doesn\'t invoke the close action' , function(assert) {
@@ -140,7 +173,7 @@ test('Clicking in the trigger doesn\'t invoke the close action' , function(asser
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     $('#fake-trigger')[0].dispatchEvent(event);
-  })
+  });
 });
 
 test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place' , function(assert) {
@@ -173,7 +206,7 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     $('#nested-content-div')[0].dispatchEvent(event);
-  })
+  });
 });
 
 // Repositining
@@ -268,7 +301,7 @@ test('The component is repositioned if the orientation changes', function(assert
 
 test('The component is repositioned if the content of the dropdown changs', function(assert) {
   assert.expect(1);
-  let done = assert.async()
+  let done = assert.async();
   this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {

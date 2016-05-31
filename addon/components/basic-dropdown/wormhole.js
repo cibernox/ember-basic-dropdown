@@ -10,8 +10,8 @@ export default WormholeComponent.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    let willDestroy = this.getAttr('willDestroy');
-    willDestroy && willDestroy();
+    let willRemove = this.getAttr('willRemove');
+    willRemove && willRemove();
   }
 });
 

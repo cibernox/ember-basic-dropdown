@@ -8,11 +8,30 @@ import run from 'ember-runloop';
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 const { testing } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
+function waitForAnimations(element, callback) {
+  let computedStyle = self.window.getComputedStyle(element);
+  if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
+    let eventCallback = function() {
+      element.removeEventListener('transitionend', eventCallback);
+      callback();
+    };
+    element.addEventListener('transitionend', eventCallback);
+  } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
+    let eventCallback = function() {
+      element.removeEventListener('animationend', eventCallback);
+      callback();
+    };
+    element.addEventListener('animationend', eventCallback);
+  } else {
+    callback();
+  }
+}
 
 export default Component.extend({
   layout,
   tagName: '',
   to: testing ? 'ember-testing' : defaultDestination,
+  animationEnabled: true,
 
   // Lifecycle hooks
   init() {
@@ -24,7 +43,7 @@ export default Component.extend({
 
   // Actions
   actions: {
-    didInsert() {
+    didOpen() {
       let appRoot = this.getAttr('appRoot');
       this.dropdownElement = document.getElementById(this.elementId);
       let triggerId = this.getAttr('triggerId');
@@ -36,12 +55,18 @@ export default Component.extend({
         this.addGlobalEvents();
       }
       run.scheduleOnce('actions', this.getAttr('dropdown').actions.reposition);
+      if (this.get('animationEnabled')) {
+        run.scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
+      }
     },
 
-    willDestroy() {
+    willClose() {
       let appRoot = this.getAttr('appRoot');
       this.removeGlobalEvents();
       appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+      if (this.get('animationEnabled')) {
+        this.animateOut(this.dropdownElement);
+      }
       this.dropdownElement = this.triggerElement = null;
     }
   },
@@ -87,98 +112,26 @@ export default Component.extend({
     }
   },
 
+  animateIn(dropdownElement) {
+    let $el = $(dropdownElement);
+    $el.addClass('ember-basic-dropdown--transitioning-in');
+    waitForAnimations(dropdownElement, () => {
+      $el.removeClass('ember-basic-dropdown--transitioning-in');
+      $el.addClass('ember-basic-dropdown--transitioned-in')
+    });
+  },
 
-
-  // renderInPlace: false,
-  // verticalPosition: 'auto', // above | below
-  // horizontalPosition: 'auto', // right | center | left
-  // matchTriggerWidth: false,
-  // animationEnabled: true,
-
-  // // Actions
-  // actions: {
-  //   reposition() {
-  //     let publicAPI = this.getAttr('dropdown');
-  //     if (!publicAPI.isOpen) { return; }
-  //     let dropdownElement = self.document.getElementById(this.getAttr('dropdownId'));
-  //     if (!dropdownElement) { return ;}
-  //     let {
-  //       triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
-  //       dropdownHeight, dropdownWidth,                        // dropdown dimensions
-  //       scrollTop, scrollLeft                                 // scroll
-  //     } = this._getPositionInfo(dropdownElement);
-  //     let dropdownTop, dropdownLeft = triggerLeft;
-
-  //     // hPosition
-  //     let hPosition = this.get('horizontalPosition');
-  //     if (this.get('renderInPlace')) {
-  //       if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
-  //         let viewportRight = scrollLeft + self.window.innerWidth;
-  //         hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
-  //       }
-  //       return this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
-  //     } else {
-  //       if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
-  //         let viewportRight = scrollLeft + self.window.innerWidth;
-  //         let roomForRight = viewportRight - triggerLeft;
-  //         let roomForLeft = triggerLeft;
-  //         hPosition = roomForRight > roomForLeft ? 'left' : 'right';
-  //       }
-  //       if (hPosition === 'right') {
-  //         dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
-  //       } else if (hPosition === 'center') {
-  //         dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
-  //       }
-  //       this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
-  //     }
-
-  //     // vPosition
-  //     let vPosition = this.get('verticalPosition');
-  //     let triggerTopWithScroll = triggerTop + scrollTop;
-  //     if (vPosition === 'above') {
-  //       dropdownTop = triggerTopWithScroll - dropdownHeight;
-  //       this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
-  //     } else if (vPosition === 'below') {
-  //       dropdownTop = triggerTopWithScroll + triggerHeight;
-  //       this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
-  //     } else { // auto
-  //       let viewportBottom = scrollTop + self.window.innerHeight;
-  //       let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
-  //       let enoughRoomAbove = triggerTop > dropdownHeight;
-
-  //       let verticalPositionClass = this.get('_verticalPositionClass');
-  //       if (verticalPositionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
-  //         this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
-  //       } else if (verticalPositionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
-  //         this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
-  //       } else if (!verticalPositionClass) {
-  //         this.set('_verticalPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
-  //       }
-  //       verticalPositionClass = this.get('_verticalPositionClass'); // It might have changed
-  //       dropdownTop = triggerTopWithScroll + (verticalPositionClass === 'ember-basic-dropdown--below' ? triggerHeight : -dropdownHeight);
-  //     }
-
-  //     dropdownElement.style.width = `${dropdownWidth}px`;
-  //     dropdownElement.style.top = `${dropdownTop}px`;
-  //     dropdownElement.style.left = `${dropdownLeft}px`;
-  //   }
-  // },
-
-  // // Methods
-  // _getPositionInfo(dropdown) {
-  //   let trigger = document.querySelector('#' + this.triggerId);
-  //   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-  //   let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-  //   let $window = Ember.$(self.window);
-  //   let scrollLeft = $window.scrollLeft();
-  //   let scrollTop = $window.scrollTop();
-  //   if (this.get('matchTriggerWidth')) {
-  //     dropdownWidth = triggerWidth;
-  //   }
-  //   return {
-  //     triggerTop, triggerLeft, triggerWidth, triggerHeight,
-  //     dropdownHeight, dropdownWidth,
-  //     scrollLeft, scrollTop
-  //   };
-  // }
+  animateOut(dropdownElement) {
+    let parentElement = this.get('renderInPlace') ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
+    let clone = dropdownElement.cloneNode(true);
+    clone.id = clone.id + '--clone';
+    let $clone = Ember.$(clone);
+    $clone.removeClass('ember-basic-dropdown--transitioned-in');
+    $clone.removeClass('ember-basic-dropdown--transitioning-in');
+    $clone.addClass('ember-basic-dropdown--transitioning-out');
+    parentElement.appendChild(clone);
+    waitForAnimations(clone, function() {
+      parentElement.removeChild(clone);
+    });
+  }
 });
