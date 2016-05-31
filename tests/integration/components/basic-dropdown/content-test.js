@@ -2,8 +2,6 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import run from 'ember-runloop';
-// import { fireKeydown } from '../../../helpers/ember-basic-dropdown';
-// import set from 'ember-metal/set';
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/content', {
   integration: true
@@ -206,6 +204,55 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     $('#nested-content-div')[0].dispatchEvent(event);
+  });
+});
+
+// Touch gestures while the component is opened
+test('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = {
+    isOpen: true,
+    actions: {
+      close() { assert.ok(true, 'The close action gets called'); },
+      reposition() {}
+    }
+  };
+  this.render(hbs`
+    <div id="other-div"></div>
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+
+  run(() => {
+    let touchstartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
+    let touchendEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
+    this.$('#other-div')[0].dispatchEvent(touchstartEvent);
+    this.$('#other-div')[0].dispatchEvent(touchendEvent);
+  });
+});
+
+test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
+  assert.expect(0);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = {
+    isOpen: true,
+    actions: {
+      close() { assert.ok(false, 'The close action does not called'); },
+      reposition() {}
+    }
+  };
+  this.render(hbs`
+    <div id="other-div"></div>
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+
+  run(() => {
+    let touchstartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
+    let touchmoveEvent = new window.Event('touchmove', { bubbles: true, cancelable: true, view: window });
+    let touchendEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
+    this.$('#other-div')[0].dispatchEvent(touchstartEvent);
+    this.$('#other-div')[0].dispatchEvent(touchmoveEvent);
+    this.$('#other-div')[0].dispatchEvent(touchendEvent);
   });
 });
 

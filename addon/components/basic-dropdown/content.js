@@ -32,13 +32,15 @@ export default Component.extend({
   tagName: '',
   to: testing ? 'ember-testing' : defaultDestination,
   animationEnabled: true,
+  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
+  hasMoved: false,
 
   // Lifecycle hooks
   init() {
     this._super(...arguments);
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
-    // this.touchStartHandler = this.touchStartHandler.bind(this);
-    // this.touchMoveHandler = this.touchMoveHandler.bind(this);
+    this.touchStartHandler = this.touchStartHandler.bind(this);
+    this.touchMoveHandler = this.touchMoveHandler.bind(this);
   },
 
   // Actions
@@ -51,6 +53,11 @@ export default Component.extend({
         this.triggerElement = document.getElementById(triggerId);
       }
       appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
+      if (this.get('isTouchDevice')){
+        appRoot.addEventListener('touchstart', this.touchStartHandler, true);
+        appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
+      }
+
       if (!this.getAttr('renderInPlace')) {
         this.addGlobalEvents();
       }
@@ -73,6 +80,10 @@ export default Component.extend({
 
   // Methods
   handleRootMouseDown(e) {
+    if (this.hasMoved) {
+      this.hasMoved = false;
+      return;
+    }
     if (this.dropdownElement.contains(e.target)) { return; }
     if (this.triggerElement && this.triggerElement.contains(e.target)) { return; }
     this.getAttr('dropdown').actions.close(e);
@@ -133,5 +144,14 @@ export default Component.extend({
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
+  },
+
+  touchStartHandler () {
+    this.get('appRoot').addEventListener('touchmove', this.touchMoveHandler, true);
+  },
+
+  touchMoveHandler () {
+    this.hasMoved = true;
+    this.get('appRoot').removeEventListener('touchmove', this.touchMoveHandler, true);
   }
 });
