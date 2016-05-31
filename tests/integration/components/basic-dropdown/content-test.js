@@ -9,6 +9,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-drop
   integration: true
 });
 
+// Basic rendering
 test('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
@@ -79,6 +80,7 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   assert.equal($content.length, 1, 'The dropdown contains that class');
 });
 
+// Clicking while the component is opened
 test('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
