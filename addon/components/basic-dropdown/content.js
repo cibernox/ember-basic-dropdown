@@ -35,7 +35,7 @@ export default Component.extend({
       if (!this.getAttr('renderInPlace')) {
         this.addGlobalEvents();
       }
-      run.scheduleOnce('actions', this.getAttr('reposition'));
+      run.scheduleOnce('actions', this.getAttr('dropdown').actions.reposition);
     },
 
     willDestroy() {
@@ -54,7 +54,7 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    let reposition = this.getAttr('reposition');
+    let reposition = this.getAttr('dropdown').actions.reposition;
     self.window.addEventListener('scroll', reposition);
     self.window.addEventListener('resize', reposition);
     self.window.addEventListener('orientationchange', reposition);
@@ -72,7 +72,7 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    let reposition = this.getAttr('reposition');
+    let reposition = this.getAttr('dropdown').actions.reposition;
     self.window.removeEventListener('scroll', reposition);
     self.window.removeEventListener('resize', reposition);
     self.window.removeEventListener('orientationchange', reposition);
