@@ -259,6 +259,20 @@ test('It adds the proper class to trigger and content when it receives `vertical
   assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
 });
 
+test('It passes the `renderInPlace` property to the yielded content component', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content triggerId="test-trigger-id"}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-content').length, 1, 'The dropdown is rendered in place');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 
@@ -280,33 +294,6 @@ test('It adds the proper class to trigger and content when it receives `vertical
 //     this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
 //   });
 //   assert.notEqual($('#ember-testing').css('user-select'), 'none', 'Text selection is not disabled in the entire app');
-// });
-
-// test('it adds a `ember-basic-dropdown--transitioning-out` when closing if it has transitions', function(assert) {
-//   assert.expect(3);
-
-//   this.render(hbs`
-//     <style>
-//       .fade-dropdown-test-class {
-//         transition: opacity .2s;
-//         opacity: 0;
-//       }
-//       .fade-dropdown-test-class.ember-basic-dropdown--transitioned-in {
-//         opacity: 1;
-//       }
-//     </style>
-//     {{#basic-dropdown dropdownClass="fade-dropdown-test-class" animationEnabled=true}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   clickTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is opened');
-//   clickTrigger();
-//   assert.equal($('.ember-basic-dropdown-content').length, 1, 'the dropdown is still opened');
-//   assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--transitioning-out'), 'It has the transitioning-out class');
 // });
 
 // test('when some element inside the trigger of a dropdown gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {

@@ -388,3 +388,58 @@ test('The component is repositioned if the content of the dropdown changs', func
     target.appendChild(span);
   });
 });
+
+// Animations
+test('The component is opened with an `transitioning-in` class that is then replaced by a `transitioned-in` class once the animation finishes', function(assert) {
+  assert.expect(3);
+  let done = assert.async();
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    <style>
+      @keyframes test-fade-in {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+      .ember-basic-dropdown-content.test-fade-in.ember-basic-dropdown--transitioning-in {
+        animation: test-fade-in 0.25s;
+      }
+    </style>
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  let $content = $('.ember-basic-dropdown-content');
+  assert.ok($content.hasClass('ember-basic-dropdown--transitioning-in'), 'Renders with a transitioning-in class');
+  setTimeout(function() {
+    assert.ok(!$content.hasClass('ember-basic-dropdown--transitioning-in'), 'The transitioning-in class is gone');
+    assert.ok($content.hasClass('ember-basic-dropdown--transitioned-in'), 'The transitioned-in class appeared');
+    done();
+  }, 250 + 50);
+});
+
+test('The component is closed by addong `transitioning-out` class to a ghost copy of the dropdown', function(assert) {
+  assert.expect(2);
+  let done = assert.async();
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    <style>
+      @keyframes test-fade-in {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+      .ember-basic-dropdown-content.test-fade-in.ember-basic-dropdown--transitioning-out {
+        animation: test-fade-in 0.25s reverse;
+      }
+    </style>
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  run(() => this.set('dropdown.isOpen', false));
+  let $content = $('.ember-basic-dropdown-content');
+  assert.ok($content.hasClass('ember-basic-dropdown--transitioning-out'), 'Renders with a transitioning-in class');
+  setTimeout(function() {
+    assert.equal($('.ember-basic-dropdown-content').length, 0, 'The ghost copy has been removed');
+    done();
+  }, 250 + 50);
+});
