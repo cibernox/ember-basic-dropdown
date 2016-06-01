@@ -1,3 +1,7 @@
+# 0.12-beta.3
+
+- [BUGFIX] Ensure that the `aria-controls` attribute of the trigger points to the content by default.
+
 # 0.12-beta.2
 
 - [BUGFIX] Focus the trigger when the component is closed
