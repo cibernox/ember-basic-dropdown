@@ -5,9 +5,17 @@ export function clickTrigger(scope, options = {}) {
   if (scope) {
     selector = scope + ' ' + selector;
   }
-  let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-  Object.keys(options).forEach(key => event[key] = options[key]);
-  run(() => document.querySelector(selector).dispatchEvent(event));
+  let mousedown = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
+  let mouseup = new window.Event('mouseup', { bubbles: true, cancelable: true, view: window });
+  let click = new window.Event('click', { bubbles: true, cancelable: true, view: window });
+  Object.keys(options).forEach(key => {
+    mousedown[key] = options[key];
+    mouseup[key] = options[key];
+    click[key] = options[key];
+  });
+  run(() => document.querySelector(selector).dispatchEvent(mousedown));
+  run(() => document.querySelector(selector).dispatchEvent(mouseup));
+  run(() => document.querySelector(selector).dispatchEvent(click));
 }
 
 export function tapTrigger(scope, options = {}) {
