@@ -82,7 +82,7 @@ export default Component.extend({
   },
 
   // Methods
-  _touchMoveHandler(e) {
+  _touchMoveHandler() {
     this.hasMoved = true;
     this.getAttr('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
@@ -99,7 +99,7 @@ export default Component.extend({
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
-      this.element.addEventListener('touchstart', e => {
+      this.element.addEventListener('touchstart', () => {
         this.getAttr('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', e => {
@@ -112,7 +112,7 @@ export default Component.extend({
   },
 
   addOptionalHandlers() {
-    let dropdown = this.getAttr('dropdown')
+    let dropdown = this.getAttr('dropdown');
     let onMouseEnter = this.getAttr('onMouseEnter');
     if (onMouseEnter) {
       this.element.addEventListener('mouseenter', e => onMouseEnter(dropdown, e));

@@ -128,7 +128,7 @@ export default Component.extend({
     $el.addClass('ember-basic-dropdown--transitioning-in');
     waitForAnimations(dropdownElement, () => {
       $el.removeClass('ember-basic-dropdown--transitioning-in');
-      $el.addClass('ember-basic-dropdown--transitioned-in')
+      $el.addClass('ember-basic-dropdown--transitioned-in');
     });
   },
 
