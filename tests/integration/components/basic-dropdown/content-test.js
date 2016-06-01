@@ -270,6 +270,44 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
   });
 });
 
+// Focus
+test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired inside the content', function(assert) {
+  assert.expect(3);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.onFocusIn = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown onFocusIn=onFocusIn}}
+      <input type="text" id="test-input-focusin" />
+    {{/basic-dropdown/content}}
+  `);
+  let input = $('#test-input-focusin').get(0);
+  run(() => input.focus());
+});
+
+test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', function(assert) {
+  assert.expect(3);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.onFocusOut = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown onFocusOut=onFocusOut}}
+      <input type="text" id="test-input-focusin" />
+    {{/basic-dropdown/content}}
+  `);
+  let input = $('#test-input-focusin').get(0);
+  run(() => input.focus());
+  run(() => input.blur());
+});
+
 // Repositining
 test('The component is repositioned immediatly when opened', function(assert) {
   assert.expect(1);

@@ -47,6 +47,7 @@ export default Component.extend({
   actions: {
     didOpen() {
       let appRoot = this.getAttr('appRoot');
+      let dropdown = this.getAttr('dropdown');
       this.dropdownElement = document.getElementById(this.elementId);
       let triggerId = this.getAttr('triggerId');
       if (triggerId) {
@@ -58,10 +59,19 @@ export default Component.extend({
         appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
       }
 
+      let onFocusIn = this.getAttr('onFocusIn');
+      if (onFocusIn) {
+        this.dropdownElement.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
+      }
+      let onFocusOut = this.getAttr('onFocusOut');
+      if (onFocusOut) {
+        this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
+      }
+
       if (!this.getAttr('renderInPlace')) {
         this.addGlobalEvents();
       }
-      run.scheduleOnce('actions', this.getAttr('dropdown').actions.reposition);
+      run.scheduleOnce('actions', dropdown.actions.reposition);
       if (this.get('animationEnabled')) {
         run.scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
       }
