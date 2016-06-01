@@ -1,3 +1,8 @@
+# 0.12-beta.2
+
+- [BUGFIX] Focus the trigger when the component is closed
+- [BUGFIX] Allow to attach `onFocusIn` and `onFocusOut` event the the dropdown content component.
+
 # 0.12-beta.1
 
 - [BUGFIX] Around half a docen regressions and changes, including add the proper classes to trigger
