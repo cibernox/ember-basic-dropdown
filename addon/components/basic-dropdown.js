@@ -30,6 +30,11 @@ export default Component.extend({
         reposition: this.reposition.bind(this)
       }
     };
+
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      registerAPI(this.publicAPI);
+    }
   },
 
   // CPs

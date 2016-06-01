@@ -265,12 +265,27 @@ test('It passes the `renderInPlace` property to the yielded content component', 
   this.render(hbs`
     {{#basic-dropdown renderInPlace=true as |dropdown|}}
       {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-      {{#dropdown.content triggerId="test-trigger-id"}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
     {{/basic-dropdown}}
   `);
 
   clickTrigger();
   assert.equal(this.$('.ember-basic-dropdown-content').length, 1, 'The dropdown is rendered in place');
+});
+
+test('It adds a special class to both trigger and content when `renderInPlace=true`', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
+  assert.ok(this.$('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
