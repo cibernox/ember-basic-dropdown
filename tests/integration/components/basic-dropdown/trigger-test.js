@@ -154,6 +154,26 @@ test('If it receives dropdownId="foo123" it gets an `aria-controls="foo123"` att
   assert.equal($trigger.attr('aria-controls'), 'foo123');
 });
 
+test('If it receives `role="foo123"` it gets that attribute', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot role="foo123"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('role'), 'foo123');
+});
+
+test('If it does not receive an specific `role`, the default is `button`', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('role'), 'button');
+});
+
 test('It has `aria-haspopup=true`', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
@@ -163,6 +183,27 @@ test('It has `aria-haspopup=true`', function(assert) {
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('aria-haspopup'), 'true', 'Has `aria-haspopup=true`');
 });
+
+test('If it receives horizontalPositionClass="foo" it gets an that class', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot horizontalPositionClass="foo123"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok($trigger.hasClass('foo123'), 'It contains the proper class');
+});
+
+test('If it receives verticalPositionClass="foo" it gets an that class', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot verticalPositionClass="foo123"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok($trigger.hasClass('foo123'), 'It contains the proper class');
+});
+
 
 // Custom actions
 test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {

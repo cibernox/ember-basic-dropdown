@@ -5,8 +5,9 @@
     elementId=(readonly triggerId)
     appRoot=(readonly appRoot)
     dropdown=(readonly publicAPI)
-    tabIndex=(readonly tabIndex)
     onFocus=(action "handleFocus")
+    horizontalPositionClass=(readonly _horizontalPositionClass)
+    verticalPositionClass=(readonly _verticalPositionClass)
   )
   content=(component 'basic-dropdown/content'
     dropdown=(readonly publicAPI)
@@ -15,5 +16,7 @@
     triggerId=(readonly triggerId)
     onFocusIn=(action 'handleFocusIn')
     onFocusOut=(action 'handleFocusOut')
+    horizontalPositionClass=(readonly _horizontalPositionClass)
+    verticalPositionClass=(readonly _verticalPositionClass)
   )
 )}}

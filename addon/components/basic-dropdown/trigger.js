@@ -9,9 +9,12 @@ export default Component.extend({
   layout,
   isTouchDevice,
   classNames: ['ember-basic-dropdown-trigger'],
+  role: 'button',
   tabindex: 0,
   'aria-haspopup': true,
+  classNameBindings: ['horizontalPositionClass', 'verticalPositionClass'],
   attributeBindings: [
+    'role',
     'tabIndex:tabindex',
     'dropdownId:aria-controls',
     'disabled:aria-disabled',
