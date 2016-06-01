@@ -225,8 +225,8 @@ test('It adds the proper class to trigger and content when it receives `horizont
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown--right'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--right'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right'), 'The proper class has been added');
 });
 
 test('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', function(assert) {
@@ -240,8 +240,8 @@ test('It adds the proper class to trigger and content when it receives `horizont
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown--center'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--center'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--center'), 'The proper class has been added');
+  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--center'), 'The proper class has been added');
 });
 
 test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', function(assert) {
@@ -255,8 +255,8 @@ test('It adds the proper class to trigger and content when it receives `vertical
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown--above'), 'The proper class has been added');
+  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--above'), 'The proper class has been added');
+  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above'), 'The proper class has been added');
 });
 
 test('It passes the `renderInPlace` property to the yielded content component', function(assert) {

@@ -50,6 +50,20 @@ export default Component.extend({
     return this.get('disabled') ? -1 : this.get('tabindex');
   }),
 
+  horizontalPositionClass: computed('hPosition', function() {
+    let hPosition = this.getAttr('hPosition');
+    if (hPosition) {
+      return `ember-basic-dropdown-trigger--${hPosition}`;
+    }
+  }),
+
+  verticalPositionClass: computed('vPosition', function() {
+    let vPosition = this.getAttr('vPosition');
+    if (vPosition) {
+      return `ember-basic-dropdown-trigger--${vPosition}`;
+    }
+  }),
+
   inPlaceClass: computed('renderInPlace', function() {
     if (this.getAttr('renderInPlace')) {
       return 'ember-basic-dropdown-trigger--in-place';

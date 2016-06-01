@@ -82,7 +82,7 @@ export default Component.extend({
       return;
     }
     set(this.publicAPI, 'isOpen', false);
-    setProperties(this, { _verticalPositionClass: null, _horizontalPositionClass: null });
+    setProperties(this, { vPosition: null, hPosition: null });
     // if (skipFocus) {
     //  return;
     // }
@@ -123,7 +123,7 @@ export default Component.extend({
         let viewportRight = scrollLeft + self.window.innerWidth;
         hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
       }
-      return this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
+      this.set('hPosition', hPosition);
     } else {
       if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
         let viewportRight = scrollLeft + self.window.innerWidth;
@@ -136,38 +136,38 @@ export default Component.extend({
       } else if (hPosition === 'center') {
         dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
       }
-      this.set('_horizontalPositionClass', `ember-basic-dropdown--${hPosition}`);
-    }
+      this.set('hPosition', hPosition);
 
-    // vPosition
-    let vPosition = this.get('verticalPosition');
-    let triggerTopWithScroll = triggerTop + scrollTop;
-    if (vPosition === 'above') {
-      dropdownTop = triggerTopWithScroll - dropdownHeight;
-      this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
-    } else if (vPosition === 'below') {
-      dropdownTop = triggerTopWithScroll + triggerHeight;
-      this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
-    } else { // auto
-      let viewportBottom = scrollTop + self.window.innerHeight;
-      let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
-      let enoughRoomAbove = triggerTop > dropdownHeight;
+      // vPosition
+      let vPosition = this.get('verticalPosition');
+      let triggerTopWithScroll = triggerTop + scrollTop;
+      if (vPosition === 'above') {
+        dropdownTop = triggerTopWithScroll - dropdownHeight;
+        this.set('vPosition', 'above');
+      } else if (vPosition === 'below') {
+        dropdownTop = triggerTopWithScroll + triggerHeight;
+        this.set('vPosition', 'below');
+      } else { // auto
+        let viewportBottom = scrollTop + self.window.innerHeight;
+        let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
+        let enoughRoomAbove = triggerTop > dropdownHeight;
 
-      let verticalPositionClass = this.get('_verticalPositionClass');
-      if (verticalPositionClass === 'ember-basic-dropdown--below' && !enoughRoomBelow && enoughRoomAbove) {
-        this.set('_verticalPositionClass', 'ember-basic-dropdown--above');
-      } else if (verticalPositionClass === 'ember-basic-dropdown--above' && !enoughRoomAbove && enoughRoomBelow) {
-        this.set('_verticalPositionClass', 'ember-basic-dropdown--below');
-      } else if (!verticalPositionClass) {
-        this.set('_verticalPositionClass', enoughRoomBelow ? 'ember-basic-dropdown--below' : 'ember-basic-dropdown--above');
+        let previousVPosition = this.get('vPosition');
+        if (previousVPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
+          this.set('vPosition', 'above');
+        } else if (previousVPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
+          this.set('vPosition', 'below');
+        } else if (!previousVPosition) {
+          this.set('vPosition', enoughRoomBelow ? 'below' : 'above');
+        }
+        vPosition = this.get('vPosition'); // It might have changed
+        dropdownTop = triggerTopWithScroll + (vPosition === 'below' ? triggerHeight : -dropdownHeight);
       }
-      verticalPositionClass = this.get('_verticalPositionClass'); // It might have changed
-      dropdownTop = triggerTopWithScroll + (verticalPositionClass === 'ember-basic-dropdown--below' ? triggerHeight : -dropdownHeight);
-    }
 
-    dropdownElement.style.width = `${dropdownWidth}px`;
-    dropdownElement.style.top = `${dropdownTop}px`;
-    dropdownElement.style.left = `${dropdownLeft}px`;
+      dropdownElement.style.width = `${dropdownWidth}px`;
+      dropdownElement.style.top = `${dropdownTop}px`;
+      dropdownElement.style.left = `${dropdownLeft}px`;
+    }
   },
 
   _getPositionInfo(dropdown) {
