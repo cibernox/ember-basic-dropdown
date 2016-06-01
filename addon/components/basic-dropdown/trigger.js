@@ -53,13 +53,17 @@ export default Component.extend({
   // Actions
   actions: {
     handleMousedown(e) {
-      if (e && e.defaultPrevented || this.getAttr('disabled')) { return; }
+      if (e && e.defaultPrevented || this.getAttr('disabled')) {
+        return;
+      }
       this.stopTextSelectionUntilMouseup();
       this.getAttr('dropdown').actions.toggle(e);
     },
 
     handleTouchEnd(e) {
-      if (e && e.defaultPrevented || this.getAttr('disabled')) { return; }
+      if (e && e.defaultPrevented || this.getAttr('disabled')) {
+        return;
+      }
       if (!this.hasMoved) {
         this.getAttr('dropdown').actions.toggle(e);
       }
@@ -67,7 +71,9 @@ export default Component.extend({
     },
 
     handleKeydown(e) {
-      if (this.getAttr('disabled')) { return; }
+      if (this.getAttr('disabled')) {
+        return;
+      }
       let onKeydown = this.getAttr('onKeydown');
       let dropdown = this.getAttr('dropdown');
       if (onKeydown && onKeydown(dropdown, e) === false) {
@@ -105,28 +111,28 @@ export default Component.extend({
       this.element.addEventListener('touchstart', () => {
         this.getAttr('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
-      this.element.addEventListener('touchend', e => {
+      this.element.addEventListener('touchend', (e) => {
         this.send('handleTouchEnd', e);
         e.preventDefault(); // Prevent synthetic click
       });
     }
-    this.element.addEventListener('mousedown', e => this.send('handleMousedown', e));
-    this.element.addEventListener('keydown', e => this.send('handleKeydown', e));
+    this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
+    this.element.addEventListener('keydown', (e) => this.send('handleKeydown', e));
   },
 
   addOptionalHandlers() {
     let dropdown = this.getAttr('dropdown');
     let onMouseEnter = this.getAttr('onMouseEnter');
     if (onMouseEnter) {
-      this.element.addEventListener('mouseenter', e => onMouseEnter(dropdown, e));
+      this.element.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
     }
     let onMouseLeave = this.getAttr('onMouseLeave');
     if (onMouseLeave) {
-      this.element.addEventListener('mouseleave', e => onMouseLeave(dropdown, e));
+      this.element.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
     }
     let onFocus = this.getAttr('onFocus');
     if (onFocus) {
-      this.element.addEventListener('focus', e => onFocus(dropdown, e));
+      this.element.addEventListener('focus', (e) => onFocus(dropdown, e));
     }
   }
 });

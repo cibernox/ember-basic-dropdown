@@ -53,7 +53,7 @@ export default Component.extend({
         this.triggerElement = document.getElementById(triggerId);
       }
       appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
-      if (this.get('isTouchDevice')){
+      if (this.get('isTouchDevice')) {
         appRoot.addEventListener('touchstart', this.touchStartHandler, true);
         appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
       }
@@ -71,6 +71,10 @@ export default Component.extend({
       let appRoot = this.getAttr('appRoot');
       this.removeGlobalEvents();
       appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+      if (this.get('isTouchDevice')) {
+        appRoot.removeEventListener('touchstart', this.touchStartHandler, true);
+        appRoot.removeEventListener('touchend', this.handleRootMouseDown, true);
+      }
       if (this.get('animationEnabled')) {
         this.animateOut(this.dropdownElement);
       }
@@ -80,22 +84,20 @@ export default Component.extend({
 
   // Methods
   handleRootMouseDown(e) {
-    if (this.hasMoved) {
+    if (this.hasMoved || this.dropdownElement.contains(e.target) || this.triggerElement && this.triggerElement.contains(e.target)) {
       this.hasMoved = false;
       return;
     }
-    if (this.dropdownElement.contains(e.target)) { return; }
-    if (this.triggerElement && this.triggerElement.contains(e.target)) { return; }
     this.getAttr('dropdown').actions.close(e);
   },
 
   addGlobalEvents() {
-    let reposition = this.getAttr('dropdown').actions.reposition;
+    let { reposition } = this.getAttr('dropdown').actions;
     self.window.addEventListener('scroll', reposition);
     self.window.addEventListener('resize', reposition);
     self.window.addEventListener('orientationchange', reposition);
     if (MutObserver) {
-      this.mutationObserver = new MutObserver(mutations => {
+      this.mutationObserver = new MutObserver((mutations) => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
           reposition();
         }
@@ -108,7 +110,7 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    let reposition = this.getAttr('dropdown').actions.reposition;
+    let { reposition } = this.getAttr('dropdown').actions;
     self.window.removeEventListener('scroll', reposition);
     self.window.removeEventListener('resize', reposition);
     self.window.removeEventListener('orientationchange', reposition);
@@ -135,8 +137,8 @@ export default Component.extend({
   animateOut(dropdownElement) {
     let parentElement = this.get('renderInPlace') ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
     let clone = dropdownElement.cloneNode(true);
-    clone.id = clone.id + '--clone';
-    let $clone = Ember.$(clone);
+    clone.id = `${clone.id}--clone`;
+    let $clone = $(clone);
     $clone.removeClass('ember-basic-dropdown--transitioned-in');
     $clone.removeClass('ember-basic-dropdown--transitioning-in');
     $clone.addClass('ember-basic-dropdown--transitioning-out');
@@ -146,11 +148,11 @@ export default Component.extend({
     });
   },
 
-  touchStartHandler () {
+  touchStartHandler() {
     this.get('appRoot').addEventListener('touchmove', this.touchMoveHandler, true);
   },
 
-  touchMoveHandler () {
+  touchMoveHandler() {
     this.hasMoved = true;
     this.get('appRoot').removeEventListener('touchmove', this.touchMoveHandler, true);
   }

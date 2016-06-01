@@ -204,7 +204,6 @@ test('If it receives verticalPositionClass="foo" it gets an that class', functio
   assert.ok($trigger.hasClass('foo123'), 'It contains the proper class');
 });
 
-
 // Custom actions
 test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {
   assert.expect(2);
@@ -348,8 +347,12 @@ test('Pressing ENTER/SPACE/ESC does nothing of the onKeydown action returns fals
   this.onKeydown = () => false;
   this.dropdown = {
     actions: {
-      close() { assert.ok(false, 'This action is not called'); },
-      toggle() { assert.ok(false, 'This action is not called'); }
+      close() {
+        assert.ok(false, 'This action is not called');
+      },
+      toggle() {
+        assert.ok(false, 'This action is not called');
+      }
     }
   };
   this.render(hbs`
@@ -383,13 +386,15 @@ test('Firing a mousemove between a touchstart and a touchend (touch scroll) does
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     actions: {
-      toggle() { assert.ok(false, 'This action in not called'); }
+      toggle() {
+        assert.ok(false, 'This action in not called');
+      }
     }
   };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
   `);
-  let trigger = this.$('.ember-basic-dropdown-trigger')[0];
+  let trigger = this.$('.ember-basic-dropdown-trigger').get(0);
   run(() => trigger.dispatchEvent(new window.Event('touchstart', { bubbles: true, cancelable: true, view: window })));
   run(() => trigger.dispatchEvent(new window.Event('touchmove', { bubbles: true, cancelable: true, view: window })));
   run(() => trigger.dispatchEvent(new window.Event('touchend', { bubbles: true, cancelable: true, view: window })));
@@ -400,9 +405,15 @@ test('If the component is disabled it won\'t respond to mouse, touch or keyboard
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     actions: {
-      toggle() { assert.ok(false, 'This action in not called'); },
-      open() { assert.ok(false, 'This action in not called'); },
-      close() { assert.ok(false, 'This action in not called'); }
+      toggle() {
+        assert.ok(false, 'This action in not called');
+      },
+      open() {
+        assert.ok(false, 'This action in not called');
+      },
+      close() {
+        assert.ok(false, 'This action in not called');
+      }
     }
   };
   this.render(hbs`

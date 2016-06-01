@@ -118,7 +118,9 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   this.dropdown = {
     isOpen: true,
     actions: {
-      close() { assert.ok(true, 'The close action gets called'); },
+      close() {
+        assert.ok(true, 'The close action gets called');
+      },
       reposition() {}
     }
   };
@@ -139,7 +141,9 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
   this.dropdown = {
     isOpen: true,
     actions: {
-      close() { assert.ok(false, 'The close action should not be called'); },
+      close() {
+        assert.ok(false, 'The close action should not be called');
+      },
       reposition() {}
     }
   };
@@ -159,7 +163,9 @@ test('Clicking in the trigger doesn\'t invoke the close action' , function(asser
   this.dropdown = {
     isOpen: true,
     actions: {
-      close() { assert.ok(false, 'The close action should not be called'); },
+      close() {
+        assert.ok(false, 'The close action should not be called');
+      },
       reposition() {}
     }
   };
@@ -180,14 +186,18 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
   this.dropdown1 = {
     isOpen: true,
     actions: {
-      close() { assert.ok(false, 'The close action should not be called'); },
+      close() {
+        assert.ok(false, 'The close action should not be called');
+      },
       reposition() {}
     }
   };
   this.dropdown2 = {
     isOpen: true,
     actions: {
-      close() { assert.ok(false, 'The close action should not be called either'); },
+      close() {
+        assert.ok(false, 'The close action should not be called either');
+      },
       reposition() {}
     }
   };
@@ -214,7 +224,9 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
   this.dropdown = {
     isOpen: true,
     actions: {
-      close() { assert.ok(true, 'The close action gets called'); },
+      close() {
+        assert.ok(true, 'The close action gets called');
+      },
       reposition() {}
     }
   };
@@ -237,7 +249,9 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
   this.dropdown = {
     isOpen: true,
     actions: {
-      close() { assert.ok(false, 'The close action does not called'); },
+      close() {
+        assert.ok(false, 'The close action does not called');
+      },
       reposition() {}
     }
   };

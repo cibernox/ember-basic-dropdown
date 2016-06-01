@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import Component from 'ember-component';
 import computed from 'ember-computed';
-import get from  'ember-metal/get';
 import set, { setProperties } from  'ember-metal/set';
 import $ from 'jquery';
-import { join as runJoin } from 'ember-runloop';
 import layout from '../templates/components/basic-dropdown';
 
 const { testing, getOwner } = Ember;
@@ -36,7 +34,7 @@ export default Component.extend({
 
   // CPs
   appRoot: computed(function() {
-    const rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
+    let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
     return self.document.querySelector(rootSelector);
   }),
 
@@ -52,25 +50,37 @@ export default Component.extend({
 
     handleFocus(e) {
       let onFocus = this.get('onFocus');
-      if (onFocus) { onFocus(this.get('publicAPI'), e); }
-    },
+      if (onFocus) {
+        onFocus(this.publicAPI, e);
+      }
+    }
   },
 
   // Methods
   open(e) {
-    if (this.getAttr('disabled') || this.publicAPI.isOpen) { return; }
+    if (this.getAttr('disabled') || this.publicAPI.isOpen) {
+      return;
+    }
     let onOpen = this.getAttr('onOpen');
-    if (onOpen && onOpen(this.publicAPI, e) === false) { return; }
+    if (onOpen && onOpen(this.publicAPI, e) === false) {
+      return;
+    }
     set(this.publicAPI, 'isOpen', true);
   },
 
   close(e /*, skipFocus */) {
-    if (this.getAttr('disabled') || !this.publicAPI.isOpen) { return; }
+    if (this.getAttr('disabled') || !this.publicAPI.isOpen) {
+      return;
+    }
     let onClose = this.getAttr('onClose');
-    if (onClose && onClose(this.publicAPI, e) === false) { return; }
+    if (onClose && onClose(this.publicAPI, e) === false) {
+      return;
+    }
     set(this.publicAPI, 'isOpen', false);
     setProperties(this, { _verticalPositionClass: null, _horizontalPositionClass: null });
-    // if (skipFocus) { return; }
+    // if (skipFocus) {
+    //  return;
+    // }
     // let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
     // if (trigger.tabIndex > -1) {
     //   trigger.focus();
@@ -78,19 +88,28 @@ export default Component.extend({
   },
 
   toggle(e) {
-    this.publicAPI.isOpen ? this.close(e) : this.open(e);
+    if (this.publicAPI.isOpen) {
+      this.close(e);
+    } else {
+      this.open(e);
+    }
   },
 
   reposition() {
-    if (!this.publicAPI.isOpen) { return; }
+    if (!this.publicAPI.isOpen) {
+      return;
+    }
     let dropdownElement = self.document.getElementById(this.dropdownId);
-    if (!dropdownElement) { return ;}
+    if (!dropdownElement) {
+      return;
+    }
     let {
       triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
       dropdownHeight, dropdownWidth,                        // dropdown dimensions
       scrollTop, scrollLeft                                 // scroll
     } = this._getPositionInfo(dropdownElement);
-    let dropdownTop, dropdownLeft = triggerLeft;
+    let dropdownLeft = triggerLeft;
+    let dropdownTop;
 
     // hPosition
     let hPosition = this.get('horizontalPosition');

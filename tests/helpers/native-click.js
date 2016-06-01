@@ -10,9 +10,7 @@ function triggerMouseEvent(node, eventType) {
 }
 
 export default Ember.Test.registerAsyncHelper('nativeClick', function(app, selector, context) {
-  let $el = app.testHelpers.findWithAssert(selector, context);
-  let el = $el[0];
-
+  let el = app.testHelpers.findWithAssert(selector, context).get(0);
   run(() => triggerMouseEvent(el, 'mousedown'));
 
   focus(el);
