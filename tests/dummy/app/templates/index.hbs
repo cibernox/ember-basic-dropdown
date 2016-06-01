@@ -1,186 +1,89 @@
 <h2 id="title">Welcome to Ember</h2>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-{{#basic-dropdown dropdownClass="bounce-animation-dropdown" as |dropdown|}}
-  <p>This is the content</p>
-  <h3>It can contain anything.</h3>
-  {{#if showImage}}
-    <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
-  {{/if}}
-  <input type="text">
-{{else}}
-  <input type="text" placeholder="Click me">
+{{#basic-dropdown as |dropdown|}}
+  {{#dropdown.trigger tagName='input'}}{{/dropdown.trigger}}
+  {{#dropdown.content}}
+    <p>This is the content</p>
+    <h3>It can contain anything.</h3>
+    {{#if showImage}}
+      <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
+    {{/if}}
+    <input type="text">
+  {{/dropdown.content}}
 {{/basic-dropdown}}
 
-<div id="wormhole-target"></div>
-<br>
-<br>
-<br>
-<a href="#" {{action "toggleOpened"}}>Toggle the dropdown above</a>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-{{#unless hidden}}
-  <div style="margin: 50px; padding: 25px; position: absolute; left: 100px">
-    <div>
-      {{#basic-dropdown class="dropdown-300px" dropdownClass="dropdown-180px" horizontalPosition="center" as |dropdown|}}
-        <p>This is the content</p>
-        <h3>It can contain anything.</h3>
-        {{#if showImage}}
-          <img src="/grumpy-cat.png" alt="grumpy cat">
-        {{/if}}
-      {{else}}
-        <button style="display: block; width: 100%;">
-          Fixed width
-        </button>
-      {{/basic-dropdown}}
-    </div>
-  </div>
-{{/unless}}
+{{#basic-dropdown as |dropdown|}}
+  {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+  {{#dropdown.content class="bounce-animation-dropdown"}}
+    <p>This is the content</p>
+    <h3>It can contain anything.</h3>
+    {{#if showImage}}
+      <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
+    {{/if}}
+    <input type="text">
+  {{/dropdown.content}}
+{{/basic-dropdown}}
 
-<button onclick={{action (mut hidden) true}}>Hide</button>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
 <h4>Nested dropdowns</h4>
 
 {{#basic-dropdown as |dropdown|}}
-  <p style="color: green;">
-    <br>
-      First level of the dropdpwn
-    <br>
-  </p>
-  {{#basic-dropdown as |dropdown|}}
-    <p style="color: red;">
-      <br>
-      Second level of the second
-      <br>
-    </p>
-  {{else}}
-    <button>Trigger of the second dropdown</button>
-  {{/basic-dropdown}}
-{{else}}
-  <button>Trigger of the first dropdown</button>
+  {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
+
+  {{#dropdown.content}}
+
+    {{#basic-dropdown renderInPlace=true as |nested|}}
+      <p style="color: green;"><br>First level of the dropdpwn<br></p>
+      {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
+      {{#nested.content}}
+        <p style="color: red;">
+          <br>Second level of the second<br>
+        </p>
+      {{/nested.content}}
+    {{/basic-dropdown}}
+
+  {{/dropdown.content}}
 {{/basic-dropdown}}
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-{{#basic-dropdown tabindex=-1 disabled=false dropdownClass="complex-animation-dropdown" as |dropdown|}}
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-{{else}}
-  <strong tabindex="0">
-    This is the trigger
-  </strong>
-{{/basic-dropdown}}
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-
-{{#basic-dropdown tabindex=-1 disabled=false dropdownClass="bounce-animation-dropdown" as |dropdown|}}
-  <p>This dropdown has a complext animation!!!!</p>
-  <p>This dropdown has a complext animation!!!!</p>
-  <img src="/grumpy-cat.png" alt="grumpy cat">
-{{else}}
-  <strong tabindex="0">
-    This is the trigger
-  </strong>
-{{/basic-dropdown}}
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.
-</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>

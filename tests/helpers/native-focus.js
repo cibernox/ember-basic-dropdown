@@ -7,7 +7,9 @@ function fireEvent(node, eventType) {
 }
 
 export default function(el) {
-  if (!el) { return; }
+  if (!el) {
+    return;
+  }
   let $el = $(el);
   if ($(el).is(':input, [contenteditable=true]')) {
     let type = $el.prop('type');

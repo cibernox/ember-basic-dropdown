@@ -1,214 +1,115 @@
-/*jshint unused:false*/
 import Ember from 'ember';
+import Component from 'ember-component';
+import computed from 'ember-computed';
+import set, { setProperties } from  'ember-metal/set';
+import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import getOwner from 'ember-getowner-polyfill';
-import config from 'ember-get-config';
 
-const { Component, run, computed } = Ember;
-const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+const { testing, getOwner } = Ember;
 
 export default Component.extend({
-  layout: layout,
-  animationEnabled: !Ember.testing,
-  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
-  disabled: false,
+  layout,
+  tagName: '',
   renderInPlace: false,
-  role: 'button',
-  destination: null,
-  triggerDisabled: false,
-  initiallyOpened: false,
-  hasFocusInside: false,
   verticalPosition: 'auto', // above | below
   horizontalPosition: 'auto', // right | center | left
-  classNames: ['ember-basic-dropdown'],
-  attributeBindings: ['dir'],
-  classNameBindings: [
-    'renderInPlace:ember-basic-dropdown--in-place',
-    'hasFocusInside:ember-basic-dropdown--focus-inside',
-    '_verticalPositionClass',
-    '_horizontalPositionClass'
-  ],
+  matchTriggerWidth: false,
 
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this._touchMoveHandler = this._touchMoveHandler.bind(this);
-    const registerActionsInParent = this.get('registerActionsInParent');
-    if (registerActionsInParent) {
-      registerActionsInParent(this.get('publicAPI'));
-    }
-  },
+    this.triggerId = `ember-basic-dropdown-trigger-${this.elementId}`;
+    this.dropdownId = `ember-basic-dropdown-content-${this.elementId}`;
 
-  didInsertElement() {
-    this._super(...arguments);
-    if (this.get('triggerDisabled')) { return; }
-    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    if (this.isTouchDevice) {
-      trigger.addEventListener('touchstart', e => {
-        this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
-      });
-      trigger.addEventListener('touchend', e => {
-        this.send('handleTouchEnd', e);
-        e.preventDefault(); // Prevent synthetic click
-      });
-    }
-    trigger.addEventListener('mousedown', e => this.send('handleMousedown', e));
-
-    let onMouseEnter = this.get('onMouseEnter');
-    if (onMouseEnter) {
-      trigger.addEventListener('mouseenter', e => onMouseEnter(this.get('publicAPI'), e));
-    }
-
-    let onMouseLeave = this.get('onMouseLeave');
-    if (onMouseLeave) {
-      trigger.addEventListener('mouseleave', e => onMouseLeave(this.get('publicAPI'), e));
-    }
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
-  },
-
-  // Events
-  focusIn(e) {
-    this.send('handleFocusIn', e);
-  },
-
-  focusOut(e) {
-    this.send('handleFocusOut', e);
-  },
-
-  // CPs
-  appRoot: computed(function() {
-    const rootSelector = Ember.testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
-    return self.document.querySelector(rootSelector);
-  }),
-
-  wormholeDestination: computed('destination', function() {
-    return Ember.testing ? 'ember-testing' : (this.get('destination') || defaultDestination);
-  }),
-
-  dropdownId: computed(function() {
-    return `ember-basic-dropdown-content-${this.elementId}`;
-  }),
-
-  tabIndex: computed('disabled', function() {
-    return !this.get('disabled') ? (this.get('tabindex') || '0') : null;
-  }),
-
-  publicAPI: computed(function() {
-    return {
-      isOpen: this.get('initiallyOpened'),
+    this.publicAPI = {
+      isOpen: this.getAttr('initiallyOpened') || false,
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
-        reposition: () => run.join(this, this._performReposition)
+        reposition: this.reposition.bind(this)
       }
     };
+  },
+
+  // CPs
+  appRoot: computed(function() {
+    let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
+    return self.document.querySelector(rootSelector);
   }),
 
   // Actions
   actions: {
-    handleTouchEnd(e) {
-      if (e && e.defaultPrevented) { return; }
-      if (!this.hasMoved) {
-        this.toggle(e);
-      }
-      this.hasMoved = false;
-    },
-
-    handleMousedown(e) {
-      if (e && e.defaultPrevented) { return; }
-      this.stopTextSelectionUntilMouseup();
-      this.toggle(e);
-    },
-
-    keydown(e) {
-      this.handleKeydown(e);
-    },
-
-    handleFocus(e) {
-      let onFocus = this.get('onFocus');
-      if (onFocus) { onFocus(this.get('publicAPI'), e); }
-    },
-
     handleFocusIn() {
       this.set('hasFocusInside', true);
     },
 
     handleFocusOut() {
       this.set('hasFocusInside', false);
+    },
+
+    handleFocus(e) {
+      let onFocus = this.get('onFocus');
+      if (onFocus) {
+        onFocus(this.publicAPI, e);
+      }
     }
   },
 
   // Methods
+  open(e) {
+    if (this.getAttr('disabled') || this.publicAPI.isOpen) {
+      return;
+    }
+    let onOpen = this.getAttr('onOpen');
+    if (onOpen && onOpen(this.publicAPI, e) === false) {
+      return;
+    }
+    set(this.publicAPI, 'isOpen', true);
+  },
+
+  close(e /*, skipFocus */) {
+    if (this.getAttr('disabled') || !this.publicAPI.isOpen) {
+      return;
+    }
+    let onClose = this.getAttr('onClose');
+    if (onClose && onClose(this.publicAPI, e) === false) {
+      return;
+    }
+    set(this.publicAPI, 'isOpen', false);
+    setProperties(this, { _verticalPositionClass: null, _horizontalPositionClass: null });
+    // if (skipFocus) {
+    //  return;
+    // }
+    // let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    // if (trigger.tabIndex > -1) {
+    //   trigger.focus();
+    // }
+  },
+
   toggle(e) {
-    if (this.get('publicAPI.isOpen')) {
+    if (this.publicAPI.isOpen) {
       this.close(e);
     } else {
       this.open(e);
     }
   },
 
-  open(e) {
-    if (this.get('disabled') || this.get('publicAPI.isOpen')) { return; }
-    let onOpen = this.get('onOpen');
-    if (onOpen && onOpen(this.get('publicAPI'), e) === false) { return; }
-    this.set('publicAPI.isOpen', true);
-  },
-
-  close(e, skipFocus) {
-    if (!this.get('publicAPI.isOpen')) { return; }
-    let onClose = this.get('onClose');
-    if (onClose && onClose(this.get('publicAPI'), e) === false) { return; }
-    this.set('publicAPI.isOpen', false);
-    this.setProperties({ _verticalPositionClass: null, _horizontalPositionClass: null });
-    if (skipFocus) { return; }
-    const trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    if (trigger.tabIndex > -1) {
-      trigger.focus();
-    }
-  },
-
-  handleKeydown(e) {
-    if (this.get('disabled')) { return; }
-    let onKeydown = this.get('onKeydown');
-    if (onKeydown && onKeydown(this.get('publicAPI'), e) === false) {
+  reposition() {
+    if (!this.publicAPI.isOpen) {
       return;
     }
-    if (e.keyCode === 13) {  // Enter
-      this.toggle(e);
-    } else if (e.keyCode === 32) { // Space
-      this.toggle(e);
-      e.preventDefault(); // prevents the space to trigger a scroll page-next
-    } else if (e.keyCode === 27) {
-      this.close(e);
+    let dropdownElement = self.document.getElementById(this.dropdownId);
+    if (!dropdownElement) {
+      return;
     }
-  },
-
-  stopTextSelectionUntilMouseup() {
-    if (self.FastBoot) { return; }
-    let $appRoot = Ember.$(this.get('appRoot'));
-    let mouseupHandler = function() {
-      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
-      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
-    };
-    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
-    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
-  },
-
-  _performReposition() {
-    if (!this.get('publicAPI.isOpen')) { return; }
-    let dropdown = self.document.getElementById(this.get('dropdownId'));
-    if (!dropdown) { return ;}
     let {
       triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
       dropdownHeight, dropdownWidth,                        // dropdown dimensions
       scrollTop, scrollLeft                                 // scroll
-    } = this._getPositionInfo(dropdown);
-    let dropdownTop, dropdownLeft = triggerLeft;
+    } = this._getPositionInfo(dropdownElement);
+    let dropdownLeft = triggerLeft;
+    let dropdownTop;
 
     // hPosition
     let hPosition = this.get('horizontalPosition');
@@ -259,16 +160,16 @@ export default Component.extend({
       dropdownTop = triggerTopWithScroll + (verticalPositionClass === 'ember-basic-dropdown--below' ? triggerHeight : -dropdownHeight);
     }
 
-    dropdown.style.width = `${dropdownWidth}px`;
-    dropdown.style.top = `${dropdownTop}px`;
-    dropdown.style.left = `${dropdownLeft}px`;
+    dropdownElement.style.width = `${dropdownWidth}px`;
+    dropdownElement.style.top = `${dropdownTop}px`;
+    dropdownElement.style.left = `${dropdownLeft}px`;
   },
 
   _getPositionInfo(dropdown) {
-    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    let trigger = document.getElementById(this.triggerId);
     let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let $window = Ember.$(self.window);
+    let $window = $(self.window);
     let scrollLeft = $window.scrollLeft();
     let scrollTop = $window.scrollTop();
     if (this.get('matchTriggerWidth')) {
@@ -279,10 +180,5 @@ export default Component.extend({
       dropdownHeight, dropdownWidth,
       scrollLeft, scrollTop
     };
-  },
-
-  _touchMoveHandler(e) {
-    this.hasMoved = true;
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   }
 });
