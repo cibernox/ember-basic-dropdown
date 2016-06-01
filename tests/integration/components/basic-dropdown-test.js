@@ -288,6 +288,22 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
   assert.ok(this.$('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
+// A11y
+test('By default, the `aria-controls` attribute of the trigger contains the id of the content', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  let $content = $('.ember-basic-dropdown-content');
+  assert.equal($trigger.attr('aria-controls'), $content.attr('id'), 'The trigger controls the content');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 
