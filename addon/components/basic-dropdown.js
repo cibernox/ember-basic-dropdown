@@ -18,8 +18,8 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this.triggerId = `ember-basic-dropdown-trigger-${this.elementId}`;
-    this.dropdownId = `ember-basic-dropdown-content-${this.elementId}`;
+    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.elementId}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.elementId}`;
 
     this.publicAPI = {
       isOpen: this.getAttr('initiallyOpened') || false,
@@ -73,7 +73,7 @@ export default Component.extend({
     set(this.publicAPI, 'isOpen', true);
   },
 
-  close(e /*, skipFocus */) {
+  close(e, skipFocus) {
     if (this.getAttr('disabled') || !this.publicAPI.isOpen) {
       return;
     }
@@ -83,13 +83,13 @@ export default Component.extend({
     }
     set(this.publicAPI, 'isOpen', false);
     setProperties(this, { vPosition: null, hPosition: null });
-    // if (skipFocus) {
-    //  return;
-    // }
-    // let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
-    // if (trigger.tabIndex > -1) {
-    //   trigger.focus();
-    // }
+    if (skipFocus) {
+      return;
+    }
+    let trigger = document.getElementById(this.triggerId);
+    if (trigger && trigger.tabIndex > -1) {
+      trigger.focus();
+    }
   },
 
   toggle(e) {
