@@ -78,26 +78,26 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   assert.equal($content.length, 1, 'The dropdown contains that class');
 });
 
-test('If it receives `verticalPositionClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
+test('If it receives `vPosition="foo123"`, the rendered content will have that class derived from it', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown verticalPositionClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown vPosition="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content.foo123');
-  assert.equal($content.length, 1, 'The dropdown contains that class');
+  let $content = $('.ember-basic-dropdown-content');
+  assert.ok($content.hasClass('ember-basic-dropdown-content--foo123'), 'The dropdown contains the derived class');
 });
 
-test('If it receives `horizontalPositionClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
+test('If it receives `hPosition="foo123"`, the rendered content will have that class derived from it', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown horizontalPositionClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown hPosition="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content.foo123');
-  assert.equal($content.length, 1, 'The dropdown contains that class');
+  let $content = $('.ember-basic-dropdown-content');
+  assert.ok($content.hasClass('ember-basic-dropdown-content--foo123'), 'The dropdown contains the derived class');
 });
 
 test('If it receives `dir="rtl"`, the rendered content will have the attribute set', function(assert) {

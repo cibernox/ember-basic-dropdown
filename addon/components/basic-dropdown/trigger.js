@@ -12,7 +12,7 @@ export default Component.extend({
   role: 'button',
   tabindex: 0,
   'aria-haspopup': true,
-  classNameBindings: ['horizontalPositionClass', 'verticalPositionClass'],
+  classNameBindings: ['horizontalPositionClass', 'verticalPositionClass', 'inPlaceClass'],
   attributeBindings: [
     'role',
     'tabIndex:tabindex',
@@ -48,6 +48,26 @@ export default Component.extend({
   // CPs
   tabIndex: computed('disabled', 'tabIndex', function() {
     return this.get('disabled') ? -1 : this.get('tabindex');
+  }),
+
+  horizontalPositionClass: computed('hPosition', function() {
+    let hPosition = this.getAttr('hPosition');
+    if (hPosition) {
+      return `ember-basic-dropdown-trigger--${hPosition}`;
+    }
+  }),
+
+  verticalPositionClass: computed('vPosition', function() {
+    let vPosition = this.getAttr('vPosition');
+    if (vPosition) {
+      return `ember-basic-dropdown-trigger--${vPosition}`;
+    }
+  }),
+
+  inPlaceClass: computed('renderInPlace', function() {
+    if (this.getAttr('renderInPlace')) {
+      return 'ember-basic-dropdown-trigger--in-place';
+    }
   }),
 
   // Actions
