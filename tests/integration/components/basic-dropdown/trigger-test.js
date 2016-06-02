@@ -33,6 +33,17 @@ test('If it doesn\'t receive any tabindex, the default is 0', function(assert) {
   assert.equal($trigger.attr('tabindex'), '0', 'Has a tabindex of 0');
 });
 
+test('If it receives a falsey tabindex, the default is 0', function(assert) {
+  assert.expect(1);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot tabindex=null}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('tabindex'), '0', 'Has a tabindex of 0');
+});
+
 test('If it receives `tabindex=3`, the tabindex of the element is 3', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');

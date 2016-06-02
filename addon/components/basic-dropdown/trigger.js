@@ -47,7 +47,7 @@ export default Component.extend({
 
   // CPs
   tabIndex: computed('disabled', 'tabIndex', function() {
-    return this.get('disabled') ? -1 : this.get('tabindex');
+    return this.get('disabled') ? -1 : (this.get('tabindex') || 0);
   }),
 
   horizontalPositionClass: computed('hPosition', function() {
