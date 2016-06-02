@@ -105,11 +105,15 @@ export default Component.extend({
     if (!dropdownElement) {
       return;
     }
+    let matchTriggerWidth = this.get('matchTriggerWidth');
     let {
       triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
       dropdownHeight, dropdownWidth,                        // dropdown dimensions
       scrollTop, scrollLeft                                 // scroll
     } = this._getPositionInfo(dropdownElement);
+    if (matchTriggerWidth) {
+      dropdownWidth = triggerWidth;
+    }
     let dropdownLeft = triggerLeft;
     let dropdownTop;
 
@@ -161,7 +165,9 @@ export default Component.extend({
         dropdownTop = triggerTopWithScroll + (vPosition === 'below' ? triggerHeight : -dropdownHeight);
       }
 
-      dropdownElement.style.width = `${dropdownWidth}px`;
+      if (matchTriggerWidth) {
+        dropdownElement.style.width = `${dropdownWidth}px`;
+      }
       dropdownElement.style.top = `${dropdownTop}px`;
       dropdownElement.style.left = `${dropdownLeft}px`;
     }
@@ -174,9 +180,6 @@ export default Component.extend({
     let $window = $(self.window);
     let scrollLeft = $window.scrollLeft();
     let scrollTop = $window.scrollTop();
-    if (this.get('matchTriggerWidth')) {
-      dropdownWidth = triggerWidth;
-    }
     return {
       triggerTop, triggerLeft, triggerWidth, triggerHeight,
       dropdownHeight, dropdownWidth,
