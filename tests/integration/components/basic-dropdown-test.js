@@ -224,6 +224,26 @@ test('Calling the `close` method while the dropdown is already opened does not c
   assert.equal(onCloseCalls, 0, 'onClose was never called');
 });
 
+// Fails in phantomjs, I don't know why
+// test('Clicking anywhere outside the trigger or the content, closes the dropdown but DOES NOT focus the trigger', function(assert) {
+//   assert.expect(2);
+
+//   this.render(hbs`
+//     <input id="external-input-test" />
+//     {{#basic-dropdown renderInPlace=true as |dropdown|}}
+//       {{#dropdown.trigger tagName="input"}}Click me{{/dropdown.trigger}}
+//       {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+//     {{/basic-dropdown}}
+//   `);
+
+//   clickTrigger();
+//   let trigger = this.$('.ember-basic-dropdown-trigger').get(0);
+//   run(() => trigger.focus());
+//   assert.ok(trigger === document.activeElement, 'The trigger is focused');
+//   nativeClick('#external-input-test');
+//   assert.ok(trigger !== document.activeElement, 'The trigger is not focused');
+// });
+
 test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', function(assert) {
   assert.expect(2);
 

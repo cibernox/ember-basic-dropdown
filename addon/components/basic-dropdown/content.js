@@ -98,7 +98,7 @@ export default Component.extend({
       this.hasMoved = false;
       return;
     }
-    this.getAttr('dropdown').actions.close(e);
+    this.getAttr('dropdown').actions.close(e, true);
   },
 
   addGlobalEvents() {
