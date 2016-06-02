@@ -28,7 +28,6 @@ export default Component.extend({
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
-        // reposition: () => run.join(this, this.reposition)
         reposition: () => run.join(this, this.reposition)
       }
     };
@@ -95,6 +94,10 @@ export default Component.extend({
   },
 
   reposition() {
+    run.scheduleOnce('afterRender', this, this.repositionNow);
+  },
+
+  repositionNow() {
     if (!this.publicAPI.isOpen) {
       return;
     }
