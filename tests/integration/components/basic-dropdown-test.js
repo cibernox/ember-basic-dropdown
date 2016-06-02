@@ -3,8 +3,17 @@ import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 
+let deprecations = [];
+Ember.Debug.registerDeprecationHandler((message, options, next) => {
+  deprecations.push(message);
+  next(message, options);
+});
+
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic dropdown', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    deprecations = [];
+  }
 });
 
 test('Its `toggle` action opens and closes the dropdown', function(assert) {
@@ -302,6 +311,26 @@ test('By default, the `aria-controls` attribute of the trigger contains the id o
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   let $content = $('.ember-basic-dropdown-content');
   assert.equal($trigger.attr('aria-controls'), $content.attr('id'), 'The trigger controls the content');
+});
+
+// Repositioning
+test('Firing a reposition outside of a runloop doesn\'t break the component', function(assert) {
+  let done = assert.async();
+  assert.expect(1);
+  this.render(hbs`
+    {{#basic-dropdown as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  $('#dropdown-is-opened').append('<span>New content that will trigger a reposition</span>');
+  setTimeout(function() {
+    assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
+    done();
+  }, 100);
 });
 
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
