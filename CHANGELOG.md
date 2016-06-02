@@ -1,3 +1,8 @@
+# 0.12-beta.5
+
+- [BUGFIX] Don't focus the trigger again when the dropdown is closed as consecuence of clicking outside it.
+- [ENHANCEMENT] Allow to add focusin/out events to the trigger
+
 # 0.12-beta.4
 
 - [BUGFIX] Ensure that if the trigger receives `tabindex=null` it still defaults to 0.
