@@ -95,6 +95,10 @@ export default Component.extend({
   },
 
   reposition() {
+    run.scheduleOnce('afterRender', this, this.repositionNow);
+  },
+
+  repositionNow() {
     if (!this.publicAPI.isOpen) {
       return;
     }
