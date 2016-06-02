@@ -4,6 +4,7 @@ import computed from 'ember-computed';
 import set, { setProperties } from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
+import run from 'ember-runloop';
 
 const { testing, getOwner } = Ember;
 
@@ -27,7 +28,7 @@ export default Component.extend({
         open: this.open.bind(this),
         close: this.close.bind(this),
         toggle: this.toggle.bind(this),
-        reposition: this.reposition.bind(this)
+        reposition: () => run.join(this, this.reposition)
       }
     };
 
@@ -93,6 +94,10 @@ export default Component.extend({
   },
 
   reposition() {
+    run.scheduleOnce('afterRender', this, this.repositionNow);
+  },
+
+  repositionNow() {
     if (!this.publicAPI.isOpen) {
       return;
     }
