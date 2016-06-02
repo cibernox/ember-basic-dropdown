@@ -45,14 +45,6 @@ export default Component.extend({
 
   // Actions
   actions: {
-    handleFocusIn() {
-      this.set('hasFocusInside', true);
-    },
-
-    handleFocusOut() {
-      this.set('hasFocusInside', false);
-    },
-
     handleFocus(e) {
       let onFocus = this.get('onFocus');
       if (onFocus) {
