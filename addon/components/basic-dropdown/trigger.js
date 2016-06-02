@@ -154,5 +154,13 @@ export default Component.extend({
     if (onFocus) {
       this.element.addEventListener('focus', (e) => onFocus(dropdown, e));
     }
+    let onFocusIn = this.getAttr('onFocusIn');
+    if (onFocusIn) {
+      this.element.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
+    }
+    let onFocusOut = this.getAttr('onFocusOut');
+    if (onFocusOut) {
+      this.element.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
+    }
   }
 });

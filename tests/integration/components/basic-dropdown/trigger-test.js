@@ -436,3 +436,41 @@ test('If the component is disabled it won\'t respond to mouse, touch or keyboard
   fireKeydown('.ember-basic-dropdown-trigger', 32);
   fireKeydown('.ember-basic-dropdown-trigger', 27);
 });
+
+// Focus
+test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', function(assert) {
+  assert.expect(3);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.onFocusIn = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onFocusIn=onFocusIn}}
+      <input type="text" id="test-input-focusin" />
+    {{/basic-dropdown/trigger}}
+  `);
+  let input = $('#test-input-focusin').get(0);
+  run(() => input.focus());
+});
+
+test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', function(assert) {
+  assert.expect(3);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.onFocusOut = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onFocusOut=onFocusOut}}
+      <input type="text" id="test-input-focusout" />
+    {{/basic-dropdown/trigger}}
+  `);
+  let input = $('#test-input-focusout').get(0);
+  run(() => input.focus());
+});
+
