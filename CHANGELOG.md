@@ -1,3 +1,7 @@
+# 0.12-beta.4
+
+- [BUGFIX] Ensure that if the trigger receives `tabindex=null` it still defaults to 0.
+
 # 0.12-beta.3
 
 - [BUGFIX] Ensure that the `aria-controls` attribute of the trigger points to the content by default.
