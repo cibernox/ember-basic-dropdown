@@ -71,7 +71,7 @@ export default Component.extend({
       if (!this.getAttr('renderInPlace')) {
         this.addGlobalEvents();
       }
-      run.scheduleOnce('actions', dropdown.actions.reposition);
+      dropdown.actions.reposition();
       if (this.get('animationEnabled')) {
         run.scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
       }
