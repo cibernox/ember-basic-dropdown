@@ -75,7 +75,7 @@ export default Component.extend({
       return;
     }
     set(this.publicAPI, 'isOpen', false);
-    setProperties(this, { vPosition: null, hPosition: null });
+    this.previousVerticalPosition = this.previousHorizontalPosition = null;
     if (skipFocus) {
       return;
     }
@@ -94,96 +94,194 @@ export default Component.extend({
   },
 
   reposition() {
-    run.scheduleOnce('afterRender', this, this.repositionNow);
-  },
-
-  repositionNow() {
     if (!this.publicAPI.isOpen) {
       return;
     }
     let dropdownElement = self.document.getElementById(this.dropdownId);
-    if (!dropdownElement) {
+    let triggerElement = self.document.getElementById(this.triggerId);
+    if (!dropdownElement || !triggerElement) {
       return;
     }
-    let matchTriggerWidth = this.get('matchTriggerWidth');
-    let {
-      triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
-      dropdownHeight, dropdownWidth,                        // dropdown dimensions
-      scrollTop, scrollLeft                                 // scroll
-    } = this._getPositionInfo(dropdownElement);
-    if (matchTriggerWidth) {
-      dropdownWidth = triggerWidth;
-    }
-    let dropdownLeft = triggerLeft;
-    let dropdownTop;
 
-    // hPosition
-    let hPosition = this.get('horizontalPosition');
-    if (this.get('renderInPlace')) {
-      if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
-        let viewportRight = scrollLeft + self.window.innerWidth;
-        hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
-      }
-      this.set('hPosition', hPosition);
+    let renderInPlace = this.get('renderInPlace');
+
+    if (renderInPlace) {
+      this.performNaiveReposition(triggerElement, dropdownElement);
     } else {
-      if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
-        let viewportRight = scrollLeft + self.window.innerWidth;
-        let roomForRight = viewportRight - triggerLeft;
-        let roomForLeft = triggerLeft;
-        hPosition = roomForRight > roomForLeft ? 'left' : 'right';
-      }
-      if (hPosition === 'right') {
-        dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
-      } else if (hPosition === 'center') {
-        dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
-      }
-      this.set('hPosition', hPosition);
-
-      // vPosition
-      let vPosition = this.get('verticalPosition');
-      let triggerTopWithScroll = triggerTop + scrollTop;
-      if (vPosition === 'above') {
-        dropdownTop = triggerTopWithScroll - dropdownHeight;
-        this.set('vPosition', 'above');
-      } else if (vPosition === 'below') {
-        dropdownTop = triggerTopWithScroll + triggerHeight;
-        this.set('vPosition', 'below');
-      } else { // auto
-        let viewportBottom = scrollTop + self.window.innerHeight;
-        let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
-        let enoughRoomAbove = triggerTop > dropdownHeight;
-
-        let previousVPosition = this.get('vPosition');
-        if (previousVPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
-          this.set('vPosition', 'above');
-        } else if (previousVPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
-          this.set('vPosition', 'below');
-        } else if (!previousVPosition) {
-          this.set('vPosition', enoughRoomBelow ? 'below' : 'above');
-        }
-        vPosition = this.get('vPosition'); // It might have changed
-        dropdownTop = triggerTopWithScroll + (vPosition === 'below' ? triggerHeight : -dropdownHeight);
-      }
-
-      if (matchTriggerWidth) {
-        dropdownElement.style.width = `${dropdownWidth}px`;
-      }
-      dropdownElement.style.top = `${dropdownTop}px`;
-      dropdownElement.style.left = `${dropdownLeft}px`;
+      this.performFullReposition(triggerElement, dropdownElement);
     }
   },
 
-  _getPositionInfo(dropdown) {
-    let trigger = document.getElementById(this.triggerId);
+  performNaiveReposition(trigger, dropdown) {
+    let horizontalPosition = this.get('horizontalPosition');
+    if (horizontalPosition === 'auto') {
+      let triggerRect = trigger.getBoundingClientRect();
+      let dropdownRect = dropdown.getBoundingClientRect();
+      let viewportRight = $(self.window).scrollLeft + self.window.innerWidth;
+      horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
+    }
+    this.applyReposition(trigger, dropdown, { horizontalPosition });
+  },
+
+  performFullReposition(trigger, dropdown) {
+    let {
+      horizontalPosition, verticalPosition, matchTriggerWidth
+    } = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth');
+    let $window = $(self.window);
+    let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() } ;
     let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let $window = $(self.window);
-    let scrollLeft = $window.scrollLeft();
-    let scrollTop = $window.scrollTop();
-    return {
-      triggerTop, triggerLeft, triggerWidth, triggerHeight,
-      dropdownHeight, dropdownWidth,
-      scrollLeft, scrollTop
-    };
+    let dropdownLeft = triggerLeft;
+    let dropdownTop;
+    dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
+
+    if (horizontalPosition === 'auto') {
+      let viewportRight = scroll.left + self.window.innerWidth;
+      let roomForRight = viewportRight - triggerLeft;
+      let roomForLeft = triggerLeft;
+      horizontalPosition = roomForRight > roomForLeft ? 'left' : 'right';
+    } else if (horizontalPosition === 'right') {
+      dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
+    } else if (horizontalPosition === 'center') {
+      dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
+    }
+
+    let triggerTopWithScroll = triggerTop + scroll.top;
+    if (verticalPosition === 'above') {
+      dropdownTop = triggerTopWithScroll - dropdownHeight;
+    } else if (verticalPosition === 'below') {
+      dropdownTop = triggerTopWithScroll + triggerHeight;
+    } else {
+      let viewportBottom = scroll.top + self.window.innerHeight;
+      let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
+      let enoughRoomAbove = triggerTop > dropdownHeight;
+
+      if (this.previousVerticalPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
+        verticalPosition = 'above';
+      } else if (this.previousVerticalPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
+        verticalPosition = 'below';
+      } else if (!this.previousVerticalPosition) {
+        verticalPosition = enoughRoomBelow ? 'below' : 'above';
+      } else {
+        verticalPosition = this.previousVerticalPosition;
+      }
+      dropdownTop = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
+    }
+
+    let style = { top: `${dropdownTop}px`, left: `${dropdownLeft}px` };
+    if (matchTriggerWidth) {
+      style.width = `${dropdownWidth}px`;
+    }
+    this.applyReposition(trigger, dropdown, { horizontalPosition, verticalPosition, style });
+  },
+
+  applyReposition(trigger, dropdown, positions) {
+    if (positions.hasOwnProperty('horizontalPosition')) {
+      trigger.classList.remove(`ember-basic-dropdown-trigger--${this.previousHorizontalPosition}`)
+      dropdown.classList.remove(`ember-basic-dropdown-content--${this.previousHorizontalPosition}`)
+      trigger.classList.add(`ember-basic-dropdown-trigger--${positions.horizontalPosition}`)
+      dropdown.classList.add(`ember-basic-dropdown-content--${positions.horizontalPosition}`)
+      this.previousHorizontalPosition = positions.horizontalPosition;
+    }
+    if (positions.hasOwnProperty('verticalPosition')) {
+      trigger.classList.remove(`ember-basic-dropdown-trigger--${this.previousVerticalPosition}`)
+      dropdown.classList.remove(`ember-basic-dropdown-content--${this.previousVerticalPosition}`)
+      trigger.classList.add(`ember-basic-dropdown-trigger--${positions.verticalPosition}`)
+      dropdown.classList.add(`ember-basic-dropdown-content--${positions.verticalPosition}`)
+      this.previousVerticalPosition = positions.verticalPosition;
+    }
+    if (positions.style) {
+      Object.keys(positions.style).forEach(key => dropdown.style[key] = positions.style[key]);
+    }
   }
+
+  // reposition() {
+  //   if (!this.publicAPI.isOpen) {
+  //     return;
+  //   }
+  //   let dropdownElement = self.document.getElementById(this.dropdownId);
+  //   if (!dropdownElement) {
+  //     return;
+  //   }
+  //   let matchTriggerWidth = this.get('matchTriggerWidth');
+  //   let {
+  //     triggerTop, triggerLeft, triggerWidth, triggerHeight, // trigger dimensions
+  //     dropdownHeight, dropdownWidth,                        // dropdown dimensions
+  //     scrollTop, scrollLeft                                 // scroll
+  //   } = this._getPositionInfo(dropdownElement);
+  //   if (matchTriggerWidth) {
+  //     dropdownWidth = triggerWidth;
+  //   }
+  //   let dropdownLeft = triggerLeft;
+  //   let dropdownTop;
+
+  //   // hPosition
+  //   let hPosition = this.get('horizontalPosition');
+  //   if (this.get('renderInPlace')) {
+  //     if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
+  //       let viewportRight = scrollLeft + self.window.innerWidth;
+  //       hPosition = triggerLeft + dropdownWidth > viewportRight ? 'right' : 'left';
+  //     }
+  //     this.set('hPosition', hPosition);
+  //   } else {
+  //     if (['right', 'left', 'center'].indexOf(hPosition) === -1) {
+  //       let viewportRight = scrollLeft + self.window.innerWidth;
+  //       let roomForRight = viewportRight - triggerLeft;
+  //       let roomForLeft = triggerLeft;
+  //       hPosition = roomForRight > roomForLeft ? 'left' : 'right';
+  //     }
+  //     if (hPosition === 'right') {
+  //       dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
+  //     } else if (hPosition === 'center') {
+  //       dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
+  //     }
+  //     this.set('hPosition', hPosition);
+
+  //     // vPosition
+  //     let vPosition = this.get('verticalPosition');
+  //     let triggerTopWithScroll = triggerTop + scrollTop;
+  //     if (vPosition === 'above') {
+  //       dropdownTop = triggerTopWithScroll - dropdownHeight;
+  //       this.set('vPosition', 'above');
+  //     } else if (vPosition === 'below') {
+  //       dropdownTop = triggerTopWithScroll + triggerHeight;
+  //       this.set('vPosition', 'below');
+  //     } else { // auto
+  //       let viewportBottom = scrollTop + self.window.innerHeight;
+  //       let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
+  //       let enoughRoomAbove = triggerTop > dropdownHeight;
+
+  //       let previousVPosition = this.get('vPosition');
+  //       if (previousVPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
+  //         this.set('vPosition', 'above');
+  //       } else if (previousVPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
+  //         this.set('vPosition', 'below');
+  //       } else if (!previousVPosition) {
+  //         this.set('vPosition', enoughRoomBelow ? 'below' : 'above');
+  //       }
+  //       vPosition = this.get('vPosition'); // It might have changed
+  //       dropdownTop = triggerTopWithScroll + (vPosition === 'below' ? triggerHeight : -dropdownHeight);
+  //     }
+
+  //     if (matchTriggerWidth) {
+  //       dropdownElement.style.width = `${dropdownWidth}px`;
+  //     }
+  //     dropdownElement.style.top = `${dropdownTop}px`;
+  //     dropdownElement.style.left = `${dropdownLeft}px`;
+  //   }
+  // },
+
+  // _getPositionInfo(dropdown) {
+  //   let trigger = document.getElementById(this.triggerId);
+  //   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
+  //   let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
+  //   let $window = $(self.window);
+  //   let scrollLeft = $window.scrollLeft();
+  //   let scrollTop = $window.scrollTop();
+  //   return {
+  //     triggerTop, triggerLeft, triggerWidth, triggerHeight,
+  //     dropdownHeight, dropdownWidth,
+  //     scrollLeft, scrollTop
+  //   };
+  // }
 });
