@@ -1,3 +1,9 @@
+- [ENHANCEMENT] Although the component is tagless by default, if the user passes `renderInPlace=true`,
+  a wrapper element with class `.ember-basic-dropdown` is added to be able to position the content
+  properly.
+- [BUGFIX] The reposition function no longer sets any observable state, so it can be called at
+  any time without worring about the runloop and double renders.
+
 # 0.12-beta.5
 
 - [BUGFIX] Don't focus the trigger again when the dropdown is closed as consecuence of clicking outside it.

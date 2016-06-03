@@ -195,26 +195,6 @@ test('It has `aria-haspopup=true`', function(assert) {
   assert.equal($trigger.attr('aria-haspopup'), 'true', 'Has `aria-haspopup=true`');
 });
 
-test('If it receives horizontalPositionClass="foo" it gets an that class', function(assert) {
-  assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
-  this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot horizontalPositionClass="foo123"}}Click me{{/basic-dropdown/trigger}}
-  `);
-  let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.ok($trigger.hasClass('foo123'), 'It contains the proper class');
-});
-
-test('If it receives verticalPositionClass="foo" it gets an that class', function(assert) {
-  assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
-  this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot verticalPositionClass="foo123"}}Click me{{/basic-dropdown/trigger}}
-  `);
-  let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.ok($trigger.hasClass('foo123'), 'It contains the proper class');
-});
-
 // Custom actions
 test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {
   assert.expect(2);
