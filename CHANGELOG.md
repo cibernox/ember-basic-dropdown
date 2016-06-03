@@ -1,8 +1,10 @@
+# 0.12-beta.6
 - [ENHANCEMENT] Although the component is tagless by default, if the user passes `renderInPlace=true`,
   a wrapper element with class `.ember-basic-dropdown` is added to be able to position the content
   properly.
 - [BUGFIX] The reposition function no longer sets any observable state, so it can be called at
-  any time without worring about the runloop and double renders.
+  any time without worring about the runloop and double renders. More performant and fixes a bug
+  when something inside gains the focus faster than the reposition.
 
 # 0.12-beta.5
 
