@@ -4,6 +4,12 @@ This is a very minimal dropdown. That means that it is agnostic about what it is
 
 It is intended to be a building block for more complex components but is perfectly usable.
 
+### Compatibility
+
+**Warning**. This component suffered a full re-write of its public API in 0.12.
+Until 0.11.X, the compatiblity was 1.13+
+Starting in 0.12, the compatibility is 2.3.1+.
+
 ### Installation
 
 ```
@@ -24,11 +30,12 @@ any of those steps because you already have this addon :D
 
 ### Usage
 
+This component leverages contextual components for its API:
+
 ```hbs
 {{#basic-dropdown as |dropdown|}}
-  Content of the dropdown once it appears
-{{else}}
-  Content of the trigger
+  {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+  {{#dropdown.content}}Content of the trigger{{/dropdown.content}}
 {{/basic-dropdown}}
 ```
 
@@ -49,7 +56,7 @@ it based on the space around the trigger, and also will take care of reposition 
 resized, scrolled, the device changes it orientation or the content of the dropdown changes
 (implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
 
-You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | left`.
+You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
 
 #### Closed automatically when click outside the component
 

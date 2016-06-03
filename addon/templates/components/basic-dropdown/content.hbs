@@ -1,3 +1,10 @@
-<div id={{dropdownId}} class="ember-basic-dropdown-content {{transitionClass}} {{dropdownClass}} {{verticalPositionClass}} {{horizontalPositionClass}}" dir={{dir}}>
-  {{yield}}
-</div>
+{{#if dropdown.isOpen}}
+  {{#basic-dropdown/wormhole to=to renderInPlace=renderInPlace didInsert=(action "didOpen") willRemove=(action "willClose")}}
+    <div
+      id={{elementId}}
+      class="ember-basic-dropdown-content {{class}} {{if vPosition (concat 'ember-basic-dropdown-content--' vPosition)}} {{if hPosition (concat 'ember-basic-dropdown-content--' hPosition)}} {{if renderInPlace 'ember-basic-dropdown-content--in-place'}}"
+      dir={{dir}}>
+      {{yield}}
+    </div>
+  {{/basic-dropdown/wormhole}}
+{{/if}}
