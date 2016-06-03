@@ -318,6 +318,20 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
   assert.ok(this.$('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
+test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown').length, 1, 'The trigger has a special `--in-place` class');
+});
+
 // A11y
 test('By default, the `aria-controls` attribute of the trigger contains the id of the content', function(assert) {
   assert.expect(1);
