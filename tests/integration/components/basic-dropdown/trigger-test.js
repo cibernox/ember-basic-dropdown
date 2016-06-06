@@ -244,6 +244,21 @@ test('If it receives an `onFocus` action, it will be invoked when it get focused
   run(() => this.$('.ember-basic-dropdown-trigger')[0].focus());
 });
 
+test('If it receives an `onBlur` action, it will be invoked when it get blurred', function(assert) {
+  assert.expect(2);
+  this.appRoot = document.querySelector('#ember-testing');
+  this.onBlur = (dropdown, e) => {
+    assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
+    assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+  };
+  this.dropdown = {};
+  this.render(hbs`
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onBlur=onBlur}}Click me{{/basic-dropdown/trigger}}
+  `);
+  run(() => this.$('.ember-basic-dropdown-trigger')[0].focus());
+  run(() => this.$('.ember-basic-dropdown-trigger')[0].blur());
+});
+
 test('If it receives an `onKeydown` action, it will be invoked when a key is pressed while the component is focused', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');

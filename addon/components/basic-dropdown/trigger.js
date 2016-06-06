@@ -140,6 +140,10 @@ export default Component.extend({
     if (onFocus) {
       this.element.addEventListener('focus', (e) => onFocus(dropdown, e));
     }
+    let onBlur = this.getAttr('onBlur');
+    if (onBlur) {
+      this.element.addEventListener('blur', (e) => onBlur(dropdown, e));
+    }
     let onFocusIn = this.getAttr('onFocusIn');
     if (onFocusIn) {
       this.element.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
