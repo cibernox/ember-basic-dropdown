@@ -4,7 +4,7 @@ import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-
+import { schedule } from 'ember-runloop';
 const { testing, getOwner } = Ember;
 
 export default Component.extend({
@@ -78,6 +78,7 @@ export default Component.extend({
       return;
     }
     set(this.publicAPI, 'isOpen', false);
+    this.setProperties({ hPosition: null, vPosition: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     if (skipFocus) {
       return;
@@ -179,20 +180,11 @@ export default Component.extend({
   },
 
   applyReposition(trigger, dropdown, positions) {
-    if (positions.hasOwnProperty('horizontalPosition')) {
-      trigger.classList.remove(`ember-basic-dropdown-trigger--${this.previousHorizontalPosition}`);
-      dropdown.classList.remove(`ember-basic-dropdown-content--${this.previousHorizontalPosition}`);
-      trigger.classList.add(`ember-basic-dropdown-trigger--${positions.horizontalPosition}`);
-      dropdown.classList.add(`ember-basic-dropdown-content--${positions.horizontalPosition}`);
+    schedule('actions', this, function() {
+      this.setProperties({ hPosition: positions.horizontalPosition, vPosition: positions.verticalPosition });
       this.previousHorizontalPosition = positions.horizontalPosition;
-    }
-    if (positions.hasOwnProperty('verticalPosition')) {
-      trigger.classList.remove(`ember-basic-dropdown-trigger--${this.previousVerticalPosition}`);
-      dropdown.classList.remove(`ember-basic-dropdown-content--${this.previousVerticalPosition}`);
-      trigger.classList.add(`ember-basic-dropdown-trigger--${positions.verticalPosition}`);
-      dropdown.classList.add(`ember-basic-dropdown-content--${positions.verticalPosition}`);
       this.previousVerticalPosition = positions.verticalPosition;
-    }
+    });
     if (positions.style) {
       Object.keys(positions.style).forEach((key) => dropdown.style[key] = positions.style[key]);
     }
