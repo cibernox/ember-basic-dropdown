@@ -3,7 +3,7 @@ import layout from '../../templates/components/basic-dropdown/content';
 import config from 'ember-get-config';
 import $ from 'jquery';
 import Ember from 'ember';
-import run from 'ember-runloop';
+import { join, scheduleOnce } from 'ember-runloop';
 
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 const { testing } = Ember;
@@ -41,6 +41,10 @@ export default Component.extend({
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
+    let dropdown = this.getAttr('dropdown');
+    this.runloopAwareReposition = function() {
+      join(dropdown.actions.reposition);
+    };
   },
 
   // Actions
@@ -73,7 +77,7 @@ export default Component.extend({
       }
       dropdown.actions.reposition();
       if (this.get('animationEnabled')) {
-        run.scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
+        scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
       }
     },
 
@@ -102,36 +106,34 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    let { reposition } = this.getAttr('dropdown').actions;
-    self.window.addEventListener('scroll', reposition);
-    self.window.addEventListener('resize', reposition);
-    self.window.addEventListener('orientationchange', reposition);
+    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    self.window.addEventListener('resize', this.runloopAwareReposition);
+    self.window.addEventListener('orientationchange', this.runloopAwareReposition);
     if (MutObserver) {
       this.mutationObserver = new MutObserver((mutations) => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
-          reposition();
+          this.runloopAwareReposition();
         }
       });
       this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
     } else {
-      this.dropdownElement.addEventListener('DOMNodeInserted', reposition, false);
-      this.dropdownElement.addEventListener('DOMNodeRemoved', reposition, false);
+      this.dropdownElement.addEventListener('DOMNodeInserted', this.runloopAwareReposition, false);
+      this.dropdownElement.addEventListener('DOMNodeRemoved', this.runloopAwareReposition, false);
     }
   },
 
   removeGlobalEvents() {
-    let { reposition } = this.getAttr('dropdown').actions;
-    self.window.removeEventListener('scroll', reposition);
-    self.window.removeEventListener('resize', reposition);
-    self.window.removeEventListener('orientationchange', reposition);
+    self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    self.window.removeEventListener('resize', this.runloopAwareReposition);
+    self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
     if (MutObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
         this.mutationObserver = null;
       }
     } else {
-      this.dropdownElement.removeEventListener('DOMNodeInserted', reposition);
-      this.dropdownElement.removeEventListener('DOMNodeRemoved', reposition);
+      this.dropdownElement.removeEventListener('DOMNodeInserted', this.runloopAwareReposition);
+      this.dropdownElement.removeEventListener('DOMNodeRemoved', this.runloopAwareReposition);
     }
   },
 
