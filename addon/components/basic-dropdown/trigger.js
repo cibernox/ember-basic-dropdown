@@ -17,7 +17,7 @@ export default Component.extend({
     'role',
     'tabIndex:tabindex',
     'dropdownId:aria-controls',
-    'disabled:aria-disabled',
+    'dropdown.disabled:aria-disabled',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',
@@ -46,8 +46,8 @@ export default Component.extend({
   },
 
   // CPs
-  tabIndex: computed('disabled', 'tabIndex', function() {
-    return this.get('disabled') ? -1 : (this.get('tabindex') || 0);
+  tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
+    return this.get('dropdown.disabled') ? -1 : (this.get('tabindex') || 0);
   }),
 
   inPlaceClass: computed('renderInPlace', function() {
@@ -73,29 +73,31 @@ export default Component.extend({
   // Actions
   actions: {
     handleMousedown(e) {
-      if (e && e.defaultPrevented || this.getAttr('disabled')) {
+      let dropdown = this.getAttr('dropdown');
+      if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
       this.stopTextSelectionUntilMouseup();
-      this.getAttr('dropdown').actions.toggle(e);
+      dropdown.actions.toggle(e);
     },
 
     handleTouchEnd(e) {
-      if (e && e.defaultPrevented || this.getAttr('disabled')) {
+      let dropdown = this.getAttr('dropdown');
+      if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
       if (!this.hasMoved) {
-        this.getAttr('dropdown').actions.toggle(e);
+        dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
     },
 
     handleKeydown(e) {
-      if (this.getAttr('disabled')) {
+      let dropdown = this.getAttr('dropdown');
+      if (dropdown.disabled) {
         return;
       }
       let onKeydown = this.getAttr('onKeydown');
-      let dropdown = this.getAttr('dropdown');
       if (onKeydown && onKeydown(dropdown, e) === false) {
         return;
       }

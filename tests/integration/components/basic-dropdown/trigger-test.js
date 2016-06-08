@@ -55,28 +55,29 @@ test('If it receives `tabindex=3`, the tabindex of the element is 3', function(a
   assert.equal($trigger.attr('tabindex'), '3', 'Has a tabindex of 3');
 });
 
-test('If it receives `disabled=true`, the tabindex is -1 regardless of if it has been customized or not', function(assert) {
+test('If the dropdown is disabled, the tabindex is -1 regardless of if it has been customized or not', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { disabled: true };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot disabled=true tabindex=3}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown tabindex=3}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('tabindex'), '-1', 'Has a tabindex of -1');
 });
 
-test('If it receives `disabled=true` it gets an `aria-disabled=true` attribute for a11y', function(assert) {
+test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attribute for a11y', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.disabled = true;
+  this.dropdown = { disabled: true };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot disabled=disabled}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('aria-disabled'), 'true', 'It is marked as disabled');
-  run(() => this.set('disabled', false));
+  run(() => this.set('dropdown.disabled', false));
   assert.equal($trigger.attr('aria-disabled'), 'false', 'It is not disabled anymore');
 });
 
@@ -406,10 +407,11 @@ test('Firing a mousemove between a touchstart and a touchend (touch scroll) does
   run(() => trigger.dispatchEvent(new window.Event('touchend', { bubbles: true, cancelable: true, view: window })));
 });
 
-test('If the component is disabled it won\'t respond to mouse, touch or keyboard event', function(assert) {
+test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard event', function(assert) {
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    disabled: true,
     actions: {
       toggle() {
         assert.ok(false, 'This action in not called');
@@ -423,7 +425,7 @@ test('If the component is disabled it won\'t respond to mouse, touch or keyboard
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot disabled=true dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
   `);
   clickTrigger();
   tapTrigger();
