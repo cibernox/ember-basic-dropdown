@@ -27,6 +27,7 @@ export default Component.extend({
 
     this.publicAPI = {
       isOpen: this.getAttr('initiallyOpened') || false,
+      disabled: this.getAttr('disabled') || false,
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -59,7 +60,7 @@ export default Component.extend({
 
   // Methods
   open(e) {
-    if (this.getAttr('disabled') || this.publicAPI.isOpen) {
+    if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
     let onOpen = this.getAttr('onOpen');
@@ -70,7 +71,7 @@ export default Component.extend({
   },
 
   close(e, skipFocus) {
-    if (this.getAttr('disabled') || !this.publicAPI.isOpen) {
+    if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
     let onClose = this.getAttr('onClose');
