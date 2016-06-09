@@ -11,7 +11,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-drop
 test('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
@@ -23,7 +23,7 @@ test('If the dropdown is open renders the given block in a div with class `ember
 test('If the dropdown is closed, nothing is rendered', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: false };
+  this.dropdown = { _id: '123', isOpen: false };
   this.render(hbs`
     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
@@ -34,7 +34,7 @@ test('If the dropdown is closed, nothing is rendered', function(assert) {
 test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
@@ -46,7 +46,7 @@ test('If it receives `renderInPlace=true`, it is rendered right here instead of 
 test('If it receives `to="foo123"`, it is rendered in the element with that ID', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     <div id="foo123"></div>
     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
@@ -56,21 +56,21 @@ test('If it receives `to="foo123"`, it is rendered in the element with that ID',
   assert.equal($content.parent()[0].id, 'foo123', 'It is rendered in the element with the given ID');
 });
 
-test('If it receives `dropdownId="foo123"`, the rendered content will have that ID', function(assert) {
+test('It derives the ID of the content from the `_id` property of of the dropdown', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown elementId="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content');
-  assert.equal($content.attr('id'), 'foo123', 'contains the expected ID');
+  assert.equal($content.attr('id'), 'ember-basic-dropdown-content-123', 'contains the expected ID');
 });
 
 test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
@@ -94,6 +94,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       close() {
@@ -117,6 +118,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       close() {
@@ -132,29 +134,6 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
   run(() => {
     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
     $('#inside-div')[0].dispatchEvent(event);
-  });
-});
-
-test('Clicking in the trigger doesn\'t invoke the close action' , function(assert) {
-  assert.expect(0);
-  this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = {
-    isOpen: true,
-    actions: {
-      close() {
-        assert.ok(false, 'The close action should not be called');
-      },
-      reposition() {}
-    }
-  };
-  this.render(hbs`
-    <div id="fake-trigger"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown triggerId="fake-trigger"}}Lorem ipsum{{/basic-dropdown/content}}
-  `);
-
-  run(() => {
-    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-    $('#fake-trigger')[0].dispatchEvent(event);
   });
 });
 
@@ -200,6 +179,7 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       close() {
@@ -225,6 +205,7 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       close() {
@@ -252,7 +233,7 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
 test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired inside the content', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.onFocusIn = (api, e) => {
     assert.ok(true, 'The action is invoked');
     assert.equal(api, this.dropdown, 'The first argument is the API');
@@ -270,7 +251,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
 test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: '123', isOpen: true, actions: { reposition() { } } };
   this.onFocusOut = (api, e) => {
     assert.ok(true, 'The action is invoked');
     assert.equal(api, this.dropdown, 'The first argument is the API');
@@ -291,6 +272,7 @@ test('The component is repositioned immediatly when opened', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       reposition() {
@@ -307,6 +289,7 @@ test('The component is not repositioned if it is closed', function(assert) {
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: '123',
     isOpen: false,
     actions: {
       reposition() {
@@ -324,6 +307,7 @@ test('The component is repositioned if the window scrolls', function(assert) {
   this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       reposition() {
@@ -343,6 +327,7 @@ test('The component is repositioned if the window is resized', function(assert) 
   this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       reposition() {
@@ -362,6 +347,7 @@ test('The component is repositioned if the orientation changes', function(assert
   this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       reposition() {
@@ -382,6 +368,7 @@ test('The component is repositioned if the content of the dropdown changs', func
   this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
+    _id: '123',
     isOpen: true,
     actions: {
       reposition() {

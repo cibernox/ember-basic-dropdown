@@ -11,8 +11,9 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-drop
 test('It renders the given block in a div with class `ember-basic-dropdown-trigger`, with no wrapper around', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
@@ -25,8 +26,9 @@ test('It renders the given block in a div with class `ember-basic-dropdown-trigg
 test('If it doesn\'t receive any tabindex, the default is 0', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
@@ -36,8 +38,9 @@ test('If it doesn\'t receive any tabindex, the default is 0', function(assert) {
 test('If it receives a falsey tabindex, the default is 0', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot tabindex=null}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot tabindex=null dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
@@ -47,8 +50,9 @@ test('If it receives a falsey tabindex, the default is 0', function(assert) {
 test('If it receives `tabindex=3`, the tabindex of the element is 3', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot tabindex=3}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot tabindex=3 dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
@@ -58,7 +62,7 @@ test('If it receives `tabindex=3`, the tabindex of the element is 3', function(a
 test('If the dropdown is disabled, the tabindex is -1 regardless of if it has been customized or not', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { disabled: true };
+  this.dropdown = { _id: 123, disabled: true };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown tabindex=3}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -70,7 +74,7 @@ test('If the dropdown is disabled, the tabindex is -1 regardless of if it has be
 test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attribute for a11y', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { disabled: true };
+  this.dropdown = { _id: 123, disabled: true };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -84,8 +88,9 @@ test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attr
 test('If it receives `ariaLabel="foo123"` it gets an `aria-label="foo123"` attribute', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot ariaLabel="foo123"}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot ariaLabel="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-label'), 'foo123', 'the aria-label is set');
 });
@@ -93,8 +98,9 @@ test('If it receives `ariaLabel="foo123"` it gets an `aria-label="foo123"` attri
 test('If it receives `ariaLabelledBy="foo123"` it gets an `aria-labelledby="foo123"` attribute', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot ariaLabelledBy="foo123"}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot ariaLabelledBy="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-labelledby'), 'foo123', 'the aria-labelledby is set');
 });
@@ -102,8 +108,9 @@ test('If it receives `ariaLabelledBy="foo123"` it gets an `aria-labelledby="foo1
 test('If it receives `ariaDescribedBy="foo123"` it gets an `aria-describedby="foo123"` attribute', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot ariaDescribedBy="foo123"}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot ariaDescribedBy="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-describedby'), 'foo123', 'the aria-describedby is set');
 });
@@ -111,9 +118,10 @@ test('If it receives `ariaDescribedBy="foo123"` it gets an `aria-describedby="fo
 test('If it receives `ariaRequired="true"` it gets an `aria-required="true"` attribute', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.required = true;
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot ariaRequired=required}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot ariaRequired=required dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true', 'the aria-required is true');
   run(() => this.set('required', false));
@@ -124,8 +132,9 @@ test('If it receives `ariaInvalid="true"` it gets an `aria-invalid="true"` attri
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
   this.invalid = true;
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot ariaInvalid=invalid}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot ariaInvalid=invalid dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true', 'the aria-invalid is true');
   run(() => this.set('invalid', false));
@@ -135,7 +144,7 @@ test('If it receives `ariaInvalid="true"` it gets an `aria-invalid="true"` attri
 test('If the received dropdown is open, it has an `aria-expanded="true"` attribute', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: false };
+  this.dropdown = { _id: 123, isOpen: false };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -147,7 +156,7 @@ test('If the received dropdown is open, it has an `aria-expanded="true"` attribu
 test('If the received dropdown is open, it has an `aria-pressed="true"` attribute', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: false };
+  this.dropdown = { _id: 123, isOpen: false };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -156,21 +165,23 @@ test('If the received dropdown is open, it has an `aria-pressed="true"` attribut
   assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true', 'the aria-pressed is true');
 });
 
-test('If it receives dropdownId="foo123" it gets an `aria-controls="foo123"` attribute', function(assert) {
+test('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot dropdownId="foo123"}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-controls'), 'foo123');
+  assert.equal($trigger.attr('aria-controls'), 'ember-basic-dropdown-content-123');
 });
 
 test('If it receives `role="foo123"` it gets that attribute', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot role="foo123"}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown role="foo123"}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('role'), 'foo123');
@@ -179,8 +190,9 @@ test('If it receives `role="foo123"` it gets that attribute', function(assert) {
 test('If it does not receive an specific `role`, the default is `button`', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('role'), 'button');
@@ -189,8 +201,9 @@ test('If it does not receive an specific `role`, the default is `button`', funct
 test('It has `aria-haspopup=true`', function(assert) {
   assert.expect(1);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger appRoot=appRoot}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('aria-haspopup'), 'true', 'Has `aria-haspopup=true`');
@@ -200,11 +213,11 @@ test('It has `aria-haspopup=true`', function(assert) {
 test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
+  this.dropdown = { _id: 123 };
   this.onMouseEnter = (dropdown, e) => {
     assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
   };
-  this.dropdown = {};
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onMouseEnter=onMouseEnter}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -221,7 +234,7 @@ test('If it receives an `onMouseLeave` action, it will be invoked when a mousele
     assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
   };
-  this.dropdown = {};
+  this.dropdown = { _id: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onMouseLeave=onMouseLeave}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -238,7 +251,7 @@ test('If it receives an `onFocus` action, it will be invoked when it get focused
     assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
   };
-  this.dropdown = {};
+  this.dropdown = { _id: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onFocus=onFocus}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -252,7 +265,7 @@ test('If it receives an `onBlur` action, it will be invoked when it get blurred'
     assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
   };
-  this.dropdown = {};
+  this.dropdown = { _id: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onBlur=onBlur}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -268,7 +281,7 @@ test('If it receives an `onKeydown` action, it will be invoked when a key is pre
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
     assert.equal(e.keyCode, 70, 'the event is the keydown event');
   };
-  this.dropdown = {};
+  this.dropdown = { _id: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown onKeydown=onKeydown}}Click me{{/basic-dropdown/trigger}}
   `);
@@ -280,6 +293,7 @@ test('Clicking invokes the `toggle` action on the dropdown', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     actions: {
       toggle(e) {
         assert.ok(true, 'The `toggle()` action has been fired');
@@ -297,6 +311,7 @@ test('Pressing ENTER fires the `toggle` action on the dropdown', function(assert
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     actions: {
       toggle(e) {
         assert.ok(true, 'The `toggle()` action has been fired');
@@ -315,6 +330,7 @@ test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefau
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     actions: {
       toggle(e) {
         assert.ok(true, 'The `toggle()` action has been fired');
@@ -334,6 +350,7 @@ test('Pressing ESC fires the `close` action on the dropdown', function(assert) {
   assert.expect(2);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     actions: {
       close(e) {
         assert.ok(true, 'The `close()` action has been fired');
@@ -353,6 +370,7 @@ test('Pressing ENTER/SPACE/ESC does nothing of the onKeydown action returns fals
   this.appRoot = document.querySelector('#ember-testing');
   this.onKeydown = () => false;
   this.dropdown = {
+    _id: 123,
     actions: {
       close() {
         assert.ok(false, 'This action is not called');
@@ -376,6 +394,7 @@ test('Tapping invokes the toggle action on the dropdown', function(assert) {
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     actions: {
+      _id: 123,
       toggle(e) {
         assert.ok(true, 'The `toggle()` action has been fired');
         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
@@ -392,6 +411,7 @@ test('Firing a mousemove between a touchstart and a touchend (touch scroll) does
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     actions: {
       toggle() {
         assert.ok(false, 'This action in not called');
@@ -411,6 +431,7 @@ test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard 
   assert.expect(0);
   this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
+    _id: 123,
     disabled: true,
     actions: {
       toggle() {
@@ -438,7 +459,7 @@ test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard 
 test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: 123, isOpen: true, actions: { reposition() { } } };
   this.onFocusIn = (api, e) => {
     assert.ok(true, 'The action is invoked');
     assert.equal(api, this.dropdown, 'The first argument is the API');
@@ -456,7 +477,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
 test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', function(assert) {
   assert.expect(3);
   this.appRoot = document.querySelector('#ember-testing');
-  this.dropdown = { isOpen: true, actions: { reposition() { } } };
+  this.dropdown = { _id: 123, isOpen: true, actions: { reposition() { } } };
   this.onFocusOut = (api, e) => {
     assert.ok(true, 'The action is invoked');
     assert.equal(api, this.dropdown, 'The first argument is the API');

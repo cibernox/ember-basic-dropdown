@@ -31,6 +31,9 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
+    let dropdown = this.get('dropdown');
+    this.elementId = `ember-basic-dropdown-trigger-${dropdown._id}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown._id}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
   },
 

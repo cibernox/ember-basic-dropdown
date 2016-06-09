@@ -42,6 +42,8 @@ export default Component.extend({
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     let dropdown = this.getAttr('dropdown');
+    this.triggerId = `ember-basic-dropdown-trigger-${dropdown._id}`;
+    this.dropdownId = `ember-basic-dropdown-content-${dropdown._id}`;
     this.runloopAwareReposition = function() {
       join(dropdown.actions.reposition);
     };
@@ -52,10 +54,10 @@ export default Component.extend({
     didOpen() {
       let appRoot = this.getAttr('appRoot');
       let dropdown = this.getAttr('dropdown');
-      this.dropdownElement = document.getElementById(this.elementId);
+      this.dropdownElement = document.getElementById(this.dropdownId);
       let triggerId = this.getAttr('triggerId');
       if (triggerId) {
-        this.triggerElement = document.getElementById(triggerId);
+        this.triggerElement = document.getElementById(this.triggerId);
       }
       appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
       if (this.get('isTouchDevice')) {
