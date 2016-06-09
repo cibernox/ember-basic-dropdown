@@ -382,6 +382,33 @@ test('Firing a reposition outside of a runloop doesn\'t break the component', fu
   }, 100);
 });
 
+// Customization of inner components
+test('It allows to customize the trigger passing `triggerComponent="my-custom-trigger"`', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown triggerComponent="my-custom-trigger" as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('#my-custom-trigger').length, 1, 'The custom component has been rendered');
+});
+
+test('It allows to customize the content passing `contentComponent="my-custom-content"`', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown contentComponent="my-custom-content" as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  assert.equal(this.$('#my-custom-content').length, 1, 'The custom component has been rendered');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 
