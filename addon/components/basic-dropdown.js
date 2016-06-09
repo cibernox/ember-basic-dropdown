@@ -6,6 +6,7 @@ import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { schedule } from 'ember-runloop';
 const { testing, getOwner } = Ember;
+let instancesCounter = 0;
 
 export default Component.extend({
   layout,
@@ -22,10 +23,10 @@ export default Component.extend({
     if (this.get('renderInPlace') && this.get('tagName') === '') {
       this.set('tagName', 'div');
     }
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.elementId}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.elementId}`;
+    instancesCounter++;
 
     this.publicAPI = {
+      _id: this.elementId || instancesCounter++,
       isOpen: this.getAttr('initiallyOpened') || false,
       disabled: this.getAttr('disabled') || false,
       actions: {
@@ -35,6 +36,9 @@ export default Component.extend({
         reposition: this.reposition.bind(this)
       }
     };
+
+    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.publicAPI._id}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.publicAPI._id}`;
 
     let registerAPI = this.get('registerAPI');
     if (registerAPI) {
