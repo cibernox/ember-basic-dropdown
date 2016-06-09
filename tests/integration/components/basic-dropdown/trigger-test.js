@@ -80,9 +80,9 @@ test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attr
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-disabled'), 'true', 'It is marked as disabled');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-disabled')) > -1, 'It is marked as disabled');
   run(() => this.set('dropdown.disabled', false));
-  assert.equal($trigger.attr('aria-disabled'), 'false', 'It is not disabled anymore');
+  assert.ok(['false', undefined].indexOf($trigger.attr('aria-disabled')) > -1, 'It is not disabled anymore');
 });
 
 test('If it receives `ariaLabel="foo123"` it gets an `aria-label="foo123"` attribute', function(assert) {
@@ -123,9 +123,10 @@ test('If it receives `ariaRequired="true"` it gets an `aria-required="true"` att
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot ariaRequired=required dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'true', 'the aria-required is true');
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-required')) > -1, 'the aria-required is true');
   run(() => this.set('required', false));
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-required'), 'false', 'the aria-required is false');
+  assert.ok(['false', undefined].indexOf($trigger.attr('aria-required')) > -1, 'the aria-required is false');
 });
 
 test('If it receives `ariaInvalid="true"` it gets an `aria-invalid="true"` attribute', function(assert) {
@@ -136,9 +137,10 @@ test('If it receives `ariaInvalid="true"` it gets an `aria-invalid="true"` attri
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot ariaInvalid=invalid dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'true', 'the aria-invalid is true');
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-invalid')) > -1, 'the aria-invalid is true');
   run(() => this.set('invalid', false));
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-invalid'), 'false', 'the aria-invalid is false');
+  assert.ok(['false', undefined].indexOf($trigger.attr('aria-invalid')) > -1, 'the aria-invalid is false');
 });
 
 test('If the received dropdown is open, it has an `aria-expanded="true"` attribute', function(assert) {
@@ -148,9 +150,10 @@ test('If the received dropdown is open, it has an `aria-expanded="true"` attribu
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'false', 'the aria-expanded is false');
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok(['false', undefined].indexOf($trigger.attr('aria-expanded')) > -1, 'the aria-expanded is false');
   run(() => set(this.dropdown, 'isOpen', true));
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-expanded'), 'true', 'the aria-expanded is true');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-expanded')) > -1, 'the aria-expanded is true');
 });
 
 test('If the received dropdown is open, it has an `aria-pressed="true"` attribute', function(assert) {
@@ -160,9 +163,10 @@ test('If the received dropdown is open, it has an `aria-pressed="true"` attribut
   this.render(hbs`
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'false', 'the aria-pressed is false');
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok(['false', undefined].indexOf($trigger.attr('aria-pressed')) > -1, 'the aria-pressed is false');
   run(() => set(this.dropdown, 'isOpen', true));
-  assert.equal(this.$('.ember-basic-dropdown-trigger').attr('aria-pressed'), 'true', 'the aria-pressed is true');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-pressed')) > -1, 'the aria-pressed is true');
 });
 
 test('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', function(assert) {
@@ -206,7 +210,7 @@ test('It has `aria-haspopup=true`', function(assert) {
     {{#basic-dropdown/trigger appRoot=appRoot dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-haspopup'), 'true', 'Has `aria-haspopup=true`');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-haspopup') > -1), 'Has `aria-haspopup=true`');
 });
 
 // Custom actions
