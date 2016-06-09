@@ -5,6 +5,16 @@ import computed from 'ember-computed';
 
 const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
 
+function trueStringIfPresent(path) {
+  return computed(path, function() {
+    if (this.get(path)) {
+      return 'true';
+    } else {
+      return null;
+    }
+  });
+}
+
 export default Component.extend({
   layout,
   isTouchDevice,
@@ -17,15 +27,15 @@ export default Component.extend({
     'role',
     'tabIndex:tabindex',
     'dropdownId:aria-controls',
-    'dropdown.disabled:aria-disabled',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',
-    'ariaRequired:aria-required',
-    'ariaInvalid:aria-invalid',
+    'aria-disabled',
+    'aria-expanded',
     'aria-haspopup',
-    'dropdown.isOpen:aria-expanded',
-    'dropdown.isOpen:aria-pressed'
+    'aria-invalid',
+    'aria-pressed',
+    'aria-required'
   ],
 
   // Lifecycle hooks
@@ -49,6 +59,12 @@ export default Component.extend({
   },
 
   // CPs
+  'aria-disabled': trueStringIfPresent('dropdown.disabled'),
+  'aria-expanded': trueStringIfPresent('dropdown.isOpen'),
+  'aria-invalid': trueStringIfPresent('ariaInvalid'),
+  'aria-pressed': trueStringIfPresent('dropdown.isOpen'),
+  'aria-required': trueStringIfPresent('ariaRequired'),
+
   tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
     return this.get('dropdown.disabled') ? -1 : (this.get('tabindex') || 0);
   }),
