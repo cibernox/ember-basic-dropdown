@@ -2,7 +2,7 @@
   isOpen=publicAPI.isOpen
   disabled=publicAPI.disabled
   actions=publicAPI.actions
-  trigger=(component 'basic-dropdown/trigger'
+  trigger=(component triggerComponent
     appRoot=(readonly appRoot)
     dropdown=(readonly publicAPI)
     hPosition=(readonly hPosition)
@@ -10,7 +10,7 @@
     renderInPlace=(readonly renderInPlace)
     vPosition=(readonly vPosition)
   )
-  content=(component 'basic-dropdown/content'
+  content=(component contentComponent
     appRoot=(readonly appRoot)
     dropdown=(readonly publicAPI)
     hPosition=(readonly hPosition)

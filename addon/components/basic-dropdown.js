@@ -5,16 +5,19 @@ import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { schedule } from 'ember-runloop';
+import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 const { testing, getOwner } = Ember;
 let instancesCounter = 0;
 
 export default Component.extend({
   layout,
   tagName: '',
-  renderInPlace: false,
-  verticalPosition: 'auto', // above | below
-  horizontalPosition: 'auto', // right | center | left
-  matchTriggerWidth: false,
+  renderInPlace: fallbackIfUndefined(false),
+  verticalPosition: fallbackIfUndefined('auto'), // above | below
+  horizontalPosition: fallbackIfUndefined('auto'), // right | center | left
+  matchTriggerWidth: fallbackIfUndefined(false),
+  triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
+  contentComponent: fallbackIfUndefined('basic-dropdown/content'),
   classNames: ['ember-basic-dropdown'],
 
   // Lifecycle hooks
