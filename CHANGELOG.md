@@ -1,3 +1,15 @@
+# 0.12.0-beta.11
+- [INTERNAL] Update ember-cli to 2.6
+- [INTERNAL] Update ember-wormhole to 0.4.0 (fastboot support)
+- [BUGFIX] Correct behaviour of `aria-disabled`, `aria-expanded`, `aria-invalid`, `aria-pressed`
+  and `aria-required` in Ember 2.7+
+- [ENHANCEMENT] Allow to customize componets for the trigger and the content, with the `triggerComponent`
+  and `contentComponent` properties.
+- [BUGFIX] Stop relying in `this.elementId`, since it is not present in Ember 2.7+ on tagless components.
+- [ENHANCEMENT] Add an `onBlur` action to the trigger
+- [BUGFIX] Change repositioning logic so it doesn't sets properties from inside the `didInsertElement`,
+  which is deprecated and causes a performance penalty.
+
 # 0.12-beta.6
 - [ENHANCEMENT] Although the component is tagless by default, if the user passes `renderInPlace=true`,
   a wrapper element with class `.ember-basic-dropdown` is added to be able to position the content
