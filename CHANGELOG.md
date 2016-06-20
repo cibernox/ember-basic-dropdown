@@ -1,3 +1,4 @@
+# 0.12.0-beta.13
 - [BUGFIX] Ensure reposition is not applied in destroyed components
 
 # 0.12.0-beta.12
