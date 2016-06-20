@@ -34,6 +34,7 @@ export default Component.extend({
   animationEnabled: true,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
+  animationClass: '',
 
   // Lifecycle hooks
   init() {
@@ -44,6 +45,9 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerId = `ember-basic-dropdown-trigger-${dropdown._id}`;
     this.dropdownId = `ember-basic-dropdown-content-${dropdown._id}`;
+    if (this.get('animationEnabled')) {
+      this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
+    }
     this.runloopAwareReposition = function() {
       join(dropdown.actions.reposition);
     };
@@ -79,7 +83,7 @@ export default Component.extend({
       }
       dropdown.actions.reposition();
       if (this.get('animationEnabled')) {
-        scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
+        scheduleOnce('actions', this, this.animateIn);
       }
     },
 
@@ -139,12 +143,9 @@ export default Component.extend({
     }
   },
 
-  animateIn(dropdownElement) {
-    let $el = $(dropdownElement);
-    $el.addClass('ember-basic-dropdown--transitioning-in');
-    waitForAnimations(dropdownElement, () => {
-      $el.removeClass('ember-basic-dropdown--transitioning-in');
-      $el.addClass('ember-basic-dropdown--transitioned-in');
+  animateIn() {
+    waitForAnimations(this.dropdownElement, () => {
+      this.set('animationClass', 'ember-basic-dropdown--transitioned-in');
     });
   },
 
@@ -157,6 +158,7 @@ export default Component.extend({
     $clone.removeClass('ember-basic-dropdown--transitioning-in');
     $clone.addClass('ember-basic-dropdown--transitioning-out');
     parentElement.appendChild(clone);
+    this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });

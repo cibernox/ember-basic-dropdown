@@ -26,5 +26,9 @@ module.exports = {
         return '<div id="ember-basic-dropdown-wormhole"></div>';
       }
     }
+  },
+
+  isDevelopingAddon() {
+    return true;
   }
 };
