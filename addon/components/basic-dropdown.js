@@ -29,7 +29,7 @@ export default Component.extend({
     instancesCounter++;
 
     this.publicAPI = {
-      _id: this.elementId || instancesCounter++,
+      _id: instancesCounter++,
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       actions: {
