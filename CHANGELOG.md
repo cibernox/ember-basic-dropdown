@@ -1,3 +1,6 @@
+# 0.12.0-beta.12
+- [BUGFIX] Fix animations
+
 # 0.12.0-beta.11
 - [INTERNAL] Update ember-cli to 2.6
 - [INTERNAL] Update ember-wormhole to 0.4.0 (fastboot support)
