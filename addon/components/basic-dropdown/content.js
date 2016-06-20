@@ -34,6 +34,7 @@ export default Component.extend({
   animationEnabled: true,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
+  animationClass: '',
 
   // Lifecycle hooks
   init() {
@@ -41,9 +42,12 @@ export default Component.extend({
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
-    let dropdown = this.getAttr('dropdown');
+    let dropdown = this.get('dropdown');
     this.triggerId = `ember-basic-dropdown-trigger-${dropdown._id}`;
     this.dropdownId = `ember-basic-dropdown-content-${dropdown._id}`;
+    if (this.get('animationEnabled')) {
+      this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
+    }
     this.runloopAwareReposition = function() {
       join(dropdown.actions.reposition);
     };
@@ -52,10 +56,10 @@ export default Component.extend({
   // Actions
   actions: {
     didOpen() {
-      let appRoot = this.getAttr('appRoot');
-      let dropdown = this.getAttr('dropdown');
+      let appRoot = this.get('appRoot');
+      let dropdown = this.get('dropdown');
       this.dropdownElement = document.getElementById(this.dropdownId);
-      let triggerId = this.getAttr('triggerId');
+      let triggerId = this.get('triggerId');
       if (triggerId) {
         this.triggerElement = document.getElementById(this.triggerId);
       }
@@ -65,26 +69,26 @@ export default Component.extend({
         appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
       }
 
-      let onFocusIn = this.getAttr('onFocusIn');
+      let onFocusIn = this.get('onFocusIn');
       if (onFocusIn) {
         this.dropdownElement.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
       }
-      let onFocusOut = this.getAttr('onFocusOut');
+      let onFocusOut = this.get('onFocusOut');
       if (onFocusOut) {
         this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
       }
 
-      if (!this.getAttr('renderInPlace')) {
+      if (!this.get('renderInPlace')) {
         this.addGlobalEvents();
       }
       dropdown.actions.reposition();
       if (this.get('animationEnabled')) {
-        scheduleOnce('actions', this, this.animateIn, this.dropdownElement);
+        scheduleOnce('actions', this, this.animateIn);
       }
     },
 
     willClose() {
-      let appRoot = this.getAttr('appRoot');
+      let appRoot = this.get('appRoot');
       this.removeGlobalEvents();
       appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
       if (this.get('isTouchDevice')) {
@@ -104,7 +108,7 @@ export default Component.extend({
       this.hasMoved = false;
       return;
     }
-    this.getAttr('dropdown').actions.close(e, true);
+    this.get('dropdown').actions.close(e, true);
   },
 
   addGlobalEvents() {
@@ -139,12 +143,9 @@ export default Component.extend({
     }
   },
 
-  animateIn(dropdownElement) {
-    let $el = $(dropdownElement);
-    $el.addClass('ember-basic-dropdown--transitioning-in');
-    waitForAnimations(dropdownElement, () => {
-      $el.removeClass('ember-basic-dropdown--transitioning-in');
-      $el.addClass('ember-basic-dropdown--transitioned-in');
+  animateIn() {
+    waitForAnimations(this.dropdownElement, () => {
+      this.set('animationClass', 'ember-basic-dropdown--transitioned-in');
     });
   },
 
@@ -157,6 +158,7 @@ export default Component.extend({
     $clone.removeClass('ember-basic-dropdown--transitioning-in');
     $clone.addClass('ember-basic-dropdown--transitioning-out');
     parentElement.appendChild(clone);
+    this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
