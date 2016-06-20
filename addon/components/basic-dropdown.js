@@ -30,8 +30,8 @@ export default Component.extend({
 
     this.publicAPI = {
       _id: this.elementId || instancesCounter++,
-      isOpen: this.getAttr('initiallyOpened') || false,
-      disabled: this.getAttr('disabled') || false,
+      isOpen: this.get('initiallyOpened') || false,
+      disabled: this.get('disabled') || false,
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -70,7 +70,7 @@ export default Component.extend({
     if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
-    let onOpen = this.getAttr('onOpen');
+    let onOpen = this.get('onOpen');
     if (onOpen && onOpen(this.publicAPI, e) === false) {
       return;
     }
@@ -81,7 +81,7 @@ export default Component.extend({
     if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
-    let onClose = this.getAttr('onClose');
+    let onClose = this.get('onClose');
     if (onClose && onClose(this.publicAPI, e) === false) {
       return;
     }

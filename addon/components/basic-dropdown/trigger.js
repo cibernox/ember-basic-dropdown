@@ -55,7 +55,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    this.getAttr('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   // CPs
@@ -70,7 +70,7 @@ export default Component.extend({
   }),
 
   inPlaceClass: computed('renderInPlace', function() {
-    if (this.getAttr('renderInPlace')) {
+    if (this.get('renderInPlace')) {
       return 'ember-basic-dropdown-trigger--in-place';
     }
   }),
@@ -92,7 +92,7 @@ export default Component.extend({
   // Actions
   actions: {
     handleMousedown(e) {
-      let dropdown = this.getAttr('dropdown');
+      let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
@@ -101,7 +101,7 @@ export default Component.extend({
     },
 
     handleTouchEnd(e) {
-      let dropdown = this.getAttr('dropdown');
+      let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
@@ -112,11 +112,11 @@ export default Component.extend({
     },
 
     handleKeydown(e) {
-      let dropdown = this.getAttr('dropdown');
+      let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
       }
-      let onKeydown = this.getAttr('onKeydown');
+      let onKeydown = this.get('onKeydown');
       if (onKeydown && onKeydown(dropdown, e) === false) {
         return;
       }
@@ -134,7 +134,7 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    this.getAttr('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
@@ -150,7 +150,7 @@ export default Component.extend({
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
-        this.getAttr('appRoot').addEventListener('touchmove', this._touchMoveHandler);
+        this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => {
         this.send('handleTouchEnd', e);
@@ -162,28 +162,28 @@ export default Component.extend({
   },
 
   addOptionalHandlers() {
-    let dropdown = this.getAttr('dropdown');
-    let onMouseEnter = this.getAttr('onMouseEnter');
+    let dropdown = this.get('dropdown');
+    let onMouseEnter = this.get('onMouseEnter');
     if (onMouseEnter) {
       this.element.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
     }
-    let onMouseLeave = this.getAttr('onMouseLeave');
+    let onMouseLeave = this.get('onMouseLeave');
     if (onMouseLeave) {
       this.element.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
     }
-    let onFocus = this.getAttr('onFocus');
+    let onFocus = this.get('onFocus');
     if (onFocus) {
       this.element.addEventListener('focus', (e) => onFocus(dropdown, e));
     }
-    let onBlur = this.getAttr('onBlur');
+    let onBlur = this.get('onBlur');
     if (onBlur) {
       this.element.addEventListener('blur', (e) => onBlur(dropdown, e));
     }
-    let onFocusIn = this.getAttr('onFocusIn');
+    let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
       this.element.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
     }
-    let onFocusOut = this.getAttr('onFocusOut');
+    let onFocusOut = this.get('onFocusOut');
     if (onFocusOut) {
       this.element.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
