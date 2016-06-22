@@ -332,18 +332,22 @@ test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'The trigger has a special `--in-place` class');
 });
 
-test('It passes the `disabled` property as part of the public API', function(assert) {
-  assert.expect(1);
-
+test('It passes the `disabled` property as part of the public API, and updates is if it changes', function(assert) {
+  assert.expect(2);
+  this.disabled = true;
   this.render(hbs`
-    {{#basic-dropdown disabled=true as |dropdown|}}
+    {{#basic-dropdown disabled=disabled as |dropdown|}}
       {{#if dropdown.disabled}}
         <div id="disabled-dropdown-marker">Disabled!</div>
+      {{else}}
+        <div id="enabled-dropdown-marker">Enabled!</div>
       {{/if}}
     {{/basic-dropdown}}
   `);
 
   assert.equal(this.$('#disabled-dropdown-marker').length, 1, 'The public API of the component is marked as disabled');
+  this.set('disabled', false);
+  assert.equal(this.$('#enabled-dropdown-marker').length, 1, 'The public API of the component is marked as enabled');
 });
 
 // A11y

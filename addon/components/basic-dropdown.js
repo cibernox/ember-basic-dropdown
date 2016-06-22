@@ -54,6 +54,14 @@ export default Component.extend({
     cancel(this.updatePositionsTimer);
   },
 
+  didUpdateAttrs() {
+    this._super(...arguments);
+    let disabled = this.get('disabled');
+    if (disabled !== this.publicAPI.disabled) {
+      set(this.publicAPI, 'disabled', disabled);
+    }
+  },
+
   // CPs
   appRoot: computed(function() {
     let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
