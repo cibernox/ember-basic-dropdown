@@ -31,7 +31,7 @@ export default Component.extend({
   layout,
   tagName: '',
   to: testing ? 'ember-testing' : defaultDestination,
-  animationEnabled: true,
+  animationEnabled: !testing,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
   animationClass: '',
