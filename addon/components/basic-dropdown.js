@@ -141,7 +141,7 @@ export default Component.extend({
     if (horizontalPosition === 'auto') {
       let triggerRect = trigger.getBoundingClientRect();
       let dropdownRect = dropdown.getBoundingClientRect();
-      let viewportRight = $(self.window).scrollLeft + self.window.innerWidth;
+      let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
       horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
     }
     this.applyReposition(trigger, dropdown, { horizontalPosition });
