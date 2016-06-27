@@ -1,3 +1,7 @@
+# 0.12.0-beta.18
+- [BUGFIX] Fix positioning of dropdowns rendered in-place due to a typo
+
+# 0.12.0-beta.17
 - [BUGFIX] Ensure the `disabled` property of the public API is updated properly
 
 # 0.12.0-beta.13
