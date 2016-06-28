@@ -3,6 +3,7 @@ import layout from '../../templates/components/basic-dropdown/content';
 import config from 'ember-get-config';
 import $ from 'jquery';
 import Ember from 'ember';
+import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { join, scheduleOnce } from 'ember-runloop';
 
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
@@ -30,7 +31,7 @@ function waitForAnimations(element, callback) {
 export default Component.extend({
   layout,
   tagName: '',
-  to: testing ? 'ember-testing' : defaultDestination,
+  to: fallbackIfUndefined(testing ? 'ember-testing' : defaultDestination),
   animationEnabled: !testing,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
