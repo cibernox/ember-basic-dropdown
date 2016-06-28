@@ -1,3 +1,4 @@
+# 0.12.0-beta.19
 - [BUGFIX] Allow `to` property of the content component to be undefined
 
 # 0.12.0-beta.18
