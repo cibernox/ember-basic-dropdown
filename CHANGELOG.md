@@ -1,3 +1,5 @@
+- [BUGFIX] Allow `to` property of the content component to be undefined
+
 # 0.12.0-beta.18
 - [BUGFIX] Fix positioning of dropdowns rendered in-place due to a typo
 
