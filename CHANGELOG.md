@@ -1,3 +1,6 @@
+# 0.12.0-beta.21
+- [ENHANCEMENT] Expose `clickDropdown` and `tapDropdown` acceptance helpers.
+- [BUGFIX] Allow to nest a dropdown inside another dropdown without the second being rendered in place.
 
 # 0.12.0-beta.20
 - [BUGFIX] Apply enter animation after render. Otherwise it take place before the component
