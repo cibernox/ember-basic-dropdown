@@ -84,7 +84,7 @@ export default Component.extend({
       }
       dropdown.actions.reposition();
       if (this.get('animationEnabled')) {
-        scheduleOnce('actions', this, this.animateIn);
+        scheduleOnce('afterRender', this, this.animateIn);
       }
     },
 

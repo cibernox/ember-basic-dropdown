@@ -1,3 +1,7 @@
+
+- [BUGFIX] Apply enter animation after render. Otherwise it take place before the component
+  gains the `--above` or `--below` class, which is needed to know how to animate.
+
 # 0.12.0-beta.19
 - [BUGFIX] Allow `to` property of the content component to be undefined
 
