@@ -1,4 +1,5 @@
 
+# 0.12.0-beta.20
 - [BUGFIX] Apply enter animation after render. Otherwise it take place before the component
   gains the `--above` or `--below` class, which is needed to know how to animate.
 
