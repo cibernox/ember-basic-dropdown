@@ -65,7 +65,7 @@
 
   {{#dropdown.content}}
 
-    {{#basic-dropdown renderInPlace=true as |nested|}}
+    {{#basic-dropdown as |nested|}}
       <p style="color: green;"><br>First level of the dropdpwn<br></p>
       {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
       {{#nested.content}}
