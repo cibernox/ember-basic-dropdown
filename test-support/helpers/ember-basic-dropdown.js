@@ -1,5 +1,7 @@
+import Ember from 'ember';
 import run from 'ember-runloop';
 
+// integration helpers
 function focus(el) {
   if (!el) { return; }
   let $el = jQuery(el);
@@ -71,4 +73,15 @@ export function fireKeydown(selector, k) {
     charCode: k
   });
   run(() => document.querySelector(selector).dispatchEvent(oEvent));
+}
+
+// acceptance helpers
+export default function() {
+  Ember.Test.registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
+    clickTrigger(cssPath, options);
+  });
+
+  Ember.Test.registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
+    tapTrigger(cssPath, options);
+  });
 }
