@@ -109,6 +109,17 @@ export default Component.extend({
       this.hasMoved = false;
       return;
     }
+
+    let closestDropdown = $(e.target).closest('.ember-basic-dropdown-content').get(0);
+    if (closestDropdown) {
+      let trigger = document.querySelector(`[aria-controls=${closestDropdown.attributes.id.value}]`);
+      let parentDropdown = $(trigger).closest('.ember-basic-dropdown-content').get(0);
+      if (parentDropdown && parentDropdown.attributes.id.value === this.dropdownId) {
+        this.hasMoved = false;
+        return;
+      }
+    }
+
     this.get('dropdown').actions.close(e, true);
   },
 
