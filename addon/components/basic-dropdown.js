@@ -4,7 +4,7 @@ import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import { scheduleOnce, cancel } from 'ember-runloop';
+import { scheduleOnce, join, cancel } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 const { testing, getOwner } = Ember;
 let instancesCounter = 0;
@@ -56,9 +56,10 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    let disabled = this.get('disabled');
-    if (disabled !== this.publicAPI.disabled) {
-      set(this.publicAPI, 'disabled', disabled);
+    if (this.get('disabled')) {
+      join(this, this.disable);
+    } else {
+      set(this.publicAPI, 'disabled', false);
     }
   },
 
@@ -210,5 +211,12 @@ export default Component.extend({
     this.setProperties({ hPosition: positions.horizontalPosition, vPosition: positions.verticalPosition });
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
+  },
+
+  disable() {
+    if (this.publicAPI.isOpen) {
+      this.publicAPI.actions.close();
+    }
+    set(this.publicAPI, 'disabled', true);
   }
 });

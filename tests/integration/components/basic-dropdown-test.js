@@ -5,6 +5,8 @@ import $ from 'jquery';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 
 let deprecations = [];
+const { run } = Ember;
+
 Ember.Debug.registerDeprecationHandler((message, options, next) => {
   deprecations.push(message);
   next(message, options);
@@ -348,6 +350,23 @@ test('It passes the `disabled` property as part of the public API, and updates i
   assert.equal(this.$('#disabled-dropdown-marker').length, 1, 'The public API of the component is marked as disabled');
   this.set('disabled', false);
   assert.equal(this.$('#enabled-dropdown-marker').length, 1, 'The public API of the component is marked as enabled');
+});
+
+test('If the dropdown gets disabled while it\'s open, it closes automatically', function(assert) {
+  assert.expect(2);
+
+  this.isDisabled = false;
+  this.render(hbs`
+    {{#basic-dropdown disabled=isDisabled as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal($('#dropdown-is-opened').length, 1, 'The select is open');
+  run(() => this.set('isDisabled', true));
+  assert.equal($('#dropdown-is-opened').length, 0, 'The select is now closed');
 });
 
 // A11y
