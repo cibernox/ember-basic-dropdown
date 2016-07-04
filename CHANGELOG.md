@@ -1,3 +1,5 @@
+- [ENHANCEMENT] If the component gets disabled while it's opened, it is closed automatically.
+
 # 0.12.0-beta.21
 - [ENHANCEMENT] Expose `clickDropdown` and `tapDropdown` acceptance helpers.
 - [BUGFIX] Allow to nest a dropdown inside another dropdown without the second being rendered in place.
