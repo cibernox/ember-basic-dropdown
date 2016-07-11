@@ -65,7 +65,6 @@ export default Component.extend({
 
   // CPs
   appRoot: computed(function() {
-    if (!self.document) { return; }
     let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
     return self.document.querySelector(rootSelector);
   }),
