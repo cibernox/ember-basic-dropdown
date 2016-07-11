@@ -109,6 +109,7 @@ export default Component.extend({
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
+      this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
     },
 
     handleKeydown(e) {
