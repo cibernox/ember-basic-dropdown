@@ -1,3 +1,7 @@
+# 0.12.0-beta.23
+- [BUGFIX] Correctly remove touchmove event on touch ends.
+- [BUGFIX] Prevent DOM access in fastboot mode.
+
 # 0.12.0-beta.22
 - [ENHANCEMENT] If the component gets disabled while it's opened, it is closed automatically.
 
