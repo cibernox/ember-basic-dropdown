@@ -9,7 +9,9 @@
   width: auto;
   z-index: 1000;
   background-color: #FFF; }
-  .ember-basic-dropdown-content--left {
-    left: 0; }
-  .ember-basic-dropdown-content--right {
-    right: 0; }
+
+.ember-basic-dropdown-content--left {
+  left: 0; }
+
+.ember-basic-dropdown-content--right {
+  right: 0; }
