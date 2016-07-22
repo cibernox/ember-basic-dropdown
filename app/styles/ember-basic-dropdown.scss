@@ -12,10 +12,9 @@ $ember-basic-dropdown-content-z-index: 1000 !default;
   width: auto;
   z-index: $ember-basic-dropdown-content-z-index;
   background-color: $ember-basic-dropdown-content-background-color;
-
-  &--left { left: 0; }
-  &--right { right: 0; }
 }
+.ember-basic-dropdown-content--left { left: 0; }
+.ember-basic-dropdown-content--right { right: 0; }
 
 // .ember-basic-dropdown-text-select-disabled {
 //   user-select: none;
