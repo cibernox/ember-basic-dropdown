@@ -25,12 +25,14 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
+    this.set('publicAPI', {});
+
     if (this.get('renderInPlace') && this.get('tagName') === '') {
       this.set('tagName', 'div');
     }
     instancesCounter++;
 
-    this.set('publicAPI', {
+    let publicAPI = this.updateState({
       _id: instancesCounter++,
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
@@ -42,13 +44,8 @@ export default Component.extend({
       }
     });
 
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.publicAPI._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.publicAPI._id}`;
-
-    let registerAPI = this.get('registerAPI');
-    if (registerAPI) {
-      registerAPI(this.publicAPI);
-    }
+    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI._id}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI._id}`;
   },
 
   willDestroy() {
@@ -94,7 +91,7 @@ export default Component.extend({
     if (onOpen && onOpen(publicAPI, e) === false) {
       return;
     }
-    set(this, 'publicAPI', assign({}, publicAPI, { isOpen: true }));
+    this.updateState({ isOpen: true });
   },
 
   close(e, skipFocus) {
@@ -108,7 +105,7 @@ export default Component.extend({
     }
     this.setProperties({ hPosition: null, vPosition: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
-    set(this, 'publicAPI', assign({}, publicAPI, { isOpen: false }));
+    this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
     }
@@ -241,6 +238,15 @@ export default Component.extend({
     if (publicAPI.isOpen) {
       publicAPI.actions.close();
     }
-    set(this, 'publicAPI', assign({}, this.get('publicAPI'), { disabled: true }));
+    this.updateState({ disabled: true });
+  },
+
+  updateState(changes) {
+    let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      scheduleOnce('actions', this, 'registerAPI', newState);
+    }
+    return newState;
   }
 });

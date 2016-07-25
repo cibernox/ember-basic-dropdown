@@ -448,6 +448,32 @@ test('When the component is opened, closed or disabled, the entire publicAPI is 
   assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me Did open!');
 });
 
+test('The registerAPI is called with every mutation of the publicAPI object', function(assert) {
+  assert.expect(7);
+  let apis = [];
+  this.disabled = false;
+  this.registerAPI = function(api) {
+    apis.push(api);
+  };
+  this.render(hbs`
+    {{#basic-dropdown disabled=disabled registerAPI=registerAPI as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  clickTrigger();
+  assert.equal(apis.length, 3, 'There have been 3 changes in the state of the public API');
+  assert.equal(apis[0].isOpen, false, 'The component was closed');
+  assert.equal(apis[1].isOpen, true, 'Then it opened');
+  assert.equal(apis[2].isOpen, false, 'Then it closed again');
+  this.set('disabled', true);
+  assert.equal(apis.length, 4, 'There have been 4 changes now');
+  assert.equal(apis[2].disabled, false, 'the component was enabled');
+  assert.equal(apis[3].disabled, true, 'and it became disabled');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 
