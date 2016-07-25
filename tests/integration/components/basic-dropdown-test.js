@@ -432,6 +432,22 @@ test('It allows to customize the content passing `contentComponent="my-custom-co
   assert.equal(this.$('#my-custom-content').length, 1, 'The custom component has been rendered');
 });
 
+// State replacement
+test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown triggerComponent="trigger-with-did-receive-attrs" as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me');
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me Did open!');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 
