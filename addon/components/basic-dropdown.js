@@ -245,7 +245,8 @@ export default Component.extend({
     let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
     let registerAPI = this.get('registerAPI');
     if (registerAPI) {
-      scheduleOnce('actions', this, 'registerAPI', newState);
+      registerAPI(newState);
+      // scheduleOnce('actions', this, 'registerAPI', newState);
     }
     return newState;
   }
