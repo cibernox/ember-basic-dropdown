@@ -6,7 +6,9 @@ import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { scheduleOnce, join, cancel } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-const { testing, getOwner } = Ember;
+import getOwner from 'ember-owner/get';
+
+const { testing } = Ember;
 let instancesCounter = 0;
 
 export default Component.extend({
