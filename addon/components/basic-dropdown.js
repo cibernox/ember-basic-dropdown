@@ -4,12 +4,12 @@ import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import { scheduleOnce, join, cancel } from 'ember-runloop';
+import { join } from 'ember-runloop';
+import { assign } from 'ember-platform';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-const { testing, getOwner } = Ember;
+import getOwner from 'ember-owner/get';
+const { testing } = Ember;
 let instancesCounter = 0;
-
-const assign = Ember.assign || Ember.merge;
 
 export default Component.extend({
   layout,
@@ -46,11 +46,6 @@ export default Component.extend({
 
     this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI._id}`;
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI._id}`;
-  },
-
-  willDestroy() {
-    this._super(...arguments);
-    cancel(this.updatePositionsTimer);
   },
 
   didUpdateAttrs() {
@@ -221,14 +216,16 @@ export default Component.extend({
   },
 
   applyReposition(trigger, dropdown, positions) {
-    this.updatePositionsTimer = scheduleOnce('actions', this, this.updatePositions, positions);
     if (positions.style) {
-      Object.keys(positions.style).forEach((key) => dropdown.style[key] = positions.style[key]);
+      this.setProperties({
+        top: positions.style.top,
+        left: positions.style.left
+      });
     }
-  },
-
-  updatePositions(positions) {
-    this.setProperties({ hPosition: positions.horizontalPosition, vPosition: positions.verticalPosition });
+    this.setProperties({
+      hPosition: positions.horizontalPosition,
+      vPosition: positions.verticalPosition
+    });
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
   },
@@ -246,7 +243,6 @@ export default Component.extend({
     let registerAPI = this.get('registerAPI');
     if (registerAPI) {
       registerAPI(newState);
-      // scheduleOnce('actions', this, 'registerAPI', newState);
     }
     return newState;
   }
