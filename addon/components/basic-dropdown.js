@@ -216,16 +216,16 @@ export default Component.extend({
   },
 
   applyReposition(trigger, dropdown, positions) {
-    if (positions.style) {
-      this.setProperties({
-        top: positions.style.top,
-        left: positions.style.left
-      });
-    }
-    this.setProperties({
+    let changes = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition
-    });
+    };
+    if (positions.style) {
+      changes.top = positions.style.top;
+      changes.left = positions.style.left;
+      changes.width = positions.style.width;
+    }
+    this.setProperties(changes);
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
   },

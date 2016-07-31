@@ -75,9 +75,13 @@ export default Component.extend({
 
   // CPs
   style: computed('top', 'left', function() {
-    let { top, left } = this.getProperties('top', 'left');
+    let { top, left, width } = this.getProperties('top', 'left', 'width');
     if (top && left) {
-      return htmlSafe(`top: ${top}; left: ${left};`);
+      let style = `top: ${top}; left: ${left};`;
+      if (width) {
+        style += `width: ${width}`;
+      }
+      return htmlSafe(style);
     }
   }),
 
