@@ -4,9 +4,11 @@ import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import { scheduleOnce, join, cancel } from 'ember-runloop';
+import { join } from 'ember-runloop';
+import { assign } from 'ember-platform';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-const { testing, getOwner } = Ember;
+import getOwner from 'ember-owner/get';
+const { testing } = Ember;
 let instancesCounter = 0;
 
 export default Component.extend({
@@ -23,12 +25,14 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
+    this.set('publicAPI', {});
+
     if (this.get('renderInPlace') && this.get('tagName') === '') {
       this.set('tagName', 'div');
     }
     instancesCounter++;
 
-    this.publicAPI = {
+    let publicAPI = this.updateState({
       _id: instancesCounter++,
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
@@ -38,20 +42,10 @@ export default Component.extend({
         toggle: this.toggle.bind(this),
         reposition: this.reposition.bind(this)
       }
-    };
+    });
 
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.publicAPI._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.publicAPI._id}`;
-
-    let registerAPI = this.get('registerAPI');
-    if (registerAPI) {
-      registerAPI(this.publicAPI);
-    }
-  },
-
-  willDestroy() {
-    this._super(...arguments);
-    cancel(this.updatePositionsTimer);
+    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI._id}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI._id}`;
   },
 
   didUpdateAttrs() {
@@ -59,7 +53,7 @@ export default Component.extend({
     if (this.get('disabled')) {
       join(this, this.disable);
     } else {
-      set(this.publicAPI, 'disabled', false);
+      set(this, 'publicAPI', assign({}, this.get('publicAPI'), { disabled: false }));
     }
   },
 
@@ -77,34 +71,36 @@ export default Component.extend({
     handleFocus(e) {
       let onFocus = this.get('onFocus');
       if (onFocus) {
-        onFocus(this.publicAPI, e);
+        onFocus(this.get('publicAPI'), e);
       }
     }
   },
 
   // Methods
   open(e) {
-    if (this.publicAPI.disabled || this.publicAPI.isOpen) {
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.disabled || publicAPI.isOpen) {
       return;
     }
     let onOpen = this.get('onOpen');
-    if (onOpen && onOpen(this.publicAPI, e) === false) {
+    if (onOpen && onOpen(publicAPI, e) === false) {
       return;
     }
-    set(this.publicAPI, 'isOpen', true);
+    this.updateState({ isOpen: true });
   },
 
   close(e, skipFocus) {
-    if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.disabled || !publicAPI.isOpen) {
       return;
     }
     let onClose = this.get('onClose');
-    if (onClose && onClose(this.publicAPI, e) === false) {
+    if (onClose && onClose(publicAPI, e) === false) {
       return;
     }
-    set(this.publicAPI, 'isOpen', false);
     this.setProperties({ hPosition: null, vPosition: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
     }
@@ -115,7 +111,7 @@ export default Component.extend({
   },
 
   toggle(e) {
-    if (this.publicAPI.isOpen) {
+    if (this.get('publicAPI.isOpen')) {
       this.close(e);
     } else {
       this.open(e);
@@ -123,7 +119,7 @@ export default Component.extend({
   },
 
   reposition() {
-    if (!this.publicAPI.isOpen) {
+    if (!this.get('publicAPI.isOpen')) {
       return;
     }
     let dropdownElement = self.document.getElementById(this.dropdownId);
@@ -207,12 +203,9 @@ export default Component.extend({
     let style = { top: `${dropdownTop}px` };
     if (horizontalPosition === 'right') {
       style.right = `${viewportRight - (triggerWidth + triggerLeft)}px`;
-      style.left = 'auto';
     } else {
       style.left = `${triggerLeft}px`;
-      style.right = 'auto';
     }
-
     if (matchTriggerWidth) {
       style.width = `${dropdownWidth}px`;
     }
@@ -220,22 +213,35 @@ export default Component.extend({
   },
 
   applyReposition(trigger, dropdown, positions) {
-    this.updatePositionsTimer = scheduleOnce('actions', this, this.updatePositions, positions);
+    let changes = {
+      hPosition: positions.horizontalPosition,
+      vPosition: positions.verticalPosition
+    };
     if (positions.style) {
-      Object.keys(positions.style).forEach((key) => dropdown.style[key] = positions.style[key]);
+      changes.top = positions.style.top;
+      changes.left = positions.style.left;
+      changes.right = positions.style.right;
+      changes.width = positions.style.width;
     }
-  },
-
-  updatePositions(positions) {
-    this.setProperties({ hPosition: positions.horizontalPosition, vPosition: positions.verticalPosition });
+    this.setProperties(changes);
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
   },
 
   disable() {
-    if (this.publicAPI.isOpen) {
-      this.publicAPI.actions.close();
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.isOpen) {
+      publicAPI.actions.close();
     }
-    set(this.publicAPI, 'disabled', true);
+    this.updateState({ disabled: true });
+  },
+
+  updateState(changes) {
+    let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      registerAPI(newState);
+    }
+    return newState;
   }
 });
