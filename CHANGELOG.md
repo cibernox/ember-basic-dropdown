@@ -1,3 +1,10 @@
+# 0.12.0-beta.26
+- [ENHANCEMENT] Allow to customize the classes used for animations with `transitioningInClass`,
+  `transitionedInClass` and `transitioningOutClass`.
+- [BUGFIX] Property detect space on the right when `horizontalPosition="auto"` (the default) and
+  position the element anchored to the right of the dropdown if there is no enough space for it
+  to fit.
+
 # 0.12.0-beta.23
 - [BUGFIX] Correctly remove touchmove event on touch ends.
 - [BUGFIX] Prevent DOM access in fastboot mode.
