@@ -36,6 +36,9 @@ export default Component.extend({
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
   animationClass: '',
+  transitioningInClass: 'ember-basic-dropdown--transitioning-in',
+  transitionedInClass: 'ember-basic-dropdown--transitioned-in',
+  transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
 
   // Lifecycle hooks
   init() {
@@ -47,7 +50,7 @@ export default Component.extend({
     this.triggerId = `ember-basic-dropdown-trigger-${dropdown._id}`;
     this.dropdownId = `ember-basic-dropdown-content-${dropdown._id}`;
     if (this.get('animationEnabled')) {
-      this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
+      this.set('animationClass', this.get('transitioningInClass'));
     }
     this.runloopAwareReposition = function() {
       join(dropdown.actions.reposition);
@@ -157,7 +160,7 @@ export default Component.extend({
 
   animateIn() {
     waitForAnimations(this.dropdownElement, () => {
-      this.set('animationClass', 'ember-basic-dropdown--transitioned-in');
+      this.set('animationClass', this.get('transitionedInClass'));
     });
   },
 
@@ -166,11 +169,12 @@ export default Component.extend({
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
     let $clone = $(clone);
-    $clone.removeClass('ember-basic-dropdown--transitioned-in');
-    $clone.removeClass('ember-basic-dropdown--transitioning-in');
-    $clone.addClass('ember-basic-dropdown--transitioning-out');
+    let transitioningInClass = this.get('transitioningInClass');
+    $clone.removeClass(this.get('transitionedInClass'));
+    $clone.removeClass(transitioningInClass);
+    $clone.addClass(this.get('transitioningOutClass'));
     parentElement.appendChild(clone);
-    this.set('animationClass', 'ember-basic-dropdown--transitioning-in');
+    this.set('animationClass', transitioningInClass);
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
