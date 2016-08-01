@@ -203,12 +203,9 @@ export default Component.extend({
     let style = { top: `${dropdownTop}px` };
     if (horizontalPosition === 'right') {
       style.right = `${viewportRight - (triggerWidth + triggerLeft)}px`;
-      style.left = 'auto';
     } else {
       style.left = `${triggerLeft}px`;
-      style.right = 'auto';
     }
-
     if (matchTriggerWidth) {
       style.width = `${dropdownWidth}px`;
     }
@@ -223,6 +220,7 @@ export default Component.extend({
     if (positions.style) {
       changes.top = positions.style.top;
       changes.left = positions.style.left;
+      changes.right = positions.style.right;
       changes.width = positions.style.width;
     }
     this.setProperties(changes);
