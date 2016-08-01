@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import run from 'ember-runloop';
 
 function fireEvent(node, eventType) {
   let event = document.createEvent('HTMLEvents');
@@ -14,7 +14,7 @@ export default function(el) {
   if ($(el).is(':input, [contenteditable=true]')) {
     let type = $el.prop('type');
     if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {
-      Ember.run(el, function() {
+      run(el, function() {
         // Firefox does not trigger the `focusin` event if the window
         // does not have focus. If the document doesn't have focus just
         // use trigger('focusin') instead.

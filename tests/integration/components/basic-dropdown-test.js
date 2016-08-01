@@ -5,9 +5,9 @@ import $ from 'jquery';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 
 let deprecations = [];
-const { run } = Ember;
+const { run, Debug } = Ember;
 
-Ember.Debug.registerDeprecationHandler((message, options, next) => {
+Debug.registerDeprecationHandler((message, options, next) => {
   deprecations.push(message);
   next(message, options);
 });
