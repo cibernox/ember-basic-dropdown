@@ -163,11 +163,19 @@ export default Component.extend({
     let dropdownTop;
     dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
 
+    let viewportRight = scroll.left + self.window.innerWidth;
+
     if (horizontalPosition === 'auto') {
-      let viewportRight = scroll.left + self.window.innerWidth;
       let roomForRight = viewportRight - triggerLeft;
-      let roomForLeft = triggerLeft;
-      horizontalPosition = roomForRight > roomForLeft ? 'left' : 'right';
+
+      if (roomForRight < dropdownWidth) {
+        horizontalPosition = 'right';
+      } else if (triggerLeft < dropdownWidth) {
+        horizontalPosition = 'left';
+      } else {
+        horizontalPosition = this.previousHorizontalPosition || 'left';
+      }
+
     } else if (horizontalPosition === 'right') {
       dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
     } else if (horizontalPosition === 'center') {
@@ -196,7 +204,15 @@ export default Component.extend({
       dropdownTop = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
     }
 
-    let style = { top: `${dropdownTop}px`, left: `${dropdownLeft}px` };
+    let style = { top: `${dropdownTop}px` };
+    if (horizontalPosition === 'right') {
+      style.right = `${viewportRight - (triggerWidth + triggerLeft)}px`;
+      style.left = 'auto';
+    } else {
+      style.left = `${triggerLeft}px`;
+      style.right = 'auto';
+    }
+
     if (matchTriggerWidth) {
       style.width = `${dropdownWidth}px`;
     }
