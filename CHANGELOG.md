@@ -1,3 +1,4 @@
+# 0.13.0-beta.1
 - [BUGFIX] Use `requestAnimationFrame` to wait one frame before checking if the component is being
   animated. This makes this component fully compatible with Glimmer 2.
 
