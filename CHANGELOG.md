@@ -1,3 +1,12 @@
+- [BUGFIX] Use `requestAnimationFrame` to wait one frame before checking if the component is being
+  animated. This makes this component fully compatible with Glimmer 2.
+
+# 0.13.0-beta.0
+- [ENHANCEMENT/BREAKING] Now the publicAPI object received sub-components and passed to actions is
+  immutable. That means that each change in the internal state of this component will generate a new
+  object. This allows userts to get rid of `Ember.Observe` to use some advanced patterns and makes
+  possible some advanced time-travel debugging.
+
 # 0.12.0-beta.26
 - [ENHANCEMENT] Allow to customize the classes used for animations with `transitioningInClass`,
   `transitionedInClass` and `transitioningOutClass`.
