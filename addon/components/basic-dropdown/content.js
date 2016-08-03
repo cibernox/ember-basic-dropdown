@@ -11,23 +11,29 @@ import { htmlSafe } from 'ember-string';
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 const { testing } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
+const rAF = self.window.requestAnimationFrame || function(cb) {
+  cb();
+};
+
 function waitForAnimations(element, callback) {
-  let computedStyle = self.window.getComputedStyle(element);
-  if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
-    let eventCallback = function() {
-      element.removeEventListener('transitionend', eventCallback);
+  rAF(function() {
+    let computedStyle = self.window.getComputedStyle(element);
+    if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
+      let eventCallback = function() {
+        element.removeEventListener('transitionend', eventCallback);
+        callback();
+      };
+      element.addEventListener('transitionend', eventCallback);
+    } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
+      let eventCallback = function() {
+        element.removeEventListener('animationend', eventCallback);
+        callback();
+      };
+      element.addEventListener('animationend', eventCallback);
+    } else {
       callback();
-    };
-    element.addEventListener('transitionend', eventCallback);
-  } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
-    let eventCallback = function() {
-      element.removeEventListener('animationend', eventCallback);
-      callback();
-    };
-    element.addEventListener('animationend', eventCallback);
-  } else {
-    callback();
-  }
+    }
+  });
 }
 
 export default Component.extend({
