@@ -1,3 +1,6 @@
+- [BUGFIX] Render more than one component with `renderInPlace=true` cases an exception and after that
+  mayhem happens.
+
 # 0.13.0-beta.1
 - [BUGFIX] Use `requestAnimationFrame` to wait one frame before checking if the component is being
   animated. This makes this component fully compatible with Glimmer 2.

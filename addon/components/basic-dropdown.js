@@ -24,12 +24,12 @@ export default Component.extend({
 
   // Lifecycle hooks
   init() {
-    this._super(...arguments);
-    this.set('publicAPI', {});
-
     if (this.get('renderInPlace') && this.get('tagName') === '') {
       this.set('tagName', 'div');
     }
+    this._super(...arguments);
+    this.set('publicAPI', {});
+
     instancesCounter++;
 
     let publicAPI = this.updateState({

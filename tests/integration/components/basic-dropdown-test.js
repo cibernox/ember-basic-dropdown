@@ -334,6 +334,17 @@ test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'The trigger has a special `--in-place` class');
 });
 
+test('[ISSUE #127] Having more than one dropdown with `renderInPlace=true` raises an exception', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
+  `);
+
+  assert.ok(true, 'The test has run without errors');
+});
+
 test('It passes the `disabled` property as part of the public API, and updates is if it changes', function(assert) {
   assert.expect(2);
   this.disabled = true;
