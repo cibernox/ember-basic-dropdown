@@ -1,3 +1,6 @@
+# 0.13.0-beta.4
+- [BUGFIX] Fix bug when the consumer app has a version of `ember-cli-shims` older than 0.1.3
+
 # 0.13.0-beta.3
 - [BUGFIX] Stop importing `getOwner` from the shim, since many people doesn't have shims up to date
   and it's trolling them.
