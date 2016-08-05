@@ -17,6 +17,13 @@
   },
   "author": "Miguel Camba",
   "license": "MIT",
+  "files": [
+    "addon/",
+    "app/",
+    "test-support/",
+    "index.js",
+    "vendor"
+  ],
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "^2.0.1",
