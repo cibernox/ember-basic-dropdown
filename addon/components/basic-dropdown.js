@@ -5,9 +5,26 @@ import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
-import { assign } from 'ember-platform';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
+
 const { testing, getOwner } = Ember;
+const assign = Object.assign || function EmberAssign(original, ...args) {
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i];
+    if (!arg) {
+      continue;
+    }
+    let updates = Object.keys(arg);
+
+    for (let i = 0; i < updates.length; i++) {
+      let prop = updates[i];
+      original[prop] = arg[prop];
+    }
+  }
+
+  return original;
+};
+
 let instancesCounter = 0;
 
 export default Component.extend({
