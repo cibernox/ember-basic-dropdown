@@ -1,3 +1,7 @@
+# 0.13.0-beta.3
+- [BUGFIX] Stop importing `getOwner` from the shim, since many people doesn't have shims up to date
+  and it's trolling them.
+
 # 0.13.0-beta.2
 - [BUGFIX] Render more than one component with `renderInPlace=true` cases an exception and after that
   mayhem happens.

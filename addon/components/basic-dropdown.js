@@ -7,8 +7,7 @@ import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import { assign } from 'ember-platform';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-import getOwner from 'ember-owner/get';
-const { testing } = Ember;
+const { testing, getOwner } = Ember;
 let instancesCounter = 0;
 
 export default Component.extend({
