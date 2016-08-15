@@ -380,6 +380,29 @@ test('If the dropdown gets disabled while it\'s open, it closes automatically', 
   assert.equal($('#dropdown-is-opened').length, 0, 'The select is now closed');
 });
 
+test('If the component\'s `disabled` property changes, the `registerAPI` action is called', function(assert) {
+  assert.expect(3);
+
+  this.isDisabled = false;
+  this.toggleDisabled = () => this.toggleProperty('isDisabled');
+  this.render(hbs`
+    {{#basic-dropdown disabled=isDisabled registerAPI=(action (mut remoteController)) as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+    {{/basic-dropdown}}
+    <button onclick={{action toggleDisabled}}>Toggle</button>
+    {{#if remoteController.disabled}}
+      <div id="is-disabled"></div>
+    {{/if}}
+  `);
+
+  clickTrigger();
+  assert.equal($('#is-disabled').length, 0, 'The select is enabled');
+  run(() => this.set('isDisabled', true));
+  assert.equal($('#is-disabled').length, 1, 'The select is disabled');
+  run(() => this.set('isDisabled', false));
+  assert.equal($('#is-disabled').length, 0, 'The select is enabled again');
+});
+
 // A11y
 test('By default, the `aria-controls` attribute of the trigger contains the id of the content', function(assert) {
   assert.expect(1);
