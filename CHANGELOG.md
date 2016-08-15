@@ -1,3 +1,6 @@
+# 0.13.0-beta.5
+- [BUGFIX] Enabling the component after it has been disabled should trigger the `registerAPI` action.
+
 # 0.13.0-beta.4
 - [BUGFIX] Fix bug when the consumer app has a version of `ember-cli-shims` older than 0.1.3
 
