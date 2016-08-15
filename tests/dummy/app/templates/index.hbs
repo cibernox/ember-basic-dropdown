@@ -12,7 +12,7 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-{{#basic-dropdown as |dropdown|}}
+{{#basic-dropdown disabled=isDisabled registerAPI=(action (mut remoteController)) as |dropdown|}}
   {{#dropdown.trigger tagName='input'}}{{/dropdown.trigger}}
   {{#dropdown.content}}
     <p>This is the content</p>
@@ -23,6 +23,10 @@
     <input type="text">
   {{/dropdown.content}}
 {{/basic-dropdown}}
+<br>
+<button onclick={{action (mut isDisabled) (not isDisabled)}}>{{if isDisabled "enable" "disable"}}</button>
+<p>remoteController.disabled: {{remoteController.disabled}}</p>
+<p>remoteController.isOpen: {{remoteController.isOpen}}</p>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>

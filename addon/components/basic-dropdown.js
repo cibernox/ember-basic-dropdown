@@ -64,12 +64,15 @@ export default Component.extend({
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI._id}`;
   },
 
-  didUpdateAttrs() {
+  didReceiveAttrs() {
     this._super(...arguments);
-    if (this.get('disabled')) {
+    let oldDisabled = !!this._oldDisabled;
+    let newDisabled = !!this.get('disabled');
+    this._oldDisabled = newDisabled;
+    if (newDisabled && !oldDisabled) {
       join(this, this.disable);
-    } else {
-      set(this, 'publicAPI', assign({}, this.get('publicAPI'), { disabled: false }));
+    } else if (!newDisabled && oldDisabled) {
+      join(this, this.enable);
     }
   },
 
@@ -250,6 +253,10 @@ export default Component.extend({
       publicAPI.actions.close();
     }
     this.updateState({ disabled: true });
+  },
+
+  enable() {
+    this.updateState({ disabled: false });
   },
 
   updateState(changes) {
