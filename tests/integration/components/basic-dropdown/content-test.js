@@ -109,7 +109,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   `);
 
   run(() => {
-    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
+    let event = new window.Event('click', { bubbles: true, cancelable: true, view: window });
     this.$('#other-div')[0].dispatchEvent(event);
   });
 });
