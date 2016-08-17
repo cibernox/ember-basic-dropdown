@@ -37,6 +37,10 @@ export default Component.extend({
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
   classNames: ['ember-basic-dropdown'],
+  top: null,
+  left: null,
+  right: null,
+  width: null,
 
   // Lifecycle hooks
   init() {
@@ -117,7 +121,7 @@ export default Component.extend({
     if (onClose && onClose(publicAPI, e) === false) {
       return;
     }
-    this.setProperties({ hPosition: null, vPosition: null });
+    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.updateState({ isOpen: false });
     if (skipFocus) {
@@ -241,6 +245,10 @@ export default Component.extend({
       changes.left = positions.style.left;
       changes.right = positions.style.right;
       changes.width = positions.style.width;
+      if (this.get('top') === null) {
+        // Bypass Ember on the first reposition only to avoid flickering.
+        $(dropdown).css(positions.style);
+      }
     }
     this.setProperties(changes);
     this.previousHorizontalPosition = positions.horizontalPosition;

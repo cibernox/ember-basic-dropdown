@@ -84,8 +84,8 @@ export default Component.extend({
 
   // CPs
   style: computed('top', 'left', 'right', 'width', function() {
-    let { top, left, right, width } = this.getProperties('top', 'left', 'right', 'width');
     let style = '';
+    let { top, left, right, width } = this.getProperties('top', 'left', 'right', 'width');
     if (top) {
       style += `top: ${top};`;
     }
