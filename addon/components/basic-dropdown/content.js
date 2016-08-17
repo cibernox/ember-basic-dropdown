@@ -51,7 +51,7 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     this._super(...arguments);
-    this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
+    this.handleRootClick = this.handleRootClick.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     let dropdown = this.get('dropdown');
@@ -109,10 +109,10 @@ export default Component.extend({
     let appRoot = this.get('appRoot');
     this.triggerElement = this.triggerElement || document.getElementById(this.triggerId);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
+    appRoot.addEventListener('click', this.handleRootClick, true);
     if (this.get('isTouchDevice')) {
       appRoot.addEventListener('touchstart', this.touchStartHandler, true);
-      appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
+      appRoot.addEventListener('touchend', this.handleRootClick, true);
     }
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
@@ -140,7 +140,7 @@ export default Component.extend({
   },
 
   // Methods
-  handleRootMouseDown(e) {
+  handleRootClick(e) {
     if (this.hasMoved || this.dropdownElement.contains(e.target) || this.triggerElement && this.triggerElement.contains(e.target)) {
       this.hasMoved = false;
       return;
@@ -225,10 +225,10 @@ export default Component.extend({
   _teardown() {
     let appRoot = this.get('appRoot');
     this.removeGlobalEvents();
-    appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    appRoot.removeEventListener('click', this.handleRootClick, true);
     if (this.get('isTouchDevice')) {
       appRoot.removeEventListener('touchstart', this.touchStartHandler, true);
-      appRoot.removeEventListener('touchend', this.handleRootMouseDown, true);
+      appRoot.removeEventListener('touchend', this.handleRootClick, true);
     }
   }
 });
