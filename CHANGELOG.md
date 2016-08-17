@@ -1,3 +1,7 @@
+# 0.13.0-beta.6
+- [BUGFIX] Make the first reposition faster by applying the styles directly instead of using bindings.
+  This allows the dropdown to have components with autofocus inside without messing with the scroll.
+
 # 0.13.0-beta.5
 - [BUGFIX] Enabling the component after it has been disabled should trigger the `registerAPI` action.
 
