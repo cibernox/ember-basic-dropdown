@@ -1,3 +1,4 @@
+# 0.14.0-beta.0
 - [BREAKING] Rename the `dropdown._id` to `dropdown.uniqueId` and promote it to public API.
 
 # 0.13.0-beta.6
