@@ -55,8 +55,8 @@ export default Component.extend({
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     let dropdown = this.get('dropdown');
-    this.triggerId = `ember-basic-dropdown-trigger-${dropdown._id}`;
-    this.dropdownId = `ember-basic-dropdown-content-${dropdown._id}`;
+    this.triggerId = `ember-basic-dropdown-trigger-${dropdown.uniqueId}`;
+    this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     if (this.get('animationEnabled')) {
       this.set('animationClass', this.get('transitioningInClass'));
     }

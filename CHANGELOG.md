@@ -1,3 +1,5 @@
+- [BREAKING] Rename the `dropdown._id` to `dropdown.uniqueId` and promote it to public API.
+
 # 0.13.0-beta.6
 - [BUGFIX] Make the first reposition faster by applying the styles directly instead of using bindings.
   This allows the dropdown to have components with autofocus inside without messing with the scroll.

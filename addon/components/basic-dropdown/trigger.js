@@ -42,8 +42,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     let dropdown = this.get('dropdown');
-    this.elementId = `ember-basic-dropdown-trigger-${dropdown._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown._id}`;
+    this.elementId = `ember-basic-dropdown-trigger-${dropdown.uniqueId}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
   },
 

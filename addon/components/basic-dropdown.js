@@ -53,7 +53,7 @@ export default Component.extend({
     instancesCounter++;
 
     let publicAPI = this.updateState({
-      _id: instancesCounter++,
+      uniqueId: instancesCounter++,
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       actions: {
@@ -64,8 +64,8 @@ export default Component.extend({
       }
     });
 
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI._id}`;
+    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI.uniqueId}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
   },
 
   didReceiveAttrs() {
