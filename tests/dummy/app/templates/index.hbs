@@ -43,7 +43,7 @@
 
 {{#basic-dropdown as |dropdown|}}
   {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-  {{#dropdown.content class="bounce-animation-dropdown"}}
+  {{#dropdown.content class="bounce-animation-dropdown" overlay=true}}
     <p>This is the content</p>
     <h3>It can contain anything.</h3>
     {{#if showImage}}
@@ -67,12 +67,12 @@
 {{#basic-dropdown as |dropdown|}}
   {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
 
-  {{#dropdown.content}}
+  {{#dropdown.content overlay=true}}
 
     {{#basic-dropdown as |nested|}}
       <p style="color: green;"><br>First level of the dropdpwn<br></p>
       {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
-      {{#nested.content}}
+      {{#nested.content overlay=true}}
         <p style="color: red;">
           <br>Second level of the second<br>
         </p>

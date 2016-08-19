@@ -1,3 +1,5 @@
+- [ENHANCEMENT] The dropdown can have an overlay element if it receives `overlay=true`.
+
 # 0.15.0-beta.0
 - [BREAKING] `dropdown.uniqueId` is not a string like `ember1234` instead of the number `1234`.
 

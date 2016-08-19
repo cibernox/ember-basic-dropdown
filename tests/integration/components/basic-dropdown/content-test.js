@@ -372,6 +372,20 @@ test('The component is repositioned if the content of the dropdown changs', func
   });
 });
 
+// Overlay
+test('If it receives an `overlay=true` option, there is an overlay covering all the screen', function(assert) {
+  assert.expect(2);
+  this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    {{#basic-dropdown/content dropdown=dropdown overlay=true}}
+      <input type="text" id="test-input-focusin" />
+    {{/basic-dropdown/content}}
+  `);
+  assert.equal($('.ember-basic-dropdown-overlay').length, 1, 'There is one overlay');
+  run(this, 'set', 'dropdown.isOpen', false);
+  assert.equal($('.ember-basic-dropdown-overlay').length, 0, 'There is no overlay when closed');
+});
+
 // Animations (commented because they fail in phantomjs)
 // test('The component is opened with an `transitioning-in` class that is then replaced by a `transitioned-in` class once the animation finishes', function(assert) {
 //   assert.expect(3);
