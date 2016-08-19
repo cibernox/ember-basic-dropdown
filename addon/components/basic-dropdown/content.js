@@ -106,13 +106,12 @@ export default Component.extend({
   // Methods
   open() {
     let dropdown = this.get('dropdown');
-    let appRoot = this.get('appRoot');
     this.triggerElement = this.triggerElement || document.getElementById(this.triggerId);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    appRoot.addEventListener('mousedown', this.handleRootMouseDown, true);
+    self.document.body.addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      appRoot.addEventListener('touchstart', this.touchStartHandler, true);
-      appRoot.addEventListener('touchend', this.handleRootMouseDown, true);
+      self.document.body.addEventListener('touchstart', this.touchStartHandler, true);
+      self.document.body.addEventListener('touchend', this.handleRootMouseDown, true);
     }
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
@@ -214,21 +213,20 @@ export default Component.extend({
   },
 
   touchStartHandler() {
-    this.get('appRoot').addEventListener('touchmove', this.touchMoveHandler, true);
+    self.document.body.addEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   touchMoveHandler() {
     this.hasMoved = true;
-    this.get('appRoot').removeEventListener('touchmove', this.touchMoveHandler, true);
+    self.document.body.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   _teardown() {
-    let appRoot = this.get('appRoot');
     this.removeGlobalEvents();
-    appRoot.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      appRoot.removeEventListener('touchstart', this.touchStartHandler, true);
-      appRoot.removeEventListener('touchend', this.handleRootMouseDown, true);
+      self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);
+      self.document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
   }
 });

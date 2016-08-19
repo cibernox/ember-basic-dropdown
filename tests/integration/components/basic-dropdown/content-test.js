@@ -10,10 +10,9 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-drop
 // Basic rendering
 test('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', function(assert) {
   assert.expect(2);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content');
   assert.equal($content.text().trim(), 'Lorem ipsum', 'It contains the given block');
@@ -22,10 +21,9 @@ test('If the dropdown is open renders the given block in a div with class `ember
 
 test('If the dropdown is closed, nothing is rendered', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: false };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content');
   assert.equal($content.length, 0, 'Nothing is rendered');
@@ -33,10 +31,9 @@ test('If the dropdown is closed, nothing is rendered', function(assert) {
 
 test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', function(assert) {
   assert.expect(2);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = this.$('.ember-basic-dropdown-content');
   assert.equal($content.length, 1, 'It is rendered in the spot');
@@ -45,11 +42,10 @@ test('If it receives `renderInPlace=true`, it is rendered right here instead of 
 
 test('If it receives `to="foo123"`, it is rendered in the element with that ID', function(assert) {
   assert.expect(2);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     <div id="foo123"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = this.$('#foo123 .ember-basic-dropdown-content');
   assert.equal($content.length, 1, 'It is rendered');
@@ -58,10 +54,9 @@ test('If it receives `to="foo123"`, it is rendered in the element with that ID',
 
 test('It derives the ID of the content from the `uniqueId` property of of the dropdown', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content');
   assert.equal($content.attr('id'), 'ember-basic-dropdown-content-123', 'contains the expected ID');
@@ -69,10 +64,9 @@ test('It derives the ID of the content from the `uniqueId` property of of the dr
 
 test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content.foo123');
   assert.equal($content.length, 1, 'The dropdown contains that class');
@@ -80,10 +74,9 @@ test('If it receives `class="foo123"`, the rendered content will have that class
 
 test('If it receives `dir="rtl"`, the rendered content will have the attribute set', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let $content = $('.ember-basic-dropdown-content');
   assert.equal($content.attr('dir'), 'rtl', 'The dropdown has `dir="rtl"`');
@@ -92,7 +85,6 @@ test('If it receives `dir="rtl"`, the rendered content will have the attribute s
 // Clicking while the component is opened
 test('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: true,
@@ -105,7 +97,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   run(() => {
@@ -116,7 +108,6 @@ test('Clicking anywhere in the app outside the component will invoke the close a
 
 test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', function(assert) {
   assert.expect(0);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: true,
@@ -128,7 +119,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
   `);
 
   run(() => {
@@ -139,7 +130,6 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
 
 test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place' , function(assert) {
   assert.expect(0);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown1 = {
     isOpen: true,
     actions: {
@@ -160,9 +150,9 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
   };
   this.render(hbs`
     <div id="fake-trigger"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown1}}
+    {{#basic-dropdown/content dropdown=dropdown1}}
       Lorem ipsum
-      {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown2 renderInPlace=true}}
+      {{#basic-dropdown/content dropdown=dropdown2 renderInPlace=true}}
         <div id="nested-content-div">dolor sit amet</div>
       {{/basic-dropdown/content}}
     {{/basic-dropdown/content}}
@@ -177,7 +167,6 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
 // Touch gestures while the component is opened
 test('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: true,
@@ -190,7 +179,7 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   run(() => {
@@ -203,7 +192,6 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
 
 test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
   assert.expect(0);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: true,
@@ -216,7 +204,7 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   run(() => {
@@ -232,7 +220,6 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
 // Focus
 test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired inside the content', function(assert) {
   assert.expect(3);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.onFocusIn = (api, e) => {
     assert.ok(true, 'The action is invoked');
@@ -240,7 +227,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown onFocusIn=onFocusIn}}
+    {{#basic-dropdown/content dropdown=dropdown onFocusIn=onFocusIn}}
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
@@ -250,7 +237,6 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
 
 test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', function(assert) {
   assert.expect(3);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = { uniqueId: '123', isOpen: true, actions: { reposition() { } } };
   this.onFocusOut = (api, e) => {
     assert.ok(true, 'The action is invoked');
@@ -258,7 +244,7 @@ test('If it receives an `onFocusOut` action, it is invoked if a focusout event i
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown onFocusOut=onFocusOut}}
+    {{#basic-dropdown/content dropdown=dropdown onFocusOut=onFocusOut}}
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
@@ -270,7 +256,6 @@ test('If it receives an `onFocusOut` action, it is invoked if a focusout event i
 // Repositining
 test('The component is repositioned immediatly when opened', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: true,
@@ -281,13 +266,12 @@ test('The component is repositioned immediatly when opened', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 });
 
 test('The component is not repositioned if it is closed', function(assert) {
   assert.expect(0);
-  this.appRoot = document.querySelector('#ember-testing');
   this.dropdown = {
     uniqueId: '123',
     isOpen: false,
@@ -298,13 +282,12 @@ test('The component is not repositioned if it is closed', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 });
 
 test('The component is repositioned if the window scrolls', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
     uniqueId: '123',
@@ -316,7 +299,7 @@ test('The component is repositioned if the window scrolls', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('scroll')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -324,7 +307,6 @@ test('The component is repositioned if the window scrolls', function(assert) {
 
 test('The component is repositioned if the window is resized', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
     uniqueId: '123',
@@ -336,7 +318,7 @@ test('The component is repositioned if the window is resized', function(assert) 
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('resize')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -344,7 +326,6 @@ test('The component is repositioned if the window is resized', function(assert) 
 
 test('The component is repositioned if the orientation changes', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
     uniqueId: '123',
@@ -356,7 +337,7 @@ test('The component is repositioned if the orientation changes', function(assert
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('orientationchange')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -365,7 +346,6 @@ test('The component is repositioned if the orientation changes', function(assert
 test('The component is repositioned if the content of the dropdown changs', function(assert) {
   assert.expect(1);
   let done = assert.async();
-  this.appRoot = document.querySelector('#ember-testing');
   let repositions = 0;
   this.dropdown = {
     uniqueId: '123',
@@ -381,7 +361,7 @@ test('The component is repositioned if the content of the dropdown changs', func
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown}}
+    {{#basic-dropdown/content dropdown=dropdown}}
       <div id="content-target-div"></div>
     {{/basic-dropdown/content}}
   `);
@@ -396,7 +376,6 @@ test('The component is repositioned if the content of the dropdown changs', func
 // test('The component is opened with an `transitioning-in` class that is then replaced by a `transitioned-in` class once the animation finishes', function(assert) {
 //   assert.expect(3);
 //   let done = assert.async();
-//   this.appRoot = document.querySelector('#ember-testing');
 //   this.dropdown = { isOpen: true, actions: { reposition() { } } };
 //   this.render(hbs`
 //     <style>
@@ -409,7 +388,7 @@ test('The component is repositioned if the content of the dropdown changs', func
 //         animation: test-fade-in 0.25s;
 //       }
 //     </style>
-//     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
+//     {{#basic-dropdown/content dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
 //   `);
 //   let $content = $('.ember-basic-dropdown-content');
 //   assert.ok($content.hasClass('ember-basic-dropdown--transitioning-in'), 'Renders with a transitioning-in class');
@@ -423,7 +402,6 @@ test('The component is repositioned if the content of the dropdown changs', func
 // test('The component is closed by addong `transitioning-out` class to a ghost copy of the dropdown', function(assert) {
 //   assert.expect(2);
 //   let done = assert.async();
-//   this.appRoot = document.querySelector('#ember-testing');
 //   this.dropdown = { isOpen: true, actions: { reposition() { } } };
 //   this.render(hbs`
 //     <style>
@@ -436,7 +414,7 @@ test('The component is repositioned if the content of the dropdown changs', func
 //         animation: test-fade-in 0.25s reverse;
 //       }
 //     </style>
-//     {{#basic-dropdown/content appRoot=appRoot dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
+//     {{#basic-dropdown/content dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
 //   `);
 //   run(() => this.set('dropdown.isOpen', false));
 //   let $content = $('.ember-basic-dropdown-content');

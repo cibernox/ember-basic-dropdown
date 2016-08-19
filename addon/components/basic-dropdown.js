@@ -1,13 +1,10 @@
-import Ember from 'ember';
 import Component from 'ember-component';
-import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 
-const { testing, getOwner } = Ember;
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
     let arg = args[i];
@@ -79,15 +76,6 @@ export default Component.extend({
       join(this, this.enable);
     }
   },
-
-  // CPs
-  appRoot: computed(function() {
-    if (!self.document) {
-      return;
-    }
-    let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
-    return self.document.querySelector(rootSelector);
-  }),
 
   // Actions
   actions: {

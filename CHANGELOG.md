@@ -1,3 +1,6 @@
+- [BUGFIX] Consider the scope of the select the entire body, even if the app is rendered inside an
+  specific element.
+
 # 0.14.0-beta.0
 - [BREAKING] Rename the `dropdown._id` to `dropdown.uniqueId` and promote it to public API.
 

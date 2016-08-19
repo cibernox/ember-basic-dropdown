@@ -55,7 +55,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   // CPs
@@ -109,7 +109,7 @@ export default Component.extend({
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
-      this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+      self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
     },
 
     handleKeydown(e) {
@@ -135,23 +135,23 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
-    let $appRoot = $(this.get('appRoot'));
+    let $body = $(self.document.body);
     let mouseupHandler = function() {
-      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
-      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
+      self.document.body.removeEventListener('mouseup', mouseupHandler, true);
+      $body.removeClass('ember-basic-dropdown-text-select-disabled');
     };
-    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
-    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
+    self.document.body.addEventListener('mouseup', mouseupHandler, true);
+    $body.addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
-        this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
+        self.document.body.addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => {
         this.send('handleTouchEnd', e);
