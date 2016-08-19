@@ -4,6 +4,7 @@ import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
+import { guidFor } from 'ember-metal/utils';
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -21,8 +22,6 @@ const assign = Object.assign || function EmberAssign(original, ...args) {
 
   return original;
 };
-
-let instancesCounter = 0;
 
 export default Component.extend({
   layout,
@@ -47,10 +46,8 @@ export default Component.extend({
     this._super(...arguments);
     this.set('publicAPI', {});
 
-    instancesCounter++;
-
     let publicAPI = this.updateState({
-      uniqueId: instancesCounter++,
+      uniqueId: guidFor(this),
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       actions: {
