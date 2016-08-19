@@ -1,3 +1,6 @@
+# 0.15.0-beta.0
+- [BREAKING] `dropdown.uniqueId` is not a string like `ember1234` instead of the number `1234`.
+
 # 0.14.0-beta.1
 - [BUGFIX] Consider the scope of the select the entire body, even if the app is rendered inside an
   specific element.
