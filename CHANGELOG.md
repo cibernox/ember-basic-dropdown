@@ -1,3 +1,4 @@
+# 0.15.0-beta.1
 - [ENHANCEMENT] The dropdown can have an overlay element if it receives `overlay=true`.
 
 # 0.15.0-beta.0
