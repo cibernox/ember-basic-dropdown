@@ -1,3 +1,4 @@
+# 0.14.0-beta.1
 - [BUGFIX] Consider the scope of the select the entire body, even if the app is rendered inside an
   specific element.
 
