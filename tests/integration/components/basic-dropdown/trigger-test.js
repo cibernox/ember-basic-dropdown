@@ -66,7 +66,7 @@ test('If it receives `tabindex=3`, the tabindex of the element is 3', function(a
   assert.equal($trigger.attr('tabindex'), '3', 'Has a tabindex of 3');
 });
 
-test('If the dropdown is disabled, the tabindex is -1 regardless of if it has been customized or not', function(assert) {
+test('If the dropdown is disabled, the trigger doesn\'t have tabindex attribute, regardless of if it has been customized or not', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123, disabled: true };
   this.render(hbs`
@@ -74,7 +74,7 @@ test('If the dropdown is disabled, the tabindex is -1 regardless of if it has be
   `);
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('tabindex'), '-1', 'Has a tabindex of -1');
+  assert.equal($trigger.attr('tabindex'), undefined, 'The component doesn\'t have tabindex');
 });
 
 test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attribute for a11y', function(assert) {
