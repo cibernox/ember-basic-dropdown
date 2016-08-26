@@ -22,7 +22,7 @@ test('It renders the given block in a div with class `ember-basic-dropdown-trigg
 });
 
 // Attributes and a11y
-test('If it doesn\'t receive any tabindex, the default is 0', function(assert) {
+test('If it doesn\'t receive any tabindex, defaults to 0', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
@@ -33,7 +33,7 @@ test('If it doesn\'t receive any tabindex, the default is 0', function(assert) {
   assert.equal($trigger.attr('tabindex'), '0', 'Has a tabindex of 0');
 });
 
-test('If it receives a falsey tabindex, the default is 0', function(assert) {
+test('If it receives a tabindex=null, defaults to 0', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
@@ -42,6 +42,17 @@ test('If it receives a falsey tabindex, the default is 0', function(assert) {
 
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.equal($trigger.attr('tabindex'), '0', 'Has a tabindex of 0');
+});
+
+test('If it receives a tabindex=false, it has no tabindex attribute', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger tabindex=false dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('tabindex'), undefined, 'It has no tabindex');
 });
 
 test('If it receives `tabindex=3`, the tabindex of the element is 3', function(assert) {
