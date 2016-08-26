@@ -45,6 +45,10 @@ export default Component.extend({
     this.elementId = `ember-basic-dropdown-trigger-${dropdown.uniqueId}`;
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
+    this._mouseupHandler = () => {
+      self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+      $(self.document.body).removeClass('ember-basic-dropdown-text-select-disabled');
+    };
   },
 
   didInsertElement() {
@@ -56,6 +60,7 @@ export default Component.extend({
   willDestroyElement() {
     this._super(...arguments);
     self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
   },
 
   // CPs
@@ -139,13 +144,8 @@ export default Component.extend({
   },
 
   stopTextSelectionUntilMouseup() {
-    let $body = $(self.document.body);
-    let mouseupHandler = function() {
-      self.document.body.removeEventListener('mouseup', mouseupHandler, true);
-      $body.removeClass('ember-basic-dropdown-text-select-disabled');
-    };
-    self.document.body.addEventListener('mouseup', mouseupHandler, true);
-    $body.addClass('ember-basic-dropdown-text-select-disabled');
+    self.document.body.addEventListener('mouseup', this._mouseupHandler, true);
+    $(self.document.body).addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
