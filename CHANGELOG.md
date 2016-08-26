@@ -1,3 +1,6 @@
+# 0.15.0-beta.4
+- [BUGFIX] Don't import `guidFor` from the shims.
+
 # 0.15.0-beta.3
 - [BUGFIX] Preventing the default behaviour from an event doesn't prevent the component from doing
   the usual thing.:

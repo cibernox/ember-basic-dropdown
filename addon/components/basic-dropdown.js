@@ -1,10 +1,11 @@
+import Ember from 'ember';
 import Component from 'ember-component';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-import { guidFor } from 'ember-metal/utils';
+const { guidFor } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
