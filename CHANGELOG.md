@@ -1,9 +1,12 @@
+- [BUGFIX] The correct behaviour when a dropdown is disabled or the tabindex is `false` should be
+  to not have `tabindex` attribute, not to have a `tabindex` of -1.
+
 # 0.15.0-beta.4
 - [BUGFIX] Don't import `guidFor` from the shims.
 
 # 0.15.0-beta.3
 - [BUGFIX] Preventing the default behaviour from an event doesn't prevent the component from doing
-  the usual thing.:
+  the usual thing.
 
 # 0.15.0-beta.2
 - [BUGFIX] Fix edge case that made the component leak memory  if the component is removed after a

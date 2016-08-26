@@ -71,7 +71,12 @@ export default Component.extend({
   'aria-required': trueStringIfPresent('ariaRequired'),
 
   tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
-    return this.get('dropdown.disabled') ? -1 : (this.get('tabindex') || 0);
+    let tabindex = this.get('tabindex');
+    if (tabindex === false || this.get('dropdown.disabled')) {
+      return false;
+    } else {
+      return tabindex || 0;
+    }
   }),
 
   inPlaceClass: computed('renderInPlace', function() {
