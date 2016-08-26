@@ -1,3 +1,7 @@
+- [BUGFIX] Fix edge case that made the component leak memory  if the component is removed after a
+  mousedown but before the mouseup events of the trigger. This situation probably almost impossible
+  outside testing.
+
 # 0.15.0-beta.1
 - [ENHANCEMENT] The dropdown can have an overlay element if it receives `overlay=true`.
 
