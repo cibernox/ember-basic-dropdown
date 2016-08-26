@@ -98,7 +98,7 @@ export default Component.extend({
   actions: {
     handleMousedown(e) {
       let dropdown = this.get('dropdown');
-      if (e && e.defaultPrevented || dropdown.disabled) {
+      if (dropdown.disabled) {
         return;
       }
       this.stopTextSelectionUntilMouseup();

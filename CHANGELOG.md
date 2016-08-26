@@ -1,3 +1,7 @@
+- [BUGFIX] Preventing the default behaviour from an event doesn't prevent the component from doing
+  the usual thing.:
+
+# 0.15.0-beta.2
 - [BUGFIX] Fix edge case that made the component leak memory  if the component is removed after a
   mousedown but before the mouseup events of the trigger. This situation probably almost impossible
   outside testing.
