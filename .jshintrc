@@ -1,6 +1,7 @@
 {
   "predef": [
-    "self",
+    "window",
+    "document",
     "-Promise"
   ],
   "browser": true,

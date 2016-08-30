@@ -10,14 +10,14 @@ import { htmlSafe } from 'ember-string';
 
 const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
 const { testing } = Ember;
-const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
-const rAF = self.window.requestAnimationFrame || function(cb) {
+const MutObserver = window.MutationObserver || window.WebKitMutationObserver;
+const rAF = window.requestAnimationFrame || function(cb) {
   cb();
 };
 
 function waitForAnimations(element, callback) {
   rAF(function() {
-    let computedStyle = self.window.getComputedStyle(element);
+    let computedStyle = window.getComputedStyle(element);
     if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
       let eventCallback = function() {
         element.removeEventListener('transitionend', eventCallback);
@@ -41,7 +41,7 @@ export default Component.extend({
   tagName: '',
   to: fallbackIfUndefined(testing ? 'ember-testing' : defaultDestination),
   animationEnabled: !testing,
-  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
+  isTouchDevice: (!!window && 'ontouchstart' in window),
   hasMoved: false,
   animationClass: '',
   transitioningInClass: 'ember-basic-dropdown--transitioning-in',
@@ -108,10 +108,10 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerElement = this.triggerElement || document.getElementById(this.triggerId);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    self.document.body.addEventListener('mousedown', this.handleRootMouseDown, true);
+    document.body.addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.body.addEventListener('touchstart', this.touchStartHandler, true);
-      self.document.body.addEventListener('touchend', this.handleRootMouseDown, true);
+      document.body.addEventListener('touchstart', this.touchStartHandler, true);
+      document.body.addEventListener('touchend', this.handleRootMouseDown, true);
     }
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
@@ -159,9 +159,9 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    self.window.addEventListener('scroll', this.runloopAwareReposition);
-    self.window.addEventListener('resize', this.runloopAwareReposition);
-    self.window.addEventListener('orientationchange', this.runloopAwareReposition);
+    window.addEventListener('scroll', this.runloopAwareReposition);
+    window.addEventListener('resize', this.runloopAwareReposition);
+    window.addEventListener('orientationchange', this.runloopAwareReposition);
     if (MutObserver) {
       this.mutationObserver = new MutObserver((mutations) => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
@@ -176,9 +176,9 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    self.window.removeEventListener('scroll', this.runloopAwareReposition);
-    self.window.removeEventListener('resize', this.runloopAwareReposition);
-    self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
+    window.removeEventListener('scroll', this.runloopAwareReposition);
+    window.removeEventListener('resize', this.runloopAwareReposition);
+    window.removeEventListener('orientationchange', this.runloopAwareReposition);
     if (MutObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
@@ -213,20 +213,20 @@ export default Component.extend({
   },
 
   touchStartHandler() {
-    self.document.body.addEventListener('touchmove', this.touchMoveHandler, true);
+    document.body.addEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   touchMoveHandler() {
     this.hasMoved = true;
-    self.document.body.removeEventListener('touchmove', this.touchMoveHandler, true);
+    document.body.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   _teardown() {
     this.removeGlobalEvents();
-    self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);
-      self.document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
+      document.body.removeEventListener('touchstart', this.touchStartHandler, true);
+      document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
   }
 });
