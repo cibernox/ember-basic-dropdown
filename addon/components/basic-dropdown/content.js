@@ -185,8 +185,10 @@ export default Component.extend({
         this.mutationObserver = null;
       }
     } else {
-      this.dropdownElement.removeEventListener('DOMNodeInserted', this.runloopAwareReposition);
-      this.dropdownElement.removeEventListener('DOMNodeRemoved', this.runloopAwareReposition);
+      if (this.dropdownElement) {
+        this.dropdownElement.removeEventListener('DOMNodeInserted', this.runloopAwareReposition);
+        this.dropdownElement.removeEventListener('DOMNodeRemoved', this.runloopAwareReposition);
+      }
     }
   },
 
