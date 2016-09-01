@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Component from 'ember-component';
 import computed from 'ember-computed';
 
-const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
+const isTouchDevice = (!!window && 'ontouchstart' in window);
 
 function trueStringIfPresent(path) {
   return computed(path, function() {
@@ -46,8 +46,8 @@ export default Component.extend({
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
     this._mouseupHandler = () => {
-      self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
-      $(self.document.body).removeClass('ember-basic-dropdown-text-select-disabled');
+      document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+      $(document.body).removeClass('ember-basic-dropdown-text-select-disabled');
     };
   },
 
@@ -59,8 +59,8 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
-    self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+    document.body.removeEventListener('touchmove', this._touchMoveHandler);
+    document.body.removeEventListener('mouseup', this._mouseupHandler, true);
   },
 
   // CPs
@@ -119,7 +119,7 @@ export default Component.extend({
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
-      self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+      document.body.removeEventListener('touchmove', this._touchMoveHandler);
     },
 
     handleKeydown(e) {
@@ -145,18 +145,18 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+    document.body.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
-    self.document.body.addEventListener('mouseup', this._mouseupHandler, true);
-    $(self.document.body).addClass('ember-basic-dropdown-text-select-disabled');
+    document.body.addEventListener('mouseup', this._mouseupHandler, true);
+    $(document.body).addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
-        self.document.body.addEventListener('touchmove', this._touchMoveHandler);
+        document.body.addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => {
         this.send('handleTouchEnd', e);

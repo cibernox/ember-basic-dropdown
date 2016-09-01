@@ -131,8 +131,8 @@ export default Component.extend({
     if (!this.get('publicAPI.isOpen')) {
       return;
     }
-    let dropdownElement = self.document.getElementById(this.dropdownId);
-    let triggerElement = self.document.getElementById(this.triggerId);
+    let dropdownElement = document.getElementById(this.dropdownId);
+    let triggerElement = document.getElementById(this.triggerId);
     if (!dropdownElement || !triggerElement) {
       return;
     }
@@ -150,7 +150,7 @@ export default Component.extend({
     if (horizontalPosition === 'auto') {
       let triggerRect = trigger.getBoundingClientRect();
       let dropdownRect = dropdown.getBoundingClientRect();
-      let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
+      let viewportRight = $(window).scrollLeft() + window.innerWidth;
       horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
     }
     this.applyReposition(trigger, dropdown, { horizontalPosition });
@@ -160,7 +160,7 @@ export default Component.extend({
     let {
       horizontalPosition, verticalPosition, matchTriggerWidth
     } = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth');
-    let $window = $(self.window);
+    let $window = $(window);
     let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
     let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
     let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
@@ -168,7 +168,7 @@ export default Component.extend({
     let dropdownTop;
     dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
 
-    let viewportRight = scroll.left + self.window.innerWidth;
+    let viewportRight = scroll.left + window.innerWidth;
 
     if (horizontalPosition === 'auto') {
       let roomForRight = viewportRight - triggerLeft;
@@ -193,7 +193,7 @@ export default Component.extend({
     } else if (verticalPosition === 'below') {
       dropdownTop = triggerTopWithScroll + triggerHeight;
     } else {
-      let viewportBottom = scroll.top + self.window.innerHeight;
+      let viewportBottom = scroll.top + window.innerHeight;
       let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
       let enoughRoomAbove = triggerTop > dropdownHeight;
 
