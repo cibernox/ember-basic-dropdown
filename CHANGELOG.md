@@ -1,3 +1,6 @@
+# 0.15.0-beta.6
+- [BUGFIX] Fix bug detaching event in IE10.
+
 # 0.15.0-beta.5
 - [BUGFIX] The correct behaviour when a dropdown is disabled or the tabindex is `false` should be
   to not have `tabindex` attribute, not to have a `tabindex` of -1.
