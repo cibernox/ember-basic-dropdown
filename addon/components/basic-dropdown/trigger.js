@@ -70,14 +70,14 @@ export default Component.extend({
   'aria-pressed': trueStringIfPresent('dropdown.isOpen'),
   'aria-required': trueStringIfPresent('ariaRequired'),
 
-  tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
+  tabIndex: computed('dropdown.disabled', 'tabindex', function() {
     let tabindex = this.get('tabindex');
     if (tabindex === false || this.get('dropdown.disabled')) {
       return false;
     } else {
       return tabindex || 0;
     }
-  }),
+  }).readOnly(),
 
   inPlaceClass: computed('renderInPlace', function() {
     if (this.get('renderInPlace')) {
