@@ -60,7 +60,7 @@
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.10",
     "ember-get-config": "0.0.2",
-    "ember-wormhole": "^0.4.0"
+    "ember-wormhole": "0.4.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
