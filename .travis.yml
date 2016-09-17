@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "6.6.0"
+  - "4"
 
 sudo: false
 
@@ -21,6 +21,7 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
+  - npm install -g npm@3
   - npm config set spin false
   - npm install -g bower
   - bower --version
