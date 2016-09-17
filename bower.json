@@ -1,7 +1,10 @@
 {
   "name": "ember-basic-dropdown",
   "dependencies": {
-    "ember": "~2.8.0",
+    "ember": "beta",
     "ember-cli-shims": "0.1.1"
+  },
+  "resolutions": {
+    "ember": "beta"
   }
 }
