@@ -5,6 +5,10 @@ export default Ember.Controller.extend({
   opened: true,
 
   actions: {
+    registerAPI(dropdown) {
+      Ember.run.schedule('actions', this, this.set, 'remoteController', dropdown);
+    },
+
     toggleOpened() {
       this.toggleProperty('opened');
     }

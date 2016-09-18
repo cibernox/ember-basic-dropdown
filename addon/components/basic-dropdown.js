@@ -3,7 +3,7 @@ import Component from 'ember-component';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import { join, schedule } from 'ember-runloop';
+import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 const { guidFor } = Ember;
 
@@ -257,7 +257,7 @@ export default Component.extend({
     let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
     let registerAPI = this.get('registerAPI');
     if (registerAPI) {
-      schedule('actions', null, registerAPI, newState);
+      registerAPI(newState);
     }
     return newState;
   }
