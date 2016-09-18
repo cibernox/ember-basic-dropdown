@@ -385,8 +385,9 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
 
   this.isDisabled = false;
   this.toggleDisabled = () => this.toggleProperty('isDisabled');
+  this.registerAPI = (api) => run.scheduleOnce('actions', this, this.set, 'remoteController', api);
   this.render(hbs`
-    {{#basic-dropdown disabled=isDisabled registerAPI=(action (mut remoteController)) as |dropdown|}}
+    {{#basic-dropdown disabled=isDisabled registerAPI=(action registerAPI) as |dropdown|}}
       {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
     {{/basic-dropdown}}
     <button onclick={{action toggleDisabled}}>Toggle</button>
