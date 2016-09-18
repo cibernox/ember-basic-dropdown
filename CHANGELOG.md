@@ -1,3 +1,6 @@
+# 0.16.0-beta.0
+- [BUGFIX] Compatibility with glimmer2.
+
 # 0.15.0-beta.6
 - [BUGFIX] Fix bug detaching event in IE10.
 
