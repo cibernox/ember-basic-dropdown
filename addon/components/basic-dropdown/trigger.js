@@ -35,7 +35,8 @@ export default Component.extend({
     'aria-haspopup',
     'aria-invalid',
     'aria-pressed',
-    'aria-required'
+    'aria-required',
+    'title'
   ],
 
   // Lifecycle hooks
