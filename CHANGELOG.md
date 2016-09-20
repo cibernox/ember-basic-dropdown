@@ -1,3 +1,9 @@
+# 0.16.0-beta.2
+- [BUGFIX] Bind `title` attribute in the trigger.
+
+# 0.16.0-beta.1
+- [BUGFIX] Revert glimmer2 compatibility
+
 # 0.16.0-beta.0
 - [BUGFIX] Compatibility with glimmer2.
 

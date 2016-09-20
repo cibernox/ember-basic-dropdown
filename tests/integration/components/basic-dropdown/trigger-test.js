@@ -66,6 +66,17 @@ test('If it receives `tabindex=3`, the tabindex of the element is 3', function(a
   assert.equal($trigger.attr('tabindex'), '3', 'Has a tabindex of 3');
 });
 
+test('If it receives `title=something`, if has that title attribute', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger title="foobar" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('title'), 'foobar', 'Has the given title');
+});
+
 test('If the dropdown is disabled, the trigger doesn\'t have tabindex attribute, regardless of if it has been customized or not', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123, disabled: true };
