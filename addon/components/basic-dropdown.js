@@ -213,7 +213,7 @@ export default Component.extend({
     if (horizontalPosition === 'right') {
       style.right = `${viewportRight - (triggerWidth + triggerLeft)}px`;
     } else {
-      style.left = `${triggerLeft}px`;
+      style.left = `${dropdownLeft}px`;
     }
     if (matchTriggerWidth) {
       style.width = `${dropdownWidth}px`;
