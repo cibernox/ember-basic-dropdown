@@ -1,3 +1,6 @@
+# 0.16.0-beta.3
+- [BUGFIX] Fix broken `horizontalPosition="center"`.
+
 # 0.16.0-beta.2
 - [BUGFIX] Bind `title` attribute in the trigger.
 
