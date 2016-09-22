@@ -8,6 +8,10 @@ module.exports = {
     var app = appOrAddon.app || appOrAddon;
     if (!app.__emberBasicDropdownIncludedInvoked) {
       app.__emberBasicDropdownIncludedInvoked = true;
+      // for ember-get-config compat
+      // https://github.com/null-null-null/ember-get-config#usage
+      this.eachAddonInvoke('included', [app]);
+      
       this._super.included.apply(this, arguments);
       // Don't include the precompiled css file if the user uses ember-cli-sass
       if (!app.registry.availablePlugins['ember-cli-sass']) {
