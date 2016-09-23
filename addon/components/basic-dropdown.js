@@ -87,6 +87,9 @@ export default Component.extend({
 
   // Methods
   open(e) {
+    if (this.get('isDestroyed')) {
+      return;
+    }
     let publicAPI = this.get('publicAPI');
     if (publicAPI.disabled || publicAPI.isOpen) {
       return;
@@ -99,6 +102,9 @@ export default Component.extend({
   },
 
   close(e, skipFocus) {
+    if (this.get('isDestroyed')) {
+      return;
+    }
     let publicAPI = this.get('publicAPI');
     if (publicAPI.disabled || !publicAPI.isOpen) {
       return;
