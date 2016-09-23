@@ -1,3 +1,6 @@
+# 0.16.0-beta.4
+- [BUGFIX] Guard agains a possible action invocation after the component has been destroyed.
+
 # 0.16.0-beta.3
 - [BUGFIX] Fix broken `horizontalPosition="center"`.
 
