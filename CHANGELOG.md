@@ -1,3 +1,4 @@
+# 0.16.0-beta.5
 - [BUGFIX] Update `ember-get-config` to fix Fastboot compatibility.
 
 # 0.16.0-beta.4
