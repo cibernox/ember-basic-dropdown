@@ -59,7 +59,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.10",
     "ember-cli-htmlbars": "^1.1.0",
-    "ember-get-config": "0.0.2",
+    "ember-get-config": "0.1.8",
     "ember-wormhole": "0.4.1"
   },
   "ember-addon": {
