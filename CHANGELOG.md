@@ -1,3 +1,5 @@
+- [BUGFIX] Update `ember-get-config` to fix Fastboot compatibility.
+
 # 0.16.0-beta.4
 - [BUGFIX] Guard agains a possible action invocation after the component has been destroyed.
 
