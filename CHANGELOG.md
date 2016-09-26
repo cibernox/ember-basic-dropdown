@@ -1,3 +1,6 @@
+# 0.16.0-beta.6
+- [BUGFIX] Remove `ember-get-config` entirely. It turns that there is a less hacky way of doing this.
+
 # 0.16.0-beta.5
 - [BUGFIX] Update `ember-get-config` to fix Fastboot compatibility.
 
