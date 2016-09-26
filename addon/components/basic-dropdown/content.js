@@ -1,15 +1,12 @@
 import Component from 'ember-component';
 import layout from '../../templates/components/basic-dropdown/content';
-import config from 'ember-get-config';
 import $ from 'jquery';
 import Ember from 'ember';
 import computed from 'ember-computed';
-import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { join, scheduleOnce } from 'ember-runloop';
 import { htmlSafe } from 'ember-string';
 
-const defaultDestination = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
-const { testing } = Ember;
+const { testing, getOwner } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const rAF = self.window.requestAnimationFrame || function(cb) {
   cb();
@@ -39,7 +36,6 @@ function waitForAnimations(element, callback) {
 export default Component.extend({
   layout,
   tagName: '',
-  to: fallbackIfUndefined(testing ? 'ember-testing' : defaultDestination),
   animationEnabled: !testing,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
@@ -83,6 +79,15 @@ export default Component.extend({
   },
 
   // CPs
+  to: computed({
+    get() {
+      return this._getDestinationId();
+    },
+    set(_, v) {
+      return v === undefined ? this._getDestinationId() : v;
+    }
+  }),
+
   style: computed('top', 'left', 'right', 'width', function() {
     let style = '';
     let { top, left, right, width } = this.getProperties('top', 'left', 'right', 'width');
@@ -230,5 +235,13 @@ export default Component.extend({
       self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);
       self.document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
+  },
+
+  _getDestinationId() {
+    if (testing) {
+      return 'ember-testing';
+    }
+    let config = getOwner(this).resolveRegistration('config:environment');
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });
