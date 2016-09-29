@@ -1,3 +1,7 @@
+# 0.16.0-beta.7
+- [TESTING] Ensure the addon is tested in 2.4LTS
+- [BUGFIX] Fix bug in versions of ember <= 2.6
+
 # 0.16.0-beta.6
 - [BUGFIX] Remove `ember-get-config` entirely. It turns that there is a less hacky way of doing this.
 
