@@ -74,7 +74,7 @@ export default Component.extend({
   tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
     let tabindex = this.get('tabindex');
     if (tabindex === false || this.get('dropdown.disabled')) {
-      return false;
+      return undefined;
     } else {
       return tabindex || 0;
     }
