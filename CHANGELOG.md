@@ -1,4 +1,7 @@
-# 0.16.0-beta.7
+# 0.16.1
+- [BUGFIX] Remove automatic transition detection. It never worked properly. It's fundamentally flawed. CSS animations are OK tho.
+
+# 0.16.0
 - [TESTING] Ensure the addon is tested in 2.4LTS
 - [BUGFIX] Fix bug in versions of ember <= 2.6
 
