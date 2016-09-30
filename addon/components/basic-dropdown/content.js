@@ -15,13 +15,7 @@ const rAF = self.window.requestAnimationFrame || function(cb) {
 function waitForAnimations(element, callback) {
   rAF(function() {
     let computedStyle = self.window.getComputedStyle(element);
-    if (computedStyle.transitionDuration && computedStyle.transitionDuration !== '0s') {
-      let eventCallback = function() {
-        element.removeEventListener('transitionend', eventCallback);
-        callback();
-      };
-      element.addEventListener('transitionend', eventCallback);
-    } else if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
+    if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
       let eventCallback = function() {
         element.removeEventListener('animationend', eventCallback);
         callback();
