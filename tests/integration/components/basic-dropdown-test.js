@@ -440,6 +440,33 @@ test('Firing a reposition outside of a runloop doesn\'t break the component', fu
   }, 100);
 });
 
+test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
+  assert.expect(3);
+  this.calculatePosition = function() {
+    return {
+      horizontalPosition: 'right',
+      verticalPosition: 'above',
+      style: {
+        top: 111,
+        right: 222
+      }
+    };
+  };
+  this.render(hbs`
+    {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  let $dropdownContent = $('.ember-basic-dropdown-content');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal($dropdownContent.attr('style'), 'top: 111;right: 222;', 'The style attribute is the expected one');
+});
+
 // Customization of inner components
 test('It allows to customize the trigger passing `triggerComponent="my-custom-trigger"`', function(assert) {
   assert.expect(1);
