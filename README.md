@@ -75,7 +75,10 @@ resized, scrolled, the device changes it orientation or the content of the dropd
 You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
 
 If even that doesn't match your preferences and you feel brave enough, you can roll your own positioning logic if you pass a `calculatePosition`
-function. It's signature is `calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })`.
+function. It's signature is:
+```
+calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })
+```
 The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, styles }` where `styles` in an object with CSS properties, typically `top` and `left`/`right`.
 
 #### Closed automatically when click outside the component
