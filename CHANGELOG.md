@@ -1,3 +1,5 @@
+- [ENHANCEMENT] Allows to customize how the dropdown is positioned by passing a `calculatePosition` function.
+
 # 0.16.1
 - [BUGFIX] Remove automatic transition detection. It never worked properly. It's fundamentally flawed. CSS animations are OK tho.
 
