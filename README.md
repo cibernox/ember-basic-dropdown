@@ -39,6 +39,22 @@ This component leverages contextual components for its API:
 {{/basic-dropdown}}
 ```
 
+The yielded `dropdown` object is the public API of the component, and contains
+properties and actions that you can use to control the component.
+
+```js
+{
+  isOpen: <boolean>,
+  disabled: <boolean>,
+  actions: {
+    open: <action>,
+    close: <action>,
+    toggle: <action>,
+    reposition: <action>
+  }
+}
+```
+
 ### Features
 
 #### Renders on the body or in place
