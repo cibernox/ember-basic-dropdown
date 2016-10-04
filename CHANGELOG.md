@@ -1,3 +1,4 @@
+# 0.16.2
 - [ENHANCEMENT] Allows to customize how the dropdown is positioned by passing a `calculatePosition` function.
 
 # 0.16.1
