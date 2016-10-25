@@ -363,6 +363,18 @@ test('It passes the `disabled` property as part of the public API, and updates i
   assert.equal(this.$('#enabled-dropdown-marker').length, 1, 'The public API of the component is marked as enabled');
 });
 
+test('It passes the `uniqueId` property as part of the public API', function(assert) {
+  assert.expect(1);
+  this.disabled = true;
+  this.render(hbs`
+    {{#basic-dropdown as |dropdown|}}
+      <div id="dropdown-unique-id-container">{{dropdown.uniqueId}}</div>
+    {{/basic-dropdown}}
+  `);
+
+  assert.ok(/ember\d+/.test(this.$('#dropdown-unique-id-container').text().trim()), 'It yields the uniqueId');
+});
+
 test('If the dropdown gets disabled while it\'s open, it closes automatically', function(assert) {
   assert.expect(2);
 
