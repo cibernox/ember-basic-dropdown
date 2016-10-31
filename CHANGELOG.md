@@ -1,3 +1,4 @@
+# 0.16.4
 - [ENHANCEMENT] The default `calculatePosition` method is now inside `addon/utils/calculate-position`, so users can import it
   to perhaps reuse some of the logic in their own positioning functions.
 
