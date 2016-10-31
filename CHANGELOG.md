@@ -1,3 +1,10 @@
+- [ENHANCEMENT] The default `calculatePosition` method is now inside `addon/utils/calculate-position`, so users can import it
+  to perhaps reuse some of the logic in their own positioning functions.
+
+# 0.16.3
+- [BUGFIX] Add forgotten `uniqueId` property to the publicAPI yielded to the block. The `publicAPI` object passes to actions had it
+  but the one in the block didn't.
+
 # 0.16.2
 - [ENHANCEMENT] Allows to customize how the dropdown is positioned by passing a `calculatePosition` function.
 
