@@ -66,14 +66,14 @@ export function calculatePosition(trigger, dropdown, { previousHorizontalPositio
     dropdownTop = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
   }
 
-  let style = { top: `${dropdownTop}px` };
+  let style = { top: dropdownTop };
   if (horizontalPosition === 'right') {
-    style.right = `${viewportRight - (triggerWidth + triggerLeft)}px`;
+    style.right = viewportRight - (triggerWidth + triggerLeft);
   } else {
-    style.left = `${dropdownLeft}px`;
+    style.left = dropdownLeft;
   }
   if (matchTriggerWidth) {
-    style.width = `${dropdownWidth}px`;
+    style.width = dropdownWidth;
   }
 
   return { horizontalPosition, verticalPosition, style };
