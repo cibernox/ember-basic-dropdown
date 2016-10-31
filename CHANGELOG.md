@@ -1,3 +1,4 @@
+# 0.17.0
 - [BREAKING] The object returned by `calculatePosition` now contains the offsets
   of the dropdown as numbers instead of strings with "px" as unit. This makes easier for people
   to modify those values in their own functions.
