@@ -476,7 +476,7 @@ test('The user can pass a custom `calculatePosition` function to customize how t
   let $dropdownContent = $('.ember-basic-dropdown-content');
   assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
   assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-  assert.equal($dropdownContent.attr('style'), 'top: 111;right: 222;', 'The style attribute is the expected one');
+  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
 });
 
 // Customization of inner components

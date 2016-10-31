@@ -177,10 +177,16 @@ export default Component.extend({
       vPosition: positions.verticalPosition
     };
     if (positions.style) {
-      changes.top = positions.style.top;
-      changes.left = positions.style.left;
-      changes.right = positions.style.right;
-      changes.width = positions.style.width;
+      changes.top = `${positions.style.top}px`;
+      if (positions.style.left !== undefined) {
+        changes.left = `${positions.style.left}px`;
+      }
+      if (positions.style.right !== undefined) {
+        changes.right = `${positions.style.right}px`;
+      }
+      if (positions.style.width !== undefined) {
+        changes.width = `${positions.style.width}px`;
+      }
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         $(dropdown).css(positions.style);
