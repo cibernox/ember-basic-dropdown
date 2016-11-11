@@ -17,38 +17,56 @@ import $ from 'jquery';
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
 export function calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth }) {
+  // Collect information about all the involved DOM elements
   let $window = $(self.window);
   let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-  let dropdownLeft = triggerLeft;
-  let dropdownTop;
+  let viewportWidth = self.window.innerWidth;
+
+  let style = { left: undefined, right: undefined };
+
+  // Calculate drop down width
   dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
-
-  let viewportRight = scroll.left + self.window.innerWidth;
-
-  if (horizontalPosition === 'auto') {
-    let roomForRight = viewportRight - triggerLeft;
-
-    if (roomForRight < dropdownWidth) {
-      horizontalPosition = 'right';
-    } else if (triggerLeft < dropdownWidth) {
-      horizontalPosition = 'left';
-    } else {
-      horizontalPosition = previousHorizontalPosition || 'left';
-    }
-
-  } else if (horizontalPosition === 'right') {
-    dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
-  } else if (horizontalPosition === 'center') {
-    dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
+  if (matchTriggerWidth) {
+    style.width = dropdownWidth;
   }
 
+  // Calculate horizontal position
+  let triggerLeftWithScroll = triggerLeft + scroll.left;
+  if (horizontalPosition === 'auto') {
+    // Calculate the number of visible horizontal pixels if we were to place the
+    // dropdown on the left and right
+    let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
+    let rightVisible = Math.min(viewportWidth, triggerLeft + triggerWidth) - Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
+
+    if (dropdownWidth > leftVisible && rightVisible > leftVisible) {
+      // If the drop down won't fit left-aligned, and there is more space on the
+      // right than on the left, then force right-aligned
+      horizontalPosition = 'right';
+    } else if (dropdownWidth > rightVisible && leftVisible > rightVisible) {
+      // If the drop down won't fit right-aligned, and there is more space on
+      // the left than on the right, then force left-aligned
+      horizontalPosition = 'left';
+    } else {
+      // Keep same position as previous
+      horizontalPosition = previousHorizontalPosition || 'left';
+    }
+  }
+  if (horizontalPosition === 'right') {
+    style.right = viewportWidth - (triggerLeftWithScroll + triggerWidth);
+  } else if (horizontalPosition === 'center') {
+    style.left = triggerLeftWithScroll + (triggerWidth - dropdownWidth) / 2;
+  } else {
+    style.left = triggerLeftWithScroll;
+  }
+
+  // Calculate vertical position
   let triggerTopWithScroll = triggerTop + scroll.top;
   if (verticalPosition === 'above') {
-    dropdownTop = triggerTopWithScroll - dropdownHeight;
+    style.top = triggerTopWithScroll - dropdownHeight;
   } else if (verticalPosition === 'below') {
-    dropdownTop = triggerTopWithScroll + triggerHeight;
+    style.top = triggerTopWithScroll + triggerHeight;
   } else {
     let viewportBottom = scroll.top + self.window.innerHeight;
     let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
@@ -63,17 +81,7 @@ export function calculatePosition(trigger, dropdown, { previousHorizontalPositio
     } else {
       verticalPosition = previousVerticalPosition;
     }
-    dropdownTop = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
-  }
-
-  let style = { top: dropdownTop };
-  if (horizontalPosition === 'right') {
-    style.right = viewportRight - (triggerWidth + triggerLeft);
-  } else {
-    style.left = dropdownLeft;
-  }
-  if (matchTriggerWidth) {
-    style.width = dropdownWidth;
+    style.top = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
   }
 
   return { horizontalPosition, verticalPosition, style };
