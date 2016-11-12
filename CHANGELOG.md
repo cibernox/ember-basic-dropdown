@@ -1,3 +1,8 @@
+# 0.17.1
+- [BUGFIX] The positioning strategy takes into account the horizontal scroll and it's generally smarter.
+- [BUGFIX] Fixed bug when a dropdown with `horizontalPosition="auto"` passed from left to right, it keeped
+  both properties, modifiying its width implicitly.
+
 # 0.17.0
 - [BREAKING] The object returned by `calculatePosition` now contains the offsets
   of the dropdown as numbers instead of strings with "px" as unit. This makes easier for people
