@@ -178,11 +178,13 @@ export default Component.extend({
     };
     if (positions.style) {
       changes.top = `${positions.style.top}px`;
+      // The component can be aligned from the right or from the left, but not from both.
       if (positions.style.left !== undefined) {
         changes.left = `${positions.style.left}px`;
-      }
-      if (positions.style.right !== undefined) {
+        changes.right = null;
+      } else if (positions.style.right !== undefined) {
         changes.right = `${positions.style.right}px`;
+        changes.left = null;
       }
       if (positions.style.width !== undefined) {
         changes.width = `${positions.style.width}px`;
