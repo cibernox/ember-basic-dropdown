@@ -23,8 +23,7 @@ export function calculatePosition(trigger, dropdown, { previousHorizontalPositio
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
   let viewportWidth = self.window.innerWidth;
-
-  let style = { left: undefined, right: undefined };
+  let style = {};
 
   // Calculate drop down width
   dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
