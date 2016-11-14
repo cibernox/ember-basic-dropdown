@@ -85,6 +85,17 @@ The return value must be an object with this interface: `{ horizontalPosition, v
 
 You don't need to care about adding or removing events, it does that for you.
 
+You can make the dropdown content standout a little more by adding `overlay=true` to the content options, see example below. This will add a semi transparent overlay covering the whole screen. Also this will stop bubbling the click/touch event which closed the dropdown.
+
+```hbs
+    {{#basic-dropdown as |dd|}}
+      {{#dd.trigger}}Click me!{{/dd.trigger}}
+      {{#dd.content overlay=true}} {{!-- here! --}}
+        content!
+      {{/dd.content}}
+    {{/basic-dropdown}}
+```
+
 #### Keyboard support
 
 The trigger of the component is focusable by default, and when focused can be triggered using enter.
