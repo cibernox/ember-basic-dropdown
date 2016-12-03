@@ -27,13 +27,13 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",
-    "ember-cli": "^2.10.0",
+    "ember-cli": "^2.11.0-beta.1",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-dependency-checker": "^1.3.0",
     "ember-cli-fastboot": "0.6.2",
     "ember-cli-htmlbars-inline-precompile": "^0.3.5",
     "ember-cli-inject-live-reload": "^1.4.1",
-    "ember-cli-jshint": "^1.0.4",
+    "ember-cli-jshint": "^2.0.1",
     "ember-cli-qunit": "^3.0.1",
     "ember-cli-release": "1.0.0-beta.2",
     "ember-cli-sass": "5.5.1",
@@ -43,8 +43,9 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-load-initializers": "^0.5.1",
+    "ember-load-initializers": "^0.6.0",
     "ember-resolver": "^2.0.3",
+    "ember-source": "^2.11.0-beta.2",
     "ember-suave": "^4.0.0",
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.10",
@@ -58,7 +59,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.10",
-    "ember-cli-htmlbars": "^1.1.0",
+    "ember-cli-htmlbars": "^1.1.1",
     "ember-wormhole": "0.4.1"
   },
   "ember-addon": {
