@@ -161,7 +161,6 @@ export default Component.extend({
       });
       this.element.addEventListener('touchend', (e) => {
         this.send('handleTouchEnd', e);
-        e.preventDefault(); // Prevent synthetic click
       });
     }
     this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
