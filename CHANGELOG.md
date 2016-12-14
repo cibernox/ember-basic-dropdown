@@ -1,3 +1,5 @@
+- [ENHANCEMENT] Update to ember-wormhole 0.5.1, which maximises Glimmer2 compatibility
+
 # 0.17.3
 - [BUGFIX] The fix in 0.17.2 that removed `e.preventDefault()` cause both `touchend` and a synthetic `mousedown`
   events to be fired, which basically made the component to be opened and immediatly closed in touch devises.
