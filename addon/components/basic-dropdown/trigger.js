@@ -103,6 +103,13 @@ export default Component.extend({
   // Actions
   actions: {
     handleMousedown(e) {
+      if (this.skipHandleMousedown) {
+        // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+        // In those cases the touchdown handler is fired first, and it sets a flag to
+        // short-circuit the mouseup so the component is not opened and immediately closed.
+        this.skipHandleMousedown = false;
+        return;
+      }
       let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
@@ -112,6 +119,7 @@ export default Component.extend({
     },
 
     handleTouchEnd(e) {
+      this.skipHandleMousedown = true;
       let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
@@ -159,9 +167,7 @@ export default Component.extend({
       this.element.addEventListener('touchstart', () => {
         self.document.body.addEventListener('touchmove', this._touchMoveHandler);
       });
-      this.element.addEventListener('touchend', (e) => {
-        this.send('handleTouchEnd', e);
-      });
+      this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
     this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
     this.element.addEventListener('keydown', (e) => this.send('handleKeydown', e));
