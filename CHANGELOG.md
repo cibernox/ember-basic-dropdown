@@ -1,3 +1,10 @@
+# 0.17.3
+- [BUGFIX] The fix in 0.17.2 that removed `e.preventDefault()` cause both `touchend` and a synthetic `mousedown`
+  events to be fired, which basically made the component to be opened and immediatly closed in touch devises.
+
+# 0.17.2
+- [BUGFIX] Remove `e.preventDefault()` that caused inputs inside the trigger to not be focusable in touch screens
+
 # 0.17.1
 - [BUGFIX] The positioning strategy takes into account the horizontal scroll and it's generally smarter.
 - [BUGFIX] Fixed bug when a dropdown with `horizontalPosition="auto"` passed from left to right, it keeped
