@@ -120,10 +120,15 @@ export default Component.extend({
     if (onFocusOut) {
       this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
+
+    let changes = dropdown.actions.reposition();
     if (!this.get('renderInPlace')) {
       this.addGlobalEvents();
+      this.startObservingDomMutations();
+    } else if (changes.vPosition === 'above') {
+      this.startObservingDomMutations();
     }
-    dropdown.actions.reposition();
+
     if (this.get('animationEnabled')) {
       scheduleOnce('afterRender', this, this.animateIn);
     }
@@ -161,6 +166,9 @@ export default Component.extend({
     self.window.addEventListener('scroll', this.runloopAwareReposition);
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
+  },
+
+  startObservingDomMutations() {
     if (MutObserver) {
       this.mutationObserver = new MutObserver((mutations) => {
         if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
@@ -178,6 +186,9 @@ export default Component.extend({
     self.window.removeEventListener('scroll', this.runloopAwareReposition);
     self.window.removeEventListener('resize', this.runloopAwareReposition);
     self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
+  },
+
+  stopObservingDomMutations() {
     if (MutObserver) {
       if (this.mutationObserver) {
         this.mutationObserver.disconnect();
@@ -224,6 +235,7 @@ export default Component.extend({
 
   _teardown() {
     this.removeGlobalEvents();
+    this.stopObservingDomMutations();
     self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
       self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);

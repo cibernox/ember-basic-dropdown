@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
   showImage: true,
   opened: true,
   horizontalScrollEnabled: false,
+  addedItems: [],
 
   actions: {
     registerAPI(dropdown) {
@@ -21,6 +22,17 @@ export default Ember.Controller.extend({
       } else {
         Ember.$('body').removeClass('with-horizontal-scroll');
       }
+    },
+
+    startAddingContent() {
+      this.intervarTimer = setInterval(() => {
+        console.debug('add new item!');
+        this.set('addedItems', this.get('addedItems').concat(+new Date()));
+      }, 1000);
+    },
+
+    stopAddingContent() {
+      clearInterval(this.intervarTimer);
     }
   }
 });

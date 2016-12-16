@@ -5,7 +5,7 @@ import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-import { calculatePosition } from '../utils/calculate-position';
+import { calculatePosition, calculateInPlacePosition } from '../utils/calculate-position';
 const { guidFor } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
@@ -35,6 +35,7 @@ export default Component.extend({
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
   calculatePosition: fallbackIfUndefined(calculatePosition),
+  calculateInPlacePosition: fallbackIfUndefined(calculateInPlacePosition),
   classNames: ['ember-basic-dropdown'],
   top: null,
   left: null,
@@ -145,30 +146,10 @@ export default Component.extend({
       return;
     }
 
-    let renderInPlace = this.get('renderInPlace');
-    if (renderInPlace) {
-      this.performNaiveReposition(triggerElement, dropdownElement);
-    } else {
-      this.performFullReposition(triggerElement, dropdownElement);
-    }
-  },
-
-  performNaiveReposition(trigger, dropdown) {
-    let horizontalPosition = this.get('horizontalPosition');
-    if (horizontalPosition === 'auto') {
-      let triggerRect = trigger.getBoundingClientRect();
-      let dropdownRect = dropdown.getBoundingClientRect();
-      let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
-      horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
-    }
-    this.applyReposition(trigger, dropdown, { horizontalPosition });
-  },
-
-  performFullReposition(trigger, dropdown) {
+    let calculatePosition = this.get(this.get('renderInPlace') ? 'calculateInPlacePosition' : 'calculatePosition');
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition');
-    let positionData = this.get('calculatePosition')(trigger, dropdown, options);
-
-    this.applyReposition(trigger, dropdown, positionData);
+    let positionData = calculatePosition(triggerElement, dropdownElement, options);
+    return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 
   applyReposition(trigger, dropdown, positions) {
@@ -197,6 +178,7 @@ export default Component.extend({
     this.setProperties(changes);
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
+    return changes;
   },
 
   disable() {
