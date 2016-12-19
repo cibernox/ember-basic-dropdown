@@ -452,6 +452,30 @@ test('Firing a reposition outside of a runloop doesn\'t break the component', fu
   }, 100);
 });
 
+test('The `reposition` public action returns an object with the changes', function(assert) {
+  assert.expect(4);
+  let remoteController;
+  this.saveAPI = (api) => remoteController = api;
+  this.render(hbs`
+    {{#basic-dropdown registerAPI=(action saveAPI) as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  let returnValue;
+  clickTrigger();
+
+  run(() => {
+    returnValue = remoteController.actions.reposition();
+  });
+  assert.ok(returnValue.hasOwnProperty('hPosition'));
+  assert.ok(returnValue.hasOwnProperty('vPosition'));
+  assert.ok(returnValue.hasOwnProperty('top'));
+  assert.ok(returnValue.hasOwnProperty('left'));
+});
+
 test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
   assert.expect(3);
   this.calculatePosition = function() {
@@ -466,6 +490,33 @@ test('The user can pass a custom `calculatePosition` function to customize how t
   };
   this.render(hbs`
     {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  let $dropdownContent = $('.ember-basic-dropdown-content');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+});
+
+test('The user can pass a custom `calculateInPlacePosition` function to customize how the component is placed on the screen when rendered "in place"', function(assert) {
+  assert.expect(3);
+  this.calculateInPlacePosition = function() {
+    return {
+      horizontalPosition: 'right',
+      verticalPosition: 'above',
+      style: {
+        top: 111,
+        right: 222
+      }
+    };
+  };
+  this.render(hbs`
+    {{#basic-dropdown calculateInPlacePosition=calculateInPlacePosition renderInPlace=true as |dropdown|}}
       {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
       {{#dropdown.content}}
         <div id="dropdown-is-opened"></div>

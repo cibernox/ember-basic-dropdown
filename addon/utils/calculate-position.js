@@ -86,7 +86,7 @@ export function calculatePosition(trigger, dropdown, { horizontalPosition, verti
   return { horizontalPosition, verticalPosition, style };
 }
 
-export function calculateInPlacePosition(trigger, dropdown, { horizontalPosition, verticalPosition /*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */ }) {
+export function calculateInPlacePosition(trigger, dropdown, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
   let dropdownRect;
   let positionData = {};
   if (horizontalPosition === 'auto') {
