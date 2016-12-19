@@ -1,3 +1,7 @@
+# 0.18.0
+- [ENHANCEMENT] Allow downdowns rendered in place to be positioned above the trigger,
+  and also to customize how they are positioned.
+
 # 0.17.4
 - [ENHANCEMENT] Update to ember-wormhole 0.5.1, which maximises Glimmer2 compatibility
 
