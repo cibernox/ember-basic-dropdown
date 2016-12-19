@@ -16,7 +16,7 @@ import $ from 'jquery';
     - {String} verticalPosition The new vertical position.
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
-export function calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth }) {
+export function calculatePosition(trigger, dropdown, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
   // Collect information about all the involved DOM elements
   let $window = $(self.window);
   let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
@@ -84,4 +84,21 @@ export function calculatePosition(trigger, dropdown, { previousHorizontalPositio
   }
 
   return { horizontalPosition, verticalPosition, style };
+}
+
+export function calculateInPlacePosition(trigger, dropdown, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
+  let dropdownRect;
+  let positionData = {};
+  if (horizontalPosition === 'auto') {
+    let triggerRect = trigger.getBoundingClientRect();
+    dropdownRect = dropdown.getBoundingClientRect();
+    let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
+    positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
+  }
+  if (verticalPosition === 'above') {
+    positionData.verticalPosition = verticalPosition;
+    dropdownRect = dropdownRect || dropdown.getBoundingClientRect();
+    positionData.style = { top: -dropdownRect.height };
+  }
+  return positionData;
 }

@@ -31,7 +31,15 @@ test('If the dropdown is closed, nothing is rendered', function(assert) {
 
 test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', function(assert) {
   assert.expect(2);
-  this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+  this.dropdown = {
+    uniqueId: 'e123',
+    isOpen: true,
+    actions: {
+      reposition() {
+        return {};
+      }
+    }
+  };
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
@@ -136,7 +144,9 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
       close() {
         assert.ok(false, 'The close action should not be called');
       },
-      reposition() {}
+      reposition() {
+        return {};
+      }
     }
   };
   this.dropdown2 = {
@@ -145,7 +155,9 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
       close() {
         assert.ok(false, 'The close action should not be called either');
       },
-      reposition() {}
+      reposition() {
+        return {};
+      }
     }
   };
   this.render(hbs`
