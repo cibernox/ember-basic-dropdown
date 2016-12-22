@@ -478,8 +478,8 @@ test('The `reposition` public action returns an object with the changes', functi
 
 test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
   assert.expect(4);
-  this.calculatePosition = function() {
-    assert.ok(this, 'context shouldn\'t be undefined');
+  this.calculatePosition = function(triggerElement, dropdownElement, { dropdown }) {
+    assert.ok(dropdown, 'dropdown should be passed to the component');
     return {
       horizontalPosition: 'right',
       verticalPosition: 'above',
@@ -506,8 +506,8 @@ test('The user can pass a custom `calculatePosition` function to customize how t
 
 test('The user can pass a custom `calculateInPlacePosition` function to customize how the component is placed on the screen when rendered "in place"', function(assert) {
   assert.expect(4);
-  this.calculateInPlacePosition = function() {
-    assert.ok(this, 'context shouldn\'t be undefined');
+  this.calculateInPlacePosition = function(triggerElement, dropdownElement, { dropdown }) {
+    assert.ok(dropdown, 'dropdown should be passed to the component');
     return {
       horizontalPosition: 'right',
       verticalPosition: 'above',
