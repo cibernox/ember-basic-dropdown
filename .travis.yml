@@ -8,8 +8,8 @@ sudo: false
 cache:
   yarn: true
   directories:
-    - node_modules
-    - $HOME/.npm
+    - $HOME/.yarn
+    - $HOME/.yarn-cache
     - $HOME/.cache # includes bowers cache
 
 env:
@@ -27,9 +27,8 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower yarn
-  - yarn global add phantomjs-prebuilt
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - "yarn global add bower phantomjs-prebuilt@2"
 
 install:
   - yarn upgrade
