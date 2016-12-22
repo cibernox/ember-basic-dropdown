@@ -28,7 +28,8 @@ matrix:
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - "yarn global add bower phantomjs-prebuilt@2"
+  - "yarn global add bower"
+  - "yarn global add phantomjs-prebuilt@2"
 
 install:
   - yarn upgrade
