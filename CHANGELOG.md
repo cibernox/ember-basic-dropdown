@@ -1,3 +1,6 @@
+- [ENHANCEMENT] Pass the dropdown itself as an option to `calculatePosition` and `calculateInPlacePosition`,
+  so users have pretty much total freedom on that function.
+
 # 0.18.0
 - [ENHANCEMENT] Allow downdowns rendered in place to be positioned above the trigger,
   and also to customize how they are positioned.
