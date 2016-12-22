@@ -148,7 +148,7 @@ export default Component.extend({
 
     let calculatePosition = this.get(this.get('renderInPlace') ? 'calculateInPlacePosition' : 'calculatePosition');
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition');
-    let positionData = calculatePosition(triggerElement, dropdownElement, options);
+    let positionData = calculatePosition.call(this, triggerElement, dropdownElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 

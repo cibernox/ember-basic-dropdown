@@ -477,8 +477,9 @@ test('The `reposition` public action returns an object with the changes', functi
 });
 
 test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
   this.calculatePosition = function() {
+    assert.ok(this, 'context shouldn\'t be undefined');
     return {
       horizontalPosition: 'right',
       verticalPosition: 'above',
@@ -504,8 +505,9 @@ test('The user can pass a custom `calculatePosition` function to customize how t
 });
 
 test('The user can pass a custom `calculateInPlacePosition` function to customize how the component is placed on the screen when rendered "in place"', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
   this.calculateInPlacePosition = function() {
+    assert.ok(this, 'context shouldn\'t be undefined');
     return {
       horizontalPosition: 'right',
       verticalPosition: 'above',
