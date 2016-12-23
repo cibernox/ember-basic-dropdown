@@ -78,6 +78,14 @@ export default Component.extend({
     }
   },
 
+  willDestroy() {
+    this._super(...arguments);
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      registerAPI(null);
+    }
+  },
+
   // Actions
   actions: {
     handleFocus(e) {
