@@ -1,3 +1,6 @@
+# 0.19.0
+- [BUGFIX] Call `registerAPI` will `null` on `willDestroy` to avoid memory leaks.
+
 # 0.18.1
 - [ENHANCEMENT] Pass the dropdown itself as an option to `calculatePosition` and `calculateInPlacePosition`,
   so users have pretty much total freedom on that function.
