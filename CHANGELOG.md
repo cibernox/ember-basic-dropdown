@@ -1,3 +1,5 @@
+- [CLEANUP] Update to `ember-cli-sass` ^6.0.0 and remove `node-sass` from dependencies.
+
 # 0.19.0
 - [BUGFIX] Call `registerAPI` will `null` on `willDestroy` to avoid memory leaks.
 
