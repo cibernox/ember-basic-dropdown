@@ -52,7 +52,6 @@
     "ember-suave": "^4.0.0",
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.10",
-    "node-sass": "^3.10.0",
     "simple-git": "^1.10.0"
   },
   "keywords": [
