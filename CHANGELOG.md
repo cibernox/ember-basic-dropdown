@@ -1,3 +1,6 @@
+- [BUGFIX] Prevent the `touchend` that opens the trigger to trigger a click on the dropdown's content
+  when this appears over the trigger. Copied from hammertime.
+
 # 0.19.1
 - [CLEANUP] Update to `ember-cli-sass` ^6.0.0 and remove `node-sass` from dependencies.
 

@@ -129,6 +129,14 @@ export default Component.extend({
       }
       this.hasMoved = false;
       self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+      // This next three lines are stolen from hammertime. This prevents the default
+      // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
+      // to simulate natural behaviour.
+      e.target.focus();
+      setTimeout(function() {
+        e.target.click
+      }, 0);
+      e.preventDefault();
     },
 
     handleKeydown(e) {
