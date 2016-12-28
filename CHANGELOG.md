@@ -1,3 +1,4 @@
+# 0.19.2
 - [BUGFIX] Prevent the `touchend` that opens the trigger to trigger a click on the dropdown's content
   when this appears over the trigger. Copied from hammertime.
 
