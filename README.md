@@ -2,13 +2,9 @@
 
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
-It is intended to be a building block for more complex components but is perfectly usable.
-
-### Compatibility
-
-**Warning**. This component suffered a full re-write of its public API in 0.12.
-Until 0.11.X, the compatiblity was 1.13+
-Starting in 0.12, the compatibility is 2.3.1+.
+It is intended to be a building block for more complex components but is perfectly usable. It is
+by example the addon on which [ember-power-select](https://www.ember-power-select.com)
+or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/release-1/#/components/menu) are built upon.
 
 ### Installation
 
@@ -65,22 +61,6 @@ position it to place it in the proper coordinates.
 You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
 below the trigger.
 
-#### Intelligent dropdown position
-
-This component is smart about where to position the dropdown. It will detect the best place to render
-it based on the space around the trigger, and also will take care of reposition if if the screen is
-resized, scrolled, the device changes it orientation or the content of the dropdown changes
-(implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
-
-You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
-
-If even that doesn't match your preferences and you feel brave enough, you can roll your own positioning logic if you pass a `calculatePosition`
-function. It's signature is:
-```
-calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })
-```
-The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, styles }` where `styles` in an object with CSS properties, typically `top` and `left`/`right`.
-
 #### Closed automatically when click outside the component
 
 You don't need to care about adding or removing events, it does that for you.
@@ -96,6 +76,40 @@ You can make the dropdown content standout a little more by adding `overlay=true
     {{/basic-dropdown}}
 ```
 
-#### Keyboard support
+#### Keyboard and touchscreen support
 
-The trigger of the component is focusable by default, and when focused can be triggered using enter.
+The trigger of the component is focusable by default, and when focused can be triggered using `Enter` or `Space`.
+It also listen to touch events so it works in mobile.
+
+#### Easy to extend
+
+The components provide hooks like `onFocus`, `onBlur`, `onKeydown`, `onMouseEnter` and more so
+you can do pretty much anything you want.
+
+#### Easy to animate.
+
+You can animate it, in an out, with just CSS3 animations.
+Check the example in the [Ember Power Select documentation](http://www.ember-power-select.com/cookbook/css-animations)
+
+#### Intelligent and customizable positioning
+
+This component is smart about where to position the dropdown. It will detect the best place to render
+it based on the space around the trigger, and also will take care of reposition if if the screen is
+resized, scrolled, the device changes it orientation or the content of the dropdown changes
+(implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
+
+You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
+
+If even that doesn't match your preferences and you feel brave enough, you can roll your own positioning logic if you pass a `calculatePosition`
+function. It's signature is:
+```
+calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })
+```
+The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, styles }` where
+where `horizontalPosition` is a string (`"right" | "center" | "left"`), `verticalPosition` is also a string
+(`"above" | "below"`) and `styles` is an object with CSS properties, typically `top` and `left`/`right`.
+
+#### Test helpers
+
+It has a handy collection of test helpers to make interaction with the component seamless in your
+test suite.
