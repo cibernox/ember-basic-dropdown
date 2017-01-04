@@ -54,6 +54,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    this.assignHandlerOverrides();
     this.addMandatoryHandlers();
     this.addOptionalHandlers();
   },
@@ -102,7 +103,9 @@ export default Component.extend({
 
   // Actions
   actions: {
-    handleMousedown(e) {
+    handleMousedown(dropdown, e) {
+      dropdown = dropdown || this.get('dropdown');
+
       if (this.skipHandleMousedown) {
         // Some devises have both touchscreen & mouse, and they are not mutually exclusive
         // In those cases the touchdown handler is fired first, and it sets a flag to
@@ -110,7 +113,6 @@ export default Component.extend({
         this.skipHandleMousedown = false;
         return;
       }
-      let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
       }
@@ -118,9 +120,10 @@ export default Component.extend({
       dropdown.actions.toggle(e);
     },
 
-    handleTouchEnd(e) {
+    handleTouchend(dropdown, e) {
+      dropdown = dropdown || this.get('dropdown');
+
       this.skipHandleMousedown = true;
-      let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
@@ -139,8 +142,8 @@ export default Component.extend({
       e.preventDefault();
     },
 
-    handleKeydown(e) {
-      let dropdown = this.get('dropdown');
+    handleKeydown(dropdown, e) {
+      dropdown = dropdown || this.get('dropdown');
       if (dropdown.disabled) {
         return;
       }
@@ -171,18 +174,21 @@ export default Component.extend({
   },
 
   addMandatoryHandlers() {
+    let dropdown = this.get('dropdown');
+
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
         self.document.body.addEventListener('touchmove', this._touchMoveHandler);
       });
-      this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
+      this.element.addEventListener('touchend', (e) => this.send('handleTouchend', dropdown, e));
     }
-    this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
-    this.element.addEventListener('keydown', (e) => this.send('handleKeydown', e));
+    this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', dropdown, e));
+    this.element.addEventListener('keydown', (e) => this.send('handleKeydown', dropdown, e));
   },
 
   addOptionalHandlers() {
     let dropdown = this.get('dropdown');
+
     let onMouseEnter = this.get('onMouseEnter');
     if (onMouseEnter) {
       this.element.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
@@ -207,5 +213,11 @@ export default Component.extend({
     if (onFocusOut) {
       this.element.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
+  },
+
+  assignHandlerOverrides() {
+    this.actions.handleMousedown = this.get('onMousedownOverride') || this.actions.handleMousedown;
+    this.actions.handleKeydown = this.get('onKeydownOverride') || this.actions.handleKeydown;
+    this.actions.handleTouchend = this.get('onTouchendOverride') || this.actions.handleTouchend;
   }
 });
