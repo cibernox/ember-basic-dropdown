@@ -51,6 +51,27 @@ properties and actions that you can use to control the component.
 }
 ```
 
+### Glimmer2 users, read this!!!1!
+
+Due to a bug between `ember-wormhle`, which this component uses and Glimmer2, there is a
+a [small caveat](https://github.com/yapplabs/ember-wormhole/releases/tag/0.5.1) you have to be aware of.
+
+You can continue to use this addon with glimmer2 but until that bug is fixed in Ember (hopefully soon)
+you have to wrap your content in a stable element.
+
+Example:
+
+```hbs
+{{#basic-dropdown as |dropdown|}}
+  {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+  {{#dropdown.content}}
+    <div> {{! or <span>, or anything }}
+      Content of the trigger
+    </div>
+  {{/dropdown.content}}
+{{/basic-dropdown}}
+```
+
 ### Features
 
 #### Renders on the body or in place
