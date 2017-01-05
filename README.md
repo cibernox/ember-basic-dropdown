@@ -53,7 +53,7 @@ properties and actions that you can use to control the component.
 
 ### Glimmer2 users, read this!!!1!
 
-Due to a bug between `ember-wormhle`, which this component uses and Glimmer2, there is a
+Due to a bug in Glimmer2 affecting `ember-wormhole`, which this component uses, there is a
 a [small caveat](https://github.com/yapplabs/ember-wormhole/releases/tag/0.5.1) you have to be aware of.
 
 You can continue to use this addon with glimmer2 but until that bug is fixed in Ember (hopefully soon)
