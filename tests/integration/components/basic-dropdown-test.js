@@ -601,6 +601,123 @@ test('The registerAPI is called with every mutation of the publicAPI object', fu
   assert.equal(apis[3].disabled, true, 'and it became disabled');
 });
 
+// Optional dropdown-wide event handlers (mouseenter/mouseleave, focusin/focusout)
+test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {
+  assert.expect(1);
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+  };
+  this.set('onMouseEnter', userSuppliedAction);
+
+  this.render(hbs`
+    {{#basic-dropdown
+      onMouseEnter=onMouseEnter
+      renderInPlace=true
+      as |dropdown|
+    }}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  // TODO: @jewilkin - surely there's a cleaner way to do this, but this.element and
+  // this.get('element') return undefined here
+  let [$dropdown] = this.$('.ember-basic-dropdown');
+
+  run(() => {
+    let event = new window.Event('mouseenter', { bubbles: true, cancelable: true, view: window });
+    $dropdown.dispatchEvent(event);
+  });
+});
+
+test('If it receives an `onMouseLeave` action, it will be invoked when a mouseleave event is received', function(assert) {
+  assert.expect(1);
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+  };
+  this.set('onMouseLeave', userSuppliedAction);
+
+  this.render(hbs`
+    {{#basic-dropdown
+      onMouseLeave=onMouseLeave
+      renderInPlace=true
+      as |dropdown|
+    }}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  // TODO: @jewilkin - surely there's a cleaner way to do this, but this.element and
+  // this.get('element') return undefined here
+  let [$dropdown] = this.$('.ember-basic-dropdown');
+
+  run(() => {
+    let event = new window.Event('mouseleave', { bubbles: true, cancelable: true, view: window });
+    $dropdown.dispatchEvent(event);
+  });
+});
+
+test('If it receives an `onFocusIn` action, it will be invoked when a focusin event is received', function(assert) {
+  assert.expect(1);
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+  };
+  this.set('onFocusIn', userSuppliedAction);
+
+  this.render(hbs`
+    {{#basic-dropdown
+      onFocusIn=onFocusIn
+      renderInPlace=true
+      as |dropdown|
+    }}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  // TODO: @jewilkin - surely there's a cleaner way to do this, but this.element and
+  // this.get('element') return undefined here
+  let [$dropdown] = this.$('.ember-basic-dropdown');
+
+  run(() => {
+    let event = new window.Event('focusin', { bubbles: true, cancelable: true, view: window });
+    $dropdown.dispatchEvent(event);
+  });
+});
+
+test('If it receives an `onFocusOut` action, it will be invoked when a focusout event is received', function(assert) {
+  assert.expect(1);
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+  };
+  this.set('onFocusOut', userSuppliedAction);
+
+  this.render(hbs`
+    {{#basic-dropdown
+      onFocusOut=onFocusOut
+      renderInPlace=true
+      as |dropdown|
+    }}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  // TODO: @jewilkin - surely there's a cleaner way to do this, but this.element and
+  // this.get('element') return undefined here
+  let [$dropdown] = this.$('.ember-basic-dropdown');
+
+  run(() => {
+    let event = new window.Event('focusout', { bubbles: true, cancelable: true, view: window });
+    $dropdown.dispatchEvent(event);
+  });
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 

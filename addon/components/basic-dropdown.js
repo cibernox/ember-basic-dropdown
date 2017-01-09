@@ -66,6 +66,13 @@ export default Component.extend({
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
   },
 
+  didInsertElement() {
+    // We cannot add these handlers to a dropdown container that does not exist
+    if (this.get('tagName') !== '') {
+      this.addOptionalHandlers();
+    }
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
     let oldDisabled = !!this._oldDisabled;
@@ -93,7 +100,15 @@ export default Component.extend({
       if (onFocus) {
         onFocus(this.get('publicAPI'), e);
       }
-    }
+    },
+
+    // Mouseenter/leave, Focusin/out are useful at the dropdown component level (rather than trigger or content)
+    // as we typically want mouseleave/focusout events fired when the related target is outside
+    // *both* the trigger and content
+    handleMouseEnter: Ember.K,
+    handleMouseLeave: Ember.K,
+    handleFocusIn: Ember.K,
+    handleFocusOut: Ember.K
   },
 
   // Methods
@@ -209,5 +224,29 @@ export default Component.extend({
       registerAPI(newState);
     }
     return newState;
+  },
+
+  // For dropdowns utilizing mouseenter/mouseleave and focusin/focusout, it often makes sense to track the
+  // events for the dropdown as a whole (e.g. when hovering over dropdown.content's element, we may not wish to
+  // call dropdown.trigger's mouseleave, potentially closing the dropdown)
+  addOptionalHandlers() {
+    let dropdown = this.get('publicAPI');
+
+    let onMouseEnter = this.get('onMouseEnter');
+    if (onMouseEnter) {
+      this.element.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
+    }
+    let onMouseLeave = this.get('onMouseLeave');
+    if (onMouseLeave) {
+      this.element.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
+    }
+    let onFocusIn = this.get('onFocusIn');
+    if (onFocusIn) {
+      this.element.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
+    }
+    let onFocusOut = this.get('onFocusOut');
+    if (onFocusOut) {
+      this.element.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
+    }
   }
 });

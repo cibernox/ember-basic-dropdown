@@ -33,6 +33,13 @@ export default Ember.Controller.extend({
 
     stopAddingContent() {
       window.clearInterval(this.intervarTimer);
+    },
+
+    openDropdown(dropdown) {
+      Ember.set(dropdown, 'isOpen', true);
+    },
+    closeDropdown(dropdown) {
+      Ember.set(dropdown, 'isOpen', false);
     }
   }
 });
