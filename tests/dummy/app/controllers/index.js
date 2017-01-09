@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { run } = Ember;
+
 export default Ember.Controller.extend({
   showImage: true,
   opened: true,
@@ -33,6 +35,38 @@ export default Ember.Controller.extend({
 
     stopAddingContent() {
       window.clearInterval(this.intervarTimer);
+    },
+
+    triggerMouseEnter(dropdown /*, e */) {
+      if (this.closeTimer) {
+        run.cancel(this.closeTimer);
+        this.closeTimer = null;
+      } else {
+        dropdown.actions.open();
+      }
+    },
+
+    triggerMouseLeave(dropdown /*, e */) {
+      this.closeTimer = run.next(this, function() {
+        this.closeTimer = null;
+        dropdown.actions.close();
+      });
+    },
+
+    contentMouseEnter(dropdown /*, e */) {
+      if (this.closeTimer) {
+        run.cancel(this.closeTimer);
+        this.closeTimer = null;
+      } else {
+        dropdown.actions.open();
+      }
+    },
+
+    contentMouseLeave(dropdown /*, e */) {
+      this.closeTimer = run.next(this, function() {
+        this.closeTimer = null;
+        dropdown.actions.close();
+      });
     }
   }
 });

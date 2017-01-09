@@ -1,3 +1,6 @@
+- [FEATURE] Allow to pass `onMouseEnter` and `onMouseLeave` actions to the content, like
+  we allow with the trigger.
+
 # 0.19.2
 - [BUGFIX] Prevent the `touchend` that opens the trigger to trigger a click on the dropdown's content
   when this appears over the trigger. Copied from hammertime.
