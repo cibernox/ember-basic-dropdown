@@ -265,6 +265,45 @@ test('If it receives an `onFocusOut` action, it is invoked if a focusout event i
   run(() => input.blur());
 });
 
+// Mouseenter/leave
+test('If it receives an `onMouseEnter` action, it is invoked if a mouseenter event is fired on the content', function(assert) {
+  assert.expect(3);
+  this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+  this.onMouseEnter = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/content dropdown=dropdown onMouseEnter=onMouseEnter}}
+      Content
+    {{/basic-dropdown/content}}
+  `);
+  run(() => {
+    let event = new window.Event('mouseenter', { bubbles: true, cancelable: true, view: window });
+    $('.ember-basic-dropdown-content')[0].dispatchEvent(event);
+  });
+});
+
+test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave event is fired on the content', function(assert) {
+  assert.expect(3);
+  this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+  this.onMouseLeave = (api, e) => {
+    assert.ok(true, 'The action is invoked');
+    assert.equal(api, this.dropdown, 'The first argument is the API');
+    assert.ok(e instanceof window.Event, 'the second argument is an event');
+  };
+  this.render(hbs`
+    {{#basic-dropdown/content dropdown=dropdown onMouseLeave=onMouseLeave}}
+      Content
+    {{/basic-dropdown/content}}
+  `);
+  run(() => {
+    let event = new window.Event('mouseleave', { bubbles: true, cancelable: true, view: window });
+    $('.ember-basic-dropdown-content')[0].dispatchEvent(event);
+  });
+});
+
 // Repositining
 test('The component is repositioned immediatly when opened', function(assert) {
   assert.expect(1);

@@ -120,7 +120,14 @@ export default Component.extend({
     if (onFocusOut) {
       this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
-
+    let onMouseEnter = this.get('onMouseEnter');
+    if (onMouseEnter) {
+      this.dropdownElement.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
+    }
+    let onMouseLeave = this.get('onMouseLeave');
+    if (onMouseLeave) {
+      this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
+    }
     let changes = dropdown.actions.reposition();
     if (!this.get('renderInPlace')) {
       this.addGlobalEvents();
