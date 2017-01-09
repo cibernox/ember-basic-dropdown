@@ -1,3 +1,4 @@
+# 0.19.3
 - [FEATURE] Allow to pass `onMouseEnter` and `onMouseLeave` actions to the content, like
   we allow with the trigger.
 
