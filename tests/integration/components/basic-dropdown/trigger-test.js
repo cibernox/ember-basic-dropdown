@@ -486,3 +486,77 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
   run(() => input.focus());
 });
 
+// Override click toggle trigger
+test('Allows overriding the default mouseDown `toggle` action with user-supplied action', function(assert) {
+  assert.expect(4);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {}
+    }
+  };
+
+  let userSuppliedAction = function(dropdown, e) {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(arguments.length, 2, 'It receives two arguments');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+  };
+
+  this.set('onMousedownOverride', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onMousedownOverride=onMousedownOverride dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  clickTrigger();
+});
+
+// Override keydown toggle trigger
+test('Allows overriding the default mouseDown `toggle` action with user-supplied action', function(assert) {
+  assert.expect(4);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {}
+    }
+  };
+
+  let userSuppliedAction = function(dropdown, e) {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(arguments.length, 2, 'It receives two arguments');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+  };
+
+  this.set('onKeydownOverride', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onKeydownOverride=onKeydownOverride dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  fireKeydown('.ember-basic-dropdown-trigger', 70);
+});
+
+// Override keydown toggle trigger
+test('Allows overriding the default mouseDown `toggle` action with user-supplied action', function(assert) {
+  assert.expect(4);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {}
+    }
+  };
+
+  let userSuppliedAction = function(dropdown, e) {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(arguments.length, 2, 'It receives two arguments');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+  };
+
+  this.set('onTouchendOverride', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onTouchendOverride=onTouchendOverride dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+  `);
+  tapTrigger();
+});

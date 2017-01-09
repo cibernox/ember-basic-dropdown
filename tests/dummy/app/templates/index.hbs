@@ -94,7 +94,14 @@
 
 <h4>Dropdown in a box with enough padding to have to be rendered on the left sometimes</h4>
 <div style="margin-left: 600px">
-  {{#basic-dropdown as |dropdown|}}
+  {{#basic-dropdown
+    renderInPlace=true
+    onMouseEnter=(action "openDropdown")
+    onMouseLeave=(action "closeDropdown")
+    onFocusIn=(action "openDropdown")
+    onFocusOut=(action "closeDropdown")
+    as |dropdown|
+  }}
     {{#dropdown.trigger tagName="button"}}Click me{{/dropdown.trigger}}
     {{#dropdown.content}}
       <div style="width: 200px; border: 1px solid blue; margin: 10px;">
