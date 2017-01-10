@@ -1,3 +1,4 @@
+# 0.19.4
 - [FEATURE] Allow to pass `onMouseDown` and `onTouchEnd` options actions to subscribe to those
   events. If the handler for those events returns `false`, the default behaviour (toggle the component)
   is prevented.
