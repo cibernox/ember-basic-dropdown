@@ -1,3 +1,7 @@
+- [FEATURE] Allow to pass `onMouseDown` and `onTouchEnd` options actions to subscribe to those
+  events. If the handler for those events returns `false`, the default behaviour (toggle the component)
+  is prevented.
+
 # 0.19.3
 - [FEATURE] Allow to pass `onMouseEnter` and `onMouseLeave` actions to the content, like
   we allow with the trigger.
