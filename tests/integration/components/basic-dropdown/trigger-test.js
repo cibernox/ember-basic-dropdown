@@ -487,7 +487,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
 });
 
 // Decorating and overriding default event handlers
-test('A user-supplied onMousedown action will execute before the default toggle behavior', function(assert) {
+test('A user-supplied onMouseDown action will execute before the default toggle behavior', function(assert) {
   assert.expect(4);
   let userActionRanfirst = false;
 
@@ -495,7 +495,7 @@ test('A user-supplied onMousedown action will execute before the default toggle 
     uniqueId: 123,
     actions: {
       toggle: () => {
-        assert.ok(userActionRanfirst, 'User-supplied `onMousedown` ran before default `toggle`');
+        assert.ok(userActionRanfirst, 'User-supplied `onMouseDown` ran before default `toggle`');
       }
     }
   };
@@ -507,15 +507,15 @@ test('A user-supplied onMousedown action will execute before the default toggle 
     userActionRanfirst = true;
   };
 
-  this.set('onMousedown', userSuppliedAction);
+  this.set('onMouseDown', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onMousedown=onMousedown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onMouseDown=onMouseDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   clickTrigger();
 });
 
-test('A user-supplied onMousedown action, returning `false`, will prevent the default behavior', function(assert) {
+test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', function(assert) {
   assert.expect(1);
 
   this.dropdown = {
@@ -532,15 +532,15 @@ test('A user-supplied onMousedown action, returning `false`, will prevent the de
     return false;
   };
 
-  this.set('onMousedown', userSuppliedAction);
+  this.set('onMouseDown', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onMousedown=onMousedown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onMouseDown=onMouseDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   clickTrigger();
 });
 
-test('A user-supplied onTouchend action will execute before the default toggle behavior', function(assert) {
+test('A user-supplied onTouchEnd action will execute before the default toggle behavior', function(assert) {
   assert.expect(4);
   let userActionRanfirst = false;
 
@@ -548,7 +548,7 @@ test('A user-supplied onTouchend action will execute before the default toggle b
     uniqueId: 123,
     actions: {
       toggle: () => {
-        assert.ok(userActionRanfirst, 'User-supplied `onTouchend` ran before default `toggle`');
+        assert.ok(userActionRanfirst, 'User-supplied `onTouchEnd` ran before default `toggle`');
       }
     }
   };
@@ -560,14 +560,14 @@ test('A user-supplied onTouchend action will execute before the default toggle b
     userActionRanfirst = true;
   };
 
-  this.set('onTouchend', userSuppliedAction);
+  this.set('onTouchEnd', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onTouchend=onTouchend dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onTouchEnd=onTouchEnd dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
   `);
   tapTrigger();
 });
 
-test('A user-supplied onTouchend action, returning `false`, will prevent the default behavior', function(assert) {
+test('A user-supplied onTouchEnd action, returning `false`, will prevent the default behavior', function(assert) {
   assert.expect(1);
 
   this.dropdown = {
@@ -584,9 +584,9 @@ test('A user-supplied onTouchend action, returning `false`, will prevent the def
     return false;
   };
 
-  this.set('onTouchend', userSuppliedAction);
+  this.set('onTouchEnd', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onTouchend=onTouchend dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onTouchEnd=onTouchEnd dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
   `);
   tapTrigger();
 });
