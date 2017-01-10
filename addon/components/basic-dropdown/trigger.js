@@ -115,6 +115,12 @@ export default Component.extend({
         return;
       }
       this.stopTextSelectionUntilMouseup();
+      // execute user-supplied onMousedown function before default toggle action;
+      // short-circuit default behavior if user-supplied function returns `false`
+      let onMousedown = this.get('onMousedown');
+      if (onMousedown && onMousedown(dropdown, e) === false) {
+        return;
+      }
       dropdown.actions.toggle(e);
     },
 
@@ -125,6 +131,12 @@ export default Component.extend({
         return;
       }
       if (!this.hasMoved) {
+        // execute user-supplied onTouchend function before default toggle action;
+        // short-circuit default behavior if user-supplied function returns `false`
+        let onTouchend = this.get('onTouchend');
+        if (onTouchend && onTouchend(dropdown, e) === false) {
+          return;
+        }
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;

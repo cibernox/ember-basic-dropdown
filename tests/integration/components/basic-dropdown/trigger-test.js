@@ -486,3 +486,158 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
   run(() => input.focus());
 });
 
+// Decorating and overriding default event handlers
+test('A user-supplied onMousedown action will execute before the default toggle behavior', function(assert) {
+  assert.expect(4);
+  let userActionRanfirst = false;
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(userActionRanfirst, 'User-supplied `onMousedown` ran before default `toggle`');
+      }
+    }
+  };
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+    userActionRanfirst = true;
+  };
+
+  this.set('onMousedown', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onMousedown=onMousedown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  clickTrigger();
+});
+
+test('A user-supplied onMousedown action, returning `false`, will prevent the default behavior', function(assert) {
+  assert.expect(1);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(false, 'Default `toggle` action should not run');
+      }
+    }
+  };
+
+  let userSuppliedAction = () => {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    return false;
+  };
+
+  this.set('onMousedown', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onMousedown=onMousedown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  clickTrigger();
+});
+
+test('A user-supplied onTouchend action will execute before the default toggle behavior', function(assert) {
+  assert.expect(4);
+  let userActionRanfirst = false;
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(userActionRanfirst, 'User-supplied `onTouchend` ran before default `toggle`');
+      }
+    }
+  };
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(true, 'The `userSuppliedAction` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+    userActionRanfirst = true;
+  };
+
+  this.set('onTouchend', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onTouchend=onTouchend dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+  `);
+  tapTrigger();
+});
+
+test('A user-supplied onTouchend action, returning `false`, will prevent the default behavior', function(assert) {
+  assert.expect(1);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(false, 'Default `toggle` action should not run');
+      }
+    }
+  };
+
+  let userSuppliedAction = () => {
+    assert.ok(true, 'The `userSuppliedAction` action has been fired');
+    return false;
+  };
+
+  this.set('onTouchend', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onTouchend=onTouchend dropdown=dropdown isTouchDevice=true}}Click me{{/basic-dropdown/trigger}}
+  `);
+  tapTrigger();
+});
+
+test('A user-supplied onKeydown action will execute before the default toggle behavior', function(assert) {
+  assert.expect(4);
+  let userActionRanfirst = false;
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(userActionRanfirst, 'User-supplied `onKeydown` ran before default `toggle`');
+      }
+    }
+  };
+
+  let userSuppliedAction = (dropdown, e) => {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    assert.ok(e instanceof window.Event, 'It receives the event');
+    assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+    userActionRanfirst = true;
+  };
+
+  this.set('onKeydown', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onKeydown=onKeydown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  fireKeydown('.ember-basic-dropdown-trigger', 13); // Enter
+});
+
+test('A user-supplied onKeydown action, returning `false`, will prevent the default behavior', function(assert) {
+  assert.expect(1);
+
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle: () => {
+        assert.ok(false, 'Default `toggle` action should not run');
+      }
+    }
+  };
+
+  let userSuppliedAction = () => {
+    assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+    return false;
+  };
+
+  this.set('onKeydown', userSuppliedAction);
+  this.render(hbs`
+    {{#basic-dropdown/trigger onKeydown=onKeydown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  fireKeydown('.ember-basic-dropdown-trigger', 13); // Enter
+});
