@@ -153,8 +153,10 @@
 
 
 {{#basic-dropdown as |dd|}}
-  {{#dd.trigger tagName="button" onMouseEnter=(action "triggerMouseEnter") onMouseLeave=(action "triggerMouseLeave")}}Hover me{{/dd.trigger}}
-  {{#dd.content onMouseEnter=(action "contentMouseEnter") onMouseLeave=(action "contentMouseLeave")}}
+  {{#dd.trigger tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+    Hover me
+  {{/dd.trigger}}
+  {{#dd.content onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
     Exit this are to close
     <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
   {{/dd.content}}

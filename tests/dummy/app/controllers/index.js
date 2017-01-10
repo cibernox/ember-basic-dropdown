@@ -37,7 +37,7 @@ export default Ember.Controller.extend({
       window.clearInterval(this.intervarTimer);
     },
 
-    triggerMouseEnter(dropdown /*, e */) {
+    mouseEnter(dropdown /*, e */) {
       if (this.closeTimer) {
         run.cancel(this.closeTimer);
         this.closeTimer = null;
@@ -46,23 +46,7 @@ export default Ember.Controller.extend({
       }
     },
 
-    triggerMouseLeave(dropdown /*, e */) {
-      this.closeTimer = run.next(this, function() {
-        this.closeTimer = null;
-        dropdown.actions.close();
-      });
-    },
-
-    contentMouseEnter(dropdown /*, e */) {
-      if (this.closeTimer) {
-        run.cancel(this.closeTimer);
-        this.closeTimer = null;
-      } else {
-        dropdown.actions.open();
-      }
-    },
-
-    contentMouseLeave(dropdown /*, e */) {
+    mouseLeave(dropdown /*, e */) {
       this.closeTimer = run.next(this, function() {
         this.closeTimer = null;
         dropdown.actions.close();
