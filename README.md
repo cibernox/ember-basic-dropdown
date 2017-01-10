@@ -76,6 +76,8 @@ You can make the dropdown content standout a little more by adding `overlay=true
     {{/basic-dropdown}}
 ```
 
+NOTE: If for some reason clicking outside a dropdown doesn't work, you might want to make sure the `<body>` spans the entire viewport. Adding a css rule like `body {min-height: 100vh;}` would do the trick. It ensures that wherever you click on the page, it will close the dropdown.
+
 #### Keyboard and touchscreen support
 
 The trigger of the component is focusable by default, and when focused can be triggered using `Enter` or `Space`.
