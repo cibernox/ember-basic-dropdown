@@ -37,6 +37,10 @@ export default Ember.Controller.extend({
       window.clearInterval(this.intervarTimer);
     },
 
+    returnFalse() {
+      return false;
+    },
+
     mouseEnter(dropdown /*, e */) {
       if (this.closeTimer) {
         run.cancel(this.closeTimer);

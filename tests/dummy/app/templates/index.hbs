@@ -153,7 +153,7 @@
 
 
 {{#basic-dropdown as |dd|}}
-  {{#dd.trigger tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+  {{#dd.trigger onMouseDown=(action "returnFalse") tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
     Hover me
   {{/dd.trigger}}
   {{#dd.content onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
