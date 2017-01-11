@@ -7,6 +7,15 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('public-pages', { path: '' }, function() {
+    this.route('docs', function() {
+
+    });
+
+    this.route('support-the-project');
+  });
+
+  this.route('legacy-demo');
 });
 
 export default Router;

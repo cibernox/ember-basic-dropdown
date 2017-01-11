@@ -45,6 +45,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
+    "ember-href-to": "1.11.0",
     "ember-load-initializers": "^0.6.0",
     "ember-pagefront": "0.11.2",
     "ember-resolver": "^2.0.3",

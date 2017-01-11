@@ -1,75 +1,17 @@
+// Basic dropdown
 @import 'ember-basic-dropdown';
 
-.with-horizontal-scroll {
-  width: 110%;
-}
+@import 'variables';
+@import 'base';
+@import 'utilities';
+@import 'layout';
 
-.dropdown-300px {
-  width: 300px;
-}
+// Components
+@import 'components/main-header';
+@import 'components/main-footer';
+@import 'components/index';
+@import 'components/side-nav';
+@import 'components/docs';
+@import 'components/cookbook';
+@import 'components/code-sample';
 
-.dropdown-180px {
-  width: 180px;
-}
-
-.ember-basic-dropdown-content {
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  img {
-    display: block;
-    width: 100%;
-  }
-}
-
-.ember-basic-dropdown-content.fade-in-dropdown {
-  transition: opacity .2s;
-  opacity: 0;
-  &.ember-basic-dropdown--transitioning-in, &.ember-basic-dropdown--transitioned-in {
-    opacity: 1;
-  }
-}
-
-@keyframes grow-bounce {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1.05);
-  }
-  90% {
-    transform: scale(0.97);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes clip-grow {
-  0% { clip: rect(auto, auto, 0, auto) }
-  100% { clip: rect(auto, auto, 256px, auto) }
-}
-
-.ember-basic-dropdown-content.complex-animation-dropdown {
-  will-change: clip;
-  &.ember-basic-dropdown--transitioning-in {
-    animation: clip-grow .2s;
-  }
-  &.ember-basic-dropdown--transitioning-out {
-    animation: clip-grow .2s reverse;
-  }
-}
-
-// The `--above` and `--below` class are added to make sure the animations in the demo
-// run after those cases are calculated. They are very often needed to know how to animate.
-.ember-basic-dropdown-content--above.bounce-animation-dropdown,
-.ember-basic-dropdown-content--below.bounce-animation-dropdown {
-  will-change: transform;
-  &.ember-basic-dropdown--transitioning-in {
-    animation: grow-bounce .25s;
-  }
-  &.ember-basic-dropdown--transitioning-out {
-    animation: grow-bounce .25s reverse;
-  }
-}
