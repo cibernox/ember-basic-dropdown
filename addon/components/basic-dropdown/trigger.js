@@ -102,7 +102,7 @@ export default Component.extend({
 
   // Actions
   actions: {
-    handleMousedown(e) {
+    handleMouseDown(e) {
       if (this.skipHandleMousedown) {
         // Some devises have both touchscreen & mouse, and they are not mutually exclusive
         // In those cases the touchdown handler is fired first, and it sets a flag to
@@ -189,7 +189,7 @@ export default Component.extend({
       });
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
-    this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
+    this.element.addEventListener('mousedown', (e) => this.send('handleMouseDown', e));
     this.element.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   },
 
