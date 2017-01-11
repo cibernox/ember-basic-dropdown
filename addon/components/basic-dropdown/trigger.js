@@ -151,13 +151,13 @@ export default Component.extend({
       e.preventDefault();
     },
 
-    handleKeydown(e) {
+    handleKeyDown(e) {
       let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
       }
-      let onKeydown = this.get('onKeydown');
-      if (onKeydown && onKeydown(dropdown, e) === false) {
+      let onKeyDown = this.get('onKeyDown');
+      if (onKeyDown && onKeyDown(dropdown, e) === false) {
         return;
       }
       if (e.keyCode === 13) {  // Enter
@@ -190,7 +190,7 @@ export default Component.extend({
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
     this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
-    this.element.addEventListener('keydown', (e) => this.send('handleKeydown', e));
+    this.element.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   },
 
   addOptionalHandlers() {

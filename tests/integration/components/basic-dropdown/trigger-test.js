@@ -278,16 +278,16 @@ test('If it receives an `onBlur` action, it will be invoked when it get blurred'
   run(() => this.$('.ember-basic-dropdown-trigger')[0].blur());
 });
 
-test('If it receives an `onKeydown` action, it will be invoked when a key is pressed while the component is focused', function(assert) {
+test('If it receives an `onKeyDown` action, it will be invoked when a key is pressed while the component is focused', function(assert) {
   assert.expect(3);
-  this.onKeydown = (dropdown, e) => {
+  this.onKeyDown = (dropdown, e) => {
     assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
     assert.ok(e instanceof window.Event, 'It receives the event as second argument');
     assert.equal(e.keyCode, 70, 'the event is the keydown event');
   };
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger dropdown=dropdown onKeydown=onKeydown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger dropdown=dropdown onKeyDown=onKeyDown}}Click me{{/basic-dropdown/trigger}}
   `);
   fireKeydown('.ember-basic-dropdown-trigger', 70);
 });
@@ -365,9 +365,9 @@ test('Pressing ESC fires the `close` action on the dropdown', function(assert) {
   fireKeydown('.ember-basic-dropdown-trigger', 27);
 });
 
-test('Pressing ENTER/SPACE/ESC does nothing of the onKeydown action returns false', function(assert) {
+test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', function(assert) {
   assert.expect(0);
-  this.onKeydown = () => false;
+  this.onKeyDown = () => false;
   this.dropdown = {
     uniqueId: 123,
     actions: {
@@ -380,7 +380,7 @@ test('Pressing ENTER/SPACE/ESC does nothing of the onKeydown action returns fals
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/trigger dropdown=dropdown onKeydown=onKeydown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger dropdown=dropdown onKeyDown=onKeyDown}}Click me{{/basic-dropdown/trigger}}
   `);
 
   fireKeydown('.ember-basic-dropdown-trigger', 13);
@@ -591,7 +591,7 @@ test('A user-supplied onTouchEnd action, returning `false`, will prevent the def
   tapTrigger();
 });
 
-test('A user-supplied onKeydown action will execute before the default toggle behavior', function(assert) {
+test('A user-supplied onKeyDown action will execute before the default toggle behavior', function(assert) {
   assert.expect(4);
   let userActionRanfirst = false;
 
@@ -599,7 +599,7 @@ test('A user-supplied onKeydown action will execute before the default toggle be
     uniqueId: 123,
     actions: {
       toggle: () => {
-        assert.ok(userActionRanfirst, 'User-supplied `onKeydown` ran before default `toggle`');
+        assert.ok(userActionRanfirst, 'User-supplied `onKeyDown` ran before default `toggle`');
       }
     }
   };
@@ -611,14 +611,14 @@ test('A user-supplied onKeydown action will execute before the default toggle be
     userActionRanfirst = true;
   };
 
-  this.set('onKeydown', userSuppliedAction);
+  this.set('onKeyDown', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onKeydown=onKeydown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onKeyDown=onKeyDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   fireKeydown('.ember-basic-dropdown-trigger', 13); // Enter
 });
 
-test('A user-supplied onKeydown action, returning `false`, will prevent the default behavior', function(assert) {
+test('A user-supplied onKeyDown action, returning `false`, will prevent the default behavior', function(assert) {
   assert.expect(1);
 
   this.dropdown = {
@@ -635,9 +635,9 @@ test('A user-supplied onKeydown action, returning `false`, will prevent the defa
     return false;
   };
 
-  this.set('onKeydown', userSuppliedAction);
+  this.set('onKeyDown', userSuppliedAction);
   this.render(hbs`
-    {{#basic-dropdown/trigger onKeydown=onKeydown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    {{#basic-dropdown/trigger onKeyDown=onKeyDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   fireKeydown('.ember-basic-dropdown-trigger', 13); // Enter
 });
