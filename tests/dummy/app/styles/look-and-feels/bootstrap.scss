@@ -17,6 +17,16 @@
   border-color: #8c8c8c
 }
 
+.trigger-bootstrap-feel[aria-disabled="true"] {
+  background-color: #ccc;
+  color: #666;
+  border-color: #8c8c8c;
+  cursor: not-allowed;
+  &:focus, &:hover {
+    border-color: #8c8c8c
+  }
+}
+
 .content-bootstrap-feel {
   background-color: #fff;
   border: 1px solid rgba(0,0,0,.15);

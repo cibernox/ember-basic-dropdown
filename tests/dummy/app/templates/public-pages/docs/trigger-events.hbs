@@ -27,6 +27,50 @@
   {{partial partialName}}
 {{/code-sample}}
 
+<p>
+  As with any other event, returning <code>false</code> will prevent the default behaviour,
+  so you can use this action to prevent the <kbd>space</kbd>, <kbd>enter</kbd> and <kbd>esc</kbd>
+  keys from doing what they do by default.
+</p>
+
+<h3><code>onMouseDown(dropdown, event)</code></h3>
+
+<p>
+  The <code>mousedown</code> event is the one that usually opens the dropdown,
+  but you can pass your own function.
+</p>
+
+<p>
+  Good examples of this are preventing the component from opening with the mouse and/or
+  react in some way to those attempts.
+</p>
+
+{{#code-sample hbs="trigger-events-2.hbs" js="trigger-events-2-js.js" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<h3><code>onTouchEnd(dropdown, event)</code></h3>
+
+<p>
+  Exactly identical to <code>onMouseDown</code> but for touch screens. I'm not even going
+  to create another example.
+</p>
+
+<h3><code>onMouseEnter/onMouseLeave(dropdown, event)</code></h3>
+
+<p>
+  I use this event to open the dropdown when you hover it and close it when you leave but
+  you can really use it a lot more.
+</p>
+
+<p>
+  By example, imagine that a dropdown is disabled and you want to highlight
+  some other element in the form that the user must enable first.
+</p>
+
+{{#code-sample hbs="trigger-events-3.hbs" js="trigger-events-3-js.js" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
 
 {{!-- <p>
   Ember Power Calendar aims to be very customizable and because of that it also has to be very explicit
