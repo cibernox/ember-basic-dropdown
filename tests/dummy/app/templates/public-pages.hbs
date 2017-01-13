@@ -7,23 +7,23 @@
       <a href="https://github.com/cibernox/ember-basic-dropdown" class="main-header-nav-link">Github</a>
     </div>
     <div class="main-header-logo">
-      <a href={{href-to 'public-pages.index'}} class="home-link">
-        <img src="/ember_logo.png" alt="ember">
-        <strong>Basic</strong>
-        {{#basic-dropdown calculatePosition=calculatePosition as |dd|}}
-          {{#dd.trigger tagName="button"
+      {{#basic-dropdown calculatePosition=calculatePosition as |dd|}}
+        <a href={{href-to 'public-pages.index'}} class="home-link">
+          <img src="/ember_logo.png" alt="ember">
+          <strong>Basic</strong>
+          {{#dd.trigger tagName="span"
             onMouseDown=(action "preventIfNotInIndex")
             onTouchEnd=(action "preventIfNotInIndex")
             class="logo-dropdown-button"}}
             Downdown
           {{/dd.trigger}}
-          {{#dd.content class="logo-dropdown-content"}}
-            {{#each backgrounds as |background|}}
-              <button class="logo-dropdown-content-pantone-entry" style={{background}} onclick={{action 'setBrandColor' background}}></button>
-            {{/each}}
-          {{/dd.content}}
-        {{/basic-dropdown}}
-      </a>
+        </a>
+        {{#dd.content class="logo-dropdown-content"}}
+          {{#each backgrounds as |background|}}
+            <button class="logo-dropdown-content-pantone-entry" style={{background}} onclick={{action 'setBrandColor' background}}></button>
+          {{/each}}
+        {{/dd.content}}
+      {{/basic-dropdown}}
     </div>
   </nav>
 </header>
