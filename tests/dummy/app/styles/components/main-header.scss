@@ -37,7 +37,7 @@
   &:hover {
     background-color: lighten($brand-color, 3%);
   }
-  &:active, &[aria-pressed=true] {
+  &[aria-pressed=true] {
     box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
     transform: translateY(3px);
   }
@@ -49,6 +49,16 @@
   border-radius: 4px;
   color: white;
   box-shadow: 0 3px 5px rgba(0,0,0,0.25);
+}
+.logo-dropdown-content-pantone-entry {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .main-header-nav-links {

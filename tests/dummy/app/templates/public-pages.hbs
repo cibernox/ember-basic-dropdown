@@ -11,8 +11,17 @@
         <img src="/ember_logo.png" alt="ember">
         <strong>Basic</strong>
         {{#basic-dropdown calculatePosition=calculatePosition as |dd|}}
-          {{#dd.trigger tagName="button" class="logo-dropdown-button"}}Downdown{{/dd.trigger}}
-          {{#dd.content class="logo-dropdown-content"}}Content!!{{/dd.content}}
+          {{#dd.trigger tagName="button"
+            onMouseDown=(action "preventIfNotInIndex")
+            onTouchEnd=(action "preventIfNotInIndex")
+            class="logo-dropdown-button"}}
+            Downdown
+          {{/dd.trigger}}
+          {{#dd.content class="logo-dropdown-content"}}
+            {{#each backgrounds as |background|}}
+              <button class="logo-dropdown-content-pantone-entry" style={{background}} onclick={{action 'setBrandColor' background}}></button>
+            {{/each}}
+          {{/dd.content}}
         {{/basic-dropdown}}
       </a>
     </div>
