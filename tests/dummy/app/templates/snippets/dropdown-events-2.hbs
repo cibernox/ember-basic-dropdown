@@ -1,0 +1,15 @@
+{{#basic-dropdown onOpen=(action "waitForUsers") as |dd|}}
+  {{#dd.trigger class="trigger-bootstrap-feel"}}
+    {{#if loadUsersAndOpen.isRunning}}
+      Loading...
+    {{else}}
+      Click me
+    {{/if}}
+  {{/dd.trigger}}
+
+  {{#dd.content class="content-bootstrap-feel width-300"}}
+    {{#each loadUsersAndOpen.lastSuccessful.value as |user|}}
+      <p>{{user.name}} - {{user.assignment}}</p>
+    {{/each}}
+  {{/dd.content}}
+{{/basic-dropdown}}

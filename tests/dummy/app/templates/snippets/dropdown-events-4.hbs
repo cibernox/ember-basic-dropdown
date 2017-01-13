@@ -1,0 +1,9 @@
+<input type="text" placeholder="Focus me and hit TAB">
+<br>
+{{#basic-dropdown onFocus=(action "openDropdown") as |dd|}}
+  {{#dd.trigger class="trigger-bootstrap-feel"}}Click me{{/dd.trigger}}
+
+  {{#dd.content class="content-bootstrap-feel width-300"}}
+    <p>Tada!</p>
+  {{/dd.content}}
+{{/basic-dropdown}}

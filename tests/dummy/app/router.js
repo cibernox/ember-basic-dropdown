@@ -11,6 +11,9 @@ Router.map(function() {
     this.route('docs', function() {
       this.route('installation');
       this.route('how-to-use-it');
+      this.route('dropdown-events');
+      this.route('trigger-events');
+      this.route('content-events');
     });
 
     this.route('support-the-project');
