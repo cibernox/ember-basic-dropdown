@@ -1,3 +1,7 @@
+# 0.20.0
+- [BREAKING CHANGE] Renamed `onKeydown` event to `onKeyDown` to be consistent with the naming
+  of every other action in the component
+
 # 0.19.4
 - [FEATURE] Allow to pass `onMouseDown` and `onTouchEnd` options actions to subscribe to those
   events. If the handler for those events returns `false`, the default behaviour (toggle the component)
