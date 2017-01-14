@@ -5,6 +5,8 @@
   content will be positioned respect to the trigger.
 </p>
 
+<h3><code>horizontalPosition / verticalPosition</code></h3>
+
 <p>
   By default Ember Basic Dropdown has a nice set of defaults. The rules are as follow:
 </p>
@@ -50,6 +52,29 @@
 </p>
 
 <p>Narrow the window of the browser and play with scroll to see the automatic positioning in action.</p>
+
+<h3><code>renderInPlace</code></h3>
+
+<p>
+  Although by default the component renders the content in the root of the app and positions it absolutely,
+  there is some situations where you want the content to be <em>physically</em> next to the trigger.
+</p>
+
+<p>
+  To do so, pass <code>renderInPlace=true</code> to the component. Inspect the DOM of the
+  next example to see the difference.
+</p>
+
+{{#code-sample hbs="position-2.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  Please note that when rendering the content in place the vertical position will not
+  automatically detect the best position based on the space around the trigger.
+  You have to explicitly pass <code>verticalPosition="above"</code> to render it over the
+  trigger.
+</p>
 
 <div class="doc-page-nav">
   <a href={{href-to 'public-pages.docs.trigger-events'}} class="doc-page-nav-link-prev">&lt; Trigger events</a>
