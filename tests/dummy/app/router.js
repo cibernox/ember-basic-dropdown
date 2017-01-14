@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('public-pages', { path: '' }, function() {
     this.route('docs', function() {
       // Getting started
+      // index.hbs is "Overview"
       this.route('installation');
       this.route('how-to-use-it');
       this.route('dropdown-events');
