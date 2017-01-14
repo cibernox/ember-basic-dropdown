@@ -18,6 +18,13 @@ Router.map(function() {
 
       // Basic customization
       this.route('position');
+      this.route('disabled');
+
+      // Advanced customization
+      this.route('custom-position');
+
+      // Other
+      this.route('test-helpers');
     });
 
     this.route('support-the-project');

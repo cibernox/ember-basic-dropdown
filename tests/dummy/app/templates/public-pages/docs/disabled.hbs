@@ -1,0 +1,29 @@
+<h1 class="doc-page-title">Disabled</h1>
+
+<p>
+  If you disable the dropdown, it will not open or close by any mean, mouse, keyboard
+  or touch screen.
+</p>
+
+{{#code-sample hbs="disabled-1.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  Note that being disabled does not prevent the dropdown or any of its sub-components from
+  firing events like <code>onMouseEnter</code>.
+</p>
+
+<p>
+  The component takes care by default of usual good practices, removing the <code>tabindex</code>
+  of the trigger and set <code>[aria-disabled="true"]</code> to assist screen readers.
+</p>
+
+<p>
+  In the next sections we'll give in more involved customizations.
+</p>
+
+<div class="doc-page-nav">
+  <a href={{href-to 'public-pages.docs.position'}} class="doc-page-nav-link-prev">&lt; Position</a>
+  <a href={{href-to 'public-pages.docs.custom-position'}} class="doc-page-nav-link-next">Custom position &gt;</a>
+</div>
