@@ -25,6 +25,14 @@ export default Controller.extend({
 
     resetHighlight() {
       this.set('checkboxLabelStyle', null);
+    },
+
+    simulateFocusParent() {
+      this.set('parentDivClass', 'input-group--focused');
+    },
+
+    simulateBlurParent() {
+      this.set('parentDivClass', null);
     }
   }
 });

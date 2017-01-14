@@ -17,6 +17,11 @@
 @import 'components/spinners';
 
 // Looks and feels for examples
+@import 'look-and-feels/animations';
 @import 'look-and-feels/bootstrap';
 @import 'look-and-feels/material';
+
+// Demos
+@import 'demos/content-mouse-enter-leave';
+@import 'demos/position';
 

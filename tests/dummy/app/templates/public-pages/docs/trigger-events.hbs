@@ -72,111 +72,45 @@
   {{partial partialName}}
 {{/code-sample}}
 
-{{!-- <p>
-  Ember Power Calendar aims to be very customizable and because of that it also has to be very explicit
-  about its behaviour, even if that makes it slightly verbose.
-</p>
+<h3><code>onFocus/onBlur(dropdown, event)</code></h3>
 
 <p>
-  The data flow from the app to the addon is strictly unidirectional. Data comes into the component,
-  and actions are fired from the inside. The user must handle those actions in order for <strong>anything</strong>
-  to happen.
+  I've used this two events in conjuntion to style a parent element while some of the
+  components inside it have the focus, achieving a poor mans' version of the upcoming CSS
+  <code>:focus-within</code> pseudo selector.
 </p>
 
-<p>Let's start with the basics, adding month navigation.</p>
-
-<h3><code>onCenterChange</code></h3>
-
-<p>
-  In the previous section we mentioned that if you pass <code>center=someDate</code> to the component, that
-  month is displayed. If that option gets updates the calendar will render the new month. That means that you can create
-  your own interface to navigate months, it only has to update the <code>center</code> property.
-</p>
-
-<p>
-  However, it would be inconvenient to force everyone to do that, so if you pass <code>onCenterChange</code> action to
-  the component, the <code>calendar.nav</code> component gets some built-in controls to navigate to the previous and next month.
-  Use that action to update the displayed month and you have a navigable calendar!
-</p>
-
-{{#code-sample hbs="action-handling-1.hbs" as |partialName|}}
+{{#code-sample hbs="trigger-events-4.hbs" js="trigger-events-4-js.js" as |partialName|}}
   {{partial partialName}}
 {{/code-sample}}
 
 <p>
-  Making this interaction so explicit might seem verbose. It does force you to type a few characters for the simplest use case, but in exchange makes some usages that are
-  usually very hard to implement extremely simple.
+  This is the most involved example yet. Both the text input and the trigger are focusable on their
+  own, but by tracking when they get and loose the focus we simulate that the entire
+  input-group is focused, which would be impossible just just CSS today.
 </p>
 
 <p>
-  For example, imagine that changing to a different month needs to make an ajax call to the server to gather
-  all the events that are going to happen that month (we haven't seen how to display events on the calendar,
-  but use your imagination) before showing the next month. While those events are loaded,
-  we want to hold changing the month and show a loading state with an animated spinner.
+  Right now this behaviour cannot be attaine
 </p>
 
-<p>It doesn't seem like the kind of thing you'd dare to attempt with bootstrap-datepicker, right?</p>
-
-{{#code-sample hbs="action-handling-2.hbs" js="action-handling-2-js.js" as |partialName|}}
-  {{partial partialName}}
-{{/code-sample}}
+<h3><code>onFocusIn/onFocusOut(dropdown, event)</code></h3>
 
 <p>
-  No black magic. Just the way you usually manage sync actions in your own code. Ember Power Calendar is
-  promise-aware and task-aware, all the way down.
-</p>
-
-<h3><code>onSelect</code></h3>
-
-<p>
-  One very common use case of a calendar is to select one (or many) days. For that purpose it exposes an <code>onSelect</code>
-  action that is called when the user clicks (or presses Enter over) a day.
+  Similar to <code>onFocus/onBlur</code>, but for the <code>focusin/focusout</code> events.
 </p>
 
 <p>
-  That action is fired with a <code>day</code> object as first argument. This object built by Ember Power Calendar
-  contains many useful information that we will explore in detail, but for now we'll hold to the idea that it
-  has a <code>date</code> property that contains a native <code>Date</code> object and a <code>moment</code> property
-  that contains the same value but wrapped by <em>MomentJS</em>, so you can use the one you prefer.
+  Beware that those event are <a href="http://caniuse.com/#feat=focusin-focusout-events">not supported in firefox</a> at the time of this writing.
 </p>
 
 <p>
-  Like with the previous action, it's your responsibility to react to this action, but in the most typical case you
-  just want to update the <code>selected</code> value. Let's see how to do it, and we are going to use the <code>momentjs</code>
-  version of the date.
+  This are all the events the trigger can handle. They are a bit low level but the goal
+  is giving you as much control as posible so you can build a wrapper that works how you
+  want it to work that hides this low-level events.
 </p>
-
-<p>Go, click one day.</p>
-
-{{#code-sample hbs="action-handling-3.hbs" js="action-handling-3-js.js" as |partialName|}}
-  {{partial partialName}}
-{{/code-sample}}
-
-<p>
-  You will notice a couple more things happening here.
-</p>
-
-<p>
-  To begin with, the days of the calendar highlight when you hover them. This is because the presence of an
-  <code>onSelect</code> action makes the component enter an interactive mode, which adds a class to it.
-</p>
-
-<p>
-  Also, if you inspect the html, you'll see the the days are now <code>&lt;button&gt;</code>s instead of <code>&lt;div&gt;</code>s.
-  This, besides of making them clickable to select a day, makes them focusable, which is important to make
-  the component accesible. The currently focused day is shown with a blue underline, and once one day is focused
-  you can use the arrows, <kbd>TAB</kbd>, <kbd>ENTER</kbd> and <kbd>SPACE</kbd> keys to move around and interact with the component.
-</p>
-
-
-<p>
-  This action is fired when the selection changes, but the selection doesn't need to be a single date.
-  It can be a range or a set of sparse dates! The next page is all about this topic.
-</p>
-
 
 <div class="doc-page-nav">
-  <a href={{href-to 'public-pages.docs.how-to-use-it'}} class="doc-page-nav-link-prev">&lt; How to use it</a>
-  <a href={{href-to 'public-pages.docs.range-selection'}} class="doc-page-nav-link-next">Date ranges &gt;</a>
+  <a href={{href-to 'public-pages.docs.dropdown-events'}} class="doc-page-nav-link-prev">&lt; Dropdown events</a>
+  <a href={{href-to 'public-pages.docs.content-events'}} class="doc-page-nav-link-next">Content events &gt;</a>
 </div>
- --}}

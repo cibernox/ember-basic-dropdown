@@ -9,11 +9,15 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('public-pages', { path: '' }, function() {
     this.route('docs', function() {
+      // Getting started
       this.route('installation');
       this.route('how-to-use-it');
       this.route('dropdown-events');
       this.route('trigger-events');
       this.route('content-events');
+
+      // Basic customization
+      this.route('position');
     });
 
     this.route('support-the-project');
