@@ -14,7 +14,7 @@ export default Controller.extend({
   actions: {
     waitForUsers(dropdown, e) {
       if (e) {
-        this.get('loadUsersAndOpen').perform(dropdown, e)
+        this.get('loadUsersAndOpen').perform(dropdown, e);
         return false;
       }
     },
@@ -27,7 +27,7 @@ export default Controller.extend({
     },
 
     openDropdown(dropdown) {
-      dropdown.actions.open()
+      dropdown.actions.open();
     }
   },
 

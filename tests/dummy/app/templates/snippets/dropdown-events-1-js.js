@@ -12,4 +12,4 @@ export default Ember.Controller.extend({
     yield timeout(1000);
     return users;
   })
-})
+});

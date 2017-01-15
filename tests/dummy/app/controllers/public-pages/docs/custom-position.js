@@ -9,7 +9,7 @@ export default Controller.extend({
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
     let { height: contentHeight } = content.getBoundingClientRect();
-    let $window = $(self.window);
+    let $window = $(window);
     let style = {
       left: left + width,
       top: top + $window.scrollTop() + (height / 2) - (contentHeight / 2)
@@ -18,7 +18,7 @@ export default Controller.extend({
     return { style };
   },
 
-  addNames: task(function* () {
+  addNames: task(function*() {
     this.set('names', Ember.A(['Katie']));
     yield timeout(750);
     this.get('names').pushObject('Ricardo');
