@@ -1,0 +1,104 @@
+<h1 class="doc-page-title">API reference</h1>
+
+<p>
+  It's hard to find a proper place in the guides for explaining every single option in
+  depth, and some of them are so straightforward that they don't require an example,
+  so use this section as a more exhaustive list.
+</p>
+
+<br>
+<h2>Dropdown</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>calculateInPlacePosition</td>
+      <td><code>Function</code></td>
+      <td>Fuction to customize how the content of the dropdown is positioned when rendered in place</td>
+    </tr>
+    <tr>
+      <td>calculatePosition</td>
+      <td><code>Function</code></td>
+      <td>Fuction to customize how the content of the dropdown is positioned</td>
+    </tr>
+    <tr>
+      <td>class</td>
+      <td><code>String</code></td>
+      <td>The class of the dropdown component. Since this component is tagless by default, you need to combine it with the <code>tagName</code> to be effective</td>
+    </tr>
+    <tr>
+      <td>contentComponent</td>
+      <td><code>String or Component</code></td>
+      <td>The component to rended as content instead of the default content component. You <em>probably</em> don't want to use this option.</td>
+    </tr>
+    <tr>
+      <td>horizontalPosition</td>
+      <td><code>String</code></td>
+      <td>The horizontal positioning strategy of the content. Can be one of <code>auto</code> (the default), <code>left</code>, <code>center</code> or <code>right</code></td>
+    </tr>
+    <tr>
+      <td>matchTriggerWidth</td>
+      <td><code>Boolean</code></td>
+      <td>Flag that indicates wheter or not the content's width should be equal to the width of the trigger.</td>
+    </tr>
+    <tr>
+      <td>renderInPlace</td>
+      <td><code>String</code></td>
+      <td>When passed <code>true</code>, the content will render next to the trigger instead of being placed in the root of the body.</td>
+    </tr>
+    <tr>
+      <td>tagName</td>
+      <td><code>String</code></td>
+      <td>(Default: <code>""</code>) The tag of the component.</td>
+    </tr>
+    <tr>
+      <td>triggerComponent</td>
+      <td><code>String</code></td>
+      <td>The component to rended as content instead of the default trigger component.</td>
+    </tr>
+    <tr>
+      <td>verticalPosition</td>
+      <td><code>String</code></td>
+      <td>The vertical positioning strategy of the content. Can be one of <code>auto</code> (the default), <code>above</code> or <code>below</code></td>
+    </tr>
+    <tr>
+      <td>registerAPI</td>
+      <td><code>Function</code></td>
+      <td>An action that will be invoked with the new public API of the component every time there is a change in the state of the component.</td>
+    </tr>
+    <tr>
+      <td>onFocus</td>
+      <td><code>Function</code></td>
+      <td>Action that will be invoked when the component gains focus</td>
+    </tr>
+    <tr>
+      <td>onOpen</td>
+      <td><code>Function</code></td>
+      <td>Action that will be called when the component is about to open. Returning <code>false</code> from this function will prevent the component from being opened.</td>
+    </tr>
+    <tr>
+      <td>onClose    </td>
+      <td><code>Function</code></td>
+      <td>Action that will be called when the component is about to close. Returning <code>false</code> from this function will prevent the component from being closed.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Trigger</h2>
+
+<p>Coming soon</p>
+
+<h2>Content</h2>
+
+<p>Coming soon</p>
+
+<div class="doc-page-nav">
+  <a href={{href-to 'public-pages.docs.test-helpers'}} class="doc-page-nav-link-prev">&lt; Test helpers</a>
+</div>
