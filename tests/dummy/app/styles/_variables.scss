@@ -1,0 +1,46 @@
+// Colors
+$text-color: #333;
+$headings-text-color: #313131;
+$code-text-color: $text-color;
+
+// Breakpoints
+$small-breakpoint: 678px;
+$medium-breakpoint: 748px; // 768px originally
+
+// Orange theme
+$orange-color: #D8563A;
+$orange-color-brighter: #E67C00;
+
+// Blue theme
+$blue-color: #1983FF;
+$blue-color-brighter: #27A9C5;
+
+// Purple theme
+$purple-color: #6D48A5;
+$purple-color-brighter: #8D66C8;
+
+// Lile theme
+$line-color: #A826CE;
+$line-color-brighter: #C07CD4;
+
+// Pink theme
+$pink-color: #CE269F;
+$pink-color-brighter: #DD82C3;
+
+// Red-ish theme
+$red-color: #CE264A;
+$red-color-brighter: #F77F7F;
+
+// Brown-ish theme
+$brown-color: #d27303;
+$brown-color-brighter: lighten($brown-color, 10%);
+
+// // Red
+// $brand-color: $brown-color;
+// $brand-color-brighter: $brown-color-brighter;
+
+$light-gray: #ddd;
+$gray: #888;
+
+// Paddings
+$wrapper-padding: 0.5rem;

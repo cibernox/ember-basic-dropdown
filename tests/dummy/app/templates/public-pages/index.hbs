@@ -1,0 +1,42 @@
+<section class="main-page-headline">
+  <h1 class="main-page-headline-content">
+    The basic dropdown that your
+    <img src="/ember_logo.png" alt="ember">
+    needs
+  </h1>
+</section>
+<section class="selling-points">
+  <article class="selling-point">
+    {{fa-icon 'rocket' class="selling-point-icon"}}
+    <div class="selling-point-text">
+      <h2>Ready to go</h2>
+      Prepared out of the box with a minimum set of defaults that let you drop it into your
+      app, style it to your taste and not worry about the little details.
+    </div>
+  </article>
+
+  <article class="selling-point">
+    <div class="selling-point-code">
+      \{{#ember as |ember|}}
+    </div>
+    <div class="selling-point-text">
+      <h2>With Ember for Ember</h2>
+      Built on top of ember-wormhole, it provides an API based on contextual components
+      that feels natural to use and style.
+    </div>
+  </article>
+
+  <article class="selling-point">
+    {{fa-icon 'cogs' class="selling-point-icon"}}
+    <div class="selling-point-text">
+      <h2>Low level primitives</h2>
+      Designed as a building block for your own components, it has no styles and takes no
+      assumptions. It gives you the right primitives to taylor your perfect widget.
+    </div>
+  </article>
+</section>
+<div class="text-center get-started">
+  {{#link-to 'public-pages.docs.index' class="get-started-button"}}
+    Get started
+  {{/link-to}}
+</div>

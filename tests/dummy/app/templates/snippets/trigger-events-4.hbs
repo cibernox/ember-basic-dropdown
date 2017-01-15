@@ -1,0 +1,18 @@
+<p>Focus alternatively the input and the button next to it</p>
+<div class="trigger-event-demo input-group {{parentDivClass}}">
+  <input type="text" class="form-control" onfocus={{action "simulateFocusParent"}}
+    onblur={{action "simulateBlurParent"}}>
+
+  {{#basic-dropdown as |dd|}}
+    {{#dd.trigger class="input-group-addon"
+      onFocus=(action "simulateFocusParent")
+      onBlur=(action "simulateBlurParent")}}
+      <span class="caret"></span>
+    {{/dd.trigger}}
+
+    {{#dd.content class="content-bootstrap-feel width-300"}}
+      <p>Option1</p>
+      <p>Option2</p>
+    {{/dd.content}}
+  {{/basic-dropdown}}
+</div>

@@ -1,0 +1,137 @@
+.trigger-bootstrap-feel {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+}
+
+.trigger-bootstrap-feel:focus, .trigger-bootstrap-feel:hover {
+  background-color: #d4d4d4;
+  border-color: #8c8c8c
+}
+
+.trigger-bootstrap-feel[aria-disabled="true"] {
+  background-color: #ccc;
+  color: #666;
+  border-color: #8c8c8c;
+  cursor: not-allowed;
+  &:focus, &:hover {
+    border-color: #8c8c8c
+  }
+}
+
+.content-bootstrap-feel {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  padding: 5px;
+  margin: 2px 0 0;
+}
+
+// Some bootstrap utility classes
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  border: none;
+  background-image: none;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.input-group .form-control {
+  display: table-cell;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group-addon {
+  display: table-cell;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  background-color: #eee;
+  border-left: 1px solid #ccc;
+}
+.input-group-addon {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child>.btn-group:not(:first-child)>.btn, .input-group-btn:first-child>.btn:not(:first-child), .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group>.btn, .input-group-btn:last-child>.dropdown-toggle {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.trigger-event-demo.input-group .form-control {
+  outline: none;
+}
+.input-group-addon.ember-basic-dropdown-trigger {
+  outline: none;
+  color: #444;
+  &:focus {
+    background-color: lighten(#66afe9, 25%);
+  }
+}
+
+.input-group--focused {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+
+.arrow-left-content {
+  margin-left: 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.arrow-left-content:after, .arrow-left-content:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.arrow-left-content:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-right-color: #fff;
+  border-width: 10px;
+  margin-top: -10px;
+}
+.arrow-left-content:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: rgba(0, 0, 0, 0.15);
+  border-width: 11px;
+  margin-top: -11px;
+}

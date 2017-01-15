@@ -1,0 +1,82 @@
+<h1 class="doc-page-title">Position</h1>
+
+<p>
+  The number one thing that you will want to customize of a dropdown is where the floating
+  content will be positioned respect to the trigger.
+</p>
+
+<h3><code>horizontalPosition / verticalPosition</code></h3>
+
+<p>
+  By default Ember Basic Dropdown has a nice set of defaults. The rules are as follow:
+</p>
+
+<ul>
+  <li>
+    The <code>\{{#dd.content}}</code> has not prefefined size, so it will adapt to the
+    size its childs.
+  </li>
+  <li>
+    The dropdown's content is positioned below the trigger, unless there is not enough
+    space to fit it, in which case it is positioned above it.
+  </li>
+  <li>
+    The content's left border will be aligned with the trigger's left border and content
+    will flow towards the right.
+  </li>
+  <li>
+    If there wasn't enough size towards the right to fit the content but there is enough
+    room to the left, the right border of the content will align with the right border of
+    the trigger and it will grow towards the left.
+  </li>
+  <li>
+    All the rules above are re-check every time the content of the dropdown changes, the
+    browser is resized or the orientation of the devise changes.
+  </li>
+</ul>
+
+<p>This sounds like a lot, but with an example it will be crystal clear.</p>
+
+{{#code-sample hbs="position-1.hbs" js="position-1-js.js" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  In this example above I'm using the options <code>verticalPosition</code> and <code>horizontalPosition</code>
+  to override the default behaviour.
+</p>
+
+<p>
+  The default value for both options is <code>auto</code>, but you can pass <code>verticalPosition=above|below</code>
+  and <code>horizontalPosition=right|center|left</code>.
+</p>
+
+<p>Narrow the window of the browser and play with scroll to see the automatic positioning in action.</p>
+
+<h3><code>renderInPlace</code></h3>
+
+<p>
+  Although by default the component renders the content in the root of the app and positions it absolutely,
+  there is some situations where you want the content to be <em>physically</em> next to the trigger.
+</p>
+
+<p>
+  To do so, pass <code>renderInPlace=true</code> to the component. Inspect the DOM of the
+  next example to see the difference.
+</p>
+
+{{#code-sample hbs="position-2.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  Please note that when rendering the content in place the vertical position will not
+  automatically detect the best position based on the space around the trigger.
+  You have to explicitly pass <code>verticalPosition="above"</code> to render it over the
+  trigger.
+</p>
+
+<div class="doc-page-nav">
+  <a href={{href-to 'public-pages.docs.trigger-events'}} class="doc-page-nav-link-prev">&lt; Trigger events</a>
+  <a href={{href-to 'public-pages.docs.disabled'}} class="doc-page-nav-link-next">Disabled &gt;</a>
+</div>

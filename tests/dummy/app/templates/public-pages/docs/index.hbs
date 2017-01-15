@@ -1,0 +1,69 @@
+<h1 class="doc-page-title">Overview</h1>
+
+
+<p>I'm going to tell you the store of how this dropdown addon was born.</p>
+
+<p>
+  I was building a select component but I realized that a select it's nothing else than a
+  dropdown with some extra stuff on top. And datepickers too. And colorpickers, contextual
+  menus and many other widgets.
+</p>
+
+<p>
+  Essentially, any floating box of content that is opened when you interact with a trigger
+  is basically a dropdown. Dropdowns are the foundation to at least half a docen of common
+  UI widgets we use daily, so I decided to shape this addon in a way that was easy to reuse
+  and customize to create those other widgets.
+</p>
+
+<p>
+  But if a dropdown is just a floating box activated by a trigger,
+  <em>why would you want to use third part addon for such a simple thing?</em>
+</p>
+
+<p>
+  <strong>Well, there is two kind of persons. Those who think that dropdowns are an easy thing and those who have actually built one.</strong>
+</p>
+
+<p>
+  While I transitioned from the first kind to the second I learned a lot of stuff.
+</p>
+
+<ul>
+  <li>Absolutely position elements in a performant way</li>
+  <li>Overcoming z-index limitations</li>
+  <li>How useful MutationObservers and DOM Events can be</li>
+  <li>Proper detection of taps and touch scroll</li>
+  <li>Animating elements being removed from the screen</li>
+  <li>Chasing memory leaks when global events are not property removed</li>
+  <li>Accessibility and keyboard navigation</li>
+</ul>
+
+<p>
+  After I built the initial version, I started to build other widgets on top and I had to step
+  back a few times and identify where it wasn't flexible enough, and this process ended up
+  in a component that distilled the essence of what a dropdown is with as few assumptions as
+  possible.
+</p>
+
+<p>
+  I honestly want you to save you time and tears. I've been there.
+</p>
+
+<p>
+  This component is a <strong>building block</strong> for you to build other components on top,
+  so it prioritizes flexibility and explicitness over succinctness in it's API, but still
+  allows allows basic usage out of the box with no ceremony.
+</p>
+
+<p>
+  Another thing to note is that this component doesn't have any theme by default, so unless
+  you do something about it, it will look ugly unless you style it. The few styles it has
+  are only to deal with positioning.
+</p>
+
+<p>I hope you like it.</p>
+
+<div class="doc-page-nav">
+  <a href="{{href-to 'public-pages.docs.installation'}}" class="doc-page-nav-link-next">Installation &gt;</a>
+</div>
