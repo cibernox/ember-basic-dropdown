@@ -1,19 +1,19 @@
 <h1 class="doc-page-title">Position</h1>
 
 <p>
-  The number one thing that you will want to customize of a dropdown is where the floating
-  content will be positioned respect to the trigger.
+  The number one thing that you will want to customize in a dropdown is where the floating
+  content will be positioned in relation to the trigger.
 </p>
 
 <h3><code>horizontalPosition / verticalPosition</code></h3>
 
 <p>
-  By default Ember Basic Dropdown has a nice set of defaults. The rules are as follow:
+  Ember Basic Dropdown comes with a nice set of defaults. The rules are as follow:
 </p>
 
 <ul>
   <li>
-    The <code>\{{#dd.content}}</code> has not prefefined size, so it will adapt to the
+    The <code>\{{#dd.content}}</code> has not pre-defined size, so it will adapt to the
     size its childs.
   </li>
   <li>
@@ -25,13 +25,13 @@
     will flow towards the right.
   </li>
   <li>
-    If there wasn't enough size towards the right to fit the content but there is enough
+    If there isn't enough size towards the right to fit the content but there is enough
     room to the left, the right border of the content will align with the right border of
     the trigger and it will grow towards the left.
   </li>
   <li>
-    All the rules above are re-check every time the content of the dropdown changes, the
-    browser is resized or the orientation of the devise changes.
+    All the rules above are re-checked every time the content of the dropdown changes, the
+    browser is resized or the orientation of the device changes.
   </li>
 </ul>
 
@@ -57,7 +57,7 @@
 
 <p>
   Although by default the component renders the content in the root of the app and positions it absolutely,
-  there is some situations where you want the content to be <em>physically</em> next to the trigger.
+  there are some situations where you want the content to be <em>physically</em> next to the trigger.
 </p>
 
 <p>
@@ -70,7 +70,7 @@
 {{/code-sample}}
 
 <p>
-  Please note that when rendering the content in place the vertical position will not
+  Please note that when rendering the content in place, the vertical position will not
   automatically detect the best position based on the space around the trigger.
   You have to explicitly pass <code>verticalPosition="above"</code> to render it over the
   trigger.
