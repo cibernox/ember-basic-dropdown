@@ -81,25 +81,25 @@
 
 @include brandify($brown-color, $brown-color-brighter);
 
-body.orange-brand {
+.orange-brand {
   @include brandify($orange-color, $orange-color-brighter);
 }
-body.blue-brand {
+.blue-brand {
   @include brandify($blue-color, $blue-color-brighter);
 }
-body.purple-brand {
+.purple-brand {
   @include brandify($purple-color, $purple-color-brighter);
 }
-body.line-brand {
+.line-brand {
   @include brandify($line-color, $line-color-brighter);
 }
-body.pink-brand {
+.pink-brand {
   @include brandify($pink-color, $pink-color-brighter);
 }
-body.red-brand {
+.red-brand {
   @include brandify($red-color, $red-color-brighter);
 }
-body.brown-brand {
+.brown-brand {
   // @include brandify($brown-color, $brown-color-brighter);
 }
 
