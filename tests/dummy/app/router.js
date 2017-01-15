@@ -23,9 +23,13 @@ Router.map(function() {
 
       // Advanced customization
       this.route('custom-position');
+      this.route('animations');
 
       // Other
       this.route('test-helpers');
+    });
+
+    this.route('cookbook', function() {
     });
 
     this.route('support-the-project');

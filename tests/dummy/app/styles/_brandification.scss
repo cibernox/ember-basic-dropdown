@@ -43,8 +43,10 @@
   .logo-dropdown-content {
     // background: $brand-color;
   }
-  .main-header-nav-link.active {
-    color: $brand-color;
+  @media only screen and (min-width: $small-breakpoint) {
+    .main-header-nav-link.active {
+      color: $brand-color;
+    }
   }
   .side-nav-link .active {
     border-left: 3px solid $brand-color;

@@ -39,11 +39,16 @@
   padding: 2rem 0.5rem;
   flex: 1;
   flex-direction: column;
+  text-align: center;
 }
 .selling-point-icon {
   width: 150px;
   height: auto;
   margin: 25px auto;
+  &.fa {
+    font-size: 9em;
+    color: #CCC;
+  }
 }
 .selling-point-code {
   color: #CCC;
