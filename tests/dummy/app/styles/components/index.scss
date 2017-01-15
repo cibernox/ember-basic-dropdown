@@ -1,6 +1,6 @@
 // Headline
 .main-page-headline {
-  background: $brand-color linear-gradient($brand-color, $brand-color-brighter);
+  /* more styles in brandification */
   height: 300px;
   color: white;
   display: flex;
@@ -75,7 +75,7 @@
 .get-started-button {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  border: 1px solid $brand-color;
+  /* more styles in brandification */
   border-radius: 4px;
   padding: 0.5rem 2rem;
   display: inline-block;

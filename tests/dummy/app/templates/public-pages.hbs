@@ -19,8 +19,8 @@
           {{/dd.trigger}}
         </a>
         {{#dd.content class="logo-dropdown-content"}}
-          {{#each backgrounds as |background|}}
-            <button class="logo-dropdown-content-pantone-entry" style={{background}} onclick={{action 'setBrandColor' background}}></button>
+          {{#each colors as |color|}}
+            <button class="logo-dropdown-content-pantone-entry {{color}}" onclick={{action 'setBrandColor' color}}></button>
           {{/each}}
         {{/dd.content}}
       {{/basic-dropdown}}

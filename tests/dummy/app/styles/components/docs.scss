@@ -19,7 +19,7 @@
   margin-bottom: 1rem;
 }
 .doc-page-nav-link-next, .doc-page-nav-link-prev {
-  border: 1px solid $brand-color;
+  /* more styles in brandification */
   padding: 0.2rem 0.5rem;
   font-weight: 600;
   border-radius: 4px;
@@ -34,13 +34,6 @@
   margin-bottom: 1rem;
   @media only screen and (min-width: $medium-breakpoint) {
     display: none;
-  }
-}
-.branded-graph {
-  color: $brand-color;
-  font-size: 38px;
-  .shape-element {
-    fill: $brand-color;
   }
 }
 

@@ -1,0 +1,105 @@
+/* more styles in brandification */
+@mixin brandify($brand-color, $brand-color-brighter) {
+  a {
+    color: $brand-color;
+  }
+  .code-sample-tab {
+    &.active {
+      border-bottom: 2px solid $brand-color;
+      color: $brand-color;
+    }
+  }
+
+  .doc-page-nav-link-next, .doc-page-nav-link-prev {
+    border: 1px solid $brand-color;
+  }
+
+  .main-page-headline {
+    background: $brand-color linear-gradient($brand-color, $brand-color-brighter);
+  }
+
+  .get-started-button {
+    border: 1px solid $brand-color;
+  }
+
+  .contribute-call-to-action a {
+    background-color: $brand-color;
+    border: 1px solid darken($brand-color, 12%);
+    box-shadow: 0 2px darken($brand-color, 18%);
+    &:hover {
+      background-color: darken($brand-color, 5%);
+    }
+  }
+  .main-header {
+    background-color: $brand-color;
+  }
+
+  .logo-dropdown-button {
+    background: $brand-color;
+    &:hover {
+      background-color: lighten($brand-color, 3%);
+    }
+  }
+  .logo-dropdown-content {
+    // background: $brand-color;
+  }
+  .main-header-nav-link.active {
+    color: $brand-color;
+  }
+  .side-nav-link .active {
+    border-left: 3px solid $brand-color;
+    color: $brand-color;
+  }
+  .circular-loader {
+    border-top: 1.1em solid rgba($brand-color, 0.25);
+    border-right: 1.1em solid rgba($brand-color, 0.25);
+    border-bottom: 1.1em solid rgba($brand-color, 0.25);
+  }
+}
+
+.logo-dropdown-content-pantone-entry.brown {
+  background-color: $brown-color;
+}
+.logo-dropdown-content-pantone-entry.orange {
+  background-color: $orange-color;
+}
+.logo-dropdown-content-pantone-entry.blue {
+  background-color: $blue-color;
+}
+.logo-dropdown-content-pantone-entry.purple {
+  background-color: $purple-color;
+}
+.logo-dropdown-content-pantone-entry.line {
+  background-color: $line-color;
+}
+.logo-dropdown-content-pantone-entry.pink {
+  background-color: $pink-color;
+}
+.logo-dropdown-content-pantone-entry.red {
+  background-color: $red-color;
+}
+
+@include brandify($brown-color, $brown-color-brighter);
+
+body.orange-brand {
+  @include brandify($orange-color, $orange-color-brighter);
+}
+body.blue-brand {
+  @include brandify($blue-color, $blue-color-brighter);
+}
+body.purple-brand {
+  @include brandify($purple-color, $purple-color-brighter);
+}
+body.line-brand {
+  @include brandify($line-color, $line-color-brighter);
+}
+body.pink-brand {
+  @include brandify($pink-color, $pink-color-brighter);
+}
+body.red-brand {
+  @include brandify($red-color, $red-color-brighter);
+}
+body.brown-brand {
+  // @include brandify($brown-color, $brown-color-brighter);
+}
+

@@ -6,7 +6,7 @@ const { computed, String: { htmlSafe } } = Ember;
 
 export default Controller.extend({
   appController: Ember.inject.controller('application'),
-  colors: ['#F00', '#0F0', '#00F'],
+  colors: ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown'],
 
   // CPs
   backgrounds: computed('colors.[]', function() {
@@ -21,10 +21,8 @@ export default Controller.extend({
       }
     },
 
-    setBrandColor(background) {
-      let index = this.get('backgrounds').indexOf(background);
-      let color = this.get('colors')[index];
-      alert('Changing theme to ' + color);
+    setBrandColor(color) {
+      $('body').removeClass('orange-brand blue-brand purple-brand line-brand pink-brand red-brand brown-brand').addClass(`${color}-brand`);
     }
   },
 

@@ -15,8 +15,7 @@
     cursor: pointer;
   }
   &.active {
-    border-bottom: 2px solid $brand-color;
-    color: $brand-color;
+    /* more styles in brandification */
     cursor: normal;
   }
 }
