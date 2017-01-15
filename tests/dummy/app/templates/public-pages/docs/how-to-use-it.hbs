@@ -7,8 +7,8 @@
 
 <p>
   The basic usage is pretty simple. There are no mandatory fields. Just invoke the <code>basic-dropdown</code> component which
-  yields the public API to it's block. That top-level component has no markup, is just pure behaviour.
-  Once inside the block, the yielded API has a two contextual components on it that you would like to use: <code>trigger</code> and <code>content</code>.
+  yields the public API to its block. That top-level component has no markup, just pure behaviour.
+  Once inside the block, the yielded API has two contextual components on it that you can use: <code>trigger</code> and <code>content</code>.
 </p>
 
 <p>
@@ -24,7 +24,7 @@
 </p>
 <p>
   The <code>\{{dd.trigger}}</code> component
-  generates a simple div with some self-explainatory classes and the <code>\{{dd.content}}</code>
+  generates a simple div with some self-explainatory classes and <code>\{{dd.content}}</code>
   doesn't render anything until you open the select.
 </p>
 
@@ -36,20 +36,20 @@
   First of all, the component opens when you click on the trigger and closes when you click \
   anywhere else in the page.
   If you are reading this on a smartphone you can also see that it opens when you tap on the
-  trigger and it already distinguish proper taps from taps used for scrolling.
-  The dropdown is rendered in not next to the trigger, but in a placeholder div in the root of the
+  trigger and it already distinguishes proper taps from taps used for scrolling.
+  The dropdown is rendered, not next to the trigger, but in a placeholder div in the root of the
   application and positioned automatically with inline styles.
 </p>
 
 <p>
   Lastly, if you inspect the DOM a second time you can see all the <strong>a11y</strong> machinery
-  in place to make the component accesible. Even the trigger despite of being a div is focusable
+  in place to make the component accesible. Even the trigger, despite being a div, is focusable
   as it should be for a good keyboard experience. Also if you have the trigger focus,
   you can open and close it with the enter or space keys.
 </p>
 
 <p>
-  Now let's fix that terrible look. I'll give the dropdown a look a feel inspired by the one
+  Now let's fix that terrible look. I'll give the dropdown a look and feel inspired by
   dropdown buttons in bootstrap:
 </p>
 
@@ -58,8 +58,8 @@
 {{/code-sample}}
 
 <p>
-  It just took a little bit of css. You could also have just assigned the right classes and
-  reuse the styles in the framework (I can't demo that because I don't have bootstrap here).
+  It just took a little bit of CSS. You could also have just assigned the right classes and
+  reused the styles from the framework (I can't demo that because I don't have bootstrap here).
 </p>
 
 <p>
@@ -76,8 +76,8 @@
 </p>
 
 <p>
-  And this is basically verything you need to know about styles. Basically there is none,
-  so you can add create your own in CSS or reusing the classes that CSS frameworks give you.
+  And this is basically everything you need to know about styles. Basically there is none,
+  so you can add create your own in CSS or reuse the classes that CSS frameworks give you.
 </p>
 
 <p>
