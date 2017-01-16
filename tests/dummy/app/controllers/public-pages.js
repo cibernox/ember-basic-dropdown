@@ -21,8 +21,9 @@ export default Controller.extend({
       }
     },
 
-    setBrandColor(color) {
+    setBrandColor(color, dropdown) {
       $('body').removeClass('orange-brand blue-brand purple-brand line-brand pink-brand red-brand brown-brand').addClass(`${color}-brand`);
+      dropdown.actions.close();
     }
   },
 

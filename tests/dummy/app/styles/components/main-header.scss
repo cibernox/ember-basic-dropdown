@@ -44,20 +44,23 @@
 }
 .logo-dropdown-content {
   border: 1px solid #f9efe4;
-  padding: 30px;
+  display: flex;
+  width: 300px;
   /* more styles in brandification */
   border-radius: 4px;
   color: white;
   box-shadow: 0 3px 5px rgba(0,0,0,0.25);
+  overflow: hidden;
 }
 .logo-dropdown-content-pantone-entry {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
+  flex-grow: 1;
+  min-width: 30px;
+  height: 90px;
   border: none;
   outline: none;
+  transition: flex-grow 0.15s;
   &:hover {
-    transform: scale(1.1);
+    flex-grow: 5;
   }
 }
 
