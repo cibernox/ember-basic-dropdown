@@ -5,10 +5,9 @@ export default Controller.extend({
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
     let { height: contentHeight } = content.getBoundingClientRect();
-    let $window = $(self.window);
     let style = {
       left: left + width,
-      top: top + $window.scrollTop() + (height / 2) - (contentHeight / 2)
+      top: top + $(window).scrollTop() + (height / 2) - (contentHeight / 2)
     };
 
     return { style };
