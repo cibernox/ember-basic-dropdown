@@ -72,25 +72,6 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
-// Easter egg
-$almost-white: #fff2f2;
-.main-header-select {
-  a { color: $almost-white; }
-  .ember-basic-dropdown-trigger.ember-power-select-trigger {
-    padding: 0rem 2rem 0rem 0.5rem !important;
-    background-color: transparent;
-    border: 2px solid $almost-white !important;
-    border-radius: 4px;
-    line-height: 1.6;
-    white-space: nowrap;
-    outline: none;
-  }
-  .ember-power-select-status-icon {
-    border-width: 12px 7px 0 7px;
-    border-color: white transparent transparent transparent;
-  }
-}
-
 @media only screen and (max-width: $small-breakpoint) {
   .main-header {
     line-height: 44px;

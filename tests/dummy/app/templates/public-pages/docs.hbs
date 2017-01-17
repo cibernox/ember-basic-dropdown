@@ -19,9 +19,15 @@
     {{#link-to 'public-pages.docs.api-reference' class="side-nav-link"}}API reference{{/link-to}}
   </nav>
   <section class="doc-page">
-{{!--     {{#power-select selected=currentSection options=groupedSections onchange=(action 'visit') searchField="text" searchEnabled=false triggerClass="section-selector" as |option|}}
-      {{option.text}}
-    {{/power-select}} --}}
+    <select onchange={{action 'visit' value="target.value"}} class="section-selector">
+      {{#each groupedSections as |group|}}
+        <optgroup label="{{group.groupName}}">
+          {{#each group.options as |section|}}
+            <option value="{{section.route}}" selected={{eq section.route currentSection.route}}>{{section.text}}</option>
+          {{/each}}
+        </optgroup>
+      {{/each}}
+    </select>
     {{outlet}}
   </section>
 </section>
