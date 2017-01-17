@@ -1,7 +1,9 @@
+import Ember from 'ember';
 import Controller from 'ember-controller';
 import $ from 'jquery';
 import { task, timeout } from 'ember-concurrency';
-import Ember from 'ember';
+
+const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
 export default Controller.extend({
   names: [],
@@ -9,26 +11,19 @@ export default Controller.extend({
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
     let { height: contentHeight } = content.getBoundingClientRect();
-    let $window = $(window);
     let style = {
       left: left + width,
-      top: top + $window.scrollTop() + (height / 2) - (contentHeight / 2)
+      top: top + $(window).scrollTop() + (height / 2) - (contentHeight / 2)
     };
 
     return { style };
   },
 
   addNames: task(function*() {
-    this.set('names', Ember.A(['Katie']));
-    yield timeout(750);
-    this.get('names').pushObject('Ricardo');
-    yield timeout(750);
-    this.get('names').pushObject('Igor');
-    yield timeout(750);
-    this.get('names').pushObject('Alex');
-    yield timeout(750);
-    this.get('names').pushObject('Martin');
-    yield timeout(750);
-    this.get('names').pushObject('Godfrey');
+    this.set('names', Ember.A([]));
+    for (name of names) {
+      this.get('names').pushObject(name);
+      yield timeout(750);
+    }
   })
 });
