@@ -1,3 +1,5 @@
+- [FEATURE] Added `$ember-basic-dropdown-overlay-pointer-events` SASS variable.
+
 # 0.20.0
 - [BREAKING CHANGE] Renamed `onKeydown` event to `onKeyDown` to be consistent with the naming
   of every other action in the component

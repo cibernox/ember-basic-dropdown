@@ -20,6 +20,7 @@ Router.map(function() {
       // Basic customization
       this.route('position');
       this.route('disabled');
+      this.route('overlays');
 
       // Advanced customization
       this.route('custom-position');

@@ -1,6 +1,7 @@
 $ember-basic-dropdown-content-background-color: #FFF !default;
 $ember-basic-dropdown-content-z-index: 1000 !default;
 $ember-basic-dropdown-overlay-background: rgba(0,0,0, 0.5) !default;
+$ember-basic-dropdown-overlay-pointer-events: none !default;
 
 .ember-basic-dropdown {
   position: relative;
@@ -26,10 +27,5 @@ $ember-basic-dropdown-overlay-background: rgba(0,0,0, 0.5) !default;
   z-index: 10;
   top: 0;
   left: 0;
-  pointer-events: none;
+  pointer-events: $ember-basic-dropdown-overlay-pointer-events;
 }
-
-// .ember-basic-dropdown-text-select-disabled {
-//   user-select: none;
-//   -webkit-user-select: none;
-// }
