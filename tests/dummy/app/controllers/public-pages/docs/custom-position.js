@@ -21,7 +21,7 @@ export default Controller.extend({
 
   addNames: task(function*() {
     this.set('names', Ember.A([]));
-    for (name of names) {
+    for (let name of names) {
       this.get('names').pushObject(name);
       yield timeout(750);
     }
