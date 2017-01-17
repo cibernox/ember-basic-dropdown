@@ -76,6 +76,24 @@
   trigger.
 </p>
 
+<h3><code>matchTriggerWidth</code></h3>
+
+<p>
+  There is a few widgets in which the width of the floating box has to match the width of the
+  trigger design reasons. Since this is common enough, there is an option to enable this behaviour.
+</p>
+
+{{#code-sample hbs="position-3.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  In the section about <a href="/docs/custom-position">Custom Position</a> strategies we will
+  see how to totally customize how the dropdown is positioned by passing it a function.
+  If you do so the options in this section will not work unless your function, which will
+  receive those options, honors them.
+</p>
+
 <div class="doc-page-nav">
   <a href={{href-to 'public-pages.docs.trigger-events'}} class="doc-page-nav-link-prev">&lt; Trigger events</a>
   <a href={{href-to 'public-pages.docs.disabled'}} class="doc-page-nav-link-next">Disabled &gt;</a>
