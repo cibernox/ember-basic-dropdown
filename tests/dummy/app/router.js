@@ -21,6 +21,7 @@ Router.map(function() {
       this.route('position');
       this.route('disabled');
       this.route('overlays');
+      this.route('styles');
 
       // Advanced customization
       this.route('custom-position');

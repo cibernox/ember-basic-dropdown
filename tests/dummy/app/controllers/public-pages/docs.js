@@ -20,7 +20,8 @@ const groupedSections = [
     options: [
       { route: 'public-pages.docs.position',         text: 'Position' },
       { route: 'public-pages.docs.disabled',         text: 'Disabled' },
-      { route: 'public-pages.docs.overlays',         text: 'Overlays' }
+      { route: 'public-pages.docs.overlays',         text: 'Overlays' },
+      { route: 'public-pages.docs.styles',           text: 'Styles' }
     ]
   },
   {
