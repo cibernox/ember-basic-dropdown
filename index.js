@@ -9,8 +9,12 @@ module.exports = {
     if (!app.__emberBasicDropdownIncludedInvoked) {
       app.__emberBasicDropdownIncludedInvoked = true;
       this._super.included.apply(this, arguments);
-      // Don't include the precompiled css file if the user uses ember-cli-sass
-      if (!app.registry.availablePlugins['ember-cli-sass']) {
+
+      let hasSass = !!app.registry.availablePlugins['ember-cli-sass'];
+      let hasLess = !!app.registry.availablePlugins['ember-cli-less'];
+
+      // Don't include the precompiled css file if the user uses a supported CSS preprocessor
+      if (!hasSass && !hasLess) {
         if (!app.__skipEmberBasicDropdownStyles) {
           app.import('vendor/ember-basic-dropdown.css');
         }
