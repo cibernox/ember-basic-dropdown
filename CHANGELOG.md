@@ -1,3 +1,5 @@
+# 0.21.0
+- [FEATURE] Add LESS support, on pair with the SASS one.
 - [FEATURE] Added `$ember-basic-dropdown-overlay-pointer-events` SASS variable.
 
 # 0.20.0
