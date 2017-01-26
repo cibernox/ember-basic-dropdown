@@ -1,3 +1,6 @@
+- [FEATURE/BREAKING] Allow to customize the ID of the trigger component. Now the dropdown
+  uses a new `data-ebd-id` attribute for query the trigger reliably.
+
 # 0.21.0
 - [FEATURE] Add LESS support, on pair with the SASS one.
 - [FEATURE] Added `$ember-basic-dropdown-overlay-pointer-events` SASS variable.

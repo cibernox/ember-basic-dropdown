@@ -25,6 +25,7 @@ export default Component.extend({
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'role',
+    'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
     'dropdownId:aria-controls',
     'ariaLabel:aria-label',
@@ -43,7 +44,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     let dropdown = this.get('dropdown');
-    this.elementId = `ember-basic-dropdown-trigger-${dropdown.uniqueId}`;
+    this.uniqueId = `${dropdown.uniqueId}-trigger`;
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
     this._mouseupHandler = () => {
