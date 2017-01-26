@@ -77,6 +77,17 @@ test('If it receives `title=something`, if has that title attribute', function(a
   assert.equal($trigger.attr('title'), 'foobar', 'Has the given title');
 });
 
+test('If it receives `id="some-id"`, if has that id', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger id="my-own-id" title="foobar" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('id'), 'my-own-id', 'Has the given id');
+});
+
 test('If the dropdown is disabled, the trigger doesn\'t have tabindex attribute, regardless of if it has been customized or not', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123, disabled: true };

@@ -62,7 +62,6 @@ export default Component.extend({
       }
     });
 
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${publicAPI.uniqueId}`;
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
   },
 
@@ -130,7 +129,7 @@ export default Component.extend({
     if (skipFocus) {
       return;
     }
-    let trigger = document.getElementById(this.triggerId);
+    let trigger = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
@@ -145,11 +144,12 @@ export default Component.extend({
   },
 
   reposition() {
-    if (!this.get('publicAPI.isOpen')) {
+    let publicAPI = this.get('publicAPI');
+    if (!publicAPI.isOpen) {
       return;
     }
     let dropdownElement = self.document.getElementById(this.dropdownId);
-    let triggerElement = self.document.getElementById(this.triggerId);
+    let triggerElement = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
     if (!dropdownElement || !triggerElement) {
       return;
     }

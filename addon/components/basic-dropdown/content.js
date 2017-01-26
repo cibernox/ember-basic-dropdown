@@ -45,7 +45,6 @@ export default Component.extend({
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     let dropdown = this.get('dropdown');
-    this.triggerId = `ember-basic-dropdown-trigger-${dropdown.uniqueId}`;
     this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     if (this.get('animationEnabled')) {
       this.set('animationClass', this.get('transitioningInClass'));
@@ -105,7 +104,7 @@ export default Component.extend({
   // Methods
   open() {
     let dropdown = this.get('dropdown');
-    this.triggerElement = this.triggerElement || document.getElementById(this.triggerId);
+    this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
     self.document.body.addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
