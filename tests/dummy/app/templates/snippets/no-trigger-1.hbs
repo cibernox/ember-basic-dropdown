@@ -1,0 +1,12 @@
+{{#basic-dropdown as |dd|}}
+  <div class="form-inline">
+    <input type="text" class="form-control" data-ebd-id="{{dd.uniqueId}}-trigger">
+    <button class="trigger-bootstrap-feel" onclick={{dd.actions.toggle}}>
+      Click me
+    </button>
+  </div>
+
+  {{#dd.content class="content-bootstrap-feel width-300"}}
+    I don't like the button, I like the input.
+  {{/dd.content}}
+{{/basic-dropdown}}
