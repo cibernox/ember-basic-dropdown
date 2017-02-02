@@ -36,6 +36,9 @@ Router.map(function() {
       this.route('no-trigger');
     });
 
+    this.route('addons', function() {
+    });
+
     this.route('support-the-project');
   });
 
