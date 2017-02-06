@@ -1,3 +1,6 @@
+# 0.22.1
+- [FEATURE] It accepts an `onInit` action passed from the outside. Private-ish for now.
+
 # 0.22.0
 - [FEATURE/BREAKING] Allow to customize the ID of the trigger component. Now the dropdown
   uses a new `data-ebd-id` attribute for query the trigger reliably. Unlikely to be

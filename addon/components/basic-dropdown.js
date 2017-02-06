@@ -63,6 +63,10 @@ export default Component.extend({
     });
 
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
+    let onInit = this.get('onInit');
+    if (onInit) {
+      onInit(publicAPI);
+    }
   },
 
   didReceiveAttrs() {
