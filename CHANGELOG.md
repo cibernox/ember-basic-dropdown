@@ -1,3 +1,7 @@
+# 0.22.2
+- [FEATURE] `clickTrigger` test helper also works when the given selector is the one of 
+  the trigger (before it had to be an ancestor of the trigger).
+
 # 0.22.1
 - [FEATURE] It accepts an `onInit` action passed from the outside. Private-ish for now.
 
