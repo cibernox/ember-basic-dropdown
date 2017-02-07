@@ -80,6 +80,16 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   assert.equal($content.length, 1, 'The dropdown contains that class');
 });
 
+test('If it receives `defaultClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+  this.render(hbs`
+    {{#basic-dropdown/content dropdown=dropdown defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+  `);
+  let $content = $('.ember-basic-dropdown-content.foo123');
+  assert.equal($content.length, 1, 'The dropdown contains that class');
+});
+
 test('If it receives `dir="rtl"`, the rendered content will have the attribute set', function(assert) {
   assert.expect(1);
   this.dropdown = { isOpen: true, actions: { reposition() { } } };
