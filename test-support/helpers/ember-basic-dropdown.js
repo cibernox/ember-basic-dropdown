@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import run from 'ember-runloop';
+import $ from 'jquery';
 
 // integration helpers
 function focus(el) {
   if (!el) { return; }
-  let $el = jQuery(el);
+  let $el = $(el);
   if ($el.is(':input, [contenteditable=true]')) {
     let type = $el.prop('type');
     if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {
@@ -42,7 +43,10 @@ export function nativeClick(selector, options = {}) {
 export function clickTrigger(scope, options = {}) {
   let selector = '.ember-basic-dropdown-trigger';
   if (scope) {
-    selector = scope + ' ' + selector;
+    let $element = $(scope);
+    if (!$element.hasClass('ember-basic-dropdown-trigger')) {
+      selector = scope + ' ' + selector;
+    }
   }
   nativeClick(selector, options);
 }
