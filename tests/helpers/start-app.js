@@ -2,18 +2,18 @@ import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
 import nativeClick from './native-click'; // jshint ignore:line
+import registerBasicDropdownHelpers from '../../tests/helpers/ember-basic-dropdown';
+
+registerBasicDropdownHelpers();
 
 export default function startApp(attrs) {
-  let application;
-
   let attributes = Ember.merge({}, config.APP);
   attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
 
-  Ember.run(() => {
-    application = Application.create(attributes);
+  return Ember.run(() => {
+    let application = Application.create(attributes);
     application.setupForTesting();
     application.injectTestHelpers();
+    return application;
   });
-
-  return application;
 }

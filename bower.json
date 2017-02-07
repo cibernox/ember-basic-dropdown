@@ -1,6 +1,4 @@
 {
   "name": "ember-basic-dropdown",
-  "dependencies": {
-    "font-awesome": "~4.5.0"
-  }
+  "dependencies": {}
 }
