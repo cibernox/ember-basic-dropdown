@@ -157,7 +157,7 @@ export default Component.extend({
 
     let closestDropdown = $(e.target).closest('.ember-basic-dropdown-content').get(0);
     if (closestDropdown) {
-      let trigger = document.querySelector(`[aria-controls=${closestDropdown.attributes.id.value}]`);
+      let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
       let parentDropdown = $(trigger).closest('.ember-basic-dropdown-content').get(0);
       if (parentDropdown && parentDropdown.attributes.id.value === this.dropdownId) {
         this.hasMoved = false;
