@@ -219,11 +219,21 @@ test('If it does not receive an specific `role`, the default is `button`', funct
   assert.equal($trigger.attr('role'), 'button');
 });
 
-test('It has `aria-haspopup=true`', function(assert) {
+test('The `aria-haspopup` attribute is not present by default', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.ok(['true', ''].indexOf($trigger.attr('aria-haspopup') === -1), 'Has `aria-haspopup=true`');
+});
+
+test('The `aria-haspopup` attribute will be present if passed in', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown aria-haspopup=true}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   assert.ok(['true', ''].indexOf($trigger.attr('aria-haspopup') > -1), 'Has `aria-haspopup=true`');

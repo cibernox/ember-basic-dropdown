@@ -21,7 +21,6 @@ export default Component.extend({
   classNames: ['ember-basic-dropdown-trigger'],
   role: 'button',
   tabindex: 0,
-  'aria-haspopup': true,
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'role',
