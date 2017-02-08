@@ -1,3 +1,5 @@
+- [BREAKING] Use `aria-owns` instead of `aria-controls` to link trigger and content together.
+
 # 0.22.3
 - [FEATURE] The `dropdown.content` now accepts a `defaultClass` property as a secondary way
   of adding a class in contextual components that doesn't pollute the `class` property.

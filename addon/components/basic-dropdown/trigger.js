@@ -27,7 +27,7 @@ export default Component.extend({
     'role',
     'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
-    'dropdownId:aria-controls',
+    'dropdownId:aria-owns',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',

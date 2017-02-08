@@ -189,14 +189,14 @@ test('If the received dropdown is open, it has an `aria-pressed="true"` attribut
   assert.equal($trigger.attr('aria-pressed'), 'true', 'the aria-pressed is true');
 });
 
-test('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', function(assert) {
+test('If it has an `aria-owns="foo123"` attribute pointing to the id of the content', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-controls'), 'ember-basic-dropdown-content-123');
+  assert.equal($trigger.attr('aria-owns'), 'ember-basic-dropdown-content-123');
 });
 
 test('If it receives `role="foo123"` it gets that attribute', function(assert) {

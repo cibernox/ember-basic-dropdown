@@ -417,7 +417,7 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
 });
 
 // A11y
-test('By default, the `aria-controls` attribute of the trigger contains the id of the content', function(assert) {
+test('By default, the `aria-owns` attribute of the trigger contains the id of the content', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -429,7 +429,7 @@ test('By default, the `aria-controls` attribute of the trigger contains the id o
   clickTrigger();
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   let $content = $('.ember-basic-dropdown-content');
-  assert.equal($trigger.attr('aria-controls'), $content.attr('id'), 'The trigger controls the content');
+  assert.equal($trigger.attr('aria-owns'), $content.attr('id'), 'The trigger controls the content');
 });
 
 // Repositioning
