@@ -68,7 +68,7 @@ export default Component.extend({
   'aria-disabled': trueStringIfPresent('dropdown.disabled'),
   'aria-expanded': trueStringIfPresent('dropdown.isOpen'),
   'aria-invalid': trueStringIfPresent('ariaInvalid'),
-  'aria-pressed': trueStringIfPresent('dropdown.isOpen'),
+  'aria-pressed': trueStringIfPresent('ariaPressed'),
   'aria-required': trueStringIfPresent('ariaRequired'),
 
   tabIndex: computed('dropdown.disabled', 'tabindex', function() {
