@@ -1,3 +1,4 @@
+- [BREAKING] Don't display `aria-haspopup` by default, but display it if passed in a truthy value.
 - [BREAKING] Use `aria-owns` instead of `aria-controls` to link trigger and content together.
 
 # 0.22.3
