@@ -177,16 +177,21 @@ test('If the received dropdown is open, it has an `aria-expanded="true"` attribu
   assert.equal($trigger.attr('aria-expanded'), 'true', 'the aria-expanded is true');
 });
 
-test('If the received dropdown is open, it has an `aria-pressed="true"` attribute', function(assert) {
-  assert.expect(2);
+test('The `ariaPressed` attribute is bound, but defaults to false', function(assert) {
+  assert.expect(3);
   this.dropdown = { uniqueId: 123, isOpen: false };
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
   let $trigger = this.$('.ember-basic-dropdown-trigger');
-  assert.equal($trigger.attr('aria-pressed'), undefined, 'the aria-pressed is false');
+  assert.equal($trigger.attr('aria-pressed'), undefined, 'the aria-pressed is not present');
   run(() => set(this.dropdown, 'isOpen', true));
-  assert.equal($trigger.attr('aria-pressed'), 'true', 'the aria-pressed is true');
+  assert.equal($trigger.attr('aria-pressed'), undefined, 'the aria-pressed is not present');
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown ariaPressed=true}}Click me{{/basic-dropdown/trigger}}
+  `);
+  $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('aria-pressed'), 'true', 'the aria-pressed is not present');
 });
 
 test('If it has an `aria-owns="foo123"` attribute pointing to the id of the content', function(assert) {

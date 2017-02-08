@@ -37,7 +37,7 @@
   &:hover {
     /* more styles in brandification */
   }
-  &[aria-pressed=true] {
+  &[aria-expanded=true] {
     box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
     transform: translateY(3px);
   }

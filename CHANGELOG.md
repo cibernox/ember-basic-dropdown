@@ -1,3 +1,5 @@
+- [BREAKING] Don't display `aria-pressed` when the component is opened. The attribute is not
+  present by default, but can be bound from the outside.
 - [BREAKING] Don't display `aria-haspopup` by default, but display it if passed in a truthy value.
 - [BREAKING] Use `aria-owns` instead of `aria-controls` to link trigger and content together.
 
