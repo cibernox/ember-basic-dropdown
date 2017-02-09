@@ -44,7 +44,9 @@ export function clickTrigger(scope, options = {}) {
   let selector = '.ember-basic-dropdown-trigger';
   if (scope) {
     let $element = $(scope);
-    if (!$element.hasClass('ember-basic-dropdown-trigger')) {
+    if ($element.hasClass('ember-basic-dropdown-trigger')) {
+      selector = scope;
+    } else {
       selector = scope + ' ' + selector;
     }
   }
