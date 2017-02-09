@@ -1,3 +1,7 @@
+# 0.22.4
+- [BUGFIX] Fix `clickDropdown` test helper when the given selector is already the selector
+  of the trigger.
+
 # 0.22.3
 - [FEATURE] The `dropdown.content` now accepts a `defaultClass` property as a secondary way
   of adding a class in contextual components that doesn't pollute the `class` property.
