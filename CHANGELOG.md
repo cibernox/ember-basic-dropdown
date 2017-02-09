@@ -1,3 +1,6 @@
+- [BUGFIX] Fix `clickDropdown` test helper when the given selector is already the selector
+  of the trigger.
+
 # 0.23.0
 - [BREAKING] Don't display `aria-pressed` when the component is opened. The attribute is not
   present by default, but can be bound from the outside.

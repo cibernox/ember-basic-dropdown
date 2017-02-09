@@ -13,6 +13,7 @@ test('`clickDropdown` simulates a click in the dropdown WITHIN the given selecto
 
   andThen(function() {
     assert.equal(find('.ember-basic-dropdown-content').length, 1, 'There is a dropdown open');
+    assert.equal(find('.ember-basic-dropdown-content').text().trim(), 'Hello world 1!', 'There it is the expected one');
   });
 });
 
@@ -26,5 +27,6 @@ test('`clickDropdown` simulates a click in the dropdown WITH the given selector'
 
   andThen(function() {
     assert.equal(find('.ember-basic-dropdown-content').length, 1, 'There is a dropdown open');
+    assert.equal(find('.ember-basic-dropdown-content').text().trim(), 'Hello world 1!', 'There it is the expected one');
   });
 });
