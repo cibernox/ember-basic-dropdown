@@ -601,6 +601,30 @@ test('The registerAPI is called with every mutation of the publicAPI object', fu
   assert.equal(apis[3].disabled, true, 'and it became disabled');
 });
 
+test('removing the dropdown in response to onClose does not error', function(assert) {
+  assert.expect(2);
+
+  this.isOpen = true;
+
+  this.onClose = () => {
+    this.set('isOpen', false);
+  }
+
+  this.render(hbs`
+    {{#if isOpen}}
+      {{#basic-dropdown onClose=onClose as |dropdown|}}
+        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+      {{/basic-dropdown}}
+    {{/if}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 1, 'the dropdown is rendered');
+  clickTrigger();
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 0, 'the dropdown has been removed');
+});
+
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
 //   assert.expect(2);
 

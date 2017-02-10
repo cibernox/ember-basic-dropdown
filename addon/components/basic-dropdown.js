@@ -127,6 +127,9 @@ export default Component.extend({
     if (onClose && onClose(publicAPI, e) === false) {
       return;
     }
+    if (this.get('isDestroyed')) {
+      return;
+    }
     this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.updateState({ isOpen: false });
