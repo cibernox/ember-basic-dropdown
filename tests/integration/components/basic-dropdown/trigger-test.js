@@ -244,6 +244,26 @@ test('The `aria-haspopup` attribute will be present if passed in', function(asse
   assert.ok(['true', ''].indexOf($trigger.attr('aria-haspopup') > -1), 'Has `aria-haspopup=true`');
 });
 
+test('The `aria-autocomplete` will be present if passed in', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown aria-autocomplete="foobar"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('aria-autocomplete'), 'foobar', 'Has `aria-autocomplete="foobar"`');
+});
+
+test('The `aria-activedescendant` will be present if passed in', function(assert) {
+  assert.expect(1);
+  this.dropdown = { uniqueId: 123 };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown aria-activedescendant="foobar"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  let $trigger = this.$('.ember-basic-dropdown-trigger');
+  assert.equal($trigger.attr('aria-activedescendant'), 'foobar', 'Has `aria-activedescendant="foobar"`');
+});
+
 // Custom actions
 test('If it receives an `onMouseEnter` action, it will be invoked when a mouseenter event is received', function(assert) {
   assert.expect(2);

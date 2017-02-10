@@ -30,6 +30,8 @@ export default Component.extend({
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',
+    'aria-autocomplete',
+    'aria-activedescendant',
     'aria-disabled',
     'aria-expanded',
     'aria-haspopup',
