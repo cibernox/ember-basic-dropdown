@@ -1,3 +1,9 @@
+# 0.24.1
+- [ENHANCEMENT] Bind `aria-autocomplete` and `aria-activedescendant`.
+- [BUGFIX] Check if the component is destroyed after calling the `onClose` action, as it 
+  might have been removed.
+
+# 0.24.0
 - [BREAKING] It is a problem for a11y to have `aria-owns/controls` to an element that it's not
   in the DOM, so now there is a stable div with the right ID that gets moved to the root 
   of the body when the component opens.
