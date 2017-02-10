@@ -1,3 +1,6 @@
+- [BREAKING] It is a problem for a11y to have `aria-owns/controls` to an element that it's not
+  in the DOM, so now there is a stable div with the right ID that gets moved to the root 
+  of the body when the component opens.
 - [BUGFIX] Fix `clickDropdown` test helper when the given selector is already the selector
   of the trigger.
 
