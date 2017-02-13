@@ -1,13 +1,29 @@
 import Ember from 'ember';
 import Component from 'ember-component';
-import computed from 'ember-computed';
 import set from  'ember-metal/set';
 import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
-import { scheduleOnce, cancel } from 'ember-runloop';
+import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-const { testing, getOwner } = Ember;
-let instancesCounter = 0;
+import { calculatePosition, calculateInPlacePosition } from '../utils/calculate-position';
+const { guidFor } = Ember;
+
+const assign = Object.assign || function EmberAssign(original, ...args) {
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i];
+    if (!arg) {
+      continue;
+    }
+    let updates = Object.keys(arg);
+
+    for (let i = 0; i < updates.length; i++) {
+      let prop = updates[i];
+      original[prop] = arg[prop];
+    }
+  }
+
+  return original;
+};
 
 export default Component.extend({
   layout,
@@ -18,18 +34,24 @@ export default Component.extend({
   matchTriggerWidth: fallbackIfUndefined(false),
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
+  calculatePosition: fallbackIfUndefined(calculatePosition),
+  calculateInPlacePosition: fallbackIfUndefined(calculateInPlacePosition),
   classNames: ['ember-basic-dropdown'],
+  top: null,
+  left: null,
+  right: null,
+  width: null,
 
   // Lifecycle hooks
   init() {
-    this._super(...arguments);
     if (this.get('renderInPlace') && this.get('tagName') === '') {
       this.set('tagName', 'div');
     }
-    instancesCounter++;
+    this._super(...arguments);
+    this.set('publicAPI', {});
 
-    this.publicAPI = {
-      _id: instancesCounter++,
+    let publicAPI = this.updateState({
+      uniqueId: guidFor(this),
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       actions: {
@@ -38,80 +60,90 @@ export default Component.extend({
         toggle: this.toggle.bind(this),
         reposition: this.reposition.bind(this)
       }
-    };
+    });
 
-    this.triggerId = this.triggerId || `ember-basic-dropdown-trigger-${this.publicAPI._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.publicAPI._id}`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
+    let onInit = this.get('onInit');
+    if (onInit) {
+      onInit(publicAPI);
+    }
+  },
 
-    let registerAPI = this.get('registerAPI');
-    if (registerAPI) {
-      registerAPI(this.publicAPI);
+  didReceiveAttrs() {
+    this._super(...arguments);
+    let oldDisabled = !!this._oldDisabled;
+    let newDisabled = !!this.get('disabled');
+    this._oldDisabled = newDisabled;
+    if (newDisabled && !oldDisabled) {
+      join(this, this.disable);
+    } else if (!newDisabled && oldDisabled) {
+      join(this, this.enable);
     }
   },
 
   willDestroy() {
     this._super(...arguments);
-    cancel(this.updatePositionsTimer);
-  },
-
-  didUpdateAttrs() {
-    this._super(...arguments);
-    let disabled = this.get('disabled');
-    if (disabled !== this.publicAPI.disabled) {
-      set(this.publicAPI, 'disabled', disabled);
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      registerAPI(null);
     }
   },
-
-  // CPs
-  appRoot: computed(function() {
-    let rootSelector = testing ? '#ember-testing' : getOwner(this).lookup('application:main').rootElement;
-    return self.document.querySelector(rootSelector);
-  }),
 
   // Actions
   actions: {
     handleFocus(e) {
       let onFocus = this.get('onFocus');
       if (onFocus) {
-        onFocus(this.publicAPI, e);
+        onFocus(this.get('publicAPI'), e);
       }
     }
   },
 
   // Methods
   open(e) {
-    if (this.publicAPI.disabled || this.publicAPI.isOpen) {
+    if (this.get('isDestroyed')) {
+      return;
+    }
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.disabled || publicAPI.isOpen) {
       return;
     }
     let onOpen = this.get('onOpen');
-    if (onOpen && onOpen(this.publicAPI, e) === false) {
+    if (onOpen && onOpen(publicAPI, e) === false) {
       return;
     }
-    set(this.publicAPI, 'isOpen', true);
+    this.updateState({ isOpen: true });
   },
 
   close(e, skipFocus) {
-    if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
+    if (this.get('isDestroyed')) {
+      return;
+    }
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.disabled || !publicAPI.isOpen) {
       return;
     }
     let onClose = this.get('onClose');
-    if (onClose && onClose(this.publicAPI, e) === false) {
+    if (onClose && onClose(publicAPI, e) === false) {
       return;
     }
-    set(this.publicAPI, 'isOpen', false);
-    this.setProperties({ hPosition: null, vPosition: null });
+    if (this.get('isDestroyed')) {
+      return;
+    }
+    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
     }
-    let trigger = document.getElementById(this.triggerId);
+    let trigger = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
   },
 
   toggle(e) {
-    if (this.publicAPI.isOpen) {
+    if (this.get('publicAPI.isOpen')) {
       this.close(e);
     } else {
       this.open(e);
@@ -119,96 +151,70 @@ export default Component.extend({
   },
 
   reposition() {
-    if (!this.publicAPI.isOpen) {
+    let publicAPI = this.get('publicAPI');
+    if (!publicAPI.isOpen) {
       return;
     }
     let dropdownElement = self.document.getElementById(this.dropdownId);
-    let triggerElement = self.document.getElementById(this.triggerId);
+    let triggerElement = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    let renderInPlace = this.get('renderInPlace');
-    if (renderInPlace) {
-      this.performNaiveReposition(triggerElement, dropdownElement);
-    } else {
-      this.performFullReposition(triggerElement, dropdownElement);
-    }
-  },
-
-  performNaiveReposition(trigger, dropdown) {
-    let horizontalPosition = this.get('horizontalPosition');
-    if (horizontalPosition === 'auto') {
-      let triggerRect = trigger.getBoundingClientRect();
-      let dropdownRect = dropdown.getBoundingClientRect();
-      let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
-      horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
-    }
-    this.applyReposition(trigger, dropdown, { horizontalPosition });
-  },
-
-  performFullReposition(trigger, dropdown) {
-    let {
-      horizontalPosition, verticalPosition, matchTriggerWidth
-    } = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth');
-    let $window = $(self.window);
-    let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
-    let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-    let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
-    let dropdownLeft = triggerLeft;
-    let dropdownTop;
-    dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
-
-    if (horizontalPosition === 'auto') {
-      let viewportRight = scroll.left + self.window.innerWidth;
-      let roomForRight = viewportRight - triggerLeft;
-      let roomForLeft = triggerLeft;
-      horizontalPosition = roomForRight > roomForLeft ? 'left' : 'right';
-    } else if (horizontalPosition === 'right') {
-      dropdownLeft = triggerLeft + triggerWidth - dropdownWidth;
-    } else if (horizontalPosition === 'center') {
-      dropdownLeft = triggerLeft + (triggerWidth - dropdownWidth) / 2;
-    }
-
-    let triggerTopWithScroll = triggerTop + scroll.top;
-    if (verticalPosition === 'above') {
-      dropdownTop = triggerTopWithScroll - dropdownHeight;
-    } else if (verticalPosition === 'below') {
-      dropdownTop = triggerTopWithScroll + triggerHeight;
-    } else {
-      let viewportBottom = scroll.top + self.window.innerHeight;
-      let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
-      let enoughRoomAbove = triggerTop > dropdownHeight;
-
-      if (this.previousVerticalPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
-        verticalPosition = 'above';
-      } else if (this.previousVerticalPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
-        verticalPosition = 'below';
-      } else if (!this.previousVerticalPosition) {
-        verticalPosition = enoughRoomBelow ? 'below' : 'above';
-      } else {
-        verticalPosition = this.previousVerticalPosition;
-      }
-      dropdownTop = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
-    }
-
-    let style = { top: `${dropdownTop}px`, left: `${dropdownLeft}px` };
-    if (matchTriggerWidth) {
-      style.width = `${dropdownWidth}px`;
-    }
-    this.applyReposition(trigger, dropdown, { horizontalPosition, verticalPosition, style });
+    let calculatePosition = this.get(this.get('renderInPlace') ? 'calculateInPlacePosition' : 'calculatePosition');
+    let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition');
+    options.dropdown = this;
+    let positionData = calculatePosition(triggerElement, dropdownElement, options);
+    return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 
   applyReposition(trigger, dropdown, positions) {
-    this.updatePositionsTimer = scheduleOnce('actions', this, this.updatePositions, positions);
+    let changes = {
+      hPosition: positions.horizontalPosition,
+      vPosition: positions.verticalPosition
+    };
     if (positions.style) {
-      Object.keys(positions.style).forEach((key) => dropdown.style[key] = positions.style[key]);
+      changes.top = `${positions.style.top}px`;
+      // The component can be aligned from the right or from the left, but not from both.
+      if (positions.style.left !== undefined) {
+        changes.left = `${positions.style.left}px`;
+        changes.right = null;
+      } else if (positions.style.right !== undefined) {
+        changes.right = `${positions.style.right}px`;
+        changes.left = null;
+      }
+      if (positions.style.width !== undefined) {
+        changes.width = `${positions.style.width}px`;
+      }
+      if (this.get('top') === null) {
+        // Bypass Ember on the first reposition only to avoid flickering.
+        $(dropdown).css(positions.style);
+      }
     }
-  },
-
-  updatePositions(positions) {
-    this.setProperties({ hPosition: positions.horizontalPosition, vPosition: positions.verticalPosition });
+    this.setProperties(changes);
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
+    return changes;
+  },
+
+  disable() {
+    let publicAPI = this.get('publicAPI');
+    if (publicAPI.isOpen) {
+      publicAPI.actions.close();
+    }
+    this.updateState({ disabled: true });
+  },
+
+  enable() {
+    this.updateState({ disabled: false });
+  },
+
+  updateState(changes) {
+    let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
+    let registerAPI = this.get('registerAPI');
+    if (registerAPI) {
+      registerAPI(newState);
+    }
+    return newState;
   }
 });

@@ -5,6 +5,8 @@ import $ from 'jquery';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 
 let deprecations = [];
+const { run } = Ember;
+
 Ember.Debug.registerDeprecationHandler((message, options, next) => {
   deprecations.push(message);
   next(message, options);
@@ -332,6 +334,17 @@ test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
   assert.equal(this.$('.ember-basic-dropdown').length, 1, 'The trigger has a special `--in-place` class');
 });
 
+test('[ISSUE #127] Having more than one dropdown with `renderInPlace=true` raises an exception', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
+  `);
+
+  assert.ok(true, 'The test has run without errors');
+});
+
 test('It passes the `disabled` property as part of the public API, and updates is if it changes', function(assert) {
   assert.expect(2);
   this.disabled = true;
@@ -350,8 +363,61 @@ test('It passes the `disabled` property as part of the public API, and updates i
   assert.equal(this.$('#enabled-dropdown-marker').length, 1, 'The public API of the component is marked as enabled');
 });
 
+test('It passes the `uniqueId` property as part of the public API', function(assert) {
+  assert.expect(1);
+  this.disabled = true;
+  this.render(hbs`
+    {{#basic-dropdown as |dropdown|}}
+      <div id="dropdown-unique-id-container">{{dropdown.uniqueId}}</div>
+    {{/basic-dropdown}}
+  `);
+
+  assert.ok(/ember\d+/.test(this.$('#dropdown-unique-id-container').text().trim()), 'It yields the uniqueId');
+});
+
+test('If the dropdown gets disabled while it\'s open, it closes automatically', function(assert) {
+  assert.expect(2);
+
+  this.isDisabled = false;
+  this.render(hbs`
+    {{#basic-dropdown disabled=isDisabled as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  assert.equal($('#dropdown-is-opened').length, 1, 'The select is open');
+  run(() => this.set('isDisabled', true));
+  assert.equal($('#dropdown-is-opened').length, 0, 'The select is now closed');
+});
+
+test('If the component\'s `disabled` property changes, the `registerAPI` action is called', function(assert) {
+  assert.expect(3);
+
+  this.isDisabled = false;
+  this.toggleDisabled = () => this.toggleProperty('isDisabled');
+  this.registerAPI = (api) => run.scheduleOnce('actions', this, this.set, 'remoteController', api);
+  this.render(hbs`
+    {{#basic-dropdown disabled=isDisabled registerAPI=(action registerAPI) as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+    {{/basic-dropdown}}
+    <button onclick={{action toggleDisabled}}>Toggle</button>
+    {{#if remoteController.disabled}}
+      <div id="is-disabled"></div>
+    {{/if}}
+  `);
+
+  clickTrigger();
+  assert.equal($('#is-disabled').length, 0, 'The select is enabled');
+  run(() => this.set('isDisabled', true));
+  assert.equal($('#is-disabled').length, 1, 'The select is disabled');
+  run(() => this.set('isDisabled', false));
+  assert.equal($('#is-disabled').length, 0, 'The select is enabled again');
+});
+
 // A11y
-test('By default, the `aria-controls` attribute of the trigger contains the id of the content', function(assert) {
+test('By default, the `aria-owns` attribute of the trigger contains the id of the content', function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -363,7 +429,7 @@ test('By default, the `aria-controls` attribute of the trigger contains the id o
   clickTrigger();
   let $trigger = this.$('.ember-basic-dropdown-trigger');
   let $content = $('.ember-basic-dropdown-content');
-  assert.equal($trigger.attr('aria-controls'), $content.attr('id'), 'The trigger controls the content');
+  assert.equal($trigger.attr('aria-owns'), $content.attr('id'), 'The trigger controls the content');
 });
 
 // Repositioning
@@ -384,6 +450,86 @@ test('Firing a reposition outside of a runloop doesn\'t break the component', fu
     assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
     done();
   }, 100);
+});
+
+test('The `reposition` public action returns an object with the changes', function(assert) {
+  assert.expect(4);
+  let remoteController;
+  this.saveAPI = (api) => remoteController = api;
+  this.render(hbs`
+    {{#basic-dropdown registerAPI=(action saveAPI) as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  let returnValue;
+  clickTrigger();
+
+  run(() => {
+    returnValue = remoteController.actions.reposition();
+  });
+  assert.ok(returnValue.hasOwnProperty('hPosition'));
+  assert.ok(returnValue.hasOwnProperty('vPosition'));
+  assert.ok(returnValue.hasOwnProperty('top'));
+  assert.ok(returnValue.hasOwnProperty('left'));
+});
+
+test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
+  assert.expect(4);
+  this.calculatePosition = function(triggerElement, dropdownElement, { dropdown }) {
+    assert.ok(dropdown, 'dropdown should be passed to the component');
+    return {
+      horizontalPosition: 'right',
+      verticalPosition: 'above',
+      style: {
+        top: 111,
+        right: 222
+      }
+    };
+  };
+  this.render(hbs`
+    {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  let $dropdownContent = $('.ember-basic-dropdown-content');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+});
+
+test('The user can pass a custom `calculateInPlacePosition` function to customize how the component is placed on the screen when rendered "in place"', function(assert) {
+  assert.expect(4);
+  this.calculateInPlacePosition = function(triggerElement, dropdownElement, { dropdown }) {
+    assert.ok(dropdown, 'dropdown should be passed to the component');
+    return {
+      horizontalPosition: 'right',
+      verticalPosition: 'above',
+      style: {
+        top: 111,
+        right: 222
+      }
+    };
+  };
+  this.render(hbs`
+    {{#basic-dropdown calculateInPlacePosition=calculateInPlacePosition renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}
+        <div id="dropdown-is-opened"></div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  clickTrigger();
+  let $dropdownContent = $('.ember-basic-dropdown-content');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
 });
 
 // Customization of inner components
@@ -411,6 +557,72 @@ test('It allows to customize the content passing `contentComponent="my-custom-co
   `);
   clickTrigger();
   assert.equal(this.$('#my-custom-content').length, 1, 'The custom component has been rendered');
+});
+
+// State replacement
+test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown triggerComponent="trigger-with-did-receive-attrs" as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me');
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me Did open!');
+});
+
+test('The registerAPI is called with every mutation of the publicAPI object', function(assert) {
+  assert.expect(7);
+  let apis = [];
+  this.disabled = false;
+  this.registerAPI = function(api) {
+    apis.push(api);
+  };
+  this.render(hbs`
+    {{#basic-dropdown disabled=disabled registerAPI=registerAPI as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  clickTrigger();
+  clickTrigger();
+  assert.equal(apis.length, 3, 'There have been 3 changes in the state of the public API');
+  assert.equal(apis[0].isOpen, false, 'The component was closed');
+  assert.equal(apis[1].isOpen, true, 'Then it opened');
+  assert.equal(apis[2].isOpen, false, 'Then it closed again');
+  this.set('disabled', true);
+  assert.equal(apis.length, 4, 'There have been 4 changes now');
+  assert.equal(apis[2].disabled, false, 'the component was enabled');
+  assert.equal(apis[3].disabled, true, 'and it became disabled');
+});
+
+test('removing the dropdown in response to onClose does not error', function(assert) {
+  assert.expect(2);
+
+  this.isOpen = true;
+
+  this.onClose = () => {
+    this.set('isOpen', false);
+  }
+
+  this.render(hbs`
+    {{#if isOpen}}
+      {{#basic-dropdown onClose=onClose as |dropdown|}}
+        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+      {{/basic-dropdown}}
+    {{/if}}
+  `);
+
+  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 1, 'the dropdown is rendered');
+  clickTrigger();
+  clickTrigger();
+  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 0, 'the dropdown has been removed');
 });
 
 // test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {

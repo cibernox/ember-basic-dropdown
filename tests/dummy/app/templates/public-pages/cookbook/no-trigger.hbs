@@ -1,0 +1,44 @@
+<h1 class="doc-page-title">Usage without trigger</h1>
+
+<p>
+  Use the component without a trigger? Is that possible?
+</p>
+
+<p>
+  Yes, it is. You don't need to invoke the <code>\{{dropdown.trigger}}</code> component to make the dropdown work. The yielded
+  <code>dropdown</code> has actions you can invoke from any other item.
+</p>
+
+<p>
+  Sometimes you just cannot achieve what you want with this approach, so you need to step down and wire
+  things yourself.
+</p>
+
+<p>
+  If you invoke the <code>open</code> or <code>toggle</code> action from say, a button, the dropdown is going to open and will take
+  as the element to be anchored to element with <code>data-ebd-id="\{{dropdown.uniqueId}}-trigger"</code>.
+</p>
+
+<p>
+  What kind of things can you do with this?
+</p>
+
+<p>
+  By example, you can open or close the component when an item is clicked but make the dropdown attach itself to an entirely
+  different item in the page.
+</p>
+
+<p>
+  Let's create an input with a button. When that button is clicked the drodown will open below the input, not
+  not below the button that you clicked.
+</p>
+
+{{#code-sample hbs="no-trigger-1.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-sample}}
+
+<p>
+  Remember that almost always you will want to use the provided trigger because it takes care of
+  all the A11y, bindings and classes for you, but when you can't it's good to know that you can still
+  use your own markup and wire things togyether yourself.
+</p>

@@ -1,68 +1,30 @@
+// Basic dropdown
 @import 'ember-basic-dropdown';
 
-.dropdown-300px {
-  width: 300px;
-}
+@import 'variables';
+@import 'base';
+@import 'utilities';
+@import 'layout';
 
-.dropdown-180px {
-  width: 180px;
-}
+// Components
+@import 'components/main-header';
+@import 'components/main-footer';
+@import 'components/index';
+@import 'components/side-nav';
+@import 'components/docs';
+@import 'components/cookbook';
+@import 'components/code-sample';
+@import 'components/spinners';
 
-.ember-basic-dropdown-content {
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  img {
-    display: block;
-    width: 100%;
-  }
-}
+// Looks and feels for examples
+@import 'look-and-feels/animations';
+@import 'look-and-feels/bootstrap';
+@import 'look-and-feels/material';
 
-.ember-basic-dropdown-content.fade-in-dropdown {
-  transition: opacity .2s;
-  opacity: 0;
-  &.ember-basic-dropdown--transitioning-in, &.ember-basic-dropdown--transitioned-in {
-    opacity: 1;
-  }
-}
+// Demos
+@import 'demos/content-mouse-enter-leave';
+@import 'demos/position';
 
-@keyframes grow-bounce {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1.05);
-  }
-  90% {
-    transform: scale(0.97);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+// Easter egg
+@import 'brandification';
 
-@keyframes clip-grow {
-  0% { clip: rect(auto, auto, 0, auto) }
-  100% { clip: rect(auto, auto, 256px, auto) }
-}
-
-.ember-basic-dropdown-content.complex-animation-dropdown {
-  will-change: clip;
-  &.ember-basic-dropdown--transitioning-in {
-    animation: clip-grow .2s;
-  }
-  &.ember-basic-dropdown--transitioning-out {
-    animation: clip-grow .2s reverse;
-  }
-}
-
-.ember-basic-dropdown-content.bounce-animation-dropdown {
-  will-change: transform;
-  &.ember-basic-dropdown--transitioning-in {
-    animation: grow-bounce .25s;
-  }
-  &.ember-basic-dropdown--transitioning-out {
-    animation: grow-bounce .25s reverse;
-  }
-}

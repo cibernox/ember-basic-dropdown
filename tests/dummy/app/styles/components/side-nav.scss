@@ -1,0 +1,42 @@
+$side-nav-color: #777;
+.side-nav {
+  width: 200px;
+  color: $side-nav-color;
+  flex: 0 0 25%;
+  margin-right: 2rem;
+  @media only screen and (max-width: $medium-breakpoint) {
+    display: none;
+  }
+}
+.side-nav-header {
+  font-size: 18px;
+  font-weight: 300;
+  color: #777;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(153, 153, 153, 0.2);
+  &:not(:first-child) {
+    margin-top: 1.5rem;
+  }
+}
+.side-nav-link {
+  display: block;
+  color: #999;
+  padding-left: 16px;
+  &.active {
+    /* more styles in brandification */
+    padding-left: 16px - 3px;
+  }
+}
+
+.section-selector {
+  border: 1px solid gray;
+  width: 100%;
+  border-radius: 3px;
+  height: 30px;
+  font-size: 16px;
+}
+@media only screen and (min-width: $medium-breakpoint) {
+  .section-selector {
+    display: none;
+  }
+}

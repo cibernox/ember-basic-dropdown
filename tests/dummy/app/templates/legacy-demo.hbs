@@ -1,4 +1,6 @@
 <h2 id="title">Welcome to Ember</h2>
+<label for="body-scroll-toggler">Make body have horizontal scroll</label>
+<input type="checkbox" id="body-scroll-toggler" checked={{horizontalScrollEnabled}} onchange={{action "toggleHorizontalScroll"}}>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -12,8 +14,8 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-{{#basic-dropdown as |dropdown|}}
-  {{#dropdown.trigger tagName='input'}}{{/dropdown.trigger}}
+{{#basic-dropdown disabled=isDisabled registerAPI=(action "registerAPI") as |dropdown|}}
+  {{#dropdown.trigger tagName='input' id="this-is-the-id"}}{{/dropdown.trigger}}
   {{#dropdown.content}}
     <p>This is the content</p>
     <h3>It can contain anything.</h3>
@@ -23,6 +25,10 @@
     <input type="text">
   {{/dropdown.content}}
 {{/basic-dropdown}}
+<br>
+<button onclick={{action (mut isDisabled) (not isDisabled)}}>{{if isDisabled "enable" "disable"}}</button>
+<p>remoteController.disabled: {{remoteController.disabled}}</p>
+<p>remoteController.isOpen: {{remoteController.isOpen}}</p>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -37,17 +43,19 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-{{#basic-dropdown as |dropdown|}}
-  {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-  {{#dropdown.content class="bounce-animation-dropdown"}}
-    <p>This is the content</p>
-    <h3>It can contain anything.</h3>
-    {{#if showImage}}
-      <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
-    {{/if}}
-    <input type="text">
-  {{/dropdown.content}}
-{{/basic-dropdown}}
+<div style="margin: 10px 200px;">
+  {{#basic-dropdown horizontalPosition="center" as |dropdown|}}
+    {{#dropdown.trigger}}Click me!{{/dropdown.trigger}}
+    {{#dropdown.content class="bounce-animation-dropdown" overlay=true}}
+      <p>This is the content</p>
+      <h3>It can contain anything.</h3>
+      {{#if showImage}}
+        <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
+      {{/if}}
+      <input type="text">
+    {{/dropdown.content}}
+  {{/basic-dropdown}}
+</div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -63,12 +71,12 @@
 {{#basic-dropdown as |dropdown|}}
   {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
 
-  {{#dropdown.content}}
+  {{#dropdown.content overlay=true}}
 
-    {{#basic-dropdown renderInPlace=true as |nested|}}
+    {{#basic-dropdown as |nested|}}
       <p style="color: green;"><br>First level of the dropdpwn<br></p>
       {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
-      {{#nested.content}}
+      {{#nested.content overlay=true}}
         <p style="color: red;">
           <br>Second level of the second<br>
         </p>
@@ -83,6 +91,19 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+
+<h4>Dropdown in a box with enough padding to have to be rendered on the left sometimes</h4>
+<div style="margin-left: 600px">
+  {{#basic-dropdown as |dropdown|}}
+    {{#dropdown.trigger tagName="button"}}Click me{{/dropdown.trigger}}
+    {{#dropdown.content}}
+      <div style="width: 200px; border: 1px solid blue; margin: 10px;">
+        Look ma! I reposition automatically depending on the space around me
+      </div>
+    {{/dropdown.content}}
+  {{/basic-dropdown}}
+</div>
+
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -90,7 +111,7 @@
 
 <h4>Dropdown with an autofocused element inside</h4>
 <div style="margin: 80px">
-  {{#basic-dropdown renderInPlace=true as |dropdown|}}
+  {{#basic-dropdown as |dropdown|}}
     {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
     {{#dropdown.content}}
       <p>content</p>
@@ -100,6 +121,46 @@
   {{/basic-dropdown}}
 </div>
 
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+
+<h4>Dropdown rendered in place with <code>verticalPosition=above</code>, with changing content</h4>
+{{#basic-dropdown renderInPlace=true verticalPosition="above" onOpen=(action "startAddingContent") onClose=(action "stopAddingContent") as |dd|}}
+  {{#dd.trigger}}Click me and I'll open above{{/dd.trigger}}
+  {{#dd.content}}
+    <p>I told you!</p>
+    <p>I'm above.</p>
+    {{#each addedItems as |i|}}
+      <li>{{i}}</li>
+    {{/each}}
+  {{/dd.content}}
+{{/basic-dropdown}}
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+
+
+{{#basic-dropdown as |dd|}}
+  {{#dd.trigger onMouseDown=(action "returnFalse") tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+    Hover me
+  {{/dd.trigger}}
+  {{#dd.content onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+    Exit this are to close
+    <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
+  {{/dd.content}}
+{{/basic-dropdown}}
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>

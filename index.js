@@ -1,16 +1,20 @@
-/* jshint node: true */
+/* eslint-env node */
 'use strict';
 
 module.exports = {
   name: 'ember-basic-dropdown',
 
-  included: function(appOrAddon) {
-    var app = appOrAddon.app || appOrAddon;
+  included(appOrAddon) {
+    let app = appOrAddon.app || appOrAddon;
     if (!app.__emberBasicDropdownIncludedInvoked) {
       app.__emberBasicDropdownIncludedInvoked = true;
       this._super.included.apply(this, arguments);
-      // Don't include the precompiled css file if the user uses ember-cli-sass
-      if (!app.registry.availablePlugins['ember-cli-sass']) {
+
+      let hasSass = !!app.registry.availablePlugins['ember-cli-sass'];
+      let hasLess = !!app.registry.availablePlugins['ember-cli-less'];
+
+      // Don't include the precompiled css file if the user uses a supported CSS preprocessor
+      if (!hasSass && !hasLess) {
         if (!app.__skipEmberBasicDropdownStyles) {
           app.import('vendor/ember-basic-dropdown.css');
         }
@@ -18,8 +22,8 @@ module.exports = {
     }
   },
 
-  contentFor: function(type, config) {
-    var basicDropdownConfig = config['ember-basic-dropdown'];
+  contentFor(type, config) {
+    let basicDropdownConfig = config['ember-basic-dropdown'];
     if (!basicDropdownConfig || !basicDropdownConfig.destination) {
       if (config.environment !== 'test' && type === 'body-footer' && !config._emberBasicDropdownContentForInvoked) {
         config._emberBasicDropdownContentForInvoked = true;

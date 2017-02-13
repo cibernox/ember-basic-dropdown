@@ -21,30 +21,37 @@ export default Component.extend({
   classNames: ['ember-basic-dropdown-trigger'],
   role: 'button',
   tabindex: 0,
-  'aria-haspopup': true,
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'role',
+    'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
-    'dropdownId:aria-controls',
+    'dropdownId:aria-owns',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',
+    'aria-autocomplete',
+    'aria-activedescendant',
     'aria-disabled',
     'aria-expanded',
     'aria-haspopup',
     'aria-invalid',
     'aria-pressed',
-    'aria-required'
+    'aria-required',
+    'title'
   ],
 
   // Lifecycle hooks
   init() {
     this._super(...arguments);
     let dropdown = this.get('dropdown');
-    this.elementId = `ember-basic-dropdown-trigger-${dropdown._id}`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown._id}`;
+    this.uniqueId = `${dropdown.uniqueId}-trigger`;
+    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
+    this._mouseupHandler = () => {
+      self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+      $(self.document.body).removeClass('ember-basic-dropdown-text-select-disabled');
+    };
   },
 
   didInsertElement() {
@@ -55,19 +62,25 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
   },
 
   // CPs
   'aria-disabled': trueStringIfPresent('dropdown.disabled'),
   'aria-expanded': trueStringIfPresent('dropdown.isOpen'),
   'aria-invalid': trueStringIfPresent('ariaInvalid'),
-  'aria-pressed': trueStringIfPresent('dropdown.isOpen'),
+  'aria-pressed': trueStringIfPresent('ariaPressed'),
   'aria-required': trueStringIfPresent('ariaRequired'),
 
-  tabIndex: computed('dropdown.disabled', 'tabIndex', function() {
-    return this.get('dropdown.disabled') ? -1 : (this.get('tabindex') || 0);
-  }),
+  tabIndex: computed('dropdown.disabled', 'tabindex', function() {
+    let tabindex = this.get('tabindex');
+    if (tabindex === false || this.get('dropdown.disabled')) {
+      return undefined;
+    } else {
+      return tabindex || 0;
+    }
+  }).readOnly(),
 
   inPlaceClass: computed('renderInPlace', function() {
     if (this.get('renderInPlace')) {
@@ -91,33 +104,62 @@ export default Component.extend({
 
   // Actions
   actions: {
-    handleMousedown(e) {
+    handleMouseDown(e) {
+      if (this.skipHandleMousedown) {
+        // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+        // In those cases the touchdown handler is fired first, and it sets a flag to
+        // short-circuit the mouseup so the component is not opened and immediately closed.
+        this.skipHandleMousedown = false;
+        return;
+      }
       let dropdown = this.get('dropdown');
-      if (e && e.defaultPrevented || dropdown.disabled) {
+      if (dropdown.disabled) {
         return;
       }
       this.stopTextSelectionUntilMouseup();
+      // execute user-supplied onMouseDown function before default toggle action;
+      // short-circuit default behavior if user-supplied function returns `false`
+      let onMouseDown = this.get('onMouseDown');
+      if (onMouseDown && onMouseDown(dropdown, e) === false) {
+        return;
+      }
       dropdown.actions.toggle(e);
     },
 
     handleTouchEnd(e) {
+      this.skipHandleMousedown = true;
       let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
       }
       if (!this.hasMoved) {
+        // execute user-supplied onTouchEnd function before default toggle action;
+        // short-circuit default behavior if user-supplied function returns `false`
+        let onTouchEnd = this.get('onTouchEnd');
+        if (onTouchEnd && onTouchEnd(dropdown, e) === false) {
+          return;
+        }
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
+      self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+      // This next three lines are stolen from hammertime. This prevents the default
+      // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
+      // to simulate natural behaviour.
+      e.target.focus();
+      setTimeout(function() {
+        e.target.click();
+      }, 0);
+      e.preventDefault();
     },
 
-    handleKeydown(e) {
+    handleKeyDown(e) {
       let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
       }
-      let onKeydown = this.get('onKeydown');
-      if (onKeydown && onKeydown(dropdown, e) === false) {
+      let onKeyDown = this.get('onKeyDown');
+      if (onKeyDown && onKeyDown(dropdown, e) === false) {
         return;
       }
       if (e.keyCode === 13) {  // Enter
@@ -134,31 +176,23 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    this.get('appRoot').removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
-    let $appRoot = $(this.get('appRoot'));
-    let mouseupHandler = function() {
-      $appRoot[0].removeEventListener('mouseup', mouseupHandler, true);
-      $appRoot.removeClass('ember-basic-dropdown-text-select-disabled');
-    };
-    $appRoot[0].addEventListener('mouseup', mouseupHandler, true);
-    $appRoot.addClass('ember-basic-dropdown-text-select-disabled');
+    self.document.body.addEventListener('mouseup', this._mouseupHandler, true);
+    $(self.document.body).addClass('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
-        this.get('appRoot').addEventListener('touchmove', this._touchMoveHandler);
+        self.document.body.addEventListener('touchmove', this._touchMoveHandler);
       });
-      this.element.addEventListener('touchend', (e) => {
-        this.send('handleTouchEnd', e);
-        e.preventDefault(); // Prevent synthetic click
-      });
+      this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
-    this.element.addEventListener('mousedown', (e) => this.send('handleMousedown', e));
-    this.element.addEventListener('keydown', (e) => this.send('handleKeydown', e));
+    this.element.addEventListener('mousedown', (e) => this.send('handleMouseDown', e));
+    this.element.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   },
 
   addOptionalHandlers() {

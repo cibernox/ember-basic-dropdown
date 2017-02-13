@@ -1,0 +1,13 @@
+{{#basic-dropdown onOpen=(perform loadUsers) as |dd|}}
+  {{#dd.trigger class="trigger-bootstrap-feel"}}Click me {{/dd.trigger}}
+
+  {{#dd.content class="content-bootstrap-feel width-300"}}
+    {{#if loadUsers.isRunning}}
+      <div class="circular-loader"></div>
+    {{else}}
+      {{#each loadUsers.lastSuccessful.value as |user|}}
+        <p>{{user.name}} - {{user.assignment}}</p>
+      {{/each}}
+    {{/if}}
+  {{/dd.content}}
+{{/basic-dropdown}}

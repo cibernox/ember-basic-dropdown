@@ -1,10 +1,16 @@
 {{#if dropdown.isOpen}}
-  {{#basic-dropdown/wormhole to=to renderInPlace=renderInPlace didInsert=(action "didOpen") willRemove=(action "willClose")}}
+  {{#ember-wormhole to=to renderInPlace=renderInPlace}}
+    {{#if overlay}}
+      <div class="ember-basic-dropdown-overlay"></div>
+    {{/if}}
     <div
       id={{dropdownId}}
-      class="ember-basic-dropdown-content {{class}} {{if renderInPlace 'ember-basic-dropdown-content--in-place'}} {{if hPosition (concat 'ember-basic-dropdown-content--' hPosition)}} {{if vPosition (concat 'ember-basic-dropdown-content--' vPosition)}} {{animationClass}}"
+      class="ember-basic-dropdown-content {{class}} {{defaultClass}} {{if renderInPlace 'ember-basic-dropdown-content--in-place'}} {{if hPosition (concat 'ember-basic-dropdown-content--' hPosition)}} {{if vPosition (concat 'ember-basic-dropdown-content--' vPosition)}} {{animationClass}}"
+      style={{style}}
       dir={{dir}}>
       {{yield}}
     </div>
-  {{/basic-dropdown/wormhole}}
+  {{/ember-wormhole}}
+{{else}}
+  <div id={{dropdownId}} class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
 {{/if}}

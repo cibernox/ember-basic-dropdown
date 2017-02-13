@@ -1,3 +1,220 @@
+# 0.24.1
+- [ENHANCEMENT] Bind `aria-autocomplete` and `aria-activedescendant`.
+- [BUGFIX] Check if the component is destroyed after calling the `onClose` action, as it 
+  might have been removed.
+
+# 0.24.0
+- [BREAKING] It is a problem for a11y to have `aria-owns/controls` to an element that it's not
+  in the DOM, so now there is a stable div with the right ID that gets moved to the root 
+  of the body when the component opens.
+- [BUGFIX] Fix `clickDropdown` test helper when the given selector is already the selector
+  of the trigger.
+
+# 0.23.0
+- [BREAKING] Don't display `aria-pressed` when the component is opened. The attribute is not
+  present by default, but can be bound from the outside.
+- [BREAKING] Don't display `aria-haspopup` by default, but display it if passed in a truthy value.
+- [BREAKING] Use `aria-owns` instead of `aria-controls` to link trigger and content together.
+
+# 0.22.3
+- [FEATURE] The `dropdown.content` now accepts a `defaultClass` property as a secondary way
+  of adding a class in contextual components that doesn't pollute the `class` property.
+
+# 0.22.2
+- [FEATURE] `clickTrigger` test helper also works when the given selector is the one of 
+  the trigger (before it had to be an ancestor of the trigger).
+
+# 0.22.1
+- [FEATURE] It accepts an `onInit` action passed from the outside. Private-ish for now.
+
+# 0.22.0
+- [FEATURE/BREAKING] Allow to customize the ID of the trigger component. Now the dropdown
+  uses a new `data-ebd-id` attribute for query the trigger reliably. Unlikely to be
+  breaking tho.
+
+# 0.21.0
+- [FEATURE] Add LESS support, on pair with the SASS one.
+- [FEATURE] Added `$ember-basic-dropdown-overlay-pointer-events` SASS variable.
+
+# 0.20.0
+- [BREAKING CHANGE] Renamed `onKeydown` event to `onKeyDown` to be consistent with the naming
+  of every other action in the component
+
+# 0.19.4
+- [FEATURE] Allow to pass `onMouseDown` and `onTouchEnd` options actions to subscribe to those
+  events. If the handler for those events returns `false`, the default behaviour (toggle the component)
+  is prevented.
+
+# 0.19.3
+- [FEATURE] Allow to pass `onMouseEnter` and `onMouseLeave` actions to the content, like
+  we allow with the trigger.
+
+# 0.19.2
+- [BUGFIX] Prevent the `touchend` that opens the trigger to trigger a click on the dropdown's content
+  when this appears over the trigger. Copied from hammertime.
+
+# 0.19.1
+- [CLEANUP] Update to `ember-cli-sass` ^6.0.0 and remove `node-sass` from dependencies.
+
+# 0.19.0
+- [BUGFIX] Call `registerAPI` will `null` on `willDestroy` to avoid memory leaks.
+
+# 0.18.1
+- [ENHANCEMENT] Pass the dropdown itself as an option to `calculatePosition` and `calculateInPlacePosition`,
+  so users have pretty much total freedom on that function.
+
+# 0.18.0
+- [ENHANCEMENT] Allow downdowns rendered in place to be positioned above the trigger,
+  and also to customize how they are positioned.
+
+# 0.17.4
+- [ENHANCEMENT] Update to ember-wormhole 0.5.1, which maximises Glimmer2 compatibility
+
+# 0.17.3
+- [BUGFIX] The fix in 0.17.2 that removed `e.preventDefault()` cause both `touchend` and a synthetic `mousedown`
+  events to be fired, which basically made the component to be opened and immediatly closed in touch devises.
+
+# 0.17.2
+- [BUGFIX] Remove `e.preventDefault()` that caused inputs inside the trigger to not be focusable in touch screens
+
+# 0.17.1
+- [BUGFIX] The positioning strategy takes into account the horizontal scroll and it's generally smarter.
+- [BUGFIX] Fixed bug when a dropdown with `horizontalPosition="auto"` passed from left to right, it keeped
+  both properties, modifiying its width implicitly.
+
+# 0.17.0
+- [BREAKING] The object returned by `calculatePosition` now contains the offsets
+  of the dropdown as numbers instead of strings with "px" as unit. This makes easier for people
+  to modify those values in their own functions.
+
+# 0.16.4
+- [ENHANCEMENT] The default `calculatePosition` method is now inside `addon/utils/calculate-position`, so users can import it
+  to perhaps reuse some of the logic in their own positioning functions.
+
+# 0.16.3
+- [BUGFIX] Add forgotten `uniqueId` property to the publicAPI yielded to the block. The `publicAPI` object passes to actions had it
+  but the one in the block didn't.
+
+# 0.16.2
+- [ENHANCEMENT] Allows to customize how the dropdown is positioned by passing a `calculatePosition` function.
+
+# 0.16.1
+- [BUGFIX] Remove automatic transition detection. It never worked properly. It's fundamentally flawed. CSS animations are OK tho.
+
+# 0.16.0
+- [TESTING] Ensure the addon is tested in 2.4LTS
+- [BUGFIX] Fix bug in versions of ember <= 2.6
+
+# 0.16.0-beta.6
+- [BUGFIX] Remove `ember-get-config` entirely. It turns that there is a less hacky way of doing this.
+
+# 0.16.0-beta.5
+- [BUGFIX] Update `ember-get-config` to fix Fastboot compatibility.
+
+# 0.16.0-beta.4
+- [BUGFIX] Guard agains a possible action invocation after the component has been destroyed.
+
+# 0.16.0-beta.3
+- [BUGFIX] Fix broken `horizontalPosition="center"`.
+
+# 0.16.0-beta.2
+- [BUGFIX] Bind `title` attribute in the trigger.
+
+# 0.16.0-beta.1
+- [BUGFIX] Revert glimmer2 compatibility
+
+# 0.16.0-beta.0
+- [BUGFIX] Compatibility with glimmer2.
+
+# 0.15.0-beta.6
+- [BUGFIX] Fix bug detaching event in IE10.
+
+# 0.15.0-beta.5
+- [BUGFIX] The correct behaviour when a dropdown is disabled or the tabindex is `false` should be
+  to not have `tabindex` attribute, not to have a `tabindex` of -1.
+
+# 0.15.0-beta.4
+- [BUGFIX] Don't import `guidFor` from the shims.
+
+# 0.15.0-beta.3
+- [BUGFIX] Preventing the default behaviour from an event doesn't prevent the component from doing
+  the usual thing.
+
+# 0.15.0-beta.2
+- [BUGFIX] Fix edge case that made the component leak memory  if the component is removed after a
+  mousedown but before the mouseup events of the trigger. This situation probably almost impossible
+  outside testing.
+
+# 0.15.0-beta.1
+- [ENHANCEMENT] The dropdown can have an overlay element if it receives `overlay=true`.
+
+# 0.15.0-beta.0
+- [BREAKING] `dropdown.uniqueId` is not a string like `ember1234` instead of the number `1234`.
+
+# 0.14.0-beta.1
+- [BUGFIX] Consider the scope of the select the entire body, even if the app is rendered inside an
+  specific element.
+
+# 0.14.0-beta.0
+- [BREAKING] Rename the `dropdown._id` to `dropdown.uniqueId` and promote it to public API.
+
+# 0.13.0-beta.6
+- [BUGFIX] Make the first reposition faster by applying the styles directly instead of using bindings.
+  This allows the dropdown to have components with autofocus inside without messing with the scroll.
+
+# 0.13.0-beta.5
+- [BUGFIX] Enabling the component after it has been disabled should trigger the `registerAPI` action.
+
+# 0.13.0-beta.4
+- [BUGFIX] Fix bug when the consumer app has a version of `ember-cli-shims` older than 0.1.3
+
+# 0.13.0-beta.3
+- [BUGFIX] Stop importing `getOwner` from the shim, since many people doesn't have shims up to date
+  and it's trolling them.
+
+# 0.13.0-beta.2
+- [BUGFIX] Render more than one component with `renderInPlace=true` cases an exception and after that
+  mayhem happens.
+
+# 0.13.0-beta.1
+- [BUGFIX] Use `requestAnimationFrame` to wait one frame before checking if the component is being
+  animated. This makes this component fully compatible with Glimmer 2.
+
+# 0.13.0-beta.0
+- [ENHANCEMENT/BREAKING] Now the publicAPI object received sub-components and passed to actions is
+  immutable. That means that each change in the internal state of this component will generate a new
+  object. This allows userts to get rid of `Ember.Observe` to use some advanced patterns and makes
+  possible some advanced time-travel debugging.
+
+# 0.12.0-beta.26
+- [ENHANCEMENT] Allow to customize the classes used for animations with `transitioningInClass`,
+  `transitionedInClass` and `transitioningOutClass`.
+- [BUGFIX] Property detect space on the right when `horizontalPosition="auto"` (the default) and
+  position the element anchored to the right of the dropdown if there is no enough space for it
+  to fit.
+
+# 0.12.0-beta.23
+- [BUGFIX] Correctly remove touchmove event on touch ends.
+- [BUGFIX] Prevent DOM access in fastboot mode.
+
+# 0.12.0-beta.22
+- [ENHANCEMENT] If the component gets disabled while it's opened, it is closed automatically.
+
+# 0.12.0-beta.21
+- [ENHANCEMENT] Expose `clickDropdown` and `tapDropdown` acceptance helpers.
+- [BUGFIX] Allow to nest a dropdown inside another dropdown without the second being rendered in place.
+
+# 0.12.0-beta.20
+- [BUGFIX] Apply enter animation after render. Otherwise it take place before the component
+  gains the `--above` or `--below` class, which is needed to know how to animate.
+
+# 0.12.0-beta.19
+- [BUGFIX] Allow `to` property of the content component to be undefined
+
+# 0.12.0-beta.18
+- [BUGFIX] Fix positioning of dropdowns rendered in-place due to a typo
+
+# 0.12.0-beta.17
 - [BUGFIX] Ensure the `disabled` property of the public API is updated properly
 
 # 0.12.0-beta.13
