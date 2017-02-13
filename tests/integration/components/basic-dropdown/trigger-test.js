@@ -687,3 +687,20 @@ test('A user-supplied onKeyDown action, returning `false`, will prevent the defa
   `);
   fireKeydown('.ember-basic-dropdown-trigger', 13); // Enter
 });
+
+test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', function(assert) {
+  assert.expect(2);
+  this.dropdown = {
+    actions: {
+      uniqueId: 123,
+      toggle(e) {
+        assert.ok(true, 'The `toggle()` action has been fired');
+        assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+      }
+    }
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown isTouchDevice=true}}<svg class="trigger-child-svg">Click me</svg>{{/basic-dropdown/trigger}}
+  `);
+  tapTrigger('', {triggerChildSelector: '.trigger-child-svg'});
+});
