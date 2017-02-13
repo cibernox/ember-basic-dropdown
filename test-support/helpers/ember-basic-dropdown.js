@@ -40,6 +40,15 @@ export function nativeClick(selector, options = {}) {
   run(() => element.dispatchEvent(click));
 }
 
+export function nativeTap(selector, options = {}) {
+  let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
+  Object.keys(options).forEach(key => touchStartEvent[key] = options[key]);
+  run(() => document.querySelector(selector).dispatchEvent(touchStartEvent));
+  let touchEndEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
+  Object.keys(options).forEach(key => touchEndEvent[key] = options[key]);
+  run(() => document.querySelector(selector).dispatchEvent(touchEndEvent));
+}
+
 export function clickTrigger(scope, options = {}) {
   let selector = '.ember-basic-dropdown-trigger';
   if (scope) {
@@ -58,12 +67,7 @@ export function tapTrigger(scope, options = {}) {
   if (scope) {
     selector = scope + ' ' + selector;
   }
-  let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
-  Object.keys(options).forEach(key => touchStartEvent[key] = options[key]);
-  run(() => document.querySelector(selector).dispatchEvent(touchStartEvent));
-  let touchEndEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
-  Object.keys(options).forEach(key => touchEndEvent[key] = options[key]);
-  run(() => document.querySelector(selector).dispatchEvent(touchEndEvent));
+  nativeTap(selector, options);
 }
 
 export function fireKeydown(selector, k) {
