@@ -148,7 +148,7 @@ export default Component.extend({
       // to simulate natural behaviour.
       e.target.focus();
       setTimeout(function() {
-        e.target.click();
+        $(e.target).click();
       }, 0);
       e.preventDefault();
     },
