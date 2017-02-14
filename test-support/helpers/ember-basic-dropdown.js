@@ -63,7 +63,7 @@ export function clickTrigger(scope, options = {}) {
 }
 
 export function tapTrigger(scope, options = {}) {
-  let selector = `.ember-basic-dropdown-trigger ${options.triggerChildSelector || ''}`.trim();
+  let selector = '.ember-basic-dropdown-trigger';
   if (scope) {
     selector = scope + ' ' + selector;
   }

@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, tapTrigger, fireKeydown } from '../../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger, fireKeydown, nativeTap } from '../../../helpers/ember-basic-dropdown';
 import run from 'ember-runloop';
 import set from 'ember-metal/set';
 
@@ -702,5 +702,5 @@ test('Tapping an SVG inside of the trigger invokes the toggle action on the drop
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown isTouchDevice=true}}<svg class="trigger-child-svg">Click me</svg>{{/basic-dropdown/trigger}}
   `);
-  tapTrigger('', {triggerChildSelector: '.trigger-child-svg'});
+  nativeTap('.trigger-child-svg');
 });
