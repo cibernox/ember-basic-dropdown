@@ -1,3 +1,6 @@
+# 0.24.2
+- [BUGFIX] Fix synthetic click on the trigger when happens in SVG items.
+
 # 0.24.1
 - [ENHANCEMENT] Bind `aria-autocomplete` and `aria-activedescendant`.
 - [BUGFIX] Check if the component is destroyed after calling the `onClose` action, as it 
