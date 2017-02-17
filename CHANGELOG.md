@@ -1,3 +1,6 @@
+# 0.24.4
+- [ENHANCEMENT] The trigger component now has a bound style property.
+
 # 0.24.3
 - [ENHANCEMENT] Rely on the new `ember-native-dom-helpers` to fire native events instead 
   or rolling out my own solution.

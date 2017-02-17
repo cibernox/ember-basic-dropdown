@@ -24,6 +24,7 @@ export default Component.extend({
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'role',
+    'style',
     'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
     'dropdownId:aria-owns',
