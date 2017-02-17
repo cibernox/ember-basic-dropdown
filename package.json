@@ -49,7 +49,7 @@
     "ember-font-awesome": "^3.0.2",
     "ember-href-to": "1.11.0",
     "ember-load-initializers": "^0.6.0",
-    "ember-native-dom-helpers": "^0.1.2",
+    "ember-native-dom-helpers": "^0.1.3",
     "ember-pagefront": "0.11.2",
     "ember-resolver": "^2.0.3",
     "ember-source": "^2.12.0-beta.1",
