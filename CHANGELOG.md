@@ -1,3 +1,7 @@
+# 0.24.3
+- [ENHANCEMENT] Rely on the new `ember-native-dom-helpers` to fire native events instead 
+  or rolling out my own solution.
+
 # 0.24.2
 - [BUGFIX] Fix synthetic click on the trigger when happens in SVG items.
 
