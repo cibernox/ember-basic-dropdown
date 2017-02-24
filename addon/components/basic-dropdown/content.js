@@ -5,6 +5,7 @@ import Ember from 'ember';
 import computed from 'ember-computed';
 import { join, scheduleOnce } from 'ember-runloop';
 import { htmlSafe } from 'ember-string';
+import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
 const { testing, getOwner } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
@@ -37,6 +38,8 @@ export default Component.extend({
   transitioningInClass: 'ember-basic-dropdown--transitioning-in',
   transitionedInClass: 'ember-basic-dropdown--transitioned-in',
   transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
+
+  _contentTagName: fallbackIfUndefined('div'),
 
   // Lifecycle hooks
   init() {

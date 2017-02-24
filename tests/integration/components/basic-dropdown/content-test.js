@@ -143,6 +143,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
 test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place' , function(assert) {
   assert.expect(0);
   this.dropdown1 = {
+    uniqueId: 'ember1',
     isOpen: true,
     actions: {
       close() {
@@ -154,6 +155,7 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
     }
   };
   this.dropdown2 = {
+    uniqueId: 'ember2',
     isOpen: true,
     actions: {
       close() {
