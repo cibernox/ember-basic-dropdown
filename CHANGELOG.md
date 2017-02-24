@@ -1,8 +1,11 @@
+# 0.24.5
+- [INTERNAL] Use `ember-native-dom-helpers`.
+
 # 0.24.4
 - [ENHANCEMENT] The trigger component now has a bound style property.
 
 # 0.24.3
-- [ENHANCEMENT] Rely on the new `ember-native-dom-helpers` to fire native events instead 
+- [ENHANCEMENT] Rely on the new `ember-native-dom-helpers` to fire native events instead
   or rolling out my own solution.
 
 # 0.24.2
@@ -10,12 +13,12 @@
 
 # 0.24.1
 - [ENHANCEMENT] Bind `aria-autocomplete` and `aria-activedescendant`.
-- [BUGFIX] Check if the component is destroyed after calling the `onClose` action, as it 
+- [BUGFIX] Check if the component is destroyed after calling the `onClose` action, as it
   might have been removed.
 
 # 0.24.0
 - [BREAKING] It is a problem for a11y to have `aria-owns/controls` to an element that it's not
-  in the DOM, so now there is a stable div with the right ID that gets moved to the root 
+  in the DOM, so now there is a stable div with the right ID that gets moved to the root
   of the body when the component opens.
 - [BUGFIX] Fix `clickDropdown` test helper when the given selector is already the selector
   of the trigger.
@@ -31,7 +34,7 @@
   of adding a class in contextual components that doesn't pollute the `class` property.
 
 # 0.22.2
-- [FEATURE] `clickTrigger` test helper also works when the given selector is the one of 
+- [FEATURE] `clickTrigger` test helper also works when the given selector is the one of
   the trigger (before it had to be an ancestor of the trigger).
 
 # 0.22.1
