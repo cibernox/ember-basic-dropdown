@@ -2,6 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import run from 'ember-runloop';
+import { find, click, triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/content', {
   integration: true
@@ -14,9 +15,9 @@ test('If the dropdown is open renders the given block in a div with class `ember
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content');
-  assert.equal($content.text().trim(), 'Lorem ipsum', 'It contains the given block');
-  assert.equal($content.parent()[0].id, 'ember-testing', 'It is rendered in the #ember-testing div');
+  let content = find('.ember-basic-dropdown-content');
+  assert.equal(content.textContent.trim(), 'Lorem ipsum', 'It contains the given block');
+  assert.equal(content.parentElement.id, 'ember-testing', 'It is rendered in the #ember-testing div');
 });
 
 test('If the dropdown is closed, nothing is rendered', function(assert) {
@@ -118,10 +119,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
     {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
-  run(() => {
-    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-    this.$('#other-div')[0].dispatchEvent(event);
-  });
+  click('#other-div');
 });
 
 test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', function(assert) {
@@ -139,11 +137,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
   `);
-
-  run(() => {
-    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-    $('#inside-div')[0].dispatchEvent(event);
-  });
+  click('#inside-div');
 });
 
 test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place' , function(assert) {
@@ -180,10 +174,7 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
     {{/basic-dropdown/content}}
   `);
 
-  run(() => {
-    let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-    $('#nested-content-div')[0].dispatchEvent(event);
-  });
+  click('#nested-content-div');
 });
 
 // Touch gestures while the component is opened
@@ -289,10 +280,7 @@ test('If it receives an `onMouseEnter` action, it is invoked if a mouseenter eve
       Content
     {{/basic-dropdown/content}}
   `);
-  run(() => {
-    let event = new window.Event('mouseenter', { bubbles: true, cancelable: true, view: window });
-    $('.ember-basic-dropdown-content')[0].dispatchEvent(event);
-  });
+  triggerEvent('.ember-basic-dropdown-content', 'mouseenter');
 });
 
 test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave event is fired on the content', function(assert) {
@@ -308,10 +296,7 @@ test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave eve
       Content
     {{/basic-dropdown/content}}
   `);
-  run(() => {
-    let event = new window.Event('mouseleave', { bubbles: true, cancelable: true, view: window });
-    $('.ember-basic-dropdown-content')[0].dispatchEvent(event);
-  });
+  triggerEvent('.ember-basic-dropdown-content', 'mouseleave');
 });
 
 // Repositining
