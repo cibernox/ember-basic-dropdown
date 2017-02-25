@@ -192,7 +192,80 @@
 
 <h2>Content</h2>
 
-<p>Coming soon</p>
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>class</td>
+      <td>String</td>
+      <td>The class of the dropdown's content</td>
+    </tr>
+    <tr>
+      <td>to</td>
+      <td>String</td>
+      <td>The selector of a DOM element where the dropdown will be rendered using ember-wormhole</td>
+    </tr>
+    <tr>
+      <td>onFocusIn</td>
+      <td>Function</td>
+      <td>Function invoked when the <code>focusin</code> even is fired withing the component</td>
+    </tr>
+    <tr>
+      <td>onFocusOut</td>
+      <td>Function</td>
+      <td>Function invoked when the <code>focusout</code> even is fired withing the component</td>
+    </tr>
+    <tr>
+      <td>onMouseEnter</td>
+      <td>Function</td>
+      <td>Function invoked when the <code>mouseenter</code> even is fired withing the component</td>
+    </tr>
+    <tr>
+      <td>onMouseLeave</td>
+      <td>Function</td>
+      <td>Function invoked when the <code>mouseleave</code> even is fired withing the component</td>
+    </tr>
+    <tr>
+      <td>animationEnabled</td>
+      <td>boolean</td>
+      <td>Flag to determine whether the content will allow CSS animations. Defaults to true</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Public API's methods and actions</h2>
+
+<p>
+  All actions and subcomponents of Ember Basic Dropdown receive a single object containing
+  the entirety of the public API of the component.
+</p>
+
+<p>
+  Any non underscored property or action of this object can be considered public and it's
+  not going to suffed changes without causing a major version bump, so if you are building
+  another component on top of Ember Basic Dropdown, you know that you are safe as long as
+  you use this object.
+</p>
+
+<pre>
+{
+  uniqueId: &lt;string&gt;,             // Contains the unique of this instance of EmberPowerSelect. It's of the form `ember1234`.
+  disabled: &lt;boolean&gt;,            // Truthy if the component received `disabled=true`
+  isOpen: &lt;boolean&gt;,              // Truthy if the component is currently opened
+  actions: {
+    close() { ... },              // Closes the dropdown
+    open() { ... },               // Opens the dropdown
+    reposition() { ... },         // Repositions the dropdown (noop if renderInPlace=true)
+    toggle() { ... }              // Toggles the dropdown
+  }
+}
+</pre>
 
 <div class="doc-page-nav">
   <a href={{href-to 'public-pages.docs.test-helpers'}} class="doc-page-nav-link-prev">&lt; Test helpers</a>
