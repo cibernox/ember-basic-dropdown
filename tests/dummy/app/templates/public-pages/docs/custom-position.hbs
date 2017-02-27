@@ -37,6 +37,7 @@
   <li><code>previousVerticalPosition</code>: The string with the vertical position the component had in the last time it was repositioned. If you don't provide any or you pass <code>verticalPosition="auto"</code> it will be <code>"left"</code> or <code>"right"</code> depending on the space around the trigger</li>
   <li><code>verticalPosition</code>: The string with the current vertical position. If you don't provide any or you pass <code>verticalPosition="auto"</code> it will be <code>"above"</code> or <code>"below"</code> depending on the space around the trigger</li>
   <li><code>matchTriggerWidth</code>: Boolean that express the intention of the developer to make the dropdown have the same width as the trigger</li>
+  <li><code>renderInPlace</code>: Boolean that express if the content will be rendered in place. Useful since very usually the reposition logic must be entirely different</li>
 </ul>
 
 <p>
@@ -73,14 +74,6 @@
   The key concept that you need to extract is that all the machinery to position the content
   and reposition when the content, scroll or screen changes is handled by the dropdown, so
   the only missing piece you have to provide is the function that calculates the cordinates.
-</p>
-
-<h3><code>calculateInPlacePosition</code></h3>
-
-<p>
-  This second method is identical to the first one, but it will be used in components that
-  are rendered in place. You can supply both and the dropdown will use the right one depending
-  on the value of the <code>renderInPlace</code> option.
 </p>
 
 <div class="doc-page-nav">

@@ -1,27 +1,37 @@
 import $ from 'jquery';
+
 /**
   Function used to calculate the position of the content of the dropdown.
   @public
   @method calculatePosition
   @param {DomElement} trigger The trigger of the dropdown
-  @param {DomElement} dropdown The content of the dropdown
+  @param {DomElement} content The content of the dropdown
   @param {Object} options The directives that define how the position is calculated
     - {String} horizantalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
     - {String} verticalPosition How the users want the dropdown to be positioned vertically. Values: above | below
     - {Boolean} matchTriggerWidth If the user wants the width of the dropdown to match the width of the trigger
     - {String} previousHorizantalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
     - {String} previousVerticalPosition How the dropdown was positioned for the last time. Same values than verticalPosition, but can be null the first time.
+    - {Boolean} renderInPlace Boolean flat that is truthy if the component is rendered in place.
   @return {Object} How the component is going to be positioned.
     - {String} horizantalPosition The new horizontal position.
     - {String} verticalPosition The new vertical position.
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
-export function calculatePosition(trigger, dropdown, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
+export default function(_, _2, { renderInPlace }) {
+  if (renderInPlace) {
+    return calculateInPlacePosition(...arguments);
+  } else {
+    return calculateWormholedPosition(...arguments);
+  }
+}
+
+export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
   // Collect information about all the involved DOM elements
   let $window = $(self.window);
   let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-  let { height: dropdownHeight, width: dropdownWidth } = dropdown.getBoundingClientRect();
+  let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
   let viewportWidth = self.window.innerWidth;
   let style = {};
 
@@ -86,18 +96,18 @@ export function calculatePosition(trigger, dropdown, { horizontalPosition, verti
   return { horizontalPosition, verticalPosition, style };
 }
 
-export function calculateInPlacePosition(trigger, dropdown, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
+export function calculateInPlacePosition(trigger, content, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
   let dropdownRect;
   let positionData = {};
   if (horizontalPosition === 'auto') {
     let triggerRect = trigger.getBoundingClientRect();
-    dropdownRect = dropdown.getBoundingClientRect();
+    dropdownRect = content.getBoundingClientRect();
     let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
     positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
   }
   if (verticalPosition === 'above') {
     positionData.verticalPosition = verticalPosition;
-    dropdownRect = dropdownRect || dropdown.getBoundingClientRect();
+    dropdownRect = dropdownRect || content.getBoundingClientRect();
     positionData.style = { top: -dropdownRect.height };
   }
   return positionData;
