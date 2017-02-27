@@ -504,21 +504,32 @@ test('The user can pass a custom `calculatePosition` function to customize how t
   assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
 });
 
-test('The user can pass a custom `calculateInPlacePosition` function to customize how the component is placed on the screen when rendered "in place"', function(assert) {
+test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', function(assert) {
   assert.expect(4);
-  this.calculateInPlacePosition = function(triggerElement, dropdownElement, { dropdown }) {
+  this.calculatePosition = function(triggerElement, dropdownElement, { dropdown, renderInPlace }) {
     assert.ok(dropdown, 'dropdown should be passed to the component');
-    return {
-      horizontalPosition: 'right',
-      verticalPosition: 'above',
-      style: {
-        top: 111,
-        right: 222
-      }
-    };
+    if (renderInPlace) {
+      return {
+        horizontalPosition: 'right',
+        verticalPosition: 'above',
+        style: {
+          top: 111,
+          right: 222
+        }
+      };
+    } else {
+      return {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        style: {
+          top: 333,
+          right: 444
+        }
+      };
+    }
   };
   this.render(hbs`
-    {{#basic-dropdown calculateInPlacePosition=calculateInPlacePosition renderInPlace=true as |dropdown|}}
+    {{#basic-dropdown calculatePosition=calculatePosition renderInPlace=true as |dropdown|}}
       {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
       {{#dropdown.content}}
         <div id="dropdown-is-opened"></div>

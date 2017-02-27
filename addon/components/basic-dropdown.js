@@ -5,7 +5,7 @@ import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
-import { calculatePosition, calculateInPlacePosition } from '../utils/calculate-position';
+import calculatePosition from '../utils/calculate-position';
 const { guidFor } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
@@ -35,7 +35,6 @@ export default Component.extend({
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
   calculatePosition: fallbackIfUndefined(calculatePosition),
-  calculateInPlacePosition: fallbackIfUndefined(calculateInPlacePosition),
   classNames: ['ember-basic-dropdown'],
   top: null,
   left: null,
@@ -161,10 +160,9 @@ export default Component.extend({
       return;
     }
 
-    let calculatePosition = this.get(this.get('renderInPlace') ? 'calculateInPlacePosition' : 'calculatePosition');
-    let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition');
+    let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = calculatePosition(triggerElement, dropdownElement, options);
+    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 

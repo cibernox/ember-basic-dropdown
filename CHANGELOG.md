@@ -1,3 +1,9 @@
+- [BREAKING] Unify `calculatePosition` and `calculateInPlacePosition`. Now the function receives
+  an `renderInPlace` flag among its options, and based on that it uses a different logic.
+  This reduces the public API surface. This new function is the default export of `/utils/calculate-position`.
+  The individual functions used to reposition when rendered in the wormhole or in-place are
+  available as named exports: `calculateWormholedPosition` and `calculateInPlacePosition`
+
 # 0.24.5
 - [INTERNAL] Use `ember-native-dom-helpers`.
 
