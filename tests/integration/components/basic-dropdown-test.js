@@ -485,7 +485,9 @@ test('The user can pass a custom `calculatePosition` function to customize how t
       verticalPosition: 'above',
       style: {
         top: 111,
-        right: 222
+        right: 222,
+        width: 100,
+        height: 110
       }
     };
   };
@@ -501,7 +503,7 @@ test('The user can pass a custom `calculatePosition` function to customize how t
   let $dropdownContent = $('.ember-basic-dropdown-content');
   assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
   assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;width: 100px;height: 110px', 'The style attribute is the expected one');
 });
 
 test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', function(assert) {

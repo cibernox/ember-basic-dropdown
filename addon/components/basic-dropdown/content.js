@@ -84,9 +84,9 @@ export default Component.extend({
     }
   }),
 
-  style: computed('top', 'left', 'right', 'width', function() {
+  style: computed('top', 'left', 'right', 'width', 'height', function() {
     let style = '';
-    let { top, left, right, width } = this.getProperties('top', 'left', 'right', 'width');
+    let { top, left, right, width, height } = this.getProperties('top', 'left', 'right', 'width', 'height');
     if (top) {
       style += `top: ${top};`;
     }
@@ -97,7 +97,10 @@ export default Component.extend({
       style += `right: ${right};`;
     }
     if (width) {
-      style += `width: ${width}`;
+      style += `width: ${width};`;
+    }
+    if (height) {
+      style += `height: ${height}`;
     }
     if (style.length > 0) {
       return htmlSafe(style);

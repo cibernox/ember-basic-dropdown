@@ -40,6 +40,7 @@ export default Component.extend({
   left: null,
   right: null,
   width: null,
+  height: null,
 
   // Lifecycle hooks
   init() {
@@ -129,7 +130,7 @@ export default Component.extend({
     if (this.get('isDestroyed')) {
       return;
     }
-    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null });
+    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.updateState({ isOpen: false });
     if (skipFocus) {
@@ -183,6 +184,9 @@ export default Component.extend({
       }
       if (positions.style.width !== undefined) {
         changes.width = `${positions.style.width}px`;
+      }
+      if (positions.style.height !== undefined) {
+        changes.height = `${positions.style.height}px`;
       }
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
