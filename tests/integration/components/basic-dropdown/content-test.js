@@ -1,6 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import $ from 'jquery';
 import run from 'ember-runloop';
 import { find, click, triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
 
@@ -26,8 +25,7 @@ test('If the dropdown is closed, nothing is rendered', function(assert) {
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content');
-  assert.equal($content.length, 0, 'Nothing is rendered');
+  assert.notOk(find('.ember-basic-dropdown-content'), 'Nothing is rendered');
 });
 
 test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', function(assert) {
@@ -44,9 +42,9 @@ test('If it receives `renderInPlace=true`, it is rendered right here instead of 
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = this.$('.ember-basic-dropdown-content');
-  assert.equal($content.length, 1, 'It is rendered in the spot');
-  assert.notEqual($content.parent()[0].id, 'ember-testing', 'It isn\'t rendered in the #ember-testing div');
+  let content = find('.ember-basic-dropdown-content');
+  assert.ok(content, 'It is rendered in the spot');
+  assert.notEqual(content.parentElement.id, 'ember-testing', 'It isn\'t rendered in the #ember-testing div');
 });
 
 test('If it receives `to="foo123"`, it is rendered in the element with that ID', function(assert) {
@@ -56,9 +54,9 @@ test('If it receives `to="foo123"`, it is rendered in the element with that ID',
     <div id="foo123"></div>
     {{#basic-dropdown/content dropdown=dropdown to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = this.$('#foo123 .ember-basic-dropdown-content');
-  assert.equal($content.length, 1, 'It is rendered');
-  assert.equal($content.parent()[0].id, 'foo123', 'It is rendered in the element with the given ID');
+  let content = find('#foo123 .ember-basic-dropdown-content');
+  assert.ok(content, 'It is rendered');
+  assert.equal(content.parentElement.id, 'foo123', 'It is rendered in the element with the given ID');
 });
 
 test('It derives the ID of the content from the `uniqueId` property of of the dropdown', function(assert) {
@@ -67,8 +65,7 @@ test('It derives the ID of the content from the `uniqueId` property of of the dr
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content');
-  assert.equal($content.attr('id'), 'ember-basic-dropdown-content-e123', 'contains the expected ID');
+  assert.equal(find('.ember-basic-dropdown-content').id, 'ember-basic-dropdown-content-e123', 'contains the expected ID');
 });
 
 test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', function(assert) {
@@ -77,8 +74,7 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content.foo123');
-  assert.equal($content.length, 1, 'The dropdown contains that class');
+  assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
 });
 
 test('If it receives `defaultClass="foo123"`, the rendered content will have that class along with the default one', function(assert) {
@@ -87,8 +83,7 @@ test('If it receives `defaultClass="foo123"`, the rendered content will have tha
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content.foo123');
-  assert.equal($content.length, 1, 'The dropdown contains that class');
+  assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
 });
 
 test('If it receives `dir="rtl"`, the rendered content will have the attribute set', function(assert) {
@@ -97,8 +92,7 @@ test('If it receives `dir="rtl"`, the rendered content will have the attribute s
   this.render(hbs`
     {{#basic-dropdown/content dropdown=dropdown dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
-  let $content = $('.ember-basic-dropdown-content');
-  assert.equal($content.attr('dir'), 'rtl', 'The dropdown has `dir="rtl"`');
+  assert.equal(find('.ember-basic-dropdown-content').attributes.dir.value, 'rtl', 'The dropdown has `dir="rtl"`');
 });
 
 // Clicking while the component is opened
@@ -197,12 +191,8 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
     {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
-  run(() => {
-    let touchstartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
-    let touchendEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
-    this.$('#other-div')[0].dispatchEvent(touchstartEvent);
-    this.$('#other-div')[0].dispatchEvent(touchendEvent);
-  });
+  triggerEvent('#other-div', 'touchstart');
+  triggerEvent('#other-div', 'touchend');
 });
 
 test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', function(assert) {
@@ -222,14 +212,9 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
     {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
-  run(() => {
-    let touchstartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
-    let touchmoveEvent = new window.Event('touchmove', { bubbles: true, cancelable: true, view: window });
-    let touchendEvent = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
-    this.$('#other-div')[0].dispatchEvent(touchstartEvent);
-    this.$('#other-div')[0].dispatchEvent(touchmoveEvent);
-    this.$('#other-div')[0].dispatchEvent(touchendEvent);
-  });
+  triggerEvent('#other-div', 'touchstart');
+  triggerEvent('#other-div', 'touchmove');
+  triggerEvent('#other-div', 'touchend');
 });
 
 // Focus
@@ -246,8 +231,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
-  let input = $('#test-input-focusin').get(0);
-  run(() => input.focus());
+  run(() => find('#test-input-focusin').focus());
 });
 
 test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', function(assert) {
@@ -263,7 +247,7 @@ test('If it receives an `onFocusOut` action, it is invoked if a focusout event i
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
-  let input = $('#test-input-focusin').get(0);
+  let input = find('#test-input-focusin');
   run(() => input.focus());
   run(() => input.blur());
 });
@@ -429,60 +413,7 @@ test('If it receives an `overlay=true` option, there is an overlay covering all 
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
-  assert.equal($('.ember-basic-dropdown-overlay').length, 1, 'There is one overlay');
+  assert.ok(find('.ember-basic-dropdown-overlay'), 'There is one overlay');
   run(this, 'set', 'dropdown.isOpen', false);
-  assert.equal($('.ember-basic-dropdown-overlay').length, 0, 'There is no overlay when closed');
+  assert.notOk(find('.ember-basic-dropdown-overlay'), 'There is no overlay when closed');
 });
-
-// Animations (commented because they fail in phantomjs)
-// test('The component is opened with an `transitioning-in` class that is then replaced by a `transitioned-in` class once the animation finishes', function(assert) {
-//   assert.expect(3);
-//   let done = assert.async();
-//   this.dropdown = { isOpen: true, actions: { reposition() { } } };
-//   this.render(hbs`
-//     <style>
-//       @keyframes test-fade-in {
-//         0% { opacity: 0; }
-//         100% { opacity: 1; }
-//       }
-
-//       .ember-basic-dropdown-content.test-fade-in.ember-basic-dropdown--transitioning-in {
-//         animation: test-fade-in 0.25s;
-//       }
-//     </style>
-//     {{#basic-dropdown/content dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
-//   `);
-//   let $content = $('.ember-basic-dropdown-content');
-//   assert.ok($content.hasClass('ember-basic-dropdown--transitioning-in'), 'Renders with a transitioning-in class');
-//   setTimeout(function() {
-//     assert.ok(!$content.hasClass('ember-basic-dropdown--transitioning-in'), 'The transitioning-in class is gone');
-//     assert.ok($content.hasClass('ember-basic-dropdown--transitioned-in'), 'The transitioned-in class appeared');
-//     done();
-//   }, 250 + 50);
-// });
-
-// test('The component is closed by addong `transitioning-out` class to a ghost copy of the dropdown', function(assert) {
-//   assert.expect(2);
-//   let done = assert.async();
-//   this.dropdown = { isOpen: true, actions: { reposition() { } } };
-//   this.render(hbs`
-//     <style>
-//       @keyframes test-fade-in {
-//         0% { opacity: 0; }
-//         100% { opacity: 1; }
-//       }
-
-//       .ember-basic-dropdown-content.test-fade-in.ember-basic-dropdown--transitioning-out {
-//         animation: test-fade-in 0.25s reverse;
-//       }
-//     </style>
-//     {{#basic-dropdown/content dropdown=dropdown class="test-fade-in"}}Lorem ipsum{{/basic-dropdown/content}}
-//   `);
-//   run(() => this.set('dropdown.isOpen', false));
-//   let $content = $('.ember-basic-dropdown-content');
-//   assert.ok($content.hasClass('ember-basic-dropdown--transitioning-out'), 'Renders with a transitioning-in class');
-//   setTimeout(function() {
-//     assert.equal($('.ember-basic-dropdown-content').length, 0, 'The ghost copy has been removed');
-//     done();
-//   }, 250 + 50);
-// });

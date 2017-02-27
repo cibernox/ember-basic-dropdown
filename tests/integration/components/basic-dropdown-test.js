@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import $ from 'jquery';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
+import { find } from 'ember-native-dom-helpers/test-support/helpers';
 
 let deprecations = [];
 const { run } = Ember;
@@ -31,14 +31,11 @@ test('Its `toggle` action opens and closes the dropdown', function(assert) {
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is again');
-
-  // TODO: Not sure if this is relevant
-  // assert.equal(this.$('.ember-basic-dropdown-trigger')[0], document.activeElement, 'The trigger is focused');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is again');
 });
 
 test('Its `open` action opens the dropdown', function(assert) {
@@ -53,11 +50,11 @@ test('Its `open` action opens the dropdown', function(assert) {
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 1, 'The dropdown is still opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is still opened');
 });
 
 test('Its `close` action closes the dropdown', function(assert) {
@@ -72,11 +69,11 @@ test('Its `close` action closes the dropdown', function(assert) {
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is still closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is still closed');
 });
 
 test('It can receive an onOpen action that is fired just before the component opens', function(assert) {
@@ -117,7 +114,7 @@ test('returning false from the `onOpen` action prevents the dropdown from openin
   `);
 
   clickTrigger();
-  assert.equal(this.$('#dropdown-is-opened').length, 0, 'The dropdown is still closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is still closed');
 });
 
 test('It can receive an onClose action that is fired when the component closes', function(assert) {
@@ -138,11 +135,11 @@ test('It can receive an onClose action that is fired when the component closes',
     {{/basic-dropdown}}
   `);
 
-  assert.equal($('#dropdown-is-opened').length, 0, 'The dropdown is closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   clickTrigger();
-  assert.equal($('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
   clickTrigger();
-  assert.equal($('#dropdown-is-opened').length, 0, 'The dropdown is now opened');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is now opened');
 });
 
 test('returning false from the `onClose` action prevents the dropdown from closing', function(assert) {
@@ -161,11 +158,11 @@ test('returning false from the `onClose` action prevents the dropdown from closi
     {{/basic-dropdown}}
   `);
 
-  assert.equal($('#dropdown-is-opened').length, 0, 'The dropdown is closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   clickTrigger();
-  assert.equal($('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
   clickTrigger();
-  assert.equal($('#dropdown-is-opened').length, 1, 'The dropdown is still opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is still opened');
 });
 
 test('It can be rendered already opened when the `initiallyOpened=true`', function(assert) {
@@ -179,7 +176,7 @@ test('It can be rendered already opened when the `initiallyOpened=true`', functi
     {{/basic-dropdown}}
   `);
 
-  assert.equal($('#dropdown-is-opened').length, 1, 'The dropdown is opened');
+  assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
 });
 
 test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
@@ -226,26 +223,6 @@ test('Calling the `close` method while the dropdown is already opened does not c
   assert.equal(onCloseCalls, 0, 'onClose was never called');
 });
 
-// Fails in phantomjs, I don't know why
-// test('Clicking anywhere outside the trigger or the content, closes the dropdown but DOES NOT focus the trigger', function(assert) {
-//   assert.expect(2);
-
-//   this.render(hbs`
-//     <input id="external-input-test" />
-//     {{#basic-dropdown renderInPlace=true as |dropdown|}}
-//       {{#dropdown.trigger tagName="input"}}Click me{{/dropdown.trigger}}
-//       {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-//     {{/basic-dropdown}}
-//   `);
-
-//   clickTrigger();
-//   let trigger = this.$('.ember-basic-dropdown-trigger').get(0);
-//   run(() => trigger.focus());
-//   assert.ok(trigger === document.activeElement, 'The trigger is focused');
-//   nativeClick('#external-input-test');
-//   assert.ok(trigger !== document.activeElement, 'The trigger is not focused');
-// });
-
 test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', function(assert) {
   assert.expect(2);
 
@@ -257,8 +234,8 @@ test('It adds the proper class to trigger and content when it receives `horizont
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
 });
 
 test('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', function(assert) {
@@ -272,8 +249,8 @@ test('It adds the proper class to trigger and content when it receives `horizont
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--center'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--center'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--center'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--center'), 'The proper class has been added');
 });
 
 test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', function(assert) {
@@ -287,8 +264,8 @@ test('It adds the proper class to trigger and content when it receives `vertical
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--above'), 'The proper class has been added');
-  assert.ok($('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--above'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--above'), 'The proper class has been added');
 });
 
 test('It passes the `renderInPlace` property to the yielded content component', function(assert) {
@@ -302,7 +279,7 @@ test('It passes the `renderInPlace` property to the yielded content component', 
   `);
 
   clickTrigger();
-  assert.equal(this.$('.ember-basic-dropdown-content').length, 1, 'The dropdown is rendered in place');
+  assert.ok(find('.ember-basic-dropdown-content'), 'The dropdown is rendered in place');
 });
 
 test('It adds a special class to both trigger and content when `renderInPlace=true`', function(assert) {
@@ -316,8 +293,8 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
   `);
 
   clickTrigger();
-  assert.ok(this.$('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
-  assert.ok(this.$('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
 test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
@@ -331,7 +308,7 @@ test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
   `);
 
   clickTrigger();
-  assert.equal(this.$('.ember-basic-dropdown').length, 1, 'The trigger has a special `--in-place` class');
+  assert.ok(find('.ember-basic-dropdown'), 'The trigger has a special `--in-place` class');
 });
 
 test('[ISSUE #127] Having more than one dropdown with `renderInPlace=true` raises an exception', function(assert) {
@@ -358,9 +335,9 @@ test('It passes the `disabled` property as part of the public API, and updates i
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('#disabled-dropdown-marker').length, 1, 'The public API of the component is marked as disabled');
+  assert.ok(find('#disabled-dropdown-marker'), 'The public API of the component is marked as disabled');
   this.set('disabled', false);
-  assert.equal(this.$('#enabled-dropdown-marker').length, 1, 'The public API of the component is marked as enabled');
+  assert.ok(find('#enabled-dropdown-marker'), 'The public API of the component is marked as enabled');
 });
 
 test('It passes the `uniqueId` property as part of the public API', function(assert) {
@@ -372,7 +349,7 @@ test('It passes the `uniqueId` property as part of the public API', function(ass
     {{/basic-dropdown}}
   `);
 
-  assert.ok(/ember\d+/.test(this.$('#dropdown-unique-id-container').text().trim()), 'It yields the uniqueId');
+  assert.ok(/ember\d+/.test(find('#dropdown-unique-id-container').textContent.trim()), 'It yields the uniqueId');
 });
 
 test('If the dropdown gets disabled while it\'s open, it closes automatically', function(assert) {
@@ -387,9 +364,9 @@ test('If the dropdown gets disabled while it\'s open, it closes automatically', 
   `);
 
   clickTrigger();
-  assert.equal($('#dropdown-is-opened').length, 1, 'The select is open');
+  assert.ok(find('#dropdown-is-opened'), 'The select is open');
   run(() => this.set('isDisabled', true));
-  assert.equal($('#dropdown-is-opened').length, 0, 'The select is now closed');
+  assert.notOk(find('#dropdown-is-opened'), 'The select is now closed');
 });
 
 test('If the component\'s `disabled` property changes, the `registerAPI` action is called', function(assert) {
@@ -409,11 +386,11 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
   `);
 
   clickTrigger();
-  assert.equal($('#is-disabled').length, 0, 'The select is enabled');
+  assert.notOk(find('#is-disabled'), 'The select is enabled');
   run(() => this.set('isDisabled', true));
-  assert.equal($('#is-disabled').length, 1, 'The select is disabled');
+  assert.ok(find('#is-disabled'), 'The select is disabled');
   run(() => this.set('isDisabled', false));
-  assert.equal($('#is-disabled').length, 0, 'The select is enabled again');
+  assert.notOk(find('#is-disabled'), 'The select is enabled again');
 });
 
 // A11y
@@ -427,9 +404,9 @@ test('By default, the `aria-owns` attribute of the trigger contains the id of th
     {{/basic-dropdown}}
   `);
   clickTrigger();
-  let $trigger = this.$('.ember-basic-dropdown-trigger');
-  let $content = $('.ember-basic-dropdown-content');
-  assert.equal($trigger.attr('aria-owns'), $content.attr('id'), 'The trigger controls the content');
+  let trigger = find('.ember-basic-dropdown-trigger');
+  let content = find('.ember-basic-dropdown-content');
+  assert.equal(trigger.attributes['aria-owns'].value, content.id, 'The trigger controls the content');
 });
 
 // Repositioning
@@ -445,7 +422,7 @@ test('Firing a reposition outside of a runloop doesn\'t break the component', fu
     {{/basic-dropdown}}
   `);
   clickTrigger();
-  $('#dropdown-is-opened').append('<span>New content that will trigger a reposition</span>');
+  find('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
   setTimeout(function() {
     assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
     done();
@@ -500,10 +477,10 @@ test('The user can pass a custom `calculatePosition` function to customize how t
     {{/basic-dropdown}}
   `);
   clickTrigger();
-  let $dropdownContent = $('.ember-basic-dropdown-content');
-  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
-  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;width: 100px;height: 110px', 'The style attribute is the expected one');
+  let dropdownContent = find('.ember-basic-dropdown-content');
+  assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal(dropdownContent.attributes.style.value, 'top: 111px;right: 222px;width: 100px;height: 110px', 'The style attribute is the expected one');
 });
 
 test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', function(assert) {
@@ -539,10 +516,10 @@ test('The user can use the `renderInPlace` flag option to modify how the positio
     {{/basic-dropdown}}
   `);
   clickTrigger();
-  let $dropdownContent = $('.ember-basic-dropdown-content');
-  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--above'), 'The dropdown is above');
-  assert.ok($dropdownContent.hasClass('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-  assert.equal($dropdownContent.attr('style'), 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+  let dropdownContent = find('.ember-basic-dropdown-content');
+  assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
+  assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
+  assert.equal(dropdownContent.attributes.style.value, 'top: 111px;right: 222px;', 'The style attribute is the expected one');
 });
 
 // Customization of inner components
@@ -556,7 +533,7 @@ test('It allows to customize the trigger passing `triggerComponent="my-custom-tr
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('#my-custom-trigger').length, 1, 'The custom component has been rendered');
+  assert.ok(find('#my-custom-trigger'), 'The custom component has been rendered');
 });
 
 test('It allows to customize the content passing `contentComponent="my-custom-content"`', function(assert) {
@@ -569,7 +546,7 @@ test('It allows to customize the content passing `contentComponent="my-custom-co
     {{/basic-dropdown}}
   `);
   clickTrigger();
-  assert.equal(this.$('#my-custom-content').length, 1, 'The custom component has been rendered');
+  assert.ok(find('#my-custom-content'), 'The custom component has been rendered');
 });
 
 // State replacement
@@ -583,9 +560,9 @@ test('When the component is opened, closed or disabled, the entire publicAPI is 
     {{/basic-dropdown}}
   `);
 
-  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me');
+  assert.equal(find('.ember-basic-dropdown-trigger').textContent.trim(), 'Open me');
   clickTrigger();
-  assert.equal(this.$('.ember-basic-dropdown-trigger').text().trim(), 'Open me Did open!');
+  assert.equal(find('.ember-basic-dropdown-trigger').textContent.trim(), 'Open me Did open!');
 });
 
 test('The registerAPI is called with every mutation of the publicAPI object', function(assert) {
@@ -632,85 +609,8 @@ test('removing the dropdown in response to onClose does not error', function(ass
     {{/if}}
   `);
 
-  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 1, 'the dropdown is rendered');
+  assert.ok(find('.ember-basic-dropdown-trigger'), 'the dropdown is rendered');
   clickTrigger();
   clickTrigger();
-  assert.equal(this.$('.ember-basic-dropdown-trigger').length, 0, 'the dropdown has been removed');
+  assert.notOk(find('.ember-basic-dropdown-trigger'), 'the dropdown has been removed');
 });
-
-// test('BUGFIX: When clicking in the trigger text selection is disabled until the user raises the finger', function(assert) {
-//   assert.expect(2);
-
-//   this.render(hbs`
-//     {{#basic-dropdown onOpen=onOpen}}
-//       <h3>Content of the dropdown</h3>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   run(() => {
-//     let event = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-//     this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
-//   });
-//   assert.equal($('#ember-testing').css('user-select'), 'none', 'Text selection is disabled in the entire app');
-//   run(() => {
-//     let event = new window.Event('mouseup', { bubbles: true, cancelable: true, view: window });
-//     this.$('.ember-basic-dropdown-trigger')[0].dispatchEvent(event);
-//   });
-//   assert.notEqual($('#ember-testing').css('user-select'), 'none', 'Text selection is not disabled in the entire app');
-// });
-
-// test('when some element inside the trigger of a dropdown gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
-//   assert.expect(3);
-
-//   this.render(hbs`
-//     {{#basic-dropdown}}
-//       <input type="text" id="input-inside-dropdown-content"/>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   clickTrigger();
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   run(() => this.$('button')[0].focus());
-//   assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
-// });
-
-// test('when some element inside the dropdown-content when the component gets `renderedInPlace=true` gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
-//   assert.expect(3);
-
-//   this.render(hbs`
-//     {{#basic-dropdown renderedInPlace=true}}
-//       <input type="text" id="input-inside-dropdown-content"/>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   clickTrigger();
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   run(() => $('#input-inside-dropdown-content')[0].focus());
-//   assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
-// });
-
-// test('when some element inside the dropdown-content when the component gets `renderedInPlace=false` gains the focus, the dropdown obtains a `ember-basic-dropdown--focus-inside` class', function(assert) {
-//   assert.expect(3);
-
-//   this.render(hbs`
-//     {{#basic-dropdown renderedInPlace=false}}
-//       <input type="text" id="input-inside-dropdown-content"/>
-//     {{else}}
-//       <button>Press me</button>
-//     {{/basic-dropdown}}
-//   `);
-
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   clickTrigger();
-//   assert.ok(!$('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown doesn\'t have the focus-inside class yet');
-//   run(() => $('#input-inside-dropdown-content')[0].focus());
-//   assert.ok($('.ember-basic-dropdown').hasClass('ember-basic-dropdown--focus-inside'), 'The dropdown has the focus-inside now');
-// });
