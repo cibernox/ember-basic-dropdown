@@ -1,3 +1,4 @@
+# 0.30.0
 - [BREAKING] Unify `calculatePosition` and `calculateInPlacePosition`. Now the function receives
   an `renderInPlace` flag among its options, and based on that it uses a different logic.
   This reduces the public API surface. This new function is the default export of `/utils/calculate-position`.
