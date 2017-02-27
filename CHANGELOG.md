@@ -1,3 +1,7 @@
+# 0.30.1
+- [ENHANCEMENT] Allow the `calculatePosition` function to also determine the height of the
+  dropdown's content.
+
 # 0.30.0
 - [BREAKING] Unify `calculatePosition` and `calculateInPlacePosition`. Now the function receives
   an `renderInPlace` flag among its options, and based on that it uses a different logic.
