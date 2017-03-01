@@ -3,12 +3,7 @@
   a {
     color: $brand-color;
   }
-  .code-sample-tab {
-    &.active {
-      border-bottom: 2px solid $brand-color;
-      color: $brand-color;
-    }
-  }
+  @include ember-code-example($brand-color);
 
   .doc-page-nav-link-next, .doc-page-nav-link-prev {
     border: 1px solid $brand-color;
