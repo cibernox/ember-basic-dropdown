@@ -29,3 +29,7 @@ $ember-basic-dropdown-overlay-pointer-events: none !default;
   left: 0;
   pointer-events: $ember-basic-dropdown-overlay-pointer-events;
 }
+
+.ember-basic-dropdown-content-wormhole-origin {
+  display: inline;
+}
