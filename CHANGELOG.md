@@ -1,3 +1,7 @@
+# 0.30.2
+- [BUFGIX] Fix unnecesary line break caused by the wormhole empty div. Solved
+  by making that div be `display: inline`.
+
 # 0.30.1
 - [ENHANCEMENT] Allow the `calculatePosition` function to also determine the height of the
   dropdown's content.
