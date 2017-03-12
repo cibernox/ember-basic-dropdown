@@ -1,4 +1,4 @@
-# 0.30.2
+# 0.30.3
 - [BUFGIX] Fix unnecesary line break caused by the wormhole empty div. Solved
   by making that div be `display: inline`.
 
