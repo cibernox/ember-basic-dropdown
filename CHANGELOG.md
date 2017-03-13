@@ -1,3 +1,7 @@
+# 0.31.0-beta.0
+- [INTERNAL/BREAKING???] Update to Babel 6. This **shouldn't** be breaking, but you
+  never know.
+
 # 0.30.3
 - [BUFGIX] Fix unnecesary line break caused by the wormhole empty div. Solved
   by making that div be `display: inline`.
