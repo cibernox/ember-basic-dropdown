@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
-import { find } from 'ember-native-dom-helpers/test-support/helpers';
+import { find } from 'ember-native-dom-helpers';
 
 let deprecations = [];
 const { run } = Ember;
