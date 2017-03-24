@@ -1,4 +1,7 @@
-# 0.31.0-beta.0
+# 0.31.1
+- Update to ember-native-dom-helpers 0.3.4, which contains a new & simpler import path.
+
+# 0.31.0
 - [INTERNAL/BREAKING???] Update to Babel 6. This **shouldn't** be breaking, but you
   never know.
 
