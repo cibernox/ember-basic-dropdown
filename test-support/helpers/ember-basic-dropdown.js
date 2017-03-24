@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import run from 'ember-runloop';
 import $ from 'jquery';
-import { click } from 'ember-native-dom-helpers/test-support/helpers';
+import { click } from 'ember-native-dom-helpers';
 
 export const nativeClick = click;
 
