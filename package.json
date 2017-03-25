@@ -67,7 +67,7 @@
   "dependencies": {
     "ember-cli-babel": "^6.0.0-alpha.9",
     "ember-cli-htmlbars": "^1.1.1",
-    "ember-native-dom-helpers": "^0.3.4",
+    "ember-native-dom-helpers": "^0.3.5",
     "ember-wormhole": "^0.5.1"
   },
   "ember-addon": {
