@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, tapTrigger, fireKeydown, nativeTap } from '../../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger, nativeTap } from '../../../helpers/ember-basic-dropdown';
 import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
 import run from 'ember-runloop';
 import set from 'ember-metal/set';
