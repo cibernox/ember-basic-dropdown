@@ -50,6 +50,7 @@
     "ember-font-awesome": "^3.0.2",
     "ember-href-to": "1.11.2",
     "ember-load-initializers": "^0.6.0",
+    "ember-maybe-import-regenerator": "^0.1.5",
     "ember-pagefront": "0.11.2",
     "ember-resolver": "^3.0.0",
     "ember-source": "^2.12.0-beta.1",
@@ -64,7 +65,7 @@
     "basic-dropdown"
   ],
   "dependencies": {
-    "ember-cli-babel": "^6.0.0-alpha.8",
+    "ember-cli-babel": "^6.0.0-alpha.9",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-native-dom-helpers": "^0.3.4",
     "ember-wormhole": "^0.5.1"
