@@ -5,6 +5,10 @@ node_js:
 
 dist: trusty
 sudo: false
+addons:
+  apt:
+    packages:
+     - google-chrome-stable
 
 addons:
   apt:
