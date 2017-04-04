@@ -3,12 +3,11 @@ language: node_js
 node_js:
   - "7"
 
-dist: trusty
-sudo: required
+sudo: false
 addons:
   apt:
     packages:
-     - google-chrome-unstable # dev channel
+     - google-chrome-beta
 
 addons:
   apt:
