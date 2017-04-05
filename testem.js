@@ -11,6 +11,7 @@ module.exports = {
   "browser_args": {
     "Chrome": [
       "--touch-events",
+      "--disable-gpu",
       "--headless"
     ]
   }
