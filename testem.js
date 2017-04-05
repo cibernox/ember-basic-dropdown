@@ -12,7 +12,8 @@ module.exports = {
     "Chrome": [
       "--touch-events",
       "--disable-gpu",
-      "--headless"
+      "--headless",
+      "--enable-logging --v=1"
     ]
   }
 };
