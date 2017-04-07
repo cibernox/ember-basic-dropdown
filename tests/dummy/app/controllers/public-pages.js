@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import Controller from 'ember-controller';
-import { calculatePosition } from 'ember-basic-dropdown/utils/calculate-position';
+import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 
 const { computed, String: { htmlSafe } } = Ember;
 
