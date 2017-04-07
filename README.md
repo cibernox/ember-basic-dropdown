@@ -41,6 +41,7 @@ properties and actions that you can use to control the component.
 
 ```js
 {
+  uniqueId: <string>,
   isOpen: <boolean>,
   disabled: <boolean>,
   actions: {
