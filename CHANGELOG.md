@@ -1,5 +1,6 @@
 # 0.31.2
-- Now the addon is 100% jQuery-free. Tests in CI run without jquery. Docs page doesn't use jQuery.
+- Now the addon is 100% jQuery-free. Docs page doesn't use jQuery either. Tests in CI run
+  without jquery so if anyone inadvertenly relies on it, tests will fail.
 - Rewrite tests to use `async/await` with the latest `ember-native-dom-helpers`
 
 # 0.31.1
