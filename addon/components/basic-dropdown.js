@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Component from 'ember-component';
 import set from  'ember-metal/set';
-import $ from 'jquery';
 import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
@@ -190,7 +189,9 @@ export default Component.extend({
       }
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
-        $(dropdown).css(positions.style);
+        for (let prop in positions.style) {
+          dropdown.style[prop] = positions.style[prop];
+        }
       }
     }
     this.setProperties(changes);

@@ -1,12 +1,17 @@
 import Component from 'ember-component';
 import layout from '../../templates/components/basic-dropdown/content';
-import $ from 'jquery';
 import Ember from 'ember';
 import computed from 'ember-computed';
 import { join, scheduleOnce } from 'ember-runloop';
 import { htmlSafe } from 'ember-string';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
+function closestContent(el) {
+  while (!el.classList.contains('ember-basic-dropdown-content')) {
+    el = el.parentElement;
+  }
+  return el;
+}
 const { testing, getOwner } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const rAF = self.window.requestAnimationFrame || function(cb) {
@@ -161,10 +166,10 @@ export default Component.extend({
       return;
     }
 
-    let closestDropdown = $(e.target).closest('.ember-basic-dropdown-content').get(0);
+    let closestDropdown = closestContent(e.target); // $(e.target).closest('.ember-basic-dropdown-content').get(0);
     if (closestDropdown) {
       let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
-      let parentDropdown = $(trigger).closest('.ember-basic-dropdown-content').get(0);
+      let parentDropdown = closestContent(trigger); // $(trigger).closest('.ember-basic-dropdown-content').get(0);
       if (parentDropdown && parentDropdown.attributes.id.value === this.dropdownId) {
         this.hasMoved = false;
         return;
@@ -224,11 +229,10 @@ export default Component.extend({
     let parentElement = this.get('renderInPlace') ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
-    let $clone = $(clone);
     let transitioningInClass = this.get('transitioningInClass');
-    $clone.removeClass(this.get('transitionedInClass'));
-    $clone.removeClass(transitioningInClass);
-    $clone.addClass(this.get('transitioningOutClass'));
+    clone.classList.remove(this.get('transitionedInClass'));
+    clone.classList.remove(transitioningInClass);
+    clone.classList.add(this.get('transitioningOutClass'));
     parentElement.appendChild(clone);
     this.set('animationClass', transitioningInClass);
     waitForAnimations(clone, function() {

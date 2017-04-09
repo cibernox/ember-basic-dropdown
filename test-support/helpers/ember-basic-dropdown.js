@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import run from 'ember-runloop';
-import $ from 'jquery';
 import { click } from 'ember-native-dom-helpers';
 import wait from 'ember-test-helpers/wait';
 
 export const nativeClick = click;
+const { merge } = Ember;
 
 export function nativeTap(selector, options = {}) {
   let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
@@ -18,8 +18,8 @@ export function nativeTap(selector, options = {}) {
 export function clickTrigger(scope, options = {}) {
   let selector = '.ember-basic-dropdown-trigger';
   if (scope) {
-    let $element = $(scope);
-    if ($element.hasClass('ember-basic-dropdown-trigger')) {
+    let element = document.querySelector(scope);
+    if (element.classList.contains('ember-basic-dropdown-trigger')) {
       selector = scope;
     } else {
       selector = scope + ' ' + selector;
@@ -40,7 +40,7 @@ export function tapTrigger(scope, options = {}) {
 export function fireKeydown(selector, k) {
   let oEvent = document.createEvent('Events');
   oEvent.initEvent('keydown', true, true);
-  $.extend(oEvent, {
+  merge(oEvent, {
     view: window,
     ctrlKey: false,
     altKey: false,
