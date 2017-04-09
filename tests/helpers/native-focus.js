@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import $ from 'jquery';
 
 function fireEvent(node, eventType) {
   let event = document.createEvent('HTMLEvents');

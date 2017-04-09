@@ -19,7 +19,7 @@ moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic drop
   }
 });
 
-test('Its `toggle` action opens and closes the dropdown', function(assert) {
+test('Its `toggle` action opens and closes the dropdown', async function(assert) {
   assert.expect(3);
 
   this.render(hbs`
@@ -32,13 +32,13 @@ test('Its `toggle` action opens and closes the dropdown', function(assert) {
   `);
 
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is again');
 });
 
-test('Its `open` action opens the dropdown', function(assert) {
+test('Its `open` action opens the dropdown', async function(assert) {
   assert.expect(3);
 
   this.render(hbs`
@@ -51,13 +51,13 @@ test('Its `open` action opens the dropdown', function(assert) {
   `);
 
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is still opened');
 });
 
-test('Its `close` action closes the dropdown', function(assert) {
+test('Its `close` action closes the dropdown', async function(assert) {
   assert.expect(3);
 
   this.render(hbs`
@@ -70,13 +70,13 @@ test('Its `close` action closes the dropdown', function(assert) {
   `);
 
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is still closed');
 });
 
-test('It can receive an onOpen action that is fired just before the component opens', function(assert) {
+test('It can receive an onOpen action that is fired just before the component opens', async function(assert) {
   assert.expect(4);
 
   this.willOpen = function(dropdown, e) {
@@ -94,10 +94,10 @@ test('It can receive an onOpen action that is fired just before the component op
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
 });
 
-test('returning false from the `onOpen` action prevents the dropdown from opening', function(assert) {
+test('returning false from the `onOpen` action prevents the dropdown from opening', async function(assert) {
   assert.expect(2);
 
   this.willOpen = function() {
@@ -113,11 +113,11 @@ test('returning false from the `onOpen` action prevents the dropdown from openin
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is still closed');
 });
 
-test('It can receive an onClose action that is fired when the component closes', function(assert) {
+test('It can receive an onClose action that is fired when the component closes', async function(assert) {
   assert.expect(7);
 
   this.willClose = function(dropdown, e) {
@@ -136,13 +136,13 @@ test('It can receive an onClose action that is fired when the component closes',
   `);
 
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is now opened');
 });
 
-test('returning false from the `onClose` action prevents the dropdown from closing', function(assert) {
+test('returning false from the `onClose` action prevents the dropdown from closing', async function(assert) {
   assert.expect(4);
 
   this.willClose = function() {
@@ -159,9 +159,9 @@ test('returning false from the `onClose` action prevents the dropdown from closi
   `);
 
   assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is still opened');
 });
 
@@ -179,7 +179,7 @@ test('It can be rendered already opened when the `initiallyOpened=true`', functi
   assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
 });
 
-test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', async function(assert) {
   assert.expect(1);
   let onOpenCalls = 0;
   this.onOpen = () => {
@@ -193,13 +193,13 @@ test('Calling the `open` method while the dropdown is already opened does not ca
       {{/if}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
-  clickTrigger();
-  clickTrigger();
+  await clickTrigger();
+  await clickTrigger();
+  await clickTrigger();
   assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
 });
 
-test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', function(assert) {
+test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function(assert) {
   assert.expect(1);
   let onCloseCalls = 0;
   this.onFocus = (dropdown) => {
@@ -217,13 +217,13 @@ test('Calling the `close` method while the dropdown is already opened does not c
       {{/if}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
-  clickTrigger();
-  clickTrigger();
+  await clickTrigger();
+  await clickTrigger();
+  await clickTrigger();
   assert.equal(onCloseCalls, 0, 'onClose was never called');
 });
 
-test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', function(assert) {
+test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', async function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -233,12 +233,12 @@ test('It adds the proper class to trigger and content when it receives `horizont
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
 });
 
-test('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', function(assert) {
+test('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', async function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -248,12 +248,12 @@ test('It adds the proper class to trigger and content when it receives `horizont
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--center'), 'The proper class has been added');
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--center'), 'The proper class has been added');
 });
 
-test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', function(assert) {
+test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', async function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -263,12 +263,12 @@ test('It adds the proper class to trigger and content when it receives `vertical
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--above'), 'The proper class has been added');
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--above'), 'The proper class has been added');
 });
 
-test('It passes the `renderInPlace` property to the yielded content component', function(assert) {
+test('It passes the `renderInPlace` property to the yielded content component', async function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -278,11 +278,11 @@ test('It passes the `renderInPlace` property to the yielded content component', 
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-content'), 'The dropdown is rendered in place');
 });
 
-test('It adds a special class to both trigger and content when `renderInPlace=true`', function(assert) {
+test('It adds a special class to both trigger and content when `renderInPlace=true`', async function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -292,12 +292,12 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
-test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
+test('It adds a wrapper element when `renderInPlace=true`', async function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -307,7 +307,7 @@ test('It adds a wrapper element when `renderInPlace=true`', function(assert) {
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('.ember-basic-dropdown'), 'The trigger has a special `--in-place` class');
 });
 
@@ -352,7 +352,7 @@ test('It passes the `uniqueId` property as part of the public API', function(ass
   assert.ok(/ember\d+/.test(find('#dropdown-unique-id-container').textContent.trim()), 'It yields the uniqueId');
 });
 
-test('If the dropdown gets disabled while it\'s open, it closes automatically', function(assert) {
+test('If the dropdown gets disabled while it\'s open, it closes automatically', async function(assert) {
   assert.expect(2);
 
   this.isDisabled = false;
@@ -363,13 +363,13 @@ test('If the dropdown gets disabled while it\'s open, it closes automatically', 
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#dropdown-is-opened'), 'The select is open');
   run(() => this.set('isDisabled', true));
   assert.notOk(find('#dropdown-is-opened'), 'The select is now closed');
 });
 
-test('If the component\'s `disabled` property changes, the `registerAPI` action is called', function(assert) {
+test('If the component\'s `disabled` property changes, the `registerAPI` action is called', async function(assert) {
   assert.expect(3);
 
   this.isDisabled = false;
@@ -385,7 +385,7 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
     {{/if}}
   `);
 
-  clickTrigger();
+  await clickTrigger();
   assert.notOk(find('#is-disabled'), 'The select is enabled');
   run(() => this.set('isDisabled', true));
   assert.ok(find('#is-disabled'), 'The select is disabled');
@@ -394,7 +394,7 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
 });
 
 // A11y
-test('By default, the `aria-owns` attribute of the trigger contains the id of the content', function(assert) {
+test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -403,7 +403,7 @@ test('By default, the `aria-owns` attribute of the trigger contains the id of th
       {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
+  await clickTrigger();
   let trigger = find('.ember-basic-dropdown-trigger');
   let content = find('.ember-basic-dropdown-content');
   assert.equal(trigger.attributes['aria-owns'].value, content.id, 'The trigger controls the content');
@@ -453,7 +453,7 @@ test('The `reposition` public action returns an object with the changes', functi
   assert.ok(returnValue.hasOwnProperty('left'));
 });
 
-test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', function(assert) {
+test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function(assert) {
   assert.expect(4);
   this.calculatePosition = function(triggerElement, dropdownElement, { dropdown }) {
     assert.ok(dropdown, 'dropdown should be passed to the component');
@@ -476,14 +476,14 @@ test('The user can pass a custom `calculatePosition` function to customize how t
       {{/dropdown.content}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
+  await clickTrigger();
   let dropdownContent = find('.ember-basic-dropdown-content');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
   assert.equal(dropdownContent.attributes.style.value, 'top: 111px;right: 222px;width: 100px;height: 110px', 'The style attribute is the expected one');
 });
 
-test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', function(assert) {
+test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function(assert) {
   assert.expect(4);
   this.calculatePosition = function(triggerElement, dropdownElement, { dropdown, renderInPlace }) {
     assert.ok(dropdown, 'dropdown should be passed to the component');
@@ -515,7 +515,7 @@ test('The user can use the `renderInPlace` flag option to modify how the positio
       {{/dropdown.content}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
+  await clickTrigger();
   let dropdownContent = find('.ember-basic-dropdown-content');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
@@ -536,7 +536,7 @@ test('It allows to customize the trigger passing `triggerComponent="my-custom-tr
   assert.ok(find('#my-custom-trigger'), 'The custom component has been rendered');
 });
 
-test('It allows to customize the content passing `contentComponent="my-custom-content"`', function(assert) {
+test('It allows to customize the content passing `contentComponent="my-custom-content"`', async function(assert) {
   assert.expect(1);
 
   this.render(hbs`
@@ -545,12 +545,12 @@ test('It allows to customize the content passing `contentComponent="my-custom-co
       {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
     {{/basic-dropdown}}
   `);
-  clickTrigger();
+  await clickTrigger();
   assert.ok(find('#my-custom-content'), 'The custom component has been rendered');
 });
 
 // State replacement
-test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', function(assert) {
+test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', async function(assert) {
   assert.expect(2);
 
   this.render(hbs`
@@ -561,11 +561,11 @@ test('When the component is opened, closed or disabled, the entire publicAPI is 
   `);
 
   assert.equal(find('.ember-basic-dropdown-trigger').textContent.trim(), 'Open me');
-  clickTrigger();
+  await clickTrigger();
   assert.equal(find('.ember-basic-dropdown-trigger').textContent.trim(), 'Open me Did open!');
 });
 
-test('The registerAPI is called with every mutation of the publicAPI object', function(assert) {
+test('The registerAPI is called with every mutation of the publicAPI object', async function(assert) {
   assert.expect(7);
   let apis = [];
   this.disabled = false;
@@ -579,8 +579,8 @@ test('The registerAPI is called with every mutation of the publicAPI object', fu
     {{/basic-dropdown}}
   `);
 
-  clickTrigger();
-  clickTrigger();
+  await clickTrigger();
+  await clickTrigger();
   assert.equal(apis.length, 3, 'There have been 3 changes in the state of the public API');
   assert.equal(apis[0].isOpen, false, 'The component was closed');
   assert.equal(apis[1].isOpen, true, 'Then it opened');
@@ -591,7 +591,7 @@ test('The registerAPI is called with every mutation of the publicAPI object', fu
   assert.equal(apis[3].disabled, true, 'and it became disabled');
 });
 
-test('removing the dropdown in response to onClose does not error', function(assert) {
+test('removing the dropdown in response to onClose does not error', async function(assert) {
   assert.expect(2);
 
   this.isOpen = true;
@@ -610,7 +610,7 @@ test('removing the dropdown in response to onClose does not error', function(ass
   `);
 
   assert.ok(find('.ember-basic-dropdown-trigger'), 'the dropdown is rendered');
-  clickTrigger();
-  clickTrigger();
+  await   clickTrigger();
+  await   clickTrigger();
   assert.notOk(find('.ember-basic-dropdown-trigger'), 'the dropdown has been removed');
 });

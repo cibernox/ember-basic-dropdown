@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
-import nativeClick from './native-click'; // jshint ignore:line
+import nativeClick from './native-click'; // eslint-disable-line
 import registerBasicDropdownHelpers from '../../tests/helpers/ember-basic-dropdown';
 
 registerBasicDropdownHelpers();

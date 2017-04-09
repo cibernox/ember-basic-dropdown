@@ -28,7 +28,6 @@ export default Ember.Controller.extend({
 
     startAddingContent() {
       this.intervarTimer = window.setInterval(() => {
-        console.debug('add new item!');
         this.set('addedItems', this.get('addedItems').concat(+new Date()));
       }, 1000);
     },

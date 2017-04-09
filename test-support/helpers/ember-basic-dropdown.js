@@ -2,6 +2,7 @@ import Ember from 'ember';
 import run from 'ember-runloop';
 import $ from 'jquery';
 import { click } from 'ember-native-dom-helpers';
+import wait from 'ember-test-helpers/wait';
 
 export const nativeClick = click;
 
@@ -25,6 +26,7 @@ export function clickTrigger(scope, options = {}) {
     }
   }
   click(selector, options);
+  return wait();
 }
 
 export function tapTrigger(scope, options = {}) {
