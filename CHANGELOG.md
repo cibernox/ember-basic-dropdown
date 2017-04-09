@@ -1,3 +1,7 @@
+# 0.31.2
+- Now the addon is 100% jQuery-free. Tests in CI run without jquery. Docs page doesn't use jQuery.
+- Rewrite tests to use `async/await` with the latest `ember-native-dom-helpers`
+
 # 0.31.1
 - Update to ember-native-dom-helpers 0.3.4, which contains a new & simpler import path.
 
