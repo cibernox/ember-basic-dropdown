@@ -1,5 +1,4 @@
 import layout from '../../templates/components/basic-dropdown/trigger';
-import $ from 'jquery';
 import Component from 'ember-component';
 import computed from 'ember-computed';
 
@@ -51,7 +50,7 @@ export default Component.extend({
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
     this._mouseupHandler = () => {
       self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
-      $(self.document.body).removeClass('ember-basic-dropdown-text-select-disabled');
+      self.document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
     };
   },
 
@@ -149,7 +148,9 @@ export default Component.extend({
       // to simulate natural behaviour.
       e.target.focus();
       setTimeout(function() {
-        $(e.target).click();
+        let event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, true, window)
+        e.target.dispatchEvent(event);
       }, 0);
       e.preventDefault();
     },
@@ -182,7 +183,7 @@ export default Component.extend({
 
   stopTextSelectionUntilMouseup() {
     self.document.body.addEventListener('mouseup', this._mouseupHandler, true);
-    $(self.document.body).addClass('ember-basic-dropdown-text-select-disabled');
+    self.document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {

@@ -1,5 +1,4 @@
 import Controller from 'ember-controller';
-import $ from 'jquery';
 
 export default Controller.extend({
   calculatePosition(trigger, content) {
@@ -7,7 +6,7 @@ export default Controller.extend({
     let { height: contentHeight } = content.getBoundingClientRect();
     let style = {
       left: left + width,
-      top: top + $(window).scrollTop() + (height / 2) - (contentHeight / 2)
+      top: top +  window.pageYOffset + (height / 2) - (contentHeight / 2)
     };
 
     return { style };

@@ -20,9 +20,9 @@ export default Ember.Controller.extend({
     toggleHorizontalScroll() {
       let enabled = this.toggleProperty('horizontalScrollEnabled');
       if (enabled) {
-        Ember.$('body').addClass('with-horizontal-scroll');
+        document.body.classList.add('with-horizontal-scroll');
       } else {
-        Ember.$('body').removeClass('with-horizontal-scroll');
+        document.body.classList.remove('with-horizontal-scroll');
       }
     },
 

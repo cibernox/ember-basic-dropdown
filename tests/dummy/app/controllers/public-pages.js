@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Controller from 'ember-controller';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
-import $ from 'jquery';
 
 const { computed, String: { htmlSafe } } = Ember;
 
@@ -23,7 +22,10 @@ export default Controller.extend({
     },
 
     setBrandColor(color, dropdown) {
-      $('body').removeClass('orange-brand blue-brand purple-brand line-brand pink-brand red-brand brown-brand').addClass(`${color}-brand`);
+      ['orange-brand', 'blue-brand', 'purple-brand', 'line-brand', 'pink-brand', 'red-brand', 'brown-brand'].forEach((klass) => {
+        document.body.classList.remove(klass);
+      });
+      document.body.classList.add(`${color}-brand`);
       dropdown.actions.close();
     }
   },

@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 /**
   Function used to calculate the position of the content of the dropdown.
   @public
@@ -28,8 +26,7 @@ export default function(_, _2, { renderInPlace }) {
 
 export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
   // Collect information about all the involved DOM elements
-  let $window = $(self.window);
-  let scroll = { left: $window.scrollLeft(), top: $window.scrollTop() };
+  let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
   let viewportWidth = self.window.innerWidth;
@@ -102,7 +99,7 @@ export function calculateInPlacePosition(trigger, content, { horizontalPosition,
   if (horizontalPosition === 'auto') {
     let triggerRect = trigger.getBoundingClientRect();
     dropdownRect = content.getBoundingClientRect();
-    let viewportRight = $(self.window).scrollLeft() + self.window.innerWidth;
+    let viewportRight = window.pageXOffset + self.window.innerWidth;
     positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
   }
   if (verticalPosition === 'above') {

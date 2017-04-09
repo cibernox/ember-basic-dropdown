@@ -13,11 +13,13 @@ test('It renders the given block in a div with class `ember-basic-dropdown-trigg
   assert.expect(2);
   this.dropdown = { uniqueId: 123 };
   this.render(hbs`
-    {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    <div id="direct-parent">
+      {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+    </div>
   `);
 
   let trigger = find('.ember-basic-dropdown-trigger');
-  assert.equal(this.$().children()[0], trigger, 'The trigger is not wrapped');
+  assert.equal(trigger.parentElement.id, 'direct-parent', 'The trigger is not wrapped');
   assert.equal(trigger.textContent, 'Click me', 'The trigger contains the given block');
 });
 
