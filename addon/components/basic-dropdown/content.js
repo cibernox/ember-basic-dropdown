@@ -7,7 +7,7 @@ import { htmlSafe } from 'ember-string';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
 function closestContent(el) {
-  while (!el.classList.contains('ember-basic-dropdown-content')) {
+  while (el && !el.classList.contains('ember-basic-dropdown-content')) {
     el = el.parentElement;
   }
   return el;
@@ -166,10 +166,10 @@ export default Component.extend({
       return;
     }
 
-    let closestDropdown = closestContent(e.target); // $(e.target).closest('.ember-basic-dropdown-content').get(0);
+    let closestDropdown = closestContent(e.target);
     if (closestDropdown) {
       let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
-      let parentDropdown = closestContent(trigger); // $(trigger).closest('.ember-basic-dropdown-content').get(0);
+      let parentDropdown = closestContent(trigger);
       if (parentDropdown && parentDropdown.attributes.id.value === this.dropdownId) {
         this.hasMoved = false;
         return;
