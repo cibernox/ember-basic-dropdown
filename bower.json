@@ -1,9 +1,0 @@
-{
-  "name": "ember-basic-dropdown",
-  "dependencies": {
-    "ember": "canary"
-  },
-  "resolutions": {
-    "ember": "canary"
-  }
-}
