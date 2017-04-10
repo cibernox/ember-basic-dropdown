@@ -13,8 +13,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null,
-          'ember-native-dom-event-dispatcher': null
+          'ember-native-dom-event-dispatcher': null,
+          'ember-source': null
         }
       }
     },
@@ -30,8 +30,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null,
-          'ember-native-dom-event-dispatcher': null
+          'ember-native-dom-event-dispatcher': null,
+          'ember-source': null
         }
       }
     },
@@ -47,8 +47,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null,
-          'ember-native-dom-event-dispatcher': null
+          'ember-native-dom-event-dispatcher': null,
+          'ember-source': null
         }
       }
     },
@@ -64,8 +64,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null,
-          'ember-native-dom-event-dispatcher': null
+          'ember-native-dom-event-dispatcher': null,
+          'ember-source': null
         }
       }
     },
