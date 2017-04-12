@@ -29,7 +29,7 @@ export function calculateWormholedPosition(trigger, content, { horizontalPositio
   let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-  let viewportWidth = self.window.innerWidth;
+  let viewportWidth = self.document.body.clientWidth || self.window.innerWidth;
   let style = {};
 
   // Calculate drop down width
