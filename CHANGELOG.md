@@ -1,3 +1,6 @@
+- [BUGFIX] Fix calculation of the screen's width when browser shows a scrollbar, which
+  affected dropdowns with `horizontalPosition="right"`.
+
 # 0.31.2
 - Now the addon is 100% jQuery-free. Docs page doesn't use jQuery either. Tests in CI run
   without jquery so if anyone inadvertenly relies on it, tests will fail.
