@@ -3001,9 +3001,9 @@ ember-getowner-polyfill@^1.1.0:
     ember-cli-version-checker "^1.2.0"
     ember-factory-for-polyfill "^1.1.0"
 
-ember-href-to@cibernox/ember-href-to#work-without-jquery:
-  version "1.11.2"
-  resolved ca93afaf1ecb8faf9ff6c1e5536597b45dc7f3cb#864106357d44f039d09a2e7d1522e34c4d4efeb8
+ember-href-to@1.12.0:
+  version "1.12.0"
+  resolved ember-href-to-1.12.0.tgz#19d9d1884810a03bf92bb41e3c528cae6a88abb6
   dependencies:
     ember-cli-babel "^5.1.6"
 
