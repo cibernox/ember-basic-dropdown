@@ -11,6 +11,7 @@ module.exports = {
   "browser_args": {
     "Chrome": [
       "--touch-events",
+      "--disable-gpu",
       "--headless",
       "--remote-debugging-port=9222"
     ]
