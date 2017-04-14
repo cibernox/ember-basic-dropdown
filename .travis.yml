@@ -5,10 +5,10 @@ node_js:
 
 dist: trusty
 sudo: required
-addons:
-  apt:
-    packages:
-     - google-chrome-unstable
+# addons:
+#   apt:
+#     packages:
+#      - google-chrome-unstable
 
 addons:
   apt:
