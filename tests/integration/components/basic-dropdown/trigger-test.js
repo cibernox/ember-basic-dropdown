@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, tapTrigger, nativeTap } from '../../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger, nativeTap, focus } from '../../../helpers/ember-basic-dropdown';
 import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
 import run from 'ember-runloop';
 import set from 'ember-metal/set';
@@ -303,7 +303,7 @@ test('If it receives an `onFocus` action, it will be invoked when it get focused
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown onFocus=onFocus}}Click me{{/basic-dropdown/trigger}}
   `);
-  run(() => find('.ember-basic-dropdown-trigger').focus());
+  focus('.ember-basic-dropdown-trigger').focus();
 });
 
 test('If it receives an `onBlur` action, it will be invoked when it get blurred', function(assert) {
@@ -316,7 +316,7 @@ test('If it receives an `onBlur` action, it will be invoked when it get blurred'
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown onBlur=onBlur}}Click me{{/basic-dropdown/trigger}}
   `);
-  run(() => find('.ember-basic-dropdown-trigger').focus());
+  focus('.ember-basic-dropdown-trigger').focus();
   run(() => find('.ember-basic-dropdown-trigger').blur());
 });
 
