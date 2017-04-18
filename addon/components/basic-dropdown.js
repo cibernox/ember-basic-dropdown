@@ -189,9 +189,15 @@ export default Component.extend({
       }
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
+        let cssRules = [];
         for (let prop in positions.style) {
-          dropdown.style[prop] = positions.style[prop];
+          if (typeof positions.style[prop] === 'number') {
+            cssRules.push(`${prop}: ${positions.style[prop]}px`)
+          } else {
+            cssRules.push(`${prop}: ${positions.style[prop]}`)
+          }
         }
+        dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
     this.setProperties(changes);
