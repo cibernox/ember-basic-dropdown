@@ -40,6 +40,7 @@ export default Component.extend({
   right: null,
   width: null,
   height: null,
+  scrollableElements: '',
 
   // Lifecycle hooks
   init() {
@@ -53,6 +54,7 @@ export default Component.extend({
       uniqueId: guidFor(this),
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
+      scrollables: this.get('scrollableElements'),
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
