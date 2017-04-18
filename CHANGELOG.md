@@ -1,4 +1,4 @@
-# 0.31.3
+# 0.31.4
 - [BUGFIX] Fix calculation of the screen's width when browser shows a scrollbar, which
   affected dropdowns with `horizontalPosition="right"`.
 - [BUGFIX] Fix initial CSS positioning flickering caused by refactor that removed jQuery.
