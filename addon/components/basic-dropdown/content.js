@@ -210,7 +210,7 @@ export default Component.extend({
 
   removeGlobalEvents() {
     let scrollables = this.get('scrollingGlobals');
-    if (scrollables.length) {
+    if (scrollables && scrollables.length) {
       scrollables.forEach(element => {
         element.removeEventListener('scroll', this.runloopAwareReposition);
       });
