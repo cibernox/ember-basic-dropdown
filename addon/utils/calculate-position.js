@@ -24,11 +24,11 @@ export default function(_, _2, { renderInPlace }) {
   }
 }
 
-export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition, targetContainer }) {
+export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition, targetContainerID }) {
   // Collect information about all the involved DOM elements
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-  let container = targetContainer && document.getElementById(targetContainer);
+  let container = targetContainerID && document.getElementById(targetContainerID);
   let style = {};
   let scroll;
   let viewportWidth;
