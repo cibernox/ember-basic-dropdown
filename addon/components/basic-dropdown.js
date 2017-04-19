@@ -56,7 +56,7 @@ export default Component.extend({
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       scrollables: this.get('scrollableElements'),
-      targetContainer: this.get("targetContainer"),
+      targetContainerID: this.get("targetContainerID"),
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -166,7 +166,7 @@ export default Component.extend({
 
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    options.targetContainer = publicAPI.targetContainer;
+    options.targetContainerID = publicAPI.targetContainerID;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
