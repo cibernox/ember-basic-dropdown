@@ -1,5 +1,7 @@
 # Ember-basic-dropdown
 
+[![Build Status](https://travis-ci.org/cibernox/ember-basic-dropdown.svg?branch=master)](https://travis-ci.org/cibernox/ember-basic-dropdown)
+
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
 It is intended to be a building block for more complex components but is perfectly usable. It is
