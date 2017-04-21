@@ -11,11 +11,7 @@ module.exports = function(defaults) {
     options.vendorFiles = { 'jquery.js': null };
   }
 
-  let app = new EmberAddon(defaults, {
-    babel: {
-      includePolyfill: true,
-    },
-  });
+  let app = new EmberAddon(defaults, options);
 
   /*
     This build file specifies the options for the dummy test app of this
