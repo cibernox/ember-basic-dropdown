@@ -1,3 +1,6 @@
+# 0.31.5
+- [INTERNAL] Update ember-concurrency to a version that uses babel 6.
+
 # 0.31.4
 - [BUGFIX] Fix calculation of the screen's width when browser shows a scrollbar, which
   affected dropdowns with `horizontalPosition="right"`.
