@@ -34,6 +34,7 @@ Router.map(function() {
 
     this.route('cookbook', function() {
       this.route('no-trigger');
+      this.route('scrolling-container');
     });
 
     this.route('addons', function() {
