@@ -5,7 +5,8 @@ import layout from '../templates/components/basic-dropdown';
 import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
-const { guidFor } = Ember;
+import computed from 'ember-computed';
+const { guidFor, testing, getOwner } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -87,6 +88,16 @@ export default Component.extend({
       registerAPI(null);
     }
   },
+
+  // CPs
+  destination: computed({
+    get() {
+      return this._getDestinationId();
+    },
+    set(_, v) {
+      return v === undefined ? this._getDestinationId() : v;
+    }
+  }),
 
   // Actions
   actions: {
@@ -225,5 +236,13 @@ export default Component.extend({
       registerAPI(newState);
     }
     return newState;
+  },
+
+  _getDestinationId() {
+    if (testing) {
+      return 'ember-testing';
+    }
+    let config = getOwner(this).resolveRegistration('config:environment');
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });

@@ -12,7 +12,7 @@ function closestContent(el) {
   }
   return el;
 }
-const { testing, getOwner } = Ember;
+const { testing } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const rAF = self.window.requestAnimationFrame || function(cb) {
   cb();
@@ -80,11 +80,12 @@ export default Component.extend({
   },
 
   // CPs
-  to: computed({
+  to: computed('destination', {
     get() {
-      return this._getDestinationId();
+      return this.get('destination');
     },
     set(_, v) {
+      Ember.deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
       return v === undefined ? this._getDestinationId() : v;
     }
   }),
@@ -257,13 +258,5 @@ export default Component.extend({
       self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);
       self.document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
-  },
-
-  _getDestinationId() {
-    if (testing) {
-      return 'ember-testing';
-    }
-    let config = getOwner(this).resolveRegistration('config:environment');
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });

@@ -393,6 +393,21 @@ test('If the component\'s `disabled` property changes, the `registerAPI` action 
   assert.notOk(find('#is-disabled'), 'The select is enabled again');
 });
 
+test('It can receive `destination=id-of-elmnt` to customize where ember-wormhole is going to render the content', async function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{#basic-dropdown destination="id-of-elmnt" as |dd|}}
+      {{#dd.trigger}}Click me{{/dd.trigger}}
+      {{#dd.content}}Hello{{/dd.content}}
+    {{/basic-dropdown}}
+    <div id="id-of-elmnt"></div>
+  `);
+
+  await clickTrigger();
+  assert.equal(find('.ember-basic-dropdown-content').parentNode.id, 'id-of-elmnt', 'The content has been rendered in an alternative destination');
+});
+
 // A11y
 test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function(assert) {
   assert.expect(1);

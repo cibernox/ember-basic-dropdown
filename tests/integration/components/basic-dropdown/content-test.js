@@ -12,7 +12,7 @@ test('If the dropdown is open renders the given block in a div with class `ember
   assert.expect(2);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let content = find('.ember-basic-dropdown-content');
   assert.equal(content.textContent.trim(), 'Lorem ipsum', 'It contains the given block');
@@ -23,7 +23,7 @@ test('If the dropdown is closed, nothing is rendered', function(assert) {
   assert.expect(1);
   this.dropdown = { uniqueId: 'e123', isOpen: false };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   assert.notOk(find('.ember-basic-dropdown-content'), 'Nothing is rendered');
 });
@@ -40,7 +40,7 @@ test('If it receives `renderInPlace=true`, it is rendered right here instead of 
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let content = find('.ember-basic-dropdown-content');
   assert.ok(content, 'It is rendered in the spot');
@@ -52,7 +52,7 @@ test('If it receives `to="foo123"`, it is rendered in the element with that ID',
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     <div id="foo123"></div>
-    {{#basic-dropdown/content dropdown=dropdown to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let content = find('#foo123 .ember-basic-dropdown-content');
   assert.ok(content, 'It is rendered');
@@ -63,7 +63,7 @@ test('It derives the ID of the content from the `uniqueId` property of of the dr
   assert.expect(1);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   assert.equal(find('.ember-basic-dropdown-content').id, 'ember-basic-dropdown-content-e123', 'contains the expected ID');
 });
@@ -72,7 +72,7 @@ test('If it receives `class="foo123"`, the rendered content will have that class
   assert.expect(1);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
 });
@@ -81,7 +81,7 @@ test('If it receives `defaultClass="foo123"`, the rendered content will have tha
   assert.expect(1);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
 });
@@ -90,7 +90,7 @@ test('If it receives `dir="rtl"`, the rendered content will have the attribute s
   assert.expect(1);
   this.dropdown = { isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   assert.equal(find('.ember-basic-dropdown-content').attributes.dir.value, 'rtl', 'The dropdown has `dir="rtl"`');
 });
@@ -110,7 +110,7 @@ test('Clicking anywhere in the app outside the component will invoke the close a
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   click('#other-div');
@@ -129,7 +129,7 @@ test('Clicking anywhere inside the dropdown content doesn\'t invoke the close ac
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
   `);
   click('#inside-div');
 });
@@ -162,9 +162,9 @@ test('Clicking in inside the a dropdown content nested inside another dropdown c
   };
   this.render(hbs`
     <div id="fake-trigger"></div>
-    {{#basic-dropdown/content dropdown=dropdown1}}
+    {{#basic-dropdown/content dropdown=dropdown1 destination='ember-testing'}}
       Lorem ipsum
-      {{#basic-dropdown/content dropdown=dropdown2 renderInPlace=true}}
+      {{#basic-dropdown/content dropdown=dropdown2 destination='ember-testing' renderInPlace=true}}
         <div id="nested-content-div">dolor sit amet</div>
       {{/basic-dropdown/content}}
     {{/basic-dropdown/content}}
@@ -188,7 +188,7 @@ test('Tapping anywhere in the app outside the component will invoke the close ac
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   triggerEvent('#other-div', 'touchstart');
@@ -209,7 +209,7 @@ test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside 
   };
   this.render(hbs`
     <div id="other-div"></div>
-    {{#basic-dropdown/content dropdown=dropdown isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 
   triggerEvent('#other-div', 'touchstart');
@@ -227,7 +227,7 @@ test('If it receives an `onFocusIn` action, it is invoked if a focusin event is 
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown onFocusIn=onFocusIn}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusIn=onFocusIn}}
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
@@ -243,7 +243,7 @@ test('If it receives an `onFocusOut` action, it is invoked if a focusout event i
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown onFocusOut=onFocusOut}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusOut=onFocusOut}}
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
@@ -262,7 +262,7 @@ test('If it receives an `onMouseEnter` action, it is invoked if a mouseenter eve
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown onMouseEnter=onMouseEnter}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseEnter=onMouseEnter}}
       Content
     {{/basic-dropdown/content}}
   `);
@@ -278,7 +278,7 @@ test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave eve
     assert.ok(e instanceof window.Event, 'the second argument is an event');
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown onMouseLeave=onMouseLeave}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseLeave=onMouseLeave}}
       Content
     {{/basic-dropdown/content}}
   `);
@@ -298,7 +298,7 @@ test('The component is repositioned immediatly when opened', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 });
 
@@ -314,7 +314,7 @@ test('The component is not repositioned if it is closed', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
 });
 
@@ -331,7 +331,7 @@ test('The component is repositioned if the window scrolls', function(assert) {
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('scroll')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -350,7 +350,7 @@ test('The component is repositioned if the window is resized', function(assert) 
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('resize')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -369,7 +369,7 @@ test('The component is repositioned if the orientation changes', function(assert
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   run(() => window.dispatchEvent(new window.Event('orientationchange')));
   assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -393,7 +393,7 @@ test('The component is repositioned if the content of the dropdown changs', func
     }
   };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}
       <div id="content-target-div"></div>
     {{/basic-dropdown/content}}
   `);
@@ -409,7 +409,7 @@ test('If it receives an `overlay=true` option, there is an overlay covering all 
   assert.expect(2);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
-    {{#basic-dropdown/content dropdown=dropdown overlay=true}}
+    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' overlay=true}}
       <input type="text" id="test-input-focusin" />
     {{/basic-dropdown/content}}
   `);
