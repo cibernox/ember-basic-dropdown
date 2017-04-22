@@ -1,3 +1,7 @@
+- [BREAKING] Passing `to="id-of-elmnt"` to the `{{#dropdown.content}}` component is deprecated.
+  The way to specify a different destination for `ember-wormhole` is now by passing `destination=id-of-elmnt`
+  to the top-level `{{#basic-dropdown}}` component. The old method works but shows a deprecation message.
+
 # 0.31.5
 - [INTERNAL] Update ember-concurrency to a version that uses babel 6.
 
