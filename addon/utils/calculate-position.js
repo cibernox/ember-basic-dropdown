@@ -24,13 +24,26 @@ export default function(_, _2, { renderInPlace }) {
   }
 }
 
-export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
+export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition, targetContainerID }) {
   // Collect information about all the involved DOM elements
-  let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-  let viewportWidth = self.document.body.clientWidth || self.window.innerWidth;
+  let container = targetContainerID && document.getElementById(targetContainerID);
   let style = {};
+  let scroll;
+  let viewportWidth;
+
+  // consider the offset of the target container
+  if (container) {
+    let scrollParent = getScrollParent(container);
+    triggerLeft -= container.offsetLeft;
+    triggerTop -= container.offsetTop;
+    scroll = { left: scrollParent.scrollLeft, top: scrollParent.scrollTop}
+    viewportWidth = container.clientWidth;
+  } else {
+    scroll = { left: window.pageXOffset, top: window.pageYOffset };
+    viewportWidth = self.document.body.clientWidth || self.window.innerWidth;
+  }
 
   // Calculate drop down width
   dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
@@ -108,4 +121,19 @@ export function calculateInPlacePosition(trigger, content, { horizontalPosition,
     positionData.style = { top: -dropdownRect.height };
   }
   return positionData;
+}
+
+function getScrollParent(node) {
+  if (node === null) {
+    return null;
+  }
+
+  let overflowY = window.getComputedStyle(node).overflowY;
+  let isScrollable = overflowY !== 'visible' && overflowY !== 'hidden';
+
+  if (isScrollable && node.scrollHeight > node.clientHeight) {
+    return node;
+  } else {
+    return getScrollParent(node.parentNode);
+  }
 }
