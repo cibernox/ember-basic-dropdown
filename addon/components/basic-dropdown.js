@@ -40,6 +40,8 @@ export default Component.extend({
   right: null,
   width: null,
   height: null,
+  scrollableElements: '',
+  targetContainer: '',
 
   // Lifecycle hooks
   init() {
@@ -53,6 +55,8 @@ export default Component.extend({
       uniqueId: guidFor(this),
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
+      scrollables: this.get('scrollableElements'),
+      targetContainerID: this.get("targetContainerID"),
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -162,6 +166,7 @@ export default Component.extend({
 
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
+    options.targetContainerID = publicAPI.targetContainerID;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },

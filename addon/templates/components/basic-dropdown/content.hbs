@@ -1,5 +1,5 @@
 {{#if dropdown.isOpen}}
-  {{#ember-wormhole to=to renderInPlace=renderInPlace class="ember-basic-dropdown-content-wormhole-origin"}}
+  {{#ember-wormhole to=(if dropdown.targetContainerID dropdown.targetContainerID to) renderInPlace=renderInPlace class="ember-basic-dropdown-content-wormhole-origin"}}
     {{#if overlay}}
       <div class="ember-basic-dropdown-overlay"></div>
     {{/if}}
