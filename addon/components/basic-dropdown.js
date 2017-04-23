@@ -90,20 +90,12 @@ export default Component.extend({
   },
 
   // CPs
-  defaultDestination: computed(function() {
-    if (testing) {
-      return 'ember-testing';
-    }
-    let config = getOwner(this).resolveRegistration('config:environment');
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
-  }),
-
   destination: computed({
     get() {
-      return this.get('defaultDestination');
+      return this._getDestinationId();
     },
     set(_, v) {
-      return v === undefined ? this.get('defaultDestination') : v;
+      return v === undefined ? this._getDestinationId() : v;
     }
   }),
 
@@ -179,10 +171,10 @@ export default Component.extend({
       return;
     }
 
-    let destination = self.document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || self.document.getElementById(this.get('destination'));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, destination, options);
+    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 
@@ -245,5 +237,13 @@ export default Component.extend({
       registerAPI(newState);
     }
     return newState;
+  },
+
+  _getDestinationId() {
+    if (testing) {
+      return 'ember-testing';
+    }
+    let config = getOwner(this).resolveRegistration('config:environment');
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });

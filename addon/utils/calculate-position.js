@@ -34,17 +34,16 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   let style = {};
 
   // Apply containers' offset
-  console.debug('calculateWormholedPosition');
   let anchorElement = destination.parentNode;
-  let achorPosition = window.getComputedStyle(anchorElement).position;
-  while (achorPosition !== 'relative' && achorPosition !== 'absolute' && anchorElement.tagName !== 'BODY' && destination.parentNode) {
+  let anchorPosition = window.getComputedStyle(anchorElement).position;
+  while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName !== 'BODY' && destination.parentNode) {
     anchorElement = anchorElement.parentNode;
-    achorPosition = window.getComputedStyle(anchorElement).position;
+    anchorPosition = window.getComputedStyle(anchorElement).position;
   }
-  if (achorPosition === 'relative' || achorPosition === 'absolute') {
+  if (anchorPosition === 'relative' || anchorPosition === 'absolute') {
     let rect = anchorElement.getBoundingClientRect();
-    triggerLeft -= rect.left;
-    triggerTop -= rect.top;
+    triggerLeft = triggerLeft - rect.left - anchorElement.offsetParent.scrollLeft;
+    triggerTop = triggerTop - rect.top - anchorElement.offsetParent.scrollTop;
   }
 
   // Calculate drop down width
@@ -123,4 +122,23 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
     positionData.style = { top: -dropdownRect.height };
   }
   return positionData;
+}
+
+export function getScrollParent(element) {
+  let style = self.window.getComputedStyle(element);
+  let excludeStaticParent = style.position === "absolute";
+  let overflowRegex = /(auto|scroll)/;
+
+  if (style.position === "fixed") return document.body;
+  for (let parent = element; (parent = parent.parentElement);) {
+      style = self.window.getComputedStyle(parent);
+      if (excludeStaticParent && style.position === "static") {
+          continue;
+      }
+      if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
+        return parent;
+      }
+  }
+
+  return document.body;
 }
