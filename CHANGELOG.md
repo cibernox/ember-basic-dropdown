@@ -1,5 +1,5 @@
-- [PERF] Avoid repositioning the content when the window scrolls if the wormhole destination
-  is a direct child of the body (that's the case almost always).
+- [ENHANCEMENT] Dropdowns inside elements with their own scroll are finally supported! It works
+  even inside elements with scroll inside another element with scroll inside pages with scroll.
 - [BREAKING/BUGFIX] Closes #233. The positioning logic now accounts for the position of the
   parent of container if it has position relative or absolute. The breaking part is that
   custom `calculatePosition` functions now take the destination element as third arguments,
