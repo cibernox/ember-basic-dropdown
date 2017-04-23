@@ -1,3 +1,7 @@
+- [BREAKING/BUGFIX] Closes #233. The positioning logic now accounts for the position of the
+  parent of container if it has position relative or absolute. The breaking part is that
+  custom `calculatePosition` functions now take the destination element as third arguments,
+  and the object with the options has now been moved to thr forth position.
 - [BREAKING] Passing `to="id-of-elmnt"` to the `{{#dropdown.content}}` component is deprecated.
   The way to specify a different destination for `ember-wormhole` is now by passing `destination=id-of-elmnt`
   to the top-level `{{#basic-dropdown}}` component. The old method works but shows a deprecation message.

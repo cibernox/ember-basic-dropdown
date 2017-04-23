@@ -4,6 +4,7 @@
   @method calculatePosition
   @param {DomElement} trigger The trigger of the dropdown
   @param {DomElement} content The content of the dropdown
+  @param {DomElement} destination The element in which the content is going to be placed.
   @param {Object} options The directives that define how the position is calculated
     - {String} horizantalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
     - {String} verticalPosition How the users want the dropdown to be positioned vertically. Values: above | below
@@ -24,13 +25,21 @@ export default function(_, _2, { renderInPlace }) {
   }
 }
 
-export function calculateWormholedPosition(trigger, content, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
+export function calculateWormholedPosition(trigger, content, destination, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
   // Collect information about all the involved DOM elements
   let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
   let viewportWidth = self.document.body.clientWidth || self.window.innerWidth;
   let style = {};
+
+  // Apply containers' offset
+  let destinationParentPosition = window.getComputedStyle(destination.parentNode).position;
+  if (destinationParentPosition === 'relative' || destinationParentPosition === 'absolute') {
+    let rect = destination.getBoundingClientRect();
+    triggerLeft -= rect.left;
+    triggerTop -= rect.top;
+  }
 
   // Calculate drop down width
   dropdownWidth = matchTriggerWidth ? triggerWidth : dropdownWidth;
@@ -93,7 +102,7 @@ export function calculateWormholedPosition(trigger, content, { horizontalPositio
   return { horizontalPosition, verticalPosition, style };
 }
 
-export function calculateInPlacePosition(trigger, content, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
+export function calculateInPlacePosition(trigger, content, destination, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
   let dropdownRect;
   let positionData = {};
   if (horizontalPosition === 'auto') {
