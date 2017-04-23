@@ -26,12 +26,13 @@
 
 <p>
   The complete signature of the function is: <br>
-  <code>calculatePosition(trigger, content, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })</code> <br>
+  <code>calculatePosition(trigger, content, destination, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })</code> <br>
 </p>
 
 <ul>
   <li><code>trigger</code>: The DOM element of the trigger component</li>
   <li><code>content</code>: The DOM element of the content component</li>
+  <li><code>destination</code>: The DOM element where the content component is going to be inserted</li>
   <li><code>previousHorizontalPosition</code>: The string with the horizontal position the component had in the last time it was repositioned. If you don't provide any or you pass <code>horizontalPosition="auto"</code> it will be <code>"left"</code> or <code>"right"</code> depending on the space around the trigger</li>
   <li><code>horizontalPosition</code>: The string with the current horizontal position. If you don't provide any or you pass <code>horizontalPosition="auto"</code> it will be <code>"left"</code> or <code>"right"</code> depending on the space around the trigger</li>
   <li><code>previousVerticalPosition</code>: The string with the vertical position the component had in the last time it was repositioned. If you don't provide any or you pass <code>verticalPosition="auto"</code> it will be <code>"left"</code> or <code>"right"</code> depending on the space around the trigger</li>
