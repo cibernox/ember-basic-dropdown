@@ -34,11 +34,16 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   let style = {};
 
   // Apply containers' offset
-  let destinationParentPosition = window.getComputedStyle(destination.parentNode).position;
-  if (destinationParentPosition === 'relative' || destinationParentPosition === 'absolute') {
-    let rect = destination.getBoundingClientRect();
-    triggerLeft -= rect.left;
-    triggerTop -= rect.top;
+  let anchorElement = destination.parentNode;
+  let anchorPosition = window.getComputedStyle(anchorElement).position;
+  while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName !== 'BODY' && destination.parentNode) {
+    anchorElement = anchorElement.parentNode;
+    anchorPosition = window.getComputedStyle(anchorElement).position;
+  }
+  if (anchorPosition === 'relative' || anchorPosition === 'absolute') {
+    let rect = anchorElement.getBoundingClientRect();
+    triggerLeft = triggerLeft - rect.left - anchorElement.offsetParent.scrollLeft;
+    triggerTop = triggerTop - rect.top - anchorElement.offsetParent.scrollTop;
   }
 
   // Calculate drop down width
@@ -117,4 +122,23 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
     positionData.style = { top: -dropdownRect.height };
   }
   return positionData;
+}
+
+export function getScrollParent(element) {
+  let style = self.window.getComputedStyle(element);
+  let excludeStaticParent = style.position === "absolute";
+  let overflowRegex = /(auto|scroll)/;
+
+  if (style.position === "fixed") return document.body;
+  for (let parent = element; (parent = parent.parentElement);) {
+      style = self.window.getComputedStyle(parent);
+      if (excludeStaticParent && style.position === "static") {
+          continue;
+      }
+      if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
+        return parent;
+      }
+  }
+
+  return document.body;
 }

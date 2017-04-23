@@ -5,6 +5,7 @@ import computed from 'ember-computed';
 import { join, scheduleOnce } from 'ember-runloop';
 import { htmlSafe } from 'ember-string';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
+import { getScrollParent } from '../../utils/calculate-position';
 
 function closestContent(el) {
   while (el && !el.classList.contains('ember-basic-dropdown-content')) {
@@ -53,6 +54,7 @@ export default Component.extend({
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     let dropdown = this.get('dropdown');
+    this.scrollableAncestors = [];
     this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     if (this.get('animationEnabled')) {
       this.set('animationClass', this.get('transitioningInClass'));
@@ -142,6 +144,7 @@ export default Component.extend({
     let changes = dropdown.actions.reposition();
     if (!this.get('renderInPlace')) {
       this.destinationElement = document.getElementById(this.get('destination'));
+      this.scrollableAncestors = this.getScrollableAncestors();
       this.addGlobalEvents();
       this.startObservingDomMutations();
     } else if (changes.vPosition === 'above') {
@@ -182,9 +185,10 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    if (this.destinationElement.parentNode.tagName !== 'BODY') {
-      self.window.addEventListener('scroll', this.runloopAwareReposition);
-    }
+    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.addEventListener('scroll', this.runloopAwareReposition);
+    });
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -205,6 +209,9 @@ export default Component.extend({
 
   removeGlobalEvents() {
     self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.removeEventListener('scroll', this.runloopAwareReposition);
+    });
     self.window.removeEventListener('resize', this.runloopAwareReposition);
     self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -253,9 +260,23 @@ export default Component.extend({
     self.document.body.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
+  // All ancestors with scroll (except the BODY, which is treated differently)
+  getScrollableAncestors() {
+    let scrollableAncestors = [];
+    if (this.triggerElement) {
+      let nextScrollable = getScrollParent(this.triggerElement.parentNode);
+      while (nextScrollable && nextScrollable.tagName !== 'BODY') {
+        scrollableAncestors.push(nextScrollable);
+        nextScrollable = getScrollParent(nextScrollable.parentNode);
+      }
+    }
+    return scrollableAncestors;
+  },
+
   _teardown() {
     this.removeGlobalEvents();
     this.destinationElement = null;
+    this.scrollableAncestors = [];
     this.stopObservingDomMutations();
     self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
@@ -264,3 +285,4 @@ export default Component.extend({
     }
   }
 });
+

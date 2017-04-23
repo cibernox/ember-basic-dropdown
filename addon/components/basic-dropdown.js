@@ -171,10 +171,10 @@ export default Component.extend({
       return;
     }
 
-    let destination = self.document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || self.document.getElementById(this.get('destination'));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, destination, options);
+    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 
