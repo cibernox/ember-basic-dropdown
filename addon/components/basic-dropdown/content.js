@@ -86,7 +86,7 @@ export default Component.extend({
     },
     set(_, v) {
       Ember.deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
-      return v === undefined ? this._getDestinationId() : v;
+      return v === undefined ? this.get('destination') : v;
     }
   }),
 
@@ -141,6 +141,7 @@ export default Component.extend({
     }
     let changes = dropdown.actions.reposition();
     if (!this.get('renderInPlace')) {
+      this.destinationElement = document.getElementById(this.get('destination'));
       this.addGlobalEvents();
       this.startObservingDomMutations();
     } else if (changes.vPosition === 'above') {
@@ -181,7 +182,9 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    if (this.destinationElement.parentNode.tagName !== 'BODY') {
+      self.window.addEventListener('scroll', this.runloopAwareReposition);
+    }
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -252,6 +255,7 @@ export default Component.extend({
 
   _teardown() {
     this.removeGlobalEvents();
+    this.destinationElement = null;
     this.stopObservingDomMutations();
     self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
