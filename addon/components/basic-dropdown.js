@@ -90,12 +90,20 @@ export default Component.extend({
   },
 
   // CPs
+  defaultDestination: computed(function() {
+    if (testing) {
+      return 'ember-testing';
+    }
+    let config = getOwner(this).resolveRegistration('config:environment');
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+  }),
+
   destination: computed({
     get() {
-      return this._getDestinationId();
+      return this.get('defaultDestination');
     },
     set(_, v) {
-      return v === undefined ? this._getDestinationId() : v;
+      return v === undefined ? this.get('defaultDestination') : v;
     }
   }),
 
@@ -237,13 +245,5 @@ export default Component.extend({
       registerAPI(newState);
     }
     return newState;
-  },
-
-  _getDestinationId() {
-    if (testing) {
-      return 'ember-testing';
-    }
-    let config = getOwner(this).resolveRegistration('config:environment');
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });

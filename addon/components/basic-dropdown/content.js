@@ -33,6 +33,25 @@ function waitForAnimations(element, callback) {
   });
 }
 
+function getScrollParent(element) {
+    var style = self.window.getComputedStyle(element);
+    var excludeStaticParent = style.position === "absolute";
+    var overflowRegex = /(auto|scroll)/;
+
+    if (style.position === "fixed") return document.body;
+    for (var parent = element; (parent = parent.parentElement);) {
+        style = self.window.getComputedStyle(parent);
+        if (excludeStaticParent && style.position === "static") {
+            continue;
+        }
+        if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
+          return parent;
+        }
+    }
+
+    return document.body;
+}
+
 export default Component.extend({
   layout,
   tagName: '',
@@ -185,6 +204,12 @@ export default Component.extend({
     if (this.destinationElement.parentNode.tagName !== 'BODY') {
       self.window.addEventListener('scroll', this.runloopAwareReposition);
     }
+    // if (this.get('destination') !== this.get('defaultDestination')) {
+    //   this.closestScrollableNode = getScrollParent(this.triggerElement);
+    //   if (this.closestScrollableNode) {
+    //     this.closestScrollableNode.addEventListener('scroll', this.runloopAwareReposition);
+    //   }
+    // }
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -205,6 +230,12 @@ export default Component.extend({
 
   removeGlobalEvents() {
     self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    // if (this.get('destination') !== this.get('defaultDestination')) {
+    //   if (this.closestScrollableNode) {
+    //     this.closestScrollableNode.removeEventListener('scroll', this.runloopAwareReposition);
+    //   }
+    //   this.closestScrollableNode = null;
+    // }
     self.window.removeEventListener('resize', this.runloopAwareReposition);
     self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
   },
