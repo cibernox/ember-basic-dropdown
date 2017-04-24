@@ -1,3 +1,6 @@
+# 0.32.0
+- No changes in previous beta
+
 # 0.32.0-beta.0
 - [ENHANCEMENT] Dropdowns inside elements with their own scroll are finally supported! It works
   even inside elements with scroll inside another element with scroll inside pages with scroll.
