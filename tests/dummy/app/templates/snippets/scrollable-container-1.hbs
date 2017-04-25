@@ -1,9 +1,9 @@
 <div class="scroll__container">
-  <div class="scroll__scrolling-container">
+  <div class="scroll__scrolling-container" style="position: relative;" id="dropdown-target">
     <div class="scroll__filler"></div>
     <div class="scroll__content-container">
       <div class="scroll__content">
-        {{#basic-dropdown as |dd| }}
+        {{#basic-dropdown destination="dropdown-target" as |dd| }}
           {{#dd.trigger class="trigger-bootstrap-feel"}}Click me <span class="caret"></span>{{/dd.trigger}}
 
           {{#dd.content class="content-bootstrap-feel"}}
