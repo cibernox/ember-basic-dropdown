@@ -113,9 +113,9 @@ function. It's signature is:
 ```
 calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })
 ```
-The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, styles }` where
+The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, style }` where
 where `horizontalPosition` is a string (`"right" | "center" | "left"`), `verticalPosition` is also a string
-(`"above" | "below"`) and `styles` is an object with CSS properties, typically `top` and `left`/`right`.
+(`"above" | "below"`) and `style` is an object with CSS properties, typically `top` and `left`/`right`.
 
 #### Test helpers
 
