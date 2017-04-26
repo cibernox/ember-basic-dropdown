@@ -79,6 +79,15 @@
       {{#nested.content overlay=true}}
         <p style="color: red;">
           <br>Second level of the second<br>
+          {{#basic-dropdown as |nested2|}}
+            <p style="color: green;"><br>Second level of the dropdpwn<br></p>
+            {{#nested2.trigger tagName="button"}}Trigger of the Third dropdown{{/nested2.trigger}}
+            {{#nested2.content overlay=true}}
+              <p style="color: red;">
+                <br>Third level of the third<br>
+              </p>
+            {{/nested2.content}}
+          {{/basic-dropdown}}
         </p>
       {{/nested.content}}
     {{/basic-dropdown}}
