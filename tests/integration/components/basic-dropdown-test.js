@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
+import { click } from 'ember-native-dom-helpers';
 import { find } from 'ember-native-dom-helpers';
 
 let deprecations = [];
@@ -613,7 +614,7 @@ test('removing the dropdown in response to onClose does not error', async functi
 
   this.onClose = () => {
     this.set('isOpen', false);
-  }
+  };
 
   this.render(hbs`
     {{#if isOpen}}
@@ -629,3 +630,66 @@ test('removing the dropdown in response to onClose does not error', async functi
   await   clickTrigger();
   assert.notOk(find('.ember-basic-dropdown-trigger'), 'the dropdown has been removed');
 });
+
+test('Dropdowns can be infinitely nested, clicking in children will not close parents, clicking in parents closes children', async function(assert) {
+  assert.expect(12);
+
+  this.render(hbs`
+    {{#basic-dropdown as |parent|}}
+      {{#parent.trigger class='parent' tagName="button"}}Trigger of the first dropdown{{/parent.trigger}}
+      {{#parent.content overlay=true}}
+        {{#basic-dropdown as |child|}}
+          <p class="body-parent">
+            <br>First level of the dropdpwn<br>
+          </p>
+          {{#child.trigger class='child' tagName="button"}}Trigger of the second dropdown{{/child.trigger}}
+          {{#child.content overlay=true}}
+            <p class="body-child">
+              <br>Second level of the second<br>
+              {{#basic-dropdown as |grandchild|}}
+                <p>
+                  <br>Second level of the dropdpwn<br>
+                </p>
+                {{#grandchild.trigger class='grandchild' tagName="button"}}Trigger of the Third dropdown{{/grandchild.trigger}}
+                {{#grandchild.content overlay=true}}
+                  <p class="body-grandchild">
+                    <br>Third level of the third<br>
+                  </p>
+                {{/grandchild.content}}
+              {{/basic-dropdown}}
+            </p>
+          {{/child.content}}
+        {{/basic-dropdown}}
+      {{/parent.content}}
+    {{/basic-dropdown}}
+  `);
+  //open the nested dropdown
+  await   click('.ember-basic-dropdown-trigger.parent');
+  assert.ok(find('.body-parent'), 'the parent dropdown is rendered');
+
+  await   click('.ember-basic-dropdown-trigger.child');
+  assert.ok(find('.body-child'), 'the child dropdown is rendered');
+
+  await   click('.ember-basic-dropdown-trigger.grandchild');
+  assert.ok(find('.body-grandchild'), 'the grandchild dropdown is rendered');
+
+  // click in the grandchild dropdown
+  await   click('.body-grandchild');
+  assert.ok(find('.body-grandchild'), 'can click in grandchild dropdown and still be open');
+  assert.ok(find('.body-child'), 'can click in grandchild dropdown and still be open');
+  assert.ok(find('.body-parent'), 'can click in grandchild dropdown and still be open');
+
+  // click in the child dropdown
+  await   click('.body-child');
+  assert.notOk(find('.body-grandchild'), 'grandchild dropdown should not exist becuase we clicked in child');
+  assert.ok(find('.body-child'), 'can click in child dropdown and still be open');
+  assert.ok(find('.body-parent'), 'can click in child dropdown and still be open');
+
+  // click in the parent dropdown
+  await   click('.body-parent');
+  assert.notOk(find('.body-grandchild'), 'grandchild dropdown should not exist becuase we clicked in parent');
+  assert.notOk(find('.body-child'), 'child dropdown should not exist becuase we clicked in parent');
+  assert.ok(find('.body-parent'), 'can click in parent dropdown and still be open');
+
+});
+
