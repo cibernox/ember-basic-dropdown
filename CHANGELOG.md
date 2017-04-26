@@ -1,3 +1,6 @@
+# 0.32.3
+- [ENHANCEMENTE] Allow to nest dropdowns infinitely. Thanks to @alexander-alvarez
+
 # 0.32.2
 - [BUGFIX] Stop looking for scrollable ancestors on the BODY or HTML
 
