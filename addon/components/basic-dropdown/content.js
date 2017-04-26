@@ -34,6 +34,24 @@ function waitForAnimations(element, callback) {
   });
 }
 
+/**
+ * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
+ * 
+ * @param {HTMLElement} el 
+ * @param {String} dropdownId 
+ */
+function dropdownIsValidParent(el, dropdownId) {
+  let closestDropdown = closestContent(el);
+  if (closestDropdown) {
+    let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
+    let parentDropdown = closestContent(trigger);
+    return parentDropdown && parentDropdown.attributes.id.value === dropdownId || dropdownIsValidParent(parentDropdown, dropdownId);
+  } else {
+    return false;
+  }
+}
+
+
 export default Component.extend({
   layout,
   tagName: '',
@@ -171,14 +189,9 @@ export default Component.extend({
       return;
     }
 
-    let closestDropdown = closestContent(e.target);
-    if (closestDropdown) {
-      let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
-      let parentDropdown = closestContent(trigger);
-      if (parentDropdown && parentDropdown.attributes.id.value === this.dropdownId) {
-        this.hasMoved = false;
-        return;
-      }
+    if (dropdownIsValidParent(e.target, this.dropdownId)) {
+      this.hasMoved = false;
+      return;
     }
 
     this.get('dropdown').actions.close(e, true);
