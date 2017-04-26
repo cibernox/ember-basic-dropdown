@@ -1,3 +1,6 @@
+# 0.32.2
+- [BUGFIX] Stop looking for scrollable ancestors on the BODY or HTML
+
 # 0.32.1
 - [BUGFIX] Allow to work if the container has no offsetParent. This happens if the body
   is relative.
