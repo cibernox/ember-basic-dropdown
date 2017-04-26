@@ -265,7 +265,7 @@ export default Component.extend({
     let scrollableAncestors = [];
     if (this.triggerElement) {
       let nextScrollable = getScrollParent(this.triggerElement.parentNode);
-      while (nextScrollable && nextScrollable.tagName !== 'BODY') {
+      while (nextScrollable && nextScrollable.tagName !== 'BODY' && nextScrollable.tagName !== 'HTML') {
         scrollableAncestors.push(nextScrollable);
         nextScrollable = getScrollParent(nextScrollable.parentNode);
       }
