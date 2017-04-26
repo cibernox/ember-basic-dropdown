@@ -1,3 +1,7 @@
+# 0.32.1
+- [BUGFIX] Allow to work if the container has no offsetParent. This happens if the body
+  is relative.
+
 # 0.32.0
 - No changes in previous beta
 
