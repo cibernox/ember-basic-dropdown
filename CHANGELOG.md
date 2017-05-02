@@ -1,3 +1,7 @@
+# 0.32.4
+- [BUGFIX] Fix broken render in place after refactor for allowing dropdowns in scrollable
+  elements.
+
 # 0.32.3
 - [ENHANCEMENTE] Allow to nest dropdowns infinitely. Thanks to @alexander-alvarez
 
