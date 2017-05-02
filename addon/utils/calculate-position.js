@@ -17,7 +17,7 @@
     - {String} verticalPosition The new vertical position.
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
-export default function(_, _2, { renderInPlace }) {
+export default function(_, _2, _destination, { renderInPlace }) {
   if (renderInPlace) {
     return calculateInPlacePosition(...arguments);
   } else {
