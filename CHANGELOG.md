@@ -1,3 +1,6 @@
+# 0.32.5
+- [ENHANCEMENT] Update `ember-native-dom-helpers` to 0.4.0
+
 # 0.32.4
 - [BUGFIX] Fix broken render in place after refactor for allowing dropdowns in scrollable
   elements.
