@@ -49,7 +49,7 @@ export default Component.extend({
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
     this._mouseupHandler = () => {
-      self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+      self.document.removeEventListener('mouseup', this._mouseupHandler, true);
       self.document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
     };
   },
@@ -62,8 +62,8 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
-    self.document.body.removeEventListener('mouseup', this._mouseupHandler, true);
+    self.document.removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.removeEventListener('mouseup', this._mouseupHandler, true);
   },
 
   // CPs
@@ -142,7 +142,7 @@ export default Component.extend({
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
-      self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+      self.document.removeEventListener('touchmove', this._touchMoveHandler);
       // This next three lines are stolen from hammertime. This prevents the default
       // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
       // to simulate natural behaviour.
@@ -178,18 +178,18 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    self.document.body.removeEventListener('touchmove', this._touchMoveHandler);
+    self.document.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
-    self.document.body.addEventListener('mouseup', this._mouseupHandler, true);
+    self.document.addEventListener('mouseup', this._mouseupHandler, true);
     self.document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
       this.element.addEventListener('touchstart', () => {
-        self.document.body.addEventListener('touchmove', this._touchMoveHandler);
+        self.document.addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
