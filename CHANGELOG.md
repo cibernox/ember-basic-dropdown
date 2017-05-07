@@ -1,3 +1,7 @@
+# 0.32.6
+- [BUGFIX] Add global events to the `document` instead of the `body`, so the dropdown works
+  even if the body is smaller than the height of the window
+
 # 0.32.5
 - [ENHANCEMENT] Update `ember-native-dom-helpers` to 0.4.0
 
