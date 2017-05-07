@@ -2,6 +2,7 @@
 <label for="body-scroll-toggler">Make body have horizontal scroll</label>
 <input type="checkbox" id="body-scroll-toggler" checked={{horizontalScrollEnabled}} onchange={{action "toggleHorizontalScroll"}}>
 
+{{!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -12,7 +13,7 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+--}}
 
 {{#basic-dropdown disabled=isDisabled registerAPI=(action "registerAPI") as |dropdown|}}
   {{#dropdown.trigger tagName='input' id="this-is-the-id"}}{{/dropdown.trigger}}
@@ -29,7 +30,7 @@
 <button onclick={{action (mut isDisabled) (not isDisabled)}}>{{if isDisabled "enable" "disable"}}</button>
 <p>remoteController.disabled: {{remoteController.disabled}}</p>
 <p>remoteController.isOpen: {{remoteController.isOpen}}</p>
-
+{{!--
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -178,4 +179,4 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>--}}

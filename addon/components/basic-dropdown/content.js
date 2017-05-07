@@ -36,9 +36,9 @@ function waitForAnimations(element, callback) {
 
 /**
  * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
- * 
- * @param {HTMLElement} el 
- * @param {String} dropdownId 
+ *
+ * @param {HTMLElement} el
+ * @param {String} dropdownId
  */
 function dropdownIsValidParent(el, dropdownId) {
   let closestDropdown = closestContent(el);
@@ -138,10 +138,10 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    self.document.body.addEventListener('mousedown', this.handleRootMouseDown, true);
+    self.document.addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.body.addEventListener('touchstart', this.touchStartHandler, true);
-      self.document.body.addEventListener('touchend', this.handleRootMouseDown, true);
+      self.document.addEventListener('touchstart', this.touchStartHandler, true);
+      self.document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
@@ -265,12 +265,12 @@ export default Component.extend({
   },
 
   touchStartHandler() {
-    self.document.body.addEventListener('touchmove', this.touchMoveHandler, true);
+    self.document.addEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   touchMoveHandler() {
     this.hasMoved = true;
-    self.document.body.removeEventListener('touchmove', this.touchMoveHandler, true);
+    self.document.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   // All ancestors with scroll (except the BODY, which is treated differently)
@@ -291,10 +291,10 @@ export default Component.extend({
     this.destinationElement = null;
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
-    self.document.body.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    self.document.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.body.removeEventListener('touchstart', this.touchStartHandler, true);
-      self.document.body.removeEventListener('touchend', this.handleRootMouseDown, true);
+      self.document.removeEventListener('touchstart', this.touchStartHandler, true);
+      self.document.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
   }
 });
