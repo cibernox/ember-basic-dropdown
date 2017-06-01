@@ -50,6 +50,7 @@
     "ember-href-to": "1.12.1",
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-native-dom-helpers": "^0.4.0",
     "ember-native-dom-event-dispatcher": "^0.6.0",
     "ember-pagefront": "0.11.2",
     "ember-source": "^2.13.0",
@@ -67,7 +68,6 @@
   "dependencies": {
     "ember-cli-babel": "^6.1.0",
     "ember-cli-htmlbars": "^1.1.1",
-    "ember-native-dom-helpers": "^0.4.0",
     "ember-wormhole": "^0.5.1"
   },
   "ember-addon": {
