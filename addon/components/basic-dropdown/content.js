@@ -91,7 +91,8 @@ export default Component.extend({
     this._super(...arguments);
     let oldDropdown = this.get('oldDropdown') || {};
     let dropdown = this.get('dropdown');
-    if (!oldDropdown.isOpen && dropdown.isOpen) {
+    let {top, left, right} = this.getProperties('top', 'left', 'right');
+    if ((!oldDropdown.isOpen || (top === null && left === null && right === null)) && dropdown.isOpen) {
       scheduleOnce('afterRender', this, this.open);
     } else if (oldDropdown.isOpen && !dropdown.isOpen) {
       this.close();
