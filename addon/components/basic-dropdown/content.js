@@ -91,6 +91,10 @@ export default Component.extend({
     this._super(...arguments);
     let oldDropdown = this.get('oldDropdown') || {};
     let dropdown = this.get('dropdown');
+
+    // The following condition checks whether we need to open the dropdown - either because it was
+    // closed and is now open or because it was open and then it was closed and opened pretty much at
+    // the same time, indicated by `top`, `left` and `right` being null.
     let {top, left, right} = this.getProperties('top', 'left', 'right');
     if ((!oldDropdown.isOpen || (top === null && left === null && right === null)) && dropdown.isOpen) {
       scheduleOnce('afterRender', this, this.open);
