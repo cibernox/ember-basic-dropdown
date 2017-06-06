@@ -1,3 +1,6 @@
+# 0.32.7
+- [BUGFIX] Guard agains edge case where positioning could fail if the select close and opened extremely fast
+
 # 0.32.6
 - [BUGFIX] Add global events to the `document` instead of the `body`, so the dropdown works
   even if the body is smaller than the height of the window
