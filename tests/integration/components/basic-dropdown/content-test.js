@@ -47,12 +47,12 @@ test('If it receives `renderInPlace=true`, it is rendered right here instead of 
   assert.notEqual(content.parentElement.id, 'ember-testing', 'It isn\'t rendered in the #ember-testing div');
 });
 
-test('If it receives `to="foo123"`, it is rendered in the element with that ID', function(assert) {
+test('If it receives `destination="foo123"`, it is rendered in the element with that ID', function(assert) {
   assert.expect(2);
   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   this.render(hbs`
     <div id="foo123"></div>
-    {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+    {{#basic-dropdown/content dropdown=dropdown destination='foo123'}}Lorem ipsum{{/basic-dropdown/content}}
   `);
   let content = find('#foo123 .ember-basic-dropdown-content');
   assert.ok(content, 'It is rendered');
