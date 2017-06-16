@@ -1,3 +1,5 @@
+- [ENHANCEMENT] Update `ember-native-dom-helpers` to `^0.5.0`.
+
 # 0.32.7
 - [BUGFIX] Guard agains edge case where positioning could fail if the select close and opened extremely fast
 
