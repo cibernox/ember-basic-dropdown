@@ -1,3 +1,4 @@
+# 0.32.8
 - [ENHANCEMENT] Update `ember-native-dom-helpers` to `^0.5.0`.
 
 # 0.32.7
