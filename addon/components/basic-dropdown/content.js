@@ -259,8 +259,8 @@ export default Component.extend({
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
     let transitioningInClass = this.get('transitioningInClass');
-    clone.classList.remove(...(transitioningInClass.split(' ')));
-    clone.classList.add(...(this.get('transitioningOutClass').split(' ')));
+    clone.classList.remove(...transitioningInClass.split(' '));
+    clone.classList.add(...this.get('transitioningOutClass').split(' '));
     parentElement.appendChild(clone);
     this.set('animationClass', transitioningInClass);
     waitForAnimations(clone, function() {
