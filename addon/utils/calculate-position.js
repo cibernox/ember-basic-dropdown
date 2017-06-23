@@ -6,14 +6,14 @@
   @param {DomElement} content The content of the dropdown
   @param {DomElement} destination The element in which the content is going to be placed.
   @param {Object} options The directives that define how the position is calculated
-    - {String} horizantalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
+    - {String} horizontalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
     - {String} verticalPosition How the users want the dropdown to be positioned vertically. Values: above | below
     - {Boolean} matchTriggerWidth If the user wants the width of the dropdown to match the width of the trigger
-    - {String} previousHorizantalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
+    - {String} previousHorizontalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
     - {String} previousVerticalPosition How the dropdown was positioned for the last time. Same values than verticalPosition, but can be null the first time.
     - {Boolean} renderInPlace Boolean flat that is truthy if the component is rendered in place.
   @return {Object} How the component is going to be positioned.
-    - {String} horizantalPosition The new horizontal position.
+    - {String} horizontalPosition The new horizontal position.
     - {String} verticalPosition The new vertical position.
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
