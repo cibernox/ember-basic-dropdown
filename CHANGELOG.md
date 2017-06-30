@@ -1,3 +1,7 @@
+# 0.32.9
+- [ENHANCEMENT] Add `auto-right` option for horizontal position. It's like `auto`, but it defaults to
+  being anchored to the right unless there is not enough room towards the left for the content.
+
 # 0.32.8
 - [ENHANCEMENT] Update `ember-native-dom-helpers` to `^0.5.0`.
 
