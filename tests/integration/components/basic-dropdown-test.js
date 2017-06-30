@@ -254,6 +254,21 @@ test('It adds the proper class to trigger and content when it receives `horizont
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--center'), 'The proper class has been added');
 });
 
+test('It prefers right over left when it receives "auto-right"', async function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown horizontalPosition="auto-right" as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
+});
+
 test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', async function(assert) {
   assert.expect(2);
 
