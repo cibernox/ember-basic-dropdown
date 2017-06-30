@@ -15,6 +15,8 @@
   <br>
   <input type="radio" id="h-auto" checked={{eq horizontalPosition 'auto'}} onchange={{action (mut horizontalPosition) 'auto'}}>
   <label for="h-auto">auto</label>
+  <input type="radio" id="h-auto-right" checked={{eq horizontalPosition 'auto-right'}} onchange={{action (mut horizontalPosition) 'auto-right'}}>
+  <label for="h-auto-right">auto-right</label>
   <input type="radio" id="h-left" checked={{eq horizontalPosition 'left'}} onchange={{action (mut horizontalPosition) 'left'}}>
   <label for="h-left">left</label>
   <input type="radio" id="h-center" checked={{eq horizontalPosition 'center'}} onchange={{action (mut horizontalPosition) 'center'}}>

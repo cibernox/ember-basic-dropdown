@@ -59,7 +59,7 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
 
   // Calculate horizontal position
   let triggerLeftWithScroll = triggerLeft + scroll.left;
-  if (horizontalPosition === 'auto') {
+  if (horizontalPosition === 'auto' || horizontalPosition === 'auto-left') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
     let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
@@ -76,6 +76,24 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
     } else {
       // Keep same position as previous
       horizontalPosition = previousHorizontalPosition || 'left';
+    }
+  } else if (horizontalPosition === 'auto-right') {
+    // Calculate the number of visible horizontal pixels if we were to place the
+    // dropdown on the left and right
+    let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
+    let rightVisible = Math.min(viewportWidth, triggerLeft + triggerWidth) - Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
+
+    if (dropdownWidth > rightVisible && leftVisible > rightVisible) {
+      // If the drop down won't fit right-aligned, and there is more space on the
+      // left than on the right, then force left-aligned
+      horizontalPosition = 'left';
+    } else if (dropdownWidth > leftVisible && rightVisible > leftVisible) {
+      // If the drop down won't fit left-aligned, and there is more space on
+      // the right than on the left, then force right-aligned
+      horizontalPosition = 'right';
+    } else {
+      // Keep same position as previous
+      horizontalPosition = previousHorizontalPosition || 'right';
     }
   }
   if (horizontalPosition === 'right') {

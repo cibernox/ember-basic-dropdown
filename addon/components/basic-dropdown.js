@@ -30,7 +30,7 @@ export default Component.extend({
   tagName: '',
   renderInPlace: fallbackIfUndefined(false),
   verticalPosition: fallbackIfUndefined('auto'), // above | below
-  horizontalPosition: fallbackIfUndefined('auto'), // right | center | left
+  horizontalPosition: fallbackIfUndefined('auto'), // auto-right | right | center | left
   matchTriggerWidth: fallbackIfUndefined(false),
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
