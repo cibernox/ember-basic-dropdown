@@ -9,11 +9,40 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
+<style>
+  .auto-right-demo-content {
+    width: 350px;
+    background: aliceblue;
+  }
+</style>
+<div style="display: flex; justify-content: space-between">
+  <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
+    {{#basic-dropdown horizontalPosition="right" as |dd|}}
+      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
+      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
+    {{/basic-dropdown}}
+  </div>
+  <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
+    {{#basic-dropdown horizontalPosition="right" as |dd|}}
+      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
+      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
+    {{/basic-dropdown}}
+  </div>
+  <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
+    {{#basic-dropdown horizontalPosition="right" as |dd|}}
+      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
+      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
+    {{/basic-dropdown}}
+  </div>
+  <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
+    {{#basic-dropdown horizontalPosition="right" as |dd|}}
+      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
+      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
+    {{/basic-dropdown}}
+  </div>
+</div>
 
+{{!--
 {{#basic-dropdown disabled=isDisabled registerAPI=(action "registerAPI") as |dropdown|}}
   {{#dropdown.trigger tagName='input' id="this-is-the-id"}}{{/dropdown.trigger}}
   {{#dropdown.content}}
@@ -29,7 +58,6 @@
 <button onclick={{action (mut isDisabled) (not isDisabled)}}>{{if isDisabled "enable" "disable"}}</button>
 <p>remoteController.disabled: {{remoteController.disabled}}</p>
 <p>remoteController.isOpen: {{remoteController.isOpen}}</p>
-
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -46,14 +74,14 @@
 <div style="margin: 10px 200px;">
   {{#basic-dropdown horizontalPosition="center" as |dropdown|}}
     {{#dropdown.trigger}}Click me!{{/dropdown.trigger}}
-    {{#dropdown.content class="bounce-animation-dropdown" overlay=true}}
+    {{#dropdown.content class="auto-right-demo-content" class="bounce-animation-dropdown" overlay=true}}
       <p>This is the content</p>
       <h3>It can contain anything.</h3>
       {{#if showImage}}
         <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
       {{/if}}
       <input type="text">
-    {{/dropdown.content}}
+    {{/dropdown.content class="auto-right-demo-content"}}
   {{/basic-dropdown}}
 </div>
 
@@ -71,28 +99,28 @@
 {{#basic-dropdown as |dropdown|}}
   {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
 
-  {{#dropdown.content overlay=true}}
+  {{#dropdown.content class="auto-right-demo-content" overlay=true}}
 
     {{#basic-dropdown as |nested|}}
       <p style="color: green;"><br>First level of the dropdpwn<br></p>
       {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
-      {{#nested.content overlay=true}}
+      {{#nested.content class="auto-right-demo-content" overlay=true}}
         <p style="color: red;">
           <br>Second level of the second<br>
           {{#basic-dropdown as |nested2|}}
             <p style="color: green;"><br>Second level of the dropdpwn<br></p>
             {{#nested2.trigger tagName="button"}}Trigger of the Third dropdown{{/nested2.trigger}}
-            {{#nested2.content overlay=true}}
+            {{#nested2.content class="auto-right-demo-content" overlay=true}}
               <p style="color: red;">
                 <br>Third level of the third<br>
               </p>
-            {{/nested2.content}}
+            {{/nested2.content class="auto-right-demo-content"}}
           {{/basic-dropdown}}
         </p>
-      {{/nested.content}}
+      {{/nested.content class="auto-right-demo-content"}}
     {{/basic-dropdown}}
 
-  {{/dropdown.content}}
+  {{/dropdown.content class="auto-right-demo-content"}}
 {{/basic-dropdown}}
 
 
@@ -105,11 +133,11 @@
 <div style="margin-left: 600px">
   {{#basic-dropdown as |dropdown|}}
     {{#dropdown.trigger tagName="button"}}Click me{{/dropdown.trigger}}
-    {{#dropdown.content}}
+    {{#dropdown.content class="auto-right-demo-content"}}
       <div style="width: 200px; border: 1px solid blue; margin: 10px;">
         Look ma! I reposition automatically depending on the space around me
       </div>
-    {{/dropdown.content}}
+    {{/dropdown.content class="auto-right-demo-content"}}
   {{/basic-dropdown}}
 </div>
 
@@ -122,11 +150,11 @@
 <div style="margin: 80px">
   {{#basic-dropdown as |dropdown|}}
     {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
-    {{#dropdown.content}}
+    {{#dropdown.content class="auto-right-demo-content"}}
       <p>content</p>
       {{autofocus-input}}
       <p>more content</p>
-    {{/dropdown.content}}
+    {{/dropdown.content class="auto-right-demo-content"}}
   {{/basic-dropdown}}
 </div>
 
@@ -142,13 +170,13 @@
 <h4>Dropdown rendered in place with <code>verticalPosition=above</code>, with changing content</h4>
 {{#basic-dropdown renderInPlace=true verticalPosition="above" onOpen=(action "startAddingContent") onClose=(action "stopAddingContent") as |dd|}}
   {{#dd.trigger}}Click me and I'll open above{{/dd.trigger}}
-  {{#dd.content}}
+  {{#dd.content class="auto-right-demo-content"}}
     <p>I told you!</p>
     <p>I'm above.</p>
     {{#each addedItems as |i|}}
       <li>{{i}}</li>
     {{/each}}
-  {{/dd.content}}
+  {{/dd.content class="auto-right-demo-content"}}
 {{/basic-dropdown}}
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -165,11 +193,12 @@
   {{#dd.trigger onMouseDown=(action "returnFalse") tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
     Hover me
   {{/dd.trigger}}
-  {{#dd.content onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+  {{#dd.content class="auto-right-demo-content" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
     Exit this are to close
     <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
-  {{/dd.content}}
+  {{/dd.content class="auto-right-demo-content"}}
 {{/basic-dropdown}}
+--}}
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
