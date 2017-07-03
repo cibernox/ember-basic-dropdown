@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Controller from 'ember-controller';
+import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];

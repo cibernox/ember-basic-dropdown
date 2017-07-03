@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Controller from 'ember-controller';
+import Controller from '@ember/controller';
 
 const { computed, inject: { service } } = Ember;
 

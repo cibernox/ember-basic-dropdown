@@ -2,8 +2,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, nativeTap } from '../../../helpers/ember-basic-dropdown';
 import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
-import run from 'ember-runloop';
-import set from 'ember-metal/set';
+import { run } from '@ember/runloop';
+import { set } from "@ember/object"
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/trigger', {
   integration: true

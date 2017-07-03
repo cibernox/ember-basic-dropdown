@@ -1,9 +1,9 @@
-import Component from 'ember-component';
-import layout from '../../templates/components/basic-dropdown/content';
+import Component from '@ember/component';
 import Ember from 'ember';
-import computed from 'ember-computed';
-import { join, scheduleOnce } from 'ember-runloop';
-import { htmlSafe } from 'ember-string';
+import { computed } from '@ember/object';
+import { join, scheduleOnce } from '@ember/runloop';
+import { htmlSafe } from '@ember/string';
+import layout from '../../templates/components/basic-dropdown/content';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
 

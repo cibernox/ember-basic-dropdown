@@ -1,12 +1,15 @@
 import Ember from 'ember';
-import Component from 'ember-component';
-import set from  'ember-metal/set';
+import Component from '@ember/component';
+import { set } from '@ember/object';
+import { join } from '@ember/runloop';
+import { computed } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { getOwner } from '@ember/application';
 import layout from '../templates/components/basic-dropdown';
-import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
-import computed from 'ember-computed';
-const { guidFor, testing, getOwner } = Ember;
+
+const { testing } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {

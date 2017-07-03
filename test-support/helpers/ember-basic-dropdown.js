@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import run from 'ember-runloop';
+import { run } from '@ember/runloop';
 import { click } from 'ember-native-dom-helpers';
 import wait from 'ember-test-helpers/wait';
 
