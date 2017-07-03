@@ -1,5 +1,5 @@
-import Controller from 'ember-controller';
-import { htmlSafe } from 'ember-string';
+import Controller from '@ember/controller';
+import { htmlSafe } from '@ember/string';
 
 export default Controller.extend({
   dropdownDisabled: true,

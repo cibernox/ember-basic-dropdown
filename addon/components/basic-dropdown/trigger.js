@@ -1,6 +1,6 @@
+import Component from "@ember/component";
+import { computed } from "@ember/object";
 import layout from '../../templates/components/basic-dropdown/trigger';
-import Component from 'ember-component';
-import computed from 'ember-computed';
 
 const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
 

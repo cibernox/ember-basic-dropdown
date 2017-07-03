@@ -1,5 +1,5 @@
-import Controller from 'ember-controller';
-import { later, cancel } from 'ember-runloop';
+import Controller from '@ember/controller';
+import { later, cancel } from '@ember/runloop';
 
 export default Controller.extend({
   notifications: [
