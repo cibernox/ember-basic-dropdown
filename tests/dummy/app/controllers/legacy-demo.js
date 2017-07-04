@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { schedule, cancel, next } from '@ember/runloop';
 
-const { run } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   showImage: true,
   opened: true,
   horizontalScrollEnabled: false,
@@ -10,7 +9,7 @@ export default Ember.Controller.extend({
 
   actions: {
     registerAPI(dropdown) {
-      Ember.run.schedule('actions', this, this.set, 'remoteController', dropdown);
+      schedule('actions', this, this.set, 'remoteController', dropdown);
     },
 
     toggleOpened() {
@@ -42,7 +41,7 @@ export default Ember.Controller.extend({
 
     mouseEnter(dropdown /*, e */) {
       if (this.closeTimer) {
-        run.cancel(this.closeTimer);
+        cancel(this.closeTimer);
         this.closeTimer = null;
       } else {
         dropdown.actions.open();
@@ -50,7 +49,7 @@ export default Ember.Controller.extend({
     },
 
     mouseLeave(dropdown /*, e */) {
-      this.closeTimer = run.next(this, function() {
+      this.closeTimer = next(this, function() {
         this.closeTimer = null;
         dropdown.actions.close();
       });

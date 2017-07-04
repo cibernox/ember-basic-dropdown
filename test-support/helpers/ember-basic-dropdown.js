@@ -1,10 +1,9 @@
 import Ember from 'ember';
 import { run } from '@ember/runloop';
 import { click } from 'ember-native-dom-helpers';
+import { assign } from '@ember/polyfills';
 import wait from 'ember-test-helpers/wait';
-
 export const nativeClick = click;
-const { merge } = Ember;
 
 export function nativeTap(selector, options = {}) {
   let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
@@ -40,7 +39,7 @@ export function tapTrigger(scope, options = {}) {
 export function fireKeydown(selector, k) {
   let oEvent = document.createEvent('Events');
   oEvent.initEvent('keydown', true, true);
-  merge(oEvent, {
+  assign(oEvent, {
     view: window,
     ctrlKey: false,
     altKey: false,
