@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 
 const users = [
@@ -7,7 +7,7 @@ const users = [
   { name: 'Leah', assignment: 'Community' }
 ];
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   loadUsers: task(function*() {
     yield timeout(1000);
     return users;

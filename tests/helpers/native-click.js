@@ -1,7 +1,6 @@
 import Ember from 'ember';
+import { run } from '@ember/runloop';
 import focus from './native-focus';
-
-const { run } = Ember;
 
 function triggerMouseEvent(node, eventType) {
   let clickEvent = document.createEvent('MouseEvents');

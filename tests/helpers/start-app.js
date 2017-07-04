@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { assign } from '@ember/polyfills';
 import Application from '../../app';
 import config from '../../config/environment';
 import nativeClick from './native-click'; // eslint-disable-line
@@ -7,10 +8,10 @@ import registerBasicDropdownHelpers from '../../tests/helpers/ember-basic-dropdo
 registerBasicDropdownHelpers();
 
 export default function startApp(attrs) {
-  let attributes = Ember.merge({}, config.APP);
-  attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+  let attributes = assign({}, config.APP);
+  attributes = assign(attributes, attrs); // use defaults, but you can override;
 
-  return Ember.run(() => {
+  return run(() => {
     let application = Application.create(attributes);
     application.setupForTesting();
     application.injectTestHelpers();
