@@ -20,6 +20,7 @@ export default Component.extend({
   classNames: ['ember-basic-dropdown-trigger'],
   role: 'button',
   tabindex: 0,
+  eventType: 'mousedown',
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'role',
@@ -105,13 +106,6 @@ export default Component.extend({
   // Actions
   actions: {
     handleMouseDown(e) {
-      if (this.skipHandleMousedown) {
-        // Some devises have both touchscreen & mouse, and they are not mutually exclusive
-        // In those cases the touchdown handler is fired first, and it sets a flag to
-        // short-circuit the mouseup so the component is not opened and immediately closed.
-        this.skipHandleMousedown = false;
-        return;
-      }
       let dropdown = this.get('dropdown');
       if (dropdown.disabled) {
         return;
@@ -123,11 +117,37 @@ export default Component.extend({
       if (onMouseDown && onMouseDown(dropdown, e) === false) {
         return;
       }
-      dropdown.actions.toggle(e);
+      if (this.get('eventType') === 'mousedown') {
+        if (this.toggleIsBeingHandledByTouchEvents) {
+          // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+          // In those cases the touchdown handler is fired first, and it sets a flag to
+          // short-circuit the mouseup so the component is not opened and immediately closed.
+          this.toggleIsBeingHandledByTouchEvents = false;
+          return;
+        }
+        dropdown.actions.toggle(e);
+      }
+    },
+
+    handleClick(e) {
+      let dropdown = this.get('dropdown');
+      if (dropdown.disabled) {
+        return;
+      }
+      if (this.get('eventType') === 'click') {
+        if (this.toggleIsBeingHandledByTouchEvents) {
+          // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+          // In those cases the touchdown handler is fired first, and it sets a flag to
+          // short-circuit the mouseup so the component is not opened and immediately closed.
+          this.toggleIsBeingHandledByTouchEvents = false;
+          return;
+        }
+        dropdown.actions.toggle(e);
+      }
     },
 
     handleTouchEnd(e) {
-      this.skipHandleMousedown = true;
+      this.toggleIsBeingHandledByTouchEvents = true;
       let dropdown = this.get('dropdown');
       if (e && e.defaultPrevented || dropdown.disabled) {
         return;
@@ -188,12 +208,15 @@ export default Component.extend({
 
   addMandatoryHandlers() {
     if (this.get('isTouchDevice')) {
+      // If the component opens on click there is no need of any of this, as the device will
+      // take care tell apart faux clicks from scrolls.
       this.element.addEventListener('touchstart', () => {
         self.document.addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
     this.element.addEventListener('mousedown', (e) => this.send('handleMouseDown', e));
+    this.element.addEventListener('click', (e) => this.send('handleClick', e));
     this.element.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   },
 
