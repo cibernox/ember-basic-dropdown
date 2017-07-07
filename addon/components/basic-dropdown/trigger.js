@@ -131,7 +131,7 @@ export default Component.extend({
 
     handleClick(e) {
       let dropdown = this.get('dropdown');
-      if (dropdown.disabled) {
+      if (!dropdown || dropdown.disabled) {
         return;
       }
       if (this.get('eventType') === 'click') {
