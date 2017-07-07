@@ -485,7 +485,6 @@ test('The `reposition` public action returns an object with the changes', functi
 });
 
 test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function(assert) {
-  assert.expect(4);
   this.calculatePosition = function(triggerElement, dropdownElement, destinationElement, { dropdown }) {
     assert.ok(dropdown, 'dropdown should be passed to the component');
     return {

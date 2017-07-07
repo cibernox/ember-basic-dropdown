@@ -1,3 +1,10 @@
+
+- [ENHANCEMENT] This component by default opens with `mousedown` events, not with `click`. This
+  behavior has its reasons but it's also surprising for some users and it might not be adequate
+  sometimes. Now the trigger accepts an `eventType="mousedown" | "click"` (defaults to `"mousedown"` as today). This doesn't affect touch devices, as those are opened/closed
+  with the `touchend` event.
+- [INTERNAL] Use the new import paths (e.g: `import Component from '@ember/component`)
+
 # 0.32.9
 - [ENHANCEMENT] Add `auto-right` option for horizontal position. It's like `auto`, but it defaults to
   being anchored to the right unless there is not enough room towards the left for the content.
