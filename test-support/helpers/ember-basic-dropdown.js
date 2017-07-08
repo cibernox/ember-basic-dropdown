@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { registerAsyncHelper } from '@ember/test';
 import { run } from '@ember/runloop';
 import { merge } from '@ember/polyfills';
 import { click } from 'ember-native-dom-helpers';
@@ -54,11 +54,11 @@ export function fireKeydown(selector, k) {
 
 // acceptance helpers
 export default function() {
-  Ember.Test.registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
+  registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
     clickTrigger(cssPath, options);
   });
 
-  Ember.Test.registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
+  registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
     tapTrigger(cssPath, options);
   });
 }

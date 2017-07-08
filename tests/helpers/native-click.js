@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { registerAsyncHelper } from '@ember/test';
 import { run } from '@ember/runloop';
 import focus from './native-focus';
 
@@ -8,7 +8,7 @@ function triggerMouseEvent(node, eventType) {
   node.dispatchEvent(clickEvent);
 }
 
-export default Ember.Test.registerAsyncHelper('nativeClick', function(app, selector, context) {
+export default registerAsyncHelper('nativeClick', function(app, selector, context) {
   let el = app.testHelpers.findWithAssert(selector, context).get(0);
   run(() => triggerMouseEvent(el, 'mousedown'));
 
