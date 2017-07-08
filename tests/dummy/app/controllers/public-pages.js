@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import { inject } from "@ember/controller"
+import { computed } from "@ember/object"
+import { htmlSafe } from "@ember/string"
 import Controller from '@ember/controller';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 
-const { computed, String: { htmlSafe } } = Ember;
-
 export default Controller.extend({
-  appController: Ember.inject.controller('application'),
+  appController: inject('application'),
   colors: ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown'],
 
   // CPs
