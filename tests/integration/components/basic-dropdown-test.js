@@ -1,14 +1,13 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { registerDeprecationHandler } from '@ember/debug';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 import { click } from 'ember-native-dom-helpers';
 import { find } from 'ember-native-dom-helpers';
-
 let deprecations = [];
-const { run } = Ember;
 
-Ember.Debug.registerDeprecationHandler((message, options, next) => {
+registerDeprecationHandler((message, options, next) => {
   deprecations.push(message);
   next(message, options);
 });

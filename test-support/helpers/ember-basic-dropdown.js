@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import { run } from '@ember/runloop';
+import { merge } from '@ember/polyfills';
 import { click } from 'ember-native-dom-helpers';
 import wait from 'ember-test-helpers/wait';
 
 export const nativeClick = click;
-const { merge } = Ember;
 
 export function nativeTap(selector, options = {}) {
   let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
