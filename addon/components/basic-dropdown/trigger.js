@@ -168,9 +168,15 @@ export default Component.extend({
       // to simulate natural behaviour.
       e.target.focus();
       setTimeout(function() {
-        let event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, true, window)
-        e.target.dispatchEvent(event);
+        let event;
+        try {
+          event = document.createEvent('MouseEvents');
+          event.initMouseEvent('click', true, true, window);
+        } catch (e) {
+          event = new Event('click');
+        } finally {
+          e.target.dispatchEvent(event);
+        }
       }, 0);
       e.preventDefault();
     },
