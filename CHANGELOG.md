@@ -1,3 +1,5 @@
+- [BUGFIX] Move test helpers to `/addon-test-support` and use `/test-support` only for reexporting
+  so apps don't require babel 6.6.0+ to work.
 
 # 0.33.0
 - [INTERNAL] Stop relying in `Ember.testing` to decide the wormhole destination. Not just uses
