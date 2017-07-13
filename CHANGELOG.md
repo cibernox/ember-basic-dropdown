@@ -1,3 +1,4 @@
+# 0.33.1
 - [BUGFIX] Move test helpers to `/addon-test-support` and use `/test-support` only for reexporting
   so apps don't require babel 6.6.0+ to work.
 
