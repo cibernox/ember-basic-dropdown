@@ -1,4 +1,6 @@
 
+- [INTERNAL] Stop relying in `Ember.testing` to decide the wormhole destination. Not just uses
+  the environment.
 - [ENHANCEMENT] This component by default opens with `mousedown` events, not with `click`. This
   behavior has its reasons but it's also surprising for some users and it might not be adequate
   sometimes. Now the trigger accepts an `eventType="mousedown" | "click"` (defaults to `"mousedown"` as today). This doesn't affect touch devices, as those are opened/closed
