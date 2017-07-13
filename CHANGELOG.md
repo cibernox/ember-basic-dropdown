@@ -1,4 +1,5 @@
 
+# 0.33.0
 - [INTERNAL] Stop relying in `Ember.testing` to decide the wormhole destination. Not just uses
   the environment.
 - [ENHANCEMENT] This component by default opens with `mousedown` events, not with `click`. This
