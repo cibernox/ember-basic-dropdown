@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import Component from '@ember/component';
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
@@ -8,8 +7,6 @@ import { getOwner } from '@ember/application';
 import layout from '../templates/components/basic-dropdown';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
-
-const { testing } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -243,10 +240,10 @@ export default Component.extend({
   },
 
   _getDestinationId() {
-    if (testing) {
+    let config = getOwner(this).resolveRegistration('config:environment');
+    if (config.environment === 'test') {
       return 'ember-testing';
     }
-    let config = getOwner(this).resolveRegistration('config:environment');
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });
