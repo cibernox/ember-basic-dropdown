@@ -21,6 +21,7 @@
   "files": [
     "addon/",
     "app/",
+    "addon-test-support/",
     "test-support/",
     "index.js",
     "vendor"
