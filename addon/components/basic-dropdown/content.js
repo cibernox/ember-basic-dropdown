@@ -9,7 +9,7 @@ import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
 
 function closestContent(el) {
-  while (el && !el.classList.contains('ember-basic-dropdown-content')) {
+  while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
     el = el.parentElement;
   }
   return el;
@@ -306,4 +306,3 @@ export default Component.extend({
     }
   }
 });
-
