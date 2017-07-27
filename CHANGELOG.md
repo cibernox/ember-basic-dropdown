@@ -1,3 +1,4 @@
+# 0.33.2
 - [BUGFIX] Fix positioning problem when the body has position relative.
 
 # 0.33.1
