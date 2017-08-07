@@ -1,6 +1,6 @@
 import EmberBasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
-export default EmberPowerSelect.extend({
+export default EmberBasicDropdown.extend({
   // Place here your system-wide preferences
   triggerComponent: 'my-custom-trigger',
   calculatePosition() {
