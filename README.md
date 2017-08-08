@@ -67,7 +67,7 @@ position it to place it in the proper coordinates.
 You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
 below the trigger.
 
-#### Closed automatically when click outside the component
+#### Close automatically when clicking outside the component
 
 You don't need to care about adding or removing events, it does that for you.
 
@@ -83,6 +83,20 @@ You can make the dropdown content standout a little more by adding `overlay=true
 ```
 
 NOTE: If for some reason clicking outside a dropdown doesn't work, you might want to make sure the `<body>` spans the entire viewport. Adding a css rule like `body {min-height: 100vh;}` would do the trick. It ensures that wherever you click on the page, it will close the dropdown.
+
+#### Close automatically when clicking inside the component
+If you'd like the dropdown to close itself after a user clicks on it, you can use `dd.actions.close` from our public API.
+
+```hbs
+{{#basic-dropdown as |dd|}}
+  {{#dd.trigger}}Click me!{{/dd.trigger}}
+  {{#dd.content}}
+    <div {{action dd.actions.close}}>
+      {{yield dd}}
+    </div>
+  {{/dd.content}}
+{{/basic-dropdown}}
+```
 
 #### Keyboard and touchscreen support
 
