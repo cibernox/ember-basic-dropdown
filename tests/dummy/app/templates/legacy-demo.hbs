@@ -70,18 +70,17 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
-{{!--
 <div style="margin: 10px 200px;">
-  {{#basic-dropdown horizontalPosition="center" as |dropdown|}}
+  {{#basic-dropdown horizontalPosition="center" renderInPlace=true as |dropdown|}}
     {{#dropdown.trigger}}Click me!{{/dropdown.trigger}}
-    {{#dropdown.content class="auto-right-demo-content" class="bounce-animation-dropdown" overlay=true}}
+    {{#dropdown.content class="auto-right-demo-content" class="slide-fade" overlay=true}}
       <p>This is the content</p>
       <h3>It can contain anything.</h3>
       {{#if showImage}}
         <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
       {{/if}}
       <input type="text">
-    {{/dropdown.content class="auto-right-demo-content"}}
+    {{/dropdown.content}}
   {{/basic-dropdown}}
 </div>
 
@@ -94,6 +93,7 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
+{{!--
 <h4>Nested dropdowns</h4>
 
 {{#basic-dropdown as |dropdown|}}

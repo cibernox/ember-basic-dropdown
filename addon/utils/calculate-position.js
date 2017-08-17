@@ -153,6 +153,8 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
     positionData.verticalPosition = verticalPosition;
     dropdownRect = dropdownRect || content.getBoundingClientRect();
     positionData.style = { top: -dropdownRect.height };
+  } else {
+    positionData.verticalPosition = 'below';
   }
   return positionData;
 }

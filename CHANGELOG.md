@@ -1,3 +1,7 @@
+# 0.33.3
+- [BUGFIX] When the component is rendered in-place, it still has to have the `--below` class
+  needed. While not used for positioning, it was used for animations.
+
 # 0.33.2
 - [BUGFIX] Fix positioning problem when the body has position relative.
 
