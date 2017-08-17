@@ -1,3 +1,6 @@
+# 0.33.4
+- [BUGFIX] Allow to use `horizontalPosition="center"` along with `renderInPlace=true`.
+
 # 0.33.3
 - [BUGFIX] When the component is rendered in-place, it still has to have the `--below` class
   needed. While not used for positioning, it was used for animations.
