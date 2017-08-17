@@ -312,6 +312,30 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
 });
 
+test('When rendered in-place, the content still contains the --above/below classes', async function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--below'), 'The content has a class indicating that it was placed below the trigger');
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true verticalPosition="above" as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--above'), 'The content has a class indicating that it was placed above the trigger');
+});
+
 test('It adds a wrapper element when `renderInPlace=true`', async function(assert) {
   assert.expect(1);
 
