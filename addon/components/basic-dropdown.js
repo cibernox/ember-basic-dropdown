@@ -1,12 +1,12 @@
-import Ember from 'ember';
-import Component from 'ember-component';
-import set from  'ember-metal/set';
+import Component from '@ember/component';
+import { set } from '@ember/object';
+import { join } from '@ember/runloop';
+import { computed } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { getOwner } from '@ember/application';
 import layout from '../templates/components/basic-dropdown';
-import { join } from 'ember-runloop';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
-import computed from 'ember-computed';
-const { guidFor, testing, getOwner } = Ember;
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -30,7 +30,7 @@ export default Component.extend({
   tagName: '',
   renderInPlace: fallbackIfUndefined(false),
   verticalPosition: fallbackIfUndefined('auto'), // above | below
-  horizontalPosition: fallbackIfUndefined('auto'), // right | center | left
+  horizontalPosition: fallbackIfUndefined('auto'), // auto-right | right | center | left
   matchTriggerWidth: fallbackIfUndefined(false),
   triggerComponent: fallbackIfUndefined('basic-dropdown/trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown/content'),
@@ -240,10 +240,10 @@ export default Component.extend({
   },
 
   _getDestinationId() {
-    if (testing) {
+    let config = getOwner(this).resolveRegistration('config:environment');
+    if (config.environment === 'test') {
       return 'ember-testing';
     }
-    let config = getOwner(this).resolveRegistration('config:environment');
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });

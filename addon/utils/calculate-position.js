@@ -6,14 +6,14 @@
   @param {DomElement} content The content of the dropdown
   @param {DomElement} destination The element in which the content is going to be placed.
   @param {Object} options The directives that define how the position is calculated
-    - {String} horizantalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
+    - {String} horizontalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
     - {String} verticalPosition How the users want the dropdown to be positioned vertically. Values: above | below
     - {Boolean} matchTriggerWidth If the user wants the width of the dropdown to match the width of the trigger
-    - {String} previousHorizantalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
+    - {String} previousHorizontalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
     - {String} previousVerticalPosition How the dropdown was positioned for the last time. Same values than verticalPosition, but can be null the first time.
     - {Boolean} renderInPlace Boolean flat that is truthy if the component is rendered in place.
   @return {Object} How the component is going to be positioned.
-    - {String} horizantalPosition The new horizontal position.
+    - {String} horizontalPosition The new horizontal position.
     - {String} verticalPosition The new vertical position.
     - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
 */
@@ -44,10 +44,10 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
     let rect = anchorElement.getBoundingClientRect();
     triggerLeft = triggerLeft - rect.left;
     triggerTop = triggerTop - rect.top;
-    let offsetParent = anchorElement.offsetParent;
+    let { offsetParent } = anchorElement;
     if (offsetParent) {
-      triggerLeft -= anchorElement.offsetParent.scrollLeft
-      triggerTop -= anchorElement.offsetParent.scrollTop
+      triggerLeft -= anchorElement.offsetParent.scrollLeft;
+      triggerTop -= anchorElement.offsetParent.scrollTop;
     }
   }
 
@@ -59,7 +59,7 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
 
   // Calculate horizontal position
   let triggerLeftWithScroll = triggerLeft + scroll.left;
-  if (horizontalPosition === 'auto') {
+  if (horizontalPosition === 'auto' || horizontalPosition === 'auto-left') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
     let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
@@ -77,6 +77,24 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
       // Keep same position as previous
       horizontalPosition = previousHorizontalPosition || 'left';
     }
+  } else if (horizontalPosition === 'auto-right') {
+    // Calculate the number of visible horizontal pixels if we were to place the
+    // dropdown on the left and right
+    let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
+    let rightVisible = Math.min(viewportWidth, triggerLeft + triggerWidth) - Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
+
+    if (dropdownWidth > rightVisible && leftVisible > rightVisible) {
+      // If the drop down won't fit right-aligned, and there is more space on the
+      // left than on the right, then force left-aligned
+      horizontalPosition = 'left';
+    } else if (dropdownWidth > leftVisible && rightVisible > leftVisible) {
+      // If the drop down won't fit left-aligned, and there is more space on
+      // the right than on the left, then force right-aligned
+      horizontalPosition = 'right';
+    } else {
+      // Keep same position as previous
+      horizontalPosition = previousHorizontalPosition || 'right';
+    }
   }
   if (horizontalPosition === 'right') {
     style.right = viewportWidth - (triggerLeftWithScroll + triggerWidth);
@@ -87,7 +105,17 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   }
 
   // Calculate vertical position
-  let triggerTopWithScroll = triggerTop + scroll.top;
+  let triggerTopWithScroll = triggerTop;
+
+  /**
+   * Fixes bug where the dropdown always stays on the same position on the screen when
+   * the <body> is relatively positioned
+   */
+  let isBodyPositionRelative = window.getComputedStyle(document.body).getPropertyValue('position') === 'relative';
+  if (!isBodyPositionRelative) {
+    triggerTopWithScroll += scroll.top;
+  }
+
   if (verticalPosition === 'above') {
     style.top = triggerTopWithScroll - dropdownHeight;
   } else if (verticalPosition === 'below') {
@@ -120,11 +148,17 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
     dropdownRect = content.getBoundingClientRect();
     let viewportRight = window.pageXOffset + self.window.innerWidth;
     positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
+  } else if (horizontalPosition === 'center') {
+    let { width: triggerWidth } = trigger.getBoundingClientRect();
+    let { width: dropdownWidth } = content.getBoundingClientRect();
+    positionData.style = { left: (triggerWidth - dropdownWidth) / 2 };
   }
   if (verticalPosition === 'above') {
     positionData.verticalPosition = verticalPosition;
     dropdownRect = dropdownRect || content.getBoundingClientRect();
     positionData.style = { top: -dropdownRect.height };
+  } else {
+    positionData.verticalPosition = 'below';
   }
   return positionData;
 }

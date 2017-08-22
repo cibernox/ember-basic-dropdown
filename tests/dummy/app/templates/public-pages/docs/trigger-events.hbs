@@ -1,6 +1,28 @@
 <h1 class="doc-page-title">Trigger events</h1>
 
 <p>
+  The trigger is the component in charge of opening and closing the dropdown (although it also closes
+  if you click outside it). By default the event that to which the trigger reacts is the <code>mouseDown</code>
+  event, not the `click` event.
+</p>
+
+<p>
+  You can change that passing the <code>eventType="click"</code> to the trigger. Check below both
+  approaches. The different is subtle.
+</p>
+
+{{#code-example hbs="trigger-events-0.hbs" as |partialName|}}
+  {{partial partialName}}
+{{/code-example}}
+
+<p>
+  This does not affect to the behavior of the dropdown on touch devices. On mobile or tablets the
+  dropdown automatically depends on the <code>"touchend"</code> event.
+</p>
+
+<h2>Event handlers</h2>
+
+<p>
   As with the previous component, the events fired are named after the DOM events
   that trigger them, but camelcased.
   accepts a lot of actions whose name is <code>on&lt;EventName&gt;></code>.

@@ -2,8 +2,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, nativeTap } from '../../../helpers/ember-basic-dropdown';
 import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
-import run from 'ember-runloop';
-import set from 'ember-metal/set';
+import { run } from '@ember/runloop';
+import { set } from "@ember/object"
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/trigger', {
   integration: true
@@ -335,7 +335,7 @@ test('If it receives an `onKeyDown` action, it will be invoked when a key is pre
 });
 
 // Default behaviour
-test('Clicking invokes the `toggle` action on the dropdown', function(assert) {
+test('mousedown events invoke the `toggle` action on the dropdown by default', function(assert) {
   assert.expect(2);
   this.dropdown = {
     uniqueId: 123,
@@ -349,7 +349,56 @@ test('Clicking invokes the `toggle` action on the dropdown', function(assert) {
   this.render(hbs`
     {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
   `);
-  clickTrigger();
+  triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+});
+
+test('click events DO NOT invoke the `toggle` action on the dropdown by default', function(assert) {
+  assert.expect(0);
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle() {
+        assert.ok(false);
+      }
+    }
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+  `);
+  triggerEvent('.ember-basic-dropdown-trigger', 'click');
+});
+
+test('mousedown events DO NOT invoke the `toggle` action on the dropdown if `eventType="click"`', function(assert) {
+  assert.expect(0);
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle() {
+        assert.ok(false);
+      }
+    }
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown eventType="click"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+});
+
+test('click events invoke the `toggle` action on the dropdown if `eventType="click"', function(assert) {
+  assert.expect(2);
+  this.dropdown = {
+    uniqueId: 123,
+    actions: {
+      toggle(e) {
+        assert.ok(true, 'The `toggle()` action has been fired');
+        assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+      }
+    }
+  };
+  this.render(hbs`
+    {{#basic-dropdown/trigger dropdown=dropdown eventType="click"}}Click me{{/basic-dropdown/trigger}}
+  `);
+  triggerEvent('.ember-basic-dropdown-trigger', 'click');
 });
 
 test('Pressing ENTER fires the `toggle` action on the dropdown', function(assert) {
@@ -431,12 +480,13 @@ test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns fals
 });
 
 test('Tapping invokes the toggle action on the dropdown', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
   this.dropdown = {
     actions: {
       uniqueId: 123,
       toggle(e) {
         assert.ok(true, 'The `toggle()` action has been fired');
+        assert.equal(e.type, 'touchend', 'The event that toggles the dropdown is the touchend');
         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
       }
     }

@@ -1,3 +1,30 @@
+# 0.33.4
+- [BUGFIX] Allow to use `horizontalPosition="center"` along with `renderInPlace=true`.
+
+# 0.33.3
+- [BUGFIX] When the component is rendered in-place, it still has to have the `--below` class
+  needed. While not used for positioning, it was used for animations.
+
+# 0.33.2
+- [BUGFIX] Fix positioning problem when the body has position relative.
+
+# 0.33.1
+- [BUGFIX] Move test helpers to `/addon-test-support` and use `/test-support` only for reexporting
+  so apps don't require babel 6.6.0+ to work.
+
+# 0.33.0
+- [INTERNAL] Stop relying in `Ember.testing` to decide the wormhole destination. Not just uses
+  the environment.
+- [ENHANCEMENT] This component by default opens with `mousedown` events, not with `click`. This
+  behavior has its reasons but it's also surprising for some users and it might not be adequate
+  sometimes. Now the trigger accepts an `eventType="mousedown" | "click"` (defaults to `"mousedown"` as today). This doesn't affect touch devices, as those are opened/closed
+  with the `touchend` event.
+- [INTERNAL] Use the new import paths (e.g: `import Component from '@ember/component`)
+
+# 0.32.9
+- [ENHANCEMENT] Add `auto-right` option for horizontal position. It's like `auto`, but it defaults to
+  being anchored to the right unless there is not enough room towards the left for the content.
+
 # 0.32.8
 - [ENHANCEMENT] Update `ember-native-dom-helpers` to `^0.5.0`.
 

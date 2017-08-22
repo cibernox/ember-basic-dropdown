@@ -1,14 +1,13 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { registerDeprecationHandler } from '@ember/debug';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
 import { click } from 'ember-native-dom-helpers';
 import { find } from 'ember-native-dom-helpers';
-
 let deprecations = [];
-const { run } = Ember;
 
-Ember.Debug.registerDeprecationHandler((message, options, next) => {
+registerDeprecationHandler((message, options, next) => {
   deprecations.push(message);
   next(message, options);
 });
@@ -254,6 +253,21 @@ test('It adds the proper class to trigger and content when it receives `horizont
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--center'), 'The proper class has been added');
 });
 
+test('It prefers right over left when it receives "auto-right"', async function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown horizontalPosition="auto-right" as |dropdown|}}
+      {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+      {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
+});
+
 test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', async function(assert) {
   assert.expect(2);
 
@@ -296,6 +310,30 @@ test('It adds a special class to both trigger and content when `renderInPlace=tr
   await clickTrigger();
   assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
   assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--in-place'), 'The content has a special `--in-place` class');
+});
+
+test('When rendered in-place, the content still contains the --above/below classes', async function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--below'), 'The content has a class indicating that it was placed below the trigger');
+
+  this.render(hbs`
+    {{#basic-dropdown renderInPlace=true verticalPosition="above" as |dropdown|}}
+      {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
+      {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--above'), 'The content has a class indicating that it was placed above the trigger');
 });
 
 test('It adds a wrapper element when `renderInPlace=true`', async function(assert) {
@@ -470,7 +508,6 @@ test('The `reposition` public action returns an object with the changes', functi
 });
 
 test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function(assert) {
-  assert.expect(4);
   this.calculatePosition = function(triggerElement, dropdownElement, destinationElement, { dropdown }) {
     assert.ok(dropdown, 'dropdown should be passed to the component');
     return {

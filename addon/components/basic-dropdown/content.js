@@ -1,19 +1,19 @@
-import Component from 'ember-component';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { join, scheduleOnce } from '@ember/runloop';
+import { getOwner } from '@ember/application';
+import { htmlSafe } from '@ember/string';
+import { deprecate } from '@ember/debug';
 import layout from '../../templates/components/basic-dropdown/content';
-import Ember from 'ember';
-import computed from 'ember-computed';
-import { join, scheduleOnce } from 'ember-runloop';
-import { htmlSafe } from 'ember-string';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
 
 function closestContent(el) {
-  while (el && !el.classList.contains('ember-basic-dropdown-content')) {
+  while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
     el = el.parentElement;
   }
   return el;
 }
-const { testing } = Ember;
 const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
 const rAF = self.window.requestAnimationFrame || function(cb) {
   cb();
@@ -55,7 +55,6 @@ function dropdownIsValidParent(el, dropdownId) {
 export default Component.extend({
   layout,
   tagName: '',
-  animationEnabled: !testing,
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
   animationClass: '',
@@ -63,7 +62,45 @@ export default Component.extend({
   transitionedInClass: 'ember-basic-dropdown--transitioned-in',
   transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
 
+  // CPs
   _contentTagName: fallbackIfUndefined('div'),
+  animationEnabled: computed(function() {
+    let config = getOwner(this).resolveRegistration('config:environment');
+    return config.environment !== 'test';
+  }),
+
+  to: computed('destination', {
+    get() {
+      return this.get('destination');
+    },
+    set(_, v) {
+      deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
+      return v === undefined ? this.get('destination') : v;
+    }
+  }),
+
+  style: computed('top', 'left', 'right', 'width', 'height', function() {
+    let style = '';
+    let { top, left, right, width, height } = this.getProperties('top', 'left', 'right', 'width', 'height');
+    if (top) {
+      style += `top: ${top};`;
+    }
+    if (left) {
+      style += `left: ${left};`;
+    }
+    if (right) {
+      style += `right: ${right};`;
+    }
+    if (width) {
+      style += `width: ${width};`;
+    }
+    if (height) {
+      style += `height: ${height}`;
+    }
+    if (style.length > 0) {
+      return htmlSafe(style);
+    }
+  }),
 
   // Lifecycle hooks
   init() {
@@ -103,40 +140,6 @@ export default Component.extend({
     }
     this.set('oldDropdown', dropdown);
   },
-
-  // CPs
-  to: computed('destination', {
-    get() {
-      return this.get('destination');
-    },
-    set(_, v) {
-      Ember.deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
-      return v === undefined ? this.get('destination') : v;
-    }
-  }),
-
-  style: computed('top', 'left', 'right', 'width', 'height', function() {
-    let style = '';
-    let { top, left, right, width, height } = this.getProperties('top', 'left', 'right', 'width', 'height');
-    if (top) {
-      style += `top: ${top};`;
-    }
-    if (left) {
-      style += `left: ${left};`;
-    }
-    if (right) {
-      style += `right: ${right};`;
-    }
-    if (width) {
-      style += `width: ${width};`;
-    }
-    if (height) {
-      style += `height: ${height}`;
-    }
-    if (style.length > 0) {
-      return htmlSafe(style);
-    }
-  }),
 
   // Methods
   open() {
@@ -302,4 +305,3 @@ export default Component.extend({
     }
   }
 });
-

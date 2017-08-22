@@ -1,5 +1,5 @@
-import Ember from 'ember';
-import Controller from 'ember-controller';
+import { A } from "@ember/array"
+import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
@@ -19,7 +19,7 @@ export default Controller.extend({
   },
 
   addNames: task(function*() {
-    this.set('names', Ember.A([]));
+    this.set('names', A([]));
     for (let name of names) {
       this.get('names').pushObject(name);
       yield timeout(750);

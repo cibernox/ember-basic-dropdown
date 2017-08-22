@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import run from 'ember-runloop';
+import { run } from '@ember/runloop';
 import { find, click, triggerEvent } from 'ember-native-dom-helpers';
 
 moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/content', {
