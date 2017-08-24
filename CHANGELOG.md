@@ -1,3 +1,7 @@
+# 0.33.5
+- [ENHANCEMENT] Allow `transitioningInClass` and `transitioningOutClass` to be several classes by
+  passing a string with spaces in it.
+
 # 0.33.4
 - [BUGFIX] Allow to use `horizontalPosition="center"` along with `renderInPlace=true`.
 
