@@ -14,13 +14,9 @@ function closestContent(el) {
   }
   return el;
 }
-const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
-const rAF = self.window.requestAnimationFrame || function(cb) {
-  cb();
-};
 
 function waitForAnimations(element, callback) {
-  rAF(function() {
+  self.window.requestAnimationFrame(function() {
     let computedStyle = self.window.getComputedStyle(element);
     if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
       let eventCallback = function() {
@@ -50,7 +46,6 @@ function dropdownIsValidParent(el, dropdownId) {
     return false;
   }
 }
-
 
 export default Component.extend({
   layout,
@@ -215,17 +210,12 @@ export default Component.extend({
   },
 
   startObservingDomMutations() {
-    if (MutObserver) {
-      this.mutationObserver = new MutObserver((mutations) => {
-        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
-          this.runloopAwareReposition();
-        }
-      });
-      this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
-    } else {
-      this.dropdownElement.addEventListener('DOMNodeInserted', this.runloopAwareReposition, false);
-      this.dropdownElement.addEventListener('DOMNodeRemoved', this.runloopAwareReposition, false);
-    }
+    this.mutationObserver = new MutationObserver((mutations) => {
+      if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
+        this.runloopAwareReposition();
+      }
+    });
+    this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
   },
 
   removeGlobalEvents() {
@@ -238,16 +228,9 @@ export default Component.extend({
   },
 
   stopObservingDomMutations() {
-    if (MutObserver) {
-      if (this.mutationObserver) {
-        this.mutationObserver.disconnect();
-        this.mutationObserver = null;
-      }
-    } else {
-      if (this.dropdownElement) {
-        this.dropdownElement.removeEventListener('DOMNodeInserted', this.runloopAwareReposition);
-        this.dropdownElement.removeEventListener('DOMNodeRemoved', this.runloopAwareReposition);
-      }
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
     }
   },
 
