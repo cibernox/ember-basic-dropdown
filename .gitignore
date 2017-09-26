@@ -15,7 +15,13 @@
 /coverage/*
 /libpeerconnection.log
 npm-debug.log*
+yarn-error.log
 testem.log
 .vscode
 .env.deploy.*
 /.idea
+
+# ember-try
+.node_modules.ember-try/
+bower.json.ember-try
+package.json.ember-try
