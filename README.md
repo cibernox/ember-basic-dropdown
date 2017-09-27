@@ -6,7 +6,7 @@ This is a very minimal dropdown. That means that it is agnostic about what it is
 
 It is intended to be a building block for more complex components but is perfectly usable. It is
 by example the addon on which [ember-power-select](https://www.ember-power-select.com)
-or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/release-1/#/components/menu) are built upon.
+or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/components/menu) are built upon.
 
 
 ### Installation
