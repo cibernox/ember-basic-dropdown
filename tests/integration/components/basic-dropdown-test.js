@@ -3,8 +3,7 @@ import { registerDeprecationHandler } from '@ember/debug';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
-import { click } from 'ember-native-dom-helpers';
-import { find } from 'ember-native-dom-helpers';
+import { click, find, focus } from 'ember-native-dom-helpers';
 let deprecations = [];
 
 registerDeprecationHandler((message, options, next) => {
@@ -730,3 +729,25 @@ test('Dropdowns can be infinitely nested, clicking in children will not close pa
 
 });
 
+// Misc bugfixes
+test('[BUGFIX] Dropdowns rendered in place do not register events twice', async function(assert) {
+  assert.expect(2);
+  let called = false;
+  this.onFocusOut = function() {
+    assert.notOk(called);
+    called = true;
+  }
+  this.onOpen = function() {
+    assert.ok(true);
+  }
+  this.render(hbs`
+    <input type="text" id="outer-input">
+    {{#basic-dropdown renderInPlace=true onOpen=onOpen as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content onFocusOut=onFocusOut}}<input type="text" id="inner-input">{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  await clickTrigger();
+  await focus('#inner-input');
+  await focus('#outer-input');
+})

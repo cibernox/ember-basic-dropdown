@@ -1,3 +1,8 @@
+
+# 0.33.6
+- [BUGFIX] Prevent dropdowns with `renderInPlace=true` from being incorrectly opened twice. This had
+  no evident effects, but lead to the events in the `dd.content` component to be added twice.
+
 # 0.33.5
 - [ENHANCEMENT] Allow `transitioningInClass` and `transitioningOutClass` to be several classes by
   passing a string with spaces in it.
