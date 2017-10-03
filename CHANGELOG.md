@@ -1,4 +1,8 @@
 
+- [BUGFIX] Ensure the inline `style` attribute does not output `undefinedpx` when some style is
+  undefined. Also, ensure that both `left` and `right` cannot be applied simultaneous, as it doesn't
+  make sense.
+
 # 0.33.6
 - [BUGFIX] Prevent dropdowns with `renderInPlace=true` from being incorrectly opened twice. This had
   no evident effects, but lead to the events in the `dd.content` component to be added twice.
