@@ -514,7 +514,6 @@ test('The user can pass a custom `calculatePosition` function to customize how t
       verticalPosition: 'above',
       style: {
         top: 111,
-        right: 222,
         width: 100,
         height: 110
       }
@@ -532,7 +531,7 @@ test('The user can pass a custom `calculatePosition` function to customize how t
   let dropdownContent = find('.ember-basic-dropdown-content');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
   assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-  assert.equal(dropdownContent.attributes.style.value, 'top: 111px;right: 222px;width: 100px;height: 110px', 'The style attribute is the expected one');
+  assert.equal(dropdownContent.attributes.style.value, 'top: 111px;width: 100px;height: 110px', 'The style attribute is the expected one');
 });
 
 test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function(assert) {
@@ -750,4 +749,23 @@ test('[BUGFIX] Dropdowns rendered in place do not register events twice', async 
   await clickTrigger();
   await focus('#inner-input');
   await focus('#outer-input');
-})
+});
+
+test('[BUGFIX] It protects the inline styles from undefined values returned in the `calculatePosition` callback', async function(assert) {
+  assert.expect(1);
+  this.calculatePosition = function() {
+    return {
+      style: {
+      }
+    };
+  };
+  this.render(hbs`
+    {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
+      {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+      {{#dropdown.content}}Some content{{/dropdown.content}}
+    {{/basic-dropdown}}
+  `);
+  await clickTrigger();
+  assert.ok(find('.ember-basic-dropdown-content').getAttribute('style').indexOf('undefined') === -1, 'There is no undefined values');
+});
+
