@@ -117,8 +117,7 @@ Check the example in the [Ember Power Select documentation](http://www.ember-pow
 
 This component is smart about where to position the dropdown. It will detect the best place to render
 it based on the space around the trigger, and also will take care of reposition if if the screen is
-resized, scrolled, the device changes it orientation or the content of the dropdown changes
-(implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
+resized, scrolled, the device changes it orientation or the content of the dropdown changes.
 
 You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
 
