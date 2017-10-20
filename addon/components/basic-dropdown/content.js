@@ -162,15 +162,17 @@ export default Component.extend({
     if (onMouseLeave) {
       this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
     }
-    let changes = dropdown.actions.reposition();
+
+    dropdown.actions.reposition();
+
     if (!this.get('renderInPlace')) {
       this.destinationElement = document.getElementById(this.get('destination'));
-      this.scrollableAncestors = this.getScrollableAncestors();
-      this.addGlobalEvents();
-      this.startObservingDomMutations();
-    } else if (changes.vPosition === 'above') {
-      this.startObservingDomMutations();
     }
+
+    // Always wire up events, even if rendered in place.
+    this.scrollableAncestors = this.getScrollableAncestors();
+    this.addGlobalEvents();
+    this.startObservingDomMutations();
 
     if (this.get('animationEnabled')) {
       scheduleOnce('afterRender', this, this.animateIn);
