@@ -404,6 +404,25 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     });
   });
 
+  test('A renderInPlace component is repositioned if the window scrolls', async function(assert) {
+    assert.expect(1);
+    let repositions = 0;
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        reposition() {
+          repositions++;
+        }
+      }
+    };
+    await render(hbs`
+      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+    `);
+    run(() => window.dispatchEvent(new window.Event('scroll')));
+    assert.equal(repositions, 2, 'The component has been repositioned twice');
+  });
+
   // Overlay
   test('If it receives an `overlay=true` option, there is an overlay covering all the screen', async function(assert) {
     assert.expect(2);
