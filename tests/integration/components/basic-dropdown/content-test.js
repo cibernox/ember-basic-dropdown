@@ -318,6 +318,38 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     `);
   });
 
+  test('The component cancels events when preventScroll is true', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        reposition() {}
+      }
+    };
+
+    await render(hbs`
+      <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
+        <div style="width: 200px; height: 200px;">content scroll test</div>
+      </div>
+      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination='ember-testing'}}
+        <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
+          <div style="width: 200px; height: 200px;">content scroll test</div>
+        </div>
+      {{/basic-dropdown/content}}
+    `);
+
+    let innerScrollable = find('#inner-div');
+    let innerScrollableEvent = new WheelEvent('wheel', { deltaY: -4, cancelable: true, bubbles: true });
+    run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
+    assert.equal(innerScrollableEvent.defaultPrevented, false, 'The inner scrollable does not cancel wheel events.');
+
+    let outerScrollable = find('#outer-div');
+    let outerScrollableEvent = new WheelEvent('wheel', { deltaY: -4, cancelable: true, bubbles: true });
+    run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
+    assert.equal(outerScrollableEvent.defaultPrevented, true, 'The outer scrollable cancels wheel events.');
+  });
+
   test('The component is repositioned if the window scrolls', async function(assert) {
     assert.expect(1);
     let repositions = 0;

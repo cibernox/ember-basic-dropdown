@@ -172,6 +172,7 @@ export default Component.extend({
     // Always wire up events, even if rendered in place.
     this.scrollableAncestors = this.getScrollableAncestors();
     this.addGlobalEvents();
+    this.addScrollHandling();
     this.startObservingDomMutations();
 
     if (this.get('animationEnabled')) {
@@ -203,10 +204,6 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    self.window.addEventListener('scroll', this.runloopAwareReposition);
-    this.scrollableAncestors.forEach((el) => {
-      el.addEventListener('scroll', this.runloopAwareReposition);
-    });
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -221,10 +218,6 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    self.window.removeEventListener('scroll', this.runloopAwareReposition);
-    this.scrollableAncestors.forEach((el) => {
-      el.removeEventListener('scroll', this.runloopAwareReposition);
-    });
     self.window.removeEventListener('resize', this.runloopAwareReposition);
     self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
   },
@@ -278,8 +271,49 @@ export default Component.extend({
     return scrollableAncestors;
   },
 
+  addScrollHandling() {
+    if (this.get('preventScroll') === true) {
+      // Only applies `preventDefault()` if the event occurs outside of the dropdown.
+      const element = this.dropdownElement;
+      const preventDefault = (event) => {
+        if (!element.contains(event.target)) {
+          event.preventDefault();
+        }
+      };
+
+      self.document.addEventListener('wheel', preventDefault, { passive: false });
+      self.document.addEventListener('touchmove', preventDefault, { passive: false });
+
+      this.removeScrollHandling = () => {
+        self.document.removeEventListener('wheel', preventDefault);
+        self.document.removeEventListener('touchmove', preventDefault);
+      };
+    } else {
+      this.addScrollEvents();
+      this.removeScrollHandling = this.removeScrollEvents;
+    }
+  },
+
+  // Assigned at runtime to ensure that property changes don't impact outcome.
+  removeScrollHandling() {},
+
+  addScrollEvents() {
+    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.addEventListener('scroll', this.runloopAwareReposition);
+    });
+  },
+
+  removeScrollEvents() {
+    self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.removeEventListener('scroll', this.runloopAwareReposition);
+    });
+  },
+
   _teardown() {
     this.removeGlobalEvents();
+    this.removeScrollHandling();
     this.destinationElement = null;
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
