@@ -53,6 +53,7 @@ export default Component.extend({
   isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
   animationClass: '',
+  scrollingGlobals: null,
   transitioningInClass: 'ember-basic-dropdown--transitioning-in',
   transitionedInClass: 'ember-basic-dropdown--transitioned-in',
   transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
@@ -203,6 +204,14 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
+    let dropdown = this.get('dropdown');
+    if (dropdown.scrollables) {
+      let scrollables = document.querySelectorAll(dropdown.scrollables);
+      this.set('scrollingGlobals', scrollables);
+      scrollables.forEach(element => {
+        element.addEventListener('scroll', this.runloopAwareReposition);
+      });
+    }
     self.window.addEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.addEventListener('scroll', this.runloopAwareReposition);
@@ -221,6 +230,13 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
+    let scrollables = this.get('scrollingGlobals');
+    if (scrollables && scrollables.length) {
+      scrollables.forEach(element => {
+        element.removeEventListener('scroll', this.runloopAwareReposition);
+      });
+      this.set('scrollingGlobals', null);
+    }
     self.window.removeEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.runloopAwareReposition);
