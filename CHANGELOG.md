@@ -1,5 +1,6 @@
 
-- [ENHANCEMENT] Enable renderInPlace dropdowns to be dynamically repositioned. (#350)
+# 0.33.7
+- [ENHANCEMENT] Enable `renderInPlace=true` dropdowns to be dynamically repositioned. (#350)
 - [BUGFIX] Ensure the inline `style` attribute does not output `undefinedpx` when some style is
   undefined. Also, ensure that both `left` and `right` cannot be applied simultaneous, as it doesn't
   make sense.
