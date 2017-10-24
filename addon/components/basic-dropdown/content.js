@@ -263,8 +263,10 @@ export default Component.extend({
   wheelHandler(event) {
     const element = this.dropdownElement;
     if (element.contains(event.target) || element === event.target) {
+      // Discover the amount of scrollable canvas that is within the dropdown.
       const availableScroll = getAvailableScroll(event.target, element);
 
+      // Calculate what the event's desired change to that scrollable canvas is.
       let deltaX, deltaY;
       if (event.deltaMode === 0) {
         // DOM_DELTA_PIXEL: applies almost everywhere.
@@ -274,7 +276,8 @@ export default Component.extend({
         // Reference: https://stackoverflow.com/a/37474225
         // DOM_DELTA_LINE: only applies to Firefox on Windows using a mouse.
         // DOM_DELTA_PAGE: only applies to Firefox on Windows using a mouse with custom settings.
-        // Force to line mode, 3 lines at a time.
+
+        // Force DOM_DELTA_PAGE to line mode, 3 lines at a time.
         const scrollLineHeight = getScrollLineHeight();
         if (event.deltaMode === 2) {
           deltaX = 3;
@@ -285,23 +288,29 @@ export default Component.extend({
         deltaY = event.deltaY * scrollLineHeight;
       }
 
-      if (event.deltaX < availableScroll.deltaXNegative) {
+      // If the consequence of the wheel action would result in scrolling beyond
+      // the scrollable canvas of the dropdown, call preventDefault() and clamp
+      // the value of the delta to the available scroll size.
+      if (deltaX < availableScroll.deltaXNegative) {
         deltaX = availableScroll.deltaXNegative;
         event.preventDefault();
-      } else if (event.deltaX > availableScroll.deltaXPositive) {
+      } else if (deltaX > availableScroll.deltaXPositive) {
         deltaX = availableScroll.deltaXPositive;
         event.preventDefault();
-      } else if (event.deltaY < availableScroll.deltaYNegative) {
+      } else if (deltaY < availableScroll.deltaYNegative) {
         deltaY = availableScroll.deltaYNegative;
         event.preventDefault();
-      } else if (event.deltaY > availableScroll.deltaYPositive) {
+      } else if (deltaY > availableScroll.deltaYPositive) {
         deltaY = availableScroll.deltaYPositive;
         event.preventDefault();
       }
 
-      // This adds back in default behavior for the two good states that the above code breaks.
+      // Add back in the default behavior for the two good states that the above
+      // `preventDefault()` code will break.
       // - Two-axis scrolling on a one-axis scroll container
-      // - The last relevant wheel event if overshooting
+      // - The last relevant wheel event if the scroll is overshooting
+
+      // Also, don't attempt to do this if both of `deltaX` or `deltaY` are 0.
       if (event.defaultPrevented && (deltaX || deltaY)) {
         distributeScroll(deltaX, deltaY, event.target, element);
       }
@@ -334,9 +343,12 @@ export default Component.extend({
     }
   },
 
-  // Assigned at runtime to ensure that property changes don't impact outcome.
+  // Assigned at runtime to ensure that changes to the `preventScroll` property
+  // don't result in not cleaning up after ourselves.
   removeScrollHandling() {},
 
+  // These two functions wire up scroll handling if `preventScroll` is true.
+  // These prevent all scrolling that isn't inside of the dropdown.
   addPreventScrollEvent() {
     self.document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
   },
@@ -344,13 +356,14 @@ export default Component.extend({
     self.document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
   },
 
+  // These two functions wire up scroll handling if `preventScroll` is false.
+  // These trigger reposition of the dropdown.
   addScrollEvents() {
     self.window.addEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.addEventListener('scroll', this.runloopAwareReposition);
     });
   },
-
   removeScrollEvents() {
     self.window.removeEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
