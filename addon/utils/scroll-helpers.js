@@ -3,7 +3,11 @@ export function getScrollLineHeight() {
   if (!scrollLineHeight) {
     const iframe = document.createElement('iframe');
     iframe.src = '#';
-    iframe.style.display = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.visibility = 'hidden';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
     document.body.appendChild(iframe);
     const iframeDocument = iframe.contentWindow.document;
     iframeDocument.open();

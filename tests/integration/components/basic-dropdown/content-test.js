@@ -319,7 +319,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   });
 
   test('The component cancels events when preventScroll is true', async function(assert) {
-    assert.expect(2);
+    assert.expect(4);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -340,14 +340,20 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     `);
 
     let innerScrollable = find('#inner-div');
-    let innerScrollableEvent = new WheelEvent('wheel', { deltaY: -4, cancelable: true, bubbles: true });
+    let innerScrollableEvent = new WheelEvent('wheel', { deltaY: 4, cancelable: true, bubbles: true });
     run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
-    assert.equal(innerScrollableEvent.defaultPrevented, false, 'The inner scrollable does not cancel wheel events.');
+    assert.strictEqual(innerScrollableEvent.defaultPrevented, false, 'The inner scrollable does not cancel wheel events.');
+
+    innerScrollable.scrollTop = 4;
+    let innerScrollableCanceledEvent = new WheelEvent('wheel', { deltaY: -10, cancelable: true, bubbles: true });
+    run(() => innerScrollable.dispatchEvent(innerScrollableCanceledEvent));
+    assert.strictEqual(innerScrollableCanceledEvent.defaultPrevented, true, 'The inner scrollable cancels out of bound wheel events.');
+    assert.strictEqual(innerScrollable.scrollTop, 0, 'The innerScrollable was scrolled anyway.');
 
     let outerScrollable = find('#outer-div');
-    let outerScrollableEvent = new WheelEvent('wheel', { deltaY: -4, cancelable: true, bubbles: true });
+    let outerScrollableEvent = new WheelEvent('wheel', { deltaY: 4, cancelable: true, bubbles: true });
     run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
-    assert.equal(outerScrollableEvent.defaultPrevented, true, 'The outer scrollable cancels wheel events.');
+    assert.strictEqual(outerScrollableEvent.defaultPrevented, true, 'The outer scrollable cancels wheel events.');
   });
 
   test('The component is repositioned if the window scrolls', async function(assert) {
