@@ -7,6 +7,7 @@ import { deprecate } from '@ember/debug';
 import layout from '../../templates/components/basic-dropdown/content';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
+import { distributeScroll, getAvailableScroll, getScrollLineHeight } from '../../utils/scroll-helpers';
 
 function closestContent(el) {
   while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
@@ -103,6 +104,7 @@ export default Component.extend({
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
+    this.wheelHandler = this.wheelHandler.bind(this);
     let dropdown = this.get('dropdown');
     this.scrollableAncestors = [];
     this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
@@ -258,6 +260,57 @@ export default Component.extend({
     self.document.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
+  wheelHandler(event) {
+    const element = this.dropdownElement;
+    if (element.contains(event.target) || element === event.target) {
+      const availableScroll = getAvailableScroll(event.target, element);
+
+      let deltaX, deltaY;
+      if (event.deltaMode === 0) {
+        // DOM_DELTA_PIXEL: applies almost everywhere.
+        deltaX = event.deltaX;
+        deltaY = event.deltaY;
+      } else {
+        // Reference: https://stackoverflow.com/a/37474225
+        // DOM_DELTA_LINE: only applies to Firefox on Windows using a mouse.
+        // DOM_DELTA_PAGE: only applies to Firefox on Windows using a mouse with custom settings.
+        // Force to line mode, 3 lines at a time.
+        const scrollLineHeight = getScrollLineHeight();
+        if (event.deltaMode === 2) {
+          deltaX = 3;
+          deltaY = 3;
+        }
+
+        deltaX = event.deltaX * scrollLineHeight;
+        deltaY = event.deltaY * scrollLineHeight;
+      }
+
+      if (event.deltaX < availableScroll.deltaXNegative) {
+        deltaX = availableScroll.deltaXNegative;
+        event.preventDefault();
+      } else if (event.deltaX > availableScroll.deltaXPositive) {
+        deltaX = availableScroll.deltaXPositive;
+        event.preventDefault();
+      } else if (event.deltaY < availableScroll.deltaYNegative) {
+        deltaY = availableScroll.deltaYNegative;
+        event.preventDefault();
+      } else if (event.deltaY > availableScroll.deltaYPositive) {
+        deltaY = availableScroll.deltaYPositive;
+        event.preventDefault();
+      }
+
+      // This adds back in default behavior for the two good states that the above code breaks.
+      // - Two-axis scrolling on a one-axis scroll container
+      // - The last relevant wheel event if overshooting
+      if (event.defaultPrevented && (deltaX || deltaY)) {
+        distributeScroll(deltaX, deltaY, event.target, element);
+      }
+    } else {
+      // Scrolling outside of the dropdown is prohibited.
+      event.preventDefault();
+    }
+  },
+
   // All ancestors with scroll (except the BODY, which is treated differently)
   getScrollableAncestors() {
     let scrollableAncestors = [];
@@ -273,21 +326,8 @@ export default Component.extend({
 
   addScrollHandling() {
     if (this.get('preventScroll') === true) {
-      // Only applies `preventDefault()` if the event occurs outside of the dropdown.
-      const element = this.dropdownElement;
-      const preventDefault = (event) => {
-        if (!element.contains(event.target)) {
-          event.preventDefault();
-        }
-      };
-
-      self.document.addEventListener('wheel', preventDefault, { passive: false });
-      self.document.addEventListener('touchmove', preventDefault, { passive: false });
-
-      this.removeScrollHandling = () => {
-        self.document.removeEventListener('wheel', preventDefault);
-        self.document.removeEventListener('touchmove', preventDefault);
-      };
+      this.addPreventScrollEvent();
+      this.removeScrollHandling = this.removePreventScrollEvent;
     } else {
       this.addScrollEvents();
       this.removeScrollHandling = this.removeScrollEvents;
@@ -296,6 +336,13 @@ export default Component.extend({
 
   // Assigned at runtime to ensure that property changes don't impact outcome.
   removeScrollHandling() {},
+
+  addPreventScrollEvent() {
+    self.document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+  },
+  removePreventScrollEvent() {
+    self.document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+  },
 
   addScrollEvents() {
     self.window.addEventListener('scroll', this.runloopAwareReposition);
