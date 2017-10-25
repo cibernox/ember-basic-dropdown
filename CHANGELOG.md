@@ -1,4 +1,8 @@
 
+- [ENHANCEMENT] Added `preventScroll=true` option to the `dropdown.content` component to "frezze" all
+  mousewheel-triggered scrolling happening outside the component. Scrolling on touch devices using
+  touchmove can still occur.
+
 # 0.33.7
 - [ENHANCEMENT] Enable `renderInPlace=true` dropdowns to be dynamically repositioned. (#350)
 - [BUGFIX] Ensure the inline `style` attribute does not output `undefinedpx` when some style is

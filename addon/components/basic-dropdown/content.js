@@ -267,12 +267,9 @@ export default Component.extend({
       const availableScroll = getAvailableScroll(event.target, element);
 
       // Calculate what the event's desired change to that scrollable canvas is.
-      let deltaX, deltaY;
-      if (event.deltaMode === 0) {
-        // DOM_DELTA_PIXEL: applies almost everywhere.
-        deltaX = event.deltaX;
-        deltaY = event.deltaY;
-      } else {
+      // DOM_DELTA_PIXEL: applies almost everywhere.
+      let { deltaX, deltaY } = event;
+      if (event.deltaMode !== 0) {
         // Reference: https://stackoverflow.com/a/37474225
         // DOM_DELTA_LINE: only applies to Firefox on Windows using a mouse.
         // DOM_DELTA_PAGE: only applies to Firefox on Windows using a mouse with custom settings.
