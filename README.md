@@ -55,7 +55,7 @@ properties and actions that you can use to control the component.
 }
 ```
 
-Check the full documentation with live examples in https://www.ember-basic-dropdown.com
+Check the full documentation with live examples in http://ember-basic-dropdown.com
 
 ### Features
 
