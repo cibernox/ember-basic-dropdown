@@ -6,7 +6,10 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function(defaults) {
   let project = defaults.project;
   let options = {
-    snippetPaths: ['tests/dummy/app/templates/snippets']
+    snippetPaths: ['tests/dummy/app/templates/snippets'],
+    'ember-font-awesome': {
+      removeUnusedIcons: false // The addon will not remove unused icons, not even in production.
+    }
   };
 
   if (project.findAddonByName('ember-native-dom-event-dispatcher')) {
