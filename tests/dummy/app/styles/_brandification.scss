@@ -76,7 +76,8 @@
   background-color: $red-color;
 }
 
-@include brandify($brown-color, $brown-color-brighter);
+// @include brandify($brown-color, $brown-color-brighter);
+@include brandify($purple-color, $purple-color-brighter);
 
 .orange-brand {
   @include brandify($orange-color, $orange-color-brighter);
