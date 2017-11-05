@@ -152,7 +152,14 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
     let { width: triggerWidth } = trigger.getBoundingClientRect();
     let { width: dropdownWidth } = content.getBoundingClientRect();
     positionData.style = { left: (triggerWidth - dropdownWidth) / 2 };
+  } else if (horizontalPosition === 'auto-right') {
+    let triggerRect = trigger.getBoundingClientRect();
+    let dropdownRect = content.getBoundingClientRect();
+    positionData.horizontalPosition = triggerRect.right > dropdownRect.width ? 'right' : 'left';
+  } else if (horizontalPosition === 'right') {
+    positionData.horizontalPosition = 'right';
   }
+
   if (verticalPosition === 'above') {
     positionData.verticalPosition = verticalPosition;
     dropdownRect = dropdownRect || content.getBoundingClientRect();
