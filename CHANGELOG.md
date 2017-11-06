@@ -1,4 +1,6 @@
 
+# 0.33.9
+- [ENHANCEMENT] Allow to bind the role attribute of the trigger
 - [ENHANCEMENT] Added `preventScroll=true` option to the `dropdown.content` component to "frezze" all
   mousewheel-triggered scrolling happening outside the component. Scrolling on touch devices using
   touchmove can still occur.
