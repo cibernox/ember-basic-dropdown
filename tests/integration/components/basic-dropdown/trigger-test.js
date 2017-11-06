@@ -219,8 +219,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
   test('If it does not receive an specific `role`, the default is `button`', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
+    this.role = undefined;
     await render(hbs`
-      {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
+      {{#basic-dropdown/trigger dropdown=dropdown role=role}}Click me{{/basic-dropdown/trigger}}
     `);
     let trigger = find('.ember-basic-dropdown-trigger');
     assert.equal(trigger.attributes.role.value, 'button');
@@ -753,4 +754,3 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
 // moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/trigger', {
 //   integration: true
 // });
-

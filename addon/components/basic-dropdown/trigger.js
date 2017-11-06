@@ -1,6 +1,8 @@
 import Component from "@ember/component";
 import { computed } from "@ember/object";
+import { readOnly } from "@ember/object/computed";
 import layout from '../../templates/components/basic-dropdown/trigger';
+import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
 const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
 
@@ -18,12 +20,16 @@ export default Component.extend({
   layout,
   isTouchDevice,
   classNames: ['ember-basic-dropdown-trigger'],
-  role: 'button',
+  role: fallbackIfUndefined('button'),
+
+  // Need this intermediary property, because in older ember versions the passed in attribute would
+  // be bound and CP calculations wouldn't be taken into consideration
+  ariaRole: readOnly('role'),
   tabindex: 0,
   eventType: 'mousedown',
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
-    'role',
+    'ariaRole:role',
     'style',
     'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
