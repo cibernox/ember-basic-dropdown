@@ -6,7 +6,7 @@ This is a very minimal dropdown. That means that it is agnostic about what it is
 
 It is intended to be a building block for more complex components but is perfectly usable. It is
 by example the addon on which [ember-power-select](https://www.ember-power-select.com)
-or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/release-1/#/components/menu) are built upon.
+or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/components/menu) are built upon.
 
 
 ### Installation
@@ -55,7 +55,7 @@ properties and actions that you can use to control the component.
 }
 ```
 
-Check the full documentation with live examples in https://www.ember-basic-dropdown.com
+Check the full documentation with live examples in http://ember-basic-dropdown.com
 
 ### Features
 
@@ -67,7 +67,7 @@ position it to place it in the proper coordinates.
 You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
 below the trigger.
 
-#### Closed automatically when click outside the component
+#### Close automatically when clicking outside the component
 
 You don't need to care about adding or removing events, it does that for you.
 
@@ -83,6 +83,20 @@ You can make the dropdown content standout a little more by adding `overlay=true
 ```
 
 NOTE: If for some reason clicking outside a dropdown doesn't work, you might want to make sure the `<body>` spans the entire viewport. Adding a css rule like `body {min-height: 100vh;}` would do the trick. It ensures that wherever you click on the page, it will close the dropdown.
+
+#### Close automatically when clicking inside the component
+If you'd like the dropdown to close itself after a user clicks on it, you can use `dd.actions.close` from our public API.
+
+```hbs
+{{#basic-dropdown as |dd|}}
+  {{#dd.trigger}}Click me!{{/dd.trigger}}
+  {{#dd.content}}
+    <div {{action dd.actions.close}}>
+      {{yield dd}}
+    </div>
+  {{/dd.content}}
+{{/basic-dropdown}}
+```
 
 #### Keyboard and touchscreen support
 
@@ -103,8 +117,7 @@ Check the example in the [Ember Power Select documentation](http://www.ember-pow
 
 This component is smart about where to position the dropdown. It will detect the best place to render
 it based on the space around the trigger, and also will take care of reposition if if the screen is
-resized, scrolled, the device changes it orientation or the content of the dropdown changes
-(implemented with MutationObservers in modern browsers with fallback to DOM events in IE 9/10).
+resized, scrolled, the device changes it orientation or the content of the dropdown changes.
 
 You can force the component to be fixed in one position by passing `verticalPosition = above | below` and/or `horizontalPosition = right | center | left`.
 

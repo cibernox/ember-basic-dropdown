@@ -51,12 +51,22 @@
     <tr>
       <td>matchTriggerWidth</td>
       <td><code>Boolean</code></td>
-      <td>Flag that indicates wheter or not the content's width should be equal to the width of the trigger.</td>
+      <td>(Default: <code>false</code>). Flag that indicates whether or not the content's width should be equal to the width of the trigger.</td>
+    </tr>
+    <tr>
+      <td>preventScroll</td>
+      <td><code>Boolean</code></td>
+      <td>(Default: <code>false</code>). Flag that prevents any elements on the page outside the dropdown from scrolling. This matches platform-provided <code>select</code> element behavior. Note that this has no effect when scroll is performed on touch devic</td>
     </tr>
     <tr>
       <td>renderInPlace</td>
       <td><code>String</code></td>
       <td>When passed <code>true</code>, the content will render next to the trigger instead of being placed in the root of the body.</td>
+    </tr>
+    <tr>
+      <td>initiallyOpened</td>
+      <td><code>Boolean</code></td>
+      <td>(Default: <code>false</code>). When passed <code>true</code> the component is first rendered open. Used in combination with <code>preventScroll</code> it changes Fastboot user experience, but other than that it does not alter its behavior. The user can close it as usual.</td>
     </tr>
     <tr>
       <td>tagName</td>
@@ -261,7 +271,7 @@
     actions: {
       close() { ... },              // Closes the dropdown
       open() { ... },               // Opens the dropdown
-      reposition() { ... },         // Repositions the dropdown (noop if renderInPlace=true)
+      reposition() { ... },         // Repositions the dropdown
       toggle() { ... }              // Toggles the dropdown
     }
   }

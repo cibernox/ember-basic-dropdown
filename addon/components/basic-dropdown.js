@@ -184,11 +184,17 @@ export default Component.extend({
       vPosition: positions.verticalPosition
     };
     if (positions.style) {
-      changes.top = `${positions.style.top}px`;
+      if (positions.style.top !== undefined) {
+        changes.top = `${positions.style.top}px`;
+      }
       // The component can be aligned from the right or from the left, but not from both.
       if (positions.style.left !== undefined) {
         changes.left = `${positions.style.left}px`;
         changes.right = null;
+        // Since we set the first run manually we may need to unset the `right` property.
+        if (positions.style.right !== undefined) {
+          positions.style.right = undefined;
+        }
       } else if (positions.style.right !== undefined) {
         changes.right = `${positions.style.right}px`;
         changes.left = null;
@@ -203,10 +209,12 @@ export default Component.extend({
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
         for (let prop in positions.style) {
-          if (typeof positions.style[prop] === 'number') {
-            cssRules.push(`${prop}: ${positions.style[prop]}px`)
-          } else {
-            cssRules.push(`${prop}: ${positions.style[prop]}`)
+          if (positions.style[prop] !== undefined) {
+            if (typeof positions.style[prop] === 'number') {
+              cssRules.push(`${prop}: ${positions.style[prop]}px`)
+            } else {
+              cssRules.push(`${prop}: ${positions.style[prop]}`)
+            }
           }
         }
         dropdown.setAttribute('style', cssRules.join(';'));

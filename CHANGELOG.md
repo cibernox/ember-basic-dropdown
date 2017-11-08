@@ -1,3 +1,32 @@
+
+# 0.33.9
+- [ENHANCEMENT] Allow to bind the role attribute of the trigger
+- [ENHANCEMENT] Added `preventScroll=true` option to the `dropdown.content` component to "frezze" all
+  mousewheel-triggered scrolling happening outside the component. Scrolling on touch devices using
+  touchmove can still occur.
+
+# 0.33.7
+- [ENHANCEMENT] Enable `renderInPlace=true` dropdowns to be dynamically repositioned. (#350)
+- [BUGFIX] Ensure the inline `style` attribute does not output `undefinedpx` when some style is
+  undefined. Also, ensure that both `left` and `right` cannot be applied simultaneous, as it doesn't
+  make sense.
+
+# 0.33.6
+- [BUGFIX] Prevent dropdowns with `renderInPlace=true` from being incorrectly opened twice. This had
+  no evident effects, but lead to the events in the `dd.content` component to be added twice.
+- [BREAKING] Remove support for IE9/IE10.
+
+# 0.33.5
+- [ENHANCEMENT] Allow `transitioningInClass` and `transitioningOutClass` to be several classes by
+  passing a string with spaces in it.
+
+# 0.33.4
+- [BUGFIX] Allow to use `horizontalPosition="center"` along with `renderInPlace=true`.
+
+# 0.33.3
+- [BUGFIX] When the component is rendered in-place, it still has to have the `--below` class
+  needed. While not used for positioning, it was used for animations.
+
 # 0.33.2
 - [BUGFIX] Fix positioning problem when the body has position relative.
 

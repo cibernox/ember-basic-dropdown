@@ -7,6 +7,7 @@ import { deprecate } from '@ember/debug';
 import layout from '../../templates/components/basic-dropdown/content';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
+import { distributeScroll, getAvailableScroll, getScrollLineHeight } from '../../utils/scroll-helpers';
 
 function closestContent(el) {
   while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
@@ -14,13 +15,9 @@ function closestContent(el) {
   }
   return el;
 }
-const MutObserver = self.window.MutationObserver || self.window.WebKitMutationObserver;
-const rAF = self.window.requestAnimationFrame || function(cb) {
-  cb();
-};
 
 function waitForAnimations(element, callback) {
-  rAF(function() {
+  self.window.requestAnimationFrame(function() {
     let computedStyle = self.window.getComputedStyle(element);
     if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
       let eventCallback = function() {
@@ -50,7 +47,6 @@ function dropdownIsValidParent(el, dropdownId) {
     return false;
   }
 }
-
 
 export default Component.extend({
   layout,
@@ -108,6 +104,7 @@ export default Component.extend({
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
+    this.wheelHandler = this.wheelHandler.bind(this);
     let dropdown = this.get('dropdown');
     this.scrollableAncestors = [];
     this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
@@ -132,8 +129,8 @@ export default Component.extend({
     // The following condition checks whether we need to open the dropdown - either because it was
     // closed and is now open or because it was open and then it was closed and opened pretty much at
     // the same time, indicated by `top`, `left` and `right` being null.
-    let {top, left, right} = this.getProperties('top', 'left', 'right');
-    if ((!oldDropdown.isOpen || (top === null && left === null && right === null)) && dropdown.isOpen) {
+    let {top, left, right, renderInPlace} = this.getProperties('top', 'left', 'right', 'renderInPlace');
+    if ((!oldDropdown.isOpen || (top === null && left === null && right === null && renderInPlace === false)) && dropdown.isOpen) {
       scheduleOnce('afterRender', this, this.open);
     } else if (oldDropdown.isOpen && !dropdown.isOpen) {
       this.close();
@@ -167,15 +164,18 @@ export default Component.extend({
     if (onMouseLeave) {
       this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
     }
-    let changes = dropdown.actions.reposition();
+
+    dropdown.actions.reposition();
+
     if (!this.get('renderInPlace')) {
       this.destinationElement = document.getElementById(this.get('destination'));
-      this.scrollableAncestors = this.getScrollableAncestors();
-      this.addGlobalEvents();
-      this.startObservingDomMutations();
-    } else if (changes.vPosition === 'above') {
-      this.startObservingDomMutations();
     }
+
+    // Always wire up events, even if rendered in place.
+    this.scrollableAncestors = this.getScrollableAncestors();
+    this.addGlobalEvents();
+    this.addScrollHandling();
+    this.startObservingDomMutations();
 
     if (this.get('animationEnabled')) {
       scheduleOnce('afterRender', this, this.animateIn);
@@ -206,48 +206,28 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    self.window.addEventListener('scroll', this.runloopAwareReposition);
-    this.scrollableAncestors.forEach((el) => {
-      el.addEventListener('scroll', this.runloopAwareReposition);
-    });
     self.window.addEventListener('resize', this.runloopAwareReposition);
     self.window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
 
   startObservingDomMutations() {
-    if (MutObserver) {
-      this.mutationObserver = new MutObserver((mutations) => {
-        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
-          this.runloopAwareReposition();
-        }
-      });
-      this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
-    } else {
-      this.dropdownElement.addEventListener('DOMNodeInserted', this.runloopAwareReposition, false);
-      this.dropdownElement.addEventListener('DOMNodeRemoved', this.runloopAwareReposition, false);
-    }
+    this.mutationObserver = new MutationObserver((mutations) => {
+      if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
+        this.runloopAwareReposition();
+      }
+    });
+    this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
   },
 
   removeGlobalEvents() {
-    self.window.removeEventListener('scroll', this.runloopAwareReposition);
-    this.scrollableAncestors.forEach((el) => {
-      el.removeEventListener('scroll', this.runloopAwareReposition);
-    });
     self.window.removeEventListener('resize', this.runloopAwareReposition);
     self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
   },
 
   stopObservingDomMutations() {
-    if (MutObserver) {
-      if (this.mutationObserver) {
-        this.mutationObserver.disconnect();
-        this.mutationObserver = null;
-      }
-    } else {
-      if (this.dropdownElement) {
-        this.dropdownElement.removeEventListener('DOMNodeInserted', this.runloopAwareReposition);
-        this.dropdownElement.removeEventListener('DOMNodeRemoved', this.runloopAwareReposition);
-      }
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
     }
   },
 
@@ -262,9 +242,8 @@ export default Component.extend({
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
     let transitioningInClass = this.get('transitioningInClass');
-    clone.classList.remove(this.get('transitionedInClass'));
-    clone.classList.remove(transitioningInClass);
-    clone.classList.add(this.get('transitioningOutClass'));
+    clone.classList.remove(...transitioningInClass.split(' '));
+    clone.classList.add(...this.get('transitioningOutClass').split(' '));
     parentElement.appendChild(clone);
     this.set('animationClass', transitioningInClass);
     waitForAnimations(clone, function() {
@@ -281,6 +260,63 @@ export default Component.extend({
     self.document.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
+  wheelHandler(event) {
+    const element = this.dropdownElement;
+    if (element.contains(event.target) || element === event.target) {
+      // Discover the amount of scrollable canvas that is within the dropdown.
+      const availableScroll = getAvailableScroll(event.target, element);
+
+      // Calculate what the event's desired change to that scrollable canvas is.
+      // DOM_DELTA_PIXEL: applies almost everywhere.
+      let { deltaX, deltaY } = event;
+      if (event.deltaMode !== 0) {
+        // Reference: https://stackoverflow.com/a/37474225
+        // DOM_DELTA_LINE: only applies to Firefox on Windows using a mouse.
+        // DOM_DELTA_PAGE: only applies to Firefox on Windows using a mouse with custom settings.
+
+        // Force DOM_DELTA_PAGE to line mode, 3 lines at a time.
+        const scrollLineHeight = getScrollLineHeight();
+        if (event.deltaMode === 2) {
+          deltaX = 3;
+          deltaY = 3;
+        }
+
+        deltaX = event.deltaX * scrollLineHeight;
+        deltaY = event.deltaY * scrollLineHeight;
+      }
+
+      // If the consequence of the wheel action would result in scrolling beyond
+      // the scrollable canvas of the dropdown, call preventDefault() and clamp
+      // the value of the delta to the available scroll size.
+      if (deltaX < availableScroll.deltaXNegative) {
+        deltaX = availableScroll.deltaXNegative;
+        event.preventDefault();
+      } else if (deltaX > availableScroll.deltaXPositive) {
+        deltaX = availableScroll.deltaXPositive;
+        event.preventDefault();
+      } else if (deltaY < availableScroll.deltaYNegative) {
+        deltaY = availableScroll.deltaYNegative;
+        event.preventDefault();
+      } else if (deltaY > availableScroll.deltaYPositive) {
+        deltaY = availableScroll.deltaYPositive;
+        event.preventDefault();
+      }
+
+      // Add back in the default behavior for the two good states that the above
+      // `preventDefault()` code will break.
+      // - Two-axis scrolling on a one-axis scroll container
+      // - The last relevant wheel event if the scroll is overshooting
+
+      // Also, don't attempt to do this if both of `deltaX` or `deltaY` are 0.
+      if (event.defaultPrevented && (deltaX || deltaY)) {
+        distributeScroll(deltaX, deltaY, event.target, element);
+      }
+    } else {
+      // Scrolling outside of the dropdown is prohibited.
+      event.preventDefault();
+    }
+  },
+
   // All ancestors with scroll (except the BODY, which is treated differently)
   getScrollableAncestors() {
     let scrollableAncestors = [];
@@ -294,8 +330,47 @@ export default Component.extend({
     return scrollableAncestors;
   },
 
+  addScrollHandling() {
+    if (this.get('preventScroll') === true) {
+      this.addPreventScrollEvent();
+      this.removeScrollHandling = this.removePreventScrollEvent;
+    } else {
+      this.addScrollEvents();
+      this.removeScrollHandling = this.removeScrollEvents;
+    }
+  },
+
+  // Assigned at runtime to ensure that changes to the `preventScroll` property
+  // don't result in not cleaning up after ourselves.
+  removeScrollHandling() {},
+
+  // These two functions wire up scroll handling if `preventScroll` is true.
+  // These prevent all scrolling that isn't inside of the dropdown.
+  addPreventScrollEvent() {
+    self.document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+  },
+  removePreventScrollEvent() {
+    self.document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+  },
+
+  // These two functions wire up scroll handling if `preventScroll` is false.
+  // These trigger reposition of the dropdown.
+  addScrollEvents() {
+    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.addEventListener('scroll', this.runloopAwareReposition);
+    });
+  },
+  removeScrollEvents() {
+    self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    this.scrollableAncestors.forEach((el) => {
+      el.removeEventListener('scroll', this.runloopAwareReposition);
+    });
+  },
+
   _teardown() {
     this.removeGlobalEvents();
+    this.removeScrollHandling();
     this.destinationElement = null;
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();

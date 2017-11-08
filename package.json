@@ -1,8 +1,8 @@
 {
   "name": "ember-basic-dropdown",
-  "version": "0.33.2",
+  "version": "0.33.9",
   "description": "The default blueprint for ember-cli addons.",
-  "homepage": "https://ember-basic-dropdown.pagefrontapp.com",
+  "homepage": "http://ember-basic-dropdown.com",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -14,7 +14,7 @@
   },
   "repository": "https://github.com/cibernox/ember-basic-dropdown",
   "engines": {
-    "node": ">= 0.12.0"
+    "node": "^4.5 || 6.* || >= 7.*"
   },
   "author": "Miguel Camba",
   "license": "MIT",
@@ -27,37 +27,34 @@
     "vendor"
   ],
   "devDependencies": {
-    "broccoli-asset-rev": "^2.5.0",
-    "ember-cli": "2.13.3",
-    "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-deploy": "1.0.0",
-    "ember-cli-eslint": "^4.0.0",
-    "ember-cli-fastboot": "1.0.0-beta.18",
-    "ember-cli-htmlbars-inline-precompile": "^0.4.0",
-    "ember-cli-inject-live-reload": "^1.6.1",
-    "ember-cli-qunit": "^4.0.0",
-    "ember-cli-release": "1.0.0-beta.2",
-    "ember-cli-sass": "^6.2.0",
-    "ember-cli-shims": "^1.1.0",
-    "ember-cli-template-lint": "~0.5.2",
-    "ember-cli-test-loader": "^2.1.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-code-example-component": "^0.1.1",
-    "ember-code-snippet": "1.8.1",
-    "ember-concurrency": "^0.8.1",
-    "ember-disable-prototype-extensions": "^1.1.0",
+    "broccoli-asset-rev": "^2.6.0",
+    "ember-cli": "~2.16.2",
+    "ember-cli-dependency-checker": "^2.0.1",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-fastboot": "1.1.0",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.2",
+    "ember-cli-inject-live-reload": "^1.7.0",
+    "ember-cli-qunit": "^4.1.0-beta.2",
+    "ember-cli-sass": "^7.0.0",
+    "ember-cli-surge": "^1.1.21",
+    "ember-cli-template-lint": "~0.7.5",
+    "ember-cli-test-loader": "^2.2.0",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-code-example-component": "^0.2.0",
+    "ember-code-snippet": "2.0.0",
+    "ember-concurrency": "^0.8.10",
+    "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
-    "ember-font-awesome": "^3.0.5",
-    "ember-href-to": "1.12.1",
+    "ember-font-awesome": "^4.0.0-alpha.13",
+    "ember-href-to": "~1.15.0",
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-native-dom-event-dispatcher": "^0.6.3",
-    "ember-pagefront": "0.11.2",
-    "ember-source": "^2.13.3",
-    "ember-resolver": "^4.0.0",
-    "ember-truth-helpers": "1.3.0",
+    "ember-resolver": "^4.5.0",
+    "ember-source": "^2.16.0",
+    "ember-truth-helpers": "2.0.0",
     "eslint-plugin-ember-suave": "^1.0.0",
-    "loader.js": "^4.2.3",
+    "loader.js": "^4.6.0",
     "simple-git": "^1.10.0"
   },
   "keywords": [
@@ -66,10 +63,10 @@
     "basic-dropdown"
   ],
   "dependencies": {
-    "ember-cli-babel": "^6.6.0",
-    "ember-cli-htmlbars": "^1.1.1",
-    "ember-native-dom-helpers": "^0.5.0",
-    "ember-wormhole": "^0.5.1"
+    "ember-cli-babel": "^6.8.2",
+    "ember-cli-htmlbars": "^2.0.3",
+    "ember-native-dom-helpers": "^0.5.4",
+    "ember-wormhole": "^0.5.2"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
