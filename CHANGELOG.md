@@ -1,4 +1,6 @@
 
+- [ENHANCEMENT] Allow `horizontalPosition` to work when `renderInPlace=true`
+
 # 0.33.9
 - [ENHANCEMENT] Allow to bind the role attribute of the trigger
 - [ENHANCEMENT] Added `preventScroll=true` option to the `dropdown.content` component to "frezze" all
