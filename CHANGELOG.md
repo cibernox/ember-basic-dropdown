@@ -1,4 +1,5 @@
 
+# 0.33.10
 - [ENHANCEMENT] Allow `horizontalPosition` to work when `renderInPlace=true`
 
 # 0.33.9
