@@ -350,6 +350,36 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.ok(find('.ember-basic-dropdown'), 'The trigger has a special `--in-place` class');
   });
 
+  test('When rendered in-place, it prefers right over left with position "auto-right"', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      {{#basic-dropdown renderInPlace=true horizontalPosition="auto-right" as |dropdown|}}
+        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+      {{/basic-dropdown}}
+    `);
+
+    await clickTrigger();
+    assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+    assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
+  });
+
+  test('When rendered in-place, it applies right class for position "right"', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      {{#basic-dropdown renderInPlace=true horizontalPosition="right" as |dropdown|}}
+        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
+        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
+      {{/basic-dropdown}}
+    `);
+
+    await clickTrigger();
+    assert.ok(find('.ember-basic-dropdown-trigger').classList.contains('ember-basic-dropdown-trigger--right'), 'The proper class has been added');
+    assert.ok(find('.ember-basic-dropdown-content').classList.contains('ember-basic-dropdown-content--right'), 'The proper class has been added');
+  });
+
   test('[ISSUE #127] Having more than one dropdown with `renderInPlace=true` raises an exception', async function(assert) {
     assert.expect(1);
 
