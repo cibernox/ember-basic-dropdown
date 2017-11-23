@@ -3,7 +3,7 @@ import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest, render } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger } from '../../helpers/ember-basic-dropdown';
+import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import { click, find, focus, triggerEvent } from 'ember-native-dom-helpers';
 
 let deprecations = [];

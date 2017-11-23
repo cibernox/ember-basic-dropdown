@@ -1,4 +1,7 @@
 
+- [BREAKING] Delete the `/test-support` folder, use `addon-test-support` instead. That means people
+  should import helpers from `ember-basic-dropdown/test-support/helpers` instead of using relative paths
+  like `../../helpers/ember-basic-dropdown`, as they are brittle and change with nesting.
 - [BUGFIX] Ensure that the dropdown is not open by the right button of the mouse.
 
 # 0.33.10

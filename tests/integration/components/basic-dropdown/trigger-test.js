@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest, render } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, tapTrigger, nativeTap } from '../../../helpers/ember-basic-dropdown';
+import { clickTrigger, tapTrigger, nativeTap } from 'ember-basic-dropdown/test-support/helpers';
 import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
 import { run } from '@ember/runloop';
 import { set } from "@ember/object"
