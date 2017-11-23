@@ -3,14 +3,11 @@
 }
 .scroll {
   &__container {
-    max-height: 600px;
-    overflow: auto;
     padding: 20px;
   }
 
   &__scrolling-container {
     position: relative;
-    height: 1000px;
     margin: 50px;
   }
 
@@ -21,8 +18,6 @@
   }
 
   &__content-container {
-    max-height: 200px;
-    overflow: auto;
   }
 
   &__content {
