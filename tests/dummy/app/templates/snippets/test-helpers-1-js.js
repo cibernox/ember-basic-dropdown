@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { merge } from '@ember/polyfills';
 import Application from '../../app';
 import config from '../../config/environment';
-import registerBasicDropdownHelpers from '../../tests/helpers/ember-basic-dropdown';
+import registerBasicDropdownHelpers from 'ember-basic-dropdown/test-support/helpers';
 
 registerBasicDropdownHelpers();
 

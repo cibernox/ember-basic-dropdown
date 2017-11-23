@@ -1,15 +1,21 @@
-<div class="button-pull-{{buttonPosition}}">
-  {{#basic-dropdown horizontalPosition=horizontalPosition
-                    verticalPosition=verticalPosition as |dd|}}
-
+{{#if renderInPlace}}
+  {{#basic-dropdown class=(concat "button-pull-" buttonPosition) horizontalPosition=horizontalPosition verticalPosition=verticalPosition renderInPlace=true as |dd|}}
     {{#dd.trigger class="trigger-bootstrap-feel"}}Click me{{/dd.trigger}}
-
     {{#dd.content class="content-bootstrap-feel"}}
       <img src="/lts.png" alt="tomster">
-      {{!-- <p>Hello ember friends!</p> --}}
     {{/dd.content}}
   {{/basic-dropdown}}
-</div>
+{{else}}
+  <div class="button-pull-{{buttonPosition}}">
+    {{#basic-dropdown horizontalPosition=horizontalPosition verticalPosition=verticalPosition as |dd|}}
+      {{#dd.trigger class="trigger-bootstrap-feel"}}Click me{{/dd.trigger}}
+
+      {{#dd.content class="content-bootstrap-feel"}}
+        <img src="/lts.png" alt="tomster">
+      {{/dd.content}}
+    {{/basic-dropdown}}
+  </div>
+{{/if}}
 <p>
   Horizontal
   <br>
@@ -41,4 +47,11 @@
   <label for="btn-pos-left">left</label>
   <input type="radio" id="btn-pos-right" checked={{eq buttonPosition 'right'}} onchange={{action (mut buttonPosition) 'right'}}>
   <label for="btn-pos-right">right</label>
+</p>
+
+<p>
+  RenderInPlace
+  <br>
+  <input type="checkbox" id="config-render-in-lace" checked={{eq renderInPlace 'left'}} onchange={{action (mut renderInPlace) (not renderInPlace)}}>
+  <label for="config-render-in-lace">Render in-place</label>
 </p>
