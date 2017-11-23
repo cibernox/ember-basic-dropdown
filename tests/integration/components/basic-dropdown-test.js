@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest, render } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../helpers/ember-basic-dropdown';
-import { click, find, focus } from 'ember-native-dom-helpers';
+import { click, find, focus, triggerEvent } from 'ember-native-dom-helpers';
 
 let deprecations = [];
 
@@ -34,7 +34,24 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await clickTrigger();
     assert.ok(find('#dropdown-is-opened'), 'The dropdown is opened');
     await clickTrigger();
-    assert.notOk(find('#dropdown-is-opened'), 'The dropdown is again');
+    assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed again');
+  });
+
+  test('The mousedown event with the right button doesn\'t open it', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      {{#basic-dropdown as |dd|}}
+        {{#dd.trigger}}Click me{{/dd.trigger}}
+        {{#if dd.isOpen}}
+          <div id="dropdown-is-opened"></div>
+        {{/if}}
+      {{/basic-dropdown}}
+    `);
+
+    assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown', { button: 2 });
+    assert.notOk(find('#dropdown-is-opened'), 'The dropdown is closed');
   });
 
   test('Its `open` action opens the dropdown', async function(assert) {

@@ -1,4 +1,6 @@
 
+- [BUGFIX] Ensure that the dropdown is not open by the right button of the mouse.
+
 # 0.33.10
 - [ENHANCEMENT] Allow `horizontalPosition` to work when `renderInPlace=true`
 

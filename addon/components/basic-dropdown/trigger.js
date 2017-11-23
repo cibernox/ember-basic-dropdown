@@ -116,7 +116,6 @@ export default Component.extend({
       if (dropdown.disabled) {
         return;
       }
-      this.stopTextSelectionUntilMouseup();
       // execute user-supplied onMouseDown function before default toggle action;
       // short-circuit default behavior if user-supplied function returns `false`
       let onMouseDown = this.get('onMouseDown');
@@ -124,6 +123,8 @@ export default Component.extend({
         return;
       }
       if (this.get('eventType') === 'mousedown') {
+        if (e.button !== 0) { return; }
+        this.stopTextSelectionUntilMouseup();
         if (this.toggleIsBeingHandledByTouchEvents) {
           // Some devises have both touchscreen & mouse, and they are not mutually exclusive
           // In those cases the touchdown handler is fired first, and it sets a flag to
