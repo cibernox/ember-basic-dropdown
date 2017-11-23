@@ -3,7 +3,7 @@ import { merge } from '@ember/polyfills';
 import Application from '../../app';
 import config from '../../config/environment';
 import nativeClick from './native-click'; // eslint-disable-line
-import registerBasicDropdownHelpers from '../../tests/helpers/ember-basic-dropdown';
+import registerBasicDropdownHelpers from 'ember-basic-dropdown/test-support/helpers';
 
 registerBasicDropdownHelpers();
 
