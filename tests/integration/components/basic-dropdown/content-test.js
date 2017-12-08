@@ -4,32 +4,35 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { find, click, triggerEvent } from 'ember-native-dom-helpers';
 
+const destination = '#ember-testing > .ember-view';
 module('Integration | Component | basic-dropdown/content', function(hooks) {
   setupRenderingTest(hooks);
 
   // Basic rendering
   test('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', async function(assert) {
     assert.expect(2);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('.ember-basic-dropdown-content');
     assert.equal(content.textContent.trim(), 'Lorem ipsum', 'It contains the given block');
-    assert.equal(content.parentElement.id, 'ember-testing', 'It is rendered in the #ember-testing div');
+    assert.ok(content.parentElement.parentElement.id === 'ember-testing' && content.parentElement.getAttribute('class') === 'ember-view', 'It is rendered in the #ember-testing > .ember-view div');
   });
 
   test('If the dropdown is closed, nothing is rendered', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: false };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.notOk(find('.ember-basic-dropdown-content'), 'Nothing is rendered');
   });
 
   test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', async function(assert) {
     assert.expect(2);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -40,7 +43,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('.ember-basic-dropdown-content');
     assert.ok(content, 'It is rendered in the spot');
@@ -49,10 +52,11 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('If it receives `to="foo123"`, it is rendered in the element with that ID', async function(assert) {
     assert.expect(2);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="foo123"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('#foo123 .ember-basic-dropdown-content');
     assert.ok(content, 'It is rendered');
@@ -61,36 +65,40 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.equal(find('.ember-basic-dropdown-content').id, 'ember-basic-dropdown-content-e123', 'contains the expected ID');
   });
 
   test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
   });
 
   test('If it receives `defaultClass="foo123"`, the rendered content will have that class along with the default one', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
   });
 
   test('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = { isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.equal(find('.ember-basic-dropdown-content').attributes.dir.value, 'rtl', 'The dropdown has `dir="rtl"`');
   });
@@ -98,6 +106,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   // Clicking while the component is opened
   test('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -110,7 +119,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     click('#other-div');
@@ -118,6 +127,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', async function(assert) {
     assert.expect(0);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -129,13 +139,14 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
     `);
     click('#inside-div');
   });
 
   test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place', async function(assert) {
     assert.expect(0);
+    this.destination = destination;
     this.dropdown1 = {
       uniqueId: 'ember1',
       isOpen: true,
@@ -162,20 +173,21 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="fake-trigger"></div>
-      {{#basic-dropdown/content dropdown=dropdown1 destination='ember-testing'}}
+      {{#basic-dropdown/content dropdown=dropdown1 destination=destination}}
         Lorem ipsum
-        {{#basic-dropdown/content dropdown=dropdown2 destination='ember-testing' renderInPlace=true}}
+        {{#basic-dropdown/content dropdown=dropdown2 destination=destination renderInPlace=true}}
           <div id="nested-content-div">dolor sit amet</div>
         {{/basic-dropdown/content}}
       {{/basic-dropdown/content}}
     `);
 
-    click('#nested-content-div');
+    await click('#nested-content-div');
   });
 
   // Touch gestures while the component is opened
   test('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -188,7 +200,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -197,6 +209,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function(assert) {
     assert.expect(0);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -209,7 +222,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -220,6 +233,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   // Focus
   test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired inside the content', async function(assert) {
     assert.expect(3);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     this.onFocusIn = (api, e) => {
       assert.ok(true, 'The action is invoked');
@@ -227,7 +241,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusIn=onFocusIn}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination onFocusIn=onFocusIn}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -236,6 +250,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', async function(assert) {
     assert.expect(3);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     this.onFocusOut = (api, e) => {
       assert.ok(true, 'The action is invoked');
@@ -243,7 +258,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusOut=onFocusOut}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination onFocusOut=onFocusOut}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -255,6 +270,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   // Mouseenter/leave
   test('If it receives an `onMouseEnter` action, it is invoked if a mouseenter event is fired on the content', async function(assert) {
     assert.expect(3);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     this.onMouseEnter = (api, e) => {
       assert.ok(true, 'The action is invoked');
@@ -262,7 +278,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseEnter=onMouseEnter}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination onMouseEnter=onMouseEnter}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -271,6 +287,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave event is fired on the content', async function(assert) {
     assert.expect(3);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     this.onMouseLeave = (api, e) => {
       assert.ok(true, 'The action is invoked');
@@ -278,7 +295,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseLeave=onMouseLeave}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination onMouseLeave=onMouseLeave}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -288,6 +305,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   // Repositining
   test('The component is repositioned immediatly when opened', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -298,12 +316,13 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
   test('The component is not repositioned if it is closed', async function(assert) {
     assert.expect(0);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: false,
@@ -314,12 +333,13 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
   test('The component cancels events when preventScroll is true', async function(assert) {
     assert.expect(4);
+    this.destination = destination;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
@@ -332,7 +352,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
         <div style="width: 200px; height: 200px;">content scroll test</div>
       </div>
-      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination='ember-testing'}}
+      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination=destination}}
         <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
           <div style="width: 200px; height: 200px;">content scroll test</div>
         </div>
@@ -358,6 +378,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('The component is repositioned if the window scrolls', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -369,7 +390,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -377,6 +398,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('The component is repositioned if the window is resized', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -388,7 +410,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -396,6 +418,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('The component is repositioned if the orientation changes', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -407,7 +430,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -415,6 +438,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('The component is repositioned if the content of the dropdown changs', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     let done = assert.async();
     let repositions = 0;
     this.dropdown = {
@@ -431,7 +455,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination}}
         <div id="content-target-div"></div>
       {{/basic-dropdown/content}}
     `);
@@ -444,6 +468,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
   test('A renderInPlace component is repositioned if the window scrolls', async function(assert) {
     assert.expect(1);
+    this.destination = destination;
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -455,7 +480,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination=destination}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -464,9 +489,10 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
   // Overlay
   test('If it receives an `overlay=true` option, there is an overlay covering all the screen', async function(assert) {
     assert.expect(2);
+    this.destination = destination;
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' overlay=true}}
+      {{#basic-dropdown/content dropdown=dropdown destination=destination overlay=true}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
