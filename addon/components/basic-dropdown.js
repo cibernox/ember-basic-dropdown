@@ -95,7 +95,10 @@ export default Component.extend({
       return this._getDestinationId();
     },
     set(_, v) {
-      return v === undefined ? this._getDestinationId() : v;
+      if (v === undefined) {
+        return this._getDestinationId();
+      }
+      return v[0] === '#' || v[0] === '.' ? v : `#${v}`;
     }
   }),
 
@@ -171,7 +174,7 @@ export default Component.extend({
       return;
     }
 
-    this.destinationElement = this.destinationElement || self.document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || self.document.querySelector(this.get('destination'));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
@@ -250,8 +253,8 @@ export default Component.extend({
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
     if (config.environment === 'test') {
-      return 'ember-testing';
+      return '#ember-testing > .ember-view';
     }
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || '#ember-basic-dropdown-wormhole';
   }
 });

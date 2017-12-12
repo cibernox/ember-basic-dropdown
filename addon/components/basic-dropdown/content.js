@@ -71,8 +71,14 @@ export default Component.extend({
     },
     set(_, v) {
       deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
-      return v === undefined ? this.get('destination') : v;
+      if (v === undefined) {
+        return this.get('destination');
+      }
+      return v[0] === '#' || v[0] === '.' ? v : `#${v}`;
     }
+  }),
+  destinationElement: computed('to', function() {
+    return document.querySelector(this.get('to'));
   }),
 
   style: computed('top', 'left', 'right', 'width', 'height', function() {
@@ -166,10 +172,6 @@ export default Component.extend({
     }
 
     dropdown.actions.reposition();
-
-    if (!this.get('renderInPlace')) {
-      this.destinationElement = document.getElementById(this.get('destination'));
-    }
 
     // Always wire up events, even if rendered in place.
     this.scrollableAncestors = this.getScrollableAncestors();
@@ -371,7 +373,6 @@ export default Component.extend({
   _teardown() {
     this.removeGlobalEvents();
     this.removeScrollHandling();
-    this.destinationElement = null;
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
     self.document.removeEventListener('mousedown', this.handleRootMouseDown, true);

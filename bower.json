@@ -1,0 +1,9 @@
+{
+  "name": "ember-basic-dropdown",
+  "dependencies": {
+    "ember": "components/ember#lts-2-8"
+  },
+  "resolutions": {
+    "ember": "lts-2-8"
+  }
+}
