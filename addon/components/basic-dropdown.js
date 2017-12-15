@@ -250,7 +250,7 @@ export default Component.extend({
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
     if (config.environment === 'test') {
-      return 'ember-testing';
+      return document.querySelector('#ember-testing > .ember-view').id;
     }
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }

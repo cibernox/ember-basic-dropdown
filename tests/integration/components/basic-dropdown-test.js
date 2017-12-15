@@ -4,7 +4,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest, render } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
-import { click, find, focus, triggerEvent } from 'ember-native-dom-helpers';
+import { find } from 'ember-native-dom-helpers';
+import { click, focus, triggerEvent } from '@ember/test-helpers';
 
 let deprecations = [];
 

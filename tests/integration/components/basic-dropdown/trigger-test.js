@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest, render } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, nativeTap } from 'ember-basic-dropdown/test-support/helpers';
-import { find, triggerEvent, keyEvent } from 'ember-native-dom-helpers';
+import { find } from 'ember-native-dom-helpers';
+import { triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from "@ember/object"
 
@@ -332,7 +333,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown onKeyDown=onKeyDown}}Click me{{/basic-dropdown/trigger}}
     `);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
   });
 
   // Default behaviour
@@ -417,7 +418,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
   });
 
   test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function(assert) {
@@ -436,7 +437,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
   });
 
   test('Pressing ESC fires the `close` action on the dropdown', async function(assert) {
@@ -454,7 +455,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
   });
 
   test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', async function(assert) {
@@ -475,9 +476,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown onKeyDown=onKeyDown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
   });
 
   test('Tapping invokes the toggle action on the dropdown', async function(assert) {
@@ -539,9 +540,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     `);
     clickTrigger();
     tapTrigger();
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
   });
 
   // Focus
@@ -706,7 +707,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger onKeyDown=onKeyDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
 
   test('A user-supplied onKeyDown action, returning `false`, will prevent the default behavior', async function(assert) {
@@ -730,7 +731,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger onKeyDown=onKeyDown dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    keyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
 
   test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function(assert) {
