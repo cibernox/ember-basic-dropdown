@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest, render } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { find, click, triggerEvent } from 'ember-native-dom-helpers';
+import { render, click, triggerEvent } from '@ember/test-helpers';
+import { find } from 'ember-native-dom-helpers';
 
 module('Integration | Component | basic-dropdown/content', function(hooks) {
   setupRenderingTest(hooks);
@@ -12,18 +13,20 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('.ember-basic-dropdown-content');
     assert.equal(content.textContent.trim(), 'Lorem ipsum', 'It contains the given block');
-    assert.equal(content.parentElement.id, 'ember-testing', 'It is rendered in the #ember-testing div');
+    assert.equal(content.parentElement.id, 'destination-el', 'It is rendered in the #ember-testing div');
   });
 
   test('If the dropdown is closed, nothing is rendered', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: false };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.notOk(find('.ember-basic-dropdown-content'), 'Nothing is rendered');
   });
@@ -40,19 +43,20 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('.ember-basic-dropdown-content');
     assert.ok(content, 'It is rendered in the spot');
-    assert.notEqual(content.parentElement.id, 'ember-testing', 'It isn\'t rendered in the #ember-testing div');
+    assert.notEqual(content.parentElement.id, 'destination-el', 'It isn\'t rendered in the #ember-testing div');
   });
 
   test('If it receives `to="foo123"`, it is rendered in the element with that ID', async function(assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="foo123"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     let content = find('#foo123 .ember-basic-dropdown-content');
     assert.ok(content, 'It is rendered');
@@ -63,7 +67,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.equal(find('.ember-basic-dropdown-content').id, 'ember-basic-dropdown-content-e123', 'contains the expected ID');
   });
@@ -72,7 +77,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
   });
@@ -81,7 +87,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
   });
@@ -90,7 +97,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(1);
     this.dropdown = { isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.equal(find('.ember-basic-dropdown-content').attributes.dir.value, 'rtl', 'The dropdown has `dir="rtl"`');
   });
@@ -109,8 +117,9 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     click('#other-div');
@@ -128,8 +137,10 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
         reposition() {}
       }
     };
+
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
     `);
     click('#inside-div');
   });
@@ -161,10 +172,11 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="fake-trigger"></div>
-      {{#basic-dropdown/content dropdown=dropdown1 destination='ember-testing'}}
+      {{#basic-dropdown/content dropdown=dropdown1 destination='destination-el'}}
         Lorem ipsum
-        {{#basic-dropdown/content dropdown=dropdown2 destination='ember-testing' renderInPlace=true}}
+        {{#basic-dropdown/content dropdown=dropdown2 destination='destination-el' renderInPlace=true}}
           <div id="nested-content-div">dolor sit amet</div>
         {{/basic-dropdown/content}}
       {{/basic-dropdown/content}}
@@ -187,8 +199,9 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -208,8 +221,9 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -227,7 +241,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusIn=onFocusIn}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onFocusIn=onFocusIn}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -243,7 +258,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onFocusOut=onFocusOut}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onFocusOut=onFocusOut}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -262,7 +278,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseEnter=onMouseEnter}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onMouseEnter=onMouseEnter}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -278,7 +295,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' onMouseLeave=onMouseLeave}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onMouseLeave=onMouseLeave}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -298,7 +316,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
@@ -314,7 +333,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
@@ -329,10 +349,11 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
 
     await render(hbs`
+      <div id="destination-el"></div>
       <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
         <div style="width: 200px; height: 200px;">content scroll test</div>
       </div>
-      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination='ember-testing'}}
+      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination='destination-el'}}
         <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
           <div style="width: 200px; height: 200px;">content scroll test</div>
         </div>
@@ -369,7 +390,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -388,7 +410,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -407,7 +430,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -431,7 +455,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing'}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}
         <div id="content-target-div"></div>
       {{/basic-dropdown/content}}
     `);
@@ -455,7 +480,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination='ember-testing'}}Lorem ipsum{{/basic-dropdown/content}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -466,7 +492,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='ember-testing' overlay=true}}
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' overlay=true}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);

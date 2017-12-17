@@ -1,10 +1,11 @@
 import { run } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
-import { setupRenderingTest, render } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
-import { click, find, focus, triggerEvent } from 'ember-native-dom-helpers';
+import { find } from 'ember-native-dom-helpers';
+import { render, click, focus, triggerEvent } from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -480,7 +481,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.notOk(find('#is-disabled'), 'The select is enabled again');
   });
 
-  test('It can receive `destination=id-of-elmnt` to customize where ember-wormhole is going to render the content', async function(assert) {
+  test('It can receive `destination=id-of-elmnt` to customize where `#-in-element` is going to render the content', async function(assert) {
     assert.expect(1);
 
     await render(hbs`

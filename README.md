@@ -61,7 +61,7 @@ Check the full documentation with live examples in http://ember-basic-dropdown.c
 
 #### Renders on the body or in place
 
-By default this component will render the dropdown in the body using ember-wormhole and absolutely
+By default this component will render the dropdown in the body using `#-in-element` and absolutely
 position it to place it in the proper coordinates.
 
 You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
