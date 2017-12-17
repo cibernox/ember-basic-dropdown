@@ -74,6 +74,9 @@ export default Component.extend({
       return v === undefined ? this.get('destination') : v;
     }
   }),
+  destinationElement: computed('to', function () {
+    return document.getElementById(this.get('to'));
+  }),
 
   style: computed('top', 'left', 'right', 'width', 'height', function() {
     let style = '';
@@ -166,10 +169,6 @@ export default Component.extend({
     }
 
     dropdown.actions.reposition();
-
-    if (!this.get('renderInPlace')) {
-      this.destinationElement = document.getElementById(this.get('destination'));
-    }
 
     // Always wire up events, even if rendered in place.
     this.scrollableAncestors = this.getScrollableAncestors();
@@ -371,7 +370,6 @@ export default Component.extend({
   _teardown() {
     this.removeGlobalEvents();
     this.removeScrollHandling();
-    this.destinationElement = null;
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
     self.document.removeEventListener('mousedown', this.handleRootMouseDown, true);
