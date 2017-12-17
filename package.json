@@ -64,8 +64,7 @@
   "dependencies": {
     "ember-cli-babel": "^6.8.2",
     "ember-cli-htmlbars": "^2.0.3",
-    "ember-native-dom-helpers": "^0.5.10",
-    "ember-wormhole": "^0.5.2"
+    "ember-native-dom-helpers": "^0.5.10"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
