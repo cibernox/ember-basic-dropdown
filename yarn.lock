@@ -66,8 +66,8 @@
     "@glimmer/wire-format" "^0.30.3"
 
 "@glimmer/resolver@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@glimmer/resolver/-/resolver-0.4.1.tgz#cd9644572c556e7e799de1cf8eff2b999cf5b878"
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@glimmer/resolver/-/resolver-0.4.2.tgz#60c9b492e90bc3956ac82b3134649bd337e1651c"
   dependencies:
     "@glimmer/di" "^0.2.0"
 
@@ -157,8 +157,8 @@ ajv@^4.9.1:
     json-stable-stringify "^1.0.1"
 
 ajv@^5.1.0, ajv@^5.2.3, ajv@^5.3.0:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.1.tgz#b38bb8876d9e86bee994956a04e721e88b248eb2"
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
   dependencies:
     co "^4.6.0"
     fast-deep-equal "^1.0.0"
@@ -2387,8 +2387,8 @@ ember-native-dom-helpers@^0.5.10:
     ember-cli-babel "^6.6.0"
 
 ember-qunit@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.2.0.tgz#e5968d5a8b2e339fb39c69b5b20370bda55bde18"
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.2.1.tgz#01fd4d56089e9dcf31514273fca7e5c795469e1a"
   dependencies:
     "@ember/test-helpers" "^0.7.9"
     broccoli-funnel "^2.0.1"

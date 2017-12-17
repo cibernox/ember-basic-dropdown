@@ -1,3 +1,6 @@
+- [BREAKING] Drop ember-wormhole addon, use `#-in-element` built-in instead. Less size, more performance.
+- [BREAKING] Drop support for Ember <= 2.9. This addon will require Ember 2.10 or greater to work.
+
 # 0.34.0
 - [BREAKING] Delete the `/test-support` folder, use `addon-test-support` instead. That means people
   should import helpers from `ember-basic-dropdown/test-support/helpers` instead of using relative paths
