@@ -4,10 +4,14 @@ module.exports = {
   scenarios: [
     {
       name: 'ember-2.10',
+      bower: {
+        dependencies: {
+          "ember": "~2.10.0"
+        }
+      },
       npm: {
         devDependencies: {
-          'ember-native-dom-event-dispatcher': null,
-          'ember-source': '~2.10.0'
+          'ember-native-dom-event-dispatcher': null
         }
       }
     },
