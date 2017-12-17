@@ -1,4 +1,4 @@
-import { run } from '@ember/runloop';
+import { run, scheduleOnce } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -777,6 +777,31 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.notOk(find('.body-grandchild'), 'grandchild dropdown should not exist becuase we clicked in parent');
     assert.notOk(find('.body-child'), 'child dropdown should not exist becuase we clicked in parent');
     assert.ok(find('.body-parent'), 'can click in parent dropdown and still be open');
+  });
+
+  // Focus
+  test('When the dropdown gets closed by clicking outside it, the trigger doesn\'t recover the focus', async function(assert) {
+    assert.expect(12);
+    this.focusInnerInput = function() {
+      scheduleOnce('afterRender', function() {
+        document.querySelector('#inner-dropdown-input').focus();
+      });
+    }
+    await render(hbs`
+      <div id="outer-element"></div>
+      {{#basic-dropdown onOpen=(action focusInnerInput) as |dd|}}
+        {{#dd.trigger}}Click me{{/dd.trigger}}
+        {{#dd.content}}
+          <input type="text" id="inner-dropdown-input">
+        {{/dd.content}}
+      {{/basic-dropdown}}
+    `);
+
+
+    await clickTrigger();
+    assert.equal(document.activeElement, document.querySelector('#inner-dropdown-input'));
+    await click('#outer-element');
+    assert.notEqual(document.activeElement, document.querySelector('.ember-basic-dropdown-trigger'));
   });
 
   // Misc bugfixes
