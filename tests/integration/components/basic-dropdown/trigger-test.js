@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest, render } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, nativeTap } from 'ember-basic-dropdown/test-support/helpers';
 import { find } from 'ember-native-dom-helpers';
-import { triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
+import { render, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from "@ember/object"
 
