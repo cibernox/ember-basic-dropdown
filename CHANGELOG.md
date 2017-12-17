@@ -1,3 +1,5 @@
+- [DEPRECATION] Deprecate global acceptance helpers `clickDropdown` and `tapDropdown`. Suggest to
+  explicitly import `clickTrigger`/`tapTrigger` or even better, just use `click`/`tap` from `@ember/test-helpers`.
 - [BREAKING] Drop ember-wormhole addon, use `#-in-element` built-in instead. Less size, more performance.
 - [BREAKING] Drop support for Ember <= 2.9. This addon will require Ember 2.10 or greater to work.
 
