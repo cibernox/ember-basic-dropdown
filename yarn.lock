@@ -22,9 +22,9 @@
     ember-cli-babel "^6.6.0"
     ember-cli-version-checker "^2.1.0"
 
-"@ember/test-helpers@^0.7.1":
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-0.7.8.tgz#f717f1c952b8fe408004cf328d0e3771696d18e5"
+"@ember/test-helpers@^0.7.9":
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-0.7.9.tgz#97d06e077a70028ca8e7a11ede7e8725e1a53167"
   dependencies:
     broccoli-funnel "^2.0.1"
     ember-cli-babel "^6.10.0"
@@ -2034,7 +2034,7 @@ ember-cli-htmlbars-inline-precompile@^1.0.2:
     heimdalljs-logger "^0.1.7"
     silent-error "^1.1.0"
 
-ember-cli-htmlbars@^2.0.0, ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3:
+ember-cli-htmlbars@^2.0.0, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.3.tgz#e116e1500dba12f29c94b05b9ec90f52cb8bb042"
   dependencies:
@@ -2104,12 +2104,12 @@ ember-cli-preprocess-registry@^3.1.0:
     process-relative-require "^1.0.0"
     silent-error "^1.0.0"
 
-ember-cli-qunit@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-qunit/-/ember-cli-qunit-4.1.1.tgz#307a157e9f36a0d32621ae247effb891ff951fc7"
+ember-cli-qunit@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-qunit/-/ember-cli-qunit-4.2.0.tgz#48fba8d4c7f01c3708dc6fe7ac18765295205f1b"
   dependencies:
     ember-cli-babel "^6.8.1"
-    ember-qunit "^3.1.0"
+    ember-qunit "^3.2.0"
 
 ember-cli-sass@^7.0.0:
   version "7.1.2"
@@ -2386,11 +2386,11 @@ ember-native-dom-helpers@^0.5.10:
     broccoli-funnel "^1.1.0"
     ember-cli-babel "^6.6.0"
 
-ember-qunit@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.1.0.tgz#4995a6207ab66b5d0cf807d0459d48f55f9eee5f"
+ember-qunit@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.2.0.tgz#e5968d5a8b2e339fb39c69b5b20370bda55bde18"
   dependencies:
-    "@ember/test-helpers" "^0.7.1"
+    "@ember/test-helpers" "^0.7.9"
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
     common-tags "^1.4.0"
@@ -2490,13 +2490,6 @@ ember-try@^0.2.15:
     rimraf "^2.3.2"
     rsvp "^3.0.17"
     semver "^5.1.0"
-
-ember-wormhole@^0.5.2:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.5.4.tgz#968e80f093494f4aed266e750afa63919c61383d"
-  dependencies:
-    ember-cli-babel "^6.10.0"
-    ember-cli-htmlbars "^2.0.1"
 
 encodeurl@~1.0.1:
   version "1.0.1"
