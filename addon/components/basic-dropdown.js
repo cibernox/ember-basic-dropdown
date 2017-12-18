@@ -7,6 +7,7 @@ import { getOwner } from '@ember/application';
 import layout from '../templates/components/basic-dropdown';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
+import require from 'require';
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -250,7 +251,9 @@ export default Component.extend({
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
     if (config.environment === 'test') {
-      return document.querySelector('#ember-testing > .ember-view').id;
+      debugger;
+      let { getContext } = require('@ember/test-helpers');
+      return getContext().element.id;
     }
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
