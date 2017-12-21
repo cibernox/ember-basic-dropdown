@@ -1,6 +1,6 @@
 {{#if dropdown.isOpen}}
   <div class="ember-basic-dropdown-content-wormhole-origin">
-    {{#if renderInPlace}}
+    {{#maybe-in-element destinationElement renderInPlace}}
       {{#if overlay}}
         <div class="ember-basic-dropdown-overlay"></div>
       {{/if}}
@@ -13,22 +13,7 @@
         dir=dir}}
         {{yield}}
       {{/basic-dropdown/content-element}}
-    {{else}}
-      {{#-in-element destinationElement}}
-        {{#if overlay}}
-          <div class="ember-basic-dropdown-overlay"></div>
-        {{/if}}
-        {{#basic-dropdown/content-element
-          tagName=_contentTagName
-          id=dropdownId
-          class=(concat "ember-basic-dropdown-content " class " " defaultClass " " (if renderInPlace 'ember-basic-dropdown-content--in-place ') (if hPosition (concat 'ember-basic-dropdown-content--' hPosition)) " " (if vPosition (concat 'ember-basic-dropdown-content--'
-          vPosition)) " " animationClass)
-          style=style
-          dir=dir}}
-          {{yield}}
-        {{/basic-dropdown/content-element}}
-      {{/-in-element}}
-    {{/if}}
+    {{/maybe-in-element}}
   </div>
 {{else}}
   <div id={{dropdownId}} class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
