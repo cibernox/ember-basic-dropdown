@@ -5,7 +5,13 @@ import { task, timeout } from 'ember-concurrency';
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
 export default Controller.extend({
-  names: [],
+  names: undefined,
+
+  // Lifecycle hooks
+  init() {
+    this._super(...arguments);
+    this.set('names', []);
+  },
 
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();

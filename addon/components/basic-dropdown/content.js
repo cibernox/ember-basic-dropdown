@@ -51,7 +51,7 @@ function dropdownIsValidParent(el, dropdownId) {
 export default Component.extend({
   layout,
   tagName: '',
-  isTouchDevice: (!!self.window && 'ontouchstart' in self.window),
+  isTouchDevice: Boolean(!!self.window && 'ontouchstart' in self.window),
   hasMoved: false,
   animationClass: '',
   transitioningInClass: 'ember-basic-dropdown--transitioning-in',
