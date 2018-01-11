@@ -6,7 +6,13 @@ import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 
 export default Controller.extend({
   appController: inject('application'),
-  colors: ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown'],
+  color: undefined,
+
+  // Lifecycle hooks
+  init() {
+    this._super(...arguments);
+    this.set('colors', ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown']);
+  },
 
   // CPs
   backgrounds: computed('colors.[]', function() {

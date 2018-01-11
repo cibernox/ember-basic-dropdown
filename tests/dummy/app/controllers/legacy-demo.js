@@ -5,7 +5,12 @@ export default Controller.extend({
   showImage: true,
   opened: true,
   horizontalScrollEnabled: false,
-  addedItems: [],
+  addedItems: undefined,
+
+  init() {
+    this._super(...arguments);
+    this.set('addedItems', []);
+  },
 
   actions: {
     registerAPI(dropdown) {

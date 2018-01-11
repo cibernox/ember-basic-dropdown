@@ -2,12 +2,18 @@ import Controller from '@ember/controller';
 import { later, cancel } from '@ember/runloop';
 
 export default Controller.extend({
-  notifications: [
-    { text: 'Edward' },
-    { text: 'Jonathan' },
-    { text: 'Tom' },
-    { text: 'Eric' }
-  ],
+  notifications: undefined,
+
+  // Lifecycle hooks
+  init() {
+    this._super(...arguments);
+    this.set('notifications', [
+      { text: 'Edward' },
+      { text: 'Jonathan' },
+      { text: 'Tom' },
+      { text: 'Eric' }
+    ]);
+  },
 
   // Actions
   actions: {
