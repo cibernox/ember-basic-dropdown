@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "start": "ember serve",
     "test": "ember try:each"
   },
   "repository": "https://github.com/cibernox/ember-basic-dropdown",
