@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests --ignore-pattern tests/dummy/app/templates/snippets",
     "start": "ember serve",
     "test": "ember try:each"
   },
@@ -55,6 +55,7 @@
     "ember-truth-helpers": "2.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
+    "node-sass": "*",
     "loader.js": "^4.6.0",
     "simple-git": "^1.10.0"
   },

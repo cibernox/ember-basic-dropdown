@@ -1,4 +1,3 @@
-/* global require, module */
 var sass = require('node-sass');
 var fs = require('fs');
 var path = require('path');

@@ -20,6 +20,7 @@ module.exports = {
     // node files
     {
       files: [
+        'compile-css.js',
         'index.js',
         'testem.js',
         'ember-cli-build.js',
