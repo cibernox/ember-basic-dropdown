@@ -8,6 +8,23 @@ import layout from '../templates/components/basic-dropdown';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
 
+/**
+ * If it is a number, it is considered to be in px. If it is a
+ * a String, it is returned as it is.
+ *
+ * @function toCSSValue
+ * @param {Number|String} value value for a CSS property
+ * @returns {String}
+ * @private
+ */
+function toCSSValue(value) {
+  if (typeof value === 'number') {
+    return `${value}px`;
+  } else {
+    return value;
+  }
+}
+
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
     let arg = args[i];
@@ -185,36 +202,32 @@ export default Component.extend({
     };
     if (positions.style) {
       if (positions.style.top !== undefined) {
-        changes.top = `${positions.style.top}px`;
+        changes.top = toCSSValue(positions.style.top);
       }
       // The component can be aligned from the right or from the left, but not from both.
       if (positions.style.left !== undefined) {
-        changes.left = `${positions.style.left}px`;
+        changes.left = toCSSValue(positions.style.left);
         changes.right = null;
         // Since we set the first run manually we may need to unset the `right` property.
         if (positions.style.right !== undefined) {
-          positions.style.right = undefined;
+          positions.style.right = toCSSValue('auto');
         }
       } else if (positions.style.right !== undefined) {
-        changes.right = `${positions.style.right}px`;
-        changes.left = null;
+        changes.right = toCSSValue(positions.style.right);
+        changes.left = toCSSValue('auto');
       }
       if (positions.style.width !== undefined) {
-        changes.width = `${positions.style.width}px`;
+        changes.width = toCSSValue(positions.style.width);
       }
       if (positions.style.height !== undefined) {
-        changes.height = `${positions.style.height}px`;
+        changes.height = toCSSValue(positions.style.height);
       }
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
         for (let prop in positions.style) {
           if (positions.style[prop] !== undefined) {
-            if (typeof positions.style[prop] === 'number') {
-              cssRules.push(`${prop}: ${positions.style[prop]}px`)
-            } else {
-              cssRules.push(`${prop}: ${positions.style[prop]}`)
-            }
+            cssRules.push(`${prop}: ${toCSSValue(positions.style[prop])}`);
           }
         }
         dropdown.setAttribute('style', cssRules.join(';'));

@@ -622,7 +622,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     let dropdownContent = find('.ember-basic-dropdown-content');
     assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--above'), 'The dropdown is above');
     assert.ok(dropdownContent.classList.contains('ember-basic-dropdown-content--right'), 'The dropdown is in the right');
-    assert.equal(dropdownContent.attributes.style.value, 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+    assert.equal(dropdownContent.attributes.style.value, 'top: 111px;left: auto;right: 222px;', 'The style attribute is the expected one');
   });
 
   // Customization of inner components
