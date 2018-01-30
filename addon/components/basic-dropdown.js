@@ -4,9 +4,11 @@ import { join } from '@ember/runloop';
 import { computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
+import { DEBUG } from '@glimmer/env';
 import layout from '../templates/components/basic-dropdown';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
+import requirejs from 'require';
 
 const assign = Object.assign || function EmberAssign(original, ...args) {
   for (let i = 0; i < args.length; i++) {
@@ -248,10 +250,15 @@ export default Component.extend({
   },
 
   _getDestinationId() {
-    let config = getOwner(this).resolveRegistration('config:environment');
-    if (config.environment === 'test') {
-      return document.querySelector('#ember-testing > .ember-view').id;
+    if (DEBUG) {
+      if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
+        return requirejs('@ember/test-helpers/dom/get-root-element').default().id;
+      } else {
+        return document.querySelector('#ember-testing > .ember-view').id;
+      }
+    } else {
+      let config = getOwner(this).resolveRegistration('config:environment');
+      return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
     }
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });
