@@ -250,15 +250,16 @@ export default Component.extend({
   },
 
   _getDestinationId() {
-    if (DEBUG) {
-      if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
-        return requirejs('@ember/test-helpers/dom/get-root-element').default().id;
-      } else {
-        return document.querySelector('#ember-testing > .ember-view').id;
+    let config = getOwner(this).resolveRegistration('config:environment');
+    if (config.environment === 'test') {
+      if (DEBUG) {
+        if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
+          return requirejs('@ember/test-helpers/dom/get-root-element').default().id;
+        } else {
+          return document.querySelector('#ember-testing > .ember-view').id;
+        }
       }
-    } else {
-      let config = getOwner(this).resolveRegistration('config:environment');
-      return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
     }
+    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
 });
