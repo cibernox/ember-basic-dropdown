@@ -36,7 +36,7 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   // Apply containers' offset
   let anchorElement = destination.parentNode;
   let anchorPosition = window.getComputedStyle(anchorElement).position;
-  while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName.toUpperCase() !== 'BODY' && destination.parentNode) {
+  while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName.toUpperCase() !== 'BODY') {
     anchorElement = anchorElement.parentNode;
     anchorPosition = window.getComputedStyle(anchorElement).position;
   }
