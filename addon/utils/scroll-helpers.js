@@ -126,23 +126,28 @@ function calculateScrollDistribution(deltaX, deltaY, element, container, accumul
     deltaYPositive: scrollTopMax - element.scrollTop
   };
 
-  scrollInformation.scrollLeft = element.scrollLeft + deltaX;
-  scrollInformation.scrollTop = element.scrollTop + deltaY;
+  const elementStyle = window.getComputedStyle(element);
 
-  if (deltaX > availableScroll.deltaXPositive) {
-    deltaX = deltaX - availableScroll.deltaXPositive;
-  } else if (deltaX < availableScroll.deltaXNegative) {
-    deltaX = deltaX - availableScroll.deltaXNegative;
-  } else {
-    deltaX = 0;
+  if (elementStyle.overflowX !== 'hidden') {
+    scrollInformation.scrollLeft = element.scrollLeft + deltaX;
+    if (deltaX > availableScroll.deltaXPositive) {
+      deltaX = deltaX - availableScroll.deltaXPositive;
+    } else if (deltaX < availableScroll.deltaXNegative) {
+      deltaX = deltaX - availableScroll.deltaXNegative;
+    } else {
+      deltaX = 0;
+    }
   }
 
-  if (deltaY > availableScroll.deltaYPositive) {
-    deltaY = deltaY - availableScroll.deltaYPositive;
-  } else if (deltaY < availableScroll.deltaYNegative) {
-    deltaY = deltaY - availableScroll.deltaYNegative;
-  } else {
-    deltaY = 0;
+  if (elementStyle.overflowY !== 'hidden') {
+    scrollInformation.scrollTop = element.scrollTop + deltaY;
+    if (deltaY > availableScroll.deltaYPositive) {
+      deltaY = deltaY - availableScroll.deltaYPositive;
+    } else if (deltaY < availableScroll.deltaYNegative) {
+      deltaY = deltaY - availableScroll.deltaYNegative;
+    } else {
+      deltaY = 0;
+    }
   }
 
   if (element !== container && (deltaX || deltaY)) {
