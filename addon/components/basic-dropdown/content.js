@@ -7,7 +7,11 @@ import { deprecate } from '@ember/debug';
 import layout from '../../templates/components/basic-dropdown/content';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
-import { distributeScroll, getAvailableScroll, getScrollLineHeight } from '../../utils/scroll-helpers';
+import {
+  distributeScroll,
+  getAvailableScroll,
+  getScrollDeltas
+} from '../../utils/scroll-helpers';
 
 function closestContent(el) {
   while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
@@ -266,23 +270,7 @@ export default Component.extend({
       const availableScroll = getAvailableScroll(event.target, element);
 
       // Calculate what the event's desired change to that scrollable canvas is.
-      // DOM_DELTA_PIXEL: applies almost everywhere.
-      let { deltaX, deltaY } = event;
-      if (event.deltaMode !== 0) {
-        // Reference: https://stackoverflow.com/a/37474225
-        // DOM_DELTA_LINE: only applies to Firefox on Windows using a mouse.
-        // DOM_DELTA_PAGE: only applies to Firefox on Windows using a mouse with custom settings.
-
-        // Force DOM_DELTA_PAGE to line mode, 3 lines at a time.
-        const scrollLineHeight = getScrollLineHeight();
-        if (event.deltaMode === 2) {
-          deltaX = 3;
-          deltaY = 3;
-        }
-
-        deltaX = deltaX * scrollLineHeight;
-        deltaY = deltaY * scrollLineHeight;
-      }
+      let { deltaX, deltaY } = getScrollDeltas(event);
 
       // If the consequence of the wheel action would result in scrolling beyond
       // the scrollable canvas of the dropdown, call preventDefault() and clamp

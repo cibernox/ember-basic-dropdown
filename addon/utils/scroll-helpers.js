@@ -1,3 +1,61 @@
+
+/**
+ * Mode that expresses the deltas in pixels.
+ *
+ * @property DOM_DELTA_PIXEL
+ */
+export const DOM_DELTA_PIXEL = 0;
+/**
+ * Mode that expresses the deltas in lines.
+ *
+ * This only happens in Firefox for Windows.
+ *
+ * Reference: https://stackoverflow.com/a/37474225
+ *
+ * @property DOM_DELTA_LINE
+ */
+export const DOM_DELTA_LINE = 1;
+/**
+ * Mode that expresses the deltas in pages.
+ *
+ * This only happens in Firefox for Windows with
+ * a custom OS setting activated.
+ *
+ * Reference: https://stackoverflow.com/a/37474225
+ */
+export const DOM_DELTA_PAGE = 2;
+
+/**
+ * Number of lines per page considered for
+ * DOM_DELTA_PAGE.
+ *
+ * @property LINES_PER_PAGE
+ */
+export const LINES_PER_PAGE = 3;
+
+
+/**
+ * Returns the deltas calculated in pixels.
+ *
+ * @param {Number} event.deltaX horizontal delta
+ * @param {Number} event.deltaY vertical delta
+ * @param {DeltaMode} event.deltaMode delta mode tells which unit is being used.
+ * @return {Object} Object with deltaX and deltaY properties
+ */
+export function getScrollDeltas({ deltaX = 0, deltaY = 0, deltaMode = DOM_DELTA_PIXEL }) {
+  if (deltaMode !== DOM_DELTA_PIXEL) {
+    if (deltaMode === DOM_DELTA_PAGE) {
+      deltaX *= LINES_PER_PAGE;
+      deltaY *= LINES_PER_PAGE;
+    }
+    const scrollLineHeight = getScrollLineHeight();
+    deltaX *= scrollLineHeight;
+    deltaY *= scrollLineHeight;
+  }
+
+  return { deltaX, deltaY };
+}
+
 let scrollLineHeight = null;
 export function getScrollLineHeight() {
   if (!scrollLineHeight) {
