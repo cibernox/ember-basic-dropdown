@@ -280,8 +280,8 @@ export default Component.extend({
           deltaY = 3;
         }
 
-        deltaX = event.deltaX * scrollLineHeight;
-        deltaY = event.deltaY * scrollLineHeight;
+        deltaX = deltaX * scrollLineHeight;
+        deltaY = deltaY * scrollLineHeight;
       }
 
       // If the consequence of the wheel action would result in scrolling beyond
