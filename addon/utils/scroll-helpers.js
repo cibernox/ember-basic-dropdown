@@ -100,9 +100,22 @@ export function getAvailableScroll(element, container) {
   return availableScroll;
 }
 
-// Recursively walks up scroll containers until the delta is distributed or we
-// run out of elements in the allowed-to-scroll container.
-export function distributeScroll(deltaX, deltaY, element, container) {
+/**
+ * Calculates the scroll distribution for `element` inside` container.
+ *
+ * @param {Number} deltaX
+ * @param {Number} deltaY
+ * @param {Element} element
+ * @param {Element} container
+ * @param {ScrollInformation[]} accumulator
+ * @return {ScrollInforamtion}
+ */
+function calculateScrollDistribution(deltaX, deltaY, element, container, accumulator = []) {
+  const scrollInformation = {
+    element,
+    scrollLeft: 0,
+    scrollTop: 0
+  };
   const scrollLeftMax = element.scrollWidth - element.clientWidth;
   const scrollTopMax = element.scrollHeight - element.clientHeight;
 
@@ -113,8 +126,8 @@ export function distributeScroll(deltaX, deltaY, element, container) {
     deltaYPositive: scrollTopMax - element.scrollTop
   };
 
-  element.scrollLeft = element.scrollLeft + deltaX;
-  element.scrollTop = element.scrollTop + deltaY;
+  scrollInformation.scrollLeft = element.scrollLeft + deltaX;
+  scrollInformation.scrollTop = element.scrollTop + deltaY;
 
   if (deltaX > availableScroll.deltaXPositive) {
     deltaX = deltaX - availableScroll.deltaXPositive;
@@ -133,6 +146,21 @@ export function distributeScroll(deltaX, deltaY, element, container) {
   }
 
   if (element !== container && (deltaX || deltaY)) {
-    distributeScroll(deltaX, deltaY, element.parentNode, container);
+    return calculateScrollDistribution(deltaX, deltaY, element.parentNode, container, accumulator.concat([scrollInformation]));
+  }
+
+  return accumulator.concat([scrollInformation]);
+}
+
+// Recursively walks up scroll containers until the delta is distributed or we
+// run out of elements in the allowed-to-scroll container.
+export function distributeScroll(deltaX, deltaY, element, container) {
+  const scrollInfos = calculateScrollDistribution(deltaX, deltaY, element, container);
+  let info;
+
+  for (let i = 0; i < scrollInfos.length; i++) {
+    info = scrollInfos[i];
+    info.element.scrollLeft = info.scrollLeft;
+    info.element.scrollTop = info.scrollTop;
   }
 }
