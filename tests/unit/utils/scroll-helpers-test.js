@@ -1,4 +1,13 @@
-import { getScrollLineHeight, getAvailableScroll, distributeScroll } from 'ember-basic-dropdown/utils/scroll-helpers';
+import {
+  distributeScroll,
+  getAvailableScroll,
+  getScrollDeltas,
+  getScrollLineHeight,
+  DOM_DELTA_LINE,
+  DOM_DELTA_PAGE,
+  DOM_DELTA_PIXEL,
+  LINES_PER_PAGE
+} from 'ember-basic-dropdown/utils/scroll-helpers';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | scroll helpers');
@@ -67,4 +76,43 @@ test('distributeScroll', function(assert) {
   distributeScroll(0, 40, grandchild, container);
   assert.strictEqual(container.scrollTop, 10);
   assert.strictEqual(child.scrollTop, 40);
+});
+
+test('getScrollDeltas DOM_DELTA_PIXEL', function(assert) {
+  const originalDeltaX = 25;
+  const originalDeltaY = 15;
+  const { deltaX, deltaY } = getScrollDeltas({
+    deltaX: originalDeltaX,
+    deltaY: originalDeltaY,
+    deltaMode: DOM_DELTA_PIXEL
+  });
+  assert.equal(deltaX, originalDeltaX);
+  assert.equal(deltaY, originalDeltaY);
+});
+
+test('getScrollDeltas DOM_DELTA_LINE', function(assert) {
+  const scrollLineHeight = getScrollLineHeight();
+  const originalDeltaX = 25;
+  const originalDeltaY = 15;
+  const { deltaX, deltaY } = getScrollDeltas({
+    deltaX: originalDeltaX,
+    deltaY: originalDeltaY,
+    deltaMode: DOM_DELTA_LINE
+  });
+  assert.equal(deltaX, originalDeltaX * scrollLineHeight);
+  assert.equal(deltaY, originalDeltaY * scrollLineHeight);
+});
+
+test('getScrollDeltas DOM_DELTA_PAGE', function(assert) {
+  const scrollLineHeight = getScrollLineHeight();
+  const originalDeltaX = 25;
+  const originalDeltaY = 15;
+  const { deltaX, deltaY } = getScrollDeltas({
+    deltaX: originalDeltaX,
+    deltaY: originalDeltaY,
+    deltaMode: DOM_DELTA_PAGE
+  });
+  assert.equal(deltaX, originalDeltaX * scrollLineHeight * LINES_PER_PAGE);
+  assert.equal(deltaY, originalDeltaY * scrollLineHeight * LINES_PER_PAGE);
+
 });
