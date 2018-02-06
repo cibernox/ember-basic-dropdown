@@ -129,6 +129,10 @@ function calculateScrollDistribution(deltaX, deltaY, element, container, accumul
   const elementStyle = window.getComputedStyle(element);
 
   if (elementStyle.overflowX !== 'hidden') {
+    // The `deltaX` can be larger than the available scroll for the element, thus overshooting.
+    // The result of that is that it scrolls the element as far as possible. We don't need to
+    // calculate exactly because we reduce the amount of desired scroll for the
+    // parent elements by the correct amount below.
     scrollInformation.scrollLeft = element.scrollLeft + deltaX;
     if (deltaX > availableScroll.deltaXPositive) {
       deltaX = deltaX - availableScroll.deltaXPositive;
