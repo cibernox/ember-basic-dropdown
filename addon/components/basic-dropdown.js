@@ -253,11 +253,16 @@ export default Component.extend({
     let config = getOwner(this).resolveRegistration('config:environment');
     if (config.environment === 'test') {
       if (DEBUG) {
+        let id;
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
-          return requirejs('@ember/test-helpers/dom/get-root-element').default().id;
-        } else {
-          return document.querySelector('#ember-testing > .ember-view').id;
+          try {
+            id = requirejs('@ember/test-helpers/dom/get-root-element').default().id;
+          } catch(ex) {
+            id = document.querySelector('#ember-testing > .ember-view').id;
+          }
         }
+
+        return id;
       }
     }
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
