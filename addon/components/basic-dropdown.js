@@ -260,8 +260,9 @@ export default Component.extend({
           } catch(ex) {
             id = document.querySelector('#ember-testing > .ember-view').id;
           }
+        } else {
+          id = document.querySelector('#ember-testing > .ember-view').id;
         }
-
         return id;
       }
     }
