@@ -44,6 +44,8 @@ export default Component.extend({
   width: null,
   height: null,
 
+  uniqueId: null,
+
   // Lifecycle hooks
   init() {
     if (this.get('renderInPlace') && this.get('tagName') === '') {
@@ -53,7 +55,7 @@ export default Component.extend({
     this.set('publicAPI', {});
 
     let publicAPI = this.updateState({
-      uniqueId: guidFor(this),
+      uniqueId: this.get('uniqueId') || guidFor(this),
       isOpen: this.get('initiallyOpened') || false,
       disabled: this.get('disabled') || false,
       actions: {

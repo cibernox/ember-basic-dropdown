@@ -779,6 +779,26 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.ok(find('.body-parent'), 'can click in parent dropdown and still be open');
   });
 
+  test('Dropdown uniqueId can be specified or use the standard guidFor', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      {{#basic-dropdown as |parent|}}
+        <span class="unique-id">{{parent.uniqueId}}</span>
+      {{/basic-dropdown}}
+    `);
+
+    assert.ok(find('.unique-id').innerText.match(/ember[\d]+/));
+
+    await render(hbs`
+      {{#basic-dropdown uniqueId='test123' as |parent|}}
+        <span class="unique-id">{{parent.uniqueId}}</span>
+      {{/basic-dropdown}}
+    `);
+
+    assert.equal(find('.unique-id').innerText, 'test123');
+  });
+
   // Misc bugfixes
   test('[BUGFIX] Dropdowns rendered in place do not register events twice', async function(assert) {
     assert.expect(2);
