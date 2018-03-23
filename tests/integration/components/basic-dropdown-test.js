@@ -4,8 +4,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
-import { find } from 'ember-native-dom-helpers';
-import { render, click, focus, triggerEvent } from '@ember/test-helpers';
+import { render, find, click, focus, triggerEvent } from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -525,7 +524,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
         {{/dropdown.content}}
       {{/basic-dropdown}}
     `);
-    clickTrigger();
+    await clickTrigger();
     find('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
     setTimeout(function() {
       assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
@@ -547,7 +546,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       {{/basic-dropdown}}
     `);
     let returnValue;
-    clickTrigger();
+    await clickTrigger();
 
     run(() => {
       returnValue = remoteController.actions.reposition();

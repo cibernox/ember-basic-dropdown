@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { render, click, triggerEvent } from '@ember/test-helpers';
-import { find } from 'ember-native-dom-helpers';
+import { render, find, click, triggerEvent } from '@ember/test-helpers';
 
 module('Integration | Component | basic-dropdown/content', function(hooks) {
   setupRenderingTest(hooks);

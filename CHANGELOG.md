@@ -1,3 +1,6 @@
+- [INTERNAL] Stop depending internally on `ember-native-dom-helpers`. Now the utilities in `ember-test-helpers`
+  have been ported to `@ember/test-helpers`, so they are not needed anymore.
+
 # 1.0.0-beta.0
 - [DEPRECATION] Deprecate global acceptance helpers `clickDropdown` and `tapDropdown`. Suggest to
   explicitly import `clickTrigger`/`tapTrigger` or even better, just use `click`/`tap` from `@ember/test-helpers`.
