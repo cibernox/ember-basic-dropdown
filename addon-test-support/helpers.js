@@ -1,9 +1,8 @@
 import { registerAsyncHelper } from '@ember/test';
 import { run } from '@ember/runloop';
 import { merge } from '@ember/polyfills';
-import { click } from 'ember-native-dom-helpers';
+import { click, settled } from '@ember/test-helpers';
 import { deprecate } from '@ember/debug';
-import wait from 'ember-test-helpers/wait';
 
 
 export function nativeTap(selector, options = {}) {
@@ -26,7 +25,7 @@ export function clickTrigger(scope, options = {}) {
     }
   }
   click(selector, options);
-  return wait();
+  return settled();
 }
 
 export function tapTrigger(scope, options = {}) {
