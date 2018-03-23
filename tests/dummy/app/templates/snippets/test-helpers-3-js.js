@@ -1,1 +1,0 @@
-tapDropdown('.notifications-menu');

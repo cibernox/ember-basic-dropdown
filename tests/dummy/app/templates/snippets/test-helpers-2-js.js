@@ -1,1 +1,0 @@
-clickDropdown('.notifications-menu');
