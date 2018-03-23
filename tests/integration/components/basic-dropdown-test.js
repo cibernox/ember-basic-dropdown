@@ -524,7 +524,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
         {{/dropdown.content}}
       {{/basic-dropdown}}
     `);
-    clickTrigger();
+    await clickTrigger();
     find('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
     setTimeout(function() {
       assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
@@ -546,7 +546,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       {{/basic-dropdown}}
     `);
     let returnValue;
-    clickTrigger();
+    await clickTrigger();
 
     run(() => {
       returnValue = remoteController.actions.reposition();
