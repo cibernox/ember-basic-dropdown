@@ -27,6 +27,14 @@ const assign = Object.assign || function EmberAssign(original, ...args) {
   return original;
 };
 
+const ignoredStyleAttrs = [
+  'top',
+  'left',
+  'right',
+  'width',
+  'height'
+]
+
 export default Component.extend({
   layout,
   tagName: '',
@@ -43,6 +51,7 @@ export default Component.extend({
   right: null,
   width: null,
   height: null,
+  userStyles: null,
 
   // Lifecycle hooks
   init() {
@@ -51,6 +60,7 @@ export default Component.extend({
     }
     this._super(...arguments);
     this.set('publicAPI', {});
+    this.set('userStyles', {});
 
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
@@ -183,8 +193,10 @@ export default Component.extend({
   applyReposition(trigger, dropdown, positions) {
     let changes = {
       hPosition: positions.horizontalPosition,
-      vPosition: positions.verticalPosition
+      vPosition: positions.verticalPosition,
+      userStyles: this.get('userStyles')
     };
+
     if (positions.style) {
       if (positions.style.top !== undefined) {
         changes.top = `${positions.style.top}px`;
@@ -207,6 +219,15 @@ export default Component.extend({
       if (positions.style.height !== undefined) {
         changes.height = `${positions.style.height}px`;
       }
+
+      Object.keys(positions.style).forEach((attr) => {
+        if (ignoredStyleAttrs.indexOf(attr) === -1) {
+          if (changes[attr] !== positions.style[attr]) {
+            changes.userStyles[attr] = positions.style[attr];
+          }
+        }
+      });
+
       if (this.get('top') === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];

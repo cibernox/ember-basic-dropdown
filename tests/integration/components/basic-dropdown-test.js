@@ -819,4 +819,26 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.ok(find('.ember-basic-dropdown-content').getAttribute('style').indexOf('undefined') === -1, 'There is no undefined values');
   });
 
+  test('It includes the inline styles returned from the `calculatePosition` callback', async function(assert) {
+    assert.expect(1);
+    this.calculatePosition = function() {
+      return {
+        style: {
+          'max-height': '500px',
+          'overflow-y': 'auto'
+        }
+      };
+    };
+    await render(hbs`
+      {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
+        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
+        {{#dropdown.content}}Some content{{/dropdown.content}}
+      {{/basic-dropdown}}
+    `);
+    await clickTrigger();
+
+    let styles = find('.ember-basic-dropdown-content').getAttribute('style');
+    assert.ok(styles.indexOf('max-height: 500px;overflow-y: auto') !== -1, 'There are inline styles');
+  });
+
 });
