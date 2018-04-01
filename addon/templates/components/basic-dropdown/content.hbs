@@ -2,7 +2,9 @@
   <div class="ember-basic-dropdown-content-wormhole-origin">
     {{#maybe-in-element destinationElement renderInPlace}}
       {{#if overlay}}
-        <div class="ember-basic-dropdown-overlay"></div>
+        <div class="ember-basic-dropdown-overlay-container">
+          <div class="ember-basic-dropdown-overlay"></div>
+        </div>
       {{/if}}
       {{#basic-dropdown/content-element
         tagName=_contentTagName
