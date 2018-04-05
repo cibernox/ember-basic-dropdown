@@ -82,14 +82,13 @@ export default Component.extend({
     return document.getElementById(this.get('to'));
   }),
 
-  style: computed('top', 'left', 'right', 'width', 'height', 'userStyles', function() {
+  style: computed('top', 'left', 'right', 'width', 'height', 'otherStyles', function() {
     let style = '';
+    let { top, left, right, width, height, otherStyles } = this.getProperties('top', 'left', 'right', 'width', 'height', 'otherStyles');
 
-    let { top, left, right, width, height, userStyles } = this.getProperties('top', 'left', 'right', 'width', 'height', 'userStyles');
-
-    if (userStyles) {
-      Object.keys(userStyles).forEach((attr) => {
-        style += `${attr}: ${userStyles[attr]};`;
+    if (otherStyles) {
+      Object.keys(otherStyles).forEach((attr) => {
+        style += `${attr}: ${otherStyles[attr]};`;
       });
     }
 

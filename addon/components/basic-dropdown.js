@@ -51,7 +51,7 @@ export default Component.extend({
   right: null,
   width: null,
   height: null,
-  userStyles: null,
+  otherStyles: {}, // eslint-disable-line
 
   // Lifecycle hooks
   init() {
@@ -60,7 +60,7 @@ export default Component.extend({
     }
     this._super(...arguments);
     this.set('publicAPI', {});
-    this.set('userStyles', {});
+    this.set('otherStyles', {});
 
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
@@ -194,7 +194,7 @@ export default Component.extend({
     let changes = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      userStyles: this.get('userStyles')
+      otherStyles: this.get('otherStyles')
     };
 
     if (positions.style) {
@@ -223,7 +223,7 @@ export default Component.extend({
       Object.keys(positions.style).forEach((attr) => {
         if (ignoredStyleAttrs.indexOf(attr) === -1) {
           if (changes[attr] !== positions.style[attr]) {
-            changes.userStyles[attr] = positions.style[attr];
+            changes.otherStyles[attr] = positions.style[attr];
           }
         }
       });
