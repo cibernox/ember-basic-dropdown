@@ -6,11 +6,6 @@ import { click, settled } from '@ember/test-helpers';
 import { deprecate } from '@ember/debug';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 
-// `click` from `@ember/test-helpers` doesn't play well on Ember version < 3.0
-if(!hasEmberVersion(3, 0)){
-  click = _nativeDomClick;
-}
-
 export function nativeTap(selector, options = {}) {
   let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
   Object.keys(options).forEach(key => touchStartEvent[key] = options[key]);
@@ -30,7 +25,10 @@ export function clickTrigger(scope, options = {}) {
       selector = scope + ' ' + selector;
     }
   }
-  click(selector, options);
+
+  // `click` from `@ember/test-helpers` doesn't play well on Ember version < 3.0
+  hasEmberVersion(3, 0) ? click(selector, options) : _nativeDomClick(selector, options);
+
   return settled();
 }
 
