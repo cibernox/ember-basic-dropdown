@@ -1,9 +1,10 @@
 import { registerAsyncHelper } from '@ember/test';
 import { run } from '@ember/runloop';
 import { merge } from '@ember/polyfills';
+import { click as _nativeDomClick } from 'ember-native-dom-helpers';
 import { click, settled } from '@ember/test-helpers';
 import { deprecate } from '@ember/debug';
-
+import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 
 export function nativeTap(selector, options = {}) {
   let touchStartEvent = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
@@ -24,7 +25,10 @@ export function clickTrigger(scope, options = {}) {
       selector = scope + ' ' + selector;
     }
   }
-  click(selector, options);
+
+  // `click` from `@ember/test-helpers` doesn't play well on Ember version < 3.0
+  hasEmberVersion(3, 0) ? click(selector, options) : _nativeDomClick(selector, options);
+
   return settled();
 }
 
