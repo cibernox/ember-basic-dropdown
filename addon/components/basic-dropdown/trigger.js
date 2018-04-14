@@ -230,7 +230,11 @@ export default Component.extend({
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
     this.element.addEventListener('mousedown', (e) => this.send('handleMouseDown', e));
-    this.element.addEventListener('click', (e) => this.send('handleClick', e));
+    this.element.addEventListener('click', (e) => {
+      if (!this.get('isDestroyed')) {
+        this.send('handleClick', e)
+      }
+    });
     this.element.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   },
 
