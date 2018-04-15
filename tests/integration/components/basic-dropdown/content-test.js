@@ -49,19 +49,6 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.notEqual(content.parentElement.id, 'destination-el', 'It isn\'t rendered in the #ember-testing div');
   });
 
-  test('If it receives `to="foo123"`, it is rendered in the element with that ID', async function(assert) {
-    assert.expect(2);
-    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-    await render(hbs`
-      <div id="destination-el"></div>
-      <div id="foo123"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' to="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
-    `);
-    let content = find('#foo123 .ember-basic-dropdown-content');
-    assert.ok(content, 'It is rendered');
-    assert.equal(content.parentElement.id, 'foo123', 'It is rendered in the element with the given ID');
-  });
-
   test('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };

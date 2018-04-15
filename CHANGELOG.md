@@ -1,3 +1,5 @@
+- [CLEANUP] Remove passing `to="id-of-destination"` that has been deprecated for a long time.
+
 # 1.0.0-beta.5
 - [BUGFIX] Fix event being fired on destroyed trigger in Ember 3.2 and beyond.
 

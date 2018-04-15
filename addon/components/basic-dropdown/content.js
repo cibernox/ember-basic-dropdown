@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
-import { deprecate } from '@ember/debug';
 import layout from '../../templates/components/basic-dropdown/content';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../../utils/calculate-position';
@@ -68,18 +67,8 @@ export default Component.extend({
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }),
-
-  to: computed('destination', {
-    get() {
-      return this.get('destination');
-    },
-    set(_, v) {
-      deprecate('Passing `to="id-of-elmnt"` to the {{#dropdown.content}} has been deprecated. Please pass `destination="id-of-elmnt"` to the {{#basic-dropdown}} component instead', false, { id: 'ember-basic-dropdown-to-in-content', until: '0.40' });
-      return v === undefined ? this.get('destination') : v;
-    }
-  }),
-  destinationElement: computed('to', function () {
-    return document.getElementById(this.get('to'));
+  destinationElement: computed('destination', function () {
+    return document.getElementById(this.get('destination'));
   }),
 
   style: computed('top', 'left', 'right', 'width', 'height', 'otherStyles', function() {
