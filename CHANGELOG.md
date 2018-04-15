@@ -1,5 +1,7 @@
-# 1.0.0-beta.4
+# 1.0.0-beta.5
+- [BUGFIX] Fix event being fired on destroyed trigger in Ember 3.2 and beyond.
 
+# 1.0.0-beta.4
 - [FEATURE] Allow dropdowns with a custom `calculatePosition` function to return in the `styles` object
   css properties other than `top`, `left`, `right`, `height` and `width`. Now users can set any arbitrary
   properties. P.e. `max-height`, `z-index`, `transform`....
