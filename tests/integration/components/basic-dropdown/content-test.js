@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { render, find, click, triggerEvent } from '@ember/test-helpers';
+import { render, click, triggerEvent, focus, blur } from '@ember/test-helpers';
 
 module('Integration | Component | basic-dropdown/content', function(hooks) {
   setupRenderingTest(hooks);
@@ -15,9 +15,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    let content = find('.ember-basic-dropdown-content');
-    assert.equal(content.textContent.trim(), 'Lorem ipsum', 'It contains the given block');
-    assert.equal(content.parentElement.id, 'destination-el', 'It is rendered in the #ember-testing div');
+    assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
+    assert.dom('#destination-el > .ember-basic-dropdown-content').exists('It is rendered in the #ember-testing div');
   });
 
   test('If the dropdown is closed, nothing is rendered', async function(assert) {
@@ -27,7 +26,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    assert.notOk(find('.ember-basic-dropdown-content'), 'Nothing is rendered');
+    assert.dom('.ember-basic-dropdown-content').doesNotExist('Nothing is rendered');
   });
 
   test('If it receives `renderInPlace=true`, it is rendered right here instead of elsewhere', async function(assert) {
@@ -44,9 +43,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    let content = find('.ember-basic-dropdown-content');
-    assert.ok(content, 'It is rendered in the spot');
-    assert.notEqual(content.parentElement.id, 'destination-el', 'It isn\'t rendered in the #ember-testing div');
+    assert.dom('.ember-basic-dropdown-content').exists('It is rendered in the spot');
+    assert.dom('#destination-el .ember-basic-dropdown-content').doesNotExist('It isn\'t rendered in the #ember-testing div');
   });
 
   test('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function(assert) {
@@ -56,7 +54,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    assert.equal(find('.ember-basic-dropdown-content').id, 'ember-basic-dropdown-content-e123', 'contains the expected ID');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('id', 'ember-basic-dropdown-content-e123', 'contains the expected ID');
   });
 
   test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', async function(assert) {
@@ -66,7 +64,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
+    assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   });
 
   test('If it receives `defaultClass="foo123"`, the rendered content will have that class along with the default one', async function(assert) {
@@ -76,7 +74,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    assert.ok(find('.ember-basic-dropdown-content.foo123'), 'The dropdown contains that class');
+    assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   });
 
   test('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function(assert) {
@@ -86,7 +84,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
-    assert.equal(find('.ember-basic-dropdown-content').attributes.dir.value, 'rtl', 'The dropdown has `dir="rtl"`');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
   });
 
   // Clicking while the component is opened
@@ -108,7 +106,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
-    click('#other-div');
+    await click('#other-div');
   });
 
   test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', async function(assert) {
@@ -128,7 +126,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="destination-el"></div>
       {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
     `);
-    click('#inside-div');
+    await click('#inside-div');
   });
 
   test('Clicking in inside the a dropdown content nested inside another dropdown content doesn\'t invoke the close action on neither of them if the second is rendered in place', async function(assert) {
@@ -168,7 +166,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       {{/basic-dropdown/content}}
     `);
 
-    click('#nested-content-div');
+    await click('#nested-content-div');
   });
 
   // Touch gestures while the component is opened
@@ -232,7 +230,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
-    run(() => find('#test-input-focusin').focus());
+    await focus('#test-input-focusin');
   });
 
   test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', async function(assert) {
@@ -249,9 +247,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
-    let input = find('#test-input-focusin');
-    run(() => input.focus());
-    run(() => input.blur());
+    await focus('#test-input-focusin');
+    await blur('#test-input-focusin');
   });
 
   // Mouseenter/leave
@@ -346,7 +343,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       {{/basic-dropdown/content}}
     `);
 
-    let innerScrollable = find('#inner-div');
+    let innerScrollable = this.element.querySelector('#inner-div');
     let innerScrollableEvent = new WheelEvent('wheel', { deltaY: 4, cancelable: true, bubbles: true });
     run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
     assert.strictEqual(innerScrollableEvent.defaultPrevented, false, 'The inner scrollable does not cancel wheel events.');
@@ -357,7 +354,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     assert.strictEqual(innerScrollableCanceledEvent.defaultPrevented, true, 'The inner scrollable cancels out of bound wheel events.');
     assert.strictEqual(innerScrollable.scrollTop, 0, 'The innerScrollable was scrolled anyway.');
 
-    let outerScrollable = find('#outer-div');
+    let outerScrollable = this.element.querySelector('#outer-div');
     let outerScrollableEvent = new WheelEvent('wheel', { deltaY: 4, cancelable: true, bubbles: true });
     run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
     assert.strictEqual(outerScrollableEvent.defaultPrevented, true, 'The outer scrollable cancels wheel events.');
@@ -483,8 +480,8 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
-    assert.ok(find('.ember-basic-dropdown-overlay'), 'There is one overlay');
+    assert.dom('.ember-basic-dropdown-overlay').exists('There is one overlay');
     run(this, 'set', 'dropdown.isOpen', false);
-    assert.notOk(find('.ember-basic-dropdown-overlay'), 'There is no overlay when closed');
+    assert.dom('.ember-basic-dropdown-overlay').doesNotExist('There is no overlay when closed');
   });
 });

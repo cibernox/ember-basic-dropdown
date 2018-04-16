@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, tapTrigger, nativeTap } from 'ember-basic-dropdown/test-support/helpers';
-import { render, find, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
+import { render, triggerEvent, triggerKeyEvent, focus } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from "@ember/object"
 
@@ -18,9 +18,8 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       </div>
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.parentElement.id, 'direct-parent', 'The trigger is not wrapped');
-    assert.equal(trigger.textContent, 'Click me', 'The trigger contains the given block');
+    assert.dom('#direct-parent > .ember-basic-dropdown-trigger').exists('The trigger is not wrapped');
+    assert.dom('.ember-basic-dropdown-trigger').hasText('Click me', 'The trigger contains the given block');
   });
 
   // Attributes and a11y
@@ -31,8 +30,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.tabIndex, 0, 'Has a tabindex of 0');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('tabindex', '0', 'Has a tabindex of 0');
   });
 
   test('If it receives a tabindex=null, defaults to 0', async function(assert) {
@@ -42,8 +40,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger tabindex=null dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.tabIndex, 0, 'Has a tabindex of 0');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('tabindex', '0', 'Has a tabindex of 0');
   });
 
   test('If it receives a tabindex=false, it has no tabindex attribute', async function(assert) {
@@ -53,8 +50,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger tabindex=false dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.tabindex, undefined, 'It has no tabindex');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('tabindex', 'It has no tabindex');
   });
 
   test('If it receives `tabindex=3`, the tabindex of the element is 3', async function(assert) {
@@ -64,8 +60,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger tabindex=3 dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.tabIndex, 3, 'Has a tabindex of 3');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('tabindex', '3', 'Has a tabindex of 3');
   });
 
   test('If it receives `title=something`, if has that title attribute', async function(assert) {
@@ -75,8 +70,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger title="foobar" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.title.value, 'foobar', 'Has the given title');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('title', 'foobar', 'Has the given title');
   });
 
   test('If it receives `id="some-id"`, if has that id', async function(assert) {
@@ -86,8 +80,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger id="my-own-id" title="foobar" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.id.value, 'my-own-id', 'Has the given id');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('id', 'my-own-id', 'Has the given id');
   });
 
   test('If the dropdown is disabled, the trigger doesn\'t have tabindex attribute, regardless of if it has been customized or not', async function(assert) {
@@ -97,8 +90,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown tabindex=3}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.tabindex, undefined, 'The component doesn\'t have tabindex');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('tabindex', 'The component doesn\'t have tabindex');
   });
 
   test('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attribute for a11y', async function(assert) {
@@ -108,10 +100,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
 
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes["aria-disabled"].value, 'true', 'It is marked as disabled');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-disabled', 'true', 'It is marked as disabled');
     run(() => this.set('dropdown.disabled', false));
-    assert.equal(trigger.attributes["aria-disabled"], undefined, 'It is marked as disabled');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-disabled', 'It is NOT marked as disabled');
   });
 
   test('If it receives `ariaLabel="foo123"` it gets an `aria-label="foo123"` attribute', async function(assert) {
@@ -120,7 +111,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger ariaLabel="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    assert.equal(find('.ember-basic-dropdown-trigger').attributes['aria-label'].value, 'foo123', 'the aria-label is set');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-label', 'foo123', 'the aria-label is set');
   });
 
   test('If it receives `ariaLabelledBy="foo123"` it gets an `aria-labelledby="foo123"` attribute', async function(assert) {
@@ -129,7 +120,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger ariaLabelledBy="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    assert.equal(find('.ember-basic-dropdown-trigger').attributes['aria-labelledby'].value, 'foo123', 'the aria-labelledby is set');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-labelledby', 'foo123', 'the aria-labelledby is set');
   });
 
   test('If it receives `ariaDescribedBy="foo123"` it gets an `aria-describedby="foo123"` attribute', async function(assert) {
@@ -138,7 +129,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger ariaDescribedBy="foo123" dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    assert.equal(find('.ember-basic-dropdown-trigger').attributes['aria-describedby'].value, 'foo123', 'the aria-describedby is set');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-describedby', 'foo123', 'the aria-describedby is set');
   });
 
   test('If it receives `ariaRequired="true"` it gets an `aria-required="true"` attribute', async function(assert) {
@@ -148,10 +139,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger ariaRequired=required dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-required'].value, 'true', 'the aria-required is true');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-required', 'true', 'the aria-required is true');
     run(() => this.set('required', false));
-    assert.equal(trigger.attributes['aria-required'], undefined, 'the aria-required is false');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-required');
   });
 
   test('If it receives `ariaInvalid="true"` it gets an `aria-invalid="true"` attribute', async function(assert) {
@@ -161,10 +151,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger ariaInvalid=invalid dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-invalid'].value, 'true', 'the aria-invalid is true');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-invalid', 'true', 'the aria-invalid is true');
     run(() => this.set('invalid', false));
-    assert.equal(trigger.attributes['aria-invalid'], undefined, 'the aria-invalid is false');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-invalid');
   });
 
   test('If the received dropdown is open, it has an `aria-expanded="true"` attribute', async function(assert) {
@@ -173,10 +162,9 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-expanded'], undefined, 'the aria-expanded is false');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-expanded');
     run(() => set(this.dropdown, 'isOpen', true));
-    assert.equal(trigger.attributes['aria-expanded'].value, 'true', 'the aria-expanded is true');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-expanded', 'true', 'the aria-expanded is true');
   });
 
   test('The `ariaPressed` attribute is bound, but defaults to false', async function(assert) {
@@ -185,15 +173,13 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-pressed'], undefined, 'the aria-pressed is not present');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-pressed');
     run(() => set(this.dropdown, 'isOpen', true));
-    assert.equal(trigger.attributes['aria-pressed'], undefined, 'the aria-pressed is not present');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-pressed');
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown ariaPressed=true}}Click me{{/basic-dropdown/trigger}}
     `);
-    trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-pressed'].value, 'true', 'the aria-pressed is not present');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-pressed', 'true', 'the aria-pressed is true');
   });
 
   test('If it has an `aria-owns="foo123"` attribute pointing to the id of the content', async function(assert) {
@@ -202,8 +188,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-owns'].value, 'ember-basic-dropdown-content-123');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
   });
 
   test('If it receives `role="foo123"` it gets that attribute', async function(assert) {
@@ -212,8 +197,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown role="foo123"}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.role.value, 'foo123');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('role', 'foo123');
   });
 
   test('If it does not receive an specific `role`, the default is `button`', async function(assert) {
@@ -223,8 +207,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown role=role}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes.role.value, 'button');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('role', 'button');
   });
 
   test('The `aria-haspopup` attribute is not present by default', async function(assert) {
@@ -233,8 +216,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-haspopup'], undefined, '`aria-haspopup` is not present anymore');
+    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-haspopup');
   });
 
   test('The `aria-haspopup` attribute will be present if passed in', async function(assert) {
@@ -243,8 +225,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown aria-haspopup=true}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.ok(trigger.attributes['aria-haspopup'], 'Has `aria-haspopup=true`');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-haspopup');
   });
 
   test('The `aria-autocomplete` will be present if passed in', async function(assert) {
@@ -253,8 +234,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown aria-autocomplete="foobar"}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-autocomplete'].value, 'foobar', 'Has `aria-autocomplete="foobar"`');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-autocomplete', 'foobar', 'Has `aria-autocomplete="foobar"`');
   });
 
   test('The `aria-activedescendant` will be present if passed in', async function(assert) {
@@ -263,8 +243,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown aria-activedescendant="foobar"}}Click me{{/basic-dropdown/trigger}}
     `);
-    let trigger = find('.ember-basic-dropdown-trigger');
-    assert.equal(trigger.attributes['aria-activedescendant'].value, 'foobar', 'Has `aria-activedescendant="foobar"`');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-activedescendant', 'foobar', 'Has `aria-activedescendant="foobar"`');
   });
 
   // Custom actions
@@ -304,7 +283,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown onFocus=onFocus}}Click me{{/basic-dropdown/trigger}}
     `);
-    run(() => find('.ember-basic-dropdown-trigger').focus());
+    await focus('.ember-basic-dropdown-trigger');
   });
 
   test('If it receives an `onBlur` action, it will be invoked when it get blurred', async function(assert) {
@@ -317,8 +296,8 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown onBlur=onBlur}}Click me{{/basic-dropdown/trigger}}
     `);
-    run(() => find('.ember-basic-dropdown-trigger').focus());
-    run(() => find('.ember-basic-dropdown-trigger').blur());
+    await focus('.ember-basic-dropdown-trigger');
+    await blur('.ember-basic-dropdown-trigger');
   });
 
   test('If it receives an `onKeyDown` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
@@ -558,7 +537,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/trigger}}
     `);
-    run(() => find('#test-input-focusin').focus());
+    await focus('#test-input-focusin');
   });
 
   test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
@@ -574,7 +553,7 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
         <input type="text" id="test-input-focusout" />
       {{/basic-dropdown/trigger}}
     `);
-    run(() => find('#test-input-focusout').focus());
+    await focus('#test-input-focusout');
   });
 
   // Decorating and overriding default event handlers
