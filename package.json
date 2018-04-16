@@ -58,6 +58,7 @@
     "eslint-plugin-node": "^6.0.1",
     "loader.js": "^4.6.0",
     "node-sass": "*",
+    "qunit-dom": "^0.6.2",
     "simple-git": "^1.10.0"
   },
   "keywords": [
