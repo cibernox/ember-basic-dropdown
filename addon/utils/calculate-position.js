@@ -30,7 +30,7 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-  let viewportWidth = self.document.body.clientWidth || self.window.innerWidth;
+  let viewportWidth = document.body.clientWidth || window.innerWidth;
   let style = {};
 
   // Apply containers' offset
@@ -121,7 +121,7 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   } else if (verticalPosition === 'below') {
     style.top = triggerTopWithScroll + triggerHeight;
   } else {
-    let viewportBottom = scroll.top + self.window.innerHeight;
+    let viewportBottom = scroll.top + window.innerHeight;
     let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
     let enoughRoomAbove = triggerTop > dropdownHeight;
 
@@ -146,7 +146,7 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
   if (horizontalPosition === 'auto') {
     let triggerRect = trigger.getBoundingClientRect();
     dropdownRect = content.getBoundingClientRect();
-    let viewportRight = window.pageXOffset + self.window.innerWidth;
+    let viewportRight = window.pageXOffset + window.innerWidth;
     positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
   } else if (horizontalPosition === 'center') {
     let { width: triggerWidth } = trigger.getBoundingClientRect();
@@ -171,13 +171,13 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
 }
 
 export function getScrollParent(element) {
-  let style = self.window.getComputedStyle(element);
+  let style = window.getComputedStyle(element);
   let excludeStaticParent = style.position === "absolute";
   let overflowRegex = /(auto|scroll)/;
 
   if (style.position === "fixed") return document.body;
   for (let parent = element; (parent = parent.parentElement);) {
-      style = self.window.getComputedStyle(parent);
+      style = window.getComputedStyle(parent);
       if (excludeStaticParent && style.position === "static") {
           continue;
       }

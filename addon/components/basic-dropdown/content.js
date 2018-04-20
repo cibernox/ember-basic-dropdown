@@ -20,8 +20,8 @@ function closestContent(el) {
 }
 
 function waitForAnimations(element, callback) {
-  self.window.requestAnimationFrame(function() {
-    let computedStyle = self.window.getComputedStyle(element);
+  window.requestAnimationFrame(function() {
+    let computedStyle = window.getComputedStyle(element);
     if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
       let eventCallback = function() {
         element.removeEventListener('animationend', eventCallback);
@@ -54,7 +54,7 @@ function dropdownIsValidParent(el, dropdownId) {
 export default Component.extend({
   layout,
   tagName: '',
-  isTouchDevice: Boolean(!!self.window && 'ontouchstart' in self.window),
+  isTouchDevice: Boolean(!!window && 'ontouchstart' in window),
   hasMoved: false,
   animationClass: '',
   transitioningInClass: 'ember-basic-dropdown--transitioning-in',
@@ -146,10 +146,10 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    self.document.addEventListener('mousedown', this.handleRootMouseDown, true);
+    document.addEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.addEventListener('touchstart', this.touchStartHandler, true);
-      self.document.addEventListener('touchend', this.handleRootMouseDown, true);
+      document.addEventListener('touchstart', this.touchStartHandler, true);
+      document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
@@ -205,8 +205,8 @@ export default Component.extend({
   },
 
   addGlobalEvents() {
-    self.window.addEventListener('resize', this.runloopAwareReposition);
-    self.window.addEventListener('orientationchange', this.runloopAwareReposition);
+    window.addEventListener('resize', this.runloopAwareReposition);
+    window.addEventListener('orientationchange', this.runloopAwareReposition);
   },
 
   startObservingDomMutations() {
@@ -219,8 +219,8 @@ export default Component.extend({
   },
 
   removeGlobalEvents() {
-    self.window.removeEventListener('resize', this.runloopAwareReposition);
-    self.window.removeEventListener('orientationchange', this.runloopAwareReposition);
+    window.removeEventListener('resize', this.runloopAwareReposition);
+    window.removeEventListener('orientationchange', this.runloopAwareReposition);
   },
 
   stopObservingDomMutations() {
@@ -251,12 +251,12 @@ export default Component.extend({
   },
 
   touchStartHandler() {
-    self.document.addEventListener('touchmove', this.touchMoveHandler, true);
+    document.addEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   touchMoveHandler() {
     this.hasMoved = true;
-    self.document.removeEventListener('touchmove', this.touchMoveHandler, true);
+    document.removeEventListener('touchmove', this.touchMoveHandler, true);
   },
 
   wheelHandler(event) {
@@ -330,22 +330,22 @@ export default Component.extend({
   // These two functions wire up scroll handling if `preventScroll` is true.
   // These prevent all scrolling that isn't inside of the dropdown.
   addPreventScrollEvent() {
-    self.document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+    document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
   },
   removePreventScrollEvent() {
-    self.document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
+    document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
   },
 
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
   addScrollEvents() {
-    self.window.addEventListener('scroll', this.runloopAwareReposition);
+    window.addEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.addEventListener('scroll', this.runloopAwareReposition);
     });
   },
   removeScrollEvents() {
-    self.window.removeEventListener('scroll', this.runloopAwareReposition);
+    window.removeEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.runloopAwareReposition);
     });
@@ -356,10 +356,10 @@ export default Component.extend({
     this.removeScrollHandling();
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
-    self.document.removeEventListener('mousedown', this.handleRootMouseDown, true);
+    document.removeEventListener('mousedown', this.handleRootMouseDown, true);
     if (this.get('isTouchDevice')) {
-      self.document.removeEventListener('touchstart', this.touchStartHandler, true);
-      self.document.removeEventListener('touchend', this.handleRootMouseDown, true);
+      document.removeEventListener('touchstart', this.touchStartHandler, true);
+      document.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
   }
 });
