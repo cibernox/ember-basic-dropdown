@@ -177,13 +177,13 @@ export default Component.extend({
     if (!publicAPI.isOpen) {
       return;
     }
-    let dropdownElement = self.document.getElementById(this.dropdownId);
+    let dropdownElement = document.getElementById(this.dropdownId);
     let triggerElement = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    this.destinationElement = this.destinationElement || self.document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || document.getElementById(this.get('destination'));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);

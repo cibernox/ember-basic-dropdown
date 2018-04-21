@@ -4,7 +4,7 @@ import { readOnly } from "@ember/object/computed";
 import layout from '../../templates/components/basic-dropdown/trigger';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
-const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
+const isTouchDevice = (!!window && 'ontouchstart' in window);
 
 function trueStringIfPresent(path) {
   return computed(path, function() {
@@ -56,8 +56,8 @@ export default Component.extend({
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${dropdown.uniqueId}`;
     this._touchMoveHandler = this._touchMoveHandler.bind(this);
     this._mouseupHandler = () => {
-      self.document.removeEventListener('mouseup', this._mouseupHandler, true);
-      self.document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
+      document.removeEventListener('mouseup', this._mouseupHandler, true);
+      document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
     };
   },
 
@@ -69,8 +69,8 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    self.document.removeEventListener('touchmove', this._touchMoveHandler);
-    self.document.removeEventListener('mouseup', this._mouseupHandler, true);
+    document.removeEventListener('touchmove', this._touchMoveHandler);
+    document.removeEventListener('mouseup', this._mouseupHandler, true);
   },
 
   // CPs
@@ -169,7 +169,7 @@ export default Component.extend({
         dropdown.actions.toggle(e);
       }
       this.hasMoved = false;
-      self.document.removeEventListener('touchmove', this._touchMoveHandler);
+      document.removeEventListener('touchmove', this._touchMoveHandler);
       // This next three lines are stolen from hammertime. This prevents the default
       // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
       // to simulate natural behaviour.
@@ -212,12 +212,12 @@ export default Component.extend({
   // Methods
   _touchMoveHandler() {
     this.hasMoved = true;
-    self.document.removeEventListener('touchmove', this._touchMoveHandler);
+    document.removeEventListener('touchmove', this._touchMoveHandler);
   },
 
   stopTextSelectionUntilMouseup() {
-    self.document.addEventListener('mouseup', this._mouseupHandler, true);
-    self.document.body.classList.add('ember-basic-dropdown-text-select-disabled');
+    document.addEventListener('mouseup', this._mouseupHandler, true);
+    document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   },
 
   addMandatoryHandlers() {
@@ -225,7 +225,7 @@ export default Component.extend({
       // If the component opens on click there is no need of any of this, as the device will
       // take care tell apart faux clicks from scrolls.
       this.element.addEventListener('touchstart', () => {
-        self.document.addEventListener('touchmove', this._touchMoveHandler);
+        document.addEventListener('touchmove', this._touchMoveHandler);
       });
       this.element.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
