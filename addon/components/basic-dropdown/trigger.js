@@ -4,7 +4,7 @@ import { readOnly } from "@ember/object/computed";
 import layout from '../../templates/components/basic-dropdown/trigger';
 import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
 
-const isTouchDevice = (!!window && 'ontouchstart' in window);
+const isTouchDevice = (!!self.window && 'ontouchstart' in self.window);
 
 function trueStringIfPresent(path) {
   return computed(path, function() {

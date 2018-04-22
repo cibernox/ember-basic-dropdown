@@ -1,3 +1,4 @@
+- [CLEANUP] Remove unnecessary `self.` prefix to access a few globals like `document` or `window`.
 # 1.0.0-beta.6
 - [CLEANUP] Remove passing `to="id-of-destination"` that has been deprecated for a long time.
 
