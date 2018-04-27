@@ -1,11 +1,15 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const crawl = require('prember-crawler');
 
 module.exports = function(defaults) {
   let project = defaults.project;
   let options = {
     snippetPaths: ['tests/dummy/app/templates/snippets'],
+    prember: {
+      urls: crawl
+    },
     'ember-font-awesome': {
       removeUnusedIcons: false // The addon will not remove unused icons, not even in production.
     }
