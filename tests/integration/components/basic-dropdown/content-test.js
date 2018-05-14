@@ -13,7 +13,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
     assert.dom('#destination-el > .ember-basic-dropdown-content').exists('It is rendered in the #ember-testing div');
@@ -24,7 +24,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: false };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').doesNotExist('Nothing is rendered');
   });
@@ -41,7 +41,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' renderInPlace=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').exists('It is rendered in the spot');
     assert.dom('#destination-el .ember-basic-dropdown-content').doesNotExist('It isn\'t rendered in the #ember-testing div');
@@ -52,7 +52,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').hasAttribute('id', 'ember-basic-dropdown-content-e123', 'contains the expected ID');
   });
@@ -62,7 +62,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' class="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   });
@@ -72,7 +72,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' defaultClass="foo123"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   });
@@ -82,7 +82,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' dir="rtl"}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     assert.dom('.ember-basic-dropdown-content').hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
   });
@@ -103,7 +103,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     await click('#other-div');
@@ -124,7 +124,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
 
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}<div id="inside-div">Lorem ipsum</div>{{/basic-dropdown/content}}
     `);
     await click('#inside-div');
   });
@@ -158,9 +158,9 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="fake-trigger"></div>
-      {{#basic-dropdown/content dropdown=dropdown1 destination='destination-el'}}
+      {{#basic-dropdown/content dropdown=dropdown1 destinationSelector='#destination-el'}}
         Lorem ipsum
-        {{#basic-dropdown/content dropdown=dropdown2 destination='destination-el' renderInPlace=true}}
+        {{#basic-dropdown/content dropdown=dropdown2 destinationSelector='#destination-el' renderInPlace=true}}
           <div id="nested-content-div">dolor sit amet</div>
         {{/basic-dropdown/content}}
       {{/basic-dropdown/content}}
@@ -185,7 +185,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -207,7 +207,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' isTouchDevice=true}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     triggerEvent('#other-div', 'touchstart');
@@ -226,7 +226,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onFocusIn=onFocusIn}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' onFocusIn=onFocusIn}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -243,7 +243,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onFocusOut=onFocusOut}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' onFocusOut=onFocusOut}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);
@@ -262,7 +262,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onMouseEnter=onMouseEnter}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' onMouseEnter=onMouseEnter}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -279,7 +279,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onMouseLeave=onMouseLeave}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' onMouseLeave=onMouseLeave}}
         Content
       {{/basic-dropdown/content}}
     `);
@@ -300,7 +300,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
@@ -317,7 +317,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
   });
 
@@ -336,7 +336,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
         <div style="width: 200px; height: 200px;">content scroll test</div>
       </div>
-      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destination='destination-el'}}
+      {{#basic-dropdown/content preventScroll=true dropdown=dropdown destinationSelector='#destination-el'}}
         <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
           <div style="width: 200px; height: 200px;">content scroll test</div>
         </div>
@@ -374,7 +374,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -394,7 +394,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -414,7 +414,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -439,7 +439,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el'}}
         <div id="content-target-div"></div>
       {{/basic-dropdown/content}}
     `);
@@ -464,7 +464,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content dropdown=dropdown renderInPlace=true destinationSelector='#destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -476,7 +476,7 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' overlay=true}}
+      {{#basic-dropdown/content dropdown=dropdown destinationSelector='#destination-el' overlay=true}}
         <input type="text" id="test-input-focusin" />
       {{/basic-dropdown/content}}
     `);

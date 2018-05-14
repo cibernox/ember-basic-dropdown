@@ -67,8 +67,8 @@ export default Component.extend({
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }),
-  destinationElement: computed('destination', function () {
-    return document.getElementById(this.get('destination'));
+  destinationElement: computed('destinationSelector', function() {
+    return document.querySelector(this.get('destinationSelector'));
   }),
 
   style: computed('top', 'left', 'right', 'width', 'height', 'otherStyles', function() {
