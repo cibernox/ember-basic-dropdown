@@ -27,6 +27,7 @@ export default Component.extend({
   ariaRole: readOnly('role'),
   tabindex: 0,
   eventType: 'mousedown',
+  stopPropagation: false,
   classNameBindings: ['inPlaceClass', 'hPositionClass', 'vPositionClass'],
   attributeBindings: [
     'ariaRole:role',
@@ -124,6 +125,9 @@ export default Component.extend({
       }
       if (this.get('eventType') === 'mousedown') {
         if (e.button !== 0) { return; }
+        if (this.get('stopPropagation')) {
+          e.stopPropagation();
+        }
         this.stopTextSelectionUntilMouseup();
         if (this.toggleIsBeingHandledByTouchEvents) {
           // Some devises have both touchscreen & mouse, and they are not mutually exclusive
@@ -142,6 +146,9 @@ export default Component.extend({
         return;
       }
       if (this.get('eventType') === 'click') {
+        if (this.get('stopPropagation')) {
+          e.stopPropagation();
+        }
         if (this.toggleIsBeingHandledByTouchEvents) {
           // Some devises have both touchscreen & mouse, and they are not mutually exclusive
           // In those cases the touchdown handler is fired first, and it sets a flag to
