@@ -102,13 +102,13 @@ export default Component.extend({
   },
 
   // CPs
-  destination: computed({
-    get() {
-      return this._getDestinationId();
-    },
-    set(_, v) {
-      return v === undefined ? this._getDestinationId() : v;
+  computedDestinationSelector: computed('destination', 'destinationSelector', function() {
+    if (this.get('destination')) {
+      return `#${this.get('destination')}`;
     }
+    return this.get('destinationSelector') ||
+           this._getDestinationSelectorFromConfig() ||
+           '#ember-basic-dropdown-wormhole';
   }),
 
   // Actions
@@ -182,8 +182,7 @@ export default Component.extend({
     if (!dropdownElement || !triggerElement) {
       return;
     }
-
-    this.destinationElement = this.destinationElement || document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || document.querySelector(this.get('computedDestinationSelector'));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
@@ -270,8 +269,9 @@ export default Component.extend({
     return newState;
   },
 
-  _getDestinationId() {
+  _getDestinationSelectorFromConfig() {
     let config = getOwner(this).resolveRegistration('config:environment');
+
     if (config.environment === 'test') {
       if (DEBUG) {
         let id;
@@ -284,9 +284,18 @@ export default Component.extend({
         } else {
           id = document.querySelector('#ember-testing > .ember-view').id;
         }
-        return id;
+        return `#${id}`;
       }
     }
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+
+    if (config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination) {
+      return `#${config['ember-basic-dropdown'].destination}`;
+    }
+
+    if (config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destinationSelector) {
+      return config['ember-basic-dropdown'].destinationSelector;
+    }
+
+    return false;
   }
 });

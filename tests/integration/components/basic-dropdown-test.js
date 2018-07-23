@@ -491,12 +491,26 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       {{/basic-dropdown}}
       <div id="id-of-elmnt"></div>
     `);
+    await clickTrigger();
+    assert.dom(this.element.querySelector('.ember-basic-dropdown-content').parentNode).hasAttribute('id', 'id-of-elmnt', 'The content has been rendered in an alternative destination');
+  });
+
+  test('It can receive `destinationSelector="#id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`
+      {{#basic-dropdown destinationSelector="#id-of-elmnt" as |dd|}}
+        {{#dd.trigger}}Click me{{/dd.trigger}}
+        {{#dd.content}}Hello{{/dd.content}}
+      {{/basic-dropdown}}
+      <div id="id-of-elmnt"></div>
+    `);
 
     await clickTrigger();
     assert.dom(this.element.querySelector('.ember-basic-dropdown-content').parentNode).hasAttribute('id', 'id-of-elmnt', 'The content has been rendered in an alternative destination');
   });
 
-  // A11y
+  //A11y
   test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function(assert) {
     assert.expect(1);
 
