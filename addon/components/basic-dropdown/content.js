@@ -167,6 +167,10 @@ export default Component.extend({
     if (onMouseLeave) {
       this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
     }
+    let onKeyDown = this.get('onKeyDown');
+    if (onKeyDown) {
+      this.dropdownElement.addEventListener('keydown', (e) => onKeyDown(dropdown, e));
+    }
 
     dropdown.actions.reposition();
 

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { render, click, triggerEvent, focus, blur } from '@ember/test-helpers';
+import { render, click, triggerEvent, focus, blur, triggerKeyEvent } from '@ember/test-helpers';
 
 module('Integration | Component | basic-dropdown/content', function(hooks) {
   setupRenderingTest(hooks);
@@ -284,6 +284,25 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
       {{/basic-dropdown/content}}
     `);
     triggerEvent('.ember-basic-dropdown-content', 'mouseleave');
+  });
+
+  // Keydown
+  test('If it receives an `onKeyDown` action, it is invoked if a keydown event is fired on the content', async function (assert) {
+    assert.expect(3);
+    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+    this.onKeyDown = (api, e) => {
+      assert.equal(api, this.dropdown, 'receives the dropdown as 1st argument');
+      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+      assert.equal(e.keyCode, 70, 'the event is the keydown event');
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      {{#basic-dropdown/content dropdown=dropdown destination='destination-el' onKeyDown=onKeyDown}}
+        <input id="inner-input">
+      {{/basic-dropdown/content}}
+    `);
+    await focus('#inner-input');
+    await triggerKeyEvent('#inner-input', 'keydown', 70);
   });
 
   // Repositining

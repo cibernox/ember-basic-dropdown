@@ -1,3 +1,5 @@
+- [FEATURE] Allow `onKeyDown` action to the content component
+
 # 1.0.1
 - [DOCS] Document `eventType` option that has existed for a while now.
 - [FEATURE] Add `stopPropagation` option to the trigger to prevent the propagation of the event
