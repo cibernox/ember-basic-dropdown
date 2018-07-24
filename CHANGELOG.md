@@ -1,3 +1,4 @@
+# 1.0.2
 - [FEATURE] Allow `onKeyDown` action to the content component
 
 # 1.0.1
