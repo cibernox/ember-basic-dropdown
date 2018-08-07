@@ -1,3 +1,5 @@
+- [FEATURE] Allow `onKeyUp` action to added to the trigger.
+
 # 1.0.2
 - [FEATURE] Allow `onKeyDown` action to the content component
 
