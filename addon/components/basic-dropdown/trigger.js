@@ -271,5 +271,9 @@ export default Component.extend({
     if (onFocusOut) {
       this.element.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
+    let onKeyUp = this.get('onKeyUp');
+    if (onKeyUp) {
+      this.element.addEventListener('keyup', (e) => onKeyUp(dropdown, e));
+    }
   }
 });

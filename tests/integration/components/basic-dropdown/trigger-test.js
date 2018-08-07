@@ -314,6 +314,20 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
   });
 
+  test('If it receives an `onKeyUp` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
+    assert.expect(3);
+    this.onKeyUp = (dropdown, e) => {
+      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
+      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
+      assert.equal(e.keyCode, 70, 'the event is the keydown event');
+    };
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      {{#basic-dropdown/trigger dropdown=dropdown onKeyUp=onKeyUp}}Click me{{/basic-dropdown/trigger}}
+    `);
+    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keyup', 70);
+  });
+
   // Default behaviour
   test('mousedown events invoke the `toggle` action on the dropdown by default', async function(assert) {
     assert.expect(2);
