@@ -1,3 +1,4 @@
+# 1.0.3
 - [FEATURE] Allow `onKeyUp` action to added to the trigger.
 
 # 1.0.2
