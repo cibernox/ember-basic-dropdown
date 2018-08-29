@@ -109,6 +109,50 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await click('#other-div');
   });
 
+  // Mousedown while the component is opened (scrollbar fix)
+  test('Using mouse down with useClickEvent being true will not close a component if it is opened', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        close() {
+          assert.ok(true, 'The close action should not be called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <div id="other-div"></div>
+      {{#basic-dropdown/content useClickEvent=true dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+    `);
+
+    await triggerEvent('#other-div', 'mousedown');
+  });
+
+  // Mousedown while the component is opened (scrollbar fix)
+  test('Using mouse down with useClickEvent being false will close a component if it is opened', async function(assert) {
+    assert.expect(1);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        close() {
+          assert.ok(true, 'The close action gets called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <div id="other-div"></div>
+      {{#basic-dropdown/content useClickEvent=false dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+    `);
+
+    await triggerEvent('#other-div', 'mousedown');
+  });
+
   test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', async function(assert) {
     assert.expect(0);
     this.dropdown = {
