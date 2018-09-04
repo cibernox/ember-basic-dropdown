@@ -1,30 +1,30 @@
 <section class="docs">
   <nav class="side-nav">
     <header class="side-nav-header">Getting started</header>
-    {{#link-to 'public-pages.docs.index' class="side-nav-link"}}Overview{{/link-to}}
-    {{#link-to 'public-pages.docs.installation' class="side-nav-link"}}Installation{{/link-to}}
-    {{#link-to 'public-pages.docs.how-to-use-it' class="side-nav-link"}}How to use it{{/link-to}}
-    {{#link-to 'public-pages.docs.dropdown-events' class="side-nav-link"}}Dropdown events{{/link-to}}
-    {{#link-to 'public-pages.docs.trigger-events' class="side-nav-link"}}Trigger events{{/link-to}}
-    {{#link-to 'public-pages.docs.content-events' class="side-nav-link"}}Content events{{/link-to}}
+    {{#link-to "public-pages.docs.index" class="side-nav-link"}}Overview{{/link-to}}
+    {{#link-to "public-pages.docs.installation" class="side-nav-link"}}Installation{{/link-to}}
+    {{#link-to "public-pages.docs.how-to-use-it" class="side-nav-link"}}How to use it{{/link-to}}
+    {{#link-to "public-pages.docs.dropdown-events" class="side-nav-link"}}Dropdown events{{/link-to}}
+    {{#link-to "public-pages.docs.trigger-events" class="side-nav-link"}}Trigger events{{/link-to}}
+    {{#link-to "public-pages.docs.content-events" class="side-nav-link"}}Content events{{/link-to}}
     <header class="side-nav-header">Basic customization</header>
-    {{#link-to 'public-pages.docs.position' class="side-nav-link"}}Position{{/link-to}}
-    {{#link-to 'public-pages.docs.disabled' class="side-nav-link"}}Disabled{{/link-to}}
-    {{#link-to 'public-pages.docs.overlays' class="side-nav-link"}}Overlays{{/link-to}}
-    {{#link-to 'public-pages.docs.styles' class="side-nav-link"}}Styles{{/link-to}}
+    {{#link-to "public-pages.docs.position" class="side-nav-link"}}Position{{/link-to}}
+    {{#link-to "public-pages.docs.disabled" class="side-nav-link"}}Disabled{{/link-to}}
+    {{#link-to "public-pages.docs.overlays" class="side-nav-link"}}Overlays{{/link-to}}
+    {{#link-to "public-pages.docs.styles" class="side-nav-link"}}Styles{{/link-to}}
     <header class="side-nav-header">Advanced customization</header>
-    {{#link-to 'public-pages.docs.custom-position' class="side-nav-link"}}Custom position{{/link-to}}
-    {{#link-to 'public-pages.docs.animations' class="side-nav-link"}}Animations{{/link-to}}
+    {{#link-to "public-pages.docs.custom-position" class="side-nav-link"}}Custom position{{/link-to}}
+    {{#link-to "public-pages.docs.animations" class="side-nav-link"}}Animations{{/link-to}}
     <header class="side-nav-header">Other</header>
-    {{#link-to 'public-pages.docs.test-helpers' class="side-nav-link"}}Test helpers{{/link-to}}
-    {{#link-to 'public-pages.docs.api-reference' class="side-nav-link"}}API reference{{/link-to}}
+    {{#link-to "public-pages.docs.test-helpers" class="side-nav-link"}}Test helpers{{/link-to}}
+    {{#link-to "public-pages.docs.api-reference" class="side-nav-link"}}API reference{{/link-to}}
   </nav>
   <section class="doc-page">
-    <select onchange={{action 'visit' value="target.value"}} class="section-selector">
+    <select onchange={{action "visit" value="target.value"}} class="section-selector">
       {{#each groupedSections as |group|}}
-        <optgroup label="{{group.groupName}}">
+        <optgroup label={{group.groupName}}>
           {{#each group.options as |section|}}
-            <option value="{{section.route}}" selected={{eq section.route currentSection.route}}>{{section.text}}</option>
+            <option value={{section.route}} selected={{eq section.route currentSection.route}}>{{section.text}}</option>
           {{/each}}
         </optgroup>
       {{/each}}
