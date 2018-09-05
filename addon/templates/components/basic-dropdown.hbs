@@ -1,27 +1,31 @@
-{{yield (hash
-  uniqueId=publicAPI.uniqueId
-  isOpen=publicAPI.isOpen
-  disabled=publicAPI.disabled
-  actions=publicAPI.actions
-  trigger=(component triggerComponent
-    dropdown=(readonly publicAPI)
-    hPosition=(readonly hPosition)
-    onFocus=(action "handleFocus")
-    renderInPlace=(readonly renderInPlace)
-    vPosition=(readonly vPosition)
+{{yield
+  (hash
+    uniqueId=publicAPI.uniqueId
+    isOpen=publicAPI.isOpen
+    disabled=publicAPI.disabled
+    actions=publicAPI.actions
+    trigger=(component
+      triggerComponent
+      dropdown=(readonly publicAPI)
+      hPosition=(readonly hPosition)
+      onFocus=(action "handleFocus")
+      renderInPlace=(readonly renderInPlace)
+      vPosition=(readonly vPosition)
+    )
+    content=(component
+      contentComponent
+      dropdown=(readonly publicAPI)
+      hPosition=(readonly hPosition)
+      renderInPlace=(readonly renderInPlace)
+      preventScroll=(readonly preventScroll)
+      vPosition=(readonly vPosition)
+      destination=(readonly destination)
+      top=(readonly top)
+      left=(readonly left)
+      right=(readonly right)
+      width=(readonly width)
+      height=(readonly height)
+      otherStyles=(readonly otherStyles)
+    )
   )
-  content=(component contentComponent
-    dropdown=(readonly publicAPI)
-    hPosition=(readonly hPosition)
-    renderInPlace=(readonly renderInPlace)
-    preventScroll=(readonly preventScroll)
-    vPosition=(readonly vPosition)
-    destination=(readonly destination)
-    top=(readonly top)
-    left=(readonly left)
-    right=(readonly right)
-    width=(readonly width)
-    height=(readonly height)
-    otherStyles=(readonly otherStyles)
-  )
-)}}
+}}
