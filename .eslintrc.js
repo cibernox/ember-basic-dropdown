@@ -15,11 +15,13 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/avoid-leaking-state-in-ember-objects': 0
   },
   overrides: [
     // node files
     {
       files: [
+        '.template-lintrc.js',
         'compile-css.js',
         'ember-cli-build.js',
         'index.js',

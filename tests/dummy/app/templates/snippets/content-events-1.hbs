@@ -6,7 +6,8 @@
         {{#dd.trigger
           onMouseDown=(action "prevent")
           onMouseEnter=(action "open")
-          onMouseLeave=(action "closeLater")}}
+          onMouseLeave=(action "closeLater")
+        }}
           {{fa-icon "bell-o"}}
           <span class="demo-fake-notifications-count">{{notifications.length}}</span>
         {{/dd.trigger}}
@@ -14,7 +15,8 @@
         {{#dd.content
           onMouseEnter=(action "open")
           onMouseLeave=(action "closeLater")
-          class="demo-fake-notifications-content"}}
+          class="demo-fake-notifications-content"
+        }}
           <ul class="demo-fake-notifications-list">
             {{#each notifications as |notification|}}
               <li class="demo-fake-notification-entry">
