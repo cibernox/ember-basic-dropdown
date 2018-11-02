@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-basic-dropdown',
+  name: require('./package').name,
 
   included(appOrAddon) {
     let app = appOrAddon.app || appOrAddon;

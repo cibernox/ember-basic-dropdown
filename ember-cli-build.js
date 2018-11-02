@@ -2,10 +2,14 @@
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const crawl = require('prember-crawler');
+var nodeSass = require('node-sass');
 
 module.exports = function(defaults) {
   let project = defaults.project;
   let options = {
+    sassOptions: {
+      implementation: nodeSass
+    },
     snippetPaths: ['tests/dummy/app/templates/snippets'],
     prember: {
       urls: crawl

@@ -4,9 +4,11 @@
     onblur={{action "simulateBlurParent"}}>
 
   {{#basic-dropdown as |dd|}}
-    {{#dd.trigger class="input-group-addon"
+    {{#dd.trigger
+      class="input-group-addon"
       onFocus=(action "simulateFocusParent")
-      onBlur=(action "simulateBlurParent")}}
+      onBlur=(action "simulateBlurParent")
+    }}
       <span class="caret"></span>
     {{/dd.trigger}}
 
