@@ -272,7 +272,7 @@ export default Component.extend({
 
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
-    if (config.environment === 'test') {
+    if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
       if (DEBUG) {
         let id;
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
