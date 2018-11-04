@@ -1,3 +1,6 @@
+# 1.0.4
+- [BUGFIX] Fix code to find the destination element in fastboot.
+
 # 1.0.3
 - [FEATURE] Allow `onKeyUp` action to added to the trigger.
 
