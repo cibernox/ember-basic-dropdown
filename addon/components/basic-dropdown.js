@@ -272,17 +272,19 @@ export default Component.extend({
 
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
-    if (config.environment === 'test') {
+    if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
       if (DEBUG) {
-        let id;
+        let id, rootView;
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
           try {
             id = requirejs('@ember/test-helpers/dom/get-root-element').default().id;
           } catch(ex) {
-            id = document.querySelector('#ember-testing > .ember-view').id;
+            // no op
           }
-        } else {
-          id = document.querySelector('#ember-testing > .ember-view').id;
+        }
+        if (!id) {
+          rootView = document.querySelector('#ember-testing > .ember-view');
+          id = rootView ? rootView.id : undefined;
         }
         return id;
       }
