@@ -146,11 +146,8 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    if (this.get('useClickEvent')) {
-      document.addEventListener('click', this.handleRootMouseDown, true);
-    } else {
-      document.addEventListener('mousedown', this.handleRootMouseDown, true);
-    }
+    const rootEventType = this.get('rootEventType');
+    document.addEventListener(rootEventType, this.handleRootMouseDown, true);
 
     if (this.get('isTouchDevice')) {
       document.addEventListener('touchstart', this.touchStartHandler, true);
