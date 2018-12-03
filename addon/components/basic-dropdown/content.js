@@ -363,11 +363,9 @@ export default Component.extend({
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
 
-    if (this.get('useClickEvent')) {
-      document.removeEventListener('click', this.handleRootMouseDown, true);
-    } else {
-      document.removeEventListener('mousedown', this.handleRootMouseDown, true);
-    }
+    const rootEventType = this.get('rootEventType');
+    document.removeEventListener(rootEventType, this.handleRootMouseDown, true);
+
     if (this.get('isTouchDevice')) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener('touchend', this.handleRootMouseDown, true);
