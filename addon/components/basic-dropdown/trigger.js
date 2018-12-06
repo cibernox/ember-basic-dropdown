@@ -34,7 +34,7 @@ export default Component.extend({
     'style',
     'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
-    'dropdownId:aria-owns',
+    'ariaOwns:aria-owns',
     'ariaLabel:aria-label',
     'ariaLabelledBy:aria-labelledby',
     'ariaDescribedBy:aria-describedby',
@@ -108,6 +108,10 @@ export default Component.extend({
     if (vPosition) {
       return `ember-basic-dropdown-trigger--${vPosition}`;
     }
+  }),
+
+  ariaOwns: computed('dropdownId', 'dropdown.isOpen', function() {
+    return this.get('dropdown.isOpen') ? this.get('dropdownId') : false;
   }),
 
   // Actions
