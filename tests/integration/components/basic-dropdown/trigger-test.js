@@ -188,7 +188,6 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     await render(hbs`
       {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
     `);
-    run(() => set(this.dropdown, 'isOpen', true));
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
   });
 
@@ -784,17 +783,6 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
       {{#basic-dropdown/trigger dropdown=dropdown isTouchDevice=true}}<svg class="trigger-child-svg">Click me</svg>{{/basic-dropdown/trigger}}
     `);
     nativeTap('.trigger-child-svg');
-  });
-
-  test('It has aria-owns attribute only when the dropdown is open', async function(assert) {
-    assert.expect(2);
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      {{#basic-dropdown/trigger dropdown=dropdown}}Click me{{/basic-dropdown/trigger}}
-    `);
-    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-owns');
-    run(() => set(this.dropdown, 'isOpen', true));
-    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns');
   });
 });
 
