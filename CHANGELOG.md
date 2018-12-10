@@ -1,3 +1,6 @@
+# 1.1.0
+- [REAPPLY] Revert the revert in 1.0.6. Technically identical to 1.0.5
+
 # 1.0.6
 - [REVERT] Revert change in 1.0.5 as it is a breaking change for Ember Power Select. Will fix EPS and apply again.
 
