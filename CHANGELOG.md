@@ -1,3 +1,9 @@
+# 1.1.1
+- [ENHANCEMENT] Allow to customize the root event the component listens to in order to close when you
+  click outside it. It has historically been `mousedown`, but now it can be `click`.
+  This allows to scroll the page using a scrollbar.
+  In a future version `click` will become the default.
+
 # 1.1.0
 - [REAPPLY] Revert the revert in 1.0.6. Technically identical to 1.0.5
 
