@@ -1,3 +1,14 @@
+# 1.1.0
+- [REAPPLY] Revert the revert in 1.0.6. Technically identical to 1.0.5
+
+# 1.0.6
+- [REVERT] Revert change in 1.0.5 as it is a breaking change for Ember Power Select. Will fix EPS and apply again.
+
+# 1.0.5
+- [BUGFIX] A11y improvement: The trigger doesn't have an `aria-owns` attribute until the dropdown
+  is open, because it's illegal for an aria-owns to reference an element (the content) that it's not
+  in the page (yet).
+
 # 1.0.4
 - [BUGFIX] Fix code to find the destination element in fastboot.
 
