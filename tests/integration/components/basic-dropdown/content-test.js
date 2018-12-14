@@ -103,10 +103,52 @@ module('Integration | Component | basic-dropdown/content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      {{#basic-dropdown/content dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+      {{#basic-dropdown/content rootEventType='mousedown' dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
     `);
 
     await click('#other-div');
+  });
+
+  test('Specifying the rootEventType as click will not close a component if it is opened', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        close() {
+          assert.ok(true, 'The close action should not be called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <div id="other-div"></div>
+      {{#basic-dropdown/content rootEventType='click' dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+    `);
+
+    await triggerEvent('#other-div', 'mousedown');
+  });
+
+  test('Specifying the rootEventType as mousedown will close a component if it is opened', async function(assert) {
+    assert.expect(1);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        close() {
+          assert.ok(true, 'The close action gets called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <div id="other-div"></div>
+      {{#basic-dropdown/content rootEventType='mousedown' dropdown=dropdown destination='destination-el'}}Lorem ipsum{{/basic-dropdown/content}}
+    `);
+
+    await triggerEvent('#other-div', 'mousedown');
   });
 
   test('Clicking anywhere inside the dropdown content doesn\'t invoke the close action', async function(assert) {

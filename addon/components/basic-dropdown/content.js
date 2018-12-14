@@ -146,7 +146,9 @@ export default Component.extend({
     let dropdown = this.get('dropdown');
     this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    document.addEventListener('mousedown', this.handleRootMouseDown, true);
+    const rootEventType = this.get('rootEventType');
+    document.addEventListener(rootEventType, this.handleRootMouseDown, true);
+
     if (this.get('isTouchDevice')) {
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
@@ -360,7 +362,10 @@ export default Component.extend({
     this.removeScrollHandling();
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
-    document.removeEventListener('mousedown', this.handleRootMouseDown, true);
+
+    const rootEventType = this.get('rootEventType');
+    document.removeEventListener(rootEventType, this.handleRootMouseDown, true);
+
     if (this.get('isTouchDevice')) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener('touchend', this.handleRootMouseDown, true);
