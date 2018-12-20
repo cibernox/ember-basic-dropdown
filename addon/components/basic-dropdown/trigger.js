@@ -32,6 +32,7 @@ export default Component.extend({
   attributeBindings: [
     'ariaRole:role',
     'style',
+    'type',
     'uniqueId:data-ebd-id',
     'tabIndex:tabindex',
     'dropdownId:aria-owns',
