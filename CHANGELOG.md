@@ -1,3 +1,6 @@
+# 1.1.2
+- [ENHANCEMENT] Allow to bind the type attribute of the trigger.
+
 # 1.1.1
 - [ENHANCEMENT] Allow to customize the root event the component listens to in order to close when you
   click outside it. It has historically been `mousedown`, but now it can be `click`.
