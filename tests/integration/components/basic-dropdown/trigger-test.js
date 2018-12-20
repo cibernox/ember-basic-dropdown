@@ -191,6 +191,16 @@ module('Integration | Component | basic-dropdown/trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
   });
 
+  test('If it receives the `type`, it is bound', async function (assert) {
+    assert.expect(2);
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      {{#basic-dropdown/trigger dropdown=dropdown tagName="button" type="button"}}Click me{{/basic-dropdown/trigger}}
+    `);
+    assert.equal(this.element.querySelector('.ember-basic-dropdown-trigger').tagName, 'BUTTON');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('type', 'button');
+  });
+
   test('If it receives `role="foo123"` it gets that attribute', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
