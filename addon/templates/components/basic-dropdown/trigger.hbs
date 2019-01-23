@@ -1,1 +1,11 @@
-{{yield}}
+{{#let (element "div") as |Element|}}
+  <Element
+    class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
+    role="button"
+    tabindex={{unless @dropdown.disabled "0"}}
+    data-ebd-id={{this.uniqueId}}
+    aria-owns={{this.dropdownId}}
+    aria-expanded="{{@dropdown.isOpen}}"
+    aria-disabled="{{@dropdown.disabled}}"
+    ...attributes>{{yield}}</Element>
+{{/let}}
