@@ -1,8 +1,8 @@
 import Component from "@ember/component";
 import { computed } from "@ember/object";
 import { readOnly } from "@ember/object/computed";
-import layout from '../../templates/components/basic-dropdown/trigger';
-import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
+import layout from '../templates/components/basic-dropdown-trigger';
+import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 
 const isTouchDevice = (!!window && 'ontouchstart' in window);
 
@@ -94,6 +94,23 @@ export default Component.extend({
         this.dropdown.actions.toggle(e);
       }
     },
+
+    handleKeyDown(e) {
+      if (this.dropdown.disabled) {
+        return;
+      }
+      if (this.onKeyDown && this.onKeyDown(this.dropdown, e) === false) {
+        return;
+      }
+      if (e.keyCode === 13) {  // Enter
+        this.dropdown.actions.toggle(e);
+      } else if (e.keyCode === 32) { // Space
+        e.preventDefault(); // prevents the space to trigger a scroll page-next
+        this.dropdown.actions.toggle(e);
+      } else if (e.keyCode === 27) {
+        this.dropdown.actions.close(e);
+      }
+    }
   },
 
   // Methods
