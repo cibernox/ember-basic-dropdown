@@ -110,7 +110,41 @@ export default Component.extend({
       } else if (e.keyCode === 27) {
         this.dropdown.actions.close(e);
       }
-    }
+    },
+
+    handleTouchEnd(e) {
+      this.toggleIsBeingHandledByTouchEvents = true;
+      if (e && e.defaultPrevented || this.dropdown.disabled) {
+        return;
+      }
+      if (!this.hasMoved) {
+        // execute user-supplied onTouchEnd function before default toggle action;
+        // short-circuit default behavior if user-supplied function returns `false`
+        if (this.onTouchEnd && this.onTouchEnd(this.dropdown, e) === false) {
+          return;
+        }
+        this.dropdown.actions.toggle(e);
+      }
+      this.hasMoved = false;
+      document.removeEventListener('touchmove', this._touchMoveHandler);
+      // This next three lines are stolen from hammertime. This prevents the default
+      // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
+      // to simulate natural behaviour.
+      e.target.focus();
+      setTimeout(function() {
+        if (!e.target) { return; }
+        let event;
+        try {
+          event = document.createEvent('MouseEvents');
+          event.initMouseEvent('click', true, true, window);
+        } catch (e) {
+          event = new Event('click');
+        } finally {
+          e.target.dispatchEvent(event);
+        }
+      }, 0);
+      e.preventDefault();
+    },
   },
 
   // Methods

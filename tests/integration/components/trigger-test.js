@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, tapTrigger, nativeTap } from 'ember-basic-dropdown/test-support/helpers';
-import { render, triggerEvent, triggerKeyEvent, focus } from '@ember/test-helpers';
+import { render, triggerEvent, triggerKeyEvent, focus, tap, click } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from "@ember/object"
 
@@ -14,7 +13,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
       <div id="direct-parent">
-        <BasicDropdownTrigger @dropdown=dropdown>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
       </div>
     `);
 
@@ -27,7 +26,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown=dropdown>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('tabindex', '0', 'Has a tabindex of 0');
@@ -226,464 +225,464 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     triggerKeyEvent('.ember-basic-dropdown-trigger', 'keyup', 70);
   });
 
-  // // Default behaviour
-  // test('mousedown events invoke the `toggle` action on the dropdown by default', async function(assert) {
-  //   assert.expect(2);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
-  // });
+  // Default behaviour
+  test('mousedown events invoke the `toggle` action on the dropdown by default', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+  });
 
-  // test('click events DO NOT invoke the `toggle` action on the dropdown by default', async function(assert) {
-  //   assert.expect(0);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle() {
-  //         assert.ok(false);
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'click');
-  // });
+  test('click events DO NOT invoke the `toggle` action on the dropdown by default', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle() {
+          assert.ok(false);
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
+  });
 
-  // test('mousedown events DO NOT invoke the `toggle` action on the dropdown if `eventType="click"`', async function(assert) {
-  //   assert.expect(0);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle() {
-  //         assert.ok(false);
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown eventType="click"}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
-  // });
+  test('mousedown events DO NOT invoke the `toggle` action on the dropdown if `eventType="click"`', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle() {
+          assert.ok(false);
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="click">Click me</BasicDropdownTrigger>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+  });
 
-  // test('click events invoke the `toggle` action on the dropdown if `eventType="click"', async function(assert) {
-  //   assert.expect(2);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown eventType="click"}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'click');
-  // });
+  test('click events invoke the `toggle` action on the dropdown if `eventType="click"', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="click">Click me</BasicDropdownTrigger>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
+  });
 
-  // test('when `stopPropagation` is true the `mousedown` event does not bubble', async function (assert) {
-  //   assert.expect(2);
-  //   this.handlerInParent = () => assert.ok(false, 'This should never be called');
+  test('when `stopPropagation` is true the `mousedown` event does not bubble', async function (assert) {
+    assert.expect(2);
+    this.handlerInParent = () => assert.ok(false, 'This should never be called');
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <div onmousedown={{handlerInParent}}>
-  //       <BasicDropdownTrigger @dropdown=dropdown stopPropagation=true}}Click me</BasicDropdownTrigger>
-  //     </div>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
-  // });
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <div onmousedown={{handlerInParent}}>
+        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
+      </div>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+  });
 
-  // test('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
-  //   assert.expect(2);
-  //   this.handlerInParent = () => assert.ok(false, 'This should never be called');
+  test('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
+    assert.expect(2);
+    this.handlerInParent = () => assert.ok(false, 'This should never be called');
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <div onclick={{handlerInParent}}>
-  //       <BasicDropdownTrigger @dropdown=dropdown stopPropagation=true eventType="click"}}Click me</BasicDropdownTrigger>
-  //     </div>
-  //   `);
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'click');
-  // });
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <div onclick={{handlerInParent}}>
+        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}} @eventType="click">Click me</BasicDropdownTrigger>
+      </div>
+    `);
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
+  });
 
-  // test('Pressing ENTER fires the `toggle` action on the dropdown', async function(assert) {
-  //   assert.expect(2);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
+  test('Pressing ENTER fires the `toggle` action on the dropdown', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
-  // });
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+  });
 
-  // test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function(assert) {
-  //   assert.expect(3);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //         assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
+  test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function(assert) {
+    assert.expect(3);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+          assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
-  // });
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+  });
 
-  // test('Pressing ESC fires the `close` action on the dropdown', async function(assert) {
-  //   assert.expect(2);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       close(e) {
-  //         assert.ok(true, 'The `close()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
+  test('Pressing ESC fires the `close` action on the dropdown', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        close(e) {
+          assert.ok(true, 'The `close()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
-  // });
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+  });
 
-  // test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', async function(assert) {
-  //   assert.expect(0);
-  //   this.onKeyDown = () => false;
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       close() {
-  //         assert.ok(false, 'This action is not called');
-  //       },
-  //       toggle() {
-  //         assert.ok(false, 'This action is not called');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown onKeyDown=onKeyDown}}Click me</BasicDropdownTrigger>
-  //   `);
+  test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', async function(assert) {
+    assert.expect(0);
+    this.onKeyDown = () => false;
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        close() {
+          assert.ok(false, 'This action is not called');
+        },
+        toggle() {
+          assert.ok(false, 'This action is not called');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
-  // });
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+  });
 
-  // test('Tapping invokes the toggle action on the dropdown', async function(assert) {
-  //   assert.expect(3);
-  //   this.dropdown = {
-  //     actions: {
-  //       uniqueId: 123,
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.equal(e.type, 'touchend', 'The event that toggles the dropdown is the touchend');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown isTouchDevice=true}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   tapTrigger();
-  // });
+  test('Tapping invokes the toggle action on the dropdown', async function(assert) {
+    assert.expect(3);
+    this.dropdown = {
+      actions: {
+        uniqueId: 123,
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.equal(e.type, 'touchend', 'The event that toggles the dropdown is the touchend');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+    `);
+    await tap('.ember-basic-dropdown-trigger');
+  });
 
-  // test('Firing a mousemove between a touchstart and a touchend (touch scroll) doesn\'t fire the toggle action', async function(assert) {
-  //   assert.expect(0);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle() {
-  //         assert.ok(false, 'This action in not called');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown isTouchDevice=true}}Click me</BasicDropdownTrigger>
-  //   `);
+  test('Firing a mousemove between a touchstart and a touchend (touch scroll) doesn\'t fire the toggle action', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle() {
+          assert.ok(false, 'This action in not called');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'touchmove');
-  //   triggerEvent('.ember-basic-dropdown-trigger', 'touchend');
-  // });
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchmove');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchend');
+  });
 
-  // test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard event', async function(assert) {
-  //   assert.expect(0);
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     disabled: true,
-  //     actions: {
-  //       toggle() {
-  //         assert.ok(false, 'This action in not called');
-  //       },
-  //       open() {
-  //         assert.ok(false, 'This action in not called');
-  //       },
-  //       close() {
-  //         assert.ok(false, 'This action in not called');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown isTouchDevice=true}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   clickTrigger();
-  //   tapTrigger();
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
-  // });
+  test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard event', async function(assert) {
+    assert.expect(0);
+    this.dropdown = {
+      uniqueId: 123,
+      disabled: true,
+      actions: {
+        toggle() {
+          assert.ok(false, 'This action in not called');
+        },
+        open() {
+          assert.ok(false, 'This action in not called');
+        },
+        close() {
+          assert.ok(false, 'This action in not called');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+    `);
+    await click('.ember-basic-dropdown-trigger');
+    await tap('.ember-basic-dropdown-trigger');
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
+  });
 
-  // // Focus
-  // test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
-  //   assert.expect(3);
-  //   this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
-  //   this.onFocusIn = (api, e) => {
-  //     assert.ok(true, 'The action is invoked');
-  //     assert.equal(api, this.dropdown, 'The first argument is the API');
-  //     assert.ok(e instanceof window.Event, 'the second argument is an event');
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown onFocusIn=onFocusIn}}
-  //       <input type="text" id="test-input-focusin" />
-  //     </BasicDropdownTrigger>
-  //   `);
-  //   await focus('#test-input-focusin');
-  // });
+  // Focus
+  test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
+    assert.expect(3);
+    this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
+    this.onFocusIn = (api, e) => {
+      assert.ok(true, 'The action is invoked');
+      assert.equal(api, this.dropdown, 'The first argument is the API');
+      assert.ok(e instanceof window.Event, 'the second argument is an event');
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @onFocusIn={{onFocusIn}}>
+        <input type="text" id="test-input-focusin" />
+      </BasicDropdownTrigger>
+    `);
+    await focus('#test-input-focusin');
+  });
 
-  // test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
-  //   assert.expect(3);
-  //   this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
-  //   this.onFocusOut = (api, e) => {
-  //     assert.ok(true, 'The action is invoked');
-  //     assert.equal(api, this.dropdown, 'The first argument is the API');
-  //     assert.ok(e instanceof window.Event, 'the second argument is an event');
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown onFocusOut=onFocusOut}}
-  //       <input type="text" id="test-input-focusout" />
-  //     </BasicDropdownTrigger>
-  //   `);
-  //   await focus('#test-input-focusout');
-  // });
+  test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
+    assert.expect(3);
+    this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
+    this.onFocusOut = (api, e) => {
+      assert.ok(true, 'The action is invoked');
+      assert.equal(api, this.dropdown, 'The first argument is the API');
+      assert.ok(e instanceof window.Event, 'the second argument is an event');
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @onFocusOut={{onFocusOut}}>
+        <input type="text" id="test-input-focusout" />
+      </BasicDropdownTrigger>
+    `);
+    await focus('#test-input-focusout');
+  });
 
-  // // Decorating and overriding default event handlers
-  // test('A user-supplied onMouseDown action will execute before the default toggle behavior', async function(assert) {
-  //   assert.expect(4);
-  //   let userActionRanfirst = false;
+  // Decorating and overriding default event handlers
+  test('A user-supplied onMouseDown action will execute before the default toggle behavior', async function(assert) {
+    assert.expect(4);
+    let userActionRanfirst = false;
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(userActionRanfirst, 'User-supplied `onMouseDown` ran before default `toggle`');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(userActionRanfirst, 'User-supplied `onMouseDown` ran before default `toggle`');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = (dropdown, e) => {
-  //     assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-  //     assert.ok(e instanceof window.Event, 'It receives the event');
-  //     assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
-  //     userActionRanfirst = true;
-  //   };
+    let userSuppliedAction = (dropdown, e) => {
+      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+      assert.ok(e instanceof window.Event, 'It receives the event');
+      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+      userActionRanfirst = true;
+    };
 
-  //   this.set('onMouseDown', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onMouseDown=onMouseDown dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
+    this.set('onMouseDown', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   clickTrigger();
-  // });
+    await click('.ember-basic-dropdown-trigger');
+  });
 
-  // test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', async function(assert) {
-  //   assert.expect(1);
+  test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', async function(assert) {
+    assert.expect(1);
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(false, 'Default `toggle` action should not run');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(false, 'Default `toggle` action should not run');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = () => {
-  //     assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-  //     return false;
-  //   };
+    let userSuppliedAction = () => {
+      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+      return false;
+    };
 
-  //   this.set('onMouseDown', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onMouseDown=onMouseDown dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
+    this.set('onMouseDown', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   clickTrigger();
-  // });
+    await click('.ember-basic-dropdown-trigger');
+  });
 
-  // test('A user-supplied onTouchEnd action will execute before the default toggle behavior', async function(assert) {
-  //   assert.expect(4);
-  //   let userActionRanfirst = false;
+  test('A user-supplied onTouchEnd action will execute before the default toggle behavior', async function(assert) {
+    assert.expect(4);
+    let userActionRanfirst = false;
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(userActionRanfirst, 'User-supplied `onTouchEnd` ran before default `toggle`');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(userActionRanfirst, 'User-supplied `onTouchEnd` ran before default `toggle`');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = (dropdown, e) => {
-  //     assert.ok(true, 'The `userSuppliedAction` action has been fired');
-  //     assert.ok(e instanceof window.Event, 'It receives the event');
-  //     assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
-  //     userActionRanfirst = true;
-  //   };
+    let userSuppliedAction = (dropdown, e) => {
+      assert.ok(true, 'The `userSuppliedAction` action has been fired');
+      assert.ok(e instanceof window.Event, 'It receives the event');
+      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+      userActionRanfirst = true;
+    };
 
-  //   this.set('onTouchEnd', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onTouchEnd=onTouchEnd dropdown=dropdown isTouchDevice=true}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   tapTrigger();
-  // });
+    this.set('onTouchEnd', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+        Click me
+      </BasicDropdownTrigger>
+    `);
+    await tap('.ember-basic-dropdown-trigger');
+  });
 
-  // test('A user-supplied onTouchEnd action, returning `false`, will prevent the default behavior', async function(assert) {
-  //   assert.expect(1);
+  test('A user-supplied onTouchEnd action, returning `false`, will prevent the default behavior', async function(assert) {
+    assert.expect(1);
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(false, 'Default `toggle` action should not run');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(false, 'Default `toggle` action should not run');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = () => {
-  //     assert.ok(true, 'The `userSuppliedAction` action has been fired');
-  //     return false;
-  //   };
+    let userSuppliedAction = () => {
+      assert.ok(true, 'The `userSuppliedAction` action has been fired');
+      return false;
+    };
 
-  //   this.set('onTouchEnd', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onTouchEnd=onTouchEnd dropdown=dropdown isTouchDevice=true}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   tapTrigger();
-  // });
+    this.set('onTouchEnd', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+        Click me
+      </BasicDropdownTrigger>
+    `);
+    await tap('.ember-basic-dropdown-trigger');
+  });
 
-  // test('A user-supplied onKeyDown action will execute before the default toggle behavior', async function(assert) {
-  //   assert.expect(4);
-  //   let userActionRanfirst = false;
+  test('A user-supplied onKeyDown action will execute before the default toggle behavior', async function(assert) {
+    assert.expect(4);
+    let userActionRanfirst = false;
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(userActionRanfirst, 'User-supplied `onKeyDown` ran before default `toggle`');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(userActionRanfirst, 'User-supplied `onKeyDown` ran before default `toggle`');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = (dropdown, e) => {
-  //     assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-  //     assert.ok(e instanceof window.Event, 'It receives the event');
-  //     assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
-  //     userActionRanfirst = true;
-  //   };
+    let userSuppliedAction = (dropdown, e) => {
+      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+      assert.ok(e instanceof window.Event, 'It receives the event');
+      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
+      userActionRanfirst = true;
+    };
 
-  //   this.set('onKeyDown', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onKeyDown=onKeyDown dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
-  // });
+    this.set('onKeyDown', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onKeyDown={{onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
+  });
 
-  // test('A user-supplied onKeyDown action, returning `false`, will prevent the default behavior', async function(assert) {
-  //   assert.expect(1);
+  test('A user-supplied onKeyDown action, returning `false`, will prevent the default behavior', async function(assert) {
+    assert.expect(1);
 
-  //   this.dropdown = {
-  //     uniqueId: 123,
-  //     actions: {
-  //       toggle: () => {
-  //         assert.ok(false, 'Default `toggle` action should not run');
-  //       }
-  //     }
-  //   };
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(false, 'Default `toggle` action should not run');
+        }
+      }
+    };
 
-  //   let userSuppliedAction = () => {
-  //     assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-  //     return false;
-  //   };
+    let userSuppliedAction = () => {
+      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+      return false;
+    };
 
-  //   this.set('onKeyDown', userSuppliedAction);
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @onKeyDown=onKeyDown dropdown=dropdown}}Click me</BasicDropdownTrigger>
-  //   `);
-  //   triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
-  // });
+    this.set('onKeyDown', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onKeyDown={{onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
+    await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
+  });
 
-  // test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function(assert) {
-  //   assert.expect(2);
-  //   this.dropdown = {
-  //     actions: {
-  //       uniqueId: 123,
-  //       toggle(e) {
-  //         assert.ok(true, 'The `toggle()` action has been fired');
-  //         assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
-  //       }
-  //     }
-  //   };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger @dropdown=dropdown isTouchDevice=true}}<svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
-  //   `);
-  //   nativeTap('.trigger-child-svg');
-  // });
+  test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function(assert) {
+    assert.expect(2);
+    this.dropdown = {
+      actions: {
+        uniqueId: 123,
+        toggle(e) {
+          assert.ok(true, 'The `toggle()` action has been fired');
+          assert.ok(e instanceof window.Event && arguments.length === 1, 'It receives the event as first and only argument');
+        }
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
+    `);
+    await tap('.ember-basic-dropdown-trigger');
+  });
 });
-
-// moduleForComponent('ember-basic-dropdown', 'Integration | Component | basic-dropdown/trigger', {
-//   integration: true
-// });
