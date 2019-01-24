@@ -3,14 +3,14 @@ import { computed } from '@ember/object';
 import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
-import layout from '../../templates/components/basic-dropdown/content';
-import fallbackIfUndefined from '../../utils/computed-fallback-if-undefined';
-import { getScrollParent } from '../../utils/calculate-position';
+import layout from '../templates/components/basic-dropdown-content';
+import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
+import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
   getAvailableScroll,
   getScrollDeltas
-} from '../../utils/scroll-helpers';
+} from '../utils/scroll-helpers';
 
 function closestContent(el) {
   while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
