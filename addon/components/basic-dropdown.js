@@ -8,24 +8,8 @@ import { DEBUG } from '@glimmer/env';
 import layout from '../templates/components/basic-dropdown';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import calculatePosition from '../utils/calculate-position';
+import { assign } from '@ember/polyfills';
 import requirejs from 'require';
-
-const assign = Object.assign || function EmberAssign(original, ...args) {
-  for (let i = 0; i < args.length; i++) {
-    let arg = args[i];
-    if (!arg) {
-      continue;
-    }
-    let updates = Object.keys(arg);
-
-    for (let i = 0; i < updates.length; i++) {
-      let prop = updates[i];
-      original[prop] = arg[prop];
-    }
-  }
-
-  return original;
-};
 
 const ignoredStyleAttrs = [
   'top',
