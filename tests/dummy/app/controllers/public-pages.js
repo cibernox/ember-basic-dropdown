@@ -16,13 +16,13 @@ export default Controller.extend({
 
   // CPs
   backgrounds: computed('colors.[]', function() {
-    return this.get('colors').map((c) => htmlSafe(`background-color: ${c}`));
+    return this.colors.map((c) => htmlSafe(`background-color: ${c}`));
   }),
 
   // Actions
   actions: {
     preventIfNotInIndex() {
-      if (this.get('appController.currentPath') !== 'public-pages.index') {
+      if (this.appController.currentPath !== 'public-pages.index') {
         return false;
       }
     },

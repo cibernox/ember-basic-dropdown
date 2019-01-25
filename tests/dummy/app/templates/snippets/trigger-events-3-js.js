@@ -8,7 +8,7 @@ export default Controller.extend({
   // Actions
   actions: {
     highlightCheckboxIfDisabled() {
-      if (this.get('dropdownDisabled')) {
+      if (this.dropdownDisabled) {
         this.set('checkboxLabelStyle', htmlSafe('color: red'));
       }
     },

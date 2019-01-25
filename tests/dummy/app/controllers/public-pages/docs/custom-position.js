@@ -27,7 +27,7 @@ export default Controller.extend({
   addNames: task(function*() {
     this.set('names', A([]));
     for (let name of names) {
-      this.get('names').pushObject(name);
+      this.names.pushObject(name);
       yield timeout(750);
     }
   })

@@ -32,7 +32,7 @@ export default Controller.extend({
 
     startAddingContent() {
       this.intervarTimer = window.setInterval(() => {
-        this.set('addedItems', this.get('addedItems').concat(+new Date()));
+        this.set('addedItems', this.addedItems.concat(+new Date()));
       }, 1000);
     },
 

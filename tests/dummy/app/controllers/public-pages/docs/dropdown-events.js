@@ -14,13 +14,13 @@ export default Controller.extend({
   actions: {
     waitForUsers(dropdown, e) {
       if (e) {
-        this.get('loadUsersAndOpen').perform(dropdown, e);
+        this.loadUsersAndOpen.perform(dropdown, e);
         return false;
       }
     },
 
     preventUntilSelected() {
-      if (!this.get('selected')) {
+      if (!this.selected) {
         alert('You have to choose!');
         return false;
       }
