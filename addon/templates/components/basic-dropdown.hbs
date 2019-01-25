@@ -1,24 +1,24 @@
 {{#with
   (hash
-    uniqueId=publicAPI.uniqueId
-    isOpen=publicAPI.isOpen
-    disabled=publicAPI.disabled
-    actions=publicAPI.actions
+    uniqueId=this.publicAPI.uniqueId
+    isOpen=this.publicAPI.isOpen
+    disabled=this.publicAPI.disabled
+    actions=this.publicAPI.actions
     Trigger=(component
-      triggerComponent
-      dropdown=(readonly publicAPI)
+      (or @triggerComponent "basic-dropdown-trigger")
+      dropdown=(readonly this.publicAPI)
       hPosition=(readonly hPosition)
       onFocus=(action "handleFocus")
       renderInPlace=(readonly renderInPlace)
       vPosition=(readonly vPosition)
     )
     Content=(component
-      contentComponent
+      (or @contentComponent "basic-dropdown-content")
       dropdown=(readonly publicAPI)
       hPosition=(readonly hPosition)
       renderInPlace=(readonly renderInPlace)
       preventScroll=(readonly preventScroll)
-      rootEventType=(readonly rootEventType)
+      rootEventType=(or @rootEventType "click")
       vPosition=(readonly vPosition)
       destination=(readonly destination)
       top=(readonly top)

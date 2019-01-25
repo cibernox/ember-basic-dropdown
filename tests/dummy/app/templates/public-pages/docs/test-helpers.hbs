@@ -1,7 +1,6 @@
 <h1 class="doc-page-title">Test helpers</h1>
 
 <br>
-<h2>Acceptance Tests</h2>
 
 <p>
   Ember Basic Dropdown bundles some handy test helpers (<code>clickDropdown</code> and <code>tapDropdown</code>)
@@ -9,44 +8,11 @@
 </p>
 
 <p>
-  To use those helpers in acceptance tests you need to register them in the <code>/tests/helpers/start-app.js</code>
-  file.
-</p>
-
-<p>
-  For that import the registration function and invoke it immedialty.
+  You can just have to import them at the top of your tests and call them preceded by <code>await</code>.
 </p>
 
 {{code-snippet name="test-helpers-1-js.js"}}
 
-<h3><code>clickDropdown(cssPath, eventOptions)</code></h3>
-
-<p>
-  Simulate a click in the trigger of the dropdown, designated with the given CSS path. If
-  more than one element matches that dropdown, only the first one will be clicked.
-</p>
-
-{{code-snippet name="test-helpers-2-js.js"}}
-
-<h3><code>tapDropdown(cssPath, eventOptions)</code></h3>
-
-<p>
-  Simulate a tap (<code>touchstart</code> and <code>touchend</code>) in the trigger of the
-  dropdown, designated with the given CSS path. If more than one element matches that dropdown,
-  only the first one will be tapped.
-</p>
-
-{{code-snippet name="test-helpers-3-js.js"}}
-
-<br>
-<h2>Integration Tests</h2>
-
-<p>
-  Ember Basic Dropdown also provides a few helpers for integration tests that you can
-  import at the top of your integration tests and will ease testing.
-</p>
-
-{{code-snippet name="test-helpers-6-js.js"}}
 
 <h3><code>clickTrigger(scope = null, eventOptions)</code></h3>
 
@@ -60,7 +26,7 @@
   with the scope to trigger it over the desired one.
 </p>
 
-{{code-snippet name="test-helpers-4-js.js"}}
+{{code-snippet name="test-helpers-2-js.js"}}
 
 <h3><code>tapTrigger(scope = null, eventOptions)</code></h3>
 
@@ -68,7 +34,7 @@
   Identical to <code>clickTrigger</code> but simulates a tap instead.
 </p>
 
-{{code-snippet name="test-helpers-5-js.js"}}
+{{code-snippet name="test-helpers-3-js.js"}}
 
 
 <div class="doc-page-nav">

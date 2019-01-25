@@ -50,22 +50,3 @@ export function fireKeydown(selector, k) {
   });
   run(() => document.querySelector(selector).dispatchEvent(oEvent));
 }
-
-// acceptance helpers
-export default function() {
-  registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
-    deprecate('Using the global `clickDropdown` acceptance helper from ember-basic-dropdown is deprecated. Please, explicitly import the `clickTrigger` or just use `click` helper from `@ember/test-helpers`.',
-      false,
-      { until: '1.0.0', id: 'ember-basic-dropdown-click-dropdown' }
-    );
-    clickTrigger(cssPath, options);
-  });
-
-  registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
-    deprecate('Using the global `tapDropdown` acceptance helper from ember-basic-dropdown is deprecated. Please, explicitly import the `tapTrigger` or just use `tap` helper from `@ember/test-helpers`.',
-      false,
-      { until: '1.0.0', id: 'ember-basic-dropdown-click-dropdown' }
-    );
-    tapTrigger(cssPath, options);
-  });
-}

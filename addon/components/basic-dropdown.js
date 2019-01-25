@@ -41,10 +41,7 @@ export default Component.extend({
   renderInPlace: fallbackIfUndefined(false),
   verticalPosition: fallbackIfUndefined('auto'), // above | below
   horizontalPosition: fallbackIfUndefined('auto'), // auto-right | right | center | left
-  rootEventType: fallbackIfUndefined('mousedown'), // TODO: Change default event type to "click" in 2.0
   matchTriggerWidth: fallbackIfUndefined(false),
-  triggerComponent: fallbackIfUndefined('basic-dropdown-trigger'),
-  contentComponent: fallbackIfUndefined('basic-dropdown-content'),
   calculatePosition: fallbackIfUndefined(calculatePosition),
   top: null,
   left: null,
