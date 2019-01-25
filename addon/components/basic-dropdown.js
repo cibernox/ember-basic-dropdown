@@ -46,7 +46,6 @@ export default Component.extend({
   triggerComponent: fallbackIfUndefined('basic-dropdown-trigger'),
   contentComponent: fallbackIfUndefined('basic-dropdown-content'),
   calculatePosition: fallbackIfUndefined(calculatePosition),
-  classNames: ['ember-basic-dropdown'],
   top: null,
   left: null,
   right: null,
@@ -56,17 +55,14 @@ export default Component.extend({
 
   // Lifecycle hooks
   init() {
-    if (this.get('renderInPlace') && this.get('tagName') === '') {
-      this.set('tagName', 'div');
-    }
     this._super(...arguments);
     this.set('publicAPI', {});
     this.set('otherStyles', {});
 
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
-      isOpen: this.get('initiallyOpened') || false,
-      disabled: this.get('disabled') || false,
+      isOpen: this.initiallyOpened || false,
+      disabled: this.disabled || false,
       actions: {
         open: this.open.bind(this),
         close: this.close.bind(this),
@@ -76,16 +72,15 @@ export default Component.extend({
     });
 
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
-    let onInit = this.get('onInit');
-    if (onInit) {
-      onInit(publicAPI);
+    if (this.onInit) {
+      this.onInit(publicAPI);
     }
   },
 
   didReceiveAttrs() {
     this._super(...arguments);
     let oldDisabled = !!this._oldDisabled;
-    let newDisabled = !!this.get('disabled');
+    let newDisabled = !!this.disabled;
     this._oldDisabled = newDisabled;
     if (newDisabled && !oldDisabled) {
       join(this, this.disable);
@@ -96,9 +91,8 @@ export default Component.extend({
 
   willDestroy() {
     this._super(...arguments);
-    let registerAPI = this.get('registerAPI');
-    if (registerAPI) {
-      registerAPI(null);
+    if (this.registerAPI) {
+      this.registerAPI(null);
     }
   },
 
@@ -115,43 +109,38 @@ export default Component.extend({
   // Actions
   actions: {
     handleFocus(e) {
-      let onFocus = this.get('onFocus');
-      if (onFocus) {
-        onFocus(this.get('publicAPI'), e);
+      if (this.onFocus) {
+        this.onFocus(this.publicAPI, e);
       }
     }
   },
 
   // Methods
   open(e) {
-    if (this.get('isDestroyed')) {
+    if (this.isDestroyed) {
       return;
     }
-    let publicAPI = this.get('publicAPI');
-    if (publicAPI.disabled || publicAPI.isOpen) {
+    if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
-    let onOpen = this.get('onOpen');
-    if (onOpen && onOpen(publicAPI, e) === false) {
+    if (this.onOpen && this.onOpen(this.publicAPI, e) === false) {
       return;
     }
     this.updateState({ isOpen: true });
   },
 
   close(e, skipFocus) {
-    if (this.get('isDestroyed')) {
+    if (this.isDestroyed) {
       return;
     }
-    let publicAPI = this.get('publicAPI');
-    if (publicAPI.disabled || !publicAPI.isOpen) {
+    if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
-    let onClose = this.get('onClose');
-    if (onClose && onClose(publicAPI, e) === false) {
+    if (this.onClose && this.onClose(this.publicAPI, e) === false) {
       return;
     }
-    if (this.get('isDestroyed')) {
-      return;
+    if (this.isDestroyed) {
+      return; // To check that the `onClose` didn't destroy the dropdown
     }
     this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
@@ -159,14 +148,14 @@ export default Component.extend({
     if (skipFocus) {
       return;
     }
-    let trigger = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
+    let trigger = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`);
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
   },
 
   toggle(e) {
-    if (this.get('publicAPI.isOpen')) {
+    if (this.publicAPI.isOpen) {
       this.close(e);
     } else {
       this.open(e);
@@ -174,20 +163,19 @@ export default Component.extend({
   },
 
   reposition() {
-    let publicAPI = this.get('publicAPI');
-    if (!publicAPI.isOpen) {
+    if (!this.publicAPI.isOpen) {
       return;
     }
     let dropdownElement = document.getElementById(this.dropdownId);
-    let triggerElement = document.querySelector(`[data-ebd-id=${publicAPI.uniqueId}-trigger]`);
+    let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`);
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.get('destination'));
+    this.destinationElement = this.destinationElement || document.getElementById(this.destination);
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
+    let positionData = this.calculatePosition(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   },
 
@@ -195,7 +183,7 @@ export default Component.extend({
     let changes = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: this.get('otherStyles')
+      otherStyles: this.otherStyles
     };
 
     if (positions.style) {
@@ -229,7 +217,7 @@ export default Component.extend({
         }
       });
 
-      if (this.get('top') === null) {
+      if (this.top === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
         for (let prop in positions.style) {
@@ -251,9 +239,8 @@ export default Component.extend({
   },
 
   disable() {
-    let publicAPI = this.get('publicAPI');
-    if (publicAPI.isOpen) {
-      publicAPI.actions.close();
+    if (this.publicAPI.isOpen) {
+      this.publicAPI.actions.close();
     }
     this.updateState({ disabled: true });
   },
@@ -263,10 +250,9 @@ export default Component.extend({
   },
 
   updateState(changes) {
-    let newState = set(this, 'publicAPI', assign({}, this.get('publicAPI'), changes));
-    let registerAPI = this.get('registerAPI');
-    if (registerAPI) {
-      registerAPI(newState);
+    let newState = set(this, 'publicAPI', assign({}, this.publicAPI, changes));
+    if (this.registerAPI) {
+      this.registerAPI(newState);
     }
     return newState;
   },
