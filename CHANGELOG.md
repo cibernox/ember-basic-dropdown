@@ -1,3 +1,18 @@
+- Public API changed: Previously the contextual component of this addon were invoked with `{{#dd.trigger}}` and `{{#dd.content}}`.
+  Now they are expected to be invoked with `<dd.Trigger>` and `<dd.Content>`. Note that the names are capitalized. This is done
+  because the new convention that components start with a capital letter.
+- Passing `@class`, `@defaultClass`, `aria-*` and most of those properties doesn't work anymore. This addon
+  now expects to be used with angle-bracket syntax. In angle bracket syntax there is a distinction between
+  component arguments (those preceded with an `@` sign) and html attributes, and the latter are a much
+  better way of passing any arbitrary attribute to any of the components and sub-components of this addon.
+- The default `eventType` of the trigger changed from `"mousedown"` to `"click"`. That means that dropdown
+  used to open with the `mousedown` events will now open with `click` events, which is a saner default.
+  Since most of the time those events are fired together most people won't notice any difference, but
+  in testing if someone was explicitly firing mouseodown events tests would have to be updated.
+- The default `rootEventType` has changed from `"mousedown"` to `"click"`. That means that before dropdowns would close
+  as soon as the user mousedowns outside the dropdown, but not it will listed to click events by default.
+  It's unlikely this change will be noticed by anyone.
+
 # 1.1.2
 - [ENHANCEMENT] Allow to bind the type attribute of the trigger.
 
