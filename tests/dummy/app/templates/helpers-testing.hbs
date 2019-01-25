@@ -1,23 +1,23 @@
 <h1>Helpers testing</h1>
 
 <div class="dropdown-0-wrapper">
-  {{#basic-dropdown selected=selected1 onSelect=(action (mut selected1) value="date") as |dd|}}
-    {{#dd.trigger class="dropdown-0"}}
+  <BasicDropdown as |dd|>
+    <dd.Trigger class="dropdown-0">
       Click me
-    {{/dd.trigger}}
-    {{#dd.content}}
+    </dd.Trigger>
+    <dd.Content>
       Hello world 0!
-    {{/dd.content}}
-  {{/basic-dropdown}}
+    </dd.Content>
+  </BasicDropdown>
 </div>
 
 <div class="dropdown-1-wrapper">
-  {{#basic-dropdown selected=selected1 onSelect=(action (mut selected1) value="date") as |dd|}}
-    {{#dd.trigger class="dropdown-1"}}
+  <BasicDropdown as |dd|>
+    <dd.Trigger class="dropdown-1">
       Click me
-    {{/dd.trigger}}
-    {{#dd.content}}
+    </dd.Trigger>
+    <dd.Content>
       Hello world 1!
-    {{/dd.content}}
-  {{/basic-dropdown}}
+    </dd.Content>
+  </BasicDropdown>
 </div>

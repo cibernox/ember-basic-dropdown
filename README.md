@@ -32,10 +32,10 @@ any of those steps because you already have this addon :D
 This component leverages contextual components for its API:
 
 ```hbs
-{{#basic-dropdown as |dropdown|}}
-  {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-  {{#dropdown.content}}Content of the trigger{{/dropdown.content}}
-{{/basic-dropdown}}
+<BasicDropdown as |dd|>
+  <dd.Trigger>Click me</dd.Trigger>
+  <dd.Content>Content of the trigger</dd.Content>
+</BasicDropdown>
 ```
 
 The yielded `dropdown` object is the public API of the component, and contains
@@ -74,12 +74,12 @@ You don't need to care about adding or removing events, it does that for you.
 You can make the dropdown content standout a little more by adding `overlay=true` to the content options, see example below. This will add a semi transparent overlay covering the whole screen. Also this will stop bubbling the click/touch event which closed the dropdown.
 
 ```hbs
-    {{#basic-dropdown as |dd|}}
-      {{#dd.trigger}}Click me!{{/dd.trigger}}
-      {{#dd.content overlay=true}} {{!-- here! --}}
-        content!
-      {{/dd.content}}
-    {{/basic-dropdown}}
+<BasicDropdown as |dd|>
+  <dd.Trigger>Click me!</dd.Trigger>
+  <dd.Content @overlay={{true}}> {{!-- here! --}}
+    content!
+  </dd.Content}}
+</BasicDropdown>
 ```
 
 NOTE: If for some reason clicking outside a dropdown doesn't work, you might want to make sure the `<body>` spans the entire viewport. Adding a css rule like `body {min-height: 100vh;}` would do the trick. It ensures that wherever you click on the page, it will close the dropdown.
@@ -88,14 +88,15 @@ NOTE: If for some reason clicking outside a dropdown doesn't work, you might wan
 If you'd like the dropdown to close itself after a user clicks on it, you can use `dd.actions.close` from our public API.
 
 ```hbs
-{{#basic-dropdown as |dd|}}
-  {{#dd.trigger}}Click me!{{/dd.trigger}}
-  {{#dd.content}}
+<BasicDropdown as |dd|>
+  <dd.Trigger>Click me!</dd.Trigger>
+  <dd.Content>
     <div {{action dd.actions.close}}>
       {{yield dd}}
     </div>
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>
+
 ```
 
 #### Keyboard and touchscreen support

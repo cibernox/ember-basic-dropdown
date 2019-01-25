@@ -3,16 +3,16 @@
     <div class="scroll__filler"></div>
     <div class="scroll__content-container">
       <div class="scroll__content">
-        {{#basic-dropdown as |dd| }}
-          {{#dd.trigger class="trigger-bootstrap-feel"}}Click me <span class="caret"></span>{{/dd.trigger}}
+        <BasicDropdown as |dd|>
+          <dd.Trigger class="trigger-bootstrap-feel">Click me <span class="caret"></span></dd.Trigger>
 
-          {{#dd.content class="content-bootstrap-feel"}}
+          <dd.Content class="content-bootstrap-feel">
             <p>I look like bootstrap, right?</p>
             <p>You can style me however you want</p>
             <p>Option 3</p>
             <p>Option 4</p>
-          {{/dd.content}}
-        {{/basic-dropdown}}
+          </dd.Content>
+        </BasicDropdown>
       </div>
     </div>
     <div class="scroll__filler"></div>

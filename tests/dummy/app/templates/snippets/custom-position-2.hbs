@@ -1,9 +1,9 @@
-{{#basic-dropdown calculatePosition=calculatePosition onOpen=(perform addNames) as |dd|}}
-  {{#dd.trigger class="trigger-bootstrap-feel"}}Click me{{/dd.trigger}}
+<BasicDropdown @calculatePosition={{calculatePosition}} @onOpen={{perform addNames}} as |dd|>
+  <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
 
-  {{#dd.content class="content-bootstrap-feel arrow-left-content"}}
+  <dd.Content class="content-bootstrap-feel arrow-left-content">
     {{#each names as |name|}}
       {{name}} <br>
     {{/each}}
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>

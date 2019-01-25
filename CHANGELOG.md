@@ -83,7 +83,7 @@
 
 # 0.33.6
 - [BUGFIX] Prevent dropdowns with `renderInPlace=true` from being incorrectly opened twice. This had
-  no evident effects, but lead to the events in the `dd.content` component to be added twice.
+  no evident effects, but lead to the events in the `dd.Content` component to be added twice.
 - [BREAKING] Remove support for IE9/IE10.
 
 # 0.33.5

@@ -1,20 +1,20 @@
 <div style="display: flex;">
   <div style="flex: 1;">
-    {{#basic-dropdown as |dd|}}
-      {{#dd.trigger class="trigger-bootstrap-feel"}}Mousedown (default){{/dd.trigger}}
+    <BasicDropdown as |dd|>
+      <dd.Trigger class="trigger-bootstrap-feel">Mousedown (default)</dd.Trigger>
 
-      {{#dd.content class="content-bootstrap-feel width-300"}}
+      <dd.Content class="content-bootstrap-feel width-300">
         I open as soon as you press the mouse button
-      {{/dd.content}}
-    {{/basic-dropdown}}
+      </dd.Content>
+    </BasicDropdown>
   </div>
   <div style="flex: 1;">
-    {{#basic-dropdown as |dd|}}
-      {{#dd.trigger class="trigger-bootstrap-feel" eventType="click"}}Click{{/dd.trigger}}
+    <BasicDropdown as |dd|>
+      <dd.Trigger class="trigger-bootstrap-feel" @eventType="click">Click</dd.Trigger>
 
-      {{#dd.content class="content-bootstrap-feel width-300"}}
+      <dd.Content class="content-bootstrap-feel width-300">
         I only open when you release the mouse button
-      {{/dd.content}}
-    {{/basic-dropdown}}
+      </dd.Content>
+    </BasicDropdown>
   </div>
 </div>

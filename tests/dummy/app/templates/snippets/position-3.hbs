@@ -1,7 +1,7 @@
-{{#basic-dropdown matchTriggerWidth=true as |dd|}}
-  {{#dd.trigger class="trigger-bootstrap-feel"}}Click me!{{/dd.trigger}}
+<BasicDropdown @matchTriggerWidth={{true}} as |dd|>
+  <dd.Trigger class="trigger-bootstrap-feel">Click me!</dd.Trigger>
 
-  {{#dd.content class="content-bootstrap-feel"}}
+  <dd.Content class="content-bootstrap-feel">
     I'm not in the root of the app
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>

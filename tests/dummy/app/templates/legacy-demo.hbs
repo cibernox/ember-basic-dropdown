@@ -17,45 +17,45 @@
 </style>
 <div style="display: flex; justify-content: space-between; width: 1000px; margin: 0 auto;">
   <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
-    {{#basic-dropdown horizontalPosition="auto-right" as |dd|}}
-      {{#dd.trigger tagName="span" openerEvent="click"}}Click{{/dd.trigger}}
-      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
-    {{/basic-dropdown}}
+    <BasicDropdown @horizontalPosition="auto-right" as |dd|>
+      <dd.Trigger @htmlTag="span" @openerEvent="click">Click</dd.Trigger>
+      <dd.Content class="auto-right-demo-content">This is a reasonably long content that may or may not fit in the screen</dd.Content>
+    </BasicDropdown>
   </div>
   <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
-    {{#basic-dropdown horizontalPosition="auto-right" as |dd|}}
-      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
-      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
-    {{/basic-dropdown}}
+    <BasicDropdown @horizontalPosition="auto-right" as |dd|>
+      <dd.Trigger @htmlTag="span">Click</dd.Trigger>
+      <dd.Content class="auto-right-demo-content">This is a reasonably long content that may or may not fit in the screen</dd.Content>
+    </BasicDropdown>
   </div>
   <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
-    {{#basic-dropdown horizontalPosition="auto-right" as |dd|}}
-      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
-      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
-    {{/basic-dropdown}}
+    <BasicDropdown @horizontalPosition="auto-right" as |dd|>
+      <dd.Trigger @htmlTag="span">Click</dd.Trigger>
+      <dd.Content class="auto-right-demo-content">This is a reasonably long content that may or may not fit in the screen</dd.Content>
+    </BasicDropdown>
   </div>
   <div style="width: 200px; height: 300px; border: 1px solid gray; background: #fafafa; text-align: right;">
-    {{#basic-dropdown horizontalPosition="auto-right" as |dd|}}
-      {{#dd.trigger tagName="span"}}Click{{/dd.trigger}}
-      {{#dd.content class="auto-right-demo-content"}}This is a reasonably long content that may or may not fit in the screen{{/dd.content}}
-    {{/basic-dropdown}}
+    <BasicDropdown @horizontalPosition="auto-right" as |dd|>
+      <dd.Trigger @htmlTag="span">Click</dd.Trigger>
+      <dd.Content class="auto-right-demo-content">This is a reasonably long content that may or may not fit in the screen</dd.Content>
+    </BasicDropdown>
   </div>
 </div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
-{{#basic-dropdown disabled=isDisabled registerAPI=(action "registerAPI") as |dropdown|}}
-  {{#dropdown.trigger id="this-is-the-id" openerEvent="click"}}sooo{{/dropdown.trigger}}
-  {{#dropdown.content}}
+<BasicDropdown @disabled={{isDisabled}} @registerAPI={{action "registerAPI"}} as |dropdown|>
+  <dropdown.Trigger @openerEvent="click" id="this-is-the-id">sooo</dropdown.Trigger>
+  <dropdown.Content>
     <p>This is the content</p>
     <h3>It can contain anything.</h3>
     {{#if showImage}}
       <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
     {{/if}}
     <input type="text">
-  {{/dropdown.content}}
-{{/basic-dropdown}}
+  </dropdown.Content>
+</BasicDropdown>
 <br>
 <button onclick={{action (mut isDisabled) (not isDisabled)}}>{{if isDisabled "enable" "disable"}}</button>
 <p>remoteController.disabled: {{remoteController.disabled}}</p>
@@ -71,17 +71,17 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
 <div style="margin: 10px 200px;">
-  {{#basic-dropdown horizontalPosition="center" renderInPlace=true as |dropdown|}}
-    {{#dropdown.trigger}}Click me!{{/dropdown.trigger}}
-    {{#dropdown.content class="auto-right-demo-content slide-fade" overlay=true}}
+  <BasicDropdown @horizontalPosition="center" @renderInPlace={{true}} as |dropdown|>
+    <dropdown.Trigger>Click me!</dropdown.Trigger>
+    <dropdown.Content @overlay={{true}} class="auto-right-demo-content slide-fade">
       <p>This is the content</p>
       <h3>It can contain anything.</h3>
       {{#if showImage}}
         <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
       {{/if}}
       <input type="text">
-    {{/dropdown.content}}
-  {{/basic-dropdown}}
+    </dropdown.Content>
+  </BasicDropdown>
 </div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -96,32 +96,32 @@
 {{!--
 <h4>Nested dropdowns</h4>
 
-{{#basic-dropdown as |dropdown|}}
-  {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
+<BasicDropdown as |dropdown|>
+  <dropdown.Trigger @htmlTag="button">Trigger of the first dropdown</dropdown.Trigger>
 
-  {{#dropdown.content class="auto-right-demo-content" overlay=true}}
+  <dropdown.Content overlay={{true}} class="auto-right-demo-content">
 
-    {{#basic-dropdown as |nested|}}
+    <BasicDropdown as |nested|>
       <p style="color: green;"><br>First level of the dropdpwn<br></p>
-      {{#nested.trigger tagName="button"}}Trigger of the second dropdown{{/nested.trigger}}
-      {{#nested.content class="auto-right-demo-content" overlay=true}}
+      <nested.Trigger @htmlTag="button">Trigger of the second dropdown</nested.Trigger>
+      <nested.Content @overlay={{true}} class="auto-right-demo-content">
         <p style="color: red;">
           <br>Second level of the second<br>
-          {{#basic-dropdown as |nested2|}}
+          <BasicDropdown as |nested2|>
             <p style="color: green;"><br>Second level of the dropdpwn<br></p>
-            {{#nested2.trigger tagName="button"}}Trigger of the Third dropdown{{/nested2.trigger}}
-            {{#nested2.content class="auto-right-demo-content" overlay=true}}
+            <nested2.Trigger @htmlTag="button">Trigger of the Third dropdown</nested2.Trigger>
+            <nested2.Content @overlay={{true}} class="auto-right-demo-content">
               <p style="color: red;">
                 <br>Third level of the third<br>
               </p>
-            {{/nested2.content class="auto-right-demo-content"}}
-          {{/basic-dropdown}}
+            </nested2.Content class="auto-right-demo-content">
+          </BasicDropdown>
         </p>
-      {{/nested.content class="auto-right-demo-content"}}
-    {{/basic-dropdown}}
+      </nested.Content class="auto-right-demo-content">
+    </BasicDropdown>
 
-  {{/dropdown.content class="auto-right-demo-content"}}
-{{/basic-dropdown}}
+  </dropdown.Content class="auto-right-demo-content">
+</BasicDropdown>
 
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -131,14 +131,14 @@
 
 <h4>Dropdown in a box with enough padding to have to be rendered on the left sometimes</h4>
 <div style="margin-left: 600px">
-  {{#basic-dropdown as |dropdown|}}
-    {{#dropdown.trigger tagName="button"}}Click me{{/dropdown.trigger}}
-    {{#dropdown.content class="auto-right-demo-content"}}
+  <BasicDropdown as |dropdown|>
+    <dropdown.Trigger @htmlTag="button">Click me</dropdown.Trigger>
+    <dropdown.Content class="auto-right-demo-content"}}
       <div style="width: 200px; border: 1px solid blue; margin: 10px;">
         Look ma! I reposition automatically depending on the space around me
       </div>
     {{/dropdown.content class="auto-right-demo-content"}}
-  {{/basic-dropdown}}
+  </BasicDropdown>
 </div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -148,14 +148,14 @@
 
 <h4>Dropdown with an autofocused element inside</h4>
 <div style="margin: 80px">
-  {{#basic-dropdown as |dropdown|}}
-    {{#dropdown.trigger tagName="button"}}Trigger of the first dropdown{{/dropdown.trigger}}
-    {{#dropdown.content class="auto-right-demo-content"}}
+  <BasicDropdown as |dropdown|>
+    <dropdown.Trigger @htmlTag="button">Trigger of the first dropdown</dropdown.Trigger>
+    <dropdown.Content class="auto-right-demo-content"}}
       <p>content</p>
       {{autofocus-input}}
       <p>more content</p>
     {{/dropdown.content class="auto-right-demo-content"}}
-  {{/basic-dropdown}}
+  </BasicDropdown>
 </div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -168,16 +168,16 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
 <h4>Dropdown rendered in place with <code>verticalPosition=above</code>, with changing content</h4>
-{{#basic-dropdown renderInPlace=true verticalPosition="above" onOpen=(action "startAddingContent") onClose=(action "stopAddingContent") as |dd|}}
-  {{#dd.trigger}}Click me and I'll open above{{/dd.trigger}}
-  {{#dd.content class="auto-right-demo-content"}}
+<BasicDropdown renderInPlace=true verticalPosition="above" onOpen=(action "startAddingContent") onClose=(action "stopAddingContent") as |dd|>
+  <dd.Trigger>Click me and I'll open above</dd.Trigger>
+  <dd.Content class="auto-right-demo-content">
     <p>I told you!</p>
     <p>I'm above.</p>
     {{#each addedItems as |i|}}
       <li>{{i}}</li>
     {{/each}}
-  {{/dd.content class="auto-right-demo-content"}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
@@ -189,15 +189,15 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
 
-{{#basic-dropdown as |dd|}}
-  {{#dd.trigger onMouseDown=(action "returnFalse") tagName="button" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+<BasicDropdown as |dd|>
+  <dd.Trigger @onMouseDown={{action "returnFalse"}} @htmlTag="button" @onMouseEnter={{action "mouseEnter"}} @onMouseLeave={{action "mouseLeave"}}>
     Hover me
-  {{/dd.trigger}}
-  {{#dd.content class="auto-right-demo-content" onMouseEnter=(action "mouseEnter") onMouseLeave=(action "mouseLeave")}}
+  </dd.Trigger>
+  <dd.Content class="auto-right-demo-content" @onMouseEnter={{action "mouseEnter"}} @onMouseLeave={{action "mouseLeave"}}>
     Exit this are to close
     <img src="/grumpy-cat.png" alt="grumpy cat" width="300" height="300">
-  {{/dd.content class="auto-right-demo-content"}}
-{{/basic-dropdown}}
+  </dd.Content class="auto-right-demo-content">
+</BasicDropdown>
 --}}
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>

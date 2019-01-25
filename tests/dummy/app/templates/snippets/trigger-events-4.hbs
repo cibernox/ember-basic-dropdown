@@ -3,18 +3,17 @@
   <input type="text" class="form-control" onfocus={{action "simulateFocusParent"}}
     onblur={{action "simulateBlurParent"}}>
 
-  {{#basic-dropdown as |dd|}}
-    {{#dd.trigger
-      class="input-group-addon"
-      onFocus=(action "simulateFocusParent")
-      onBlur=(action "simulateBlurParent")
-    }}
+  <BasicDropdown as |dd|>
+    <dd.Trigger
+      @onFocus={{action "simulateFocusParent"}}
+      @onBlur={{action "simulateBlurParent"}}
+      class="input-group-addon">
       <span class="caret"></span>
-    {{/dd.trigger}}
+    </dd.Trigger>
 
-    {{#dd.content class="content-bootstrap-feel width-300"}}
+    <dd.Content class="content-bootstrap-feel width-300">
       <p>Option1</p>
       <p>Option2</p>
-    {{/dd.content}}
-  {{/basic-dropdown}}
+    </dd.Content>
+  </BasicDropdown>
 </div>

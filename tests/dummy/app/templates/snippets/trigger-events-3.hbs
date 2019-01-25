@@ -3,16 +3,15 @@
 <label for="enable-dd-chk" style={{checkboxLabelStyle}}>Enable dropdown</label>
 <br>
 
-{{#basic-dropdown disabled=dropdownDisabled as |dd|}}
-  {{#dd.trigger
-    class="trigger-bootstrap-feel"
-    onMouseEnter=(action "highlightCheckboxIfDisabled")
-    onMouseLeave=(action "resetHighlight")
-  }}
+<BasicDropdown @disabled={{dropdownDisabled}} as |dd|>
+  <dd.Trigger
+    @onMouseEnter={{action "highlightCheckboxIfDisabled"}}
+    @onMouseLeave={{action "resetHighlight"}}
+    class="trigger-bootstrap-feel">
     Can you open me?
-  {{/dd.trigger}}
+  </dd.Trigger>
 
-  {{#dd.content class="content-bootstrap-feel width-300"}}
+  <dd.Content class="content-bootstrap-feel width-300">
     You solved the puzzle!
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>

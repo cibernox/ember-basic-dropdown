@@ -1,9 +1,9 @@
 <input type="text" placeholder="Focus me and hit TAB to focus the trigger">
 <br>
-{{#basic-dropdown as |dd|}}
-  {{#dd.trigger class="trigger-bootstrap-feel" onMouseDown=(action "useTheKeyboard")}}Do not click me{{/dd.trigger}}
+<BasicDropdown as |dd|>
+  <dd.Trigger class="trigger-bootstrap-feel" @onMouseDown={{action "useTheKeyboard"}}>Do not click me</dd.Trigger>
 
-  {{#dd.content class="content-bootstrap-feel width-300"}}
+  <dd.Content class="content-bootstrap-feel width-300">
     hello world
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>
