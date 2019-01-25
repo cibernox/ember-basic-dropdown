@@ -43,8 +43,8 @@ export default Component.extend({
   horizontalPosition: fallbackIfUndefined('auto'), // auto-right | right | center | left
   rootEventType: fallbackIfUndefined('mousedown'), // TODO: Change default event type to "click" in 2.0
   matchTriggerWidth: fallbackIfUndefined(false),
-  triggerComponent: fallbackIfUndefined('-basic-dropdown-trigger'),
-  contentComponent: fallbackIfUndefined('basic-dropdown/content'),
+  triggerComponent: fallbackIfUndefined('basic-dropdown-trigger'),
+  contentComponent: fallbackIfUndefined('basic-dropdown-content'),
   calculatePosition: fallbackIfUndefined(calculatePosition),
   classNames: ['ember-basic-dropdown'],
   top: null,

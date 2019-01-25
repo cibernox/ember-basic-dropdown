@@ -68,12 +68,12 @@ export default Component.extend({
     return config.environment !== 'test';
   }),
   destinationElement: computed('destination', function () {
-    return document.getElementById(this.get('destination'));
+    return document.getElementById(this.destination);
   }),
 
   style: computed('top', 'left', 'right', 'width', 'height', 'otherStyles', function() {
     let style = '';
-    let { top, left, right, width, height, otherStyles } = this.getProperties('top', 'left', 'right', 'width', 'height', 'otherStyles');
+    let { top, left, right, width, height, otherStyles } = this;
 
     if (otherStyles) {
       Object.keys(otherStyles).forEach((attr) => {
@@ -108,15 +108,12 @@ export default Component.extend({
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     this.wheelHandler = this.wheelHandler.bind(this);
-    let dropdown = this.get('dropdown');
     this.scrollableAncestors = [];
-    this.dropdownId = `ember-basic-dropdown-content-${dropdown.uniqueId}`;
-    if (this.get('animationEnabled')) {
-      this.set('animationClass', this.get('transitioningInClass'));
+    this.dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
+    if (this.animationEnabled) {
+      this.set('animationClass', this.transitioningInClass);
     }
-    this.runloopAwareReposition = function() {
-      join(dropdown.actions.reposition);
-    };
+    this.runloopAwareReposition = () => join(this.dropdown.actions.reposition);
   },
 
   willDestroyElement() {
@@ -126,13 +123,10 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    let oldDropdown = this.get('oldDropdown') || {};
-    let dropdown = this.get('dropdown');
-
     // The following condition checks whether we need to open the dropdown - either because it was
     // closed and is now open or because it was open and then it was closed and opened pretty much at
     // the same time, indicated by `top`, `left` and `right` being null.
-    let {top, left, right, renderInPlace} = this.getProperties('top', 'left', 'right', 'renderInPlace');
+    let { top, left, right, renderInPlace, dropdown, oldDropdown = {} } = this;
     if ((!oldDropdown.isOpen || (top === null && left === null && right === null && renderInPlace === false)) && dropdown.isOpen) {
       scheduleOnce('afterRender', this, this.open);
     } else if (oldDropdown.isOpen && !dropdown.isOpen) {
@@ -143,38 +137,31 @@ export default Component.extend({
 
   // Methods
   open() {
-    let dropdown = this.get('dropdown');
-    this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${dropdown.uniqueId}-trigger]`);
+    this.triggerElement = this.triggerElement || document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
     this.dropdownElement = document.getElementById(this.dropdownId);
-    const rootEventType = this.get('rootEventType');
-    document.addEventListener(rootEventType, this.handleRootMouseDown, true);
+    document.addEventListener(this.rootEventType, this.handleRootMouseDown, true);
 
-    if (this.get('isTouchDevice')) {
+    if (this.isTouchDevice) {
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
-    let onFocusIn = this.get('onFocusIn');
-    if (onFocusIn) {
-      this.dropdownElement.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
+    if (this.onFocusIn) {
+      this.dropdownElement.addEventListener('focusin', (e) => this.onFocusIn(this.dropdown, e));
     }
-    let onFocusOut = this.get('onFocusOut');
-    if (onFocusOut) {
-      this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
+    if (this.onFocusOut) {
+      this.dropdownElement.addEventListener('focusout', (e) => this.onFocusOut(this.dropdown, e));
     }
-    let onMouseEnter = this.get('onMouseEnter');
-    if (onMouseEnter) {
-      this.dropdownElement.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
+    if (this.onMouseEnter) {
+      this.dropdownElement.addEventListener('mouseenter', (e) => this.onMouseEnter(this.dropdown, e));
     }
-    let onMouseLeave = this.get('onMouseLeave');
-    if (onMouseLeave) {
-      this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
+    if (this.onMouseLeave) {
+      this.dropdownElement.addEventListener('mouseleave', (e) => this.onMouseLeave(this.dropdown, e));
     }
-    let onKeyDown = this.get('onKeyDown');
-    if (onKeyDown) {
-      this.dropdownElement.addEventListener('keydown', (e) => onKeyDown(dropdown, e));
+    if (this.onKeyDown) {
+      this.dropdownElement.addEventListener('keydown', (e) => this.onKeyDown(this.dropdown, e));
     }
 
-    dropdown.actions.reposition();
+    this.dropdown.actions.reposition();
 
     // Always wire up events, even if rendered in place.
     this.scrollableAncestors = this.getScrollableAncestors();
@@ -182,14 +169,14 @@ export default Component.extend({
     this.addScrollHandling();
     this.startObservingDomMutations();
 
-    if (this.get('animationEnabled')) {
+    if (this.animationEnabled) {
       scheduleOnce('afterRender', this, this.animateIn);
     }
   },
 
   close() {
     this._teardown();
-    if (this.get('animationEnabled')) {
+    if (this.animationEnabled) {
       this.animateOut(this.dropdownElement);
     }
     this.dropdownElement = null;
@@ -207,7 +194,7 @@ export default Component.extend({
       return;
     }
 
-    this.get('dropdown').actions.close(e, true);
+    this.dropdown.actions.close(e, true);
   },
 
   addGlobalEvents() {
@@ -238,19 +225,18 @@ export default Component.extend({
 
   animateIn() {
     waitForAnimations(this.dropdownElement, () => {
-      this.set('animationClass', this.get('transitionedInClass'));
+      this.set('animationClass', this.transitionedInClass);
     });
   },
 
   animateOut(dropdownElement) {
-    let parentElement = this.get('renderInPlace') ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
+    let parentElement = this.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
-    let transitioningInClass = this.get('transitioningInClass');
-    clone.classList.remove(...transitioningInClass.split(' '));
-    clone.classList.add(...this.get('transitioningOutClass').split(' '));
+    clone.classList.remove(...this.transitioningInClass.split(' '));
+    clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
-    this.set('animationClass', transitioningInClass);
+    this.set('animationClass', this.transitioningInClass);
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
@@ -320,7 +306,7 @@ export default Component.extend({
   },
 
   addScrollHandling() {
-    if (this.get('preventScroll') === true) {
+    if (this.preventScroll === true) {
       this.addPreventScrollEvent();
       this.removeScrollHandling = this.removePreventScrollEvent;
     } else {
@@ -363,10 +349,9 @@ export default Component.extend({
     this.scrollableAncestors = [];
     this.stopObservingDomMutations();
 
-    const rootEventType = this.get('rootEventType');
-    document.removeEventListener(rootEventType, this.handleRootMouseDown, true);
+    document.removeEventListener(this.rootEventType, this.handleRootMouseDown, true);
 
-    if (this.get('isTouchDevice')) {
+    if (this.isTouchDevice) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener('touchend', this.handleRootMouseDown, true);
     }

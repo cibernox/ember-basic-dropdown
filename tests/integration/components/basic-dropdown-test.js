@@ -22,12 +22,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(3);
 
     await render(hbs`
-      {{#basic-dropdown as |dropdown|}}
+      <BasicDropdown as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
@@ -41,12 +41,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown as |dd|}}
-        {{#dd.trigger}}Click me{{/dd.trigger}}
+      <BasicDropdown as |dd|>
+        <dd.Trigger>Click me</dd.Trigger>
         {{#if dd.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
@@ -58,12 +58,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(3);
 
     await render(hbs`
-      {{#basic-dropdown as |dropdown|}}
+      <BasicDropdown as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
@@ -77,12 +77,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(3);
 
     await render(hbs`
-      {{#basic-dropdown initiallyOpened=true as |dropdown|}}
+      <BasicDropdown @initiallyOpened={{true}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
@@ -102,12 +102,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       assert.ok(true, 'onOpen action was invoked');
     };
     await render(hbs`
-      {{#basic-dropdown onOpen=willOpen as |dropdown|}}
+      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -121,12 +121,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       return false;
     };
     await render(hbs`
-      {{#basic-dropdown onOpen=willOpen as |dropdown|}}
+      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -143,12 +143,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       assert.ok(true, 'onClose action was invoked');
     };
     await render(hbs`
-      {{#basic-dropdown onClose=willClose as |dropdown|}}
+      <BasicDropdown @onClose={{willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
@@ -166,12 +166,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       return false;
     };
     await render(hbs`
-      {{#basic-dropdown onClose=willClose as |dropdown|}}
+      <BasicDropdown @onClose={{willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
@@ -185,11 +185,11 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown initiallyOpened=true as |dropdown|}}
+      <BasicDropdown @initiallyOpened={{true}} as |dropdown|>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
@@ -203,12 +203,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     };
 
     await render(hbs`
-      {{#basic-dropdown onOpen=onOpen as |dropdown|}}
+      <BasicDropdown @onOpen={{onOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
     await clickTrigger();
     await clickTrigger();
@@ -227,12 +227,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     };
 
     await render(hbs`
-      {{#basic-dropdown onClose=onClose as |dropdown|}}
+      <BasicDropdown @onClose={{onClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
     await clickTrigger();
     await clickTrigger();
@@ -244,10 +244,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown horizontalPosition="right" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @horizontalPosition="right" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -259,10 +259,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown horizontalPosition="center" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @horizontalPosition="center" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -274,10 +274,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown horizontalPosition="auto-right" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @horizontalPosition="auto-right" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -289,10 +289,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown verticalPosition="above" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @verticalPosition="above" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -304,24 +304,24 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').exists('The dropdown is rendered in place');
   });
 
-  test('It adds a special class to both trigger and content when `renderInPlace=true`', async function(assert) {
+  test('It adds a special class to both trigger and content when `@renderInPlace={{true}}`', async function(assert) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -333,34 +333,34 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--below', 'The content has a class indicating that it was placed below the trigger');
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true verticalPosition="above" as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} @verticalPosition="above" as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The content has a class indicating that it was placed above the trigger');
   });
 
-  test('It adds a wrapper element when `renderInPlace=true`', async function(assert) {
+  test('It adds a wrapper element when `@renderInPlace={{true}}`', async function(assert) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -372,10 +372,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true horizontalPosition="auto-right" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} @horizontalPosition="auto-right" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -387,10 +387,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true horizontalPosition="right" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} @horizontalPosition="right" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -398,12 +398,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The proper class has been added');
   });
 
-  test('[ISSUE #127] Having more than one dropdown with `renderInPlace=true` raises an exception', async function(assert) {
+  test('[ISSUE #127] Having more than one dropdown with `@renderInPlace={{true}}` raises an exception', async function(assert) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}{{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|></BasicDropdown>
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|></BasicDropdown>
     `);
 
     assert.ok(true, 'The test has run without errors');
@@ -413,13 +413,13 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
     this.disabled = true;
     await render(hbs`
-      {{#basic-dropdown disabled=disabled as |dropdown|}}
+      <BasicDropdown @disabled={{disabled}} as |dropdown|>
         {{#if dropdown.disabled}}
           <div id="disabled-dropdown-marker">Disabled!</div>
         {{else}}
           <div id="enabled-dropdown-marker">Enabled!</div>
         {{/if}}
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#disabled-dropdown-marker').exists('The public API of the component is marked as disabled');
@@ -432,9 +432,9 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     this.disabled = true;
 
     await render(hbs`
-      {{#basic-dropdown as |dropdown|}}
+      <BasicDropdown as |dropdown|>
         <div id="dropdown-unique-id-container">{{dropdown.uniqueId}}</div>
-      {{/basic-dropdown}}
+      </BasicDropdown>
     `);
 
     assert.dom('#dropdown-unique-id-container').hasText(/ember\d+/, 'It yields the uniqueId');
@@ -445,10 +445,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
 
     this.isDisabled = false;
     await render(hbs`
-      {{#basic-dropdown disabled=isDisabled as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @disabled={{isDisabled}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -464,9 +464,9 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     this.toggleDisabled = () => this.toggleProperty('isDisabled');
     this.registerAPI = (api) => run.scheduleOnce('actions', this, this.set, 'remoteController', api);
     await render(hbs`
-      {{#basic-dropdown disabled=isDisabled registerAPI=(action registerAPI) as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-      {{/basic-dropdown}}
+      <BasicDropdown @disabled={{isDisabled}} @registerAPI={{action registerAPI}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+      </BasicDropdown>
       <button onclick={{action toggleDisabled}}>Toggle</button>
       {{#if remoteController.disabled}}
         <div id="is-disabled"></div>
@@ -481,14 +481,14 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#is-disabled').doesNotExist('The select is enabled again');
   });
 
-  test('It can receive `destination=id-of-elmnt` to customize where `#-in-element` is going to render the content', async function(assert) {
+  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function(assert) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown destination="id-of-elmnt" as |dd|}}
-        {{#dd.trigger}}Click me{{/dd.trigger}}
-        {{#dd.content}}Hello{{/dd.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @destination="id-of-elmnt" as |dd|>
+        <dd.Trigger>Click me</dd.Trigger>
+        <dd.Content>Hello</dd.Content>
+      </BasicDropdown>
       <div id="id-of-elmnt"></div>
     `);
 
@@ -501,10 +501,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}<div id="dropdown-is-opened"></div>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     let content = this.element.querySelector('.ember-basic-dropdown-content');
@@ -517,12 +517,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}
+      <BasicDropdown as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content>
           <div id="dropdown-is-opened"></div>
-        {{/dropdown.content}}
-      {{/basic-dropdown}}
+        </dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     document.querySelector('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
@@ -538,12 +538,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     this.saveAPI = (api) => remoteController = api;
 
     await render(hbs`
-      {{#basic-dropdown registerAPI=(action saveAPI) as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}
+      <BasicDropdown @registerAPI={{action saveAPI}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content>
           <div id="dropdown-is-opened"></div>
-        {{/dropdown.content}}
-      {{/basic-dropdown}}
+        </dropdown.Content>
+      </BasicDropdown>
     `);
     let returnValue;
     await clickTrigger();
@@ -571,12 +571,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       };
     };
     await render(hbs`
-      {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}
+      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content>
           <div id="dropdown-is-opened"></div>
-        {{/dropdown.content}}
-      {{/basic-dropdown}}
+        </dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
@@ -609,12 +609,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       }
     };
     await render(hbs`
-      {{#basic-dropdown calculatePosition=calculatePosition renderInPlace=true as |dropdown|}}
-        {{#dropdown.trigger}}Click me{{/dropdown.trigger}}
-        {{#dropdown.content}}
+      <BasicDropdown @calculatePosition={{calculatePosition}} @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content>
           <div id="dropdown-is-opened"></div>
-        {{/dropdown.content}}
-      {{/basic-dropdown}}
+        </dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
@@ -623,14 +623,14 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // Customization of inner components
-  test('It allows to customize the trigger passing `triggerComponent="my-custom-trigger"`', async function(assert) {
+  test('It allows to customize the trigger passing `@triggerComponent="my-custom-trigger"`', async function(assert) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown triggerComponent="my-custom-trigger" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @triggerComponent="my-custom-trigger" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     assert.dom('#my-custom-trigger').exists('The custom component has been rendered');
@@ -640,10 +640,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      {{#basic-dropdown contentComponent="my-custom-content" as |dropdown|}}
-        {{#dropdown.trigger}}Press me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @contentComponent="my-custom-content" as |dropdown|>
+        <dropdown.Trigger>Press me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     assert.dom('#my-custom-content').exists('The custom component has been rendered');
@@ -654,10 +654,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#basic-dropdown triggerComponent="trigger-with-did-receive-attrs" as |dropdown|}}
-        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @triggerComponent="trigger-with-did-receive-attrs" as |dropdown|>
+        <dropdown.Trigger>Open me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     assert.dom('.ember-basic-dropdown-trigger').hasText('Open me');
@@ -673,10 +673,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       apis.push(api);
     };
     await render(hbs`
-      {{#basic-dropdown disabled=disabled registerAPI=registerAPI as |dropdown|}}
-        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-        {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @disabled={{disabled}} @registerAPI={{registerAPI}} as |dropdown|>
+        <dropdown.Trigger>Open me</dropdown.Trigger>
+        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+      </BasicDropdown>
     `);
 
     await clickTrigger();
@@ -702,10 +702,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
 
     await render(hbs`
       {{#if isOpen}}
-        {{#basic-dropdown onClose=onClose as |dropdown|}}
-          {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-          {{#dropdown.content}}<h3>Content of the dropdown</h3>{{/dropdown.content}}
-        {{/basic-dropdown}}
+        <BasicDropdown @onClose={{onClose}} as |dropdown|>
+          <dropdown.Trigger>Open me</dropdown.Trigger>
+          <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+        </BasicDropdown>
       {{/if}}
     `);
 
@@ -719,46 +719,46 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(12);
 
     await render(hbs`
-      {{#basic-dropdown as |parent|}}
-        {{#parent.trigger class='parent' tagName="button"}}Trigger of the first dropdown{{/parent.trigger}}
-        {{#parent.content overlay=true}}
-          {{#basic-dropdown as |child|}}
+      <BasicDropdown as |parent|>
+        <parent.Trigger class='parent' @htmlTag="button">Trigger of the first dropdown</parent.Trigger>
+        <parent.Content @overlay={{true}}>
+          <BasicDropdown as |child|>
             <p class="body-parent">
               <br>First level of the dropdpwn<br>
             </p>
-            {{#child.trigger class='child' tagName="button"}}Trigger of the second dropdown{{/child.trigger}}
-            {{#child.content overlay=true}}
+            <child.Trigger class='child' @htmlTag="button">Trigger of the second dropdown</child.Trigger>
+            <child.Content @overlay={{true}}>
               <p class="body-child">
                 <br>Second level of the second<br>
-                {{#basic-dropdown as |grandchild|}}
+                <BasicDropdown as |grandchild|>
                   <p>
                     <br>Second level of the dropdpwn<br>
                   </p>
-                  {{#grandchild.trigger class='grandchild' tagName="button"}}Trigger of the Third dropdown{{/grandchild.trigger}}
-                  {{#grandchild.content overlay=true}}
+                  <grandchild.Trigger class='grandchild' @htmlTag="button">Trigger of the Third dropdown</grandchild.Trigger>
+                  <grandchild.Content @overlay={{true}}>
                     <p class="body-grandchild">
                       <br>Third level of the third<br>
                     </p>
-                  {{/grandchild.content}}
-                {{/basic-dropdown}}
+                  </grandchild.Content>
+                </BasicDropdown>
               </p>
-            {{/child.content}}
-          {{/basic-dropdown}}
-        {{/parent.content}}
-      {{/basic-dropdown}}
+            </child.Content>
+          </BasicDropdown>
+        </parent.Content>
+      </BasicDropdown>
     `);
     //open the nested dropdown
-    await   click('.ember-basic-dropdown-trigger.parent');
+    await click('.ember-basic-dropdown-trigger.parent');
     assert.dom('.body-parent').exists('the parent dropdown is rendered');
 
-    await   click('.ember-basic-dropdown-trigger.child');
+    await click('.ember-basic-dropdown-trigger.child');
     assert.dom('.body-child').exists('the child dropdown is rendered');
 
     await   click('.ember-basic-dropdown-trigger.grandchild');
     assert.dom('.body-grandchild').exists('the grandchild dropdown is rendered');
 
     // click in the grandchild dropdown
-    await   click('.body-grandchild');
+    await click('.body-grandchild');
     assert.dom('.body-grandchild').exists('can click in grandchild dropdown and still be open');
     assert.dom('.body-child').exists('can click in grandchild dropdown and still be open');
     assert.dom('.body-parent').exists('can click in grandchild dropdown and still be open');
@@ -770,7 +770,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('.body-parent').exists('can click in child dropdown and still be open');
 
     // click in the parent dropdown
-    await   click('.body-parent');
+    await click('.body-parent');
     assert.dom('.body-grandchild').doesNotExist('grandchild dropdown should not exist becuase we clicked in parent');
     assert.dom('.body-child').doesNotExist('child dropdown should not exist becuase we clicked in parent');
     assert.dom('.body-parent').exists('can click in parent dropdown and still be open');
@@ -789,10 +789,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     }
     await render(hbs`
       <input type="text" id="outer-input">
-      {{#basic-dropdown renderInPlace=true onOpen=onOpen as |dropdown|}}
-        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-        {{#dropdown.content onFocusOut=onFocusOut}}<input type="text" id="inner-input">{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @renderInPlace={{true}} @onOpen={{onOpen}} as |dropdown|>
+        <dropdown.Trigger>Open me</dropdown.Trigger>
+        <dropdown.Content @onFocusOut={{onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     await focus('#inner-input');
@@ -808,15 +808,14 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       };
     };
     await render(hbs`
-      {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
-        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-        {{#dropdown.content}}Some content{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+        <dropdown.Trigger>Open me</dropdown.Trigger>
+        <dropdown.Content>Some content</dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     let content = document.querySelector('.ember-basic-dropdown-content');
     assert.equal(content.getAttribute('style').indexOf('undefined'), -1 , 'There is no undefined values')
-
   });
 
   test('It includes the inline styles returned from the `calculatePosition` callback', async function(assert) {
@@ -830,10 +829,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       };
     };
     await render(hbs`
-      {{#basic-dropdown calculatePosition=calculatePosition as |dropdown|}}
-        {{#dropdown.trigger}}Open me{{/dropdown.trigger}}
-        {{#dropdown.content}}Some content{{/dropdown.content}}
-      {{/basic-dropdown}}
+      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+        <dropdown.Trigger>Open me</dropdown.Trigger>
+        <dropdown.Content>Some content</dropdown.Content>
+      </BasicDropdown>
     `);
     await clickTrigger();
     assert.dom('.ember-basic-dropdown-content').hasAttribute('style', /max-height: 500px;overflow-y: auto/)
