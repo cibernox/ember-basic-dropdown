@@ -4,7 +4,6 @@ import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
 import layout from '../templates/components/basic-dropdown-content';
-import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
@@ -62,7 +61,6 @@ export default Component.extend({
   transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
 
   // CPs
-  _contentTagName: fallbackIfUndefined('div'),
   animationEnabled: computed(function() {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
