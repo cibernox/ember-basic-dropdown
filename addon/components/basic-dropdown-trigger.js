@@ -7,7 +7,7 @@ export default Component.extend({
   layout,
   tagName: '',
   isTouchDevice,
-  eventType: 'mousedown',
+  eventType: 'click',
   stopPropagation: false,
 
   // Lifecycle hooks
@@ -65,6 +65,11 @@ export default Component.extend({
 
     handleClick(e) {
       if (!this.dropdown || this.dropdown.disabled) {
+        return;
+      }
+      // execute user-supplied onClick function before default toggle action;
+      // short-circuit default behavior if user-supplied function returns `false`
+      if (this.onClick && this.onClick(this.dropdown, e) === false) {
         return;
       }
       if (this.eventType === 'click') {

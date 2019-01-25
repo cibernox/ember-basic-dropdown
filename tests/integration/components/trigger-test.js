@@ -226,7 +226,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
   });
 
   // Default behaviour
-  test('mousedown events invoke the `toggle` action on the dropdown by default', async function(assert) {
+  test('click events invoke the `toggle` action on the dropdown by default', async function(assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 123,
@@ -240,10 +240,10 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await render(hbs`
       <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
   });
 
-  test('click events DO NOT invoke the `toggle` action on the dropdown by default', async function(assert) {
+  test('mousedown events DO NOT invoke the `toggle` action on the dropdown by default', async function(assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 123,
@@ -256,10 +256,10 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await render(hbs`
       <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
   });
 
-  test('mousedown events DO NOT invoke the `toggle` action on the dropdown if `eventType="click"`', async function(assert) {
+  test('click events DO NOT invoke the `toggle` action on the dropdown if `@eventType="mousedown"`', async function(assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 123,
@@ -270,12 +270,12 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="click">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
   });
 
-  test('click events invoke the `toggle` action on the dropdown if `eventType="click"', async function(assert) {
+  test('mousedown events invoke the `toggle` action on the dropdown if `eventType="mousedown"', async function(assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 123,
@@ -287,12 +287,12 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="click">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
   });
 
-  test('when `stopPropagation` is true the `mousedown` event does not bubble', async function (assert) {
+  test('when `stopPropagation` is true the `click` event does not bubble', async function (assert) {
     assert.expect(2);
     this.handlerInParent = () => assert.ok(false, 'This should never be called');
 
@@ -306,11 +306,11 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
     await render(hbs`
-      <div onmousedown={{handlerInParent}}>
+      <div onclick={{handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click');
   });
 
   test('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
@@ -328,7 +328,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     };
     await render(hbs`
       <div onclick={{handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}} @eventType="click">Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -555,9 +555,34 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       return false;
     };
 
+    this.set('onClick', userSuppliedAction);
+    await render(hbs`
+      <BasicDropdownTrigger @onClick={{onClick}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+    `);
+
+    await click('.ember-basic-dropdown-trigger');
+  });
+
+  test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', async function(assert) {
+    assert.expect(1);
+
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle: () => {
+          assert.ok(false, 'Default `toggle` action should not run');
+        }
+      }
+    };
+
+    let userSuppliedAction = () => {
+      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
+      return false;
+    };
+
     this.set('onMouseDown', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
