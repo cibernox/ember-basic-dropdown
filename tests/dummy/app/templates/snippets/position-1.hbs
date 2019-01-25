@@ -3,7 +3,7 @@
     @horizontalPosition={{horizontalPosition}}
     @verticalPosition={{verticalPosition}}
     @renderInPlace={{true}}
-    class="button-pull-{{buttonPosition}}">
+    class="button-pull-{{buttonPosition}}" as |dd|>
     <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
     <dd.Content class="content-bootstrap-feel">
       <img src="/lts.png" alt="tomster">
@@ -13,7 +13,6 @@
   <div class="button-pull-{{buttonPosition}}">
     <BasicDropdown @horizontalPosition={{horizontalPosition}} @verticalPosition={{verticalPosition}} as |dd|>
       <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
-
       <dd.Content class="content-bootstrap-feel">
         <img src="/lts.png" alt="tomster">
       </dd.Content>

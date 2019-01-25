@@ -37,7 +37,7 @@
 </p>
 
 <p>
-  Then <code>onMouseEnter=(action "open")</code> and <code>onMouseLeave=(action "closeLater")</code>
+  Then <code>onMouseEnter=\{{action "open"}}</code> and <code>onMouseLeave=\{{action "closeLater"}}</code>
   open a close the dropdown, but we we leave we don't close immediately. Instead we delay
   the close a few milliseconds as a grace period, allowing the user to transition from the
   trigger to the content even if the trayectory of the mouse is not perfect.
