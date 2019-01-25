@@ -36,7 +36,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed again');
   });
 
-  test('The mousedown event with the right button doesn\'t open it', async function(assert) {
+  test('The click event with the right button doesn\'t open it', async function(assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -49,7 +49,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     `);
 
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown', { button: 2 });
+    await triggerEvent('.ember-basic-dropdown-trigger', 'click', { button: 2 });
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
   });
 
