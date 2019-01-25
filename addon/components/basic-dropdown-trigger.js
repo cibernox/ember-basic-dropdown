@@ -73,6 +73,7 @@ export default Component.extend({
         return;
       }
       if (this.eventType === 'click') {
+        if (e.button !== 0) { return; }
         if (this.stopPropagation) {
           e.stopPropagation();
         }
