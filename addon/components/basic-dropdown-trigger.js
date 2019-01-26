@@ -17,11 +17,6 @@ export default class BasicDropdownTrigger extends Component {
     super.init(...arguments);
     this.uniqueId = `${this.dropdown.uniqueId}-trigger`;
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
-    this._touchMoveHandler = this._touchMoveHandler.bind(this);
-    this._mouseupHandler = () => {
-      document.removeEventListener('mouseup', this._mouseupHandler, true);
-      document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
-    };
   }
 
   didInsertElement() {
@@ -37,6 +32,7 @@ export default class BasicDropdownTrigger extends Component {
     document.removeEventListener('mouseup', this._mouseupHandler, true);
   }
 
+  // Actions
   @action
   handleMouseDown(e) {
     if (this.dropdown.disabled) {
@@ -47,26 +43,24 @@ export default class BasicDropdownTrigger extends Component {
     if (this.onMouseDown && this.onMouseDown(this.dropdown, e) === false) {
       return;
     }
-    if (this.eventType === 'mousedown') {
-      if (e.button !== 0) { return; }
-      if (this.stopPropagation) {
-        e.stopPropagation();
-      }
-      this.stopTextSelectionUntilMouseup();
-      if (this.toggleIsBeingHandledByTouchEvents) {
-        // Some devises have both touchscreen & mouse, and they are not mutually exclusive
-        // In those cases the touchdown handler is fired first, and it sets a flag to
-        // short-circuit the mouseup so the component is not opened and immediately closed.
-        this.toggleIsBeingHandledByTouchEvents = false;
-        return;
-      }
-      this.dropdown.actions.toggle(e);
+    if (this.eventType !== 'mousedown' || e.button !== 0) return;
+    if (this.stopPropagation) {
+      e.stopPropagation();
     }
+    this._stopTextSelectionUntilMouseup();
+    if (this.toggleIsBeingHandledByTouchEvents) {
+      // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+      // In those cases the touchdown handler is fired first, and it sets a flag to
+      // short-circuit the mouseup so the component is not opened and immediately closed.
+      this.toggleIsBeingHandledByTouchEvents = false;
+      return;
+    }
+    this.dropdown.actions.toggle(e);
   }
 
   @action
   handleClick(e) {
-    if (!this.dropdown || this.dropdown.disabled) {
+    if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
       return;
     }
     // execute user-supplied onClick function before default toggle action;
@@ -74,20 +68,18 @@ export default class BasicDropdownTrigger extends Component {
     if (this.onClick && this.onClick(this.dropdown, e) === false) {
       return;
     }
-    if (this.eventType === 'click') {
-      if (e.button !== 0) { return; }
-      if (this.stopPropagation) {
-        e.stopPropagation();
-      }
-      if (this.toggleIsBeingHandledByTouchEvents) {
-        // Some devises have both touchscreen & mouse, and they are not mutually exclusive
-        // In those cases the touchdown handler is fired first, and it sets a flag to
-        // short-circuit the mouseup so the component is not opened and immediately closed.
-        this.toggleIsBeingHandledByTouchEvents = false;
-        return;
-      }
-      this.dropdown.actions.toggle(e);
+    if (this.eventType !== 'click' || e.button !== 0) return;
+    if (this.stopPropagation) {
+      e.stopPropagation();
     }
+    if (this.toggleIsBeingHandledByTouchEvents) {
+      // Some devises have both touchscreen & mouse, and they are not mutually exclusive
+      // In those cases the touchdown handler is fired first, and it sets a flag to
+      // short-circuit the mouseup so the component is not opened and immediately closed.
+      this.toggleIsBeingHandledByTouchEvents = false;
+      return;
+    }
+    this.dropdown.actions.toggle(e);
   }
 
   @action
@@ -143,13 +135,20 @@ export default class BasicDropdownTrigger extends Component {
     e.preventDefault();
   }
 
-  // Methods
+  @action
+  _mouseupHandler() {
+    document.removeEventListener('mouseup', this._mouseupHandler, true);
+    document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
+  }
+
+  @action
   _touchMoveHandler() {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this._touchMoveHandler);
   }
 
-  stopTextSelectionUntilMouseup() {
+  // Methods
+  _stopTextSelectionUntilMouseup() {
     document.addEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   }
@@ -163,13 +162,6 @@ export default class BasicDropdownTrigger extends Component {
       });
       this.triggerEl.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
     }
-    this.triggerEl.addEventListener('mousedown', (e) => this.send('handleMouseDown', e));
-    this.triggerEl.addEventListener('click', (e) => {
-      if (!this.isDestroyed) {
-        this.send('handleClick', e)
-      }
-    });
-    this.triggerEl.addEventListener('keydown', (e) => this.send('handleKeyDown', e));
   }
 
   _addOptionalHandlers() {

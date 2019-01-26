@@ -7,7 +7,10 @@
     aria-owns={{this.dropdownId}}
     aria-expanded={{if @dropdown.isOpen "true"}}
     aria-disabled={{if @dropdown.disabled "true"}}
-    ...attributes>
+    ...attributes
+    onmousedown={{action "handleMouseDown"}}
+    onclick={{action "handleClick"}}
+    onkeydown={{action "handleKeyDown"}}>
     {{yield}} {{#if didOpen}}<span class="did-open-span">Did open!</span>{{/if}}
   </Element>
 {{/let}}
