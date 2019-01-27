@@ -1,9 +1,10 @@
+import { layout, tagName } from "@ember-decorators/component";
+import { computed } from "@ember-decorators/object";
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
-import layout from '../templates/components/basic-dropdown-content';
+import templateLayout from '../templates/components/basic-dropdown-content';
 import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
@@ -49,27 +50,29 @@ function dropdownIsValidParent(el, dropdownId) {
     return false;
   }
 }
-
-export default Component.extend({
-  layout,
-  tagName: '',
-  isTouchDevice: Boolean(!!window && 'ontouchstart' in window),
-  hasMoved: false,
-  animationClass: '',
-  transitioningInClass: 'ember-basic-dropdown--transitioning-in',
-  transitionedInClass: 'ember-basic-dropdown--transitioned-in',
-  transitioningOutClass: 'ember-basic-dropdown--transitioning-out',
+@layout(templateLayout)
+@tagName('')
+export default class BasicDropdownContent extends Component {
+  isTouchDevice = Boolean(!!window && 'ontouchstart' in window);
+  hasMoved = false;
+  animationClass = '';
+  transitioningInClass = 'ember-basic-dropdown--transitioning-in';
+  transitionedInClass = 'ember-basic-dropdown--transitioned-in';
+  transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
 
   // CPs
-  animationEnabled: computed(function() {
+  @computed
+  get animationEnabled() {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
-  }),
-  destinationElement: computed('destination', function () {
+  }
+  @computed('destination')
+  get destinationElement() {
     return document.getElementById(this.destination);
-  }),
+  }
 
-  style: computed('top', 'left', 'right', 'width', 'height', 'otherStyles', function() {
+  @computed('top', 'left', 'right', 'width', 'height', 'otherStyles')
+  get style() {
     let style = '';
     let { top, left, right, width, height, otherStyles } = this;
 
@@ -94,14 +97,12 @@ export default Component.extend({
     if (height) {
       style += `height: ${height}`;
     }
-    if (style.length > 0) {
-      return htmlSafe(style);
-    }
-  }),
+    return htmlSafe(style);
+  }
 
   // Lifecycle hooks
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.handleRootMouseDown = this.handleRootMouseDown.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
@@ -112,15 +113,15 @@ export default Component.extend({
       this.set('animationClass', this.transitioningInClass);
     }
     this.runloopAwareReposition = () => join(this.dropdown.actions.reposition);
-  },
+  }
 
   willDestroyElement() {
-    this._super(...arguments);
+    super.willDestroyElement(...arguments);
     this._teardown();
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
     // The following condition checks whether we need to open the dropdown - either because it was
     // closed and is now open or because it was open and then it was closed and opened pretty much at
     // the same time, indicated by `top`, `left` and `right` being null.
@@ -131,7 +132,7 @@ export default Component.extend({
       this.close();
     }
     this.set('oldDropdown', dropdown);
-  },
+  }
 
   // Methods
   open() {
@@ -170,7 +171,7 @@ export default Component.extend({
     if (this.animationEnabled) {
       scheduleOnce('afterRender', this, this.animateIn);
     }
-  },
+  }
 
   close() {
     this._teardown();
@@ -178,9 +179,8 @@ export default Component.extend({
       this.animateOut(this.dropdownElement);
     }
     this.dropdownElement = null;
-  },
+  }
 
-  // Methods
   handleRootMouseDown(e) {
     if (this.hasMoved || this.dropdownElement.contains(e.target) || this.triggerElement && this.triggerElement.contains(e.target)) {
       this.hasMoved = false;
@@ -193,12 +193,12 @@ export default Component.extend({
     }
 
     this.dropdown.actions.close(e, true);
-  },
+  }
 
   addGlobalEvents() {
     window.addEventListener('resize', this.runloopAwareReposition);
     window.addEventListener('orientationchange', this.runloopAwareReposition);
-  },
+  }
 
   startObservingDomMutations() {
     this.mutationObserver = new MutationObserver((mutations) => {
@@ -207,25 +207,25 @@ export default Component.extend({
       }
     });
     this.mutationObserver.observe(this.dropdownElement, { childList: true, subtree: true });
-  },
+  }
 
   removeGlobalEvents() {
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener('orientationchange', this.runloopAwareReposition);
-  },
+  }
 
   stopObservingDomMutations() {
     if (this.mutationObserver) {
       this.mutationObserver.disconnect();
       this.mutationObserver = null;
     }
-  },
+  }
 
   animateIn() {
     waitForAnimations(this.dropdownElement, () => {
       this.set('animationClass', this.transitionedInClass);
     });
-  },
+  }
 
   animateOut(dropdownElement) {
     let parentElement = this.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
@@ -238,16 +238,16 @@ export default Component.extend({
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
-  },
+  }
 
   touchStartHandler() {
     document.addEventListener('touchmove', this.touchMoveHandler, true);
-  },
+  }
 
   touchMoveHandler() {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
-  },
+  }
 
   wheelHandler(event) {
     const element = this.dropdownElement;
@@ -288,7 +288,7 @@ export default Component.extend({
       // Scrolling outside of the dropdown is prohibited.
       event.preventDefault();
     }
-  },
+  }
 
   // All ancestors with scroll (except the BODY, which is treated differently)
   getScrollableAncestors() {
@@ -301,7 +301,7 @@ export default Component.extend({
       }
     }
     return scrollableAncestors;
-  },
+  }
 
   addScrollHandling() {
     if (this.preventScroll === true) {
@@ -311,20 +311,20 @@ export default Component.extend({
       this.addScrollEvents();
       this.removeScrollHandling = this.removeScrollEvents;
     }
-  },
+  }
 
   // Assigned at runtime to ensure that changes to the `preventScroll` property
   // don't result in not cleaning up after ourselves.
-  removeScrollHandling() {},
+  removeScrollHandling() {}
 
   // These two functions wire up scroll handling if `preventScroll` is true.
   // These prevent all scrolling that isn't inside of the dropdown.
   addPreventScrollEvent() {
     document.addEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
-  },
+  }
   removePreventScrollEvent() {
     document.removeEventListener('wheel', this.wheelHandler, { capture: true, passive: false });
-  },
+  }
 
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
@@ -333,13 +333,13 @@ export default Component.extend({
     this.scrollableAncestors.forEach((el) => {
       el.addEventListener('scroll', this.runloopAwareReposition);
     });
-  },
+  }
   removeScrollEvents() {
     window.removeEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.runloopAwareReposition);
     });
-  },
+  }
 
   _teardown() {
     this.removeGlobalEvents();
@@ -354,4 +354,4 @@ export default Component.extend({
       document.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
   }
-});
+}

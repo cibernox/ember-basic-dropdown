@@ -1,12 +1,12 @@
 import Component from '@ember/component';
+import { layout, tagName } from "@ember-decorators/component";
+import { action, computed } from "@ember-decorators/object";
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
-import { computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
-import layout from '../templates/components/basic-dropdown';
-import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
+import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
 import { assign } from '@ember/polyfills';
 import requirejs from 'require';
@@ -17,29 +17,27 @@ const ignoredStyleAttrs = [
   'right',
   'width',
   'height'
-]
+];
 
-export default Component.extend({
-  layout,
-  tagName: '',
-  renderInPlace: fallbackIfUndefined(false),
-  verticalPosition: fallbackIfUndefined('auto'), // above | below
-  horizontalPosition: fallbackIfUndefined('auto'), // auto-right | right | center | left
-  matchTriggerWidth: fallbackIfUndefined(false),
-  calculatePosition: fallbackIfUndefined(calculatePosition),
-  top: null,
-  left: null,
-  right: null,
-  width: null,
-  height: null,
-  otherStyles: {}, // eslint-disable-line
+@layout(templateLayout)
+@tagName('')
+export default class BasicDropdown extends Component {
+  top = null;
+  left = null;
+  right = null;
+  width = null;
+  height = null;
+  otherStyles = {};
+  publicAPI = {};
+  renderInPlace = false;
+  verticalPosition = 'auto'; // above | below
+  horizontalPosition = 'auto'; // auto-right | right | center | left
+  matchTriggerWidth = false;
+  calculatePosition = calculatePosition;
 
   // Lifecycle hooks
   init() {
-    this._super(...arguments);
-    this.set('publicAPI', {});
-    this.set('otherStyles', {});
-
+    super.init(...arguments);
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
       isOpen: this.initiallyOpened || false,
@@ -56,10 +54,10 @@ export default Component.extend({
     if (this.onInit) {
       this.onInit(publicAPI);
     }
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
     let oldDisabled = !!this._oldDisabled;
     let newDisabled = !!this.disabled;
     this._oldDisabled = newDisabled;
@@ -68,33 +66,31 @@ export default Component.extend({
     } else if (!newDisabled && oldDisabled) {
       join(this, this.enable);
     }
-  },
+  }
 
   willDestroy() {
-    this._super(...arguments);
+    super.willDestroy(...arguments);
     if (this.registerAPI) {
       this.registerAPI(null);
     }
-  },
+  }
 
   // CPs
-  destination: computed({
-    get() {
-      return this._getDestinationId();
-    },
-    set(_, v) {
-      return v === undefined ? this._getDestinationId() : v;
-    }
-  }),
+  @computed
+  get destination() {
+    return this._getDestinationId();
+  }
+  set destination(v) {
+    return v === undefined ? this._getDestinationId() : v;
+  }
 
   // Actions
-  actions: {
-    handleFocus(e) {
-      if (this.onFocus) {
-        this.onFocus(this.publicAPI, e);
-      }
+  @action
+  handleFocus(e) {
+    if (this.onFocus) {
+      this.onFocus(this.publicAPI, e);
     }
-  },
+  }
 
   // Methods
   open(e) {
@@ -108,7 +104,7 @@ export default Component.extend({
       return;
     }
     this.updateState({ isOpen: true });
-  },
+  }
 
   close(e, skipFocus) {
     if (this.isDestroyed) {
@@ -133,7 +129,7 @@ export default Component.extend({
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
-  },
+  }
 
   toggle(e) {
     if (this.publicAPI.isOpen) {
@@ -141,7 +137,7 @@ export default Component.extend({
     } else {
       this.open(e);
     }
-  },
+  }
 
   reposition() {
     if (!this.publicAPI.isOpen) {
@@ -158,7 +154,7 @@ export default Component.extend({
     options.dropdown = this;
     let positionData = this.calculatePosition(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
-  },
+  }
 
   applyReposition(trigger, dropdown, positions) {
     let changes = {
@@ -217,18 +213,18 @@ export default Component.extend({
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
     return changes;
-  },
+  }
 
   disable() {
     if (this.publicAPI.isOpen) {
       this.publicAPI.actions.close();
     }
     this.updateState({ disabled: true });
-  },
+  }
 
   enable() {
     this.updateState({ disabled: false });
-  },
+  }
 
   updateState(changes) {
     let newState = set(this, 'publicAPI', assign({}, this.publicAPI, changes));
@@ -236,7 +232,7 @@ export default Component.extend({
       this.registerAPI(newState);
     }
     return newState;
-  },
+  }
 
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
@@ -259,4 +255,4 @@ export default Component.extend({
     }
     return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
   }
-});
+}
