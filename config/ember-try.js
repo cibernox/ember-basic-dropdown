@@ -52,12 +52,6 @@ module.exports = function() {
           npm: {
             devDependencies: {}
           }
-        },
-        {
-          name: 'ember-default',
-          npm: {
-            devDependencies: {}
-          }
         }
       ]
     };
