@@ -1,4 +1,4 @@
-{{#let (element (or @htmlTag "div")) as |Element|}}
+{{!-- {{#let (element (or @htmlTag "div")) as |Element|}}
   <Element
     class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
     role="button"
@@ -7,10 +7,29 @@
     aria-owns={{this.dropdownId}}
     aria-expanded={{if @dropdown.isOpen "true"}}
     aria-disabled={{if @dropdown.disabled "true"}}
+    {{did-insert (action this.addTouchHandlers)}}
     ...attributes
     onmousedown={{this.handleMouseDown}}
     onclick={{this.handleClick}}
     onkeydown={{this.handleKeyDown}}>
     {{yield}}
   </Element>
-{{/let}}
+{{/let}} --}}
+
+<div
+  class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
+  role="button"
+  tabindex={{unless @dropdown.disabled "0"}}
+  data-ebd-id="{{@dropdown.uniqueId}}-trigger"
+  aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
+  aria-expanded={{if @dropdown.isOpen "true"}}
+  aria-disabled={{if @dropdown.disabled "true"}}
+  {{did-insert this.addTouchHandlers}}
+  {{did-insert this.addOptionalHandlers}}
+  {{will-destroy this.removeGlobalHandlers}}
+  ...attributes
+  onmousedown={{this.handleMouseDown}}
+  onclick={{this.handleClick}}
+  onkeydown={{this.handleKeyDown}}>
+  {{yield}}
+</div>

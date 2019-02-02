@@ -5,7 +5,7 @@
       {{#if overlay}}
         <div class="ember-basic-dropdown-overlay"></div>
       {{/if}}
-      {{#let (element (or @htmlTag "div")) as |Element|}}
+      {{!-- {{#let (element (or @htmlTag "div")) as |Element|}}
         <Element
           id={{this.dropdownId}}
           class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}}"
@@ -14,7 +14,18 @@
           ...attributes>
           {{yield}}
         </Element>
-      {{/let}}
+      {{/let}} --}}
+      <div
+        id={{this.dropdownId}}
+        class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}}"
+        style={{this.style}}
+        dir={{@dir}}
+        {{did-insert this.setup}}
+        {{did-insert @dropdown.actions.reposition}}
+        {{will-destroy this.teardown}}
+        ...attributes>
+        {{yield}}
+      </div>
     {{/maybe-in-element}}
   </div>
 {{else}}

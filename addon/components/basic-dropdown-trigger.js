@@ -15,21 +15,7 @@ export default class BasicDropdownTrigger extends Component {
   // Lifecycle hooks
   init() {
     super.init(...arguments);
-    this.uniqueId = `${this.dropdown.uniqueId}-trigger`;
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
-  }
-
-  didInsertElement() {
-    super.didInsertElement(...arguments);
-    this.triggerEl = document.querySelector(`[data-ebd-id="${this.uniqueId}"]`);
-    this._addMandatoryHandlers();
-    this._addOptionalHandlers();
-  }
-
-  willDestroyElement() {
-    super.willDestroyElement(...arguments);
-    document.removeEventListener('touchmove', this._touchMoveHandler);
-    document.removeEventListener('mouseup', this._mouseupHandler, true);
+    this.document = document;
   }
 
   // Actions
@@ -136,6 +122,49 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
+  addTouchHandlers(triggerEl) {
+    if (this.isTouchDevice) {
+      // If the component opens on click there is no need of any of this, as the device will
+      // take care tell apart faux clicks from scrolls.
+      triggerEl.addEventListener('touchstart', () => {
+        document.addEventListener('touchmove', this._touchMoveHandler);
+      });
+      triggerEl.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
+    }
+  }
+
+  @action
+  removeGlobalHandlers() {
+    document.removeEventListener('touchmove', this._touchMoveHandler);
+    document.removeEventListener('mouseup', this._mouseupHandler, true);
+  }
+
+  @action
+  addOptionalHandlers(triggerEl) {
+    if (this.onMouseEnter) {
+      triggerEl.addEventListener('mouseenter', (e) => this.onMouseEnter(this.dropdown, e));
+    }
+    if (this.onMouseLeave) {
+      triggerEl.addEventListener('mouseleave', (e) => this.onMouseLeave(this.dropdown, e));
+    }
+    if (this.onFocus) {
+      triggerEl.addEventListener('focus', (e) => this.onFocus(this.dropdown, e));
+    }
+    if (this.onBlur) {
+      triggerEl.addEventListener('blur', (e) => this.onBlur(this.dropdown, e));
+    }
+    if (this.onFocusIn) {
+      triggerEl.addEventListener('focusin', (e) => this.onFocusIn(this.dropdown, e));
+    }
+    if (this.onFocusOut) {
+      triggerEl.addEventListener('focusout', (e) => this.onFocusOut(this.dropdown, e));
+    }
+    if (this.onKeyUp) {
+      triggerEl.addEventListener('keyup', (e) => this.onKeyUp(this.dropdown, e));
+    }
+  }
+
+  @action
   _mouseupHandler() {
     document.removeEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
@@ -151,40 +180,5 @@ export default class BasicDropdownTrigger extends Component {
   _stopTextSelectionUntilMouseup() {
     document.addEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.add('ember-basic-dropdown-text-select-disabled');
-  }
-
-  _addMandatoryHandlers() {
-    if (this.isTouchDevice) {
-      // If the component opens on click there is no need of any of this, as the device will
-      // take care tell apart faux clicks from scrolls.
-      this.triggerEl.addEventListener('touchstart', () => {
-        document.addEventListener('touchmove', this._touchMoveHandler);
-      });
-      this.triggerEl.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
-    }
-  }
-
-  _addOptionalHandlers() {
-    if (this.onMouseEnter) {
-      this.triggerEl.addEventListener('mouseenter', (e) => this.onMouseEnter(this.dropdown, e));
-    }
-    if (this.onMouseLeave) {
-      this.triggerEl.addEventListener('mouseleave', (e) => this.onMouseLeave(this.dropdown, e));
-    }
-    if (this.onFocus) {
-      this.triggerEl.addEventListener('focus', (e) => this.onFocus(this.dropdown, e));
-    }
-    if (this.onBlur) {
-      this.triggerEl.addEventListener('blur', (e) => this.onBlur(this.dropdown, e));
-    }
-    if (this.onFocusIn) {
-      this.triggerEl.addEventListener('focusin', (e) => this.onFocusIn(this.dropdown, e));
-    }
-    if (this.onFocusOut) {
-      this.triggerEl.addEventListener('focusout', (e) => this.onFocusOut(this.dropdown, e));
-    }
-    if (this.onKeyUp) {
-      this.triggerEl.addEventListener('keyup', (e) => this.onKeyUp(this.dropdown, e));
-    }
   }
 }
