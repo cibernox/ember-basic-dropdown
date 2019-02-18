@@ -33,7 +33,6 @@ export default class BasicDropdown extends Component {
   verticalPosition = 'auto'; // above | below
   horizontalPosition = 'auto'; // auto-right | right | center | left
   matchTriggerWidth = false;
-  calculatePosition = calculatePosition;
 
   // Lifecycle hooks
   init() {
@@ -152,7 +151,7 @@ export default class BasicDropdown extends Component {
     this.destinationElement = this.destinationElement || document.getElementById(this.destination);
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = this.calculatePosition(triggerElement, dropdownElement, this.destinationElement, options);
+    let positionData = (this.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
