@@ -12,12 +12,6 @@ export default class BasicDropdownTrigger extends Component {
   eventType = 'click';
   stopPropagation = false;
 
-  // Lifecycle hooks
-  init() {
-    super.init(...arguments);
-    this.document = document;
-  }
-
   // Actions
   @action
   handleMouseDown(e) {
@@ -46,6 +40,7 @@ export default class BasicDropdownTrigger extends Component {
 
   @action
   handleClick(e) {
+    if (typeof document === 'undefined') return;
     if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
       return;
     }
@@ -135,6 +130,7 @@ export default class BasicDropdownTrigger extends Component {
 
   @action
   removeGlobalHandlers() {
+    if (typeof document === 'undefined') return;
     document.removeEventListener('touchmove', this._touchMoveHandler);
     document.removeEventListener('mouseup', this._mouseupHandler, true);
   }
