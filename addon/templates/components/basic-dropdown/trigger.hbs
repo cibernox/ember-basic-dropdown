@@ -10,10 +10,10 @@
     {{did-insert this.addTouchHandlers}}
     {{did-insert this.addOptionalHandlers}}
     {{will-destroy this.removeGlobalHandlers}}
-    ...attributes
-    onmousedown={{this.handleMouseDown}}
-    onclick={{this.handleClick}}
-    onkeydown={{this.handleKeyDown}}>
+    {{on "mousedown" this.handleMouseDown}}
+    {{on "click" this.handleClick}}
+    {{on "keydown" this.handleKeyDown}}
+    ...attributes>
     {{yield}}
   </Element>
 {{/let}}
