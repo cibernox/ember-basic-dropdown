@@ -103,8 +103,6 @@ export default class BasicDropdownContent extends Component {
   // Lifecycle hooks
   init() {
     super.init(...arguments);
-    this.touchStartHandler = this.touchStartHandler.bind(this);
-    this.touchMoveHandler = this.touchMoveHandler.bind(this);
     this.scrollableAncestors = [];
     this.dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
     if (this.animationEnabled) {
@@ -113,7 +111,7 @@ export default class BasicDropdownContent extends Component {
     this.runloopAwareReposition = () => join(this.dropdown.actions.reposition);
   }
 
-  // Methods
+  // Actions
   @action
   setup(dropdownElement) {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
@@ -181,6 +179,18 @@ export default class BasicDropdownContent extends Component {
     }
   }
 
+  @action
+  touchStartHandler() {
+    document.addEventListener('touchmove', this.touchMoveHandler, true);
+  }
+
+  @action
+  touchMoveHandler() {
+    this.hasMoved = true;
+    document.removeEventListener('touchmove', this.touchMoveHandler, true);
+  }
+
+  // Methods
   startObservingDomMutations(dropdownElement) {
     this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
@@ -219,15 +229,6 @@ export default class BasicDropdownContent extends Component {
     waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
-  }
-
-  touchStartHandler() {
-    document.addEventListener('touchmove', this.touchMoveHandler, true);
-  }
-
-  touchMoveHandler() {
-    this.hasMoved = true;
-    document.removeEventListener('touchmove', this.touchMoveHandler, true);
   }
 
   // All ancestors with scroll (except the BODY, which is treated differently)
