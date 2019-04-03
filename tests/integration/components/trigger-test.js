@@ -114,7 +114,7 @@ module('Integration | Component | BasicDropdown::Trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
   });
 
-  skip('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
+  test('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`

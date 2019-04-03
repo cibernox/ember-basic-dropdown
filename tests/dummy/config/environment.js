@@ -10,9 +10,7 @@ module.exports = function(environment) {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-        'ember-glimmer-angle-bracket-nested-lookup': true,
-        'ember-glimmer-angle-bracket-built-ins': true,
-        'ember-glimmer-forward-modifiers-with-splattributes': true,
+        EMBER_GLIMMER_FORWARD_MODIFIERS_WITH_SPLATTRIBUTES: true,
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
