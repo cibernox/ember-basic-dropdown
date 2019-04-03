@@ -4,13 +4,13 @@ import Component from '@ember/component';
 import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
-import templateLayout from '../templates/components/basic-dropdown-content';
-import { getScrollParent } from '../utils/calculate-position';
+import templateLayout from '../../templates/components/basic-dropdown/content';
+import { getScrollParent } from '../../utils/calculate-position';
 import {
   distributeScroll,
   getAvailableScroll,
   getScrollDeltas
-} from '../utils/scroll-helpers';
+} from '../../utils/scroll-helpers';
 
 function closestContent(el) {
   while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {

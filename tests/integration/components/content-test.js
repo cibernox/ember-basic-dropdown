@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { render, click, triggerEvent, focus, blur, triggerKeyEvent } from '@ember/test-helpers';
 
-module('Integration | Component | basic-dropdown-content', function(hooks) {
+module('Integration | Component | BasicDropdown::Content', function(hooks) {
   setupRenderingTest(hooks);
 
   // Basic rendering
@@ -13,7 +13,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
     assert.dom('#destination-el > .ember-basic-dropdown-content').exists('It is rendered in the #ember-testing div');
@@ -24,7 +24,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: false };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').doesNotExist('Nothing is rendered');
   });
@@ -41,7 +41,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @renderInPlace={{true}}>Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @renderInPlace={{true}}>Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').exists('It is rendered in the spot');
     assert.dom('#destination-el .ember-basic-dropdown-content').doesNotExist('It isn\'t rendered in the #ember-testing div');
@@ -52,7 +52,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').hasAttribute('id', 'ember-basic-dropdown-content-e123', 'contains the expected ID');
   });
@@ -62,7 +62,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" class="foo123">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" class="foo123">Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   });
@@ -72,7 +72,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
   //   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
   //   await render(hbs`
   //     <div id="destination-el"></div>
-  //     <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" defaultClass="foo123">Lorem ipsum</BasicDropdownContent>
+  //     <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" defaultClass="foo123">Lorem ipsum</BasicDropdown::Content>
   //   `);
   //   assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
   // });
@@ -82,7 +82,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" dir="rtl">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" dir="rtl">Lorem ipsum</BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-content').hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
   });
@@ -103,7 +103,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
 
     await click('#other-div');
@@ -124,7 +124,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @rootEventType="click" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @rootEventType="click" @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
 
     await triggerEvent('#other-div', 'mousedown');
@@ -145,7 +145,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
 
     await triggerEvent('#other-div', 'mousedown');
@@ -166,7 +166,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
 
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el"><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el"><div id="inside-div">Lorem ipsum</div></BasicDropdown::Content>
     `);
     await click('#inside-div');
   });
@@ -200,12 +200,12 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="fake-trigger"></div>
-      <BasicDropdownContent @dropdown={{dropdown1}} @destination="destination-el">
+      <BasicDropdown::Content @dropdown={{dropdown1}} @destination="destination-el">
         Lorem ipsum
-        <BasicDropdownContent @dropdown={{dropdown2}} @destination="destination-el" @renderInPlace={{true}}>
+        <BasicDropdown::Content @dropdown={{dropdown2}} @destination="destination-el" @renderInPlace={{true}}>
           <div id="nested-content-div">dolor sit amet</div>
-        </BasicDropdownContent>
-      </BasicDropdownContent>
+        </BasicDropdown::Content>
+      </BasicDropdown::Content>
     `);
 
     await click('#nested-content-div');
@@ -227,7 +227,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdown::Content>
     `);
 
     await triggerEvent('#other-div', 'touchstart');
@@ -249,7 +249,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdown::Content>
     `);
 
     await triggerEvent('#other-div', 'touchstart');
@@ -268,9 +268,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onFocusIn={{onFocusIn}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @onFocusIn={{onFocusIn}}>
         <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     await focus('#test-input-focusin');
   });
@@ -285,9 +285,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onFocusOut={{onFocusOut}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @onFocusOut={{onFocusOut}}>
         <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     await focus('#test-input-focusin');
     await blur('#test-input-focusin');
@@ -304,9 +304,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onMouseEnter={{onMouseEnter}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @onMouseEnter={{onMouseEnter}}>
         Content
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     await triggerEvent('.ember-basic-dropdown-content', 'mouseenter');
   });
@@ -321,9 +321,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onMouseLeave={{onMouseLeave}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @onMouseLeave={{onMouseLeave}}>
         Content
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     await triggerEvent('.ember-basic-dropdown-content', 'mouseleave');
   });
@@ -339,9 +339,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onKeyDown={{onKeyDown}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @onKeyDown={{onKeyDown}}>
         <input id="inner-input">
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     await focus('#inner-input');
     await triggerKeyEvent('#inner-input', 'keydown', 70);
@@ -361,7 +361,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
   });
 
@@ -378,7 +378,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
   });
 
@@ -397,11 +397,11 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
       <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
         <div style="width: 200px; height: 200px;">content scroll test</div>
       </div>
-      <BasicDropdownContent @dropdown={{dropdown}} @preventScroll={{true}} @destination="destination-el">
+      <BasicDropdown::Content @dropdown={{dropdown}} @preventScroll={{true}} @destination="destination-el">
         <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
           <div style="width: 200px; height: 200px;">content scroll test</div>
         </div>
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
 
     let innerScrollable = this.element.querySelector('#inner-div');
@@ -435,7 +435,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -455,7 +455,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -475,7 +475,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -500,9 +500,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el">
         <div id="content-target-div"></div>
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     run(() => {
       let target = document.getElementById('content-target-div');
@@ -525,7 +525,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
+      <BasicDropdown::Content @dropdown={{dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdown::Content>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
     assert.equal(repositions, 2, 'The component has been repositioned twice');
@@ -537,9 +537,9 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @overlay={{true}}>
+      <BasicDropdown::Content @dropdown={{dropdown}} @destination="destination-el" @overlay={{true}}>
         <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
+      </BasicDropdown::Content>
     `);
     assert.dom('.ember-basic-dropdown-overlay').exists('There is one overlay');
     run(this, 'set', 'dropdown.isOpen', false);
