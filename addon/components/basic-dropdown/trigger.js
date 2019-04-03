@@ -1,7 +1,7 @@
 import { layout, tagName } from "@ember-decorators/component";
 import { action } from "@ember-decorators/object";
 import Component from "@ember/component";
-import templateLayout from '../templates/components/basic-dropdown-trigger';
+import templateLayout from '../../templates/components/basic-dropdown/trigger';
 
 const isTouchDevice = (!!window && 'ontouchstart' in window);
 
