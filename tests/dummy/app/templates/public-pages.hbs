@@ -8,7 +8,7 @@
     </div>
     <div class="main-header-logo">
       <BasicDropdown @calculatePosition={{calculatePosition}} as |dd|>
-        <a href={{href-to "public-pages.index"}} class="home-link">
+        <LinkTo @route="public-pages.index" class="home-link">
           <img src="/ember_logo.png" alt="ember">
           <strong>Basic</strong>
           <dd.Trigger
@@ -18,7 +18,7 @@
             class="logo-dropdown-button">
             Dropdown
           </dd.Trigger>
-        </a>
+        </LinkTo>
         <dd.Content class="logo-dropdown-content">
           {{#each colors as |color|}}
             <button class="logo-dropdown-content-pantone-entry {{color}}" onclick={{action "setBrandColor" color dd}}></button>
@@ -35,7 +35,7 @@
   <div class="main-footer-content">
     Deployed with love by <a href="http://github.com/cibernox">Miguel Camba</a>
     <div class="contribute-call-to-action">
-      Enjoy the addon? <a href={{href-to "public-pages.support-the-project"}}>Support it!</a>
+      Enjoy the addon? <LinkTo @route="public-pages.support-the-project">Support it!</LinkTo>
     </div>
   </div>
 </footer>

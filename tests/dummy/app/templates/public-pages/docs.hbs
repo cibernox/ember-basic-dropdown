@@ -1,23 +1,23 @@
 <section class="docs">
   <nav class="side-nav">
     <header class="side-nav-header">Getting started</header>
-    {{#link-to "public-pages.docs.index" class="side-nav-link"}}Overview{{/link-to}}
-    {{#link-to "public-pages.docs.installation" class="side-nav-link"}}Installation{{/link-to}}
-    {{#link-to "public-pages.docs.how-to-use-it" class="side-nav-link"}}How to use it{{/link-to}}
-    {{#link-to "public-pages.docs.dropdown-events" class="side-nav-link"}}Dropdown events{{/link-to}}
-    {{#link-to "public-pages.docs.trigger-events" class="side-nav-link"}}Trigger events{{/link-to}}
-    {{#link-to "public-pages.docs.content-events" class="side-nav-link"}}Content events{{/link-to}}
+    <LinkTo @route="public-pages.docs.index" class="side-nav-link">Overview</LinkTo>
+    <LinkTo @route="public-pages.docs.installation" class="side-nav-link">Installation</LinkTo>
+    <LinkTo @route="public-pages.docs.how-to-use-it" class="side-nav-link">How to use it</LinkTo>
+    <LinkTo @route="public-pages.docs.dropdown-events" class="side-nav-link">Dropdown events</LinkTo>
+    <LinkTo @route="public-pages.docs.trigger-events" class="side-nav-link">Trigger events</LinkTo>
+    <LinkTo @route="public-pages.docs.content-events" class="side-nav-link">Content events</LinkTo>
     <header class="side-nav-header">Basic customization</header>
-    {{#link-to "public-pages.docs.position" class="side-nav-link"}}Position{{/link-to}}
-    {{#link-to "public-pages.docs.disabled" class="side-nav-link"}}Disabled{{/link-to}}
-    {{#link-to "public-pages.docs.overlays" class="side-nav-link"}}Overlays{{/link-to}}
-    {{#link-to "public-pages.docs.styles" class="side-nav-link"}}Styles{{/link-to}}
+    <LinkTo @route="public-pages.docs.position" class="side-nav-link">Position</LinkTo>
+    <LinkTo @route="public-pages.docs.disabled" class="side-nav-link">Disabled</LinkTo>
+    <LinkTo @route="public-pages.docs.overlays" class="side-nav-link">Overlays</LinkTo>
+    <LinkTo @route="public-pages.docs.styles" class="side-nav-link">Styles</LinkTo>
     <header class="side-nav-header">Advanced customization</header>
-    {{#link-to "public-pages.docs.custom-position" class="side-nav-link"}}Custom position{{/link-to}}
-    {{#link-to "public-pages.docs.animations" class="side-nav-link"}}Animations{{/link-to}}
+    <LinkTo @route="public-pages.docs.custom-position" class="side-nav-link">Custom position</LinkTo>
+    <LinkTo @route="public-pages.docs.animations" class="side-nav-link">Animations</LinkTo>
     <header class="side-nav-header">Other</header>
-    {{#link-to "public-pages.docs.test-helpers" class="side-nav-link"}}Test helpers{{/link-to}}
-    {{#link-to "public-pages.docs.api-reference" class="side-nav-link"}}API reference{{/link-to}}
+    <LinkTo @route="public-pages.docs.test-helpers" class="side-nav-link">Test helpers</LinkTo>
+    <LinkTo @route="public-pages.docs.api-reference" class="side-nav-link">API reference</LinkTo>
   </nav>
   <section class="doc-page">
     <select onchange={{action "visit" value="target.value"}} class="section-selector">
