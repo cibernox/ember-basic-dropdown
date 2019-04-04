@@ -5,7 +5,7 @@
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
     Trigger=(component
-      (or @triggerComponent "basic-dropdown-trigger")
+      (or @triggerComponent "basic-dropdown/trigger")
       dropdown=(readonly this.publicAPI)
       hPosition=(readonly this.hPosition)
       onFocus=(action "handleFocus")
@@ -13,7 +13,7 @@
       vPosition=(readonly this.vPosition)
     )
     Content=(component
-      (or @contentComponent "basic-dropdown-content")
+      (or @contentComponent "basic-dropdown/content")
       dropdown=(readonly this.publicAPI)
       hPosition=(readonly this.hPosition)
       renderInPlace=(readonly this.renderInPlace)

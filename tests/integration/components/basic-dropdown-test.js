@@ -12,7 +12,7 @@ registerDeprecationHandler((message, options, next) => {
   next(message, options);
 });
 
-module('Integration | Component | basic-dropdown', function(hooks) {
+module('Integration | Component | BasicDropdown', function(hooks) {
   hooks.beforeEach(() => deprecations = []);
 
   setupRenderingTest(hooks);

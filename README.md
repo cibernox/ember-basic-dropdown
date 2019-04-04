@@ -138,7 +138,7 @@ test suite.
 
 ### Providing an Ember Twiddle
 
-If you want to provide an [Ember Twiddle](www.ember-twiddle.com) with an issue/reproduction **you need to add the following to the end of your template**:
+If you want to provide an [Ember Twiddle](https://www.ember-twiddle.com) with an issue/reproduction **you need to add the following to the end of your template**:
 `<div id="ember-basic-dropdown-wormhole"></div>`
 
 Since `Ember Twiddle` does not run `EmberCLI's` hooks this `div` won't be added to the application and it's required (There's an issue in [Ember Twiddle](https://github.com/joostdevries/twiddle-backend/issues/35) tracking this).

@@ -1,4 +1,4 @@
-import Trigger from 'ember-basic-dropdown/components/basic-dropdown-trigger';
+import Trigger from 'ember-basic-dropdown/components/basic-dropdown/trigger';
 
 export default Trigger.extend({
   didOpen: false,

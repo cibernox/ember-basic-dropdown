@@ -33,21 +33,16 @@ export default class BasicDropdown extends Component {
   verticalPosition = 'auto'; // above | below
   horizontalPosition = 'auto'; // auto-right | right | center | left
   matchTriggerWidth = false;
-  calculatePosition = calculatePosition;
 
   // Lifecycle hooks
   init() {
     super.init(...arguments);
+    let { open, close, toggle, reposition } = this;
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
       isOpen: this.initiallyOpened || false,
       disabled: this.disabled || false,
-      actions: {
-        open: this.open.bind(this),
-        close: this.close.bind(this),
-        toggle: this.toggle.bind(this),
-        reposition: this.reposition.bind(this)
-      }
+      actions: { open, close, toggle, reposition }
     });
 
     this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
@@ -92,7 +87,7 @@ export default class BasicDropdown extends Component {
     }
   }
 
-  // Methods
+  @action
   open(e) {
     if (this.isDestroyed) {
       return;
@@ -106,6 +101,7 @@ export default class BasicDropdown extends Component {
     this.updateState({ isOpen: true });
   }
 
+  @action
   close(e, skipFocus) {
     if (this.isDestroyed) {
       return;
@@ -131,6 +127,7 @@ export default class BasicDropdown extends Component {
     }
   }
 
+  @action
   toggle(e) {
     if (this.publicAPI.isOpen) {
       this.close(e);
@@ -139,6 +136,7 @@ export default class BasicDropdown extends Component {
     }
   }
 
+  @action
   reposition() {
     if (!this.publicAPI.isOpen) {
       return;
@@ -152,10 +150,11 @@ export default class BasicDropdown extends Component {
     this.destinationElement = this.destinationElement || document.getElementById(this.destination);
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
-    let positionData = this.calculatePosition(triggerElement, dropdownElement, this.destinationElement, options);
+    let positionData = (this.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, options);
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
+  // Methods
   applyReposition(trigger, dropdown, positions) {
     let changes = {
       hPosition: positions.horizontalPosition,
