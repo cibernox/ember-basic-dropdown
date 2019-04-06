@@ -1,6 +1,4 @@
-Hello
-{{!-- {{#let (element "div") as |Element|}}
-  Outside
+{{#let (element "div") as |Element|}}
   <Element
     class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
     role="button"
@@ -16,7 +14,6 @@ Hello
     {{on "click" this.handleClick}}
     {{on "keydown" this.handleKeyDown}}
     ...attributes>
-    Inside
     {{yield}}
   </Element>
-{{/let}} --}}
+{{/let}}

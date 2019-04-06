@@ -1,12 +1,10 @@
 import Component from '@ember/component';
-import { layout, tagName } from "@ember-decorators/component";
-import { action, computed } from "@ember-decorators/object";
+import { action, computed } from "@ember/object";
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
-import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
 import { assign } from '@ember/polyfills';
 import requirejs from 'require';
@@ -19,8 +17,6 @@ const ignoredStyleAttrs = [
   'height'
 ];
 
-@layout(templateLayout)
-@tagName('')
 export default class BasicDropdown extends Component {
   top = null;
   left = null;

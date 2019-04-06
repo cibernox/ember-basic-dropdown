@@ -1,21 +1,10 @@
-import { layout } from "@ember-decorators/component";
-import { action } from "@ember-decorators/object";
-// // import Component from "@ember/component";
+import { action } from "@ember/object";
 import Component from "@glimmer/component";
-import templateLayout from '../../templates/components/basic-dropdown/trigger';
-
-const isTouchDevice = (!!window && 'ontouchstart' in window);
-
-@layout(templateLayout)
 
 export default class BasicDropdownTrigger extends Component {
-  isTouchDevice = isTouchDevice;
+  isTouchDevice = (!!window && 'ontouchstart' in window);;
   defaultEventType = 'click';
   defaultStopPropagation = false;
-
-  constructor() {
-    super(...arguments);
-  }
 
   // Actions
   @action
@@ -44,7 +33,6 @@ export default class BasicDropdownTrigger extends Component {
 
   @action
   handleClick(e) {
-    debugger;
     if (typeof document === 'undefined') return;
     let { dropdown, onClick, eventType = this.defaultEventType, stopPropagation = this.defaultStopPropagation } = this.args;
     if (this.isDestroyed || !dropdown || dropdown.disabled) {
