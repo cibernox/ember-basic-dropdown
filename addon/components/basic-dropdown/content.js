@@ -67,7 +67,7 @@ export default class BasicDropdownContent extends Component {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }
-  @computed('destination')
+  @computed('args.destination')
   get destinationElement() {
     return document.getElementById(this.args.destination);
   }
@@ -75,7 +75,6 @@ export default class BasicDropdownContent extends Component {
   @computed('args.{top,left,right,width,height,otherStyles}')
   get style() {
     let style = '';
-    debugger;
     let { top, left, right, width, height, otherStyles } = this.args;
 
     if (otherStyles) {

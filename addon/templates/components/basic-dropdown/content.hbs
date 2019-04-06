@@ -15,6 +15,7 @@
           {{did-insert @dropdown.actions.reposition}}
           {{will-destroy this.teardown}}
           ...attributes>
+          {{this.style}} | {{@top}} | {{@vPosition}}
           {{yield}}
         </Element>
       {{/let}}
