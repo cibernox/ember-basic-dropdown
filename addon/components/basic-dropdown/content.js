@@ -1,5 +1,4 @@
 import Component from "@glimmer/component";
-import { tracked } from '@glimmer/tracking';
 import { computed, action } from "@ember/object";
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';

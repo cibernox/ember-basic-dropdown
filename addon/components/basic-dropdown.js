@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { tracked } from '@glimmer/tracking';
 import { action, computed } from "@ember/object";
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
@@ -18,12 +19,12 @@ const ignoredStyleAttrs = [
 ];
 
 export default class BasicDropdown extends Component {
-  top = null;
-  left = null;
-  right = null;
-  width = null;
-  height = null;
-  otherStyles = {};
+  @tracked top = null;
+  @tracked left = null;
+  @tracked right = null;
+  @tracked width = null;
+  @tracked height = null;
+  @tracked otherStyles = {};
   publicAPI = {};
   renderInPlace = false;
   verticalPosition = 'auto'; // above | below
@@ -204,7 +205,9 @@ export default class BasicDropdown extends Component {
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
-    this.setProperties(changes);
+    for (let prop in changes) {
+      this[prop] = changes[prop];
+    }
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
     return changes;
