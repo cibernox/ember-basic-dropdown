@@ -1,5 +1,5 @@
 import { layout, tagName } from "@ember-decorators/component";
-import { action } from "@ember-decorators/object";
+import { action } from "@ember/object";
 import Component from "@ember/component";
 import templateLayout from '../templates/components/basic-dropdown-trigger';
 

@@ -36,8 +36,8 @@
     "ember-cli-uglify": "^2.1.0",
     "ember-code-example-component": "^0.2.0",
     "ember-code-snippet": "2.3.1",
-    "ember-concurrency": "^0.8.26",
-    "ember-decorators": "^5.1.2",
+    "ember-concurrency": "^0.10.0",
+    "ember-decorators": "^6.0.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "^4.0.0-rc.4",
@@ -73,9 +73,7 @@
     "test": "tests"
   },
   "dependencies": {
-    "@ember-decorators/babel-transforms": "^5.1.2",
-    "@ember-decorators/component": "^5.1.3",
-    "@ember-decorators/object": "^5.1.3",
+    "@ember-decorators/component": "^6.0.0",
     "@ember/render-modifiers": "^1.0.0",
     "ember-cli-babel": "^7.7.3",
     "ember-cli-htmlbars": "^3.0.1",
