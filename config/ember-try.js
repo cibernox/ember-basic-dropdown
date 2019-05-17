@@ -12,13 +12,10 @@ module.exports = function() {
       useYarn: true,
       scenarios: [
         {
-          name: 'ember-lts-3.4',
+          name: 'ember-lts-3.8',
           npm: {
             devDependencies: {
-              'ember-source': '~3.4.8'
-            },
-            dependencies: {
-              'ember-native-class-polyfill': '^1.0.6'
+              'ember-source': '~3.8.0'
             }
           }
         },
