@@ -12,7 +12,7 @@
     "test:all": "ember try:each"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "8.* || >= 10.*"
   },
   "files": [
     "addon/",
