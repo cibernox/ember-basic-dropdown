@@ -1,5 +1,5 @@
 import { layout, tagName } from "@ember-decorators/component";
-import { computed, action } from "@ember-decorators/object";
+import { computed, action } from "@ember/object";
 import Component from '@ember/component';
 import { join, scheduleOnce } from '@ember/runloop';
 import { getOwner } from '@ember/application';
