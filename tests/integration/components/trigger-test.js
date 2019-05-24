@@ -1,4 +1,4 @@
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render, triggerEvent, triggerKeyEvent, focus, tap, click } from '@ember/test-helpers';
@@ -114,7 +114,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
   });
 
-  skip('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
+  test('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
