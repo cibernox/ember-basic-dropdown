@@ -46,7 +46,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^4.4.1",
     "ember-resolver": "^5.0.1",
-    "ember-source": "~3.10.0",
+    "ember-source": "~3.11.0-beta.1",
     "ember-source-channel-url": "^1.1.0",
     "ember-truth-helpers": "2.1.0",
     "ember-try": "^1.1.0",
