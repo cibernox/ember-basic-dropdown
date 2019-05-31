@@ -1,3 +1,5 @@
+# 2.0.0-alpha.X
+- Because of some limitation of splattributes in AngleBracket components, the addons requires Ember 3.11+
 - Public API changed: Previously the contextual component of this addon were invoked with `{{#dd.trigger}}` and `{{#dd.content}}`.
   Now they are expected to be invoked with `<dd.Trigger>` and `<dd.Content>`. Note that the names are capitalized. This is done
   because the new convention that components start with a capital letter.
