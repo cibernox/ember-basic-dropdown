@@ -156,18 +156,22 @@ export default Component.extend({
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
+
     let onFocusIn = this.get('onFocusIn');
     if (onFocusIn) {
       this.dropdownElement.addEventListener('focusin', (e) => onFocusIn(dropdown, e));
     }
+
     let onFocusOut = this.get('onFocusOut');
     if (onFocusOut) {
       this.dropdownElement.addEventListener('focusout', (e) => onFocusOut(dropdown, e));
     }
+
     let onMouseEnter = this.get('onMouseEnter');
     if (onMouseEnter) {
       this.dropdownElement.addEventListener('mouseenter', (e) => onMouseEnter(dropdown, e));
     }
+
     let onMouseLeave = this.get('onMouseLeave');
     if (onMouseLeave) {
       this.dropdownElement.addEventListener('mouseleave', (e) => onMouseLeave(dropdown, e));
