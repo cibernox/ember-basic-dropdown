@@ -184,7 +184,7 @@ export default Component.extend({
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.get('destination'));
+    set(this, 'destinationElement', this.destinationElement || document.getElementById(this.get('destination')));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
