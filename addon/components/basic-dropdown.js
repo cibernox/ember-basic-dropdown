@@ -57,11 +57,11 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     if (this.get('renderInPlace') && this.get('tagName') === '') {
-      this.set('tagName', 'div');
+      set(this, 'tagName', 'div');
     }
     this._super(...arguments);
-    this.set('publicAPI', {});
-    this.set('otherStyles', {});
+    set(this, 'publicAPI', {});
+    set(this, 'otherStyles', {});
 
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
@@ -153,8 +153,17 @@ export default Component.extend({
     if (this.get('isDestroyed')) {
       return;
     }
-    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
-    this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.setProperties({
+      hPosition: null,
+      vPosition: null,
+      top: null,
+      left: null,
+      right: null,
+      width: null,
+      height: null,
+      previousVerticalPosition: null,
+      previousHorizontalPosition: null
+    });
     this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
@@ -184,7 +193,7 @@ export default Component.extend({
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.get('destination'));
+    set(this, 'destinationElement', this.destinationElement || document.getElementById(this.get('destination')));
     let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
     options.dropdown = this;
     let positionData = this.get('calculatePosition')(triggerElement, dropdownElement, this.destinationElement, options);
@@ -244,9 +253,9 @@ export default Component.extend({
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
+    changes.previousHorizontalPosition = positions.horizontalPosition;
+    changes.previousVerticalPosition = positions.verticalPosition;
     this.setProperties(changes);
-    this.previousHorizontalPosition = positions.horizontalPosition;
-    this.previousVerticalPosition = positions.verticalPosition;
     return changes;
   },
 
