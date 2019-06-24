@@ -1,3 +1,6 @@
+# 1.1.3
+- [BUGFIX] Fix seemingly random error about not using `set` to update a watched property
+
 # 1.1.2
 - [ENHANCEMENT] Allow to bind the type attribute of the trigger.
 
