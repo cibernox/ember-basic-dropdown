@@ -57,11 +57,11 @@ export default Component.extend({
   // Lifecycle hooks
   init() {
     if (this.get('renderInPlace') && this.get('tagName') === '') {
-      this.set('tagName', 'div');
+      set(this, 'tagName', 'div');
     }
     this._super(...arguments);
-    this.set('publicAPI', {});
-    this.set('otherStyles', {});
+    set(this, 'publicAPI', {});
+    set(this, 'otherStyles', {});
 
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
