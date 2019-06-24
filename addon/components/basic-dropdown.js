@@ -153,8 +153,17 @@ export default Component.extend({
     if (this.get('isDestroyed')) {
       return;
     }
-    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
-    this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.setProperties({
+      hPosition: null,
+      vPosition: null,
+      top: null,
+      left: null,
+      right: null,
+      width: null,
+      height: null,
+      previousVerticalPosition: null,
+      previousHorizontalPosition: null
+    });
     this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
@@ -244,9 +253,9 @@ export default Component.extend({
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
+    changes.previousHorizontalPosition = positions.horizontalPosition;
+    changes.previousVerticalPosition = positions.verticalPosition;
     this.setProperties(changes);
-    this.previousHorizontalPosition = positions.horizontalPosition;
-    this.previousVerticalPosition = positions.verticalPosition;
     return changes;
   },
 
