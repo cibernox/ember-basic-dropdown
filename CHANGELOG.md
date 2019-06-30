@@ -1,3 +1,6 @@
+# 2.0.0-beta.1
+- [CHORE] Now that Ember 3.11 is released, this can go to beta.
+
 # 2.0.0-alpha.X
 - Because of some limitation of splattributes in AngleBracket components, the addons requires Ember 3.11+
 - Public API changed: Previously the contextual component of this addon were invoked with `{{#dd.trigger}}` and `{{#dd.content}}`.
