@@ -257,44 +257,8 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await triggerEvent('#other-div', 'touchend');
   });
 
-  // // Focus
-  test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired inside the content', async function(assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-    this.onFocusIn = (api, e) => {
-      assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
-      assert.ok(e instanceof window.Event, 'the second argument is an event');
-    };
-    await render(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onFocusIn={{onFocusIn}}>
-        <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
-    `);
-    await focus('#test-input-focusin');
-  });
-
-  test('If it receives an `onFocusOut` action, it is invoked if a focusout event is fired inside the content', async function(assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-    this.onFocusOut = (api, e) => {
-      assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
-      assert.ok(e instanceof window.Event, 'the second argument is an event');
-    };
-    await render(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onFocusOut={{onFocusOut}}>
-        <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
-    `);
-    await focus('#test-input-focusin');
-    await blur('#test-input-focusin');
-  });
-
-  // Mouseenter/leave
-  test('If it receives an `onMouseEnter` action, it is invoked if a mouseenter event is fired on the content', async function(assert) {
+  // Arbitrary events
+  test('The user can attach arbitrary events to the content', async function(assert) {
     assert.expect(3);
     this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
     this.onMouseEnter = (api, e) => {
@@ -304,47 +268,11 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onMouseEnter={{onMouseEnter}}>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" {{on "mouseenter (fn onMouseEnter dropdown}}>
         Content
       </BasicDropdownContent>
     `);
     await triggerEvent('.ember-basic-dropdown-content', 'mouseenter');
-  });
-
-  test('If it receives an `onMouseLeave` action, it is invoked if a mouseleave event is fired on the content', async function(assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-    this.onMouseLeave = (api, e) => {
-      assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
-      assert.ok(e instanceof window.Event, 'the second argument is an event');
-    };
-    await render(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onMouseLeave={{onMouseLeave}}>
-        Content
-      </BasicDropdownContent>
-    `);
-    await triggerEvent('.ember-basic-dropdown-content', 'mouseleave');
-  });
-
-  // Keydown
-  test('If it receives an `onKeyDown` action, it is invoked if a keydown event is fired on the content', async function (assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-    this.onKeyDown = (api, e) => {
-      assert.equal(api, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-      assert.equal(e.keyCode, 70, 'the event is the keydown event');
-    };
-    await render(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @onKeyDown={{onKeyDown}}>
-        <input id="inner-input">
-      </BasicDropdownContent>
-    `);
-    await focus('#inner-input');
-    await triggerKeyEvent('#inner-input', 'keydown', 70);
   });
 
   // Repositining

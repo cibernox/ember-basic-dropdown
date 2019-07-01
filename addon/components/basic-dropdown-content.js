@@ -139,22 +139,6 @@ export default class BasicDropdownContent extends Component {
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
 
-    if (this.onFocusIn) {
-      dropdownElement.addEventListener('focusin', (e) => this.onFocusIn(this.dropdown, e));
-    }
-    if (this.onFocusOut) {
-      dropdownElement.addEventListener('focusout', (e) => this.onFocusOut(this.dropdown, e));
-    }
-    if (this.onMouseEnter) {
-      dropdownElement.addEventListener('mouseenter', (e) => this.onMouseEnter(this.dropdown, e));
-    }
-    if (this.onMouseLeave) {
-      dropdownElement.addEventListener('mouseleave', (e) => this.onMouseLeave(this.dropdown, e));
-    }
-    if (this.onKeyDown) {
-      dropdownElement.addEventListener('keydown', (e) => this.onKeyDown(this.dropdown, e));
-    }
-
     this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
     this.addScrollHandling(dropdownElement);
     this.startObservingDomMutations(dropdownElement);
