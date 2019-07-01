@@ -136,31 +136,6 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
-  addOptionalHandlers(triggerEl) {
-    if (this.onMouseEnter) {
-      triggerEl.addEventListener('mouseenter', (e) => this.onMouseEnter(this.dropdown, e));
-    }
-    if (this.onMouseLeave) {
-      triggerEl.addEventListener('mouseleave', (e) => this.onMouseLeave(this.dropdown, e));
-    }
-    if (this.onFocus) {
-      triggerEl.addEventListener('focus', (e) => this.onFocus(this.dropdown, e));
-    }
-    if (this.onBlur) {
-      triggerEl.addEventListener('blur', (e) => this.onBlur(this.dropdown, e));
-    }
-    if (this.onFocusIn) {
-      triggerEl.addEventListener('focusin', (e) => this.onFocusIn(this.dropdown, e));
-    }
-    if (this.onFocusOut) {
-      triggerEl.addEventListener('focusout', (e) => this.onFocusOut(this.dropdown, e));
-    }
-    if (this.onKeyUp) {
-      triggerEl.addEventListener('keyup', (e) => this.onKeyUp(this.dropdown, e));
-    }
-  }
-
-  @action
   _mouseupHandler() {
     document.removeEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.remove('ember-basic-dropdown-text-select-disabled');

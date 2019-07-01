@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { render, triggerEvent, triggerKeyEvent, focus, tap, click } from '@ember/test-helpers';
+import { render, triggerEvent, triggerKeyEvent, tap, click } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object'
 
@@ -144,7 +144,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
   });
 
   // Custom actions
-  test('If it receives an `@onMouseEnter` action, it will be invoked when a mouseenter event is received', async function(assert) {
+  test('the user can bind arbitrary events to the trigger', async function(assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     this.onMouseEnter = (dropdown, e) => {
@@ -152,49 +152,9 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       assert.ok(e instanceof window.Event, 'It receives the event as second argument');
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onMouseEnter={{onMouseEnter}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}} {{on "mouseenter" (fn onMouseEnter dropdown)}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
-  });
-
-  test('If it receives an `onMouseLeave` action, it will be invoked when a mouseleave event is received', async function(assert) {
-    assert.expect(2);
-    this.onMouseLeave = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onMouseLeave={{onMouseLeave}}>Click me</BasicDropdownTrigger>
-    `);
-    await triggerEvent('.ember-basic-dropdown-trigger', 'mouseleave');
-  });
-
-  test('If it receives an `onFocus` action, it will be invoked when it get focused', async function(assert) {
-    assert.expect(2);
-    this.onFocus = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onFocus={{onFocus}}>Click me</BasicDropdownTrigger>
-    `);
-    await focus('.ember-basic-dropdown-trigger');
-  });
-
-  test('If it receives an `onBlur` action, it will be invoked when it get blurred', async function(assert) {
-    assert.expect(2);
-    this.onBlur = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onBlur={{onBlur}}>Click me</BasicDropdownTrigger>
-    `);
-    await focus('.ember-basic-dropdown-trigger');
-    await blur('.ember-basic-dropdown-trigger');
   });
 
   test('If it receives an `onKeyDown` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
@@ -209,20 +169,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
     `);
     triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
-  });
-
-  test('If it receives an `onKeyUp` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
-    assert.expect(3);
-    this.onKeyUp = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-      assert.equal(e.keyCode, 70, 'the event is the keydown event');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyUp={{onKeyUp}}>Click me</BasicDropdownTrigger>
-    `);
-    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keyup', 70);
   });
 
   // Default behaviour
@@ -474,39 +420,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
-  });
-
-  // Focus
-  test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
-    this.onFocusIn = (api, e) => {
-      assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
-      assert.ok(e instanceof window.Event, 'the second argument is an event');
-    };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onFocusIn={{onFocusIn}}>
-        <input type="text" id="test-input-focusin" />
-      </BasicDropdownTrigger>
-    `);
-    await focus('#test-input-focusin');
-  });
-
-  test('If it receives an `onFocusIn` action, it is invoked if a focusin event is fired on the trigger', async function(assert) {
-    assert.expect(3);
-    this.dropdown = { uniqueId: 123, isOpen: true, actions: { reposition() { } } };
-    this.onFocusOut = (api, e) => {
-      assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
-      assert.ok(e instanceof window.Event, 'the second argument is an event');
-    };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onFocusOut={{onFocusOut}}>
-        <input type="text" id="test-input-focusout" />
-      </BasicDropdownTrigger>
-    `);
-    await focus('#test-input-focusout');
   });
 
   // Decorating and overriding default event handlers
