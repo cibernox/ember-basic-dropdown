@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { render, click, triggerEvent, focus, blur, triggerKeyEvent } from '@ember/test-helpers';
+import { render, click, triggerEvent } from '@ember/test-helpers';
 
 module('Integration | Component | basic-dropdown-content', function(hooks) {
   setupRenderingTest(hooks);
@@ -268,7 +268,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" {{on "mouseenter (fn onMouseEnter dropdown}}>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" {{on "mouseenter" (fn onMouseEnter dropdown)}}>
         Content
       </BasicDropdownContent>
     `);
