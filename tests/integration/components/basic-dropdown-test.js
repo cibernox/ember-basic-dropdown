@@ -790,7 +790,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       <input type="text" id="outer-input">
       <BasicDropdown @renderInPlace={{true}} @onOpen={{onOpen}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
-        <dropdown.Content @onFocusOut={{onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
+        <dropdown.Content {{on "focusout" onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
