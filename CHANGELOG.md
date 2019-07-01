@@ -1,3 +1,9 @@
+# 2.0.0-beta.2
+- [BREAKING] Remove `onMouseEnter`,`onMouseLeave`,`onFocus`,`onBlur`,`onFocusIn`,`onFocusOut` and `onKeyUp` from the `<dropdown.Trigger>` component.
+  Users can just use the `{{on}}` modifier to attach any event they want.
+- [BREAKING] Remove `onFocusIn`, `onFocusOut`, `onMouseEnter`, `onMouseLeave` and `onKeyDown` from the `<dropdown.Content>` component. Users
+  can just use the `{{on}}` modifier to attach any event they want.
+
 # 2.0.0-beta.1
 - [CHORE] Now that Ember 3.11 is released, this can go to beta.
 
