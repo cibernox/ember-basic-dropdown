@@ -144,7 +144,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
   });
 
   // Custom actions
-  // test('the user can bind arbitrary events to the trigger `@onMouseEnter` action, it will be invoked when a mouseenter event is received', async function(assert) {
   test('the user can bind arbitrary events to the trigger', async function(assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
