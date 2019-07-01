@@ -8,7 +8,6 @@
     aria-expanded={{if @dropdown.isOpen "true"}}
     aria-disabled={{if @dropdown.disabled "true"}}
     {{did-insert (action this.addTouchHandlers)}}
-    {{did-insert this.addOptionalHandlers}}
     {{will-destroy this.removeGlobalHandlers}}
     {{on "mousedown" this.handleMouseDown}}
     {{on "click" this.handleClick}}
