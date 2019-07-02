@@ -58,9 +58,6 @@ export default class BasicDropdownTrigger extends Component {
     if (this.dropdown.disabled) {
       return;
     }
-    if (this.onKeyDown && this.onKeyDown(this.dropdown, e) === false) {
-      return;
-    }
     if (e.keyCode === 13) {  // Enter
       this.dropdown.actions.toggle(e);
     } else if (e.keyCode === 32) { // Space
