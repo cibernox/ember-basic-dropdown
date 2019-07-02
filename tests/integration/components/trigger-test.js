@@ -157,20 +157,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
   });
 
-  test('If it receives an `onKeyDown` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
-    assert.expect(3);
-    this.onKeyDown = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-      assert.equal(e.keyCode, 70, 'the event is the keydown event');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
-    `);
-    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
-  });
-
   // Default behaviour
   test('click events invoke the `toggle` action on the dropdown by default', async function(assert) {
     assert.expect(2);
@@ -335,9 +321,9 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
   });
 
-  test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', async function(assert) {
+  test('Pressing ENTER/SPACE/ESC does nothing if there is a `{{on "keydown"}}` event that calls stopImmediatePropagation', async function(assert) {
     assert.expect(0);
-    this.onKeyDown = () => false;
+    this.onKeyDown = (e) => e.stopImmediatePropagation();
     this.dropdown = {
       uniqueId: 123,
       actions: {
