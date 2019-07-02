@@ -451,7 +451,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', async function(assert) {
+  test('A user-supplied onClick action, returning `false`, will prevent the default behavior', async function(assert) {
     assert.expect(1);
 
     this.dropdown = {
