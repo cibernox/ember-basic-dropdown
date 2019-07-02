@@ -18,11 +18,6 @@ export default class BasicDropdownTrigger extends Component {
     if (this.dropdown.disabled) {
       return;
     }
-    // execute user-supplied onMouseDown function before default toggle action;
-    // short-circuit default behavior if user-supplied function returns `false`
-    if (this.onMouseDown && this.onMouseDown(this.dropdown, e) === false) {
-      return;
-    }
     if (this.eventType !== 'mousedown' || e.button !== 0) return;
     if (this.stopPropagation) {
       e.stopPropagation();
@@ -42,11 +37,6 @@ export default class BasicDropdownTrigger extends Component {
   handleClick(e) {
     if (typeof document === 'undefined') return;
     if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
-      return;
-    }
-    // execute user-supplied onClick function before default toggle action;
-    // short-circuit default behavior if user-supplied function returns `false`
-    if (this.onClick && this.onClick(this.dropdown, e) === false) {
       return;
     }
     if (this.eventType !== 'click' || e.button !== 0) return;
