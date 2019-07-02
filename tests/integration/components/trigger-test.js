@@ -336,7 +336,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}} {{on "keydown" onKeyDown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
