@@ -483,55 +483,52 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onTouchEnd action will execute before the default toggle behavior', async function(assert) {
-    assert.expect(4);
+  test('A user-supplied {{on "touchend"}} callback will execute before the default toggle behavior', async function(assert) {
+    assert.expect(3);
     let userActionRanfirst = false;
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle: () => {
-          assert.ok(userActionRanfirst, 'User-supplied `onTouchEnd` ran before default `toggle`');
+          assert.ok(userActionRanfirst, 'User-supplied `{{on "touchend"}}` ran before default `toggle`');
         }
       }
     };
 
-    let userSuppliedAction = (dropdown, e) => {
-      assert.ok(true, 'The `userSuppliedAction` action has been fired');
+    this.onTouchEnd = (e) => {
+      assert.ok(true, 'The user-supplied touchend callback has been fired');
       assert.ok(e instanceof window.Event, 'It receives the event');
-      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
       userActionRanfirst = true;
     };
 
-    this.set('onTouchEnd', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onTouchEnd action, returning `false`, will prevent the default behavior', async function(assert) {
-    assert.expect(1);
+  test('A user-supplied {{on "touchend"}} callback calling e.stopImmediatePropagation will prevent the default behavior', async function(assert) {
+    assert.expect(2);
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
-        toggle: () => {
-          assert.ok(false, 'Default `toggle` action should not run');
+        toggle: (e) => {
+          assert.notEqual(e.type, 'touchend', 'Default `toggle` action should not run');
         }
       }
     };
 
-    let userSuppliedAction = () => {
-      assert.ok(true, 'The `userSuppliedAction` action has been fired');
-      return false;
+    this.onTouchEnd = (e) => {
+      e.stopImmediatePropagation();
+      assert.ok(true, 'The user-supplied touchend callback has been fired');
     };
 
-    this.set('onTouchEnd', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
