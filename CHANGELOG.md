@@ -1,3 +1,7 @@
+- [BREAKING] Remove `onMouseDown`,`onClick`,`onKeyDown` and `onTouchEnd` from the `<dropdown.Trigger>` component.
+  Users can just use the `{{on}}` modifier to attach those events. Now to prevent the default event handler from being called for those events,
+  instead of `return false`, they can use `event.stopImmediatePropagation()` like they would with regular events.
+
 # 2.0.0-beta.2
 - [BREAKING] Remove `onMouseEnter`,`onMouseLeave`,`onFocus`,`onBlur`,`onFocusIn`,`onFocusOut` and `onKeyUp` from the `<dropdown.Trigger>` component.
   Users can just use the `{{on}}` modifier to attach any event they want.
