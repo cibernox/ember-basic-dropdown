@@ -3,12 +3,9 @@ import { action } from "@ember/object";
 import Component from "@ember/component";
 import templateLayout from '../templates/components/basic-dropdown-trigger';
 
-const isTouchDevice = (!!window && 'ontouchstart' in window);
-
 @layout(templateLayout)
 @tagName('')
 export default class BasicDropdownTrigger extends Component {
-  isTouchDevice = isTouchDevice;
   eventType = 'click';
   stopPropagation = false;
 
@@ -16,11 +13,6 @@ export default class BasicDropdownTrigger extends Component {
   @action
   handleMouseDown(e) {
     if (this.dropdown.disabled) {
-      return;
-    }
-    // execute user-supplied onMouseDown function before default toggle action;
-    // short-circuit default behavior if user-supplied function returns `false`
-    if (this.onMouseDown && this.onMouseDown(this.dropdown, e) === false) {
       return;
     }
     if (this.eventType !== 'mousedown' || e.button !== 0) return;
@@ -44,11 +36,6 @@ export default class BasicDropdownTrigger extends Component {
     if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
       return;
     }
-    // execute user-supplied onClick function before default toggle action;
-    // short-circuit default behavior if user-supplied function returns `false`
-    if (this.onClick && this.onClick(this.dropdown, e) === false) {
-      return;
-    }
     if (this.eventType !== 'click' || e.button !== 0) return;
     if (this.stopPropagation) {
       e.stopPropagation();
@@ -68,9 +55,6 @@ export default class BasicDropdownTrigger extends Component {
     if (this.dropdown.disabled) {
       return;
     }
-    if (this.onKeyDown && this.onKeyDown(this.dropdown, e) === false) {
-      return;
-    }
     if (e.keyCode === 13) {  // Enter
       this.dropdown.actions.toggle(e);
     } else if (e.keyCode === 32) { // Space
@@ -82,17 +66,17 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
+  handleTouchStart() {
+    document.addEventListener('touchmove', this._touchMoveHandler);
+  }
+
+  @action
   handleTouchEnd(e) {
     this.toggleIsBeingHandledByTouchEvents = true;
     if (e && e.defaultPrevented || this.dropdown.disabled) {
       return;
     }
     if (!this.hasMoved) {
-      // execute user-supplied onTouchEnd function before default toggle action;
-      // short-circuit default behavior if user-supplied function returns `false`
-      if (this.onTouchEnd && this.onTouchEnd(this.dropdown, e) === false) {
-        return;
-      }
       this.dropdown.actions.toggle(e);
     }
     this.hasMoved = false;
@@ -114,18 +98,6 @@ export default class BasicDropdownTrigger extends Component {
       }
     }, 0);
     e.preventDefault();
-  }
-
-  @action
-  addTouchHandlers(triggerEl) {
-    if (this.isTouchDevice) {
-      // If the component opens on click there is no need of any of this, as the device will
-      // take care tell apart faux clicks from scrolls.
-      triggerEl.addEventListener('touchstart', () => {
-        document.addEventListener('touchmove', this._touchMoveHandler);
-      });
-      triggerEl.addEventListener('touchend', (e) => this.send('handleTouchEnd', e));
-    }
   }
 
   @action

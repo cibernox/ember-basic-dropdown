@@ -157,20 +157,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
   });
 
-  test('If it receives an `onKeyDown` action, it will be invoked when a key is pressed while the component is focused', async function(assert) {
-    assert.expect(3);
-    this.onKeyDown = (dropdown, e) => {
-      assert.equal(dropdown, this.dropdown, 'receives the dropdown as 1st argument');
-      assert.ok(e instanceof window.Event, 'It receives the event as second argument');
-      assert.equal(e.keyCode, 70, 'the event is the keydown event');
-    };
-    this.dropdown = { uniqueId: 123 };
-    await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
-    `);
-    triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 70);
-  });
-
   // Default behaviour
   test('click events invoke the `toggle` action on the dropdown by default', async function(assert) {
     assert.expect(2);
@@ -335,9 +321,9 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
   });
 
-  test('Pressing ENTER/SPACE/ESC does nothing of the onKeyDown action returns false', async function(assert) {
+  test('Pressing ENTER/SPACE/ESC does nothing if there is a `{{on "keydown"}}` event that calls stopImmediatePropagation', async function(assert) {
     assert.expect(0);
-    this.onKeyDown = () => false;
+    this.onKeyDown = (e) => e.stopImmediatePropagation();
     this.dropdown = {
       uniqueId: 123,
       actions: {
@@ -350,7 +336,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @onKeyDown={{onKeyDown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{dropdown}} {{on "keydown" onKeyDown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
@@ -423,35 +409,33 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
   });
 
   // Decorating and overriding default event handlers
-  test('A user-supplied onMouseDown action will execute before the default toggle behavior', async function(assert) {
-    assert.expect(4);
+  test('A user-supplied {{on "mousedown"}} callback will execute before the default toggle behavior', async function(assert) {
+    assert.expect(3);
     let userActionRanfirst = false;
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle: () => {
-          assert.ok(userActionRanfirst, 'User-supplied `onMouseDown` ran before default `toggle`');
+          assert.ok(userActionRanfirst, 'User-supplied `{{on "mousedown"}}` ran before default `toggle`');
         }
       }
     };
 
-    let userSuppliedAction = (dropdown, e) => {
+    this.onMouseDown = (e) => {
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
       assert.ok(e instanceof window.Event, 'It receives the event');
-      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
       userActionRanfirst = true;
     };
 
-    this.set('onMouseDown', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onClick action, returning `false`, will prevent the default behavior', async function(assert) {
+  test('A user-supplied {{on "click"}} callback that calls `stopImmediatePropagation`, will prevent the default behavior', async function(assert) {
     assert.expect(1);
 
     this.dropdown = {
@@ -463,20 +447,19 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
 
-    let userSuppliedAction = () => {
+    this.onClick = (e) => {
+      e.stopImmediatePropagation();
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-      return false;
     };
 
-    this.set('onClick', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onClick={{onClick}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "click" onClick}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onMouseDown action, returning `false`, will prevent the default behavior', async function(assert) {
+  test('A user-supplied {{on "mousedown"}} callback that calls `stopImmediatePropagation` will prevent the default behavior', async function(assert) {
     assert.expect(1);
 
     this.dropdown = {
@@ -488,102 +471,96 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
 
-    let userSuppliedAction = () => {
-      assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-      return false;
+    this.onMouseDown = (e) => {
+      e.stopImmediatePropagation();
+      assert.ok(true, 'The user-supplied action has been fired');
     };
 
-    this.set('onMouseDown', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onMouseDown={{onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onTouchEnd action will execute before the default toggle behavior', async function(assert) {
-    assert.expect(4);
+  test('A user-supplied {{on "touchend"}} callback will execute before the default toggle behavior', async function(assert) {
+    assert.expect(3);
     let userActionRanfirst = false;
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle: () => {
-          assert.ok(userActionRanfirst, 'User-supplied `onTouchEnd` ran before default `toggle`');
+          assert.ok(userActionRanfirst, 'User-supplied `{{on "touchend"}}` ran before default `toggle`');
         }
       }
     };
 
-    let userSuppliedAction = (dropdown, e) => {
-      assert.ok(true, 'The `userSuppliedAction` action has been fired');
+    this.onTouchEnd = (e) => {
+      assert.ok(true, 'The user-supplied touchend callback has been fired');
       assert.ok(e instanceof window.Event, 'It receives the event');
-      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
       userActionRanfirst = true;
     };
 
-    this.set('onTouchEnd', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onTouchEnd action, returning `false`, will prevent the default behavior', async function(assert) {
-    assert.expect(1);
+  test('A user-supplied {{on "touchend"}} callback calling e.stopImmediatePropagation will prevent the default behavior', async function(assert) {
+    assert.expect(2);
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
-        toggle: () => {
-          assert.ok(false, 'Default `toggle` action should not run');
+        toggle: (e) => {
+          assert.notEqual(e.type, 'touchend', 'Default `toggle` action should not run');
         }
       }
     };
 
-    let userSuppliedAction = () => {
-      assert.ok(true, 'The `userSuppliedAction` action has been fired');
-      return false;
+    this.onTouchEnd = (e) => {
+      e.stopImmediatePropagation();
+      assert.ok(true, 'The user-supplied touchend callback has been fired');
     };
 
-    this.set('onTouchEnd', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onTouchEnd={{onTouchEnd}} @dropdown={{dropdown}} @isTouchDevice={{true}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
   });
 
-  test('A user-supplied onKeyDown action will execute before the default toggle behavior', async function(assert) {
-    assert.expect(4);
+  test('A user-supplied `{{on "keydown"}}` action will execute before the default toggle behavior', async function(assert) {
+    assert.expect(3);
     let userActionRanfirst = false;
 
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle: () => {
-          assert.ok(userActionRanfirst, 'User-supplied `onKeyDown` ran before default `toggle`');
+          assert.ok(userActionRanfirst, 'User-supplied `{{on "keydown}}` ran before default `toggle`');
         }
       }
     };
 
-    let userSuppliedAction = (dropdown, e) => {
+    this.onKeyDown = (e) => {
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
       assert.ok(e instanceof window.Event, 'It receives the event');
-      assert.equal(dropdown, this.dropdown, 'It receives the dropdown configuration object');
       userActionRanfirst = true;
     };
 
-    this.set('onKeyDown', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onKeyDown={{onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
 
-  test('A user-supplied onKeyDown action, returning `false`, will prevent the default behavior', async function(assert) {
+  test('A user-supplied `{{on "keydown"}}` action calling `stopImmediatePropagation` will prevent the default behavior', async function(assert) {
     assert.expect(1);
 
     this.dropdown = {
@@ -595,14 +572,13 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       }
     };
 
-    let userSuppliedAction = () => {
+    this.onKeyDown = (e) => {
+      e.stopImmediatePropagation();
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
-      return false;
     };
 
-    this.set('onKeyDown', userSuppliedAction);
     await render(hbs`
-      <BasicDropdownTrigger @onKeyDown={{onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });

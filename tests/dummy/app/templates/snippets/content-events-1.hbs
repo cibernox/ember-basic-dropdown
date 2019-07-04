@@ -4,17 +4,14 @@
     <div class="demo-fake-notifications">
       <BasicDropdown @horizontalPosition="right" as |dd|>
         <dd.Trigger
-          @onMouseDown={{action "prevent"}}
-          @onMouseEnter={{action "open"}}
-          @onMouseLeave={{action "closeLater"}}>
+          {{on "mousedown" this.prevent}}
+          {{on "mouseenter" (fn this.open dd)}}
+          {{on "mouseleave" (fn this.closeLater dd)}}>
           {{fa-icon "bell-o"}}
           <span class="demo-fake-notifications-count">{{notifications.length}}</span>
         </dd.Trigger>
 
-        <dd.Content
-          @onMouseEnter={{action "open"}}
-          @onMouseLeave={{action "closeLater"}}
-          class="demo-fake-notifications-content">
+        <dd.Content {{on "mouseenter" (fn this.open dd)}} {{on "mouseleave" (fn this.closeLater dd)}} class="demo-fake-notifications-content">
           <ul class="demo-fake-notifications-list">
             {{#each notifications as |notification|}}
               <li class="demo-fake-notification-entry">

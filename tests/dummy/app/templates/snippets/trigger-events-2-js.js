@@ -1,10 +1,8 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  actions: {
-    useTheKeyboard() {
-      alert('Use the keyboard!');
-      return false;
-    }
+  useTheKeyboard(e) {
+    alert('Use the keyboard!');
+    return e.stopImmediatePropagation();
   }
 });

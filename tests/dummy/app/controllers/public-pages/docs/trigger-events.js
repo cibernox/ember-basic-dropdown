@@ -5,16 +5,16 @@ export default Controller.extend({
   dropdownDisabled: true,
   checkboxClass: null,
   // Actions
+  useTheKeyboard(e) {
+    alert('Use the keyboard!');
+    return e.stopImmediatePropagation();
+  },
+
   actions: {
     openOnArrowDown(dropdown, e) {
       if (e.keyCode === 40) {
         dropdown.actions.open(e);
       }
-    },
-
-    useTheKeyboard() {
-      alert('Use the keyboard!');
-      return false;
     },
 
     highlightCheckboxIfDisabled() {

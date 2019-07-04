@@ -1,5 +1,5 @@
 import { inject } from "@ember/controller"
-import { computed } from "@ember/object"
+import { computed, action } from "@ember/object"
 import { htmlSafe } from "@ember/string"
 import Controller from '@ember/controller';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
@@ -20,13 +20,14 @@ export default Controller.extend({
   }),
 
   // Actions
-  actions: {
-    preventIfNotInIndex() {
-      if (this.appController.currentPath !== 'public-pages.index') {
-        return false;
-      }
-    },
+  @action
+  preventIfNotInIndex(e) {
+    if (this.appController.currentPath !== 'public-pages.index') {
+      e.stopImmediatePropagation();
+    }
+  },
 
+  actions: {
     setBrandColor(color, dropdown) {
       ['orange-brand', 'blue-brand', 'purple-brand', 'line-brand', 'pink-brand', 'red-brand', 'brown-brand'].forEach((klass) => {
         document.body.classList.remove(klass);

@@ -13,8 +13,8 @@
           <strong>Basic</strong>
           <dd.Trigger
             @htmlTag="span"
-            @onMouseDown={{action "preventIfNotInIndex"}}
-            @onTouchEnd={{action "preventIfNotInIndex"}}
+            {{on "mousedown" this.preventIfNotInIndex}}
+            {{on "touchend" this.preventIfNotInIndex}}
             class="logo-dropdown-button">
             Dropdown
           </dd.Trigger>
