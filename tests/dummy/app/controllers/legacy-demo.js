@@ -40,10 +40,6 @@ export default Controller.extend({
       window.clearInterval(this.intervarTimer);
     },
 
-    returnFalse() {
-      return false;
-    },
-
     mouseEnter(dropdown /*, e */) {
       if (this.closeTimer) {
         cancel(this.closeTimer);

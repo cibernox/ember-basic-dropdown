@@ -32,15 +32,15 @@
 </p>
 
 <p>
-  First we <code>&lt;dd.Trigger @onMouseDown=\{{action "prevent"\}}&gt;</code> neglect mouse input:
+  First we <code>&lt;dd.Trigger \{{on "mousedown" this.prevent\}}&gt;</code> neglect mouse input:
   Open/close both by click and hover will trip our users.
 </p>
 
 <p>
-  Then <code>onMouseEnter=\{{action "open"}}</code> and <code>onMouseLeave=\{{action "closeLater"}}</code>
+  Then <code>\{{on "mouseenter" (fn this.open dd)}}</code> and <code>\{{on "mouseleave" (fn this.closeLater dd)}}</code>
   open a close the dropdown, but we we leave we don't close immediately. Instead we delay
   the close a few milliseconds as a grace period, allowing the user to transition from the
-  trigger to the content even if the trayectory of the mouse is not perfect.
+  trigger to the content even if the trajectory of the mouse is not perfect.
 </p>
 
 <p>

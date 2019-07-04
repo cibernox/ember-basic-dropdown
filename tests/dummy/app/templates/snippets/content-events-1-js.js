@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { later, cancel } from '@ember/runloop';
 
 export default Controller.extend({
@@ -10,25 +11,26 @@ export default Controller.extend({
   ],
 
   // Actions
-  actions: {
-    prevent() {
-      return false;
-    },
 
-    open(dropdown) {
-      if (this.closeTimer) {
-        cancel(this.closeTimer);
-        this.closeTimer = null;
-      } else {
-        dropdown.actions.open();
-      }
-    },
+  prevent(e) {
+    return e.stopImmediatePropagation();
+  },
 
-    closeLater(dropdown) {
-      this.closeTimer = later(() => {
-        this.closeTimer = null;
-        dropdown.actions.close();
-      }, 200);
+  @action
+  open(dropdown) {
+    if (this.closeTimer) {
+      cancel(this.closeTimer);
+      this.closeTimer = null;
+    } else {
+      dropdown.actions.open();
     }
+  },
+
+  @action
+  closeLater(dropdown) {
+    this.closeTimer = later(() => {
+      this.closeTimer = null;
+      dropdown.actions.close();
+    }, 200);
   }
 });
