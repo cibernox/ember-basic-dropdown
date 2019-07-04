@@ -27,14 +27,12 @@ export default Controller.extend({
     }
   },
 
-  actions: {
-    setBrandColor(color, dropdown) {
-      ['orange-brand', 'blue-brand', 'purple-brand', 'line-brand', 'pink-brand', 'red-brand', 'brown-brand'].forEach((klass) => {
-        document.body.classList.remove(klass);
-      });
-      document.body.classList.add(`${color}-brand`);
-      dropdown.actions.close();
-    }
+  setBrandColor(color, dropdown) {
+    ['orange-brand', 'blue-brand', 'purple-brand', 'line-brand', 'pink-brand', 'red-brand', 'brown-brand'].forEach((klass) => {
+      document.body.classList.remove(klass);
+    });
+    document.body.classList.add(`${color}-brand`);
+    dropdown.actions.close();
   },
 
   // Methods
