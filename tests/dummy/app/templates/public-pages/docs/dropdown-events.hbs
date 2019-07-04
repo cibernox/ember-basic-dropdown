@@ -65,22 +65,6 @@
 
 <p>Cruel, isn't it?</p>
 
-<h3><code>onFocus(dropdown, event?)</code></h3>
-
-<p>
-  This is the event that fires when something inside the dropdown gets focus.
-  Usually this will be fired when the trigger gets the focus, but you can also trigger
-  it programmatically from other elements and use the event's <code>target</code> to disambiguate.
-</p>
-
-<p>
-  The most common use case of this hook is to automatically open the dropdown on focus.
-</p>
-
-{{#code-example hbs="dropdown-events-4.hbs" js="dropdown-events-4-js.js" as |partialName|}}
-  {{partial partialName}}
-{{/code-example}}
-
 <p>
   Those were the events fired by the top-level component, now let's go deep on the
   events that are fired by the trigger.

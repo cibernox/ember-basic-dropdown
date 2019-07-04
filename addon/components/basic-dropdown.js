@@ -83,14 +83,6 @@ export default class BasicDropdown extends Component {
     return v === undefined ? this._getDestinationId() : v;
   }
 
-  // Actions
-  @action
-  handleFocus(e) {
-    if (this.onFocus) {
-      this.onFocus(this.publicAPI, e);
-    }
-  }
-
   // Methods
   open(e) {
     if (this.isDestroyed) {

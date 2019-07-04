@@ -5,8 +5,8 @@
 
 <BasicDropdown @disabled={{dropdownDisabled}} as |dd|>
   <dd.Trigger
-    @onMouseEnter={{action "highlightCheckboxIfDisabled"}}
-    @onMouseLeave={{action "resetHighlight"}}
+    {{on "mouseenter" this.highlightCheckboxIfDisabled}}
+    {{on "mouseleave" this.resetHighlight}}
     class="trigger-bootstrap-feel">
     Can you open me?
   </dd.Trigger>

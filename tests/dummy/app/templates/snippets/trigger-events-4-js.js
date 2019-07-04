@@ -1,13 +1,14 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  actions: {
-    simulateFocusParent() {
-      this.set('parentDivClass', 'input-group--focused');
-    },
-
-    simulateBlurParent() {
-      this.set('parentDivClass', null);
-    }
+export default class extends Controller {
+  @action
+  simulateFocusParent() {
+    this.set('parentDivClass', 'input-group--focused');
   }
-});
+
+  @action
+  simulateBlurParent() {
+    this.set('parentDivClass', null);
+  }
+};
