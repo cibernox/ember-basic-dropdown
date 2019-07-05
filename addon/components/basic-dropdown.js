@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { layout, tagName } from "@ember-decorators/component";
-import { action, computed } from "@ember/object";
+import { computed } from "@ember/object";
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
