@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { layout, tagName } from "@ember-decorators/component";
-import { action, computed } from "@ember/object";
+import { computed } from "@ember/object";
 import { set } from '@ember/object';
 import { join } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
@@ -81,14 +81,6 @@ export default class BasicDropdown extends Component {
   }
   set destination(v) {
     return v === undefined ? this._getDestinationId() : v;
-  }
-
-  // Actions
-  @action
-  handleFocus(e) {
-    if (this.onFocus) {
-      this.onFocus(this.publicAPI, e);
-    }
   }
 
   // Methods

@@ -1,13 +1,9 @@
 <p>Focus alternatively the input and the button next to it</p>
 <div class="trigger-event-demo input-group {{parentDivClass}}">
-  <input type="text" class="form-control" onfocus={{action "simulateFocusParent"}}
-    onblur={{action "simulateBlurParent"}}>
+  <input type="text" class="form-control" {{on "focus" this.simulateFocusParent}} {{on "blur" this.simulateBlurParent}}>
 
   <BasicDropdown as |dd|>
-    <dd.Trigger
-      @onFocus={{action "simulateFocusParent"}}
-      @onBlur={{action "simulateBlurParent"}}
-      class="input-group-addon">
+    <dd.Trigger {{on "focus" this.simulateFocusParent}} {{on "blur" this.simulateBlurParent}} class="input-group-addon">
       <span class="caret"></span>
     </dd.Trigger>
 

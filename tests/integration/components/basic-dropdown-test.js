@@ -4,6 +4,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render, click, focus, triggerEvent } from '@ember/test-helpers';
+import Trigger from 'ember-basic-dropdown/components/basic-dropdown-trigger';
+
 
 let deprecations = [];
 
@@ -651,6 +653,40 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   // State replacement
   test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', async function(assert) {
     assert.expect(2);
+
+    this.owner.register('component:trigger-with-did-receive-attrs', Trigger.extend({
+      layout: hbs`
+        {{#let (element (or @htmlTag "div")) as |Element|}}
+          <Element
+            class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
+            role="button"
+            tabindex={{unless @dropdown.disabled "0"}}
+            data-ebd-id="{{@dropdown.uniqueId}}-trigger"
+            aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
+            aria-expanded={{if @dropdown.isOpen "true"}}
+            aria-disabled={{if @dropdown.disabled "true"}}
+            {{will-destroy this.removeGlobalHandlers}}
+            ...attributes
+            {{on "mousedown" this.handleMouseDown}}
+            {{on "click" this.handleClick}}
+            {{on "keydown" this.handleKeyDown}}
+            {{on "touchstart" this.handleTouchStart}}
+            {{on "touchend" this.handleTouchEnd}}
+            >
+            {{yield}} {{#if didOpen}}<span class="did-open-span">Did open!</span>{{/if}}
+          </Element>
+        {{/let}}
+      `,
+      didOpen: false,
+
+      didReceiveAttrs() {
+        let { dropdown, oldDropdown = {} } = this;
+        if ((oldDropdown && oldDropdown.isOpen) === false && dropdown.isOpen) {
+          this.set('didOpen', true);
+        }
+        this.set('oldDropdown', dropdown);
+      }
+    }));
 
     await render(hbs`
       <BasicDropdown @triggerComponent="trigger-with-did-receive-attrs" as |dropdown|>

@@ -21,7 +21,7 @@
         </a>
         <dd.Content class="logo-dropdown-content">
           {{#each colors as |color|}}
-            <button class="logo-dropdown-content-pantone-entry {{color}}" onclick={{action "setBrandColor" color dd}}></button>
+            <button type="button" class="logo-dropdown-content-pantone-entry {{color}}" {{on "click" (fn this.setBrandColor color dd)}}></button>
           {{/each}}
         </dd.Content>
       </BasicDropdown>

@@ -24,10 +24,6 @@ export default Controller.extend({
         alert('You have to choose!');
         return false;
       }
-    },
-
-    openDropdown(dropdown) {
-      dropdown.actions.open();
     }
   },
 
