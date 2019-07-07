@@ -1,7 +1,7 @@
 import { layout, tagName } from "@ember-decorators/component";
 import { computed, action } from "@ember/object";
 import Component from '@ember/component';
-import { join, scheduleOnce } from '@ember/runloop';
+import { join } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
 import templateLayout from '../templates/components/basic-dropdown-content';
@@ -142,13 +142,10 @@ export default class BasicDropdownContent extends Component {
     this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
     this.addScrollHandling(dropdownElement);
     this.startObservingDomMutations(dropdownElement);
-    if (this.animationEnabled) {
-      scheduleOnce('afterRender', this, this.animateIn, dropdownElement);
-    }
   }
 
   @action
-  teardown(dropdownElement) {
+  teardown() {
     this.removeGlobalEvents();
     this.removeScrollHandling();
     this.scrollableAncestors = [];
@@ -160,9 +157,29 @@ export default class BasicDropdownContent extends Component {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener('touchend', this.handleRootMouseDown, true);
     }
-    if (!this.dropdown.isOpen && this.animationEnabled) {
-      this.animateOut(dropdownElement);
-    }
+  }
+
+  @action
+  animateIn(dropdownElement) {
+    if (!this.animationEnabled) return;
+    waitForAnimations(dropdownElement, () => {
+      this.set('animationClass', this.transitionedInClass);
+    });
+  }
+
+  @action
+  animateOut(dropdownElement) {
+    if (!this.animationEnabled) return;
+    let parentElement = this.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
+    let clone = dropdownElement.cloneNode(true);
+    clone.id = `${clone.id}--clone`;
+    clone.classList.remove(...this.transitioningInClass.split(' '));
+    clone.classList.add(...this.transitioningOutClass.split(' '));
+    parentElement.appendChild(clone);
+    this.set('animationClass', this.transitioningInClass);
+    waitForAnimations(clone, function () {
+      parentElement.removeChild(clone);
+    });
   }
 
   startObservingDomMutations(dropdownElement) {
@@ -184,25 +201,6 @@ export default class BasicDropdownContent extends Component {
       this.mutationObserver.disconnect();
       this.mutationObserver = null;
     }
-  }
-
-  animateIn(dropdownElement) {
-    waitForAnimations(dropdownElement, () => {
-      this.set('animationClass', this.transitionedInClass);
-    });
-  }
-
-  animateOut(dropdownElement) {
-    let parentElement = this.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
-    let clone = dropdownElement.cloneNode(true);
-    clone.id = `${clone.id}--clone`;
-    clone.classList.remove(...this.transitioningInClass.split(' '));
-    clone.classList.add(...this.transitioningOutClass.split(' '));
-    parentElement.appendChild(clone);
-    this.set('animationClass', this.transitioningInClass);
-    waitForAnimations(clone, function() {
-      parentElement.removeChild(clone);
-    });
   }
 
   touchStartHandler() {

@@ -13,6 +13,8 @@
           dir={{@dir}}
           {{did-insert this.setup}}
           {{did-insert @dropdown.actions.reposition}}
+          {{did-insert this.animateIn}}
+          {{will-destroy this.animateOut}}
           {{will-destroy this.teardown}}
           ...attributes>
           {{yield}}
