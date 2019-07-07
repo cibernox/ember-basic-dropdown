@@ -141,7 +141,6 @@ export default class BasicDropdownContent extends Component {
 
     this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
     this.addScrollHandling(dropdownElement);
-    this.startObservingDomMutations(dropdownElement);
   }
 
   @action
@@ -149,7 +148,6 @@ export default class BasicDropdownContent extends Component {
     this.removeGlobalEvents();
     this.removeScrollHandling();
     this.scrollableAncestors = [];
-    this.stopObservingDomMutations();
 
     document.removeEventListener(this.rootEventType, this.handleRootMouseDown, true);
 
@@ -182,7 +180,8 @@ export default class BasicDropdownContent extends Component {
     });
   }
 
-  startObservingDomMutations(dropdownElement) {
+  @action
+  setupMutationObserver(dropdownElement) {
     this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
         this.runloopAwareReposition();
@@ -191,16 +190,15 @@ export default class BasicDropdownContent extends Component {
     this.mutationObserver.observe(dropdownElement, { childList: true, subtree: true });
   }
 
+  @action
+  teardownMutationObserver() {
+    this.mutationObserver.disconnect();
+    this.mutationObserver = null;
+  }
+
   removeGlobalEvents() {
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener('orientationchange', this.runloopAwareReposition);
-  }
-
-  stopObservingDomMutations() {
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = null;
-    }
   }
 
   touchStartHandler() {
