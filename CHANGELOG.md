@@ -1,3 +1,5 @@
+- [CHORE] Refactor animation logic to use `{{did-insert}}`/`{{will-destroy}}` modifiers.
+
 # 2.0.0-beta.3
 - [BREAKING] Remove `onMouseDown`,`onClick`,`onKeyDown` and `onTouchEnd` attributes from the `<dropdown.Trigger>` component.
   Users can just use the `{{on}}` modifier to attach events now, although that means that to prevent the default event handler from being called for those events,
