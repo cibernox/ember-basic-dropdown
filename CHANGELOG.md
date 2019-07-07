@@ -1,4 +1,5 @@
-- [CHORE] Refactor animation logic to use `{{did-insert}}`/`{{will-destroy}}` modifiers.
+- [CHORE] Setup/teardown mutation observer using dedicated element modifiers.
+- [CHORE] Refactor animation logic to use `{{did-insert}}`/`{{will-destroy}}` element modifiers.
 
 # 2.0.0-beta.3
 - [BREAKING] Remove `onMouseDown`,`onClick`,`onKeyDown` and `onTouchEnd` attributes from the `<dropdown.Trigger>` component.
