@@ -93,17 +93,17 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is still closed');
   });
 
-  test('It can receive an onOpen action that is fired just before the component opens', async function(assert) {
+  test('It can receive an willOpen action that is fired just before the component opens', async function(assert) {
     assert.expect(4);
 
     this.willOpen = function(dropdown, e) {
       assert.equal(dropdown.isOpen, false, 'The received dropdown has a `isOpen` property that is still false');
       assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
       assert.ok(!!e, 'Receives an argument as second argument');
-      assert.ok(true, 'onOpen action was invoked');
+      assert.ok(true, 'willOpen action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @willOpen={{willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -114,7 +114,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
   });
 
-  test('returning false from the `onOpen` action prevents the dropdown from opening', async function(assert) {
+  test('returning false from the `willOpen` action prevents the dropdown from opening', async function(assert) {
     assert.expect(2);
 
     this.willOpen = function() {
@@ -122,7 +122,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @willOpen={{willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -196,15 +196,15 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
   });
 
-  test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', async function(assert) {
+  test('Calling the `open` method while the dropdown is already opened does not call `willOpen` action', async function(assert) {
     assert.expect(1);
     let onOpenCalls = 0;
-    this.onOpen = () => {
+    this.willOpen = () => {
       onOpenCalls++;
     };
 
     await render(hbs`
-      <BasicDropdown @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @willOpen={{willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -214,10 +214,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+    assert.equal(onOpenCalls, 1, 'willOpen has been called only once');
   });
 
-  test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function(assert) {
+  test('Calling the `close` method while the dropdown is already opened does not call `willOpen` action', async function(assert) {
     assert.expect(1);
     let onCloseCalls = 0;
     this.onFocus = (dropdown) => {
@@ -819,12 +819,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       assert.notOk(called);
       called = true;
     }
-    this.onOpen = function() {
+    this.willOpen = function() {
       assert.ok(true);
     }
     await render(hbs`
       <input type="text" id="outer-input">
-      <BasicDropdown @renderInPlace={{true}} @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @renderInPlace={{true}} @willOpen={{willOpen}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content {{on "focusout" onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
       </BasicDropdown>

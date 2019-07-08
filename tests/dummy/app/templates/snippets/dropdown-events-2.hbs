@@ -1,4 +1,4 @@
-<BasicDropdown @onOpen={{action "waitForUsers"}} as |dd|>
+<BasicDropdown @willOpen={{action "waitForUsers"}} as |dd|>
   <dd.Trigger class="trigger-bootstrap-feel">
     {{#if loadUsersAndOpen.isRunning}}
       Loading...

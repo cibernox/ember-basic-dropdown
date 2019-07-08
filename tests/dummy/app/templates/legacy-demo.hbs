@@ -168,7 +168,7 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum perferendis deserunt rerum minus? Cumque accusantium earum asperiores eos, ea autem. Earum consequatur dolores laborum ut, eaque ipsam sapiente, excepturi asperiores.</p>
 
 <h4>Dropdown rendered in place with <code>verticalPosition=above</code>, with changing content</h4>
-<BasicDropdown @renderInPlace={{true}} @verticalPosition="above" @onOpen={{action "startAddingContent"}} @onClose={{action "stopAddingContent"}} as |dd|>
+<BasicDropdown @renderInPlace={{true}} @verticalPosition="above" @willOpen={{action "startAddingContent"}} @onClose={{action "stopAddingContent"}} as |dd|>
   <dd.Trigger>Click me and I'll open above</dd.Trigger>
   <dd.Content class="auto-right-demo-content">
     <p>I told you!</p>

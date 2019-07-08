@@ -91,7 +91,7 @@ export default class BasicDropdown extends Component {
     if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
-    if (this.onOpen && this.onOpen(this.publicAPI, e) === false) {
+    if (this.willOpen && this.willOpen(this.publicAPI, e) === false) {
       return;
     }
     this.updateState({ isOpen: true });
