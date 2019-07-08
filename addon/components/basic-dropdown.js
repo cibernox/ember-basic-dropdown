@@ -104,11 +104,11 @@ export default class BasicDropdown extends Component {
     if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
-    if (this.onClose && this.onClose(this.publicAPI, e) === false) {
+    if (this.willClose && this.willClose(this.publicAPI, e) === false) {
       return;
     }
     if (this.isDestroyed) {
-      return; // To check that the `onClose` didn't destroy the dropdown
+      return; // To check that the `willClose` didn't destroy the dropdown
     }
     this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;

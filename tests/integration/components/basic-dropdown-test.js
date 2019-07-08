@@ -134,17 +134,17 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is still closed');
   });
 
-  test('It can receive an onClose action that is fired when the component closes', async function(assert) {
+  test('It can receive an willClose action that is fired when the component closes', async function(assert) {
     assert.expect(7);
 
     this.willClose = function(dropdown, e) {
       assert.equal(dropdown.isOpen, true, 'The received dropdown has a `isOpen` property and its value is `true`');
       assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
       assert.ok(!!e, 'Receives an argument as second argument');
-      assert.ok(true, 'onClose action was invoked');
+      assert.ok(true, 'willClose action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @willClose={{willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -159,7 +159,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is now opened');
   });
 
-  test('returning false from the `onClose` action prevents the dropdown from closing', async function(assert) {
+  test('returning false from the `willClose` action prevents the dropdown from closing', async function(assert) {
     assert.expect(4);
 
     this.willClose = function() {
@@ -167,7 +167,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @willClose={{willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -223,12 +223,12 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     this.onFocus = (dropdown) => {
       dropdown.actions.close();
     };
-    this.onClose = () => {
+    this.willClose = () => {
       onCloseCalls++;
     };
 
     await render(hbs`
-      <BasicDropdown @onClose={{onClose}} as |dropdown|>
+      <BasicDropdown @willClose={{willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -238,7 +238,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onCloseCalls, 0, 'onClose was never called');
+    assert.equal(onCloseCalls, 0, 'willClose was never called');
   });
 
   test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', async function(assert) {
@@ -726,18 +726,18 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.equal(apis[3].disabled, true, 'and it became disabled');
   });
 
-  test('removing the dropdown in response to onClose does not error', async function(assert) {
+  test('removing the dropdown in response to willClose does not error', async function(assert) {
     assert.expect(2);
 
     this.isOpen = true;
 
-    this.onClose = () => {
+    this.willClose = () => {
       this.set('isOpen', false);
     };
 
     await render(hbs`
       {{#if isOpen}}
-        <BasicDropdown @onClose={{onClose}} as |dropdown|>
+        <BasicDropdown @willClose={{willClose}} as |dropdown|>
           <dropdown.Trigger>Open me</dropdown.Trigger>
           <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
         </BasicDropdown>
