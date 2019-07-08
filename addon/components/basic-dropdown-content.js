@@ -55,12 +55,11 @@ function dropdownIsValidParent(el, dropdownId) {
 export default class BasicDropdownContent extends Component {
   isTouchDevice = Boolean(!!window && 'ontouchstart' in window);
   hasMoved = false;
+  animationClass = '';
   transitioningInClass = 'ember-basic-dropdown--transitioning-in';
   transitionedInClass = 'ember-basic-dropdown--transitioned-in';
   transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
   scrollableAncestors = [];
-  dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
-  animationClass = this.animationEnabled ? this.transitioningInClass : '';
 
   // CPs
   @computed
@@ -100,6 +99,14 @@ export default class BasicDropdownContent extends Component {
       style += `height: ${height}`;
     }
     return htmlSafe(style);
+  }
+
+  init() {
+    super.init(...arguments);
+    this.dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
+    if (this.animationEnabled) {
+      this.set('animationClass', this.transitioningInClass);
+    }
   }
 
   // Methods
