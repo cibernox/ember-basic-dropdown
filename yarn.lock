@@ -3898,6 +3898,15 @@ ember-href-to@~2.0.1:
     ember-cli-babel "^6.8.2"
     ember-router-service-polyfill "^1.0.2"
 
+ember-in-element-polyfill@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-in-element-polyfill/-/ember-in-element-polyfill-0.2.0.tgz#3722b6488bd1609d7b501c3f208eff62ac3dbbef"
+  integrity sha512-cl7hWFhBcwbPbXOHjvupufwgQGRWnPNMXcJT9M/e07AbHVjbI7EnMqOfW1V2lJKsm6KQ1hT3frDcNQWZtS+6lQ==
+  dependencies:
+    debug "^3.1.0"
+    ember-cli-babel "^7.1.2"
+    ember-cli-version-checker "^2.1.0"
+
 ember-load-initializers@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-load-initializers/-/ember-load-initializers-2.0.0.tgz#d4b3108dd14edb0f9dc3735553cc96dadd8a80cb"
@@ -3915,12 +3924,13 @@ ember-maybe-import-regenerator@^0.1.5, ember-maybe-import-regenerator@^0.1.6:
     ember-cli-babel "^6.0.0-beta.4"
     regenerator-runtime "^0.9.5"
 
-ember-maybe-in-element@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ember-maybe-in-element/-/ember-maybe-in-element-0.2.0.tgz#9ac51cbbd9d83d6230ad996c11e33f0eca3032e0"
-  integrity sha512-R5e6N8yDbfNbA/3lMZsFs2KEzv/jt80TsATiKMCqdqKuSG82KrD25cRdU5VkaE8dTQbziyBeuJs90bBiqOnakQ==
+ember-maybe-in-element@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ember-maybe-in-element/-/ember-maybe-in-element-0.3.0.tgz#b234d028b090e9560f321727e5af915994bb0c0a"
+  integrity sha512-TGPqxstxZuNSRS+cupvbBl24D6a6EP6t3CWgYaVgahJuG6Ys9xgTEveBCyHIVeLx1Jvbss4X4AW19dH3QlC6ZQ==
   dependencies:
-    ember-cli-babel "^7.1.0"
+    ember-cli-babel "^7.7.3"
+    ember-in-element-polyfill "^0.2.0"
 
 ember-modifier-manager-polyfill@^1.0.1:
   version "1.0.3"
