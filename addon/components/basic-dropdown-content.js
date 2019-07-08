@@ -55,10 +55,12 @@ function dropdownIsValidParent(el, dropdownId) {
 export default class BasicDropdownContent extends Component {
   isTouchDevice = Boolean(!!window && 'ontouchstart' in window);
   hasMoved = false;
-  animationClass = '';
   transitioningInClass = 'ember-basic-dropdown--transitioning-in';
   transitionedInClass = 'ember-basic-dropdown--transitioned-in';
   transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
+  scrollableAncestors = [];
+  dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
+  animationClass = this.animationEnabled ? this.transitioningInClass : '';
 
   // CPs
   @computed
@@ -98,19 +100,6 @@ export default class BasicDropdownContent extends Component {
       style += `height: ${height}`;
     }
     return htmlSafe(style);
-  }
-
-  // Lifecycle hooks
-  init() {
-    super.init(...arguments);
-    this.touchStartHandler = this.touchStartHandler.bind(this);
-    this.touchMoveHandler = this.touchMoveHandler.bind(this);
-    this.scrollableAncestors = [];
-    this.dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
-    if (this.animationEnabled) {
-      this.set('animationClass', this.transitioningInClass);
-    }
-    this.runloopAwareReposition = () => join(this.dropdown.actions.reposition);
   }
 
   // Methods
@@ -196,18 +185,25 @@ export default class BasicDropdownContent extends Component {
     this.mutationObserver = null;
   }
 
-  removeGlobalEvents() {
-    window.removeEventListener('resize', this.runloopAwareReposition);
-    window.removeEventListener('orientationchange', this.runloopAwareReposition);
-  }
-
+  @action
   touchStartHandler() {
     document.addEventListener('touchmove', this.touchMoveHandler, true);
   }
 
+  @action
   touchMoveHandler() {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
+  }
+
+  @action
+  runloopAwareReposition() {
+    join(this.dropdown.actions.reposition);
+  }
+
+  removeGlobalEvents() {
+    window.removeEventListener('resize', this.runloopAwareReposition);
+    window.removeEventListener('orientationchange', this.runloopAwareReposition);
   }
 
   // All ancestors with scroll (except the BODY, which is treated differently)
