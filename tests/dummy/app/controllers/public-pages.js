@@ -1,39 +1,30 @@
-import { inject } from "@ember/controller"
-import { computed, action } from "@ember/object"
+import { inject as service } from "@ember/service"
+import { action } from "@ember/object"
 import { htmlSafe } from "@ember/string"
 import Controller from '@ember/controller';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 
-export default Controller.extend({
-  appController: inject('application'),
-  color: undefined,
-
-  // Lifecycle hooks
-  init() {
-    this._super(...arguments);
-    this.set('colors', ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown']);
-  },
-
-  // CPs
-  backgrounds: computed('colors.[]', function() {
-    return this.colors.map((c) => htmlSafe(`background-color: ${c}`));
-  }),
+const colors = ['orange', 'blue', 'purple', 'line', 'pink', 'red', 'brown'];
+const brands = colors.map(c => `${c}-brand`)
+export default class extends Controller {
+  @service router
+  colors = colors
+  backgrounds = this.colors.map((c) => htmlSafe(`background-color: ${c}`))
+  color = undefined
 
   // Actions
   @action
   preventIfNotInIndex(e) {
-    if (this.appController.currentPath !== 'public-pages.index') {
+    if (this.router.currentPath !== 'public-pages.index') {
       e.stopImmediatePropagation();
     }
-  },
+  }
 
   setBrandColor(color, dropdown) {
-    ['orange-brand', 'blue-brand', 'purple-brand', 'line-brand', 'pink-brand', 'red-brand', 'brown-brand'].forEach((klass) => {
-      document.body.classList.remove(klass);
-    });
+    brands.forEach(klass => document.body.classList.remove(klass));
     document.body.classList.add(`${color}-brand`);
     dropdown.actions.close();
-  },
+  }
 
   // Methods
   calculatePosition() {
@@ -41,4 +32,4 @@ export default Controller.extend({
     pos.style.top += 3;
     return pos;
   }
-});
+}

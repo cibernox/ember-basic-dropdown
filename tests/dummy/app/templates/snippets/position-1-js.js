@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  horizontalPosition: 'auto',
-  verticalPosition: 'auto',
-  buttonPosition: 'left',
-  renderInPlace: false
-});
+export default class extends Controller {
+  horizontalPosition = 'auto'
+  verticalPosition = 'auto'
+  buttonPosition = 'left'
+  renderInPlace = false
+}

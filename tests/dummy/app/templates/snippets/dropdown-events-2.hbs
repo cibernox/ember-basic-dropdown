@@ -1,6 +1,6 @@
-<BasicDropdown @onOpen={{action "waitForUsers"}} as |dd|>
+<BasicDropdown @onOpen={{this.waitForUsers}} as |dd|>
   <dd.Trigger class="trigger-bootstrap-feel">
-    {{#if loadUsersAndOpen.isRunning}}
+    {{#if this.loadUsersAndOpen.isRunning}}
       Loading...
     {{else}}
       Click me
@@ -8,7 +8,7 @@
   </dd.Trigger>
 
   <dd.Content class="content-bootstrap-feel width-300">
-    {{#each loadUsersAndOpen.lastSuccessful.value as |user|}}
+    {{#each this.loadUsersAndOpen.lastSuccessful.value as |user|}}
       <p>{{user.name}} - {{user.assignment}}</p>
     {{/each}}
   </dd.Content>

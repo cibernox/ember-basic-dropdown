@@ -4,8 +4,8 @@ import { task, timeout } from 'ember-concurrency';
 
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
-export default Controller.extend({
-  names: [],
+export default class extends Controller {
+  names = []
 
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
@@ -16,13 +16,13 @@ export default Controller.extend({
     };
 
     return { style };
-  },
+  }
 
-  addNames: task(function*() {
+  @(task(function*() {
     this.set('names', A([]));
     for (let name of names) {
       this.names.pushObject(name);
       yield timeout(750);
     }
-  })
-});
+  })) addNames;
+}

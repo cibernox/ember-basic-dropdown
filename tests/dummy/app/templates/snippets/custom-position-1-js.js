@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 
-export default Controller.extend({
+export default class extends Controller {
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
     let { height: contentHeight } = content.getBoundingClientRect();
@@ -11,4 +11,4 @@ export default Controller.extend({
 
     return { style };
   }
-});
+}

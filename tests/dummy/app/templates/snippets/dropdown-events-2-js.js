@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 
 const users = [
@@ -7,23 +8,22 @@ const users = [
   { name: 'Leah', assignment: 'Community' }
 ];
 
-export default Controller.extend({
-  users,
+export default class extends Controller {
+  users = users
 
   // Actions
-  actions: {
-    waitForUsers(dropdown, e) {
-      if (e) {
-        this.loadUsersAndOpen.perform(dropdown, e);
-        return false;
-      }
+  @action
+  waitForUsers(dropdown, e) {
+    if (e) {
+      this.loadUsersAndOpen.perform(dropdown, e);
+      return false;
     }
-  },
+  }
 
   // Tasks
-  loadUsersAndOpen: task(function*(dropdown) {
+  @(task(function*(dropdown) {
     yield timeout(1000);
     dropdown.actions.open(); // invoked without event
     return users;
-  })
-});
+  })) loadUsersAndOpen
+}

@@ -20,7 +20,7 @@
     {{#link-to "public-pages.docs.api-reference" class="side-nav-link"}}API reference{{/link-to}}
   </nav>
   <section class="doc-page">
-    <select onchange={{action "visit" value="target.value"}} class="section-selector">
+    <select {{on "change" this.visit}} class="section-selector">
       {{#each groupedSections as |group|}}
         <optgroup label={{group.groupName}}>
           {{#each group.options as |section|}}

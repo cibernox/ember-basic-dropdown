@@ -2,19 +2,18 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { later, cancel } from '@ember/runloop';
 
-export default Controller.extend({
-  notifications: [
+export default class extends Controller {
+  notifications = [
     { text: 'Edward' },
     { text: 'Jonathan' },
     { text: 'Tom' },
     { text: 'Eric' }
-  ],
+  ]
 
   // Actions
-
   prevent(e) {
     return e.stopImmediatePropagation();
-  },
+  }
 
   @action
   open(dropdown) {
@@ -24,7 +23,7 @@ export default Controller.extend({
     } else {
       dropdown.actions.open();
     }
-  },
+  }
 
   @action
   closeLater(dropdown) {
@@ -33,4 +32,4 @@ export default Controller.extend({
       dropdown.actions.close();
     }, 200);
   }
-});
+}
