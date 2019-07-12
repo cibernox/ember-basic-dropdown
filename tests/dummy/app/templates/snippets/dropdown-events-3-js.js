@@ -1,12 +1,12 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  actions: {
-    preventUntilSelected() {
-      if (!this.selected) {
-        alert('You have to choose!');
-        return false;
-      }
+export default class extends Controller {
+  @action
+  preventUntilSelected() {
+    if (!this.selected) {
+      alert('You have to choose!');
+      return false;
     }
   }
-});
+}

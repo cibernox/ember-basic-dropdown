@@ -7,9 +7,9 @@ const users = [
   { name: 'Leah', assignment: 'Community' }
 ];
 
-export default Controller.extend({
-  loadUsers: task(function*() {
+export default class extends Controller {
+  @(task(function*() {
     yield timeout(1000);
     return users;
-  })
-});
+  })) loadUsers;
+};
