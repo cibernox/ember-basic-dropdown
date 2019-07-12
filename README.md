@@ -8,6 +8,10 @@ It is intended to be a building block for more complex components but is perfect
 by example the addon on which [ember-power-select](https://www.ember-power-select.com)
 or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/components/menu) are built upon.
 
+### Compatibility
+
+Version 2.0 requires Ember 3.11 or greater
+Versions 1.X require Ember 2.12 or greater
 
 ### Installation
 

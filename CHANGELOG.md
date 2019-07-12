@@ -1,3 +1,4 @@
+# 2.0.0
 - [CHORE] Setup/teardown mutation observer using dedicated element modifiers.
 - [CHORE] Refactor animation logic to use `{{did-insert}}`/`{{will-destroy}}` element modifiers.
 
