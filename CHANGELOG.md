@@ -1,3 +1,6 @@
+# 2.0.1
+- [ENHANCEMENT] Expose `ember-basic-dropdown/utils/calculate-position` as public API.
+
 # 2.0.0
 - [CHORE] Setup/teardown mutation observer using dedicated element modifiers.
 - [CHORE] Refactor animation logic to use `{{did-insert}}`/`{{will-destroy}}` element modifiers.
