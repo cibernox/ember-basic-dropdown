@@ -1,3 +1,4 @@
+# 2.0.2
 - [BUGFIX] Move `ember-truth-helpers` to `dependencies`.
 
 # 2.0.1
