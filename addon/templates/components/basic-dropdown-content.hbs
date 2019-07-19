@@ -8,7 +8,7 @@
       {{#let (element (or @htmlTag "div")) as |Element|}}
         <Element
           id={{this.dropdownId}}
-          class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}}"
+          class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}} {{@defaultClass}}"
           style={{this.style}}
           dir={{@dir}}
           {{did-insert this.setup}}
