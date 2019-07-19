@@ -21,7 +21,7 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasText('Click me', 'The trigger contains the given block');
   });
 
-  test('If a `@defaultClass` argument is provided, its value is added to the list of classes', async function(assert) {
+  test('If a `@defaultClass` argument is provided to the trigger, its value is added to the list of classes', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`

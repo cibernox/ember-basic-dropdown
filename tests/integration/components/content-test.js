@@ -19,6 +19,17 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     assert.dom('#destination-el > .ember-basic-dropdown-content').exists('It is rendered in the #ember-testing div');
   });
 
+  test('If a `@defaultClass` argument is provided to the content, its value is added to the list of classes', async function (assert) {
+    assert.expect(2);
+    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @defaultClass="extra-class">Lorem ipsum</BasicDropdownContent>
+    `);
+    assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
+    assert.dom('.ember-basic-dropdown-content').hasClass('extra-class');
+  });
+
   test('If the dropdown is closed, nothing is rendered', async function(assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 'e123', isOpen: false };
