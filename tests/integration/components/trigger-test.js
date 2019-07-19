@@ -21,6 +21,18 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasText('Click me', 'The trigger contains the given block');
   });
 
+  test('If a `@defaultClass` argument is provided, its value is added to the list of classes', async function(assert) {
+    assert.expect(1);
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      <div id="direct-parent">
+        <BasicDropdownTrigger @dropdown={{dropdown}} @defaultClass="extra-class">Click me</BasicDropdownTrigger>
+      </div>
+    `);
+
+    assert.dom('.ember-basic-dropdown-trigger').hasClass('extra-class');
+  });
+
   // Attributes and a11y
   test('If it doesn\'t receive any tabindex, defaults to 0', async function(assert) {
     assert.expect(1);
