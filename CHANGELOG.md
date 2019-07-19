@@ -1,3 +1,4 @@
+# 2.0.3
 - [ENHANCEMENT] Allow to pass a `@defaultClass` argument to the trigger. This is necessary to be able to
   assign classes while the `{{component}}` helper does not allow to pass attributes like in angle-bracket syntax.
 
