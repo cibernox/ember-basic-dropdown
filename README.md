@@ -82,7 +82,7 @@ You can make the dropdown content standout a little more by adding `overlay=true
   <dd.Trigger>Click me!</dd.Trigger>
   <dd.Content @overlay={{true}}> {{!-- here! --}}
     content!
-  </dd.Content}}
+  </dd.Content>
 </BasicDropdown>
 ```
 
