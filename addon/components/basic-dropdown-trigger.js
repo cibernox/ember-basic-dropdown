@@ -3,9 +3,7 @@ import { action } from "@ember/object";
 import Component from "@ember/component";
 import templateLayout from '../templates/components/basic-dropdown-trigger';
 
-@layout(templateLayout)
-@tagName('')
-export default class BasicDropdownTrigger extends Component {
+export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger extends Component {
   eventType = 'click';
   stopPropagation = false;
 

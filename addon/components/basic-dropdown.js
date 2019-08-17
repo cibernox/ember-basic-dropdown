@@ -19,9 +19,7 @@ const ignoredStyleAttrs = [
   'height'
 ];
 
-@layout(templateLayout)
-@tagName('')
-export default class BasicDropdown extends Component {
+export default @layout(templateLayout) @tagName('') class BasicDropdown extends Component {
   top = null;
   left = null;
   right = null;
