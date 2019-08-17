@@ -50,9 +50,7 @@ function dropdownIsValidParent(el, dropdownId) {
     return false;
   }
 }
-@layout(templateLayout)
-@tagName('')
-export default class BasicDropdownContent extends Component {
+export default @layout(templateLayout) @tagName('')class BasicDropdownContent extends Component {
   isTouchDevice = Boolean(!!window && 'ontouchstart' in window);
   hasMoved = false;
   animationClass = '';
