@@ -14,7 +14,6 @@ module.exports = {
         process.env.CI ? '--no-sandbox' : null,
         '--headless',
         '--touch-events',
-        '--disable-gpu',
         '--disable-dev-shm-usage',
         '--disable-software-rasterizer',
         '--mute-audio',
