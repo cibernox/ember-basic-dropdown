@@ -98,7 +98,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
 
     this.willOpen = function(dropdown, e) {
       assert.equal(dropdown.isOpen, false, 'The received dropdown has a `isOpen` property that is still false');
-      assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+      assert.ok(Object.prototype.hasOwnProperty.call(dropdown, 'actions'), 'The received dropdown has a `actions` property');
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onOpen action was invoked');
     };
@@ -139,7 +139,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
 
     this.willClose = function(dropdown, e) {
       assert.equal(dropdown.isOpen, true, 'The received dropdown has a `isOpen` property and its value is `true`');
-      assert.ok(dropdown.hasOwnProperty('actions'), 'The received dropdown has a `actions` property');
+      assert.ok(Object.prototype.hasOwnProperty.call(dropdown, 'actions'), 'The received dropdown has a `actions` property');
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onClose action was invoked');
     };
@@ -552,10 +552,10 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     run(() => {
       returnValue = remoteController.actions.reposition();
     });
-    assert.ok(returnValue.hasOwnProperty('hPosition'));
-    assert.ok(returnValue.hasOwnProperty('vPosition'));
-    assert.ok(returnValue.hasOwnProperty('top'));
-    assert.ok(returnValue.hasOwnProperty('left'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'hPosition'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'vPosition'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'top'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'left'));
   });
 
   test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function(assert) {
