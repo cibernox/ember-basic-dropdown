@@ -736,7 +736,7 @@
     ember-cli-babel-plugin-helpers "^1.0.0"
     ember-cli-version-checker "^2.1.0"
 
-"@ember-decorators/component@^6.0.0", "@ember-decorators/component@^6.1.0":
+"@ember-decorators/component@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/component/-/component-6.1.0.tgz#fe1f449bf1407387ddc6c48fe9488ca8b261f6cf"
   integrity sha512-htRW62o+lE92cagoIRsHJAq4gTJk41BSOjid2DEejqKBp8tA/fkARcLTYwC5gXjDfYXvWlUAHX2GSlhN3hDqIw==
@@ -3716,7 +3716,7 @@ ember-cli@~3.13.0-beta.1:
     nopt "^3.0.6"
     npm-package-arg "^6.1.0"
     p-defer "^3.0.0"
-    portfinder "^1.0.20"
+    portfinder "^1.0.21"
     promise-map-series "^0.2.3"
     promise.prototype.finally "^3.1.0"
     quick-temp "^0.1.8"
@@ -3777,7 +3777,7 @@ ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.2.0:
     ember-compatibility-helpers "^1.2.0"
     ember-maybe-import-regenerator "^0.1.5"
 
-ember-decorators@^6.0.0:
+ember-decorators@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/ember-decorators/-/ember-decorators-6.1.0.tgz#7bfee7a06314618addfa4eb43d99700c5765bb50"
   integrity sha512-8xV3Ldn9WbW20tPf6EuumXmDwSq7sfttLRmBku+7VPmwh8fnWHc/3apy5ic3bM2baszs1X012gvMTkrH9lUPTg==
