@@ -113,12 +113,12 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
     let triggerElement = document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
     this.handleRootMouseDown = (e) => {
       if (this.hasMoved || dropdownElement.contains(e.target) || triggerElement && triggerElement.contains(e.target)) {
-        this.hasMoved = false;
+        this.set('hasMoved', false);
         return;
       }
 
       if (dropdownIsValidParent(e.target, this.dropdownId)) {
-        this.hasMoved = false;
+        this.set('hasMoved', false);
         return;
       }
 
@@ -133,7 +133,7 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
 
-    this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
+    this.set('scrollableAncestors', this.getScrollableAncestors(triggerElement));
     this.addScrollHandling(dropdownElement);
   }
 
