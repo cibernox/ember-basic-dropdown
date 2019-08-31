@@ -1,3 +1,7 @@
+# 2.0.5
+- [CHORE] Update npm packages to tests pass in beta and canary
+- [BUGFIX] Ensure Ember doesn't complain about not using `set` to update values.
+
 # 2.0.4
 - [ENHANCEMENT] Allow to pass a `@defaultClass` argument to the content. This is necessary to be able to
   assign classes while the `{{component}}` helper does not allow to pass attributes like in angle-bracket syntax.
