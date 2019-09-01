@@ -1,20 +1,15 @@
-import { layout, tagName } from "@ember-decorators/component";
+import Component from '@glimmer/component';
 import { action } from "@ember/object";
-import Component from "@ember/component";
-import templateLayout from '../templates/components/basic-dropdown-trigger';
 
-export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger extends Component {
-  eventType = 'click';
-  stopPropagation = false;
-
+export default class BasicDropdownTrigger extends Component {
   // Actions
   @action
   handleMouseDown(e) {
-    if (this.dropdown.disabled) {
+    if (this.args.dropdown.disabled) {
       return;
     }
-    if (this.eventType !== 'mousedown' || e.button !== 0) return;
-    if (this.stopPropagation) {
+    if (this.args.eventType !== 'mousedown' || e.button !== 0) return;
+    if (this.args.stopPropagation) {
       e.stopPropagation();
     }
     this._stopTextSelectionUntilMouseup();
@@ -25,17 +20,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
       this.toggleIsBeingHandledByTouchEvents = false;
       return;
     }
-    this.dropdown.actions.toggle(e);
+    this.args.dropdown.actions.toggle(e);
   }
 
   @action
   handleClick(e) {
     if (typeof document === 'undefined') return;
-    if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
+    if (this.isDestroyed || !this.args.dropdown || this.args.dropdown.disabled) {
       return;
     }
-    if (this.eventType !== 'click' || e.button !== 0) return;
-    if (this.stopPropagation) {
+    if ((this.args.eventType !== undefined && this.eventType !== 'click') || e.button !== 0) return;
+    if (this.args.stopPropagation) {
       e.stopPropagation();
     }
     if (this.toggleIsBeingHandledByTouchEvents) {
@@ -45,21 +40,21 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
       this.toggleIsBeingHandledByTouchEvents = false;
       return;
     }
-    this.dropdown.actions.toggle(e);
+    this.args.dropdown.actions.toggle(e);
   }
 
   @action
   handleKeyDown(e) {
-    if (this.dropdown.disabled) {
+    if (this.args.dropdown.disabled) {
       return;
     }
     if (e.keyCode === 13) {  // Enter
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     } else if (e.keyCode === 32) { // Space
       e.preventDefault(); // prevents the space to trigger a scroll page-next
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     } else if (e.keyCode === 27) {
-      this.dropdown.actions.close(e);
+      this.args.dropdown.actions.close(e);
     }
   }
 
@@ -71,11 +66,11 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
   @action
   handleTouchEnd(e) {
     this.toggleIsBeingHandledByTouchEvents = true;
-    if (e && e.defaultPrevented || this.dropdown.disabled) {
+    if (e && e.defaultPrevented || this.args.dropdown.disabled) {
       return;
     }
     if (!this.hasMoved) {
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     }
     this.hasMoved = false;
     document.removeEventListener('touchmove', this._touchMoveHandler);

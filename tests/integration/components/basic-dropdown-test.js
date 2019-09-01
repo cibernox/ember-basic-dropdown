@@ -651,55 +651,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // State replacement
-  test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', async function(assert) {
-    assert.expect(2);
-
-    this.owner.register('component:trigger-with-did-receive-attrs', Trigger.extend({
-      layout: hbs`
-        {{#let (element (or @htmlTag "div")) as |Element|}}
-          <Element
-            class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
-            role="button"
-            tabindex={{unless @dropdown.disabled "0"}}
-            data-ebd-id="{{@dropdown.uniqueId}}-trigger"
-            aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
-            aria-expanded={{if @dropdown.isOpen "true"}}
-            aria-disabled={{if @dropdown.disabled "true"}}
-            {{will-destroy this.removeGlobalHandlers}}
-            ...attributes
-            {{on "mousedown" this.handleMouseDown}}
-            {{on "click" this.handleClick}}
-            {{on "keydown" this.handleKeyDown}}
-            {{on "touchstart" this.handleTouchStart}}
-            {{on "touchend" this.handleTouchEnd}}
-            >
-            {{yield}} {{#if didOpen}}<span class="did-open-span">Did open!</span>{{/if}}
-          </Element>
-        {{/let}}
-      `,
-      didOpen: false,
-
-      didReceiveAttrs() {
-        let { dropdown, oldDropdown = {} } = this;
-        if ((oldDropdown && oldDropdown.isOpen) === false && dropdown.isOpen) {
-          this.set('didOpen', true);
-        }
-        this.set('oldDropdown', dropdown);
-      }
-    }));
-
-    await render(hbs`
-      <BasicDropdown @triggerComponent="trigger-with-did-receive-attrs" as |dropdown|>
-        <dropdown.Trigger>Open me</dropdown.Trigger>
-        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
-      </BasicDropdown>
-    `);
-
-    assert.dom('.ember-basic-dropdown-trigger').hasText('Open me');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown-trigger').hasText('Open me Did open!');
-  });
-
   test('The registerAPI is called with every mutation of the publicAPI object', async function(assert) {
     assert.expect(7);
     let apis = [];
