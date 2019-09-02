@@ -1,10 +1,9 @@
-import { layout, tagName } from "@ember-decorators/component";
-import { computed, action } from "@ember/object";
-import Component from '@ember/component';
+import { action } from "@ember/object";
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { join } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { htmlSafe } from '@ember/string';
-import templateLayout from '../templates/components/basic-dropdown-content';
 import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
@@ -50,27 +49,26 @@ function dropdownIsValidParent(el, dropdownId) {
     return false;
   }
 }
-export default @layout(templateLayout) @tagName('')class BasicDropdownContent extends Component {
-  isTouchDevice = Boolean(!!window && 'ontouchstart' in window);
-  hasMoved = false;
-  animationClass = '';
-  transitioningInClass = 'ember-basic-dropdown--transitioning-in';
-  transitionedInClass = 'ember-basic-dropdown--transitioned-in';
-  transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
-  scrollableAncestors = [];
+export default class BasicDropdownContent extends Component {
+  @tracked top
+  @tracked left
+  @tracked right
+  @tracked width
+  @tracked height
+  @tracked otherStyles
+  isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
+  animationClass = this.animationEnabled ? this.transitioningInClass : ''
+  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
 
-  // CPs
-  @computed
+  get destinationElement() {
+    return document.getElementById(this.args.destination);
+  }
+
   get animationEnabled() {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }
-  @computed('destination')
-  get destinationElement() {
-    return document.getElementById(this.destination);
-  }
 
-  @computed('top', 'left', 'right', 'width', 'height', 'otherStyles')
   get style() {
     let style = '';
     let { top, left, right, width, height, otherStyles } = this;
@@ -99,32 +97,23 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
     return htmlSafe(style);
   }
 
-  init() {
-    super.init(...arguments);
-    this.dropdownId = `ember-basic-dropdown-content-${this.dropdown.uniqueId}`;
-    if (this.animationEnabled) {
-      this.set('animationClass', this.transitioningInClass);
-    }
-  }
-
-  // Methods
   @action
   setup(dropdownElement) {
-    let triggerElement = document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
+    let triggerElement = document.querySelector(`[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`);
     this.handleRootMouseDown = (e) => {
       if (this.hasMoved || dropdownElement.contains(e.target) || triggerElement && triggerElement.contains(e.target)) {
-        this.set('hasMoved', false);
+        this.hasMoved = false;
         return;
       }
 
       if (dropdownIsValidParent(e.target, this.dropdownId)) {
-        this.set('hasMoved', false);
+        this.hasMoved = false;
         return;
       }
 
-      this.dropdown.actions.close(e, true);
+      this.args.dropdown.actions.close(e, true);
     }
-    document.addEventListener(this.rootEventType, this.handleRootMouseDown, true);
+    document.addEventListener(this.args.rootEventType, this.handleRootMouseDown, true);
     window.addEventListener('resize', this.runloopAwareReposition);
     window.addEventListener('orientationchange', this.runloopAwareReposition);
 
@@ -133,9 +122,10 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
 
-    this.set('scrollableAncestors', this.getScrollableAncestors(triggerElement));
+    this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
     this.addScrollHandling(dropdownElement);
   }
+
 
   @action
   teardown() {
@@ -143,7 +133,7 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
     this.removeScrollHandling();
     this.scrollableAncestors = [];
 
-    document.removeEventListener(this.rootEventType, this.handleRootMouseDown, true);
+    document.removeEventListener(this.args.rootEventType, this.handleRootMouseDown, true);
 
     if (this.isTouchDevice) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
@@ -162,7 +152,7 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   @action
   animateOut(dropdownElement) {
     if (!this.animationEnabled) return;
-    let parentElement = this.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
+    let parentElement = this.args.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
     let clone = dropdownElement.cloneNode(true);
     clone.id = `${clone.id}--clone`;
     clone.classList.remove(...this.transitioningInClass.split(' '));
@@ -203,9 +193,11 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
 
   @action
   runloopAwareReposition() {
-    join(this.dropdown.actions.reposition);
+    join(this.args.dropdown.actions.reposition);
   }
 
+
+  // Methods
   removeGlobalEvents() {
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener('orientationchange', this.runloopAwareReposition);
@@ -225,7 +217,7 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   }
 
   addScrollHandling(dropdownElement) {
-    if (this.preventScroll === true) {
+    if (this.args.preventScroll === true) {
       let wheelHandler = (event) => {
         if (dropdownElement.contains(event.target) || dropdownElement === event.target) {
           // Discover the amount of scrollable canvas that is within the dropdown.

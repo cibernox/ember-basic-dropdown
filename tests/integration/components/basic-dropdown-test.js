@@ -620,7 +620,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The dropdown is in the right');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;right: 222px', 'The style attribute is the expected one');
   });
 
   // Customization of inner components
@@ -740,7 +740,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger.child');
     assert.dom('.body-child').exists('the child dropdown is rendered');
 
-    await   click('.ember-basic-dropdown-trigger.grandchild');
+    await click('.ember-basic-dropdown-trigger.grandchild');
     assert.dom('.body-grandchild').exists('the grandchild dropdown is rendered');
 
     // click in the grandchild dropdown
