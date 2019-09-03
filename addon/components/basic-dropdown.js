@@ -2,14 +2,15 @@ import Component from '@glimmer/component';
 // import { layout, tagName } from "@ember-decorators/component";
 // import { computed } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
-import { set } from '@ember/object';
-import { join } from '@ember/runloop';
+// import { set } from '@ember/object';
+// import { join } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
+import { schedule } from '@ember/runloop';
 // import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
-import { assign } from '@ember/polyfills';
+// import { assign } from '@ember/polyfills';
 import requirejs from 'require';
 
 const ignoredStyleAttrs = [
@@ -20,10 +21,12 @@ const ignoredStyleAttrs = [
   'height'
 ];
 
+const UNINITIALIZED = {};
+
 export default class BasicDropdown extends Component {
   @tracked hPosition
   @tracked vPosition
-  @tracked otherStyles
+  @tracked otherStyles = {}
   @tracked top = null
   @tracked left = null
   @tracked right = null
@@ -35,6 +38,7 @@ export default class BasicDropdown extends Component {
   horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
   _uid = guidFor(this)
   dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  _previousDisabled = UNINITIALIZED
   _actions = {
     open: this.open.bind(this),
     close: this.close.bind(this),
@@ -42,11 +46,22 @@ export default class BasicDropdown extends Component {
     reposition: this.reposition.bind(this)
   }
 
+  get disabled() {
+    let newVal = this.args.disabled || false;
+    if (this._previousDisabled !== UNINITIALIZED && this._previousDisabled !== newVal) {
+      schedule('actions', () => {
+        this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+      });
+    }
+    this._previousDisabled = newVal;
+    return newVal
+  }
+
   get publicAPI() {
     return {
       uniqueId: this._uid,
       isOpen: this.isOpen,
-      disabled: this.args.disabled || false,
+      disabled: this.disabled,
       actions: this._actions
     }
   }
@@ -57,6 +72,7 @@ export default class BasicDropdown extends Component {
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
     }
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
   willDestroy() {
@@ -86,6 +102,7 @@ export default class BasicDropdown extends Component {
       return;
     }
     this.isOpen = true;
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
   close(e, skipFocus) {
@@ -104,6 +121,7 @@ export default class BasicDropdown extends Component {
     this.hPosition = this.vPosition = this.top = this.left = this.right = this.width = this.height = null;
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.isOpen = false;
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
     if (skipFocus) {
       return;
     }
