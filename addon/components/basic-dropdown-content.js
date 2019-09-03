@@ -56,8 +56,8 @@ export default class BasicDropdownContent extends Component {
   @tracked width
   @tracked height
   @tracked otherStyles
+  @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
   isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
-  animationClass = this.animationEnabled ? this.transitioningInClass : ''
   dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
 
   get destinationElement() {
@@ -145,7 +145,7 @@ export default class BasicDropdownContent extends Component {
   animateIn(dropdownElement) {
     if (!this.animationEnabled) return;
     waitForAnimations(dropdownElement, () => {
-      this.set('animationClass', this.transitionedInClass);
+      this.animationClass = this.transitionedInClass;
     });
   }
 
@@ -158,7 +158,7 @@ export default class BasicDropdownContent extends Component {
     clone.classList.remove(...this.transitioningInClass.split(' '));
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
-    this.set('animationClass', this.transitioningInClass);
+    this.animationClass = this.transitionedInClass;
     waitForAnimations(clone, function () {
       parentElement.removeChild(clone);
     });
