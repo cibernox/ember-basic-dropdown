@@ -24,11 +24,11 @@ export default class BasicDropdown extends Component {
   @tracked hPosition
   @tracked vPosition
   @tracked otherStyles
-  @tracked top
-  @tracked left
-  @tracked right
-  @tracked width
-  @tracked height
+  @tracked top = null
+  @tracked left = null
+  @tracked right = null
+  @tracked width = null
+  @tracked height = null
   @tracked isOpen = this.args.initiallyOpened || false
   renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
   verticalPosition = this.args.verticalPosition || 'auto'; // above | below
