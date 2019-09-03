@@ -50,6 +50,11 @@ function dropdownIsValidParent(el, dropdownId) {
   }
 }
 export default class BasicDropdownContent extends Component {
+  transitioningInClass = this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
+  transitionedInClass = this.args.transitionedInClass || 'ember-basic-dropdown--transitioned-in';
+  transitioningOutClass = this.args.transitioningOutClass || 'ember-basic-dropdown--transitioning-out';
+  isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
+  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
   @tracked top
   @tracked left
   @tracked right
@@ -57,8 +62,6 @@ export default class BasicDropdownContent extends Component {
   @tracked height
   @tracked otherStyles
   @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
-  isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
-  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
 
   get destinationElement() {
     return document.getElementById(this.args.destination);
