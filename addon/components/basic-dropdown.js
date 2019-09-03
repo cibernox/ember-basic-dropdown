@@ -46,10 +46,17 @@ export default class BasicDropdown extends Component {
     reposition: this.reposition.bind(this)
   }
 
+  get destination() {
+    return this.args.destination || this._getDestinationId();
+  }
+
   get disabled() {
     let newVal = this.args.disabled || false;
     if (this._previousDisabled !== UNINITIALIZED && this._previousDisabled !== newVal) {
       schedule('actions', () => {
+        if (newVal && this.publicAPI.isOpen) {
+          this.isOpen = false;
+        }
         this.args.registerAPI && this.args.registerAPI(this.publicAPI);
       });
     }
@@ -80,14 +87,6 @@ export default class BasicDropdown extends Component {
     if (this.args.registerAPI) {
       this.args.registerAPI(null);
     }
-  }
-
-  // Properties
-  get destination() {
-    return this._getDestinationId();
-  }
-  set destination(v) {
-    return v === undefined ? this._getDestinationId() : v;
   }
 
   // Methods

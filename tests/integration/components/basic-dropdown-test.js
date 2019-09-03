@@ -3,8 +3,7 @@ import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { render, click, focus, triggerEvent } from '@ember/test-helpers';
-import Trigger from 'ember-basic-dropdown/components/basic-dropdown-trigger';
+import { render, click, focus, triggerEvent, settled } from '@ember/test-helpers';
 
 
 let deprecations = [];
@@ -492,8 +491,8 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
       <div id="id-of-elmnt"></div>
     `);
-
     await click('.ember-basic-dropdown-trigger');
+    await settled();
     assert.dom(this.element.querySelector('.ember-basic-dropdown-content').parentNode).hasAttribute('id', 'id-of-elmnt', 'The content has been rendered in an alternative destination');
   });
 
