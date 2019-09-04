@@ -144,7 +144,7 @@ export default class BasicDropdown extends Component {
 
     this.destinationElement = this.destinationElement || document.getElementById(this.destination);
     let { horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition } = this;
-    let { renderInPlace = false, matchTriggerWidth = true } = this.args;
+    let { renderInPlace = false, matchTriggerWidth = false } = this.args;
     let positionData = (this.args.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, {
       horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition,
       renderInPlace,matchTriggerWidth,
