@@ -89,14 +89,34 @@
       <td>An action that will be invoked with the new public API of the component every time there is a change in the state of the component.</td>
     </tr>
     <tr>
-      <td>onOpen</td>
+      <td>onBeforeOpen</td>
       <td><code>Function</code></td>
       <td>Action that will be called when the component is about to open. Returning <code>false</code> from this function will prevent the component from being opened.</td>
     </tr>
     <tr>
-      <td>onClose    </td>
+      <td>onAfterOpen</td>
       <td><code>Function</code></td>
-      <td>Action that will be called when the component is about to close. Returning <code>false</code> from this function will prevent the component from being closed.</td>
+      <td>Action that will be called when the component has finished opening</td>
+    </tr>
+    <tr>
+      <td>onBeforeClose</td>
+      <td><code>Function</code></td>
+      <td>Action that will be called when the component is about to close. Returning <code>false</code> from this function will prevent the component from being opened.</td>
+    </tr>
+    <tr>
+      <td>onAfterClose</td>
+      <td><code>Function</code></td>
+      <td>Action that will be called when the component has finished closing <b>only if</b> the dropdown hasn't been destroyed.</td>
+    </tr>
+    <tr>
+      <td>onOpen</td>
+      <td><code>Function</code></td>
+      <td><strong>[DEPRECATED]</strong> Action that will be called when the component is about to open. Returning <code>false</code> from this function will prevent the component from being opened.</td>
+    </tr>
+    <tr>
+      <td>onClose</td>
+      <td><code>Function</code></td>
+      <td><strong>[DEPRECATED]</strong> Action that will be called when the component is about to close. Returning <code>false</code> from this function will prevent the component from being closed.</td>
     </tr>
   </tbody>
 </table>
