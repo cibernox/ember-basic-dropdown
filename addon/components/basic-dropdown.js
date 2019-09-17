@@ -10,6 +10,7 @@ import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
 import { assign } from '@ember/polyfills';
 import requirejs from 'require';
+import { deprecate } from '@ember/application/deprecations';
 
 const ignoredStyleAttrs = [
   'top',
@@ -89,10 +90,23 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
-    if (this.onOpen && this.onOpen(this.publicAPI, e) === false) {
+    if (this.onOpen) {
+      deprecate("onOpen is deprecated and will be removed in the future. Please use onBeforeOpen instead", false, {
+        id: 'ember-basic-dropdown.onOpen',
+        until: '3.0.0',
+        url: 'https://ember-basic-dropdown.com/docs/dropdown-events',
+      });
+      if (this.onOpen(this.publicAPI, e) === false) {
+        return;
+      }
+    }
+    if (this.onBeforeOpen && this.onBeforeOpen(this.publicAPI, e) === false) {
       return;
     }
     this.updateState({ isOpen: true });
+    if (this.onAfterOpen) {
+      this.onAfterOpen(this.publicAPI, e);
+    }
   }
 
   close(e, skipFocus) {
@@ -102,7 +116,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
-    if (this.onClose && this.onClose(this.publicAPI, e) === false) {
+    if (this.onClose) {
+      deprecate("onClose is deprecated and will be removed in the future. Please use onBeforeClose instead", false, {
+        id: 'ember-basic-dropdown.onClose',
+        until: '3.0.0',
+        url: 'https://ember-basic-dropdown.com/docs/dropdown-events',
+      });
+      if (this.onClose(this.publicAPI, e) === false) {
+        return;
+      }
+    }
+    if (this.onBeforeClose && this.onBeforeClose(this.publicAPI, e) === false) {
       return;
     }
     if (this.isDestroyed) {
@@ -111,6 +135,10 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.updateState({ isOpen: false });
+    // NOTE: onAfterClose isn't going to be called if the dropdown was destroyed
+    if (this.onAfterClose) {
+      this.onAfterClose(this.publicAPI, e);
+    }
     if (skipFocus) {
       return;
     }
