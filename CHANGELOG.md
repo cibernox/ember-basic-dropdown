@@ -1,3 +1,7 @@
+# 2.0.6
+- [DEPRECATION] Deprecate onOpen and onClose hooks. Suggest to use onBeforeOpen and onBeforeClose
+- [ENHANCEMENT] Add onAfterOpen and onAfterClose hooks that are called after changes in the dropdown state
+
 # 2.0.5
 - [CHORE] Update npm packages to tests pass in beta and canary
 - [BUGFIX] Ensure Ember doesn't complain about not using `set` to update values.
