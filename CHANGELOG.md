@@ -1,3 +1,7 @@
+# 2.0.6
+- [ENHANCEMENT] Add development assertion to help people understand the somewhat cryptic error message that
+  appeared when there was no element with id `ember-basic-dropdown-wormhole` in the document
+
 # 2.0.5
 - [CHORE] Update npm packages to tests pass in beta and canary
 - [BUGFIX] Ensure Ember doesn't complain about not using `set` to update values.
