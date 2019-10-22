@@ -20,19 +20,10 @@
           {{will-destroy this.teardown}}
 
           {{!-- V1 compatibility - See #498 --}}
-          {{#if @onFocusIn}}
-            {{on "focusin" @onFocusIn}}
-          {{/if}}
-          {{#if @onFocusOut}}
-            {{on "focusout" @onFocusOut}}
-          {{/if}}
-          {{#if @onMouseEnter}}
-            {{on "mouseenter" @onMouseEnter}}
-          {{/if}}
-          {{#if @onMouseLeave}}
-            {{on "mouseleave" @onMouseLeave}}
-          {{/if}}
-
+          {{on "focusin" (or @onFocusIn this.noop)}}
+          {{on "focusout" (or @onFocusOut this.noop)}}
+          {{on "mouseenter" (or @onMouseEnter this.noop)}}
+          {{on "mouseleave" (or @onMouseLeave this.noop)}}
           ...attributes>
           {{yield}}
         </Element>

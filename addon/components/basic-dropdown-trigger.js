@@ -8,6 +8,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
   stopPropagation = false;
 
   // Actions
+  /**
+   * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
+   * Avoids adding extra dependencies.
+   * Can be removed when the template `V1` compatability event handlers are removed.
+   * 
+   * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * @memberof BasicDropdownContent
+   */
+  @action
+  noop() {}
+  
   @action
   handleMouseDown(e) {
     if (this.dropdown.disabled) {

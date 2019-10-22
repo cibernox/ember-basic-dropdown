@@ -16,36 +16,16 @@
     {{on "touchend" this.handleTouchEnd}}
 
     {{!-- V1 compatibility - See #498 --}}
-    {{#if @onKeyDown}}
-      {{on "keydown" @onKeyDown}}
-    {{/if}}
-    {{#if @onMouseDown}}
-      {{on "mousedown" @onMouseDown}}
-    {{/if}}
-    {{#if @onTouchEnd}}
-      {{on "touchend" @onTouchEnd}}
-    {{/if}}
-    {{#if @onClick}}
-      {{on "click" @onClick}}
-    {{/if}}
-    {{#if @onMouseEnter}}
-      {{on "mouseenter" @onMouseEnter}}
-    {{/if}}
-    {{#if @onMouseLeave}}
-      {{on "mouseleave" @onMouseLeave}}
-    {{/if}}
-    {{#if @onFocus}}
-      {{on "focus" @onFocus}}
-    {{/if}}
-    {{#if @onBlur}}
-      {{on "blur" @onBlur}}
-    {{/if}}
-    {{#if @onFocusIn}}
-      {{on "focusin" @onFocusIn}}
-    {{/if}}
-    {{#if @onFocusOut}}
-      {{on "focusout" @onFocusOut}}
-    {{/if}}
+    {{on "keydown" (or @onKeyDown this.noop)}}
+    {{on "mousedown" (or @onMouseDown this.noop)}}
+    {{on "touchend" (or @onTouchEnd this.noop)}}
+    {{on "click" (or @onClick this.noop)}}
+    {{on "mouseenter" (or @onMouseEnter this.noop)}}
+    {{on "mouseleave" (or @onMouseLeave this.noop)}}
+    {{on "focus" (or @onFocus this.noop)}}
+    {{on "blur" (or @onBlur this.noop)}}
+    {{on "focusin" (or @onFocusIn this.noop)}}
+    {{on "focusout" (or @onFocusOut this.noop)}}
     >
     {{yield}}
   </Element>

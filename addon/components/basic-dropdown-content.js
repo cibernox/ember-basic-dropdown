@@ -108,6 +108,17 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   }
 
   // Methods
+  /**
+   * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
+   * Avoids adding extra dependencies.
+   * Can be removed when the template `V1` compatability event handlers are removed.
+   * 
+   * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * @memberof BasicDropdownContent
+   */
+  @action
+  noop() {}
+
   @action
   setup(dropdownElement) {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
