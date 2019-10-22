@@ -16,7 +16,6 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
    * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
    */
-  @action
   noop() {}
   
   @action

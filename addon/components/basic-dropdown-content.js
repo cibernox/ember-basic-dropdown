@@ -116,7 +116,6 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
    * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
    */
-  @action
   noop() {}
 
   @action
