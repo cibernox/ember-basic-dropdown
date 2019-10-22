@@ -18,6 +18,12 @@
           {{will-destroy this.teardownMutationObserver}}
           {{will-destroy this.animateOut}}
           {{will-destroy this.teardown}}
+
+          {{!-- V1 compatibility - See #498 --}}
+          {{on 'focusin' @onFocusIn}}
+          {{on 'focusout' @onFocusOut}}
+          {{on 'mouseenter' @onMouseEnter}}
+          {{on 'mouseleave' @onMouseLeave}}
           ...attributes>
           {{yield}}
         </Element>
