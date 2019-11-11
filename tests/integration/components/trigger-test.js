@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { render, triggerEvent, triggerKeyEvent, tap, click } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object'
