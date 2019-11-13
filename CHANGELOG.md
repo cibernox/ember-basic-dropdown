@@ -1,3 +1,9 @@
+# 2.0.8
+- [BUGFIX] Correct condition in which the development assertion added in 2.0.6 is thrown. Logic was reversed.
+
+# 2.0.7
+- [BUGFIX] Update `ember-element-helper` to 0.2.0 to fix bug in engines
+
 # 2.0.6
 - [ENHANCEMENT] Add development assertion to help people understand the somewhat cryptic error message that
   appeared when there was no element with id `ember-basic-dropdown-wormhole` in the document
