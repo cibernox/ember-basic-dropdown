@@ -6,6 +6,7 @@ import { DEBUG } from '@glimmer/env';
 import { assert } from '@ember/debug';
 import calculatePosition from '../utils/calculate-position';
 import requirejs from 'require';
+import { schedule } from '@ember/runloop';
 
 const ignoredStyleAttrs = [
   'top',
