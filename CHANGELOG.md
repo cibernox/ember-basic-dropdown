@@ -1,3 +1,6 @@
+# 2.0.9
+- [CHORE] Update some dependencies. More importantly `ember-element-modifiers` to 1.0.2 which changes its behavior.
+
 # 2.0.8
 - [BUGFIX] Correct condition in which the development assertion added in 2.0.6 is thrown. Logic was reversed.
 
