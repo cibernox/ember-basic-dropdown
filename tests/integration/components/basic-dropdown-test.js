@@ -2,9 +2,8 @@ import { run } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { render, click, focus, triggerEvent, settled } from '@ember/test-helpers';
-
 
 let deprecations = [];
 

@@ -1,3 +1,16 @@
+# 2.0.9
+- [CHORE] Update some dependencies. More importantly `ember-element-modifiers` to 1.0.2 which changes its behavior.
+
+# 2.0.8
+- [BUGFIX] Correct condition in which the development assertion added in 2.0.6 is thrown. Logic was reversed.
+
+# 2.0.7
+- [BUGFIX] Update `ember-element-helper` to 0.2.0 to fix bug in engines
+
+# 2.0.6
+- [ENHANCEMENT] Add development assertion to help people understand the somewhat cryptic error message that
+  appeared when there was no element with id `ember-basic-dropdown-wormhole` in the document
+
 # 2.0.5
 - [CHORE] Update npm packages to tests pass in beta and canary
 - [BUGFIX] Ensure Ember doesn't complain about not using `set` to update values.

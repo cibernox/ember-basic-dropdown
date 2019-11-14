@@ -3,7 +3,7 @@ import { tracked } from "@glimmer/tracking";
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
-import { schedule } from '@ember/runloop';
+import { assert } from '@ember/debug';
 import calculatePosition from '../utils/calculate-position';
 import requirejs from 'require';
 
@@ -216,9 +216,9 @@ export default class BasicDropdown extends Component {
 
   _getDestinationId() {
     let config = getOwner(this).resolveRegistration('config:environment');
+    let id;
     if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
       if (DEBUG) {
-        let id, rootView;
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
           try {
             id = requirejs('@ember/test-helpers/dom/get-root-element').default().id;
@@ -227,12 +227,16 @@ export default class BasicDropdown extends Component {
           }
         }
         if (!id) {
-          rootView = document.querySelector('#ember-testing > .ember-view');
+          let rootView = document.querySelector('#ember-testing > .ember-view');
           id = rootView ? rootView.id : undefined;
         }
         return id;
       }
     }
-    return config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+    id = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
+    if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
+      assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
+    }
+    return id;
   }
 }
