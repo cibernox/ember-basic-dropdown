@@ -207,17 +207,11 @@ export default class BasicDropdown extends Component {
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
-<<<<<<< HEAD
     for (let key in changes) {
       this[key] = changes[key]
     }
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
-=======
-    this.setProperties(changes);
-    this.set('previousHorizontalPosition', positions.horizontalPosition);
-    this.set('previousVerticalPosition', positions.verticalPosition);
->>>>>>> master
     return changes;
   }
 
