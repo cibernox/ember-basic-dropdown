@@ -1,3 +1,5 @@
+# 3.0.0-alpha.1
+
 # 2.0.10
 - [BUGFIX] Use `set` when changing `previousVerticalPosition` and `previousHorizontalPosition`.
 
