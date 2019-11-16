@@ -2,7 +2,7 @@
 {{#if @dropdown.isOpen}}
   <div class="ember-basic-dropdown-content-wormhole-origin">
     {{#maybe-in-element this.destinationElement @renderInPlace}}
-      {{#if overlay}}
+      {{#if @overlay}}
         <div class="ember-basic-dropdown-overlay"></div>
       {{/if}}
       {{#let (element (or @htmlTag "div")) as |Element|}}

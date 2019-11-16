@@ -1,16 +1,12 @@
-import Component from '@ember/component';
-import { layout, tagName } from "@ember-decorators/component";
-import { computed } from "@ember/object";
-import { set } from '@ember/object';
-import { join } from '@ember/runloop';
+import Component from '@glimmer/component';
+import { tracked } from "@glimmer/tracking";
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
 import { assert } from '@ember/debug';
-import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
-import { assign } from '@ember/polyfills';
 import requirejs from 'require';
+import { schedule } from '@ember/runloop';
 
 const ignoredStyleAttrs = [
   'top',
@@ -20,66 +16,72 @@ const ignoredStyleAttrs = [
   'height'
 ];
 
-export default @layout(templateLayout) @tagName('') class BasicDropdown extends Component {
-  top = null;
-  left = null;
-  right = null;
-  width = null;
-  height = null;
-  otherStyles = {};
-  publicAPI = {};
-  renderInPlace = false;
-  verticalPosition = 'auto'; // above | below
-  horizontalPosition = 'auto'; // auto-right | right | center | left
-  matchTriggerWidth = false;
+const UNINITIALIZED = {};
 
-  // Lifecycle hooks
-  init() {
-    super.init(...arguments);
-    let publicAPI = this.updateState({
-      uniqueId: guidFor(this),
-      isOpen: this.initiallyOpened || false,
-      disabled: this.disabled || false,
-      actions: {
-        open: this.open.bind(this),
-        close: this.close.bind(this),
-        toggle: this.toggle.bind(this),
-        reposition: this.reposition.bind(this)
-      }
-    });
+export default class BasicDropdown extends Component {
+  @tracked hPosition
+  @tracked vPosition
+  @tracked otherStyles = {}
+  @tracked top = null
+  @tracked left = null
+  @tracked right = null
+  @tracked width = null
+  @tracked height = null
+  @tracked isOpen = this.args.initiallyOpened || false
+  renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
+  verticalPosition = this.args.verticalPosition || 'auto'; // above | below
+  horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
+  _uid = guidFor(this)
+  dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  _previousDisabled = UNINITIALIZED
+  _actions = {
+    open: this.open.bind(this),
+    close: this.close.bind(this),
+    toggle: this.toggle.bind(this),
+    reposition: this.reposition.bind(this)
+  }
 
-    this.dropdownId = this.dropdownId || `ember-basic-dropdown-content-${publicAPI.uniqueId}`;
-    if (this.onInit) {
-      this.onInit(publicAPI);
+  get destination() {
+    return this.args.destination || this._getDestinationId();
+  }
+
+  get disabled() {
+    let newVal = this.args.disabled || false;
+    if (this._previousDisabled !== UNINITIALIZED && this._previousDisabled !== newVal) {
+      schedule('actions', () => {
+        if (newVal && this.publicAPI.isOpen) {
+          this.isOpen = false;
+        }
+        this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+      });
+    }
+    this._previousDisabled = newVal;
+    return newVal
+  }
+
+  get publicAPI() {
+    return {
+      uniqueId: this._uid,
+      isOpen: this.isOpen,
+      disabled: this.disabled,
+      actions: this._actions
     }
   }
 
-  didReceiveAttrs() {
-    super.didReceiveAttrs(...arguments);
-    let oldDisabled = !!this._oldDisabled;
-    let newDisabled = !!this.disabled;
-    this._oldDisabled = newDisabled;
-    if (newDisabled && !oldDisabled) {
-      join(this, this.disable);
-    } else if (!newDisabled && oldDisabled) {
-      join(this, this.enable);
+  // Lifecycle hooks
+  constructor() {
+    super(...arguments);
+    if (this.args.onInit) {
+      this.args.onInit(this.publicAPI);
     }
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
   willDestroy() {
     super.willDestroy(...arguments);
-    if (this.registerAPI) {
-      this.registerAPI(null);
+    if (this.args.registerAPI) {
+      this.args.registerAPI(null);
     }
-  }
-
-  // CPs
-  @computed
-  get destination() {
-    return this._getDestinationId();
-  }
-  set destination(v) {
-    return v === undefined ? this._getDestinationId() : v;
   }
 
   // Methods
@@ -90,10 +92,11 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.publicAPI.disabled || this.publicAPI.isOpen) {
       return;
     }
-    if (this.onOpen && this.onOpen(this.publicAPI, e) === false) {
+    if (this.args.onOpen && this.args.onOpen(this.publicAPI, e) === false) {
       return;
     }
-    this.updateState({ isOpen: true });
+    this.isOpen = true;
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
   close(e, skipFocus) {
@@ -103,24 +106,16 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.publicAPI.disabled || !this.publicAPI.isOpen) {
       return;
     }
-    if (this.onClose && this.onClose(this.publicAPI, e) === false) {
+    if (this.args.onClose && this.args.onClose(this.publicAPI, e) === false) {
       return;
     }
     if (this.isDestroyed) {
       return; // To check that the `onClose` didn't destroy the dropdown
     }
-    this.setProperties({
-      hPosition: null,
-      vPosition: null,
-      top: null,
-      left: null,
-      right: null,
-      width: null,
-      height: null,
-      previousVerticalPosition: null,
-      previousHorizontalPosition: null
-    });
-    this.updateState({ isOpen: false });
+    this.hPosition = this.vPosition = this.top = this.left = this.right = this.width = this.height = null;
+    this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.isOpen = false;
+    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
     if (skipFocus) {
       return;
     }
@@ -149,9 +144,13 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     }
 
     this.destinationElement = this.destinationElement || document.getElementById(this.destination);
-    let options = this.getProperties('horizontalPosition', 'verticalPosition', 'matchTriggerWidth', 'previousHorizontalPosition', 'previousVerticalPosition', 'renderInPlace');
-    options.dropdown = this;
-    let positionData = (this.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, options);
+    let { horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition } = this;
+    let { renderInPlace = false, matchTriggerWidth = false } = this.args;
+    let positionData = (this.args.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, {
+      horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition,
+      renderInPlace,matchTriggerWidth,
+      dropdown: this
+    });
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
@@ -208,29 +207,12 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
-    this.setProperties(changes);
-    this.set('previousHorizontalPosition', positions.horizontalPosition);
-    this.set('previousVerticalPosition', positions.verticalPosition);
+    for (let key in changes) {
+      this[key] = changes[key]
+    }
+    this.previousHorizontalPosition = positions.horizontalPosition;
+    this.previousVerticalPosition = positions.verticalPosition;
     return changes;
-  }
-
-  disable() {
-    if (this.publicAPI.isOpen) {
-      this.publicAPI.actions.close();
-    }
-    this.updateState({ disabled: true });
-  }
-
-  enable() {
-    this.updateState({ disabled: false });
-  }
-
-  updateState(changes) {
-    let newState = set(this, 'publicAPI', assign({}, this.publicAPI, changes));
-    if (this.registerAPI) {
-      this.registerAPI(newState);
-    }
-    return newState;
   }
 
   _getDestinationId() {
