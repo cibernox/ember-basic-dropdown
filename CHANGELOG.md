@@ -1,3 +1,6 @@
+# 2.0.10
+- [BUGFIX] Use `set` when changing `previousVerticalPosition` and `previousHorizontalPosition`.
+
 # 2.0.9
 - [CHORE] Update some dependencies. More importantly `ember-element-modifiers` to 1.0.2 which changes its behavior.
 
