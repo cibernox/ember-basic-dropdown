@@ -109,8 +109,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.isDestroyed) {
       return; // To check that the `onClose` didn't destroy the dropdown
     }
-    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
-    this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.setProperties({
+      hPosition: null,
+      vPosition: null,
+      top: null,
+      left: null,
+      right: null,
+      width: null,
+      height: null,
+      previousVerticalPosition: null,
+      previousHorizontalPosition: null
+    });
     this.updateState({ isOpen: false });
     if (skipFocus) {
       return;
@@ -200,8 +209,8 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
       }
     }
     this.setProperties(changes);
-    this.previousHorizontalPosition = positions.horizontalPosition;
-    this.previousVerticalPosition = positions.verticalPosition;
+    this.set('previousHorizontalPosition', positions.horizontalPosition);
+    this.set('previousVerticalPosition', positions.verticalPosition);
     return changes;
   }
 
