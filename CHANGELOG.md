@@ -1,3 +1,6 @@
+# 3.0.0-beta.2
+- [CHORE] Update to @glimmer/component 1.0.0-beta.2
+
 # 3.0.0-beta.1
 - No changes since alpha 1
 
