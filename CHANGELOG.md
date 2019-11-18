@@ -1,4 +1,8 @@
+# 3.0.0-beta.1
+- No changes since alpha 1
+
 # 3.0.0-alpha.1
+- [MAYBE-BREAKING] Update to glimmer components
 
 # 2.0.10
 - [BUGFIX] Use `set` when changing `previousVerticalPosition` and `previousHorizontalPosition`.
