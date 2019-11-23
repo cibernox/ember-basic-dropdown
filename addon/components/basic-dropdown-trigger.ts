@@ -1,10 +1,27 @@
 import Component from '@glimmer/component';
 import { action } from "@ember/object";
 
-export default class BasicDropdownTrigger extends Component {
+interface DropdownActions {
+  toggle: Function
+  close: Function
+}
+interface Dropdown {
+  disabled: boolean
+  actions: DropdownActions
+}
+interface Args {
+  dropdown: Dropdown
+  eventType: 'click' | 'mousedown'
+  stopPropagation: boolean
+}
+
+export default class BasicDropdownTrigger extends Component<Args> {
+  private toggleIsBeingHandledByTouchEvents: boolean = false
+  private hasMoved: boolean = false
+
   // Actions
   @action
-  handleMouseDown(e) {
+  handleMouseDown(e: MouseEvent) {
     if (this.args.dropdown.disabled) {
       return;
     }
@@ -24,12 +41,12 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
-  handleClick(e) {
+  handleClick(e: MouseEvent) {
     if (typeof document === 'undefined') return;
     if (this.isDestroyed || !this.args.dropdown || this.args.dropdown.disabled) {
       return;
     }
-    if ((this.args.eventType !== undefined && this.eventType !== 'click') || e.button !== 0) return;
+    if ((this.args.eventType !== undefined && this.args.eventType !== 'click') || e.button !== 0) return;
     if (this.args.stopPropagation) {
       e.stopPropagation();
     }
@@ -44,7 +61,7 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
-  handleKeyDown(e) {
+  handleKeyDown(e: KeyboardEvent) {
     if (this.args.dropdown.disabled) {
       return;
     }
@@ -64,7 +81,7 @@ export default class BasicDropdownTrigger extends Component {
   }
 
   @action
-  handleTouchEnd(e) {
+  handleTouchEnd(e: TouchEvent) {
     this.toggleIsBeingHandledByTouchEvents = true;
     if (e && e.defaultPrevented || this.args.dropdown.disabled) {
       return;
@@ -77,16 +94,18 @@ export default class BasicDropdownTrigger extends Component {
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    e.target.focus();
+    let target = e.target as HTMLElement;
+    if (target !== null) {
+      target.focus();
+    }
     setTimeout(function() {
       if (!e.target) { return; }
-      let event;
       try {
-        event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, true, window);
+        let event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        e.target.dispatchEvent(event);
       } catch (e) {
         event = new Event('click');
-      } finally {
         e.target.dispatchEvent(event);
       }
     }, 0);
