@@ -1,3 +1,4 @@
+# 3.0.0-beta.3
 - [BUGFIX] Fix reposition of dropdown after scroll or window resize events
 
 # 3.0.0-beta.2
