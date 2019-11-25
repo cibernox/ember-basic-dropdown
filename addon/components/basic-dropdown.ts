@@ -4,10 +4,10 @@ import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
 import { assert } from '@ember/debug';
-import calculatePosition from '../utils/calculate-position';
+import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
 import requirejs from 'require';
 import { schedule } from '@ember/runloop';
-
+declare const FastBoot: any
 const ignoredStyleAttrs = [
   'top',
   'left',
@@ -18,21 +18,51 @@ const ignoredStyleAttrs = [
 
 const UNINITIALIZED = {};
 
-export default class BasicDropdown extends Component {
-  @tracked hPosition
-  @tracked vPosition
-  @tracked otherStyles = {}
-  @tracked top = null
-  @tracked left = null
-  @tracked right = null
-  @tracked width = null
-  @tracked height = null
+interface Args {
+  initiallyOpened?: boolean
+  renderInPlace?: boolean
+  verticalPosition?: string
+  horizontalPosition?: string
+  destination?: string
+  disabled?: boolean
+  dropdownId?: string
+  matchTriggerWidth?: boolean
+  onInit?: Function
+  registerAPI?: Function
+  onOpen?: Function
+  onClose?: Function
+  calculatePosition?: CalculatePosition
+}
+
+interface RepositionChanges {
+  hPosition: string | null
+  vPosition: string | null
+  otherStyles: object
+  top?: string | null
+  left?: string | null
+  right?: string | null
+  width?: string | null
+  height?: string | null
+}
+
+export default class BasicDropdown extends Component<Args> {
+  @tracked hPosition: string | null = null
+  @tracked vPosition: string | null = null
+  @tracked top: string | null = null
+  @tracked left: string | null = null
+  @tracked right: string | null = null
+  @tracked width: string | null = null
+  @tracked height: string | null = null
+  @tracked otherStyles: object = {}
   @tracked isOpen = this.args.initiallyOpened || false
+  private previousVerticalPosition?: string
+  private previousHorizontalPosition?: string
+  private destinationElement?: HTMLElement
   renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
   verticalPosition = this.args.verticalPosition || 'auto'; // above | below
   horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
   _uid = guidFor(this)
-  dropdownId = this.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
   _previousDisabled = UNINITIALIZED
   _actions = {
     open: this.open.bind(this),
@@ -69,8 +99,8 @@ export default class BasicDropdown extends Component {
   }
 
   // Lifecycle hooks
-  constructor() {
-    super(...arguments);
+  constructor(owner: unknown, args: Args) {
+    super(owner, args);
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
     }
@@ -78,14 +108,14 @@ export default class BasicDropdown extends Component {
   }
 
   willDestroy() {
-    super.willDestroy(...arguments);
+    super.willDestroy();
     if (this.args.registerAPI) {
       this.args.registerAPI(null);
     }
   }
 
   // Methods
-  open(e) {
+  open(e?: Event) {
     if (this.isDestroyed) {
       return;
     }
@@ -99,7 +129,7 @@ export default class BasicDropdown extends Component {
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
-  close(e, skipFocus) {
+  close(e?: Event, skipFocus?: boolean) {
     if (this.isDestroyed) {
       return;
     }
@@ -113,19 +143,19 @@ export default class BasicDropdown extends Component {
       return; // To check that the `onClose` didn't destroy the dropdown
     }
     this.hPosition = this.vPosition = this.top = this.left = this.right = this.width = this.height = null;
-    this.previousVerticalPosition = this.previousHorizontalPosition = null;
+    this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
     if (skipFocus) {
       return;
     }
-    let trigger = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`);
+    let trigger = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
   }
 
-  toggle(e) {
+  toggle(e?: Event) {
     if (this.publicAPI.isOpen) {
       this.close(e);
     } else {
@@ -138,24 +168,34 @@ export default class BasicDropdown extends Component {
       return;
     }
     let dropdownElement = document.getElementById(this.dropdownId);
-    let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`);
+    let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.destination);
+    this.destinationElement = this.destinationElement || document.getElementById(this.destination) as HTMLElement;
     let { horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition } = this;
     let { renderInPlace = false, matchTriggerWidth = false } = this.args;
-    let positionData = (this.args.calculatePosition || calculatePosition)(triggerElement, dropdownElement, this.destinationElement, {
-      horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition,
-      renderInPlace,matchTriggerWidth,
-      dropdown: this
-    });
+    let calculatePositionFn = this.args.calculatePosition || calculatePosition
+    let positionData = calculatePositionFn(
+      triggerElement,
+      dropdownElement,
+      this.destinationElement,
+      {
+        horizontalPosition,
+        verticalPosition,
+        previousHorizontalPosition,
+        previousVerticalPosition,
+        renderInPlace,
+        matchTriggerWidth,
+        dropdown: this
+      }
+    );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
-  applyReposition(trigger, dropdown, positions) {
-    let changes = {
+  applyReposition(trigger: HTMLElement, dropdown: HTMLElement, positions: CalculatePositionResult) {
+    let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
       otherStyles: this.otherStyles
@@ -186,6 +226,7 @@ export default class BasicDropdown extends Component {
 
       Object.keys(positions.style).forEach((attr) => {
         if (ignoredStyleAttrs.indexOf(attr) === -1) {
+          positions.style[attr]
           if (changes[attr] !== positions.style[attr]) {
             changes.otherStyles[attr] = positions.style[attr];
           }

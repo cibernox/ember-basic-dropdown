@@ -222,6 +222,7 @@ export default class BasicDropdownContent extends Component {
   addScrollHandling(dropdownElement) {
     if (this.args.preventScroll === true) {
       let wheelHandler = (event) => {
+        console.log('scroll!')
         if (dropdownElement.contains(event.target) || dropdownElement === event.target) {
           // Discover the amount of scrollable canvas that is within the dropdown.
           const availableScroll = getAvailableScroll(event.target, dropdownElement);
