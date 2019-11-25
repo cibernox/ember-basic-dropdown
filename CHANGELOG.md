@@ -1,3 +1,5 @@
+- [BUGFIX] Fix reposition of dropdown after scroll or window resize events
+
 # 3.0.0-beta.2
 - [CHORE] Update to @glimmer/component 1.0.0-beta.2
 
