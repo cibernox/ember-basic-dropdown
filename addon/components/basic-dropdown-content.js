@@ -74,7 +74,7 @@ export default class BasicDropdownContent extends Component {
 
   get style() {
     let style = '';
-    let { top, left, right, width, height, otherStyles } = this;
+    let { top, left, right, width, height, otherStyles } = this.args;
 
     if (otherStyles) {
       Object.keys(otherStyles).forEach((attr) => {
