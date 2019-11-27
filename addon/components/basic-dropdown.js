@@ -253,9 +253,9 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
       }
     }
     id = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
-    if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
-      assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
-    }
+    // if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
+    //   assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
+    // }
     return id;
   }
 }
