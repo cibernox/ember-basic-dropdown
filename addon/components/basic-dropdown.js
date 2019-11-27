@@ -6,7 +6,6 @@ import { join } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
-import { assert } from '@ember/debug';
 import templateLayout from '../templates/components/basic-dropdown';
 import calculatePosition from '../utils/calculate-position';
 import { assign } from '@ember/polyfills';
