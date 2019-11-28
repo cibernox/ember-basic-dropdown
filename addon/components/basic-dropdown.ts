@@ -3,7 +3,6 @@ import { tracked } from "@glimmer/tracking";
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
-import { assert } from '@ember/debug';
 import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
 // @ts-ignore
 import requirejs from 'require';
@@ -13,11 +12,13 @@ declare const FastBoot: any
 interface DropdownActions {
   toggle: (...args: any[]) => any
   close: (...args: any[]) => any
+  open: (...args: any[]) => any
   reposition: (...args: any[]) => any
 }
-export interface Dropdown {
+export type Dropdown = {
   uniqueId: string
   disabled: boolean
+  isOpen: boolean
   actions: DropdownActions
 }
 
@@ -41,47 +42,47 @@ interface Args {
 }
 
 type RepositionChanges = {
-  hPosition: string | null
-  vPosition: string | null
+  hPosition: string
+  vPosition: string
   otherStyles: Record<string, string | number | undefined>
-  top?: string | null
-  left?: string | null
-  right?: string | null
-  width?: string | null
-  height?: string | null
+  top?: string
+  left?: string
+  right?: string
+  width?: string
+  height?: string
 }
 
 export default class BasicDropdown extends Component<Args> {
   @tracked hPosition: string | null = null
   @tracked vPosition: string | null = null
-  @tracked top?: string | null = null
-  @tracked left?: string | null = null
-  @tracked right?: string | null = null
-  @tracked width?: string | null = null
-  @tracked height?: string | null = null
+  @tracked top: string | undefined
+  @tracked left: string | undefined
+  @tracked right: string | undefined
+  @tracked width: string | undefined
+  @tracked height: string | undefined
   @tracked otherStyles: Record<string, string | number | undefined> = {}
   @tracked isOpen = this.args.initiallyOpened || false
+  @tracked renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
   private previousVerticalPosition?: string
   private previousHorizontalPosition?: string
   private destinationElement?: HTMLElement
-  renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
-  verticalPosition = this.args.verticalPosition || 'auto'; // above | below
-  horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
-  _uid = guidFor(this)
-  dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
-  _previousDisabled = UNINITIALIZED
-  _actions = {
+  private verticalPosition = this.args.verticalPosition || 'auto'; // above | below
+  private horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
+  private _uid = guidFor(this)
+  private _dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  private _previousDisabled = UNINITIALIZED
+  private _actions: DropdownActions = {
     open: this.open.bind(this),
     close: this.close.bind(this),
     toggle: this.toggle.bind(this),
     reposition: this.reposition.bind(this)
   };
 
-  get destination() {
+  get destination(): string {
     return this.args.destination || this._getDestinationId();
   }
 
-  get disabled() {
+  get disabled(): boolean {
     let newVal = this.args.disabled || false;
     if (this._previousDisabled !== UNINITIALIZED && this._previousDisabled !== newVal) {
       schedule('actions', () => {
@@ -95,7 +96,7 @@ export default class BasicDropdown extends Component<Args> {
     return newVal
   }
 
-  get publicAPI() {
+  get publicAPI(): Dropdown {
     return {
       uniqueId: this._uid,
       isOpen: this.isOpen,
@@ -113,7 +114,7 @@ export default class BasicDropdown extends Component<Args> {
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
-  willDestroy() {
+  willDestroy(): void {
     super.willDestroy();
     if (this.args.registerAPI) {
       this.args.registerAPI(null);
@@ -121,7 +122,7 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   // Methods
-  open(e?: Event) {
+  open(e?: Event): void {
     if (this.isDestroyed) {
       return;
     }
@@ -135,7 +136,7 @@ export default class BasicDropdown extends Component<Args> {
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
-  close(e?: Event, skipFocus?: boolean) {
+  close(e?: Event, skipFocus?: boolean): void {
     if (this.isDestroyed) {
       return;
     }
@@ -162,7 +163,7 @@ export default class BasicDropdown extends Component<Args> {
     }
   }
 
-  toggle(e?: Event) {
+  toggle(e?: Event): void {
     if (this.publicAPI.isOpen) {
       this.close(e);
     } else {
@@ -170,11 +171,11 @@ export default class BasicDropdown extends Component<Args> {
     }
   }
 
-  reposition() {
+  reposition(): undefined | RepositionChanges {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    let dropdownElement = document.getElementById(this.dropdownId);
+    let dropdownElement = document.getElementById(this._dropdownId);
     let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
     if (!dropdownElement || !triggerElement) {
       return;
@@ -201,7 +202,7 @@ export default class BasicDropdown extends Component<Args> {
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
-  applyReposition(_trigger: HTMLElement, dropdown: HTMLElement, positions: CalculatePositionResult) {
+  applyReposition(_trigger: Element, dropdown: Element, positions: CalculatePositionResult): RepositionChanges {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
@@ -215,14 +216,14 @@ export default class BasicDropdown extends Component<Args> {
       // The component can be aligned from the right or from the left, but not from both.
       if (positions.style.left !== undefined) {
         changes.left = `${positions.style.left}px`;
-        changes.right = null;
+        changes.right = undefined;
         // Since we set the first run manually we may need to unset the `right` property.
         if (positions.style.right !== undefined) {
           positions.style.right = undefined;
         }
       } else if (positions.style.right !== undefined) {
         changes.right = `${positions.style.right}px`;
-        changes.left = null;
+        changes.left = undefined;
       }
       if (positions.style.width !== undefined) {
         changes.width = `${positions.style.width}px`;
@@ -230,7 +231,7 @@ export default class BasicDropdown extends Component<Args> {
       if (positions.style.height !== undefined) {
         changes.height = `${positions.style.height}px`;
       }
-      if (this.top === null) {
+      if (this.top === undefined) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
         for (let prop in positions.style) {
@@ -265,29 +266,29 @@ export default class BasicDropdown extends Component<Args> {
     return changes;
   }
 
-  _getDestinationId() {
+  _getDestinationId(): string {
     let config = getOwner(this).resolveRegistration('config:environment');
-    let id;
+    let id: string;
     if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
       if (DEBUG) {
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
           try {
-            id = requirejs('@ember/test-helpers/dom/get-root-element').default().id;
+            return requirejs('@ember/test-helpers/dom/get-root-element').default().id as string;
           } catch(ex) {
             // no op
           }
         }
-        if (!id) {
-          let rootView = document.querySelector('#ember-testing > .ember-view');
-          id = rootView ? rootView.id : undefined;
+        let rootView = document.querySelector('#ember-testing > .ember-view');
+        if (rootView) {
+          return rootView.id;
         }
-        return id;
+        return '';
       }
     }
-    id = config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole';
-    if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
-      assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
-    }
+    id = (config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole') as string;
+    // if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
+    //   assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
+    // }
     return id;
   }
 }

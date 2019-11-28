@@ -28,7 +28,7 @@ interface Args {
   right: string | undefined
   width: string | undefined
   height: string | undefined
-  otherStyles: Record<string, string> | undefined
+  otherStyles: Record<string, string>
 }
 type RootMouseDownHandler = (ev: MouseEvent) => void
 
@@ -36,13 +36,13 @@ export default class BasicDropdownContent extends Component<Args> {
   transitioningInClass = this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
   transitionedInClass = this.args.transitionedInClass || 'ember-basic-dropdown--transitioned-in';
   transitioningOutClass = this.args.transitioningOutClass || 'ember-basic-dropdown--transitioning-out';
-  hasMoved = false
   isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
   dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
-  @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
+  private hasMoved = false
   private handleRootMouseDown?: RootMouseDownHandler
   private scrollableAncestors: Element[] = []
   private mutationObserver?: MutationObserver
+  @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
 
 
   get destinationElement(): Element | null {
@@ -84,7 +84,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  setup(dropdownElement: Element) {
+  setup(dropdownElement: Element): void {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`);
     this.handleRootMouseDown = (e: MouseEvent): any => {
       if (e.target === null) return;
@@ -117,7 +117,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
 
   @action
-  teardown() {
+  teardown(): void {
     this.removeGlobalEvents();
     this.removeScrollHandling();
     this.scrollableAncestors = [];
@@ -131,7 +131,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  animateIn(dropdownElement: Element) {
+  animateIn(dropdownElement: Element): void {
     if (!this.animationEnabled) return;
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
@@ -139,7 +139,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  animateOut(dropdownElement: Element) {
+  animateOut(dropdownElement: Element): void {
     if (!this.animationEnabled) return;
     let parentElement = dropdownElement.parentElement;
     if (parentElement === null) return;
@@ -159,7 +159,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  setupMutationObserver(dropdownElement: Element) {
+  setupMutationObserver(dropdownElement: Element): void {
     this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
         this.runloopAwareReposition();
@@ -169,7 +169,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  teardownMutationObserver() {
+  teardownMutationObserver(): void {
     if (this.mutationObserver !== undefined) {
       this.mutationObserver.disconnect();
       this.mutationObserver = undefined;
@@ -177,29 +177,29 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  touchStartHandler() {
+  touchStartHandler(): void {
     document.addEventListener('touchmove', this.touchMoveHandler, true);
   }
 
   @action
-  touchMoveHandler() {
+  touchMoveHandler(): void {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
   }
 
   @action
-  runloopAwareReposition() {
+  runloopAwareReposition(): void {
     join(this.args.dropdown.actions.reposition);
   }
 
   @action
-  removeGlobalEvents() {
+  removeGlobalEvents(): void {
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener('orientationchange', this.runloopAwareReposition);
   }
 
   // Methods
-  addScrollHandling(dropdownElement: Element) {
+  addScrollHandling(dropdownElement: Element): void {
     if (this.args.preventScroll === true) {
       let wheelHandler = (event: WheelEvent) => {
         if (event.target === null) return;
@@ -254,17 +254,17 @@ export default class BasicDropdownContent extends Component<Args> {
 
   // Assigned at runtime to ensure that changes to the `preventScroll` property
   // don't result in not cleaning up after ourselves.
-  removeScrollHandling() {}
+  removeScrollHandling(): void {}
 
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
-  addScrollEvents() {
+  addScrollEvents(): void {
     window.addEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.addEventListener('scroll', this.runloopAwareReposition);
     });
   }
-  removeScrollEvents() {
+  removeScrollEvents(): void {
     window.removeEventListener('scroll', this.runloopAwareReposition);
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.runloopAwareReposition);

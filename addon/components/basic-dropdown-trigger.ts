@@ -13,7 +13,7 @@ export default class BasicDropdownTrigger extends Component<Args> {
 
   // Actions
   @action
-  handleMouseDown(e: MouseEvent) {
+  handleMouseDown(e: MouseEvent): void {
     if (this.args.dropdown.disabled) {
       return;
     }
@@ -33,7 +33,7 @@ export default class BasicDropdownTrigger extends Component<Args> {
   }
 
   @action
-  handleClick(e: MouseEvent) {
+  handleClick(e: MouseEvent): void {
     if (typeof document === 'undefined') return;
     if (this.isDestroyed || !this.args.dropdown || this.args.dropdown.disabled) {
       return;
@@ -53,7 +53,7 @@ export default class BasicDropdownTrigger extends Component<Args> {
   }
 
   @action
-  handleKeyDown(e: KeyboardEvent) {
+  handleKeyDown(e: KeyboardEvent): void {
     if (this.args.dropdown.disabled) {
       return;
     }
@@ -68,12 +68,12 @@ export default class BasicDropdownTrigger extends Component<Args> {
   }
 
   @action
-  handleTouchStart() {
+  handleTouchStart(): void {
     document.addEventListener('touchmove', this._touchMoveHandler);
   }
 
   @action
-  handleTouchEnd(e: TouchEvent) {
+  handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
     if (e && e.defaultPrevented || this.args.dropdown.disabled) {
       return;
@@ -105,26 +105,26 @@ export default class BasicDropdownTrigger extends Component<Args> {
   }
 
   @action
-  removeGlobalHandlers() {
+  removeGlobalHandlers(): void {
     if (typeof document === 'undefined') return;
     document.removeEventListener('touchmove', this._touchMoveHandler);
     document.removeEventListener('mouseup', this._mouseupHandler, true);
   }
 
   @action
-  _mouseupHandler() {
+  _mouseupHandler(): void {
     document.removeEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
   }
 
   @action
-  _touchMoveHandler() {
+  _touchMoveHandler(): void {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this._touchMoveHandler);
   }
 
   // Methods
-  _stopTextSelectionUntilMouseup() {
+  _stopTextSelectionUntilMouseup(): void {
     document.addEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   }
