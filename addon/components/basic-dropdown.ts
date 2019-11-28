@@ -5,16 +5,17 @@ import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
 import { assert } from '@ember/debug';
 import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
+// @ts-ignore
 import requirejs from 'require';
 import { schedule } from '@ember/runloop';
 declare const FastBoot: any
-const ignoredStyleAttrs = [
-  'top',
-  'left',
-  'right',
-  'width',
-  'height'
-];
+// const ignoredStyleAttrs = [
+//   'top',
+//   'left',
+//   'right',
+//   'width',
+//   'height'
+// ];
 
 const UNINITIALIZED = {};
 
@@ -48,11 +49,11 @@ interface RepositionChanges {
 export default class BasicDropdown extends Component<Args> {
   @tracked hPosition: string | null = null
   @tracked vPosition: string | null = null
-  @tracked top: string | null = null
-  @tracked left: string | null = null
-  @tracked right: string | null = null
-  @tracked width: string | null = null
-  @tracked height: string | null = null
+  @tracked top?: string | null = null
+  @tracked left?: string | null = null
+  @tracked right?: string | null = null
+  @tracked width?: string | null = null
+  @tracked height?: string | null = null
   @tracked otherStyles: object = {}
   @tracked isOpen = this.args.initiallyOpened || false
   private previousVerticalPosition?: string
@@ -142,7 +143,8 @@ export default class BasicDropdown extends Component<Args> {
     if (this.isDestroyed) {
       return; // To check that the `onClose` didn't destroy the dropdown
     }
-    this.hPosition = this.vPosition = this.top = this.left = this.right = this.width = this.height = null;
+    this.hPosition = this.vPosition = null;
+    this.top = this.left = this.right = this.width = this.height = undefined;
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
@@ -194,7 +196,7 @@ export default class BasicDropdown extends Component<Args> {
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
-  applyReposition(trigger: HTMLElement, dropdown: HTMLElement, positions: CalculatePositionResult) {
+  applyReposition(_trigger: HTMLElement, dropdown: HTMLElement, positions: CalculatePositionResult) {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
@@ -224,15 +226,6 @@ export default class BasicDropdown extends Component<Args> {
         changes.height = `${positions.style.height}px`;
       }
 
-      Object.keys(positions.style).forEach((attr) => {
-        if (ignoredStyleAttrs.indexOf(attr) === -1) {
-          positions.style[attr]
-          if (changes[attr] !== positions.style[attr]) {
-            changes.otherStyles[attr] = positions.style[attr];
-          }
-        }
-      });
-
       if (this.top === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
@@ -248,9 +241,12 @@ export default class BasicDropdown extends Component<Args> {
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
-    for (let key in changes) {
-      this[key] = changes[key]
-    }
+    this.top = changes.top;
+    this.left = changes.left;
+    this.right = changes.right;
+    this.width = changes.width;
+    this.height = changes.height;
+    this.otherStyles = changes.otherStyles;
     this.previousHorizontalPosition = positions.horizontalPosition;
     this.previousVerticalPosition = positions.verticalPosition;
     return changes;

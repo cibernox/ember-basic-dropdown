@@ -137,7 +137,7 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
   return { horizontalPosition, verticalPosition, style };
 }
 
-export let calculateInPlacePosition: CalculatePosition = (trigger, content, destination, { horizontalPosition, verticalPosition }) => {
+export let calculateInPlacePosition: CalculatePosition = (trigger, content, _destination, { horizontalPosition, verticalPosition }) => {
   let dropdownRect;
   let positionData = {
     horizontalPosition: 'left',
