@@ -206,7 +206,7 @@ export default class BasicDropdownContent extends Component<Args> {
         let target = event.target as Element;
         if (dropdownElement.contains(target) || dropdownElement === event.target) {
           // Discover the amount of scrollable canvas that is within the dropdown.
-          const availableScroll = getAvailableScroll(event.target, dropdownElement);
+          const availableScroll = getAvailableScroll(target, dropdownElement);
 
           // Calculate what the event's desired change to that scrollable canvas is.
           let { deltaX, deltaY } = getScrollDeltas(event);
@@ -235,7 +235,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
           // Also, don't attempt to do this if both of `deltaX` or `deltaY` are 0.
           if (event.defaultPrevented && (deltaX || deltaY)) {
-            distributeScroll(deltaX, deltaY, event.target, dropdownElement);
+            distributeScroll(deltaX, deltaY, target, dropdownElement);
           }
         } else {
           // Scrolling outside of the dropdown is prohibited.
