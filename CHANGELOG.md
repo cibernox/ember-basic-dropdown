@@ -1,3 +1,6 @@
+# 3.0.0-beta.6
+- [CHORE] Improve exported types
+
 # 3.0.0-beta.5
 - [BUGFIX] Don't use typescript in /app folder
 
