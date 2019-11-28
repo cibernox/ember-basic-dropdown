@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
-import { tracked } from "@glimmer/tracking";
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
@@ -9,13 +10,13 @@ import requirejs from 'require';
 import { schedule } from '@ember/runloop';
 declare const FastBoot: any
 
-interface DropdownActions {
-  toggle: (...args: any[]) => any
-  close: (...args: any[]) => any
-  open: (...args: any[]) => any
-  reposition: (...args: any[]) => any
+export interface DropdownActions {
+  toggle: (e?: Event) => void
+  close: (e?: Event, skipFocus?: boolean) => void
+  open: (e?: Event) => void
+  reposition: (...args: any[]) => undefined | RepositionChanges
 }
-export type Dropdown = {
+export interface Dropdown {
   uniqueId: string
   disabled: boolean
   isOpen: boolean
@@ -72,10 +73,10 @@ export default class BasicDropdown extends Component<Args> {
   private _dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
   private _previousDisabled = UNINITIALIZED
   private _actions: DropdownActions = {
-    open: this.open.bind(this),
-    close: this.close.bind(this),
-    toggle: this.toggle.bind(this),
-    reposition: this.reposition.bind(this)
+    open: this.open,
+    close: this.close,
+    toggle: this.toggle,
+    reposition: this.reposition,
   };
 
   get destination(): string {
@@ -121,7 +122,8 @@ export default class BasicDropdown extends Component<Args> {
     }
   }
 
-  // Methods
+  // Actions
+  @action
   open(e?: Event): void {
     if (this.isDestroyed) {
       return;
@@ -136,6 +138,7 @@ export default class BasicDropdown extends Component<Args> {
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
+  @action
   close(e?: Event, skipFocus?: boolean): void {
     if (this.isDestroyed) {
       return;
@@ -163,6 +166,7 @@ export default class BasicDropdown extends Component<Args> {
     }
   }
 
+  @action
   toggle(e?: Event): void {
     if (this.publicAPI.isOpen) {
       this.close(e);
@@ -171,6 +175,7 @@ export default class BasicDropdown extends Component<Args> {
     }
   }
 
+  @action
   reposition(): undefined | RepositionChanges {
     if (!this.publicAPI.isOpen) {
       return;
