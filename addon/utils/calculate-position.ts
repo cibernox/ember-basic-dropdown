@@ -1,43 +1,40 @@
-/**
-  Function used to calculate the position of the content of the dropdown.
-  @public
-  @method calculatePosition
-  @param {DomElement} trigger The trigger of the dropdown
-  @param {DomElement} content The content of the dropdown
-  @param {DomElement} destination The element in which the content is going to be placed.
-  @param {Object} options The directives that define how the position is calculated
-    - {String} horizontalPosition How the users want the dropdown to be positioned horizontally. Values: right | center | left
-    - {String} verticalPosition How the users want the dropdown to be positioned vertically. Values: above | below
-    - {Boolean} matchTriggerWidth If the user wants the width of the dropdown to match the width of the trigger
-    - {String} previousHorizontalPosition How the dropdown was positioned for the last time. Same values than horizontalPosition, but can be null the first time.
-    - {String} previousVerticalPosition How the dropdown was positioned for the last time. Same values than verticalPosition, but can be null the first time.
-    - {Boolean} renderInPlace Boolean flat that is truthy if the component is rendered in place.
-  @return {Object} How the component is going to be positioned.
-    - {String} horizontalPosition The new horizontal position.
-    - {String} verticalPosition The new vertical position.
-    - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
-*/
-export default function(_, _2, _destination, { renderInPlace }) {
-  if (renderInPlace) {
-    return calculateInPlacePosition(...arguments);
-  } else {
-    return calculateWormholedPosition(...arguments);
-  }
+interface CalculatePositionOptions {
+  horizontalPosition: string
+  verticalPosition: string
+  matchTriggerWidth: boolean
+  previousHorizontalPosition?: string
+  previousVerticalPosition?: string
+  renderInPlace: boolean
+  dropdown: any
 }
+export type CalculatePositionResultStyle = {
+  top?: number
+  left?: number
+  right?: number
+  width?: number
+  height?: number
+  [key: string]: string | number | undefined
+}
+export type CalculatePositionResult = {
+  horizontalPosition: string
+  verticalPosition: string
+  style: CalculatePositionResultStyle
+}
+export type CalculatePosition = (trigger: Element, content: HTMLElement, destination: HTMLElement, options: CalculatePositionOptions) => CalculatePositionResult
 
-export function calculateWormholedPosition(trigger, content, destination, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) {
+export let calculateWormholedPosition: CalculatePosition = (trigger, content, destination, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) => {
   // Collect information about all the involved DOM elements
   let scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
   let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
   let viewportWidth = document.body.clientWidth || window.innerWidth;
-  let style = {};
+  let style: CalculatePositionResultStyle = {};
 
   // Apply containers' offset
-  let anchorElement = destination.parentNode;
+  let anchorElement = destination.parentNode as HTMLElement;
   let anchorPosition = window.getComputedStyle(anchorElement).position;
   while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName.toUpperCase() !== 'BODY') {
-    anchorElement = anchorElement.parentNode;
+    anchorElement = anchorElement.parentNode as HTMLElement;
     anchorPosition = window.getComputedStyle(anchorElement).position;
   }
   if (anchorPosition === 'relative' || anchorPosition === 'absolute') {
@@ -46,8 +43,8 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
     triggerTop = triggerTop - rect.top;
     let { offsetParent } = anchorElement;
     if (offsetParent) {
-      triggerLeft -= anchorElement.offsetParent.scrollLeft;
-      triggerTop -= anchorElement.offsetParent.scrollTop;
+      triggerLeft -= offsetParent.scrollLeft;
+      triggerTop -= offsetParent.scrollTop;
     }
   }
 
@@ -140,9 +137,13 @@ export function calculateWormholedPosition(trigger, content, destination, { hori
   return { horizontalPosition, verticalPosition, style };
 }
 
-export function calculateInPlacePosition(trigger, content, destination, { horizontalPosition, verticalPosition }/*, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition */) {
+export let calculateInPlacePosition: CalculatePosition = (trigger, content, _destination, { horizontalPosition, verticalPosition }) => {
   let dropdownRect;
-  let positionData = {};
+  let positionData = {
+    horizontalPosition: 'left',
+    verticalPosition: 'below',
+    style: {}
+};
   if (horizontalPosition === 'auto') {
     let triggerRect = trigger.getBoundingClientRect();
     dropdownRect = content.getBoundingClientRect();
@@ -170,13 +171,13 @@ export function calculateInPlacePosition(trigger, content, destination, { horizo
   return positionData;
 }
 
-export function getScrollParent(element) {
+export function getScrollParent(element: Element) {
   let style = window.getComputedStyle(element);
   let excludeStaticParent = style.position === "absolute";
   let overflowRegex = /(auto|scroll)/;
 
   if (style.position === "fixed") return document.body;
-  for (let parent = element; (parent = parent.parentElement);) {
+  for (let parent: Element | null = element; (parent = parent.parentElement);) {
       style = window.getComputedStyle(parent);
       if (excludeStaticParent && style.position === "static") {
           continue;
@@ -188,3 +189,12 @@ export function getScrollParent(element) {
 
   return document.body;
 }
+let calculatePosition: CalculatePosition = (trigger, content, destination, options) => {
+  if (options.renderInPlace) {
+    return calculateInPlacePosition(trigger, content, destination, options);
+  } else {
+    return calculateWormholedPosition(trigger, content, destination, options);
+  }
+}
+
+export default calculatePosition;

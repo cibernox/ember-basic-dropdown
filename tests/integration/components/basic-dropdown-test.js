@@ -239,7 +239,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.equal(onCloseCalls, 0, 'onClose was never called');
   });
 
-  test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', async function(assert) {
+  test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function(assert) {
     assert.expect(2);
 
     await render(hbs`
