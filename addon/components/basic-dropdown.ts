@@ -9,16 +9,19 @@ import calculatePosition, { CalculatePosition, CalculatePositionResult } from '.
 import requirejs from 'require';
 import { schedule } from '@ember/runloop';
 declare const FastBoot: any
-// const ignoredStyleAttrs = [
-//   'top',
-//   'left',
-//   'right',
-//   'width',
-//   'height'
-// ];
+
+interface DropdownActions {
+  toggle: (...args: any[]) => any
+  close: (...args: any[]) => any
+  reposition: (...args: any[]) => any
+}
+export interface Dropdown {
+  uniqueId: string
+  disabled: boolean
+  actions: DropdownActions
+}
 
 const UNINITIALIZED = {};
-
 interface Args {
   initiallyOpened?: boolean
   renderInPlace?: boolean
@@ -35,7 +38,7 @@ interface Args {
   calculatePosition?: CalculatePosition
 }
 
-interface RepositionChanges {
+type RepositionChanges = {
   hPosition: string | null
   vPosition: string | null
   otherStyles: object
@@ -70,7 +73,7 @@ export default class BasicDropdown extends Component<Args> {
     close: this.close.bind(this),
     toggle: this.toggle.bind(this),
     reposition: this.reposition.bind(this)
-  }
+  };
 
   get destination() {
     return this.args.destination || this._getDestinationId();
@@ -241,6 +244,7 @@ export default class BasicDropdown extends Component<Args> {
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
+
     this.top = changes.top;
     this.left = changes.left;
     this.right = changes.right;

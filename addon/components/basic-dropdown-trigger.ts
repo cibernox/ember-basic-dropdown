@@ -1,14 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from "@ember/object";
-
-interface DropdownActions {
-  toggle: Function
-  close: Function
-}
-interface Dropdown {
-  disabled: boolean
-  actions: DropdownActions
-}
+import { Dropdown } from './basic-dropdown';
 interface Args {
   dropdown: Dropdown
   eventType: 'click' | 'mousedown'

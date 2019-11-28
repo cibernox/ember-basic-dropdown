@@ -10,76 +10,59 @@ import {
   getAvailableScroll,
   getScrollDeltas
 } from '../utils/scroll-helpers';
+import { Dropdown } from './basic-dropdown';
+import { SafeString } from "@ember/template/-private/handlebars";
 
-function closestContent(el) {
-  while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
-    el = el.parentElement;
-  }
-  return el;
+interface Args {
+  transitioningInClass?: string
+  transitionedInClass?: string
+  transitioningOutClass?: string
+  isTouchDevice?: boolean
+  destination: string
+  dropdown: Dropdown
+  renderInPlace: boolean
+  preventScroll?: boolean
+  rootEventType: "click" | "mousedown"
+  top: string | undefined
+  left: string | undefined
+  right: string | undefined
+  width: string | undefined
+  height: string | undefined
+  otherStyles: Record<string, string> | undefined
 }
+type RootMouseDownHandler = (ev: MouseEvent) => void
 
-function waitForAnimations(element, callback) {
-  window.requestAnimationFrame(function() {
-    let computedStyle = window.getComputedStyle(element);
-    if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
-      let eventCallback = function() {
-        element.removeEventListener('animationend', eventCallback);
-        callback();
-      };
-      element.addEventListener('animationend', eventCallback);
-    } else {
-      callback();
-    }
-  });
-}
-
-/**
- * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
- *
- * @param {HTMLElement} el
- * @param {String} dropdownId
- */
-function dropdownIsValidParent(el, dropdownId) {
-  let closestDropdown = closestContent(el);
-  if (closestDropdown) {
-    let trigger = document.querySelector(`[aria-owns=${closestDropdown.attributes.id.value}]`);
-    let parentDropdown = closestContent(trigger);
-    return parentDropdown && parentDropdown.attributes.id.value === dropdownId || dropdownIsValidParent(parentDropdown, dropdownId);
-  } else {
-    return false;
-  }
-}
-export default class BasicDropdownContent extends Component {
+export default class BasicDropdownContent extends Component<Args> {
   transitioningInClass = this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
   transitionedInClass = this.args.transitionedInClass || 'ember-basic-dropdown--transitioned-in';
   transitioningOutClass = this.args.transitioningOutClass || 'ember-basic-dropdown--transitioning-out';
+  hasMoved = false
   isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
   dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
-  @tracked top
-  @tracked left
-  @tracked right
-  @tracked width
-  @tracked height
-  @tracked otherStyles
   @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
+  private handleRootMouseDown?: RootMouseDownHandler
+  private scrollableAncestors: Element[] = []
+  private mutationObserver?: MutationObserver
 
-  get destinationElement() {
+
+  get destinationElement(): Element | null {
     return document.getElementById(this.args.destination);
   }
 
-  get animationEnabled() {
+  get animationEnabled(): boolean {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }
 
-  get style() {
+  get style(): SafeString {
     let style = '';
     let { top, left, right, width, height, otherStyles } = this.args;
 
-    if (otherStyles) {
-      Object.keys(otherStyles).forEach((attr) => {
-        style += `${attr}: ${otherStyles[attr]};`;
-      });
+    if (otherStyles !== undefined) {
+      for (let attr in otherStyles) {
+        let value = otherStyles[attr];
+        style += `${attr}: ${value};`;
+      }
     }
 
     if (top) {
@@ -101,15 +84,17 @@ export default class BasicDropdownContent extends Component {
   }
 
   @action
-  setup(dropdownElement) {
+  setup(dropdownElement: Element) {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`);
-    this.handleRootMouseDown = (e) => {
-      if (this.hasMoved || dropdownElement.contains(e.target) || triggerElement && triggerElement.contains(e.target)) {
+    this.handleRootMouseDown = (e: MouseEvent): any => {
+      if (e.target === null) return;
+      let target = e.target as Element;
+      if (this.hasMoved || dropdownElement.contains(target) || triggerElement && triggerElement.contains(target)) {
         this.hasMoved = false;
         return;
       }
 
-      if (dropdownIsValidParent(e.target, this.dropdownId)) {
+      if (dropdownIsValidParent(target, this.dropdownId)) {
         this.hasMoved = false;
         return;
       }
@@ -124,8 +109,9 @@ export default class BasicDropdownContent extends Component {
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
-
-    this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
+    if (triggerElement !== null) {
+      this.scrollableAncestors = getScrollableAncestors(triggerElement);
+    }
     this.addScrollHandling(dropdownElement);
   }
 
@@ -136,16 +122,16 @@ export default class BasicDropdownContent extends Component {
     this.removeScrollHandling();
     this.scrollableAncestors = [];
 
-    document.removeEventListener(this.args.rootEventType, this.handleRootMouseDown, true);
+    document.removeEventListener(this.args.rootEventType, this.handleRootMouseDown as RootMouseDownHandler, true);
 
     if (this.isTouchDevice) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
-      document.removeEventListener('touchend', this.handleRootMouseDown, true);
+      document.removeEventListener('touchend', this.handleRootMouseDown as RootMouseDownHandler, true);
     }
   }
 
   @action
-  animateIn(dropdownElement) {
+  animateIn(dropdownElement: Element) {
     if (!this.animationEnabled) return;
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
@@ -153,22 +139,27 @@ export default class BasicDropdownContent extends Component {
   }
 
   @action
-  animateOut(dropdownElement) {
+  animateOut(dropdownElement: Element) {
     if (!this.animationEnabled) return;
-    let parentElement = this.args.renderInPlace ? dropdownElement.parentElement.parentElement : dropdownElement.parentElement;
-    let clone = dropdownElement.cloneNode(true);
+    let parentElement = dropdownElement.parentElement;
+    if (parentElement === null) return;
+    if (this.args.renderInPlace) {
+      parentElement = parentElement.parentElement
+    }
+    if (parentElement === null) return;
+    let clone = dropdownElement.cloneNode(true) as Element;
     clone.id = `${clone.id}--clone`;
     clone.classList.remove(...this.transitioningInClass.split(' '));
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
     this.animationClass = this.transitionedInClass;
-    waitForAnimations(clone, function () {
-      parentElement.removeChild(clone);
+    waitForAnimations(clone, function() {
+      (parentElement as HTMLElement).removeChild(clone);
     });
   }
 
   @action
-  setupMutationObserver(dropdownElement) {
+  setupMutationObserver(dropdownElement: Element) {
     this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
         this.runloopAwareReposition();
@@ -179,8 +170,10 @@ export default class BasicDropdownContent extends Component {
 
   @action
   teardownMutationObserver() {
-    this.mutationObserver.disconnect();
-    this.mutationObserver = null;
+    if (this.mutationObserver !== undefined) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = undefined;
+    }
   }
 
   @action
@@ -199,31 +192,19 @@ export default class BasicDropdownContent extends Component {
     join(this.args.dropdown.actions.reposition);
   }
 
-
-  // Methods
+  @action
   removeGlobalEvents() {
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener('orientationchange', this.runloopAwareReposition);
   }
 
-  // All ancestors with scroll (except the BODY, which is treated differently)
-  getScrollableAncestors(triggerElement) {
-    let scrollableAncestors = [];
-    if (triggerElement) {
-      let nextScrollable = getScrollParent(triggerElement.parentNode);
-      while (nextScrollable && nextScrollable.tagName.toUpperCase() !== 'BODY' && nextScrollable.tagName.toUpperCase() !== 'HTML') {
-        scrollableAncestors.push(nextScrollable);
-        nextScrollable = getScrollParent(nextScrollable.parentNode);
-      }
-    }
-    return scrollableAncestors;
-  }
-
-  addScrollHandling(dropdownElement) {
+  // Methods
+  addScrollHandling(dropdownElement: Element) {
     if (this.args.preventScroll === true) {
-      let wheelHandler = (event) => {
-        console.log('scroll!')
-        if (dropdownElement.contains(event.target) || dropdownElement === event.target) {
+      let wheelHandler = (event: WheelEvent) => {
+        if (event.target === null) return;
+        let target = event.target as Element;
+        if (dropdownElement.contains(target) || dropdownElement === event.target) {
           // Discover the amount of scrollable canvas that is within the dropdown.
           const availableScroll = getAvailableScroll(event.target, dropdownElement);
 
@@ -263,7 +244,7 @@ export default class BasicDropdownContent extends Component {
       }
       document.addEventListener('wheel', wheelHandler, { capture: true, passive: false });
       this.removeScrollHandling = () => {
-        document.removeEventListener('wheel', wheelHandler, { capture: true, passive: false });
+        document.removeEventListener('wheel', wheelHandler, { capture: true });
       }
     } else {
       this.addScrollEvents();
@@ -288,5 +269,70 @@ export default class BasicDropdownContent extends Component {
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.runloopAwareReposition);
     });
+  }
+}
+
+// All ancestors with scroll (except the BODY, which is treated differently)
+function getScrollableAncestors(triggerElement: Element): Element[] {
+  let scrollableAncestors = [];
+  if (triggerElement) {
+    let parent = triggerElement.parentNode;
+    if (parent !== null) {
+      let nextScrollable: Element | undefined = getScrollParent(parent as Element);
+      while (nextScrollable && nextScrollable.tagName.toUpperCase() !== 'BODY' && nextScrollable.tagName.toUpperCase() !== 'HTML') {
+        scrollableAncestors.push(nextScrollable);
+        let nextParent = nextScrollable.parentNode;
+        if (nextParent === null) {
+          nextScrollable = undefined;
+        } else {
+          nextScrollable = getScrollParent(nextParent as Element);
+        }
+      }
+    }
+  }
+  return scrollableAncestors;
+}
+
+function closestContent(el: Element): Element | null {
+  while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
+    if (el.parentElement === null) return null;
+    el = el.parentElement;
+  }
+  return el;
+}
+
+function waitForAnimations(element: Element, callback: Function): void {
+  window.requestAnimationFrame(function () {
+    let computedStyle = window.getComputedStyle(element);
+    if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
+      let eventCallback = function () {
+        element.removeEventListener('animationend', eventCallback);
+        callback();
+      };
+      element.addEventListener('animationend', eventCallback);
+    } else {
+      callback();
+    }
+  });
+}
+
+/**
+ * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
+ *
+ * @param {HTMLElement} el
+ * @param {String} dropdownId
+ */
+function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
+  let closestDropdown = closestContent(el);
+  if (closestDropdown === null) {
+    return false;
+  } else {
+    let closestAttrs = closestDropdown.attributes as unknown as any
+    let trigger = document.querySelector(`[aria-owns=${closestAttrs.id.value}]`);
+    if (trigger === null) return false;
+    let parentDropdown = closestContent(trigger);
+    if (parentDropdown === null) return false;
+    let parentAttrs = parentDropdown.attributes as unknown as any
+    return parentDropdown && parentAttrs.id.value === dropdownId || dropdownIsValidParent(parentDropdown, dropdownId);
   }
 }

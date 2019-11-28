@@ -20,7 +20,7 @@ export type CalculatePositionResult = {
   verticalPosition: string
   style: CalculatePositionResultStyle
 }
-export type CalculatePosition = (trigger: HTMLElement, content: HTMLElement, destination: HTMLElement, options: CalculatePositionOptions) => CalculatePositionResult
+export type CalculatePosition = (trigger: Element, content: HTMLElement, destination: HTMLElement, options: CalculatePositionOptions) => CalculatePositionResult
 
 export let calculateWormholedPosition: CalculatePosition = (trigger, content, destination, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) => {
   // Collect information about all the involved DOM elements
@@ -171,7 +171,7 @@ export let calculateInPlacePosition: CalculatePosition = (trigger, content, _des
   return positionData;
 }
 
-export function getScrollParent(element: HTMLElement) {
+export function getScrollParent(element: Element) {
   let style = window.getComputedStyle(element);
   let excludeStaticParent = style.position === "absolute";
   let overflowRegex = /(auto|scroll)/;
