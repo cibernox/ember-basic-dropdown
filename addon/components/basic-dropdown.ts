@@ -22,6 +22,8 @@ export interface Dropdown {
 }
 
 const UNINITIALIZED = {};
+const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
+
 interface Args {
   initiallyOpened?: boolean
   renderInPlace?: boolean
@@ -41,7 +43,7 @@ interface Args {
 type RepositionChanges = {
   hPosition: string | null
   vPosition: string | null
-  otherStyles: object
+  otherStyles: Record<string, string | number | undefined>
   top?: string | null
   left?: string | null
   right?: string | null
@@ -57,7 +59,7 @@ export default class BasicDropdown extends Component<Args> {
   @tracked right?: string | null = null
   @tracked width?: string | null = null
   @tracked height?: string | null = null
-  @tracked otherStyles: object = {}
+  @tracked otherStyles: Record<string, string | number | undefined> = {}
   @tracked isOpen = this.args.initiallyOpened || false
   private previousVerticalPosition?: string
   private previousHorizontalPosition?: string
@@ -228,7 +230,6 @@ export default class BasicDropdown extends Component<Args> {
       if (positions.style.height !== undefined) {
         changes.height = `${positions.style.height}px`;
       }
-
       if (this.top === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
@@ -244,7 +245,15 @@ export default class BasicDropdown extends Component<Args> {
         dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
+    for (let prop in positions.style) {
+      if (!IGNORED_STYLES.includes(prop)) {
+        changes.otherStyles;
+        changes.otherStyles[prop] = positions.style[prop];
+      }
+    }
 
+    this.hPosition = changes.hPosition;
+    this.vPosition = changes.vPosition;
     this.top = changes.top;
     this.left = changes.left;
     this.right = changes.right;
