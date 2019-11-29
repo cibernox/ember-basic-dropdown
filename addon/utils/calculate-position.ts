@@ -122,7 +122,9 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
     let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
     let enoughRoomAbove = triggerTop > dropdownHeight;
 
-    if (previousVerticalPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
+    if (!enoughRoomBelow && !enoughRoomAbove) {
+      verticalPosition = 'below';
+    } else if (previousVerticalPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
       verticalPosition = 'above';
     } else if (previousVerticalPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
       verticalPosition = 'below';
