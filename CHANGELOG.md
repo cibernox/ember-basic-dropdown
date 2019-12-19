@@ -1,3 +1,7 @@
+# 3.0.0-beta.7
+- [CHORE] Update to `@glimmer/component` 1.0.0
+- [BUGFIX] If there's no enough space for the dropdown above nor below the trigger, put it below.
+
 # 3.0.0-beta.6
 - [CHORE] Improve exported types
 
