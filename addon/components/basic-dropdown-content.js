@@ -177,7 +177,17 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   @action
   setupMutationObserver(dropdownElement) {
     this.mutationObserver = new MutationObserver((mutations) => {
-      if (mutations[0].addedNodes.length || mutations[0].removedNodes.length) {
+      let shouldReposition = false;
+
+      shouldReposition = Array.prototype.slice.call(mutations[0].addedNodes).some((node) => {
+        return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
+      });
+
+      shouldReposition = shouldReposition || Array.prototype.slice.call(mutations[0].removedNodes).some((node) => {
+        return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
+      });
+
+      if (shouldReposition) {
         this.runloopAwareReposition();
       }
     });
