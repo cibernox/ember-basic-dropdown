@@ -150,7 +150,7 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     let changes = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: this.otherStyles
+      otherStyles: Object.assign({}, this.otherStyles)
     };
 
     if (positions.style) {
