@@ -29,6 +29,7 @@ interface Args {
   width: string | undefined
   height: string | undefined
   otherStyles: Record<string, string>
+  shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
 }
 type RootMouseDownHandler = (ev: MouseEvent) => void
 
@@ -163,13 +164,17 @@ export default class BasicDropdownContent extends Component<Args> {
     this.mutationObserver = new MutationObserver((mutations) => {
       let shouldReposition = false;
 
-      shouldReposition = Array.prototype.slice.call(mutations[0].addedNodes).some((node) => {
+      shouldReposition = Array.prototype.slice.call(mutations[0].addedNodes).some((node: Node) => {
         return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
       });
 
-      shouldReposition = shouldReposition || Array.prototype.slice.call(mutations[0].removedNodes).some((node) => {
+      shouldReposition = shouldReposition || Array.prototype.slice.call(mutations[0].removedNodes).some((node: Node) => {
         return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
       });
+
+      if (shouldReposition && this.args.shouldReposition) {
+        shouldReposition = this.args.shouldReposition(mutations, this.args.dropdown);
+      }
 
       if (shouldReposition) {
         this.runloopAwareReposition();

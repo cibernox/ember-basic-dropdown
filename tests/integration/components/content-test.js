@@ -450,6 +450,40 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     });
   });
 
+  test('@shouldReposition can be used to control which mutations should trigger a reposition', async function(assert) {
+    assert.expect(2);
+    let done = assert.async();
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        reposition() {
+          assert.ok(true, 'It was repositioned once');
+          done();
+        }
+      }
+    };
+
+    this.shouldReposition = (mutations) => {
+      assert.ok(true, '@shouldReposition was called')
+      return Array.prototype.slice.call(mutations[0].addedNodes).some((node) => {
+        return node.nodeName !== 'SPAN';
+      });
+    };
+
+    await render(hbs`
+      <div id="destination-el"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @shouldReposition={{shouldReposition}}>
+        <div id="content-target-div"></div>
+      </BasicDropdownContent>
+    `);
+    run(() => {
+      let target = document.getElementById('content-target-div');
+      let span = document.createElement('SPAN');
+      target.appendChild(span);
+    });
+  });
+
   test('A renderInPlace component is repositioned if the window scrolls', async function(assert) {
     assert.expect(1);
     let repositions = 0;
