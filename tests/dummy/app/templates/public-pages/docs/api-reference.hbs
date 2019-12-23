@@ -186,6 +186,11 @@
       <td>boolean</td>
       <td>Flag to determine whether the content will allow CSS animations. Defaults to true</td>
     </tr>
+    <tr>
+      <td>shouldReposition</td>
+      <td>Function</td>
+      <td>An optional function that can be used to avoid uncecessary repositions. To skip a reposition, simply return <code>false</code>. This function will be invoked when the DOM of the content is changed. It receives two arguments: a <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord" target="_blank" rel="noopener">MutationRecord</a> and the public API object.</td>
+    </tr>
   </tbody>
 </table>
 
