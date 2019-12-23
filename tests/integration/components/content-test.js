@@ -420,7 +420,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     assert.equal(repositions, 2, 'The component has been repositioned twice');
   });
 
-  test('The component is repositioned if the content of the dropdown changs', async function(assert) {
+  test('The component is repositioned if the content of the dropdown changes', async function(assert) {
     assert.expect(1);
     let done = assert.async();
     let repositions = 0;
@@ -440,6 +440,40 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     await render(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">
+        <div id="content-target-div"></div>
+      </BasicDropdownContent>
+    `);
+    run(() => {
+      let target = document.getElementById('content-target-div');
+      let span = document.createElement('SPAN');
+      target.appendChild(span);
+    });
+  });
+
+  test('@shouldReposition can be used to control which mutations should trigger a reposition', async function(assert) {
+    assert.expect(2);
+    let done = assert.async();
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        reposition() {
+          assert.ok(true, 'It was repositioned once');
+          done();
+        }
+      }
+    };
+
+    this.shouldReposition = (mutations) => {
+      assert.ok(true, '@shouldReposition was called')
+      return Array.prototype.slice.call(mutations[0].addedNodes).some((node) => {
+        return node.nodeName !== 'SPAN';
+      });
+    };
+
+    await render(hbs`
+      <div id="destination-el"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @shouldReposition={{shouldReposition}}>
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);

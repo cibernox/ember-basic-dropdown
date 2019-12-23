@@ -187,6 +187,10 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
         return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
       });
 
+      if (shouldReposition && this.shouldReposition) {
+        shouldReposition = this.shouldReposition(mutations, this.dropdown);
+      }
+
       if (shouldReposition) {
         this.runloopAwareReposition();
       }
