@@ -109,7 +109,7 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     if (this.isDestroyed) {
       return; // To check that the `onClose` didn't destroy the dropdown
     }
-    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null });
+    this.setProperties({ hPosition: null, vPosition: null, top: null, left: null, right: null, width: null, height: null, otherStyles: {} });
     this.previousVerticalPosition = this.previousHorizontalPosition = null;
     this.updateState({ isOpen: false });
     if (skipFocus) {
