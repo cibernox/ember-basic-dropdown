@@ -62,9 +62,18 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   // CPs
   @computed
   get animationEnabled() {
+    if (this._animationEnabled) {
+      return this._animationEnabled;
+    }
+
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
   }
+
+  set animationEnabled(value) {
+    this._animationEnabled = value;
+  }
+
   @computed('destination')
   get destinationElement() {
     return document.getElementById(this.destination);
