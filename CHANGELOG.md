@@ -1,3 +1,6 @@
+# 3.0.0-beta.8
+- [BUGFIX] Ensure the `otherStyles` is initialized with a copied object.
+
 # 3.0.0-beta.7
 - [CHORE] Update to `@glimmer/component` 1.0.0
 - [BUGFIX] If there's no enough space for the dropdown above nor below the trigger, put it below.
