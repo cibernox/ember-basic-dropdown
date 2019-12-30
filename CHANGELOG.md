@@ -1,3 +1,6 @@
+# 2.0.13
+- [BUGFIX] Remove deprecation warning passing `@animationEnabled`
+
 # 2.0.12
 - [BUGFIX] Ensure styles are reset after closing.
 - [BUGFIX] Do not reposition the modal if all that has changed are comments
