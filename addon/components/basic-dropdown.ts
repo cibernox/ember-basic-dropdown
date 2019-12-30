@@ -211,7 +211,7 @@ export default class BasicDropdown extends Component<Args> {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: this.otherStyles
+      otherStyles: Object.assign({}, this.otherStyles)
     };
 
     if (positions.style) {
