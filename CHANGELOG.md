@@ -1,3 +1,12 @@
+# 2.0.12
+- [BUGFIX] Ensure styles are reset after closing.
+- [BUGFIX] Do not reposition the modal if all that has changed are comments
+- [ENHANCEMENT] Allow the user to pass a function to determine if changes in the DOM require to recaculculate
+  the position of the dropdown
+
+# 2.0.11
+- [BUGFIX] Remove problematic assertion
+
 # 2.0.10
 - [BUGFIX] Use `set` when changing `previousVerticalPosition` and `previousHorizontalPosition`.
 
