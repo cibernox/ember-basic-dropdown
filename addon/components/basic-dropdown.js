@@ -117,7 +117,8 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
       width: null,
       height: null,
       previousVerticalPosition: null,
-      previousHorizontalPosition: null
+      previousHorizontalPosition: null,
+      otherStyles: {}
     });
     this.updateState({ isOpen: false });
     if (skipFocus) {
@@ -158,7 +159,7 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     let changes = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: this.otherStyles
+      otherStyles: Object.assign({}, this.otherStyles)
     };
 
     if (positions.style) {
