@@ -79,10 +79,10 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
     return document.getElementById(this.destination);
   }
 
-  @computed('top', 'left', 'right', 'width', 'height', 'otherStyles')
+  @computed('top', 'bottom', 'left', 'right', 'width', 'height', 'otherStyles')
   get style() {
     let style = '';
-    let { top, left, right, width, height, otherStyles } = this;
+    let { top, bottom, left, right, width, height, otherStyles } = this;
 
     if (otherStyles) {
       Object.keys(otherStyles).forEach((attr) => {
@@ -92,6 +92,9 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
 
     if (top) {
       style += `top: ${top};`;
+    }
+    if (bottom) {
+      style += `bottom: ${bottom};`;
     }
     if (left) {
       style += `left: ${left};`;
