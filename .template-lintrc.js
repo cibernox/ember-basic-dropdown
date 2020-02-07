@@ -5,6 +5,7 @@ module.exports = {
   rules: {
     'attribute-indentation': { 'open-invocation-max-len': 110 },
     'no-inline-styles': false,
-    'no-partial': false
+    'no-partial': false,
+    'no-positive-tabindex': false
   }
 };

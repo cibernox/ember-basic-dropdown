@@ -6,7 +6,7 @@
     What if your app doesn't scroll on the body tag? You can have the dropdown render wherever you would like. If you render it on an element inside the block that is scrolling the dropdown will automatically scroll with your trigger. You need to give the target element <code>position: relative;</code> for the dropdown to be positioned properly.
   </p>
 
-  {{#code-example hbs="scrollable-container-1.hbs" as |partialName|}}
+  <CodeExample @hbs="scrollable-container-1.hbs" as |partialName|>
     {{partial partialName}}
-  {{/code-example}}
+  </CodeExample>
 </div>

@@ -1,17 +1,17 @@
-{{#if renderInPlace}}
+{{#if this.renderInPlace}}
   <BasicDropdown
-    @horizontalPosition={{horizontalPosition}}
-    @verticalPosition={{verticalPosition}}
+    @this.horizontalPosition={{this.horizontalPosition}}
+    @this.verticalPosition={{this.verticalPosition}}
     @renderInPlace={{true}}
-    class="button-pull-{{buttonPosition}}" as |dd|>
+    class="button-pull-{{this.buttonPosition}}" as |dd|>
     <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
     <dd.Content class="content-bootstrap-feel">
       <img src="/lts.png" alt="tomster">
     </dd.Content>
   </BasicDropdown>
 {{else}}
-  <div class="button-pull-{{buttonPosition}}">
-    <BasicDropdown @horizontalPosition={{horizontalPosition}} @verticalPosition={{verticalPosition}} as |dd|>
+  <div class="button-pull-{{this.buttonPosition}}">
+    <BasicDropdown @this.horizontalPosition={{this.horizontalPosition}} @this.verticalPosition={{this.verticalPosition}} as |dd|>
       <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
       <dd.Content class="content-bootstrap-feel">
         <img src="/lts.png" alt="tomster">
@@ -22,39 +22,39 @@
 <p>
   Horizontal
   <br>
-  <input type="radio" id="h-auto" checked={{eq horizontalPosition "auto"}} onchange={{action (mut horizontalPosition) "auto"}}>
+  <input type="radio" id="h-auto" checked={{eq this.horizontalPosition "auto"}} {{on "change" (fn (mut this.horizontalPosition) "auto")}}>
   <label for="h-auto">auto</label>
-  <input type="radio" id="h-auto-right" checked={{eq horizontalPosition "auto-right"}} onchange={{action (mut horizontalPosition) "auto-right"}}>
+  <input type="radio" id="h-auto-right" checked={{eq this.horizontalPosition "auto-right"}} {{on "change" (fn (mut this.horizontalPosition) "auto-right")}}>
   <label for="h-auto-right">auto-right</label>
-  <input type="radio" id="h-left" checked={{eq horizontalPosition "left"}} onchange={{action (mut horizontalPosition) "left"}}>
+  <input type="radio" id="h-left" checked={{eq this.horizontalPosition "left"}} {{on "change" (fn (mut this.horizontalPosition) "left")}}>
   <label for="h-left">left</label>
-  <input type="radio" id="h-center" checked={{eq horizontalPosition "center"}} onchange={{action (mut horizontalPosition) "center"}}>
+  <input type="radio" id="h-center" checked={{eq this.horizontalPosition "center"}} {{on "change" (fn (mut this.horizontalPosition) "center")}}>
   <label for="h-center">center</label>
-  <input type="radio" id="h-right" checked={{eq horizontalPosition "right"}} onchange={{action (mut horizontalPosition) "right"}}>
+  <input type="radio" id="h-right" checked={{eq this.horizontalPosition "right"}} {{on "change" (fn (mut this.horizontalPosition) "right")}}>
   <label for="h-right">right</label>
 </p>
 <p>
   Vertical
   <br>
-  <input type="radio" id="v-auto" checked={{eq verticalPosition "auto"}} onchange={{action (mut verticalPosition) "auto"}}>
+  <input type="radio" id="v-auto" checked={{eq this.verticalPosition "auto"}} {{on "change" (fn (mut this.verticalPosition) "auto")}}>
   <label for="v-auto">auto</label>
-  <input type="radio" id="v-above" checked={{eq verticalPosition "above"}} onchange={{action (mut verticalPosition) "above"}}>
+  <input type="radio" id="v-above" checked={{eq this.verticalPosition "above"}} {{on "change" (fn (mut this.verticalPosition) "above")}}>
   <label for="v-above">above</label>
-  <input type="radio" id="v-below" checked={{eq verticalPosition "below"}} onchange={{action (mut verticalPosition) "below"}}>
+  <input type="radio" id="v-below" checked={{eq this.verticalPosition "below"}} {{on "change" (fn (mut this.verticalPosition) "below")}}>
   <label for="v-below">below</label>
 </p>
 <p>
   Button position
   <br>
-  <input type="radio" id="btn-pos-left" checked={{eq buttonPosition "left"}} onchange={{action (mut buttonPosition) "left"}}>
+  <input type="radio" id="btn-pos-left" checked={{eq this.buttonPosition "left"}} {{on "change" (fn (mut this.buttonPosition) "left")}}>
   <label for="btn-pos-left">left</label>
-  <input type="radio" id="btn-pos-right" checked={{eq buttonPosition "right"}} onchange={{action (mut buttonPosition) "right"}}>
+  <input type="radio" id="btn-pos-right" checked={{eq this.buttonPosition "right"}} {{on "change" (fn (mut this.buttonPosition) "right")}}>
   <label for="btn-pos-right">right</label>
 </p>
 
 <p>
   RenderInPlace
   <br>
-  <input type="checkbox" id="config-render-in-lace" checked={{eq renderInPlace "left"}} onchange={{action (mut renderInPlace) (not renderInPlace)}}>
+  <input type="checkbox" id="config-render-in-lace" checked={{eq this.renderInPlace "left"}} {{on "change" (fn (mut this.renderInPlace) (not this.renderInPlace))}}>
   <label for="config-render-in-lace">Render in-place</label>
 </p>

@@ -1,13 +1,13 @@
 <header class="main-header">
   <nav class="main-header-nav">
     <div class="main-header-nav-links">
-      {{#link-to "public-pages.docs" class="main-header-nav-link"}}Docs{{/link-to}}
-      {{#link-to "public-pages.cookbook" class="main-header-nav-link"}}Cookbook{{/link-to}}
-      {{#link-to "public-pages.addons" class="main-header-nav-link"}}Addons{{/link-to}}
+      <LinkRo @route="public-pages.docs" class="main-header-nav-link">Docs</LinkRo>
+      <LinkRo @route="public-pages.cookbook" class="main-header-nav-link">Cookbook</LinkRo>
+      <LinkRo @route="public-pages.addons" class="main-header-nav-link">Addons</LinkRo>
       <a href="https://github.com/cibernox/ember-basic-dropdown" class="main-header-nav-link">Github</a>
     </div>
     <div class="main-header-logo">
-      <BasicDropdown @calculatePosition={{calculatePosition}} as |dd|>
+      <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dd|>
         <a href={{href-to "public-pages.index"}} class="home-link">
           <img src="/ember_logo.png" alt="ember">
           <strong>Basic</strong>
@@ -20,7 +20,7 @@
           </dd.Trigger>
         </a>
         <dd.Content class="logo-dropdown-content">
-          {{#each colors as |color|}}
+          {{#each this.colors as |color|}}
             <button type="button" class="logo-dropdown-content-pantone-entry {{color}}" {{on "click" (fn this.setBrandColor color dd)}}></button>
           {{/each}}
         </dd.Content>
