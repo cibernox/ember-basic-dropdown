@@ -1,5 +1,5 @@
 <p>Focus alternatively the input and the button next to it</p>
-<div class="trigger-event-demo input-group {{parentDivClass}}">
+<div class="trigger-event-demo input-group {{this.parentDivClass}}">
   <input type="text" class="form-control" {{on "focus" this.simulateFocusParent}} {{on "blur" this.simulateBlurParent}}>
 
   <BasicDropdown as |dd|>

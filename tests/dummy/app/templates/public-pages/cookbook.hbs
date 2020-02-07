@@ -1,8 +1,8 @@
 <section class="docs">
   <nav class="side-nav">
     <header class="side-nav-header">Basic recipes</header>
-    {{#link-to "public-pages.cookbook.index" class="side-nav-link"}}System-wide config{{/link-to}}
-    {{#link-to "public-pages.cookbook.no-trigger" class="side-nav-link"}}Usage without trigger{{/link-to}}
+    <LinkTo @route="public-pages.cookbook.index" class="side-nav-link">System-wide config</LinkTo>
+    <LinkTo @route="public-pages.cookbook.no-trigger" class="side-nav-link">Usage without trigger</LinkTo>
   </nav>
   <section class="doc-page">
     {{outlet}}

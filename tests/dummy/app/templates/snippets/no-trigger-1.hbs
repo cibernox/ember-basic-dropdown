@@ -1,7 +1,7 @@
 <BasicDropdown as |dd|>
   <div class="form-inline">
     <input type="text" class="form-control" data-ebd-id="{{dd.uniqueId}}-trigger">
-    <button class="trigger-bootstrap-feel" onclick={{dd.actions.toggle}}>
+    <button type="button" class="trigger-bootstrap-feel" {{on "click" dd.actions.toggle}}>
       Click me
     </button>
   </div>

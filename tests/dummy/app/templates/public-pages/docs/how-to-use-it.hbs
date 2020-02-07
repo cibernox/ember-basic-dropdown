@@ -15,9 +15,9 @@
   Go, use it and inspect the DOM. I know it looks ugly, we'll style it later.
 </p>
 
-{{#code-example hbs="how-to-use-it-1.hbs" as |partialName|}}
+<CodeExample @hbs="how-to-use-it-1.hbs" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   As you've inspected, the markup is very simple.
@@ -53,9 +53,9 @@
   dropdown buttons in bootstrap:
 </p>
 
-{{#code-example hbs="how-to-use-it-2.hbs"  css="how-to-use-it-2-css.scss" as |partialName|}}
+<CodeExample @hbs="how-to-use-it-2.hbs" @css="how-to-use-it-2-css.scss" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   It just took a little bit of CSS. You could also have just assigned the right classes and
@@ -67,9 +67,9 @@
   a material-like round button with a round content.
 </p>
 
-{{#code-example hbs="how-to-use-it-3.hbs"  css="how-to-use-it-3-css.scss" as |partialName|}}
+<CodeExample @hbs="how-to-use-it-3.hbs" @css="how-to-use-it-3-css.scss" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   I got you.
