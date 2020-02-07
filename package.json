@@ -14,7 +14,7 @@
     "postpublish": "ember ts:clean"
   },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": ">= 10.*"
   },
   "files": [
     "addon/",
