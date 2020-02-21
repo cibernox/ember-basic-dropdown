@@ -1,7 +1,7 @@
 {
   "name": "ember-basic-dropdown",
   "version": "3.0.0-beta.9",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "The basic dropdown that your ember app needs",
   "homepage": "http://ember-basic-dropdown.com",
   "scripts": {
     "build": "ember build",
