@@ -65,7 +65,7 @@
     "prember-crawler": "^1.0.0",
     "qunit-dom": "^0.9.2",
     "simple-git": "^1.10.0",
-    "typescript": "^3.7.2"
+    "typescript": "3.7.5"
   },
   "keywords": [
     "ember-addon",
