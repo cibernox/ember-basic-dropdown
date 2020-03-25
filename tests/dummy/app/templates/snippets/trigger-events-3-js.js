@@ -5,6 +5,7 @@ import { htmlSafe } from '@ember/string';
 export default class extends Controller {
   dropdownDisabled = true;
   checkboxClass = null;
+  checkboxLabelStyle = '';
 
   // Actions
   @action

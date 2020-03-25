@@ -11,9 +11,9 @@
   approaches. The different is subtle.
 </p>
 
-{{#code-example hbs="trigger-events-0.hbs" as |partialName|}}
+<CodeExample @hbs="trigger-events-0.hbs" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   This does not affect to the behavior of the dropdown on touch devices. On mobile or tablets the
@@ -41,9 +41,9 @@
   the arrow keys.
 </p>
 
-{{#code-example hbs="trigger-events-1.hbs" js="trigger-events-1-js.js" as |partialName|}}
+<CodeExample @hbs="trigger-events-1.hbs" @js="trigger-events-1-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   As with any other event, calling <code>e.stopImmediatePropagation()</code> will stop the default handler from running,
@@ -63,9 +63,9 @@
   react in some way to those attempts.
 </p>
 
-{{#code-example hbs="trigger-events-2.hbs" js="trigger-events-2-js.js" as |partialName|}}
+<CodeExample @hbs="trigger-events-2.hbs" @js="trigger-events-2-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <h3><code>\{{on "touchend"}}</code></h3>
 
@@ -86,9 +86,9 @@
   some other element in the form that the user must enable first.
 </p>
 
-{{#code-example hbs="trigger-events-3.hbs" js="trigger-events-3-js.js" as |partialName|}}
+<CodeExample @hbs="trigger-events-3.hbs" @js="trigger-events-3-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <h3><code>\{{on "focus"}}/\{{on "blur"}}</code></h3>
 
@@ -98,9 +98,9 @@
   <code>:focus-within</code> pseudo selector.
 </p>
 
-{{#code-example hbs="trigger-events-4.hbs" js="trigger-events-4-js.js" as |partialName|}}
+<CodeExample @hbs="trigger-events-4.hbs" @js="trigger-events-4-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   This is the most involved example yet. Both the text input and the trigger are focusable on their

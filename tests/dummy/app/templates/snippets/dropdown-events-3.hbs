@@ -6,11 +6,11 @@
       Who you love more?
     </p>
     <p>
-      <input type="radio" id="question-1" name="question" value="dat" {{on "change" (action (mut selected) "dad")}}>
+      <input type="radio" id="question-1" name="question" value="dat" {{on "change" (fn (mut this.selected) "dad")}}>
       <label for="question-1">Dad</label>
     </p>
     <p>
-      <input type="radio" id="question-2" name="question" value="mom" {{on "change" (action (mut selected) "mom")}}>
+      <input type="radio" id="question-2" name="question" value="mom" {{on "change" (fn (mut this.selected) "mom")}}>
       <label for="question-2">Mom</label>
     </p>
   </dd.Content>

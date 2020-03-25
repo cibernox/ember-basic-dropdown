@@ -37,9 +37,9 @@
 
 <p>This sounds like a lot, but with an example it will be crystal clear.</p>
 
-{{#code-example hbs="position-1.hbs" js="position-1-js.js" as |partialName|}}
+<CodeExample @hbs="position-1.hbs" @js="position-1-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   In this example above I'm using the options <code>verticalPosition</code> and <code>horizontalPosition</code>
@@ -65,9 +65,9 @@
   next example to see the difference.
 </p>
 
-{{#code-example hbs="position-2.hbs" as |partialName|}}
+<CodeExample @hbs="position-2.hbs" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   Please note that when rendering the content in place, the vertical position will not
@@ -83,9 +83,9 @@
   trigger design reasons. Since this is common enough, there is an option to enable this behaviour.
 </p>
 
-{{#code-example hbs="position-3.hbs" as |partialName|}}
+<CodeExample @hbs="position-3.hbs" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   In the section about <a href="/docs/custom-position">Custom Position</a> strategies we will

@@ -8,12 +8,12 @@
           {{on "mouseenter" (fn this.open dd)}}
           {{on "mouseleave" (fn this.closeLater dd)}}>
           {{fa-icon "bell-o"}}
-          <span class="demo-fake-notifications-count">{{notifications.length}}</span>
+          <span class="demo-fake-notifications-count">{{this.notifications.length}}</span>
         </dd.Trigger>
 
         <dd.Content {{on "mouseenter" (fn this.open dd)}} {{on "mouseleave" (fn this.closeLater dd)}} class="demo-fake-notifications-content">
           <ul class="demo-fake-notifications-list">
-            {{#each notifications as |notification|}}
+            {{#each this.notifications as |notification|}}
               <li class="demo-fake-notification-entry">
                 {{fa-icon "phone-square" size=2}}
                 <span>{{notification.text}}</span>

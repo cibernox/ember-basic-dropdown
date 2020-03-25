@@ -1,3 +1,43 @@
+# 3.0.0-beta.8
+- [BUGFIX] Ensure the `otherStyles` is initialized with a copied object.
+
+# 3.0.0-beta.7
+- [CHORE] Update to `@glimmer/component` 1.0.0
+- [BUGFIX] If there's no enough space for the dropdown above nor below the trigger, put it below.
+
+# 3.0.0-beta.6
+- [CHORE] Improve exported types
+
+# 3.0.0-beta.5
+- [BUGFIX] Don't use typescript in /app folder
+
+# 3.0.0-beta.4
+- [CHORE] Convert to typescript
+
+# 3.0.0-beta.3
+- [BUGFIX] Fix reposition of dropdown after scroll or window resize events
+
+# 3.0.0-beta.2
+- [CHORE] Update to @glimmer/component 1.0.0-beta.2
+
+# 3.0.0-beta.1
+- No changes since alpha 1
+
+# 3.0.0-alpha.1
+- [MAYBE-BREAKING] Update to glimmer components
+
+# 2.0.10
+- [BUGFIX] Use `set` when changing `previousVerticalPosition` and `previousHorizontalPosition`.
+
+# 2.0.9
+- [CHORE] Update some dependencies. More importantly `ember-element-modifiers` to 1.0.2 which changes its behavior.
+
+# 2.0.8
+- [BUGFIX] Correct condition in which the development assertion added in 2.0.6 is thrown. Logic was reversed.
+
+# 2.0.7
+- [BUGFIX] Update `ember-element-helper` to 0.2.0 to fix bug in engines
+
 # 2.0.6
 - [ENHANCEMENT] Add development assertion to help people understand the somewhat cryptic error message that
   appeared when there was no element with id `ember-basic-dropdown-wormhole` in the document

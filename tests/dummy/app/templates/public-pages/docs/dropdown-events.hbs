@@ -25,9 +25,9 @@
   By example, you can delay the loading of some data until the dropdown is opened.
 </p>
 
-{{#code-example hbs="dropdown-events-1.hbs" js="dropdown-events-1-js.js" as |partialName|}}
+<CodeExample @hbs="dropdown-events-1.hbs" @js="dropdown-events-1-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>
   There is something you should know about this hook: If you <code>return false;</code>
@@ -40,9 +40,9 @@
   the component from opening, load the users and once loaded we open it.
 </p>
 
-{{#code-example hbs="dropdown-events-2.hbs" js="dropdown-events-2-js.js" as |partialName|}}
+<CodeExample @hbs="dropdown-events-2.hbs" @js="dropdown-events-2-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p><em><small>For the record, I don't think this is good UX</small></em></p>
 
@@ -59,9 +59,9 @@
   until one checkbox is selected.
 </p>
 
-{{#code-example hbs="dropdown-events-3.hbs" js="dropdown-events-3-js.js" as |partialName|}}
+<CodeExample @hbs="dropdown-events-3.hbs" @js="dropdown-events-3-js.js" as |partialName|>
   {{partial partialName}}
-{{/code-example}}
+</CodeExample>
 
 <p>Cruel, isn't it?</p>
 

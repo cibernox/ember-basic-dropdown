@@ -2,10 +2,8 @@ import { run } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
-import { render, click, focus, triggerEvent } from '@ember/test-helpers';
-import Trigger from 'ember-basic-dropdown/components/basic-dropdown-trigger';
-
+import { hbs } from 'ember-cli-htmlbars';
+import { render, click, focus, triggerEvent, settled } from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -241,7 +239,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.equal(onCloseCalls, 0, 'onClose was never called');
   });
 
-  test('It adds the proper class to trigger and content when it receives `horizontalPosition="right"`', async function(assert) {
+  test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function(assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -492,8 +490,8 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
       <div id="id-of-elmnt"></div>
     `);
-
     await click('.ember-basic-dropdown-trigger');
+    await settled();
     assert.dom(this.element.querySelector('.ember-basic-dropdown-content').parentNode).hasAttribute('id', 'id-of-elmnt', 'The content has been rendered in an alternative destination');
   });
 
@@ -651,55 +649,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // State replacement
-  test('When the component is opened, closed or disabled, the entire publicAPI is changed (kind-of)', async function(assert) {
-    assert.expect(2);
-
-    this.owner.register('component:trigger-with-did-receive-attrs', Trigger.extend({
-      layout: hbs`
-        {{#let (element (or @htmlTag "div")) as |Element|}}
-          <Element
-            class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}"
-            role="button"
-            tabindex={{unless @dropdown.disabled "0"}}
-            data-ebd-id="{{@dropdown.uniqueId}}-trigger"
-            aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
-            aria-expanded={{if @dropdown.isOpen "true"}}
-            aria-disabled={{if @dropdown.disabled "true"}}
-            {{will-destroy this.removeGlobalHandlers}}
-            ...attributes
-            {{on "mousedown" this.handleMouseDown}}
-            {{on "click" this.handleClick}}
-            {{on "keydown" this.handleKeyDown}}
-            {{on "touchstart" this.handleTouchStart}}
-            {{on "touchend" this.handleTouchEnd}}
-            >
-            {{yield}} {{#if didOpen}}<span class="did-open-span">Did open!</span>{{/if}}
-          </Element>
-        {{/let}}
-      `,
-      didOpen: false,
-
-      didReceiveAttrs() {
-        let { dropdown, oldDropdown = {} } = this;
-        if ((oldDropdown && oldDropdown.isOpen) === false && dropdown.isOpen) {
-          this.set('didOpen', true);
-        }
-        this.set('oldDropdown', dropdown);
-      }
-    }));
-
-    await render(hbs`
-      <BasicDropdown @triggerComponent="trigger-with-did-receive-attrs" as |dropdown|>
-        <dropdown.Trigger>Open me</dropdown.Trigger>
-        <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
-      </BasicDropdown>
-    `);
-
-    assert.dom('.ember-basic-dropdown-trigger').hasText('Open me');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown-trigger').hasText('Open me Did open!');
-  });
-
   test('The registerAPI is called with every mutation of the publicAPI object', async function(assert) {
     assert.expect(7);
     let apis = [];
@@ -789,7 +738,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger.child');
     assert.dom('.body-child').exists('the child dropdown is rendered');
 
-    await   click('.ember-basic-dropdown-trigger.grandchild');
+    await click('.ember-basic-dropdown-trigger.grandchild');
     assert.dom('.body-grandchild').exists('the grandchild dropdown is rendered');
 
     // click in the grandchild dropdown

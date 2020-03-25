@@ -1,9 +1,8 @@
-<input type="checkbox" id="enable-dd-chk" checked={{not dropdownDisabled}}
-  onchange={{action (mut dropdownDisabled) (not dropdownDisabled)}}>
-<label for="enable-dd-chk" style={{checkboxLabelStyle}}>Enable dropdown</label>
+<input type="checkbox" id="enable-dd-chk" checked={{not this.dropdownDisabled}} {{on "change" (fn (mut this.dropdownDisabled) (not this.dropdownDisabled))}}>
+<label for="enable-dd-chk" style={{this.checkboxLabelStyle}}>Enable dropdown</label>
 <br>
 
-<BasicDropdown @disabled={{dropdownDisabled}} as |dd|>
+<BasicDropdown @disabled={{this.dropdownDisabled}} as |dd|>
   <dd.Trigger
     {{on "mouseenter" this.highlightCheckboxIfDisabled}}
     {{on "mouseleave" this.resetHighlight}}

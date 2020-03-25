@@ -1,11 +1,15 @@
-import { layout, tagName } from "@ember-decorators/component";
+import Component from '@glimmer/component';
 import { action } from "@ember/object";
-import Component from "@ember/component";
-import templateLayout from '../templates/components/basic-dropdown-trigger';
+import { Dropdown } from './basic-dropdown';
+interface Args {
+  dropdown: Dropdown
+  eventType: 'click' | 'mousedown'
+  stopPropagation: boolean
+}
 
-export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger extends Component {
-  eventType = 'click';
-  stopPropagation = false;
+export default class BasicDropdownTrigger extends Component<Args> {
+  private toggleIsBeingHandledByTouchEvents: boolean = false
+  private hasMoved: boolean = false
 
   // Actions
   /**
@@ -19,12 +23,12 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
   noop() {}
   
   @action
-  handleMouseDown(e) {
-    if (this.dropdown.disabled) {
+  handleMouseDown(e: MouseEvent): void {
+    if (this.args.dropdown.disabled) {
       return;
     }
-    if (this.eventType !== 'mousedown' || e.button !== 0) return;
-    if (this.stopPropagation) {
+    if (this.args.eventType !== 'mousedown' || e.button !== 0) return;
+    if (this.args.stopPropagation) {
       e.stopPropagation();
     }
     this._stopTextSelectionUntilMouseup();
@@ -35,17 +39,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
       this.toggleIsBeingHandledByTouchEvents = false;
       return;
     }
-    this.dropdown.actions.toggle(e);
+    this.args.dropdown.actions.toggle(e);
   }
 
   @action
-  handleClick(e) {
+  handleClick(e: MouseEvent): void {
     if (typeof document === 'undefined') return;
-    if (this.isDestroyed || !this.dropdown || this.dropdown.disabled) {
+    if (this.isDestroyed || !this.args.dropdown || this.args.dropdown.disabled) {
       return;
     }
-    if (this.eventType !== 'click' || e.button !== 0) return;
-    if (this.stopPropagation) {
+    if ((this.args.eventType !== undefined && this.args.eventType !== 'click') || e.button !== 0) return;
+    if (this.args.stopPropagation) {
       e.stopPropagation();
     }
     if (this.toggleIsBeingHandledByTouchEvents) {
@@ -55,53 +59,55 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
       this.toggleIsBeingHandledByTouchEvents = false;
       return;
     }
-    this.dropdown.actions.toggle(e);
+    this.args.dropdown.actions.toggle(e);
   }
 
   @action
-  handleKeyDown(e) {
-    if (this.dropdown.disabled) {
+  handleKeyDown(e: KeyboardEvent): void {
+    if (this.args.dropdown.disabled) {
       return;
     }
     if (e.keyCode === 13) {  // Enter
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     } else if (e.keyCode === 32) { // Space
       e.preventDefault(); // prevents the space to trigger a scroll page-next
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     } else if (e.keyCode === 27) {
-      this.dropdown.actions.close(e);
+      this.args.dropdown.actions.close(e);
     }
   }
 
   @action
-  handleTouchStart() {
+  handleTouchStart(): void {
     document.addEventListener('touchmove', this._touchMoveHandler);
   }
 
   @action
-  handleTouchEnd(e) {
+  handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
-    if (e && e.defaultPrevented || this.dropdown.disabled) {
+    if (e && e.defaultPrevented || this.args.dropdown.disabled) {
       return;
     }
     if (!this.hasMoved) {
-      this.dropdown.actions.toggle(e);
+      this.args.dropdown.actions.toggle(e);
     }
     this.hasMoved = false;
     document.removeEventListener('touchmove', this._touchMoveHandler);
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    e.target.focus();
+    let target = e.target as HTMLElement;
+    if (target !== null) {
+      target.focus();
+    }
     setTimeout(function() {
       if (!e.target) { return; }
-      let event;
       try {
-        event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, true, window);
+        let event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        e.target.dispatchEvent(event);
       } catch (e) {
         event = new Event('click');
-      } finally {
         e.target.dispatchEvent(event);
       }
     }, 0);
@@ -109,26 +115,26 @@ export default @layout(templateLayout) @tagName('') class BasicDropdownTrigger e
   }
 
   @action
-  removeGlobalHandlers() {
+  removeGlobalHandlers(): void {
     if (typeof document === 'undefined') return;
     document.removeEventListener('touchmove', this._touchMoveHandler);
     document.removeEventListener('mouseup', this._mouseupHandler, true);
   }
 
   @action
-  _mouseupHandler() {
+  _mouseupHandler(): void {
     document.removeEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.remove('ember-basic-dropdown-text-select-disabled');
   }
 
   @action
-  _touchMoveHandler() {
+  _touchMoveHandler(): void {
     this.hasMoved = true;
     document.removeEventListener('touchmove', this._touchMoveHandler);
   }
 
   // Methods
-  _stopTextSelectionUntilMouseup() {
+  _stopTextSelectionUntilMouseup(): void {
     document.addEventListener('mouseup', this._mouseupHandler, true);
     document.body.classList.add('ember-basic-dropdown-text-select-disabled');
   }
