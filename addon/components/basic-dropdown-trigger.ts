@@ -30,7 +30,7 @@ export default class BasicDropdownTrigger extends Component<Args> {
    * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
    */
-  noop() {}
+  noop(): void {}
 
   @action
   handleMouseDown(e: MouseEvent): void {

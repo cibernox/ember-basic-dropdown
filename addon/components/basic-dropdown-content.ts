@@ -96,7 +96,7 @@ export default class BasicDropdownContent extends Component<Args> {
    * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
    */
-  noop() {}
+  noop(): void {}
 
   @action
   setup(dropdownElement: Element): void {
