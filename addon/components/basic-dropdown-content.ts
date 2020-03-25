@@ -29,10 +29,10 @@ interface Args {
   width: string | undefined
   height: string | undefined
   otherStyles: Record<string, string>
-  onFocusIn?: (dropdown: Dropdown, event: FocusEvent) => void
-  onFocusOut?: (dropdown: Dropdown, event: FocusEvent) => void
-  onMouseEnter?: (dropdown: Dropdown, event: MouseEvent) => void
-  onMouseLeave?: (dropdown: Dropdown, event: MouseEvent) => void
+  onFocusIn?: (dropdown: Dropdown, event?: FocusEvent) => void
+  onFocusOut?: (dropdown: Dropdown, event?: FocusEvent) => void
+  onMouseEnter?: (dropdown: Dropdown, event?: MouseEvent) => void
+  onMouseLeave?: (dropdown: Dropdown, event?: MouseEvent) => void
   shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
 }
 type RootMouseDownHandler = (ev: MouseEvent) => void
