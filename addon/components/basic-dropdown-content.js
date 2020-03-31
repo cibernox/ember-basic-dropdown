@@ -62,7 +62,7 @@ export default @layout(templateLayout) @tagName('')class BasicDropdownContent ex
   // CPs
   @computed
   get animationEnabled() {
-    if ('_animationEnabled' in this) {
+    if (this._animationEnabled !== 'undefined') {
       return this._animationEnabled;
     }
 
