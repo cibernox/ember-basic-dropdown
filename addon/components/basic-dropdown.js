@@ -20,6 +20,13 @@ const ignoredStyleAttrs = [
   'height'
 ];
 
+const defaultValues = {
+  renderInPlace: false,
+  verticalPosition: 'auto', // above | below
+  horizontalPosition: 'auto', // auto-right | right | center | left
+  matchTriggerWidth: false,
+}
+
 export default @layout(templateLayout) @tagName('') class BasicDropdown extends Component {
   top = null;
   bottom = null;
@@ -29,14 +36,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
   height = null;
   otherStyles = {};
   publicAPI = {};
-  renderInPlace = false;
-  verticalPosition = 'auto'; // above | below
-  horizontalPosition = 'auto'; // auto-right | right | center | left
-  matchTriggerWidth = false;
 
   // Lifecycle hooks
   init() {
+    Object.entries(defaultValues).forEach(([key, value]) => {
+      if(typeof this.get(key) === 'undefined') {
+        this.set(key, value)
+      }
+    })
+
     super.init(...arguments);
+
     let publicAPI = this.updateState({
       uniqueId: guidFor(this),
       isOpen: this.initiallyOpened || false,
