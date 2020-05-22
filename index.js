@@ -5,18 +5,20 @@ module.exports = {
 
   included(appOrAddon) {
     let app = appOrAddon.app || appOrAddon;
-    if (!app.__emberBasicDropdownIncludedInvoked) {
-      app.__emberBasicDropdownIncludedInvoked = true;
+    if (app.__emberBasicDropdownIncludedInvoked) {
       this._super.included.apply(this, arguments);
+      return;
+    }
+    app.__emberBasicDropdownIncludedInvoked = true;
+    this._super.included.apply(this, arguments);
 
-      let hasSass = !!app.registry.availablePlugins['ember-cli-sass'];
-      let hasLess = !!app.registry.availablePlugins['ember-cli-less'];
+    let hasSass = !!app.registry.availablePlugins['ember-cli-sass'];
+    let hasLess = !!app.registry.availablePlugins['ember-cli-less'];
 
-      // Don't include the precompiled css file if the user uses a supported CSS preprocessor
-      if (!hasSass && !hasLess) {
-        if (!app.__skipEmberBasicDropdownStyles) {
-          app.import('vendor/ember-basic-dropdown.css');
-        }
+    // Don't include the precompiled css file if the user uses a supported CSS preprocessor
+    if (!hasSass && !hasLess) {
+      if (!app.__skipEmberBasicDropdownStyles) {
+        app.import('vendor/ember-basic-dropdown.css');
       }
     }
   },
