@@ -15,7 +15,7 @@
   @return {Object} How the component is going to be positioned.
     - {String} horizontalPosition The new horizontal position.
     - {String} verticalPosition The new vertical position.
-    - {Object} CSS properties to be set on the dropdown. It supports `top`, `left`, `right` and `width`.
+    - {Object} CSS properties to be set on the dropdown. It supports `top`, `bottom`, `left`, `right`, `width` and `height`.
 */
 export default function(_, _2, _destination, { renderInPlace }) {
   if (renderInPlace) {

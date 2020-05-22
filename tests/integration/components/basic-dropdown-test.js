@@ -534,7 +534,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   test('The `reposition` public action returns an object with the changes', async function(assert) {
-    assert.expect(4);
+    assert.expect(6);
     let remoteController;
     this.saveAPI = (api) => remoteController = api;
 
@@ -555,21 +555,26 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'hPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'vPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'top'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'bottom'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'left'));
+    assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'right'));
   });
 
   test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function(assert) {
+    assert.expect(10); // 7 tests + 3 calls to `calculatePosition()`
+    const positionMock = {
+      horizontalPosition: 'right',
+      verticalPosition: 'above',
+      style: {
+        top: 111,
+        right: 101,
+        width: 100,
+        height: 110
+      }
+    };
     this.calculatePosition = function(triggerElement, dropdownElement, destinationElement, { dropdown }) {
       assert.ok(dropdown, 'dropdown should be passed to the component');
-      return {
-        horizontalPosition: 'right',
-        verticalPosition: 'above',
-        style: {
-          top: 111,
-          width: 100,
-          height: 110
-        }
-      };
+      return positionMock;
     };
     await render(hbs`
       <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
@@ -582,7 +587,19 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The dropdown is in the right');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;width: 100px;height: 110px', 'The style attribute is the expected one');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;right: 101px;width: 100px;height: 110px', 'The style attribute contains `top`, `right`, `width` and `height`');
+    positionMock.horizontalPosition = 'left';
+    positionMock.verticalPosition = 'below';
+    positionMock.style = { bottom: 10, left: 20 };
+    await click('.ember-basic-dropdown-trigger'); // close
+    await click('.ember-basic-dropdown-trigger'); // reopen to trigger another call to `calculatePosition`
+    assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--below', 'The dropdown is below');
+    assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--left', 'The dropdown is on the left');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'bottom: 10px;left: 20px;', 'The style attribute contains `bottom` and `left`');
+    positionMock.style = { top: 10, bottom: 20, left: 30, right: 40 };
+    await click('.ember-basic-dropdown-trigger'); // close
+    await click('.ember-basic-dropdown-trigger'); // reopen to trigger another call to `calculatePosition`
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 10px;left: 30px;', 'If `top`, `bottom`, `left` and `right` styles are given, only `top` and `left` are applied');
   });
 
   test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function(assert) {

@@ -13,6 +13,7 @@ import requirejs from 'require';
 
 const ignoredStyleAttrs = [
   'top',
+  'bottom',
   'left',
   'right',
   'width',
@@ -21,6 +22,7 @@ const ignoredStyleAttrs = [
 
 export default @layout(templateLayout) @tagName('') class BasicDropdown extends Component {
   top = null;
+  bottom = null;
   left = null;
   right = null;
   width = null;
@@ -112,6 +114,7 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
       hPosition: null,
       vPosition: null,
       top: null,
+      bottom: null,
       left: null,
       right: null,
       width: null,
@@ -163,8 +166,17 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
     };
 
     if (positions.style) {
+      // The component can be aligned from the top or from the bottom, but not from both.
       if (positions.style.top !== undefined) {
         changes.top = `${positions.style.top}px`;
+        changes.bottom = null;
+        // Since we set the first run manually we may need to unset the `bottom` property.
+        if (positions.style.bottom !== undefined) {
+          positions.style.bottom = undefined;
+        }
+      } else if (positions.style.bottom !== undefined) {
+        changes.bottom = `${positions.style.bottom}px`;
+        changes.top = null;
       }
       // The component can be aligned from the right or from the left, but not from both.
       if (positions.style.left !== undefined) {
@@ -193,7 +205,7 @@ export default @layout(templateLayout) @tagName('') class BasicDropdown extends 
         }
       });
 
-      if (this.top === null) {
+      if (this.top === null && this.bottom === null) {
         // Bypass Ember on the first reposition only to avoid flickering.
         let cssRules = [];
         for (let prop in positions.style) {

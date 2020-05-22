@@ -29,6 +29,17 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
     assert.dom('.ember-basic-dropdown-content').hasClass('extra-class');
   });
+  test('If `@top`, `@bottom`, `@left`, `@right`, `@width`, `@height` or `@otherStyles` arguments are provided, then those styles are reflected on the content’s element', async function(assert) {
+    assert.expect(2);
+    this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
+    this.otherStyles = { display: 'flex', 'align-items': 'center' };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @top="10px" @bottom="20px" @left="30px" @right="40px" @width="50px" @height="60px" @otherStyles={{hash display="flex" align-items="center"}}>Lorem ipsum</BasicDropdownContent>
+    `);
+    assert.dom('.ember-basic-dropdown-content').hasText('Lorem ipsum', 'It contains the given block');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'display: flex;align-items: center;top: 10px;bottom: 20px;left: 30px;right: 40px;width: 50px;height: 60px');
+  });
 
   test('If the dropdown is closed, nothing is rendered', async function(assert) {
     assert.expect(1);
