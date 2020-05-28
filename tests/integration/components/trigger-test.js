@@ -106,13 +106,13 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-disabled', 'It is NOT marked as disabled');
   });
 
-  test('If the received dropdown is open, it has an `aria-expanded="true"` attribute', async function(assert) {
+  test('If the received dropdown is open, it has an `aria-expanded="true"` attribute, otherwise `"false"`', async function(assert) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123, isOpen: false };
     await render(hbs`
       <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
     `);
-    assert.dom('.ember-basic-dropdown-trigger').doesNotHaveAttribute('aria-expanded');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-expanded', 'false', 'the aria-expanded is false');
     run(() => set(this.dropdown, 'isOpen', true));
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-expanded', 'true', 'the aria-expanded is true');
   });
