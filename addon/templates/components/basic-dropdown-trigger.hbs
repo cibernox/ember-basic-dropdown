@@ -5,7 +5,7 @@
     tabindex={{unless @dropdown.disabled "0"}}
     data-ebd-id="{{@dropdown.uniqueId}}-trigger"
     aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
-    aria-expanded={{if @dropdown.isOpen "true"}}
+    aria-expanded={{if @dropdown.isOpen "true" "false"}}
     aria-disabled={{if @dropdown.disabled "true"}}
     {{will-destroy this.removeGlobalHandlers}}
     ...attributes
