@@ -1,3 +1,9 @@
+# 3.0.3
+- A11y fix: When the component is not expanded, it must have `aria-expanded="false"`.
+
+# 3.0.2
+- Ensure `this._super` in invoked in the `included` hooks.
+
 # 3.0.0-beta.8
 - [BUGFIX] Ensure the `otherStyles` is initialized with a copied object.
 
