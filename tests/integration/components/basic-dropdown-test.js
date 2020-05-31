@@ -496,7 +496,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // A11y
-  test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function(assert) {
+  test('By default, the `aria-controls` attribute of the trigger contains the id of the content', async function(assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -507,7 +507,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     `);
     await click('.ember-basic-dropdown-trigger');
     let content = this.element.querySelector('.ember-basic-dropdown-content');
-    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-owns', content.id, 'The trigger controls the content');
+    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-controls', content.id, 'The trigger controls the content');
   });
 
   // Repositioning
