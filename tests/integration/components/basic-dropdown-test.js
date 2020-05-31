@@ -510,6 +510,21 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('aria-controls', content.id, 'The trigger controls the content');
   });
 
+  test('When opened, the `aria-owns` attribute of the trigger parent contains the id of the content', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
+    `);
+    assert.dom(this.element.querySelector('.ember-basic-dropdown-trigger').parentNode).doesNotHaveAttribute('aria-owns', 'Closed dropdown parent does not have aria-owns');
+    await click('.ember-basic-dropdown-trigger');
+    let content = this.element.querySelector('.ember-basic-dropdown-content');
+    assert.dom(this.element.querySelector('.ember-basic-dropdown-trigger').parentNode).hasAttribute('aria-owns', content.id, 'The trigger parent owns the content');
+  });
+
   // Repositioning
   test('Firing a reposition outside of a runloop doesn\'t break the component', async function(assert) {
     let done = assert.async();
