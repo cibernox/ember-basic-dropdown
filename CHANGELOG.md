@@ -1,3 +1,4 @@
+# 4.0.4
 - TS: Fix type definition: Allow touch events in `handleRootMouseDown`.
 
 # 3.0.3
