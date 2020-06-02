@@ -1,3 +1,5 @@
+- TS: Fix type definition: Allow touch events in `handleRootMouseDown`.
+
 # 3.0.3
 - A11y fix: When the component is not expanded, it must have `aria-expanded="false"`.
 

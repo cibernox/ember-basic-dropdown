@@ -87,7 +87,7 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   setup(dropdownElement: Element): void {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`);
-    this.handleRootMouseDown = (e: MouseEvent): any => {
+    this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
       if (e.target === null) return;
       let target = e.target as Element;
       if (this.hasMoved || dropdownElement.contains(target) || triggerElement && triggerElement.contains(target)) {
