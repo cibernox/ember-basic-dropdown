@@ -1,4 +1,7 @@
-# 4.0.4
+# 3.0.5
+- TS: Fix type definition: Allow touch events in `handleRootMouseDown` on another location.
+
+# 3.0.4
 - TS: Fix type definition: Allow touch events in `handleRootMouseDown`.
 
 # 3.0.3
