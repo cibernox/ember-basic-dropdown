@@ -31,7 +31,7 @@ interface Args {
   otherStyles: Record<string, string>
   shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
 }
-type RootMouseDownHandler = (ev: MouseEvent) => void
+type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void
 
 export default class BasicDropdownContent extends Component<Args> {
   transitioningInClass = this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
