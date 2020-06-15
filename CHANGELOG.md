@@ -1,3 +1,7 @@
+# 3.0.6
+- [BUGFIX] Restore ability to change `horizontalPosition` and `verticalPosition` after initialization, lost
+  at some point in the transition to glimmer components.
+
 # 3.0.5
 - TS: Fix type definition: Allow touch events in `handleRootMouseDown` on another location.
 
