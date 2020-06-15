@@ -1,9 +1,9 @@
-.button-pull-left, .button-pull-right {
-  display: inline-block;
-
+.flex {
+  display: flex;
 }
-.button-pull-right {
-  direction: rtl;
+
+.content-pull-right {
+  justify-content: flex-end;
 }
 
 .content-bootstrap-feel [alt="tomster"] {
