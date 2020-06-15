@@ -1,24 +1,26 @@
-{{#if this.renderInPlace}}
-  <BasicDropdown
-    @this.horizontalPosition={{this.horizontalPosition}}
-    @this.verticalPosition={{this.verticalPosition}}
-    @renderInPlace={{true}}
-    class="button-pull-{{this.buttonPosition}}" as |dd|>
-    <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
-    <dd.Content class="content-bootstrap-feel">
-      <img src="/lts.png" alt="tomster">
-    </dd.Content>
-  </BasicDropdown>
-{{else}}
-  <div class="button-pull-{{this.buttonPosition}}">
-    <BasicDropdown @this.horizontalPosition={{this.horizontalPosition}} @this.verticalPosition={{this.verticalPosition}} as |dd|>
+horizontalPosition: {{this.horizontalPosition}}
+verticalPosition: {{this.verticalPosition}}
+buttonPosition: {{this.buttonPosition}}
+<div class="flex content-pull-{{this.buttonPosition}}">
+  {{#if this.renderInPlace}}
+    <BasicDropdown
+      @horizontalPosition={{this.horizontalPosition}}
+      @verticalPosition={{this.verticalPosition}}
+      @renderInPlace={{true}} as |dd|>
       <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
       <dd.Content class="content-bootstrap-feel">
         <img src="/lts.png" alt="tomster">
       </dd.Content>
     </BasicDropdown>
-  </div>
-{{/if}}
+  {{else}}
+    <BasicDropdown @horizontalPosition={{this.horizontalPosition}} @verticalPosition={{this.verticalPosition}} as |dd|>
+      <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
+      <dd.Content class="content-bootstrap-feel">
+        <img src="/lts.png" alt="tomster">
+      </dd.Content>
+    </BasicDropdown>
+  {{/if}}
+</div>
 <p>
   Horizontal
   <br>

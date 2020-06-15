@@ -67,8 +67,7 @@ export default class BasicDropdown extends Component<Args> {
   private previousVerticalPosition?: string
   private previousHorizontalPosition?: string
   private destinationElement?: HTMLElement
-  private verticalPosition = this.args.verticalPosition || 'auto'; // above | below
-  private horizontalPosition = this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
+
   private _uid = guidFor(this)
   private _dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
   private _previousDisabled = UNINITIALIZED
@@ -78,6 +77,14 @@ export default class BasicDropdown extends Component<Args> {
     toggle: this.toggle,
     reposition: this.reposition,
   };
+
+  private get horizontalPosition() {
+    return this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
+  }
+
+  private get verticalPosition() {
+    return this.args.verticalPosition || 'auto'; // above | below
+  }
 
   get destination(): string {
     return this.args.destination || this._getDestinationId();
