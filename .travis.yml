@@ -11,9 +11,6 @@ dist: trusty
 addons:
   chrome: stable
 
-cache:
-  yarn: true
-
 env:
   global:
     # See https://git.io/vdao3 for details.
@@ -35,15 +32,15 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       install:
-        - yarn install --non-interactive
+        - npm install --non-interactive
       script:
-        - yarn lint:hbs
-        - yarn lint:js
-        - yarn test
+        - npm run lint:hbs
+        - npm run lint:js
+        - npm run test
 
     - name: "Floating Dependencies"
       script:
-        - yarn test
+        - npm run test
 
     - stage: "Additional Tests"
       name: "Floating Dependencies"
