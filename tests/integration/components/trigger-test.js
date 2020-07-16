@@ -1,7 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, triggerEvent, triggerKeyEvent, tap, click } from '@ember/test-helpers';
+import {
+  render,
+  triggerEvent,
+  triggerKeyEvent,
+  tap,
+  click,
+  focus,
+} from "@ember/test-helpers";
 import { run } from '@ember/runloop';
 import { set } from '@ember/object'
 
@@ -610,5 +617,189 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
+  });
+
+  /**
+   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * Can be removed when the template `V1` compatability event handlers are removed.
+   */
+  module("trigger event handlers", function (hooks) {
+    hooks.beforeEach(function () {
+      this.set("dropdown", { uniqueId: "e123", actions: { toggle: () => {} } });
+    });
+
+    function assertCommonEventHandlerArgs(assert, args) {
+      const [dropdown, e] = args;
+
+      assert.ok(
+        dropdown.uniqueId === this.dropdown.uniqueId,
+        "It receives the dropdown argument as the first argument"
+      );
+      assert.ok(
+        e instanceof window.Event,
+        "It receives the event as second argument"
+      );
+      assert.ok(args.length === 2, "It receives only 2 arguments");
+    }
+
+    test("It properly handles the onBlur action", async function (assert) {
+      assert.expect(4);
+
+      const onBlur = function () {
+        assert.ok(true, "The `onBlur()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onBlur", onBlur.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onBlur={{this.onBlur}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "blur"); // For some reason, `blur` test-helper fails here
+    });
+
+    test("It properly handles the onClick action", async function (assert) {
+      assert.expect(4);
+
+      const onClick = function () {
+        assert.ok(true, "The `onClick()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onClick", onClick.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onClick={{this.onClick}}>hello</BasicDropdownTrigger>
+      `);
+      await click(".ember-basic-dropdown-trigger");
+    });
+
+    test("It properly handles the onFocus action", async function (assert) {
+      assert.expect(4);
+
+      const onFocus = function () {
+        assert.ok(true, "The `onFocus()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onFocus", onFocus.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocus={{this.onFocus}}>hello</BasicDropdownTrigger>
+      `);
+      await focus(".ember-basic-dropdown-trigger");
+    });
+
+    test("It properly handles the onFocusIn action", async function (assert) {
+      assert.expect(4);
+
+      const onFocusIn = function () {
+        assert.ok(true, "The `onFocusIn()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onFocusIn", onFocusIn.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusIn={{this.onFocusIn}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "focusin");
+    });
+
+    test("It properly handles the onFocusOut action", async function (assert) {
+      assert.expect(4);
+
+      const onFocusOut = function () {
+        assert.ok(true, "The `onFocusOut()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onFocusOut", onFocusOut.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusOut={{this.onFocusOut}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "focusout");
+    });
+
+    test("It properly handles the onKeyDown action", async function (assert) {
+      assert.expect(4);
+
+      const onKeyDown = function () {
+        assert.ok(true, "The `onKeyDown()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onKeyDown", onKeyDown.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onKeyDown={{this.onKeyDown}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "keydown");
+    });
+
+    test("It properly handles the onMouseDown action", async function (assert) {
+      assert.expect(4);
+
+      const onMouseDown = function () {
+        assert.ok(true, "The `onMouseDown()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseDown", onMouseDown.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseDown={{this.onMouseDown}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "mousedown");
+    });
+
+    test("It properly handles the onMouseEnter action", async function (assert) {
+      assert.expect(4);
+
+      const onMouseEnter = function () {
+        assert.ok(true, "The `onMouseEnter()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseEnter", onMouseEnter.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseEnter={{this.onMouseEnter}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "mouseenter");
+    });
+
+    test("It properly handles the onMouseLeave action", async function (assert) {
+      assert.expect(4);
+
+      const onMouseLeave = function () {
+        assert.ok(true, "The `onMouseLeave()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseLeave", onMouseLeave.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseLeave={{this.onMouseLeave}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "mouseleave");
+    });
+
+    test("It properly handles the onTouchEnd action", async function (assert) {
+      assert.expect(4);
+
+      const onTouchEnd = function () {
+        assert.ok(true, "The `onTouchEnd()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onTouchEnd", onTouchEnd.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchEnd={{this.onTouchEnd}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "touchend");
+    });
   });
 });

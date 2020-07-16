@@ -29,6 +29,10 @@ interface Args {
   width: string | undefined
   height: string | undefined
   otherStyles: Record<string, string>
+  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void
+  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void
+  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void
+  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void
   shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
 }
 type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void
@@ -83,6 +87,16 @@ export default class BasicDropdownContent extends Component<Args> {
     }
     return htmlSafe(style);
   }
+
+  /**
+   * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
+   * Avoids adding extra dependencies.
+   * Can be removed when the template `V1` compatability event handlers are removed.
+   *
+   * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * @memberof BasicDropdownContent
+   */
+  noop(): void {}
 
   @action
   setup(dropdownElement: Element): void {

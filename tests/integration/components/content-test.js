@@ -518,4 +518,132 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     run(this, 'set', 'dropdown.isOpen', false);
     assert.dom('.ember-basic-dropdown-overlay').doesNotExist('There is no overlay when closed');
   });
+
+  /**
+   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * Can be removed when the template `V1` compatability event handlers are removed.
+   */
+  module("Content event handlers", function (hooks) {
+    hooks.beforeEach(function () {
+      this.set("dropdown", {
+        uniqueId: "e123",
+        isOpen: true,
+        actions: {
+          reposition() {
+            return {};
+          },
+        },
+      });
+    });
+
+    function assertCommonEventHandlerArgs(assert, args) {
+      const [dropdown, e] = args;
+
+      assert.ok(
+        dropdown.uniqueId === this.dropdown.uniqueId,
+        "It receives the dropdown argument as the first argument"
+      );
+      assert.ok(
+        e instanceof window.Event,
+        "It receives the event as second argument"
+      );
+      assert.ok(args.length === 2, "It receives only 2 arguments");
+    }
+
+    test("It properly handles the onFocusIn action", async function (assert) {
+      assert.expect(4);
+
+      const onFocusIn = function () {
+        assert.ok(true, "The `onFocusIn()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onFocusIn", onFocusIn.bind(this));
+
+      await render(hbs`
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{this.dropdown}}
+          @destination="destination-el"
+          @onFocusIn={{this.onFocusIn}}
+        >
+          <div id="content-target-div"></div>
+        </BasicDropdownContent>
+      `);
+
+      await triggerEvent(".ember-basic-dropdown-content", "focusin");
+    });
+
+    test("It properly handles the onFocusOut action", async function (assert) {
+      assert.expect(4);
+
+      const onFocusOut = function () {
+        assert.ok(true, "The `onFocusOut()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onFocusOut", onFocusOut.bind(this));
+
+      await render(hbs`
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{this.dropdown}}
+            @destination="destination-el"
+            @onFocusOut={{this.onFocusOut}}
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        `);
+
+      await triggerEvent(".ember-basic-dropdown-content", "focusout");
+    });
+
+    test("It properly handles the onMouseEnter action", async function (assert) {
+      assert.expect(4);
+
+      const onMouseEnter = function () {
+        assert.ok(true, "The `onMouseEnter()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseEnter", onMouseEnter.bind(this));
+
+      await render(hbs`
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{this.dropdown}}
+            @destination="destination-el"
+            @onMouseEnter={{this.onMouseEnter}}
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        `);
+
+      await triggerEvent(".ember-basic-dropdown-content", "mouseenter");
+    });
+
+    test("It properly handles the onMouseLeave action", async function (assert) {
+      assert.expect(4);
+
+      const onMouseLeave = function () {
+        assert.ok(true, "The `onMouseLeave()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseLeave", onMouseLeave.bind(this));
+
+      await render(hbs`
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{this.dropdown}}
+            @destination="destination-el"
+            @onMouseLeave={{this.onMouseLeave}}
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        `);
+
+      await triggerEvent(".ember-basic-dropdown-content", "mouseleave");
+    });
+  });
 });
