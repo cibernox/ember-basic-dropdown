@@ -636,7 +636,10 @@ import {
         dropdown.uniqueId === this.dropdown.uniqueId,
         "It receives the dropdown argument as the first argument"
       );
-      assert.ok(e instanceof window.Event, "It receives the event as second");
+      assert.ok(
+        e instanceof window.Event,
+        "It receives the event as second argument"
+      );
       assert.ok(args.length === 2, "It receives only 2 arguments");
     }
 
