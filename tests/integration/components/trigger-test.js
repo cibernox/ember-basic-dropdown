@@ -6,6 +6,14 @@ import { run } from '@ember/runloop';
 import { set } from '@ember/object'
 
 module('Integration | Component | basic-dropdown-trigger', function(hooks) {
+import {
+  render,
+  triggerEvent,
+  triggerKeyEvent,
+  tap,
+  click,
+  focus,
+} from "@ember/test-helpers";
   setupRenderingTest(hooks);
 
   test('It renders the given block in a div with class `ember-basic-dropdown-trigger`, with no wrapper around', async function(assert) {
