@@ -619,10 +619,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     await tap('.ember-basic-dropdown-trigger');
   });
 
-  /**
-   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/498
-   * Can be removed when the template `V1` compatability event handlers are removed.
-   */
   module("trigger event handlers", function (hooks) {
     hooks.beforeEach(function () {
       this.set("dropdown", { uniqueId: "e123", actions: { toggle: () => {} } });
@@ -642,6 +638,115 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       assert.ok(args.length === 2, "It receives only 2 arguments");
     }
 
+    test("It properly handles the onClick action", async function (assert) {
+      assert.expect(5);
+
+      const onClick = function () {
+        assert.ok(true, "The `onClick()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onClick", onClick.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onClick={{this.onClick}}>hello</BasicDropdownTrigger>
+      `);
+      await click(".ember-basic-dropdown-trigger");
+      assert
+        .dom(".ember-basic-dropdown-content")
+        .doesNotExist(
+          "The default event handler was overidden and dropdown content was not displayed"
+        );
+    });
+
+    test("It properly handles the onKeyDown action", async function (assert) {
+      assert.expect(5);
+
+      const onKeyDown = function () {
+        assert.ok(true, "The `onKeyDown()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onKeyDown", onKeyDown.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onKeyDown={{this.onKeyDown}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "keydown");
+      assert
+        .dom(".ember-basic-dropdown-content")
+        .doesNotExist(
+          "The default event handler was overidden and dropdown content was not displayed"
+        );
+    });
+
+    test("It properly handles the onMouseDown action", async function (assert) {
+      assert.expect(5);
+
+      const onMouseDown = function () {
+        assert.ok(true, "The `onMouseDown()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onMouseDown", onMouseDown.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseDown={{this.onMouseDown}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "mousedown");
+      assert
+        .dom(".ember-basic-dropdown-content")
+        .doesNotExist(
+          "The default event handler was overidden and dropdown content was not displayed"
+        );
+    });
+
+    test("It properly handles the onTouchEnd action", async function (assert) {
+      assert.expect(5);
+
+      const onTouchEnd = function () {
+        assert.ok(true, "The `onTouchEnd()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onTouchEnd", onTouchEnd.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchEnd={{this.onTouchEnd}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "touchend");
+      assert
+        .dom(".ember-basic-dropdown-content")
+        .doesNotExist(
+          "The default event handler was overidden and dropdown content was not displayed"
+        );
+    });
+
+    test("It properly handles the onTouchStart action", async function (assert) {
+      assert.expect(5);
+
+      const onTouchStart = function () {
+        assert.ok(true, "The `onTouchStart()` action has been fired");
+        assertCommonEventHandlerArgs.call(this, assert, arguments);
+      };
+
+      this.set("onTouchStart", onTouchStart.bind(this));
+
+      await render(hbs`
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchStart={{this.onTouchStart}}>hello</BasicDropdownTrigger>
+      `);
+      await triggerEvent(".ember-basic-dropdown-trigger", "touchstart");
+      assert
+        .dom(".ember-basic-dropdown-content")
+        .doesNotExist(
+          "The default event handler was overidden and dropdown content was not displayed"
+        );
+    });
+
+    /**
+     * The following tests related to https://github.com/cibernox/ember-basic-dropdown/issues/498
+     * Can be removed when the template `V1` compatability event handlers are removed.
+     */
     test("It properly handles the onBlur action", async function (assert) {
       assert.expect(4);
 
@@ -656,22 +761,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onBlur={{this.onBlur}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(".ember-basic-dropdown-trigger", "blur"); // For some reason, `blur` test-helper fails here
-    });
-
-    test("It properly handles the onClick action", async function (assert) {
-      assert.expect(4);
-
-      const onClick = function () {
-        assert.ok(true, "The `onClick()` action has been fired");
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
-      };
-
-      this.set("onClick", onClick.bind(this));
-
-      await render(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onClick={{this.onClick}}>hello</BasicDropdownTrigger>
-      `);
-      await click(".ember-basic-dropdown-trigger");
     });
 
     test("It properly handles the onFocus action", async function (assert) {
@@ -722,38 +811,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
       await triggerEvent(".ember-basic-dropdown-trigger", "focusout");
     });
 
-    test("It properly handles the onKeyDown action", async function (assert) {
-      assert.expect(4);
-
-      const onKeyDown = function () {
-        assert.ok(true, "The `onKeyDown()` action has been fired");
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
-      };
-
-      this.set("onKeyDown", onKeyDown.bind(this));
-
-      await render(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onKeyDown={{this.onKeyDown}}>hello</BasicDropdownTrigger>
-      `);
-      await triggerEvent(".ember-basic-dropdown-trigger", "keydown");
-    });
-
-    test("It properly handles the onMouseDown action", async function (assert) {
-      assert.expect(4);
-
-      const onMouseDown = function () {
-        assert.ok(true, "The `onMouseDown()` action has been fired");
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
-      };
-
-      this.set("onMouseDown", onMouseDown.bind(this));
-
-      await render(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseDown={{this.onMouseDown}}>hello</BasicDropdownTrigger>
-      `);
-      await triggerEvent(".ember-basic-dropdown-trigger", "mousedown");
-    });
-
     test("It properly handles the onMouseEnter action", async function (assert) {
       assert.expect(4);
 
@@ -784,22 +841,6 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseLeave={{this.onMouseLeave}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(".ember-basic-dropdown-trigger", "mouseleave");
-    });
-
-    test("It properly handles the onTouchEnd action", async function (assert) {
-      assert.expect(4);
-
-      const onTouchEnd = function () {
-        assert.ok(true, "The `onTouchEnd()` action has been fired");
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
-      };
-
-      this.set("onTouchEnd", onTouchEnd.bind(this));
-
-      await render(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchEnd={{this.onTouchEnd}}>hello</BasicDropdownTrigger>
-      `);
-      await triggerEvent(".ember-basic-dropdown-trigger", "touchend");
     });
   });
 });
