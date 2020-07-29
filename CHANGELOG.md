@@ -1,3 +1,8 @@
+# 3.0.7
+- Add back `onXXX` event handlers to the trigger and content components, removed in the transition to angle bracket components,
+  because make some patterns easier as it allows to set handlers to those events when defining the contextual component, instead of
+  in invocation time
+
 # 3.0.6
 - [BUGFIX] Restore ability to change `horizontalPosition` and `verticalPosition` after initialization, lost
   at some point in the transition to glimmer components.
