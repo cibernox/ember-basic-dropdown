@@ -1,3 +1,6 @@
+# 3.0.8
+- Update `ember-maybe-in-element` to 2.0.1, which fixes deprecation about `{{-in-element}}` usage.
+
 # 3.0.7
 - Add back `onXXX` event handlers to the trigger and content components, removed in the transition to angle bracket components,
   because make some patterns easier as it allows to set handlers to those events when defining the contextual component, instead of
