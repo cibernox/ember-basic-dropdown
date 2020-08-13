@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
+import { assign } from '@ember/polyfills';
 import { DEBUG } from '@glimmer/env';
 import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
 // @ts-ignore
@@ -218,7 +219,7 @@ export default class BasicDropdown extends Component<Args> {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: Object.assign({}, this.otherStyles)
+      otherStyles: assign({}, this.otherStyles)
     };
 
     if (positions.style) {
