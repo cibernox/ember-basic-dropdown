@@ -260,7 +260,8 @@ export default class BasicDropdown extends Component<Args> {
       }
     }
     for (let prop in positions.style) {
-      if (!IGNORED_STYLES.includes(prop)) {
+      // Array.includes is not available for IE11
+      if (IGNORED_STYLES.indexOf(prop) === -1) {
         changes.otherStyles;
         changes.otherStyles[prop] = positions.style[prop];
       }
