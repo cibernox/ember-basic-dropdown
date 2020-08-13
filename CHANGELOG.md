@@ -1,3 +1,6 @@
+# 3.0.9
+- Use `assign` polyfill for IE11 support.
+
 # 3.0.8
 - Update `ember-maybe-in-element` to 2.0.1, which fixes deprecation about `{{-in-element}}` usage.
 
