@@ -1,3 +1,6 @@
+# 3.0.10
+- More IE11 fixes.
+
 # 3.0.9
 - Use `assign` polyfill for IE11 support.
 
