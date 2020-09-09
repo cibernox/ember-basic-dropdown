@@ -141,7 +141,7 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
 
 export let calculateInPlacePosition: CalculatePosition = (trigger, content, _destination, { horizontalPosition, verticalPosition }) => {
   let dropdownRect;
-  let positionData = {
+  let positionData: CalculatePositionResult = {
     horizontalPosition: 'left',
     verticalPosition: 'below',
     style: {}
@@ -166,7 +166,7 @@ export let calculateInPlacePosition: CalculatePosition = (trigger, content, _des
   if (verticalPosition === 'above') {
     positionData.verticalPosition = verticalPosition;
     dropdownRect = dropdownRect || content.getBoundingClientRect();
-    positionData.style = { top: -dropdownRect.height };
+    positionData.style.top = -dropdownRect.height;
   } else {
     positionData.verticalPosition = 'below';
   }
