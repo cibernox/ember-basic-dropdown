@@ -264,8 +264,37 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     `);
 
     await triggerEvent('#other-div', 'touchstart');
-    await triggerEvent('#other-div', 'touchmove');
-    await triggerEvent('#other-div', 'touchend');
+    await triggerEvent('#other-div', 'touchmove', { changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }] });
+    await triggerEvent('#other-div', 'touchend', { changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }] });
+  });
+
+  test('Using stylus on touch device will handle scroll/tap to fire close action properly', async function(assert) {
+    assert.expect(1);
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        close() {
+          assert.ok(true, 'The close action is called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <div id="destination-el"></div>
+      <div id="other-div"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
+    `);
+
+    // scroll
+    await triggerEvent('#other-div', 'touchstart');
+    await triggerEvent('#other-div', 'touchmove', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }] });
+    await triggerEvent('#other-div', 'touchend', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }] });
+
+    // tap
+    await triggerEvent('#other-div', 'touchstart');
+    await triggerEvent('#other-div', 'touchmove', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }] });
+    await triggerEvent('#other-div', 'touchend', { changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }] });
   });
 
   // Arbitrary events

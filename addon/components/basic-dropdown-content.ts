@@ -10,6 +10,7 @@ import {
   getAvailableScroll,
   getScrollDeltas
 } from '../utils/scroll-helpers';
+import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { SafeString } from "@ember/template/-private/handlebars";
 
@@ -43,7 +44,7 @@ export default class BasicDropdownContent extends Component<Args> {
   transitioningOutClass = this.args.transitioningOutClass || 'ember-basic-dropdown--transitioning-out';
   isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
   dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
-  private hasMoved = false
+  private touchMoveEvent?: TouchEvent
   private handleRootMouseDown?: RootMouseDownHandler
   private scrollableAncestors: Element[] = []
   private mutationObserver?: MutationObserver
@@ -104,13 +105,13 @@ export default class BasicDropdownContent extends Component<Args> {
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
       if (e.target === null) return;
       let target = e.target as Element;
-      if (this.hasMoved || dropdownElement.contains(target) || triggerElement && triggerElement.contains(target)) {
-        this.hasMoved = false;
+      if (hasMoved(e as TouchEvent, this.touchMoveEvent) || dropdownElement.contains(target) || triggerElement && triggerElement.contains(target)) {
+        this.touchMoveEvent = undefined;
         return;
       }
 
       if (dropdownIsValidParent(target, this.dropdownId)) {
-        this.hasMoved = false;
+        this.touchMoveEvent = undefined;
         return;
       }
 
@@ -211,8 +212,8 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   @action
-  touchMoveHandler(): void {
-    this.hasMoved = true;
+  touchMoveHandler(e: TouchEvent): void {
+    this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
   }
 
