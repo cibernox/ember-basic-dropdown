@@ -1,3 +1,6 @@
+# 3.0.11
+- Relax dependency on ember-truth-helpers
+
 # 3.0.10
 - More IE11 fixes.
 
