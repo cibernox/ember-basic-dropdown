@@ -90,7 +90,7 @@
     "ember-cli-typescript": "^3.1.2",
     "ember-element-helper": "^0.2.0",
     "ember-maybe-in-element": "^2.0.1",
-    "ember-truth-helpers": "2.1.0"
+    "ember-truth-helpers": "^2.1.0 || ^3.0.0"
   },
   "ember": {
     "edition": "octane"
