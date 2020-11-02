@@ -396,8 +396,34 @@ module('Integration | Component | basic-dropdown-trigger', function(hooks) {
     `);
 
     await triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
-    await triggerEvent('.ember-basic-dropdown-trigger', 'touchmove');
-    await triggerEvent('.ember-basic-dropdown-trigger', 'touchend');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchmove', { changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }] });
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchend', { changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }] });
+  });
+
+  test('Using stylus on touch device will handle scroll/tap to fire toggle action properly', async function(assert) {
+    assert.expect(1);
+    this.dropdown = {
+      uniqueId: 123,
+      actions: {
+        toggle() {
+          assert.ok(true, 'The toggle action is called');
+        },
+        reposition() {}
+      }
+    };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+    `);
+
+    // scroll
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchmove', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }] });
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchend', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }] });
+
+    // tap
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchmove', { changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }] });
+    await triggerEvent('.ember-basic-dropdown-trigger', 'touchend', { changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }] });
   });
 
   test('If its dropdown is disabled it won\'t respond to mouse, touch or keyboard event', async function(assert) {

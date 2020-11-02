@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from "@ember/object";
+import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 interface Args {
   dropdown: Dropdown
@@ -19,7 +20,7 @@ interface Args {
 
 export default class BasicDropdownTrigger extends Component<Args> {
   private toggleIsBeingHandledByTouchEvents: boolean = false
-  private hasMoved: boolean = false
+  private touchMoveEvent?: TouchEvent
 
   // Actions
   /**
@@ -98,10 +99,10 @@ export default class BasicDropdownTrigger extends Component<Args> {
     if (e && e.defaultPrevented || this.args.dropdown.disabled) {
       return;
     }
-    if (!this.hasMoved) {
+    if (!hasMoved(e, this.touchMoveEvent)) {
       this.args.dropdown.actions.toggle(e);
     }
-    this.hasMoved = false;
+    this.touchMoveEvent = undefined;
     document.removeEventListener('touchmove', this._touchMoveHandler);
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
@@ -138,8 +139,8 @@ export default class BasicDropdownTrigger extends Component<Args> {
   }
 
   @action
-  _touchMoveHandler(): void {
-    this.hasMoved = true;
+  _touchMoveHandler(e: TouchEvent): void {
+    this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this._touchMoveHandler);
   }
 
