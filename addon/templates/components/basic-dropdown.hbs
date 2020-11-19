@@ -5,14 +5,14 @@
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
     Trigger=(component
-      (or @triggerComponent "basic-dropdown-trigger")
+      (or (ensure-safe-component @triggerComponent) "basic-dropdown-trigger")
       dropdown=(readonly this.publicAPI)
       hPosition=(readonly this.hPosition)
       renderInPlace=(readonly this.renderInPlace)
       vPosition=(readonly this.vPosition)
     )
     Content=(component
-      (or @contentComponent "basic-dropdown-content")
+      (or (ensure-safe-component @contentComponent) "basic-dropdown-content")
       dropdown=(readonly this.publicAPI)
       hPosition=(readonly this.hPosition)
       renderInPlace=(readonly this.renderInPlace)
