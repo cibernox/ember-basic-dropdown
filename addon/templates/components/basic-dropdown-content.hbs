@@ -5,7 +5,7 @@
       {{#if @overlay}}
         <div class="ember-basic-dropdown-overlay"></div>
       {{/if}}
-      {{#let (element (or @htmlTag "div")) as |Element|}}
+      {{#let (or (element @htmlTag) (element "div")) as |Element|}}
         <Element
           id={{this.dropdownId}}
           class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}} {{@defaultClass}}"
