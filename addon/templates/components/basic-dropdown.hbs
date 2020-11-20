@@ -4,28 +4,55 @@
     isOpen=this.publicAPI.isOpen
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
-    Trigger=(component
-      (or (ensure-safe-component @triggerComponent) "basic-dropdown-trigger")
-      dropdown=(readonly this.publicAPI)
-      hPosition=(readonly this.hPosition)
-      renderInPlace=(readonly this.renderInPlace)
-      vPosition=(readonly this.vPosition)
+    Trigger=(or 
+      (component 
+        (ensure-safe-component @triggerComponent)
+        dropdown=(readonly this.publicAPI)
+        hPosition=(readonly this.hPosition)
+        renderInPlace=(readonly this.renderInPlace)
+        vPosition=(readonly this.vPosition)
+      ) 
+      (component 
+        "basic-dropdown-trigger"
+        dropdown=(readonly this.publicAPI)
+        hPosition=(readonly this.hPosition)
+        renderInPlace=(readonly this.renderInPlace)
+        vPosition=(readonly this.vPosition)
+      )
     )
-    Content=(component
-      (or (ensure-safe-component @contentComponent) "basic-dropdown-content")
-      dropdown=(readonly this.publicAPI)
-      hPosition=(readonly this.hPosition)
-      renderInPlace=(readonly this.renderInPlace)
-      preventScroll=(readonly @preventScroll)
-      rootEventType=(or @rootEventType "click")
-      vPosition=(readonly this.vPosition)
-      destination=(readonly this.destination)
-      top=(readonly this.top)
-      left=(readonly this.left)
-      right=(readonly this.right)
-      width=(readonly this.width)
-      height=(readonly this.height)
-      otherStyles=(readonly this.otherStyles)
+    Content=(or 
+      (component 
+        (ensure-safe-component @contentComponent)
+        dropdown=(readonly this.publicAPI)
+        hPosition=(readonly this.hPosition)
+        renderInPlace=(readonly this.renderInPlace)
+        preventScroll=(readonly @preventScroll)
+        rootEventType=(or @rootEventType "click")
+        vPosition=(readonly this.vPosition)
+        destination=(readonly this.destination)
+        top=(readonly this.top)
+        left=(readonly this.left)
+        right=(readonly this.right)
+        width=(readonly this.width)
+        height=(readonly this.height)
+        otherStyles=(readonly this.otherStyles)
+      ) 
+      (component 
+        "basic-dropdown-content"
+        dropdown=(readonly this.publicAPI)
+        hPosition=(readonly this.hPosition)
+        renderInPlace=(readonly this.renderInPlace)
+        preventScroll=(readonly @preventScroll)
+        rootEventType=(or @rootEventType "click")
+        vPosition=(readonly this.vPosition)
+        destination=(readonly this.destination)
+        top=(readonly this.top)
+        left=(readonly this.left)
+        right=(readonly this.right)
+        width=(readonly this.width)
+        height=(readonly this.height)
+        otherStyles=(readonly this.otherStyles)
+      )
     )
   )
 as |api|
