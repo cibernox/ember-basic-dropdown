@@ -4,14 +4,7 @@
     isOpen=this.publicAPI.isOpen
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
-    Trigger=(or 
-      (component 
-        (ensure-safe-component @triggerComponent)
-        dropdown=(readonly this.publicAPI)
-        hPosition=(readonly this.hPosition)
-        renderInPlace=(readonly this.renderInPlace)
-        vPosition=(readonly this.vPosition)
-      ) 
+    Trigger=(if (eq @triggerComponent undefined) 
       (component 
         "basic-dropdown-trigger"
         dropdown=(readonly this.publicAPI)
@@ -19,10 +12,18 @@
         renderInPlace=(readonly this.renderInPlace)
         vPosition=(readonly this.vPosition)
       )
-    )
-    Content=(or 
+
       (component 
-        (ensure-safe-component @contentComponent)
+        (ensure-safe-component @triggerComponent)
+        dropdown=(readonly this.publicAPI)
+        hPosition=(readonly this.hPosition)
+        renderInPlace=(readonly this.renderInPlace)
+        vPosition=(readonly this.vPosition)
+      )
+    )
+    Content=(if (eq @contentComponent undefined)
+      (component 
+        "basic-dropdown-content"
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
@@ -36,9 +37,10 @@
         width=(readonly this.width)
         height=(readonly this.height)
         otherStyles=(readonly this.otherStyles)
-      ) 
+      )
+
       (component 
-        "basic-dropdown-content"
+        (ensure-safe-component @contentComponent)
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)

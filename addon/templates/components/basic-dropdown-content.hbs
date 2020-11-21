@@ -5,7 +5,8 @@
       {{#if @overlay}}
         <div class="ember-basic-dropdown-overlay"></div>
       {{/if}}
-      {{#let (or (element @htmlTag) (element "div")) as |Element|}}
+      {{#if (eq @htmlTag undefined)}}
+      {{#let (element "div") as |Element|}}
         <Element
           id={{this.dropdownId}}
           class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}} {{@defaultClass}}"
@@ -28,6 +29,31 @@
           {{yield}}
         </Element>
       {{/let}}
+      {{else}}
+      {{#let (element @htmlTag) as |Element|}}
+        <Element
+          id={{this.dropdownId}}
+          class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}} {{@defaultClass}}"
+          style={{this.style}}
+          dir={{@dir}}
+          {{did-insert this.setup}}
+          {{did-insert @dropdown.actions.reposition}}
+          {{did-insert this.setupMutationObserver}}
+          {{did-insert this.animateIn}}
+          {{will-destroy this.teardownMutationObserver}}
+          {{will-destroy this.animateOut}}
+          {{will-destroy this.teardown}}
+
+          {{!-- V1 compatibility - See #498 --}}
+          {{on "focusin" (fn (or @onFocusIn this.noop) @dropdown)}}
+          {{on "focusout" (fn (or @onFocusOut this.noop) @dropdown)}}
+          {{on "mouseenter" (fn (or @onMouseEnter this.noop) @dropdown)}}
+          {{on "mouseleave" (fn (or @onMouseLeave this.noop) @dropdown)}}
+          ...attributes>
+          {{yield}}
+        </Element>
+      {{/let}}
+      {{/if}}
     {{/maybe-in-element}}
   </div>
 {{else}}

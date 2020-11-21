@@ -626,7 +626,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      <BasicDropdown @triggerComponent="my-custom-trigger" as |dropdown|>
+      <BasicDropdown @triggerComponent={{component "my-custom-trigger"}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
@@ -639,7 +639,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      <BasicDropdown @contentComponent="my-custom-content" as |dropdown|>
+      <BasicDropdown @contentComponent={{component "my-custom-content"}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
