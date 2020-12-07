@@ -1,0 +1,1 @@
+export { default } from 'ember-basic-dropdown/modifiers/dropdown-trigger';
