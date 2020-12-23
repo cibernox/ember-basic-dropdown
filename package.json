@@ -55,7 +55,6 @@
     "ember-resolver": "^8.0.0",
     "ember-source": "~3.20.2",
     "ember-source-channel-url": "^2.0.1",
-    "ember-style-modifier": "^0.6.0",
     "ember-template-lint": "^2.9.1",
     "ember-try": "^1.4.0",
     "eslint": "^7.5.0",
@@ -91,6 +90,7 @@
     "ember-cli-typescript": "^3.1.2",
     "ember-element-helper": "^0.2.0",
     "ember-maybe-in-element": "^2.0.1",
+    "ember-style-modifier": "^0.6.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
   },
   "ember": {
