@@ -9,7 +9,6 @@
         <Element
           id={{this.dropdownId}}
           class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}} ember-basic-dropdown-content--{{@vPosition}} {{this.animationClass}}{{if @renderInPlace " ember-basic-dropdown-content--in-place"}} {{@defaultClass}}"
-          style={{this.style}}
           dir={{@dir}}
           {{did-insert this.setup}}
           {{did-insert @dropdown.actions.reposition}}
@@ -24,6 +23,16 @@
           {{on "focusout" (fn (or @onFocusOut this.noop) @dropdown)}}
           {{on "mouseenter" (fn (or @onMouseEnter this.noop) @dropdown)}}
           {{on "mouseleave" (fn (or @onMouseLeave this.noop) @dropdown)}}
+          {{style
+            @otherStyles
+            (hash
+              top=@top
+              left=@left
+              right=@right
+              width=@width
+              height=@height
+            )
+          }}
           ...attributes>
           {{yield}}
         </Element>
@@ -31,5 +40,5 @@
     {{/maybe-in-element}}
   </div>
 {{else}}
-  <div id={{this.dropdownId}} class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+<div id={{this.dropdownId}} class="ember-basic-dropdown-content-placeholder" {{style (hash display="none")}}></div>
 {{/if}}

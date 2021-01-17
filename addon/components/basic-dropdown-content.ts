@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { join } from '@ember/runloop';
 import { getOwner } from '@ember/application';
-import { htmlSafe } from '@ember/string';
 import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
@@ -12,7 +11,6 @@ import {
 } from '../utils/scroll-helpers';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
-import { SafeString } from "@ember/template/-private/handlebars";
 
 interface Args {
   transitioningInClass?: string
@@ -58,35 +56,6 @@ export default class BasicDropdownContent extends Component<Args> {
   get animationEnabled(): boolean {
     let config = getOwner(this).resolveRegistration('config:environment');
     return config.environment !== 'test';
-  }
-
-  get style(): SafeString {
-    let style = '';
-    let { top, left, right, width, height, otherStyles } = this.args;
-
-    if (otherStyles !== undefined) {
-      for (let attr in otherStyles) {
-        let value = otherStyles[attr];
-        style += `${attr}: ${value};`;
-      }
-    }
-
-    if (top) {
-      style += `top: ${top};`;
-    }
-    if (left) {
-      style += `left: ${left};`;
-    }
-    if (right) {
-      style += `right: ${right};`;
-    }
-    if (width) {
-      style += `width: ${width};`;
-    }
-    if (height) {
-      style += `height: ${height}`;
-    }
-    return htmlSafe(style);
   }
 
   /**
