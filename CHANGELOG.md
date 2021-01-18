@@ -1,3 +1,7 @@
+# 3.0.12
+- Use `ember-style-modifier` for setting styles on element instead of using inline styles. This allows to
+  use the addon on webs that forbid inline styles on they CSP config.
+
 # 3.0.11
 - Relax dependency on ember-truth-helpers
 
