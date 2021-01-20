@@ -4,7 +4,7 @@
     role="button"
     tabindex={{unless @dropdown.disabled "0"}}
     data-ebd-id="{{@dropdown.uniqueId}}-trigger"
-    aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
+    aria-controls="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
     aria-expanded="{{@dropdown.isOpen}}"
     aria-disabled={{if @dropdown.disabled "true"}}
     {{will-destroy this.removeGlobalHandlers}}
