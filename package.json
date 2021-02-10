@@ -82,6 +82,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "@embroider/util": "0.31.0",
     "@glimmer/component": "^1.0.1",
     "@glimmer/tracking": "^1.0.1",
     "@ember/render-modifiers": "^1.0.2",
