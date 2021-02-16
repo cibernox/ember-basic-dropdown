@@ -246,17 +246,15 @@ export default class BasicDropdown extends Component<Args> {
       }
       if (this.top === undefined) {
         // Bypass Ember on the first reposition only to avoid flickering.
-        let cssRules = [];
         for (let prop in positions.style) {
           if (positions.style[prop] !== undefined) {
             if (typeof positions.style[prop] === 'number') {
-              cssRules.push(`${prop}: ${positions.style[prop]}px`)
+              dropdown.style.setProperty(prop, `${positions.style[prop]}px`);
             } else {
-              cssRules.push(`${prop}: ${positions.style[prop]}`)
+              dropdown.style.setProperty(prop, `${positions.style[prop]}`);
             }
           }
         }
-        dropdown.setAttribute('style', cssRules.join(';'));
       }
     }
     for (let prop in positions.style) {
