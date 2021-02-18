@@ -449,7 +449,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
     assert.equal(repositions, 2, 'The component has been repositioned twice');
   });
 
-  test('The component is repositioned if the content of the dropdown changs', async function(assert) {
+  test('The component is repositioned when the content of the dropdown changes', async function(assert) {
     assert.expect(1);
     let done = assert.async();
     let repositions = 0;
@@ -476,6 +476,37 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
       let target = document.getElementById('content-target-div');
       let span = document.createElement('SPAN');
       target.appendChild(span);
+    });
+  });
+
+  test('The component is repositioned when the content of the dropdown is changed through ember', async function(assert) {
+    assert.expect(1);
+    let done = assert.async();
+    let repositions = 0;
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: true,
+      actions: {
+        reposition() {
+          repositions++;
+          if (repositions === 2) {
+            assert.equal(repositions, 2, 'It was repositioned twice');
+            done();
+          }
+        }
+      }
+    };
+    let divVisible = false;
+    await render(hbs`
+      <div id="destination-el"></div>
+      <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">
+        {{#if this.divVisible}}
+          <div></div>
+        {{/if}}
+      </BasicDropdownContent>
+    `);
+    run(() => {
+      this.set('divVisible', true);
     });
   });
 
