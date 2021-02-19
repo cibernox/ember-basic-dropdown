@@ -266,9 +266,13 @@ export default class BasicDropdownContent extends Component<Args> {
 }
 
 function containsRelevantMutation(nodeList: NodeList): boolean {
-  return Array.prototype.slice.call(nodeList).some((node: Node) => {
-    return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
-  });
+  for (let i = 0; i < nodeList.length; i++) {
+    const node = nodeList[i];
+    if (node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '')) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // All ancestors with scroll (except the BODY, which is treated differently)
