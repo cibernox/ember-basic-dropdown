@@ -69,7 +69,6 @@ jobs:
     needs: tests
 
     strategy:
-      fail-fast: true
       matrix:
         ember-try-scenario:
           - ember-3.13
