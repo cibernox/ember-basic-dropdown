@@ -73,8 +73,8 @@ jobs:
         ember-try-scenario:
           - ember-3.13
           - ember-release
-          - ember-beta
-          - ember-canary
+          # - ember-beta
+          # - ember-canary
           # - embroider
           # - ember-classic
     steps:
