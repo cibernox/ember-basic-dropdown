@@ -580,7 +580,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The dropdown is in the right');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;width: 100px;height: 110px', 'The style attribute is the expected one');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px; width: 100px; height: 110px;', 'The style attribute is the expected one');
   });
 
   test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function(assert) {
@@ -798,8 +798,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
-    let content = document.querySelector('.ember-basic-dropdown-content');
-    assert.equal(content.getAttribute('style').indexOf('undefined'), -1 , 'There is no undefined values')
+    assert.dom('.ember-basic-dropdown-content').doesNotHaveAttribute('style');
   });
 
   test('It includes the inline styles returned from the `calculatePosition` callback', async function(assert) {
@@ -819,6 +818,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', /max-height: 500px;overflow-y: auto/)
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', /max-height: 500px; overflow-y: auto/)
   });
 });
