@@ -1,3 +1,8 @@
+# 3.0.13
+- Use `ember-style-modifier` in one more place.
+- Migrate to github actions and fix CI on beta and canary. This was done by relaxing a dependency
+  on the embroider utils.
+
 # 3.0.12
 - Use `ember-style-modifier` for setting styles on element instead of using inline styles. This allows to
   use the addon on webs that forbid inline styles on they CSP config.
