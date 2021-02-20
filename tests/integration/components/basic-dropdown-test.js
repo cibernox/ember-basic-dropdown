@@ -511,26 +511,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // Repositioning
-  test('Firing a reposition outside of a runloop doesn\'t break the component', async function(assert) {
-    let done = assert.async();
-    assert.expect(1);
-
-    await render(hbs`
-      <BasicDropdown as |dropdown|>
-        <dropdown.Trigger>Click me</dropdown.Trigger>
-        <dropdown.Content>
-          <div id="dropdown-is-opened"></div>
-        </dropdown.Content>
-      </BasicDropdown>
-    `);
-    await click('.ember-basic-dropdown-trigger');
-    document.querySelector('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
-    setTimeout(function() {
-      assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
-      done();
-    }, 100);
-  });
-
   test('The `reposition` public action returns an object with the changes', async function(assert) {
     assert.expect(4);
     let remoteController;
