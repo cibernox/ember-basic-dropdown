@@ -215,7 +215,7 @@ export default class BasicDropdown extends Component<Args> {
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
-  applyReposition(_trigger: Element, dropdown: Element, positions: CalculatePositionResult): RepositionChanges {
+  applyReposition(_trigger: Element, dropdown: HTMLElement, positions: CalculatePositionResult): RepositionChanges {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
