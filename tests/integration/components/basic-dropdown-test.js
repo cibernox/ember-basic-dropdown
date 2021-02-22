@@ -511,26 +511,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
   });
 
   // Repositioning
-  test('Firing a reposition outside of a runloop doesn\'t break the component', async function(assert) {
-    let done = assert.async();
-    assert.expect(1);
-
-    await render(hbs`
-      <BasicDropdown as |dropdown|>
-        <dropdown.Trigger>Click me</dropdown.Trigger>
-        <dropdown.Content>
-          <div id="dropdown-is-opened"></div>
-        </dropdown.Content>
-      </BasicDropdown>
-    `);
-    await click('.ember-basic-dropdown-trigger');
-    document.querySelector('#dropdown-is-opened').innerHTML = '<span>New content that will trigger a reposition</span>';
-    setTimeout(function() {
-      assert.equal(deprecations.length, 0, 'No deprecation warning was raised');
-      done();
-    }, 100);
-  });
-
   test('The `reposition` public action returns an object with the changes', async function(assert) {
     assert.expect(4);
     let remoteController;
@@ -580,7 +560,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The dropdown is in the right');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;width: 100px;height: 110px', 'The style attribute is the expected one');
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px; width: 100px; height: 110px;', 'The style attribute is the expected one');
   });
 
   test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function(assert) {
@@ -618,7 +598,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     await click('.ember-basic-dropdown-trigger');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert.dom('.ember-basic-dropdown-content').hasClass('ember-basic-dropdown-content--right', 'The dropdown is in the right');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', 'top: 111px;right: 222px;', 'The style attribute is the expected one');
+    assert.dom('.ember-basic-dropdown-content').hasStyle({ top: '111px', right: '222px' }, 'The style attribute is the expected one');
   });
 
   // Customization of inner components
@@ -626,7 +606,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      <BasicDropdown @triggerComponent="my-custom-trigger" as |dropdown|>
+      <BasicDropdown @triggerComponent={{component "my-custom-trigger"}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
@@ -639,7 +619,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
     assert.expect(1);
 
     await render(hbs`
-      <BasicDropdown @contentComponent="my-custom-content" as |dropdown|>
+      <BasicDropdown @contentComponent={{component "my-custom-content"}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
@@ -798,8 +778,7 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
-    let content = document.querySelector('.ember-basic-dropdown-content');
-    assert.equal(content.getAttribute('style').indexOf('undefined'), -1 , 'There is no undefined values')
+    assert.dom('.ember-basic-dropdown-content').doesNotHaveAttribute('style');
   });
 
   test('It includes the inline styles returned from the `calculatePosition` callback', async function(assert) {
@@ -819,6 +798,6 @@ module('Integration | Component | basic-dropdown', function(hooks) {
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', /max-height: 500px;overflow-y: auto/)
+    assert.dom('.ember-basic-dropdown-content').hasAttribute('style', /max-height: 500px; overflow-y: auto/)
   });
 });

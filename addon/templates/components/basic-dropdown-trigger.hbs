@@ -1,14 +1,41 @@
-{{#let (element (or @htmlTag "div")) as |Element|}}
-  <Element
-    class="ember-basic-dropdown-trigger{{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}{{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}{{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}} {{@defaultClass}}"
-    role="button"
-    tabindex={{unless @dropdown.disabled "0"}}
-    aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
-    aria-expanded="{{@dropdown.isOpen}}"
-    aria-disabled={{if @dropdown.disabled "true"}}
-    {{dropdown-trigger dropdown=@dropdown}}
-    ...attributes
+{{#if (eq @htmlTag undefined)}}
+  {{#let (element "div") as |Element|}}
+    <Element
+      class="ember-basic-dropdown-trigger
+        {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
+        {{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}
+        {{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}
+
+        {{@defaultClass}}"
+      role="button"
+      tabindex={{unless @dropdown.disabled "0"}}
+      aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
+      aria-expanded="{{@dropdown.isOpen}}"
+      aria-disabled={{if @dropdown.disabled "true"}}
+      {{dropdown-trigger dropdown=@dropdown}}
+      ...attributes
     >
-    {{yield}}
-  </Element>
-{{/let}}
+      {{yield}}
+    </Element>
+  {{/let}}
+{{else}}
+  {{#let (element @htmlTag) as |Element|}}
+    <Element
+      class="ember-basic-dropdown-trigger
+        {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
+        {{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}
+        {{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}
+
+        {{@defaultClass}}"
+      role="button"
+      tabindex={{unless @dropdown.disabled "0"}}
+      aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
+      aria-expanded="{{@dropdown.isOpen}}"
+      aria-disabled={{if @dropdown.disabled "true"}}
+      {{dropdown-trigger dropdown=@dropdown}}
+      ...attributes
+    >
+      {{yield}}
+    </Element>
+  {{/let}}
+{{/if}}
