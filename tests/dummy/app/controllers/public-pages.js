@@ -1,6 +1,6 @@
 import { inject as service } from "@ember/service"
 import { action } from "@ember/object"
-import { htmlSafe } from "@ember/string"
+import { htmlSafe } from "@ember/template"
 import Controller from '@ember/controller';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 
