@@ -1,4 +1,6 @@
+# 3.0.14
 - Import `htmlSafe` from `@ember/template` to fix deprecation warning.
+- Migrate to github actions and fix stuff to make CI green again.
 # 3.0.13
 - Use `ember-style-modifier` in one more place.
 - Migrate to github actions and fix CI on beta and canary. This was done by relaxing a dependency
