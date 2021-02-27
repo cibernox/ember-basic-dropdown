@@ -146,15 +146,9 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   setupMutationObserver(dropdownElement: Element): void {
     this.mutationObserver = new MutationObserver((mutations) => {
-      let shouldReposition = false;
-
-      shouldReposition = Array.prototype.slice.call(mutations[0].addedNodes).some((node: Node) => {
-        return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
-      });
-
-      shouldReposition = shouldReposition || Array.prototype.slice.call(mutations[0].removedNodes).some((node: Node) => {
-        return node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '');
-      });
+      let shouldReposition = mutations.some((record: MutationRecord) =>
+        containsRelevantMutation(record.addedNodes) || containsRelevantMutation(record.removedNodes)
+      );
 
       if (shouldReposition && this.args.shouldReposition) {
         shouldReposition = this.args.shouldReposition(mutations, this.args.dropdown);
@@ -269,6 +263,16 @@ export default class BasicDropdownContent extends Component<Args> {
       el.removeEventListener('scroll', this.runloopAwareReposition);
     });
   }
+}
+
+function containsRelevantMutation(nodeList: NodeList): boolean {
+  for (let i = 0; i < nodeList.length; i++) {
+    const node = nodeList[i];
+    if (node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '')) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // All ancestors with scroll (except the BODY, which is treated differently)
