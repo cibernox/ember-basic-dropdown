@@ -2,7 +2,6 @@ import { action } from "@ember/object";
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { join } from '@ember/runloop';
-import { getOwner } from '@ember/application';
 import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
@@ -11,6 +10,7 @@ import {
 } from '../utils/scroll-helpers';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
+import { isTesting } from '@embroider/macros';
 
 interface Args {
   transitioningInClass?: string
@@ -54,8 +54,7 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   get animationEnabled(): boolean {
-    let config = getOwner(this).resolveRegistration('config:environment');
-    return config.environment !== 'test';
+    return !isTesting(); 
   }
 
   /**

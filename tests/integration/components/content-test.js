@@ -496,7 +496,7 @@ module('Integration | Component | basic-dropdown-content', function(hooks) {
         }
       }
     };
-    let divVisible = false;
+    this.divVisible = false;
     await render(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{dropdown}} @destination="destination-el">

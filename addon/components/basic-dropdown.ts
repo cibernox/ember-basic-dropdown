@@ -4,11 +4,9 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { assign } from '@ember/polyfills';
-import { DEBUG } from '@glimmer/env';
 import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
-// @ts-ignore
-import requirejs from 'require';
 import { schedule } from '@ember/runloop';
+import { macroCondition, isTesting, dependencySatisfies, importSync } from '@embroider/macros';
 declare const FastBoot: any
 
 export interface DropdownActions {
@@ -279,28 +277,32 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   _getDestinationId(): string {
-    let config = getOwner(this).resolveRegistration('config:environment');
-    let id: string;
-    if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
-      if (DEBUG) {
-        if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
-          try {
-            return requirejs('@ember/test-helpers/dom/get-root-element').default().id as string;
-          } catch(ex) {
-            // no op
-          }
-        }
-        let rootView = document.querySelector('#ember-testing > .ember-view');
+    let config = getOwner(this).resolveRegistration("config:environment");
+
+    // This takes care of stripping this code out if not running tests
+    if (macroCondition(isTesting())) {
+      if (
+        typeof FastBoot === "undefined" &&
+        dependencySatisfies("@ember/test-helpers", ">= 1")
+      ) {
+        let getRootElement = importSync(
+          "@ember/test-helpers/dom/get-root-element"
+        ) as any;
+
+        return getRootElement.default().id;
+      } 
+
+      let rootView = document.querySelector('#ember-testing > .ember-view');
         if (rootView) {
           return rootView.id;
         }
+
         return '';
-      }
     }
-    id = (config['ember-basic-dropdown'] && config['ember-basic-dropdown'].destination || 'ember-basic-dropdown-wormhole') as string;
-    // if (DEBUG && typeof FastBoot === 'undefined' && !this.renderInPlace) {
-    //   assert(`You're trying to attach the content of a dropdown to an node with ID ${id}, but there is no node with that ID in the document. This can happen when your Ember app is not in control of the index.html page. Check https://ember-power-select.com/docs/troubleshooting for more information`, document.getElementById(id));
-    // }
-    return id;
+
+    return ((config["ember-basic-dropdown"] &&
+      config["ember-basic-dropdown"].destination) ||
+      "ember-basic-dropdown-wormhole") as string;
   }
+
 }
