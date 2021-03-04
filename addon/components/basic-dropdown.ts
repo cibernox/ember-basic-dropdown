@@ -4,11 +4,11 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
 import { assign } from '@ember/polyfills';
-import { DEBUG } from '@glimmer/env';
 import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
 // @ts-ignore
 import requirejs from 'require';
 import { schedule } from '@ember/runloop';
+import { macroCondition, isTesting } from '@embroider/macros';
 declare const FastBoot: any
 
 export interface DropdownActions {
@@ -281,8 +281,8 @@ export default class BasicDropdown extends Component<Args> {
   _getDestinationId(): string {
     let config = getOwner(this).resolveRegistration('config:environment');
     let id: string;
-    if (config.environment === 'test' && (typeof FastBoot === 'undefined')) {
-      if (DEBUG) {
+    if (macroCondition(isTesting())) {
+      if (typeof FastBoot === 'undefined') {
         if (requirejs.has('@ember/test-helpers/dom/get-root-element')) {
           try {
             return requirejs('@ember/test-helpers/dom/get-root-element').default().id as string;
