@@ -74,7 +74,7 @@
     "prember-crawler": "^1.0.0",
     "prettier": "^2.2.1",
     "qunit": "^2.14.0",
-    "qunit-dom": "^1.6.0",
+    "qunit-dom": "1.5.0",
     "simple-git": "^1.10.0",
     "typescript": "3.7.5"
   },
