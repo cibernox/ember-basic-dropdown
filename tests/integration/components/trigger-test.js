@@ -20,7 +20,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
       <div id="direct-parent">
-        <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
       </div>
     `);
 
@@ -37,7 +37,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
       <div id="direct-parent">
-        <BasicDropdownTrigger @dropdown={{dropdown}} @defaultClass="extra-class">Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @defaultClass="extra-class">Click me</BasicDropdownTrigger>
       </div>
     `);
 
@@ -49,7 +49,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -61,7 +61,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger tabindex={{false}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger tabindex={{false}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -73,7 +73,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -85,7 +85,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} title="foobar">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} title="foobar">Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -97,7 +97,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} id="my-own-id">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} id="my-own-id">Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -109,7 +109,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123, disabled: true };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -121,7 +121,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123, disabled: true };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     assert
@@ -137,7 +137,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123, isOpen: false };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     assert
       .dom('.ember-basic-dropdown-trigger')
@@ -152,7 +152,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     assert
       .dom('.ember-basic-dropdown-trigger')
@@ -163,7 +163,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
     `);
     assert.equal(
       this.element.querySelector('.ember-basic-dropdown-trigger').tagName,
@@ -176,7 +176,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} role="foo123">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} role="foo123">Click me</BasicDropdownTrigger>
     `);
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('role', 'foo123');
   });
@@ -186,7 +186,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = { uniqueId: 123 };
     this.role = undefined;
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('role', 'button');
   });
@@ -207,7 +207,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       );
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} {{on "mouseenter" (fn onMouseEnter dropdown)}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "mouseenter" (fn onMouseEnter dropdown)}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
   });
@@ -228,7 +228,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
   });
@@ -244,7 +244,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
   });
@@ -260,7 +260,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
   });
@@ -280,7 +280,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'mousedown');
   });
@@ -304,7 +304,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
     await render(hbs`
       <div onclick={{handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -329,7 +329,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
     await render(hbs`
       <div onclick={{handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -350,7 +350,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
@@ -372,7 +372,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 32);
@@ -393,7 +393,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 27);
@@ -414,7 +414,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} {{on "keydown" onKeyDown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "keydown" onKeyDown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
@@ -442,7 +442,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
   });
@@ -458,7 +458,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerEvent('.ember-basic-dropdown-trigger', 'touchstart');
@@ -482,7 +482,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
     `);
 
     // scroll
@@ -522,7 +522,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @isTouchDevice={{true}}>Click me</BasicDropdownTrigger>
     `);
     await click('.ember-basic-dropdown-trigger');
     await tap('.ember-basic-dropdown-trigger');
@@ -555,7 +555,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
@@ -579,7 +579,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "click" onClick}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "click" onClick}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
@@ -603,7 +603,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
@@ -632,7 +632,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{this.dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
@@ -661,7 +661,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{dropdown}}>
+      <BasicDropdownTrigger {{on "touchend" this.onTouchEnd}} @dropdown={{this.dropdown}}>
         Click me
       </BasicDropdownTrigger>
     `);
@@ -691,7 +691,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
@@ -714,7 +714,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
@@ -734,7 +734,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{dropdown}} @isTouchDevice={{true}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} @isTouchDevice={{true}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
     `);
     await tap('.ember-basic-dropdown-trigger');
   });

@@ -685,7 +685,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       };
     };
     await render(hbs`
-      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+      <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
@@ -741,7 +741,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       }
     };
     await render(hbs`
-      <BasicDropdown @calculatePosition={{calculatePosition}} @renderInPlace={{true}} as |dropdown|>
+      <BasicDropdown @calculatePosition={{this.calculatePosition}} @renderInPlace={{true}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
@@ -974,7 +974,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       };
     };
     await render(hbs`
-      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+      <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
@@ -994,7 +994,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       };
     };
     await render(hbs`
-      <BasicDropdown @calculatePosition={{calculatePosition}} as |dropdown|>
+      <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
