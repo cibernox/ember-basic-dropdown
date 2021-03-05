@@ -2,13 +2,13 @@ import EmberRouter from '@ember/routing/router';
 import config from 'dummy/config/environment';
 
 const Router = class extends EmberRouter {
-  location = config.locationType
-  rootURL = config.rootURL
-}
+  location = config.locationType;
+  rootURL = config.rootURL;
+};
 
-Router.map(function() {
-  this.route('public-pages', { path: '' }, function() {
-    this.route('docs', function() {
+Router.map(function () {
+  this.route('public-pages', { path: '' }, function () {
+    this.route('docs', function () {
       // Getting started
       // index.hbs is "Overview"
       this.route('installation');
@@ -32,12 +32,11 @@ Router.map(function() {
       this.route('api-reference');
     });
 
-    this.route('cookbook', function() {
+    this.route('cookbook', function () {
       this.route('no-trigger');
     });
 
-    this.route('addons', function() {
-    });
+    this.route('addons', function () {});
 
     this.route('support-the-project');
   });

@@ -7,6 +7,6 @@ module.exports = {
     'no-inline-styles': false,
     'no-partial': false,
     'no-positive-tabindex': false,
-    'no-quoteless-attributes': false
-  }
+    'no-quoteless-attributes': false,
+  },
 };
