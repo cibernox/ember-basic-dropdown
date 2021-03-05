@@ -1,3 +1,5 @@
+# 3.0.16
+- Update ember and many other dependencies.
 # 3.0.15
 - Fix conditional import for Embroider compatibility, using @embroider/macros.
 
