@@ -1,10 +1,10 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 
 export default class extends Controller {
-  dropdownDisabled = true
-  checkboxClass = null
+  dropdownDisabled = true;
+  checkboxClass = null;
 
   // Actions
   useTheKeyboard(e) {
@@ -22,22 +22,22 @@ export default class extends Controller {
   @action
   highlightCheckboxIfDisabled() {
     if (this.dropdownDisabled) {
-      this.set('checkboxLabelStyle', htmlSafe('color: red'));
+      set(this, 'checkboxLabelStyle', htmlSafe('color: red'));
     }
   }
 
   @action
   resetHighlight() {
-    this.set('checkboxLabelStyle', null);
+    set(this, 'checkboxLabelStyle', null);
   }
 
   @action
   simulateFocusParent() {
-    this.set('parentDivClass', 'input-group--focused');
+    set(this, 'parentDivClass', 'input-group--focused');
   }
 
   @action
   simulateBlurParent() {
-    this.set('parentDivClass', null);
+    set(this, 'parentDivClass', null);
   }
 }

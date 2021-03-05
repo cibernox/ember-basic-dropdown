@@ -7,8 +7,8 @@ export default class extends Controller {
     { text: 'Edward' },
     { text: 'Jonathan' },
     { text: 'Tom' },
-    { text: 'Eric' }
-  ]
+    { text: 'Eric' },
+  ];
 
   prevent(e) {
     return e.stopImmediatePropagation();

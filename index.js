@@ -26,10 +26,14 @@ module.exports = {
   contentFor(type, config) {
     let basicDropdownConfig = config['ember-basic-dropdown'];
     if (!basicDropdownConfig || !basicDropdownConfig.destination) {
-      if (config.environment !== 'test' && type === 'body-footer' && !config._emberBasicDropdownContentForInvoked) {
+      if (
+        config.environment !== 'test' &&
+        type === 'body-footer' &&
+        !config._emberBasicDropdownContentForInvoked
+      ) {
         config._emberBasicDropdownContentForInvoked = true;
         return '<div id="ember-basic-dropdown-wormhole"></div>';
       }
     }
-  }
+  },
 };

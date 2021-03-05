@@ -4,10 +4,10 @@ import loadInitializers from 'ember-load-initializers';
 import config from 'dummy/config/environment';
 
 const App = class extends Application {
-  modulePrefix = config.modulePrefix
-  podModulePrefix = config.podModulePrefix
-  Resolver = Resolver
-}
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+};
 
 loadInitializers(App, config.modulePrefix);
 
