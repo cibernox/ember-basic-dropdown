@@ -1,3 +1,6 @@
+# 3.0.15
+- Fix conditional import for Embroider compatibility, using @embroider/macros.
+
 # 3.0.14
 - Import `htmlSafe` from `@ember/template` to fix deprecation warning.
 - Migrate to github actions and fix stuff to make CI green again.
