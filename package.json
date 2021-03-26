@@ -101,7 +101,7 @@
     "ember-cli-htmlbars": "^5.3.2",
     "ember-cli-typescript": "^4.1.0",
     "ember-element-helper": "^0.3.2",
-    "ember-maybe-in-element": "^2.0.1",
+    "ember-maybe-in-element": "^2.0.2",
     "ember-style-modifier": "^0.6.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
   },
