@@ -1,3 +1,4 @@
+# 3.0.17
 - Update ember-element-helper for better embroider compatibility
 
 # 3.0.16
