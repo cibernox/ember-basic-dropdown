@@ -1,3 +1,5 @@
+- Update ember-element-helper for better embroider compatibility
+
 # 3.0.16
 - Update ember and many other dependencies
 
