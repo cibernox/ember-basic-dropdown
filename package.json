@@ -93,14 +93,14 @@
   },
   "dependencies": {
     "@ember/render-modifiers": "^1.0.2",
-    "@embroider/macros": "^0.36.0",
-    "@embroider/util": "^0.36.0",
+    "@embroider/macros": "^0.40.0",
+    "@embroider/util": "^0.40.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "ember-cli-babel": "^7.23.1",
-    "ember-cli-htmlbars": "^5.3.2",
+    "ember-cli-htmlbars": "^5.7.0",
     "ember-cli-typescript": "^4.1.0",
-    "ember-element-helper": "^0.3.2",
+    "ember-element-helper": "^0.5.0",
     "ember-maybe-in-element": "^2.0.2",
     "ember-style-modifier": "^0.6.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
