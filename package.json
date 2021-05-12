@@ -32,6 +32,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.0",
+    "@embroider/test-setup": "^0.40.0",
     "@types/ember": "^3.1.1",
     "@types/ember-qunit": "^3.4.7",
     "@types/ember__test-helpers": "^0.7.9",
@@ -77,7 +78,8 @@
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
     "simple-git": "^1.10.0",
-    "typescript": "^4.2.0"
+    "typescript": "^4.2.0",
+    "webpack": "^5.37.0"
   },
   "keywords": [
     "ember-addon",
@@ -97,6 +99,7 @@
     "@embroider/util": "^0.40.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "ember-auto-import": "^2.0.0-beta.2",
     "ember-cli-babel": "^7.23.1",
     "ember-cli-htmlbars": "^5.7.0",
     "ember-cli-typescript": "^4.1.0",
