@@ -13,6 +13,7 @@
   aria-expanded="{{@dropdown.isOpen}}"
   aria-disabled={{if @dropdown.disabled "true"}}
   ...attributes
+  {{did-insert this.registerTriggerElement}}
   {{will-destroy this.removeGlobalHandlers}}
   {{on "mousedown" this.handleMouseDown}}
   {{on "click" this.handleClick}}

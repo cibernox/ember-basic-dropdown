@@ -4,25 +4,27 @@
     isOpen=this.publicAPI.isOpen
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
-    Trigger=(if (eq @triggerComponent undefined) 
-      (component 
+    Trigger=(if (eq @triggerComponent undefined)
+      (component
         "basic-dropdown-trigger"
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         vPosition=(readonly this.vPosition)
+        onInsert=(readonly this.registerTriggerElement)
       )
 
-      (component 
+      (component
         (ensure-safe-component @triggerComponent)
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         vPosition=(readonly this.vPosition)
+        onInsert=(readonly this.registerTriggerElement)
       )
     )
     Content=(if (eq @contentComponent undefined)
-      (component 
+      (component
         "basic-dropdown-content"
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
@@ -37,9 +39,10 @@
         width=(readonly this.width)
         height=(readonly this.height)
         otherStyles=(readonly this.otherStyles)
+        triggerElement=(readonly this.triggerElement)
       )
 
-      (component 
+      (component
         (ensure-safe-component @contentComponent)
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
@@ -54,6 +57,7 @@
         width=(readonly this.width)
         height=(readonly this.height)
         otherStyles=(readonly this.otherStyles)
+        triggerElement=(readonly this.triggerElement)
       )
     )
   )

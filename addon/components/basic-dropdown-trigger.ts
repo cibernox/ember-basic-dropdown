@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from "@ember/object";
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
+
 interface Args {
   dropdown: Dropdown
   eventType: 'click' | 'mousedown'
@@ -11,6 +12,7 @@ interface Args {
   onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void
   onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void
   onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void
+  onInsert?: (trigger: HTMLElement) => void
   onKeyDown?: (dropdown?: Dropdown, event?: KeyboardEvent) => void
   onMouseDown?: (dropdown?: Dropdown, event?: MouseEvent) => void
   onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void
@@ -107,22 +109,27 @@ export default class BasicDropdownTrigger extends Component<Args> {
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    let target = e.target as HTMLElement;
+    let target = (e.composedPath?.()[0] || e.target) as HTMLElement;
     if (target !== null) {
       target.focus();
     }
     setTimeout(function() {
-      if (!e.target) { return; }
+      if (!target) { return; }
       try {
         let event = document.createEvent('MouseEvents');
         event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        e.target.dispatchEvent(event);
-      } catch (e) {
+        target.dispatchEvent(event);
+      } catch (error) {
         event = new Event('click');
-        e.target.dispatchEvent(event);
+        target.dispatchEvent(event);
       }
     }, 0);
     e.preventDefault();
+  }
+
+  @action
+  registerTriggerElement(triggerElement: HTMLElement): void {
+    this.args.onInsert?.(triggerElement);
   }
 
   @action

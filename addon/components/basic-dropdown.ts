@@ -63,6 +63,7 @@ export default class BasicDropdown extends Component<Args> {
   @tracked otherStyles: Record<string, string | number | undefined> = {}
   @tracked isOpen = this.args.initiallyOpened || false
   @tracked renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
+  @tracked triggerElement: HTMLElement | undefined
   private previousVerticalPosition?: string
   private previousHorizontalPosition?: string
   private destinationElement?: HTMLElement
@@ -182,6 +183,11 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   @action
+  registerTriggerElement(triggerElement: HTMLElement): void {
+    this.triggerElement = triggerElement;
+  }
+
+  @action
   reposition(): undefined | RepositionChanges {
     if (!this.publicAPI.isOpen) {
       return;
@@ -290,7 +296,7 @@ export default class BasicDropdown extends Component<Args> {
         ) as any;
 
         return getRootElement.default().id;
-      } 
+      }
 
       let rootView = document.querySelector('#ember-testing > .ember-view');
         if (rootView) {
