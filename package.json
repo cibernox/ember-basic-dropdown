@@ -1,6 +1,6 @@
 {
   "name": "ember-basic-dropdown",
-  "version": "3.0.17",
+  "version": "3.0.18",
   "description": "The basic dropdown that your ember app needs",
   "homepage": "http://ember-basic-dropdown.com",
   "scripts": {
@@ -93,8 +93,8 @@
   },
   "dependencies": {
     "@ember/render-modifiers": "^1.0.2",
-    "@embroider/macros": "^0.40.0",
-    "@embroider/util": "^0.40.0",
+    "@embroider/macros": "^0.39.0 || ^0.40.0 || ^0.41.0",
+    "@embroider/util": "^0.39.0 || ^0.40.0 || ^0.41.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "ember-cli-babel": "^7.23.1",

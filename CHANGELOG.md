@@ -1,3 +1,6 @@
+# 3.0.18
+- Relax dependencies on embroider packages
+
 # 3.0.17
 - Update ember-element-helper for better embroider compatibility
 
