@@ -167,7 +167,7 @@ export default class BasicDropdown extends Component<Args> {
     if (skipFocus) {
       return;
     }
-    let trigger = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
+    let trigger = this._getTriggerElement();
     if (trigger && trigger.tabIndex > -1) {
       trigger.focus();
     }
@@ -192,13 +192,14 @@ export default class BasicDropdown extends Component<Args> {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    let dropdownElement = document.getElementById(this._dropdownId);
-    let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
+    let dropdownElement = this._getDropdownElement();
+    let triggerElement = this._getTriggerElement();
+
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.destination) as HTMLElement;
+    this.destinationElement = this.destinationElement || this._getDestinationElement();
     let { horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition } = this;
     let { renderInPlace = false, matchTriggerWidth = false } = this.args;
     let calculatePositionFn = this.args.calculatePosition || calculatePosition
@@ -216,6 +217,7 @@ export default class BasicDropdown extends Component<Args> {
         dropdown: this
       }
     );
+
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
@@ -311,4 +313,16 @@ export default class BasicDropdown extends Component<Args> {
       "ember-basic-dropdown-wormhole") as string;
   }
 
+  _getDestinationElement(): HTMLElement {
+    return document.getElementById(this.destination) ?? getOwner(this).rootElement.querySelector?.(`[id="${this.destination}"]`);
+  }
+
+  _getDropdownElement(): HTMLElement {
+    return document.getElementById(this._dropdownId) ?? getOwner(this).rootElement.querySelector?.(`[id="${this._dropdownId}"]`);
+  }
+
+  _getTriggerElement(): HTMLElement {
+    const selector = `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`;
+    return document.querySelector(selector) ?? getOwner(this).rootElement.querySelector?.(selector);
+  }
 }

@@ -70,12 +70,12 @@ test('distributeScroll', function (assert) {
   child.scrollTop = 20;
 
   distributeScroll(0, -30, grandchild, container);
-  assert.strictEqual(container.scrollTop, 10);
-  assert.strictEqual(child.scrollTop, 0);
+  assert.strictEqual(Math.round(container.scrollTop), 10);
+  assert.strictEqual(Math.round(child.scrollTop), 0);
 
   distributeScroll(0, 40, grandchild, container);
-  assert.strictEqual(container.scrollTop, 10);
-  assert.strictEqual(child.scrollTop, 40);
+  assert.strictEqual(Math.round(container.scrollTop), 10);
+  assert.strictEqual(Math.round(child.scrollTop), 40);
 });
 
 test('getScrollDeltas DOM_DELTA_PIXEL', function (assert) {

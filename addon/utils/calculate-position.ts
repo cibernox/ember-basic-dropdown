@@ -35,6 +35,12 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
   let anchorPosition = window.getComputedStyle(anchorElement).position;
   while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName.toUpperCase() !== 'BODY') {
     anchorElement = anchorElement.parentNode as HTMLElement;
+
+    if ((anchorElement instanceof DocumentFragment) && anchorElement.host) {
+      // Passing through the Shadow DOM border
+      anchorElement = anchorElement.host;
+    }
+
     anchorPosition = window.getComputedStyle(anchorElement).position;
   }
   if (anchorPosition === 'relative' || anchorPosition === 'absolute') {

@@ -11,7 +11,7 @@ import {
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
-import { ref } from 'ember-ref-bucket';
+import { getOwner } from '@ember/application';
 
 interface Args {
   transitioningInClass?: string
@@ -52,7 +52,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
 
   get destinationElement(): Element | null {
-    return document.getElementById(this.args.destination);
+    return document.getElementById(this.args.destination) ?? getOwner(this).rootElement.querySelector?.(`[id="${this.args.destination}"]`);
   }
 
   get animationEnabled(): boolean {
