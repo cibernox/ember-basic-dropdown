@@ -596,7 +596,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.dom('#is-disabled').doesNotExist('The select is enabled again');
   });
 
-  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function (assert) {
+  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content (`id-of-elmnt` appears in dom order after BasicDropdown)', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -608,6 +608,92 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
     await click('.ember-basic-dropdown-trigger');
 
+    assert
+      .dom(
+        this.element.querySelector('.ember-basic-dropdown-content').parentNode
+      )
+      .hasAttribute(
+        'id',
+        'id-of-elmnt',
+        'The content has been rendered in an alternative destination'
+      );
+  });
+
+  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content (`id-of-elmnt` appears in dom order before BasicDropdown)', async function (assert) {
+    assert.expect(1);
+
+    await render(hbs`
+      <div id="id-of-elmnt"></div>
+      <BasicDropdown @destination="id-of-elmnt" as |dd|>
+        <dd.Trigger>Click me</dd.Trigger>
+        <dd.Content>Hello</dd.Content>
+      </BasicDropdown>
+    `);
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(
+        this.element.querySelector('.ember-basic-dropdown-content').parentNode
+      )
+      .hasAttribute(
+        'id',
+        'id-of-elmnt',
+        'The content has been rendered in an alternative destination'
+      );
+  });
+
+  /**
+    FAILING TEST:
+    
+    ```ts
+    // addon/components/basic-dropdown-content.ts
+
+    get destinationElement() {
+      return document.getElementById(this.args.destination);
+    }
+    ```
+
+    `document.getElementById(this.args.destination);` returns `null` in this scenario
+  */
+  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content (`id-of-elmnt` appears in dom order after BasicDropdown) along with `@initiallyOpened={{true}}`', async function (assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      <BasicDropdown @initiallyOpened={{true}} @destination="id-of-elmnt" as |dd|>
+        <dd.Trigger>Click me</dd.Trigger>
+        <dd.Content>
+          <span id="dropdown-is-opened">Hello</span>
+        </dd.Content>
+      </BasicDropdown>
+      <div id="id-of-elmnt"></div>
+    `);
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
+    assert
+      .dom(
+        this.element.querySelector('.ember-basic-dropdown-content').parentNode
+      )
+      .hasAttribute(
+        'id',
+        'id-of-elmnt',
+        'The content has been rendered in an alternative destination'
+      );
+  });
+
+  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content (`id-of-elmnt` appears in dom order before BasicDropdown) along with `@initiallyOpened={{true}}`', async function (assert) {
+    assert.expect(2);
+
+    await render(hbs`
+      <div id="id-of-elmnt"></div>
+      <BasicDropdown @initiallyOpened={{true}} @destination="id-of-elmnt" as |dd|>
+        <dd.Trigger>Click me</dd.Trigger>
+        <dd.Content>
+          <span id="dropdown-is-opened">Hello</span>
+        </dd.Content>
+      </BasicDropdown>
+    `);
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
     assert
       .dom(
         this.element.querySelector('.ember-basic-dropdown-content').parentNode
