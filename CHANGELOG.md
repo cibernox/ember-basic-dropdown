@@ -1,3 +1,5 @@
+# 3.0.19
+- Update `ember-element-helper` to fix issues with CI.
 # 3.0.18
 - Relax dependencies on embroider packages
 
