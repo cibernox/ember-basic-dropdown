@@ -619,6 +619,36 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
   });
 
+  // Cookbook examples
+  test('The dropdown can be used without a trigger by invoking toggle and specifying `data-ebd-id`', async function (assert) {
+    assert.expect(4);
+
+    await render(hbs`
+      <BasicDropdown as |dd|>
+        <button id="custom-trigger" {{on "click" dd.actions.toggle}}>Click me</button>
+        <input type="text" data-ebd-id="{{dd.uniqueId}}-trigger">
+        <dd.Content><span id="dropdown-is-open">I am content</span></dd.Content>
+      </BasicDropdown>
+      <div id="outside-element">I am outside the dropdown</div>
+    `);
+
+    // clicking outside should close the content
+    await click('#custom-trigger');
+    assert.dom('#dropdown-is-open').exists('The dropdown is open');
+    await click('#outside-element');
+    assert
+      .dom('#dropdown-is-open')
+      .doesNotExist('The dropdown is closed from outside click');
+
+    // clicking the trigger should toggle the content
+    await click('#custom-trigger');
+    assert.dom('#dropdown-is-open').exists('The dropdown is open again');
+    await click('#custom-trigger');
+    assert
+      .dom('#dropdown-is-open')
+      .doesNotExist('The dropdown is closed from trigger click');
+  });
+
   // A11y
   test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function (assert) {
     assert.expect(1);
