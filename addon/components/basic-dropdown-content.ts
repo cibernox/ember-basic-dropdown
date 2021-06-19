@@ -125,6 +125,7 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   animateOut(dropdownElement: Element): void {
     if (!this.animationEnabled) return;
+    this.animationClass = this.transitioningInClass;
     let parentElement = dropdownElement.parentElement;
     if (parentElement === null) return;
     if (this.args.renderInPlace) {
@@ -136,7 +137,6 @@ export default class BasicDropdownContent extends Component<Args> {
     clone.classList.remove(...this.transitioningInClass.split(' '));
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
-    this.animationClass = this.transitionedInClass;
     waitForAnimations(clone, function() {
       (parentElement as HTMLElement).removeChild(clone);
     });
