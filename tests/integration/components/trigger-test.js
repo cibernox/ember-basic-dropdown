@@ -9,7 +9,6 @@ import {
   click,
   focus,
 } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
 import { set } from '@ember/object';
 
 module('Integration | Component | basic-dropdown-trigger', function (hooks) {
@@ -127,10 +126,10 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-trigger')
       .hasAttribute('aria-disabled', 'true', 'It is marked as disabled');
-    run(() => this.set('dropdown.disabled', false));
+    this.set('dropdown', { ...this.dropdown, disabled: false });
     assert
       .dom('.ember-basic-dropdown-trigger')
-      .doesNotHaveAttribute('aria-disabled', 'It is NOT marked as disabled');
+      .hasAttribute('aria-disabled', 'false', 'It is NOT marked as disabled');
   });
 
   test('If the received dropdown is open, it has an `aria-expanded="true"` attribute, otherwise `"false"`', async function (assert) {
@@ -142,7 +141,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-trigger')
       .hasAttribute('aria-expanded', 'false', 'the aria-expanded is false');
-    run(() => set(this.dropdown, 'isOpen', true));
+    this.set('dropdown', { ...this.dropdown, isOpen: true });
     assert
       .dom('.ember-basic-dropdown-trigger')
       .hasAttribute('aria-expanded', 'true', 'the aria-expanded is true');
