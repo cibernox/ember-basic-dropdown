@@ -1,5 +1,4 @@
 import Modifier from 'ember-modifier';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
@@ -14,8 +13,8 @@ interface Args {
 }
 
 export default class DropdownTriggerModifier extends Modifier<Args> {
-  @tracked private toggleIsBeingHandledByTouchEvents: boolean = false
-  @tracked private touchMoveEvent?: TouchEvent
+  private toggleIsBeingHandledByTouchEvents: boolean = false
+  private touchMoveEvent?: TouchEvent
 
   didInstall() {
     if(!this.element.getAttribute('role')) this.element.setAttribute('role', 'button');
@@ -35,10 +34,12 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
     this.element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
 
     if (dropdown?.disabled) {
-      this.element.removeAttribute('tabindex');
+      // only remove if tabindex is not a custom value
+      if (this.element.getAttribute('tabindex') === '0') this.element.removeAttribute('tabindex');
       this.element.setAttribute('aria-disabled', 'true');
     } else {
-      this.element.setAttribute('tabindex', '0');
+      // only set to 0 if tab index is not a custom value
+      if (this.element.getAttribute('tabindex') === null) this.element.setAttribute('tabindex', '0');
       this.element.setAttribute('aria-disabled', 'false');
     }
   }
