@@ -18,7 +18,7 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
   @tracked private touchMoveEvent?: TouchEvent
 
   didInstall() {
-    this.element.setAttribute('role', 'button');
+    if(!this.element.getAttribute('role')) this.element.setAttribute('role', 'button');
 
     this.element.addEventListener('click', this.handleMouseEvent);
     this.element.addEventListener('mousedown', this.handleMouseEvent);
