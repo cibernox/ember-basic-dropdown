@@ -102,6 +102,7 @@
     "ember-cli-typescript": "^4.1.0",
     "ember-element-helper": "^0.5.2",
     "ember-maybe-in-element": "^2.0.2",
+    "ember-modifier": "^2.1.2",
     "ember-style-modifier": "^0.6.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
   },

@@ -4,21 +4,13 @@
     {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
     {{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}
     {{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}
-
     {{@defaultClass}}"
-  role="button"
-  tabindex={{unless @dropdown.disabled "0"}}
-  data-ebd-id="{{@dropdown.uniqueId}}-trigger"
-  aria-owns="ember-basic-dropdown-content-{{@dropdown.uniqueId}}"
-  aria-expanded="{{@dropdown.isOpen}}"
-  aria-disabled={{if @dropdown.disabled "true"}}
+  {{basic-dropdown-trigger
+    dropdown=@dropdown
+    eventType=@eventType
+    stopPropagation=@stopPropagation
+  }}
   ...attributes
-  {{will-destroy this.removeGlobalHandlers}}
-  {{on "mousedown" this.handleMouseDown}}
-  {{on "click" this.handleClick}}
-  {{on "keydown" this.handleKeyDown}}
-  {{on "touchstart" this.handleTouchStart}}
-  {{on "touchend" this.handleTouchEnd}}
   {{! V1 compatibility - See #498 }}
   {{on "keydown" (fn (or @onKeyDown this.noop) @dropdown)}}
   {{on "mousedown" (fn (or @onMouseDown this.noop) @dropdown)}}
