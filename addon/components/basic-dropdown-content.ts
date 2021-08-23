@@ -54,16 +54,10 @@ export default class BasicDropdownContent extends Component<Args> {
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver?: MutationObserver;
-  @tracked animationClass = this.animationEnabled
-    ? this.transitioningInClass
-    : '';
+  @tracked animationClass = this.transitioningInClass
 
   get destinationElement(): Element | null {
     return document.getElementById(this.args.destination);
-  }
-
-  get animationEnabled(): boolean {
-    return !isTesting();
   }
 
   /**
@@ -142,7 +136,6 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   animateIn(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
     });
@@ -150,11 +143,14 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   animateOut(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
     let parentElement = dropdownElement.parentElement;
     if (parentElement === null) return;
     if (this.args.renderInPlace) {
       parentElement = parentElement.parentElement;
+
+      if (isTesting() && parentElement === null) {
+        parentElement = document.querySelector('.ember-basic-dropdown');
+      }
     }
     if (parentElement === null) return;
     let clone = dropdownElement.cloneNode(true) as Element;
@@ -162,8 +158,8 @@ export default class BasicDropdownContent extends Component<Args> {
     clone.classList.remove(...this.transitioningInClass.split(' '));
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
-    this.animationClass = this.transitionedInClass;
-    waitForAnimations(clone, function () {
+    this.animationClass = this.transitioningInClass;
+    waitForAnimations(clone, function() {
       (parentElement as HTMLElement).removeChild(clone);
     });
   }
