@@ -72,7 +72,7 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   setup(dropdownElement: Element): void {
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
-      let target = (e?.composedPath()[0] || e.target) as Element;
+      let target = (e.composedPath?()[0] || e.target) as Element;
       if (target === null) return;
       if (hasMoved(e as TouchEvent, this.touchMoveEvent) || dropdownElement.contains(target) || this.args.triggerElement && this.args.triggerElement.contains(target)) {
         this.touchMoveEvent = undefined;
