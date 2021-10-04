@@ -11,28 +11,30 @@ import {
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
+import { isPresent } from '@ember/utils';
 
 interface Args {
-  transitioningInClass?: string
-  transitionedInClass?: string
-  transitioningOutClass?: string
-  isTouchDevice?: boolean
-  destination: string
-  dropdown: Dropdown
-  renderInPlace: boolean
-  preventScroll?: boolean
-  rootEventType: "click" | "mousedown"
-  top: string | undefined
-  left: string | undefined
-  right: string | undefined
-  width: string | undefined
-  height: string | undefined
-  otherStyles: Record<string, string>
-  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
+  transitioningInClass?: string;
+  transitionedInClass?: string;
+  transitioningOutClass?: string;
+  isTouchDevice?: boolean;
+  destination: string;
+  dropdown: Dropdown;
+  renderInPlace: boolean;
+  preventScroll?: boolean;
+  rootEventType: "click" | "mousedown";
+  animationEnabled?: boolean;
+  top: string | undefined;
+  left: string | undefined;
+  right: string | undefined;
+  width: string | undefined;
+  height: string | undefined;
+  otherStyles: Record<string, string>;
+  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean;
 }
 type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void
 
@@ -54,7 +56,8 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   get animationEnabled(): boolean {
-    return !isTesting(); 
+    const arg = this.args.animationEnabled;
+    return isPresent(arg) ? !!arg : !isTesting();
   }
 
   /**
