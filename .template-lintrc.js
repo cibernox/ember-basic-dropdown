@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  extends: 'octane',
+  extends: 'recommended',
   rules: {
     'attribute-indentation': { 'open-invocation-max-len': 110 },
     'no-inline-styles': false,
