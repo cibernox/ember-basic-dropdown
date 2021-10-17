@@ -5,11 +5,11 @@ import { task, timeout } from 'ember-concurrency';
 const users = [
   { name: 'Nathan', assignment: 'CLI' },
   { name: 'Rober', assignment: 'Whatnot' },
-  { name: 'Leah', assignment: 'Community' }
+  { name: 'Leah', assignment: 'Community' },
 ];
 
 export default class extends Controller {
-  users = users
+  users = users;
 
   // Actions
   @action
@@ -21,9 +21,10 @@ export default class extends Controller {
   }
 
   // Tasks
-  @(task(function*(dropdown) {
+  @task(function* (dropdown) {
     yield timeout(1000);
     dropdown.actions.open(); // invoked without event
     return users;
-  })) loadUsersAndOpen
+  })
+  loadUsersAndOpen;
 }

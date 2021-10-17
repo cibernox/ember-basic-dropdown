@@ -1,26 +1,26 @@
 import Component from '@glimmer/component';
-import { action } from "@ember/object";
+import { action } from '@ember/object';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 interface Args {
-  dropdown: Dropdown
-  eventType: 'click' | 'mousedown'
-  stopPropagation: boolean
-  onBlur?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onClick?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onKeyDown?: (dropdown?: Dropdown, event?: KeyboardEvent) => void
-  onMouseDown?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onTouchEnd?: (dropdown?: Dropdown, event?: TouchEvent) => void
+  dropdown: Dropdown;
+  eventType: 'click' | 'mousedown';
+  stopPropagation: boolean;
+  onBlur?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onClick?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onKeyDown?: (dropdown?: Dropdown, event?: KeyboardEvent) => void;
+  onMouseDown?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onTouchEnd?: (dropdown?: Dropdown, event?: TouchEvent) => void;
 }
 
 export default class BasicDropdownTrigger extends Component<Args> {
-  private toggleIsBeingHandledByTouchEvents: boolean = false
-  private touchMoveEvent?: TouchEvent
+  private toggleIsBeingHandledByTouchEvents: boolean = false;
+  private touchMoveEvent?: TouchEvent;
 
   // Actions
   /**
@@ -56,10 +56,18 @@ export default class BasicDropdownTrigger extends Component<Args> {
   @action
   handleClick(e: MouseEvent): void {
     if (typeof document === 'undefined') return;
-    if (this.isDestroyed || !this.args.dropdown || this.args.dropdown.disabled) {
+    if (
+      this.isDestroyed ||
+      !this.args.dropdown ||
+      this.args.dropdown.disabled
+    ) {
       return;
     }
-    if ((this.args.eventType !== undefined && this.args.eventType !== 'click') || e.button !== 0) return;
+    if (
+      (this.args.eventType !== undefined && this.args.eventType !== 'click') ||
+      e.button !== 0
+    )
+      return;
     if (this.args.stopPropagation) {
       e.stopPropagation();
     }
@@ -78,9 +86,11 @@ export default class BasicDropdownTrigger extends Component<Args> {
     if (this.args.dropdown.disabled) {
       return;
     }
-    if (e.keyCode === 13) {  // Enter
+    if (e.keyCode === 13) {
+      // Enter
       this.args.dropdown.actions.toggle(e);
-    } else if (e.keyCode === 32) { // Space
+    } else if (e.keyCode === 32) {
+      // Space
       e.preventDefault(); // prevents the space to trigger a scroll page-next
       this.args.dropdown.actions.toggle(e);
     } else if (e.keyCode === 27) {
@@ -96,7 +106,7 @@ export default class BasicDropdownTrigger extends Component<Args> {
   @action
   handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
-    if (e && e.defaultPrevented || this.args.dropdown.disabled) {
+    if ((e && e.defaultPrevented) || this.args.dropdown.disabled) {
       return;
     }
     if (!hasMoved(e, this.touchMoveEvent)) {
@@ -111,11 +121,29 @@ export default class BasicDropdownTrigger extends Component<Args> {
     if (target !== null) {
       target.focus();
     }
-    setTimeout(function() {
-      if (!e.target) { return; }
+    setTimeout(function () {
+      if (!e.target) {
+        return;
+      }
       try {
         let event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        event.initMouseEvent(
+          'click',
+          true,
+          true,
+          window,
+          0,
+          0,
+          0,
+          0,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
         e.target.dispatchEvent(event);
       } catch (e) {
         event = new Event('click');

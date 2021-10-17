@@ -99,9 +99,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(4);
 
     this.willOpen = function (dropdown, e) {
-      assert.equal(
+      assert.false(
         dropdown.isOpen,
-        false,
         'The received dropdown has a `isOpen` property that is still false'
       );
       assert.ok(
@@ -149,9 +148,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(7);
 
     this.willClose = function (dropdown, e) {
-      assert.equal(
+      assert.true(
         dropdown.isOpen,
-        true,
         'The received dropdown has a `isOpen` property and its value is `true`'
       );
       assert.ok(
@@ -667,6 +665,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function (assert) {
+    assert.expect(4);
     this.calculatePosition = function (
       triggerElement,
       dropdownElement,
@@ -819,13 +818,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       3,
       'There have been 3 changes in the state of the public API'
     );
-    assert.equal(apis[0].isOpen, false, 'The component was closed');
-    assert.equal(apis[1].isOpen, true, 'Then it opened');
-    assert.equal(apis[2].isOpen, false, 'Then it closed again');
+    assert.false(apis[0].isOpen, 'The component was closed');
+    assert.true(apis[1].isOpen, 'Then it opened');
+    assert.false(apis[2].isOpen, 'Then it closed again');
     this.set('disabled', true);
     assert.equal(apis.length, 4, 'There have been 4 changes now');
-    assert.equal(apis[2].disabled, false, 'the component was enabled');
-    assert.equal(apis[3].disabled, true, 'and it became disabled');
+    assert.false(apis[2].disabled, 'the component was enabled');
+    assert.true(apis[3].disabled, 'and it became disabled');
   });
 
   test('removing the dropdown in response to onClose does not error', async function (assert) {

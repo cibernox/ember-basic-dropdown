@@ -1,4 +1,5 @@
-body, body > .ember-view {
+body,
+body > .ember-view {
   display: flex;
   min-height: 100vh;
   flex-direction: column;

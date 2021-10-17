@@ -12,4 +12,4 @@ export default class extends Controller {
   simulateBlurParent() {
     this.set('parentDivClass', null);
   }
-};
+}

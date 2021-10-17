@@ -1,21 +1,21 @@
 {{! template-lint-disable no-inline-styles }}
 {{#if @dropdown.isOpen}}
-  <div class="ember-basic-dropdown-content-wormhole-origin">
+  <div class='ember-basic-dropdown-content-wormhole-origin'>
     {{#maybe-in-element this.destinationElement @renderInPlace}}
       {{#if @overlay}}
-        <div class="ember-basic-dropdown-overlay"></div>
+        <div class='ember-basic-dropdown-overlay'></div>
       {{/if}}
 
       <BasicDropdownOptionalTag
         @htmlTag={{@htmlTag}}
         id={{this.dropdownId}}
-        class='ember-basic-dropdown-content ember-basic-dropdown-content--{{
-          @hPosition
-        }} ember-basic-dropdown-content--{{@vPosition}} {{
-          this.animationClass
-        }}{{if @renderInPlace ' ember-basic-dropdown-content--in-place'}} {{
-          @defaultClass
-        }}'
+        class='ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
+          ember-basic-dropdown-content--{{@vPosition}}
+          {{this.animationClass}}{{if
+            @renderInPlace
+            ' ember-basic-dropdown-content--in-place'
+          }}
+          {{@defaultClass}}'
         dir={{@dir}}
         ...attributes
         {{style
@@ -40,5 +40,9 @@
     {{/maybe-in-element}}
   </div>
 {{else}}
-<div id={{this.dropdownId}} class="ember-basic-dropdown-content-placeholder" {{style (hash display="none")}}></div>
+  <div
+    id={{this.dropdownId}}
+    class='ember-basic-dropdown-content-placeholder'
+    {{style (hash display='none')}}
+  ></div>
 {{/if}}

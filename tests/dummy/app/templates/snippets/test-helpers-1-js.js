@@ -1,1 +1,4 @@
-import { clickTrigger, tapTrigger } from 'ember-basic-dropdown/test-support/helpers';
+import {
+  clickTrigger,
+  tapTrigger,
+} from 'ember-basic-dropdown/test-support/helpers';

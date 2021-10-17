@@ -1,12 +1,12 @@
-<h1 class="doc-page-title">Overlays</h1>
+<h1 class='doc-page-title'>Overlays</h1>
 
 <p>
-  By default the dropdown renders floating above the rest of your page but it doesn't
-  prevent the user from clicking on any other item. Overlays can fix that and make
-  dropdowns look cooler.
+  By default the dropdown renders floating above the rest of your page but it
+  doesn't prevent the user from clicking on any other item. Overlays can fix
+  that and make dropdowns look cooler.
 </p>
 
-<CodeExample @hbs="overlays-1.hbs" as |partialName|>
+<CodeExample @hbs='overlays-1.hbs' as |partialName|>
   {{partial partialName}}
 </CodeExample>
 
@@ -16,13 +16,17 @@
 
 <ul>
   <li>
-    By default overlays have a semitransparent black background, but you can change that
-    using the <code>$ember-basic-dropdown-overlay-background</code> SASS variable or
-    target the <code>.ember-basic-dropdown-overlay</code>
+    By default overlays have a semitransparent black background, but you can
+    change that using the
+    <code>$ember-basic-dropdown-overlay-background</code>
+    SASS variable or target the
+    <code>.ember-basic-dropdown-overlay</code>
   </li>
   <li>
-    By default overlays have <code>pointer-events: none</code>, so it is transparent to
-    clicks but you can change that using the <code>$ember-basic-dropdown-overlay-pointer-events</code>
+    By default overlays have
+    <code>pointer-events: none</code>, so it is transparent to clicks but you
+    can change that using the
+    <code>$ember-basic-dropdown-overlay-pointer-events</code>
     SASS variable or target the same class.
   </li>
 </ul>
@@ -31,7 +35,13 @@
   In the next section we'll talk more how to customize the styles.
 </p>
 
-<div class="doc-page-nav">
-  <a href={{href-to "public-pages.docs.position"}} class="doc-page-nav-link-prev">&lt; Disabled</a>
-  <a href={{href-to "public-pages.docs.styles"}} class="doc-page-nav-link-next">Styles &gt;</a>
+<div class='doc-page-nav'>
+  <a
+    href={{href-to 'public-pages.docs.position'}}
+    class='doc-page-nav-link-prev'
+  >&lt; Disabled</a>
+  <a
+    href={{href-to 'public-pages.docs.styles'}}
+    class='doc-page-nav-link-next'
+  >Styles &gt;</a>
 </div>

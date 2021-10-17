@@ -1,4 +1,4 @@
-import { action } from "@ember/object";
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { join } from '@ember/runloop';
@@ -6,55 +6,64 @@ import { getScrollParent } from '../utils/calculate-position';
 import {
   distributeScroll,
   getAvailableScroll,
-  getScrollDeltas
+  getScrollDeltas,
 } from '../utils/scroll-helpers';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
 
 interface Args {
-  transitioningInClass?: string
-  transitionedInClass?: string
-  transitioningOutClass?: string
-  isTouchDevice?: boolean
-  destination: string
-  dropdown: Dropdown
-  renderInPlace: boolean
-  preventScroll?: boolean
-  rootEventType: "click" | "mousedown"
-  top: string | undefined
-  left: string | undefined
-  right: string | undefined
-  width: string | undefined
-  height: string | undefined
-  otherStyles: Record<string, string>
-  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void
-  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void
-  shouldReposition: (mutations: MutationRecord[], dropdown: Dropdown) => boolean
+  transitioningInClass?: string;
+  transitionedInClass?: string;
+  transitioningOutClass?: string;
+  isTouchDevice?: boolean;
+  destination: string;
+  dropdown: Dropdown;
+  renderInPlace: boolean;
+  preventScroll?: boolean;
+  rootEventType: 'click' | 'mousedown';
+  top: string | undefined;
+  left: string | undefined;
+  right: string | undefined;
+  width: string | undefined;
+  height: string | undefined;
+  otherStyles: Record<string, string>;
+  onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  shouldReposition: (
+    mutations: MutationRecord[],
+    dropdown: Dropdown
+  ) => boolean;
 }
-type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void
+type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void;
 
 export default class BasicDropdownContent extends Component<Args> {
-  transitioningInClass = this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
-  transitionedInClass = this.args.transitionedInClass || 'ember-basic-dropdown--transitioned-in';
-  transitioningOutClass = this.args.transitioningOutClass || 'ember-basic-dropdown--transitioning-out';
-  isTouchDevice = this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
-  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`
-  private touchMoveEvent?: TouchEvent
-  private handleRootMouseDown?: RootMouseDownHandler
-  private scrollableAncestors: Element[] = []
-  private mutationObserver?: MutationObserver
-  @tracked animationClass = this.animationEnabled ? this.transitioningInClass : ''
-
+  transitioningInClass =
+    this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
+  transitionedInClass =
+    this.args.transitionedInClass || 'ember-basic-dropdown--transitioned-in';
+  transitioningOutClass =
+    this.args.transitioningOutClass ||
+    'ember-basic-dropdown--transitioning-out';
+  isTouchDevice =
+    this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
+  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`;
+  private touchMoveEvent?: TouchEvent;
+  private handleRootMouseDown?: RootMouseDownHandler;
+  private scrollableAncestors: Element[] = [];
+  private mutationObserver?: MutationObserver;
+  @tracked animationClass = this.animationEnabled
+    ? this.transitioningInClass
+    : '';
 
   get destinationElement(): Element | null {
     return document.getElementById(this.args.destination);
   }
 
   get animationEnabled(): boolean {
-    return !isTesting(); 
+    return !isTesting();
   }
 
   /**
@@ -69,11 +78,17 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   setup(dropdownElement: Element): void {
-    let triggerElement = document.querySelector(`[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`);
+    let triggerElement = document.querySelector(
+      `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`
+    );
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
       if (e.target === null) return;
       let target = e.target as Element;
-      if (hasMoved(e as TouchEvent, this.touchMoveEvent) || dropdownElement.contains(target) || triggerElement && triggerElement.contains(target)) {
+      if (
+        hasMoved(e as TouchEvent, this.touchMoveEvent) ||
+        dropdownElement.contains(target) ||
+        (triggerElement && triggerElement.contains(target))
+      ) {
         this.touchMoveEvent = undefined;
         return;
       }
@@ -84,8 +99,12 @@ export default class BasicDropdownContent extends Component<Args> {
       }
 
       this.args.dropdown.actions.close(e, true);
-    }
-    document.addEventListener(this.args.rootEventType, this.handleRootMouseDown, true);
+    };
+    document.addEventListener(
+      this.args.rootEventType,
+      this.handleRootMouseDown,
+      true
+    );
     window.addEventListener('resize', this.runloopAwareReposition);
     window.addEventListener('orientationchange', this.runloopAwareReposition);
 
@@ -99,18 +118,25 @@ export default class BasicDropdownContent extends Component<Args> {
     this.addScrollHandling(dropdownElement);
   }
 
-
   @action
   teardown(): void {
     this.removeGlobalEvents();
     this.removeScrollHandling();
     this.scrollableAncestors = [];
 
-    document.removeEventListener(this.args.rootEventType, this.handleRootMouseDown as RootMouseDownHandler, true);
+    document.removeEventListener(
+      this.args.rootEventType,
+      this.handleRootMouseDown as RootMouseDownHandler,
+      true
+    );
 
     if (this.isTouchDevice) {
       document.removeEventListener('touchstart', this.touchStartHandler, true);
-      document.removeEventListener('touchend', this.handleRootMouseDown as RootMouseDownHandler, true);
+      document.removeEventListener(
+        'touchend',
+        this.handleRootMouseDown as RootMouseDownHandler,
+        true
+      );
     }
   }
 
@@ -128,7 +154,7 @@ export default class BasicDropdownContent extends Component<Args> {
     let parentElement = dropdownElement.parentElement;
     if (parentElement === null) return;
     if (this.args.renderInPlace) {
-      parentElement = parentElement.parentElement
+      parentElement = parentElement.parentElement;
     }
     if (parentElement === null) return;
     let clone = dropdownElement.cloneNode(true) as Element;
@@ -137,7 +163,7 @@ export default class BasicDropdownContent extends Component<Args> {
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
     this.animationClass = this.transitionedInClass;
-    waitForAnimations(clone, function() {
+    waitForAnimations(clone, function () {
       (parentElement as HTMLElement).removeChild(clone);
     });
   }
@@ -145,19 +171,27 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   setupMutationObserver(dropdownElement: Element): void {
     this.mutationObserver = new MutationObserver((mutations) => {
-      let shouldReposition = mutations.some((record: MutationRecord) =>
-        containsRelevantMutation(record.addedNodes) || containsRelevantMutation(record.removedNodes)
+      let shouldReposition = mutations.some(
+        (record: MutationRecord) =>
+          containsRelevantMutation(record.addedNodes) ||
+          containsRelevantMutation(record.removedNodes)
       );
 
       if (shouldReposition && this.args.shouldReposition) {
-        shouldReposition = this.args.shouldReposition(mutations, this.args.dropdown);
+        shouldReposition = this.args.shouldReposition(
+          mutations,
+          this.args.dropdown
+        );
       }
 
       if (shouldReposition) {
         this.runloopAwareReposition();
       }
     });
-    this.mutationObserver.observe(dropdownElement, { childList: true, subtree: true });
+    this.mutationObserver.observe(dropdownElement, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   @action
@@ -187,7 +221,10 @@ export default class BasicDropdownContent extends Component<Args> {
   @action
   removeGlobalEvents(): void {
     window.removeEventListener('resize', this.runloopAwareReposition);
-    window.removeEventListener('orientationchange', this.runloopAwareReposition);
+    window.removeEventListener(
+      'orientationchange',
+      this.runloopAwareReposition
+    );
   }
 
   // Methods
@@ -196,7 +233,10 @@ export default class BasicDropdownContent extends Component<Args> {
       let wheelHandler = (event: WheelEvent) => {
         if (event.target === null) return;
         let target = event.target as Element;
-        if (dropdownElement.contains(target) || dropdownElement === event.target) {
+        if (
+          dropdownElement.contains(target) ||
+          dropdownElement === event.target
+        ) {
           // Discover the amount of scrollable canvas that is within the dropdown.
           const availableScroll = getAvailableScroll(target, dropdownElement);
 
@@ -233,11 +273,14 @@ export default class BasicDropdownContent extends Component<Args> {
           // Scrolling outside of the dropdown is prohibited.
           event.preventDefault();
         }
-      }
-      document.addEventListener('wheel', wheelHandler, { capture: true, passive: false });
+      };
+      document.addEventListener('wheel', wheelHandler, {
+        capture: true,
+        passive: false,
+      });
       this.removeScrollHandling = () => {
         document.removeEventListener('wheel', wheelHandler, { capture: true });
-      }
+      };
     } else {
       this.addScrollEvents();
       this.removeScrollHandling = this.removeScrollEvents;
@@ -267,7 +310,10 @@ export default class BasicDropdownContent extends Component<Args> {
 function containsRelevantMutation(nodeList: NodeList): boolean {
   for (let i = 0; i < nodeList.length; i++) {
     const node = nodeList[i];
-    if (node.nodeName !== '#comment' && !(node.nodeName === '#text' && node.nodeValue === '')) {
+    if (
+      node.nodeName !== '#comment' &&
+      !(node.nodeName === '#text' && node.nodeValue === '')
+    ) {
       return true;
     }
   }
@@ -280,8 +326,14 @@ function getScrollableAncestors(triggerElement: Element): Element[] {
   if (triggerElement) {
     let parent = triggerElement.parentNode;
     if (parent !== null) {
-      let nextScrollable: Element | undefined = getScrollParent(parent as Element);
-      while (nextScrollable && nextScrollable.tagName.toUpperCase() !== 'BODY' && nextScrollable.tagName.toUpperCase() !== 'HTML') {
+      let nextScrollable: Element | undefined = getScrollParent(
+        parent as Element
+      );
+      while (
+        nextScrollable &&
+        nextScrollable.tagName.toUpperCase() !== 'BODY' &&
+        nextScrollable.tagName.toUpperCase() !== 'HTML'
+      ) {
         scrollableAncestors.push(nextScrollable);
         let nextParent = nextScrollable.parentNode;
         if (nextParent === null) {
@@ -296,7 +348,10 @@ function getScrollableAncestors(triggerElement: Element): Element[] {
 }
 
 function closestContent(el: Element): Element | null {
-  while (el && (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))) {
+  while (
+    el &&
+    (!el.classList || !el.classList.contains('ember-basic-dropdown-content'))
+  ) {
     if (el.parentElement === null) return null;
     el = el.parentElement;
   }
@@ -306,7 +361,10 @@ function closestContent(el: Element): Element | null {
 function waitForAnimations(element: Element, callback: Function): void {
   window.requestAnimationFrame(function () {
     let computedStyle = window.getComputedStyle(element);
-    if (computedStyle.animationName !== 'none' && computedStyle.animationPlayState === 'running') {
+    if (
+      computedStyle.animationName !== 'none' &&
+      computedStyle.animationPlayState === 'running'
+    ) {
       let eventCallback = function () {
         element.removeEventListener('animationend', eventCallback);
         callback();
@@ -329,12 +387,17 @@ function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
   if (closestDropdown === null) {
     return false;
   } else {
-    let closestAttrs = closestDropdown.attributes as unknown as any
-    let trigger = document.querySelector(`[aria-owns=${closestAttrs.id.value}]`);
+    let closestAttrs = closestDropdown.attributes as unknown as any;
+    let trigger = document.querySelector(
+      `[aria-owns=${closestAttrs.id.value}]`
+    );
     if (trigger === null) return false;
     let parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
-    let parentAttrs = parentDropdown.attributes as unknown as any
-    return parentDropdown && parentAttrs.id.value === dropdownId || dropdownIsValidParent(parentDropdown, dropdownId);
+    let parentAttrs = parentDropdown.attributes as unknown as any;
+    return (
+      (parentDropdown && parentAttrs.id.value === dropdownId) ||
+      dropdownIsValidParent(parentDropdown, dropdownId)
+    );
   }
 }

@@ -26,7 +26,6 @@ jobs:
     strategy:
       matrix:
         node:
-        - "12"
         - "14"
     steps:
     - uses: actions/checkout@v2
@@ -47,7 +46,6 @@ jobs:
     strategy:
       matrix:
         node:
-        - "12"
         - "14"
 
     steps:
@@ -69,19 +67,21 @@ jobs:
     needs: tests
 
     strategy:
+      fail-fast: true
       matrix:
         ember-try-scenario:
-          - ember-3.13
+          - ember-lts-3.20
           - ember-release
           - ember-beta
           - ember-canary
+          # - node-tests
           # - embroider
           # - ember-classic
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
       - name: install dependencies
         run: npm install
       - name: test
