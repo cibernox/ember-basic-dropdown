@@ -6,4 +6,4 @@ export default class extends Controller {
       dropdown.actions.open(e);
     }
   }
-};
+}

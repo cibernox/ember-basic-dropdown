@@ -1,12 +1,14 @@
-$ember-basic-dropdown-content-background-color: #FFF !default;
+$ember-basic-dropdown-content-background-color: #fff !default;
 $ember-basic-dropdown-content-z-index: 1000 !default;
-$ember-basic-dropdown-overlay-background: rgba(0,0,0, 0.5) !default;
+$ember-basic-dropdown-overlay-background: rgba(0, 0, 0, 0.5) !default;
 $ember-basic-dropdown-overlay-pointer-events: none !default;
 
 .ember-basic-dropdown {
   position: relative;
 }
-.ember-basic-dropdown, .ember-basic-dropdown-content, .ember-basic-dropdown-content * {
+.ember-basic-dropdown,
+.ember-basic-dropdown-content,
+.ember-basic-dropdown-content * {
   box-sizing: border-box;
 }
 .ember-basic-dropdown-content {
@@ -15,9 +17,12 @@ $ember-basic-dropdown-overlay-pointer-events: none !default;
   z-index: $ember-basic-dropdown-content-z-index;
   background-color: $ember-basic-dropdown-content-background-color;
 }
-.ember-basic-dropdown-content--left { left: 0; }
-.ember-basic-dropdown-content--right { right: 0; }
-
+.ember-basic-dropdown-content--left {
+  left: 0;
+}
+.ember-basic-dropdown-content--right {
+  right: 0;
+}
 
 .ember-basic-dropdown-overlay {
   position: fixed;

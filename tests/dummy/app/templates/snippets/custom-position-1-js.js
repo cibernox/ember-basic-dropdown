@@ -6,7 +6,7 @@ export default class extends Controller {
     let { height: contentHeight } = content.getBoundingClientRect();
     let style = {
       left: left + width,
-      top: top + window.pageYOffset + (height / 2) - (contentHeight / 2)
+      top: top + window.pageYOffset + height / 2 - contentHeight / 2,
     };
 
     return { style };

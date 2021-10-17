@@ -214,16 +214,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
   // Default behaviour
   test('click events invoke the `toggle` action on the dropdown by default', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -266,16 +267,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('mousedown events invoke the `toggle` action on the dropdown if `eventType="mousedown"', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -286,7 +288,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('when `stopPropagation` is true the `click` event does not bubble', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
 
@@ -296,9 +298,10 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -311,7 +314,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
 
@@ -321,9 +324,10 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -336,16 +340,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing ENTER fires the `toggle` action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -357,16 +362,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
           assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
         },
       },
@@ -379,16 +385,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing ESC fires the `close` action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         close(e) {
           assert.ok(true, 'The `close()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -423,7 +430,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Tapping invokes the toggle action on the dropdown', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
     this.dropdown = {
       actions: {
         uniqueId: 123,
@@ -435,9 +442,10 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             'The event that toggles the dropdown is the touchend'
           );
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -720,16 +728,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       actions: {
         uniqueId: 123,
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
           );
+          assert.equal(arguments.length, 1, 'It receives only one argument');
         },
       },
     };

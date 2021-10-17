@@ -1,16 +1,22 @@
-<input type="checkbox" id="enable-dd-chk" checked={{not this.dropdownDisabled}} {{on "change" (fn (mut this.dropdownDisabled) (not this.dropdownDisabled))}}>
-<label for="enable-dd-chk" style={{this.checkboxLabelStyle}}>Enable dropdown</label>
-<br>
+<input
+  type='checkbox'
+  id='enable-dd-chk'
+  checked={{not this.dropdownDisabled}}
+  {{on 'change' (fn (mut this.dropdownDisabled) (not this.dropdownDisabled))}}
+/>
+<label for='enable-dd-chk' style={{this.checkboxLabelStyle}}>Enable dropdown</label>
+<br />
 
 <BasicDropdown @disabled={{this.dropdownDisabled}} as |dd|>
   <dd.Trigger
-    {{on "mouseenter" this.highlightCheckboxIfDisabled}}
-    {{on "mouseleave" this.resetHighlight}}
-    class="trigger-bootstrap-feel">
+    {{on 'mouseenter' this.highlightCheckboxIfDisabled}}
+    {{on 'mouseleave' this.resetHighlight}}
+    class='trigger-bootstrap-feel'
+  >
     Can you open me?
   </dd.Trigger>
 
-  <dd.Content class="content-bootstrap-feel width-300">
+  <dd.Content class='content-bootstrap-feel width-300'>
     You solved the puzzle!
   </dd.Content>
 </BasicDropdown>

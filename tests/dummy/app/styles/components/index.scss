@@ -16,14 +16,20 @@
   color: inherit;
   max-width: 530px;
   font-weight: 200;
-  img { vertical-align: top; }
+  img {
+    vertical-align: top;
+  }
   @media only screen and (max-width: $small-breakpoint) {
     font-size: 34px;
-    img { height: 40px; }
+    img {
+      height: 40px;
+    }
   }
   @media only screen and (min-width: $small-breakpoint) {
     font-size: 42px;
-    img { height: 48px; }
+    img {
+      height: 48px;
+    }
   }
 }
 // Selling points
@@ -45,10 +51,10 @@
   width: 150px;
   height: auto;
   margin: 25px auto;
-  color: #CCC;
+  color: #ccc;
 }
 .selling-point-code {
-  color: #CCC;
+  color: #ccc;
   padding: 0;
   font-size: 22px;
   font-family: monospace;

@@ -7,8 +7,8 @@ export default class extends Controller {
     { text: 'Edward' },
     { text: 'Jonathan' },
     { text: 'Tom' },
-    { text: 'Eric' }
-  ]
+    { text: 'Eric' },
+  ];
 
   // Actions
   prevent(e) {

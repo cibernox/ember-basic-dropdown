@@ -12,16 +12,17 @@
   outline: none;
 }
 
-.trigger-bootstrap-feel:focus, .trigger-bootstrap-feel:hover {
+.trigger-bootstrap-feel:focus,
+.trigger-bootstrap-feel:hover {
   background-color: #d4d4d4;
-  border-color: #8c8c8c
+  border-color: #8c8c8c;
 }
 
 .content-bootstrap-feel {
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   padding: 5px;
   margin: 2px 0 0;
 }
