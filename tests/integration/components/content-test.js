@@ -476,7 +476,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
-    assert.strictEqual(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned if the window is resized', async function (assert) {
@@ -496,7 +500,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
-    assert.strictEqual(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned if the orientation changes', async function (assert) {
@@ -516,7 +524,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
-    assert.strictEqual(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned when the content of the dropdown changes', async function (assert) {
@@ -627,7 +639,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
-    assert.strictEqual(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   // Overlay

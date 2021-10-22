@@ -224,7 +224,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -277,7 +281,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -301,7 +309,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -327,7 +339,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -350,7 +366,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -372,7 +392,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
           assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
         },
       },
@@ -395,7 +419,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -445,7 +473,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };
@@ -738,7 +770,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
+          );
         },
       },
     };

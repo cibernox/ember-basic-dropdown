@@ -112,6 +112,12 @@ test('getScrollDeltas DOM_DELTA_PAGE', function (assert) {
     deltaY: originalDeltaY,
     deltaMode: DOM_DELTA_PAGE,
   });
-  assert.strictEqual(deltaX, originalDeltaX * scrollLineHeight * LINES_PER_PAGE);
-  assert.strictEqual(deltaY, originalDeltaY * scrollLineHeight * LINES_PER_PAGE);
+  assert.strictEqual(
+    deltaX,
+    originalDeltaX * scrollLineHeight * LINES_PER_PAGE
+  );
+  assert.strictEqual(
+    deltaY,
+    originalDeltaY * scrollLineHeight * LINES_PER_PAGE
+  );
 });
