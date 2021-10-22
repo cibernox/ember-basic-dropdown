@@ -8,7 +8,7 @@ export default function hasMoved(
 
   if (
     !endEvent.changedTouches?.[0] ||
-    moveEvent.changedTouches[0].touchType !== 'stylus'
+    (moveEvent.changedTouches[0] as any).touchType !== 'stylus'
   ) {
     return true;
   }
