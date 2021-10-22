@@ -4,5 +4,5 @@ import { module, test } from 'qunit';
 module('Unit | Utility | Calculate Position');
 
 test('calculatePosition is defined', function (assert) {
-  assert.equal(typeof calculatePosition, 'function', 'Not a function');
+  assert.strictEqual(typeof calculatePosition, 'function', 'Not a function');
 });

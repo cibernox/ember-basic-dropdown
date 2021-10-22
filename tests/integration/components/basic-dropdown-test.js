@@ -1,4 +1,4 @@
-import { run } from '@ember/runloop';
+import { run, scheduleOnce } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -111,7 +111,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(true, 'onOpen action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -130,7 +130,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -160,7 +160,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(true, 'onClose action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -185,7 +185,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -222,7 +222,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdown @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -232,7 +232,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+    assert.strictEqual(onOpenCalls, 1, 'onOpen has been called only once');
   });
 
   test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
@@ -246,7 +246,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdown @onClose={{onClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -256,7 +256,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onCloseCalls, 0, 'onClose was never called');
+    assert.strictEqual(onCloseCalls, 0, 'onClose was never called');
   });
 
   test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function (assert) {
@@ -519,7 +519,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(2);
     this.disabled = true;
     await render(hbs`
-      <BasicDropdown @disabled={{disabled}} as |dropdown|>
+      <BasicDropdown @disabled={{this.disabled}} as |dropdown|>
         {{#if dropdown.disabled}}
           <div id="disabled-dropdown-marker">Disabled!</div>
         {{else}}
@@ -557,7 +557,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     this.isDisabled = false;
     await render(hbs`
-      <BasicDropdown @disabled={{isDisabled}} as |dropdown|>
+      <BasicDropdown @disabled={{this.isDisabled}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
@@ -575,13 +575,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.isDisabled = false;
     this.toggleDisabled = () => this.toggleProperty('isDisabled');
     this.registerAPI = (api) =>
-      run.scheduleOnce('actions', this, this.set, 'remoteController', api);
+      scheduleOnce('actions', this, this.set, 'remoteController', api);
     await render(hbs`
-      <BasicDropdown @disabled={{isDisabled}} @registerAPI={{action registerAPI}} as |dropdown|>
+      <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{action this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
       </BasicDropdown>
-      <button onclick={{action toggleDisabled}}>Toggle</button>
-      {{#if remoteController.disabled}}
+      <button onclick={{action this.toggleDisabled}}>Toggle</button>
+      {{#if this.remoteController.disabled}}
         <div id="is-disabled"></div>
       {{/if}}
     `);
@@ -645,7 +645,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.saveAPI = (api) => (remoteController = api);
 
     await render(hbs`
-      <BasicDropdown @registerAPI={{action saveAPI}} as |dropdown|>
+      <BasicDropdown @registerAPI={{action this.saveAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
@@ -805,7 +805,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       apis.push(api);
     };
     await render(hbs`
-      <BasicDropdown @disabled={{disabled}} @registerAPI={{registerAPI}} as |dropdown|>
+      <BasicDropdown @disabled={{this.disabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
@@ -813,7 +813,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(
+    assert.strictEqual(
       apis.length,
       3,
       'There have been 3 changes in the state of the public API'
@@ -822,7 +822,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.true(apis[1].isOpen, 'Then it opened');
     assert.false(apis[2].isOpen, 'Then it closed again');
     this.set('disabled', true);
-    assert.equal(apis.length, 4, 'There have been 4 changes now');
+    assert.strictEqual(apis.length, 4, 'There have been 4 changes now');
     assert.false(apis[2].disabled, 'the component was enabled');
     assert.true(apis[3].disabled, 'and it became disabled');
   });
@@ -837,8 +837,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      {{#if isOpen}}
-        <BasicDropdown @onClose={{onClose}} as |dropdown|>
+      {{#if this.isOpen}}
+        <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
           <dropdown.Trigger>Open me</dropdown.Trigger>
           <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
         </BasicDropdown>
@@ -955,9 +955,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <input type="text" id="outer-input">
-      <BasicDropdown @renderInPlace={{true}} @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @renderInPlace={{true}} @onOpen={{this.onOpen}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
-        <dropdown.Content {{on "focusout" onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
+        <dropdown.Content {{on "focusout" this.onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
