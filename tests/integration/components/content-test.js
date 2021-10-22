@@ -353,7 +353,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn onMouseEnter dropdown)}}>
+      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>
         Content
       </BasicDropdownContent>
     `);
@@ -599,7 +599,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{shouldReposition}}>
+      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{this.shouldReposition}}>
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
