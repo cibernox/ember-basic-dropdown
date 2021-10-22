@@ -165,7 +165,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     await render(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
     `);
-    assert.equal(
+    assert.strictEqual(
       this.element.querySelector('.ember-basic-dropdown-trigger').tagName,
       'BUTTON'
     );
@@ -196,7 +196,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     this.onMouseEnter = (dropdown, e) => {
-      assert.equal(
+      assert.deepEqual(
         dropdown,
         this.dropdown,
         'receives the dropdown as 1st argument'
@@ -224,7 +224,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -277,7 +277,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -301,7 +301,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -327,7 +327,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -350,7 +350,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -372,7 +372,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
           assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
         },
       },
@@ -395,7 +395,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -436,7 +436,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         uniqueId: 123,
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
-          assert.equal(
+          assert.strictEqual(
             e.type,
             'touchend',
             'The event that toggles the dropdown is the touchend'
@@ -445,7 +445,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };
@@ -738,7 +738,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
             e instanceof window.Event,
             'It receives the event as first argument'
           );
-          assert.equal(arguments.length, 1, 'It receives only one argument');
+          assert.strictEqual(arguments.length, 1, 'It receives only one argument');
         },
       },
     };

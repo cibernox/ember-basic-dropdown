@@ -38,17 +38,17 @@ test('getAvailableScroll', function (assert) {
   let result;
   container.scrollTop = 0;
   result = getAvailableScroll(child, container);
-  assert.equal(result.deltaYNegative, 0);
-  assert.equal(result.deltaYPositive, 400);
+  assert.strictEqual(result.deltaYNegative, 0);
+  assert.strictEqual(result.deltaYPositive, 400);
 
   container.scrollTop = 20;
   result = getAvailableScroll(child, container);
-  assert.equal(result.deltaYNegative, -20);
-  assert.equal(result.deltaYPositive, 380);
+  assert.strictEqual(result.deltaYNegative, -20);
+  assert.strictEqual(result.deltaYPositive, 380);
 
   result = getAvailableScroll(grandchild, container);
-  assert.equal(result.deltaYNegative, -20);
-  assert.equal(result.deltaYPositive, 380);
+  assert.strictEqual(result.deltaYNegative, -20);
+  assert.strictEqual(result.deltaYPositive, 380);
 });
 
 test('distributeScroll', function (assert) {
@@ -86,8 +86,8 @@ test('getScrollDeltas DOM_DELTA_PIXEL', function (assert) {
     deltaY: originalDeltaY,
     deltaMode: DOM_DELTA_PIXEL,
   });
-  assert.equal(deltaX, originalDeltaX);
-  assert.equal(deltaY, originalDeltaY);
+  assert.strictEqual(deltaX, originalDeltaX);
+  assert.strictEqual(deltaY, originalDeltaY);
 });
 
 test('getScrollDeltas DOM_DELTA_LINE', function (assert) {
@@ -99,8 +99,8 @@ test('getScrollDeltas DOM_DELTA_LINE', function (assert) {
     deltaY: originalDeltaY,
     deltaMode: DOM_DELTA_LINE,
   });
-  assert.equal(deltaX, originalDeltaX * scrollLineHeight);
-  assert.equal(deltaY, originalDeltaY * scrollLineHeight);
+  assert.strictEqual(deltaX, originalDeltaX * scrollLineHeight);
+  assert.strictEqual(deltaY, originalDeltaY * scrollLineHeight);
 });
 
 test('getScrollDeltas DOM_DELTA_PAGE', function (assert) {
@@ -112,6 +112,6 @@ test('getScrollDeltas DOM_DELTA_PAGE', function (assert) {
     deltaY: originalDeltaY,
     deltaMode: DOM_DELTA_PAGE,
   });
-  assert.equal(deltaX, originalDeltaX * scrollLineHeight * LINES_PER_PAGE);
-  assert.equal(deltaY, originalDeltaY * scrollLineHeight * LINES_PER_PAGE);
+  assert.strictEqual(deltaX, originalDeltaX * scrollLineHeight * LINES_PER_PAGE);
+  assert.strictEqual(deltaY, originalDeltaY * scrollLineHeight * LINES_PER_PAGE);
 });

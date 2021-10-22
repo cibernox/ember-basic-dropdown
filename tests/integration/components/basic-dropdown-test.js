@@ -232,7 +232,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+    assert.strictEqual(onOpenCalls, 1, 'onOpen has been called only once');
   });
 
   test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
@@ -256,7 +256,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onCloseCalls, 0, 'onClose was never called');
+    assert.strictEqual(onCloseCalls, 0, 'onClose was never called');
   });
 
   test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function (assert) {
@@ -813,7 +813,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(
+    assert.strictEqual(
       apis.length,
       3,
       'There have been 3 changes in the state of the public API'
@@ -822,7 +822,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.true(apis[1].isOpen, 'Then it opened');
     assert.false(apis[2].isOpen, 'Then it closed again');
     this.set('disabled', true);
-    assert.equal(apis.length, 4, 'There have been 4 changes now');
+    assert.strictEqual(apis.length, 4, 'There have been 4 changes now');
     assert.false(apis[2].disabled, 'the component was enabled');
     assert.true(apis[3].disabled, 'and it became disabled');
   });
