@@ -25,3 +25,4 @@
 /bower.json.ember-try
 /package.json.ember-try
 .eslintcache
+.vscode
