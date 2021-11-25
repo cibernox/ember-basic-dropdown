@@ -155,6 +155,13 @@ export default class BasicDropdown extends Component<Args> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    let trigger = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    ) as HTMLElement;
+    if (trigger) {
+      let parent = trigger.parentElement;
+      if (parent) { parent.setAttribute("aria-owns", this._dropdownId); }
+    }
   }
 
   @action
@@ -176,13 +183,18 @@ export default class BasicDropdown extends Component<Args> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    if (skipFocus) {
-      return;
-    }
     let trigger = document.querySelector(
       `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
     ) as HTMLElement;
-    if (trigger && trigger.tabIndex > -1) {
+    if (!trigger) {
+      return;
+    }
+    let parent = trigger.parentElement;
+    if (parent) { parent.removeAttribute("aria-owns"); }
+    if (skipFocus) {
+      return;
+    }
+    if (trigger.tabIndex > -1) {
       trigger.focus();
     }
   }
