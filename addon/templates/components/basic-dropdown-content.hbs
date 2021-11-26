@@ -6,37 +6,38 @@
         <div class='ember-basic-dropdown-overlay'></div>
       {{/if}}
 
-      <BasicDropdownOptionalTag
-        @htmlTag={{@htmlTag}}
-        id={{this.dropdownId}}
-        class='ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
-          ember-basic-dropdown-content--{{@vPosition}}
-          {{this.animationClass}}{{if
-            @renderInPlace
-            ' ember-basic-dropdown-content--in-place'
+      {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+        <OptionalTag
+          id={{this.dropdownId}}
+          class='ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
+            ember-basic-dropdown-content--{{@vPosition}}
+            {{this.animationClass}}{{if
+              @renderInPlace
+              ' ember-basic-dropdown-content--in-place'
+            }}
+            {{@defaultClass}}'
+          dir={{@dir}}
+          ...attributes
+          {{style
+            @otherStyles
+            (hash top=@top left=@left right=@right width=@width height=@height)
           }}
-          {{@defaultClass}}'
-        dir={{@dir}}
-        ...attributes
-        {{style
-          @otherStyles
-          (hash top=@top left=@left right=@right width=@width height=@height)
-        }}
-        {{did-insert this.setup}}
-        {{did-insert @dropdown.actions.reposition}}
-        {{did-insert this.setupMutationObserver}}
-        {{did-insert this.animateIn}}
-        {{will-destroy this.teardownMutationObserver}}
-        {{will-destroy this.animateOut}}
-        {{will-destroy this.teardown}}
-        {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
-        {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
-        {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
-        {{on 'mouseleave' (fn (or @onMouseLeave this.noop) @dropdown)}}
-        {{! V1 compatibility - See #498 }}
-      >
-        {{yield}}
-      </BasicDropdownOptionalTag>
+          {{did-insert this.setup}}
+          {{did-insert @dropdown.actions.reposition}}
+          {{did-insert this.setupMutationObserver}}
+          {{did-insert this.animateIn}}
+          {{will-destroy this.teardownMutationObserver}}
+          {{will-destroy this.animateOut}}
+          {{will-destroy this.teardown}}
+          {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
+          {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
+          {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
+          {{on 'mouseleave' (fn (or @onMouseLeave this.noop) @dropdown)}}
+          {{! V1 compatibility - See #498 }}
+        >
+          {{yield}}
+        </OptionalTag>
+      {{/let}}
     {{/maybe-in-element}}
   </div>
 {{else}}

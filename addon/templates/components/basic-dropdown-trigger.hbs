@@ -1,34 +1,35 @@
-<BasicDropdownOptionalTag
-  @htmlTag={{@htmlTag}}
-  class='ember-basic-dropdown-trigger
-    {{if @renderInPlace ' ember-basic-dropdown-trigger--in-place'}}
-    {{if @hPosition (concat ' ember-basic-dropdown-trigger--' @hPosition)}}
-    {{if @vPosition (concat ' ember-basic-dropdown-trigger--' @vPosition)}}
-    {{@defaultClass}}'
-  role='button'
-  tabindex={{unless @dropdown.disabled '0'}}
-  data-ebd-id='{{@dropdown.uniqueId}}-trigger'
-  aria-owns='ember-basic-dropdown-content-{{@dropdown.uniqueId}}'
-  aria-expanded='{{@dropdown.isOpen}}'
-  aria-disabled={{if @dropdown.disabled 'true'}}
-  ...attributes
-  {{will-destroy this.removeGlobalHandlers}}
-  {{on 'mousedown' this.handleMouseDown}}
-  {{on 'click' this.handleClick}}
-  {{on 'keydown' this.handleKeyDown}}
-  {{on 'touchstart' this.handleTouchStart}}
-  {{on 'touchend' this.handleTouchEnd}}
-  {{! V1 compatibility - See #498 }}
-  {{on 'keydown' (fn (or @onKeyDown this.noop) @dropdown)}}
-  {{on 'mousedown' (fn (or @onMouseDown this.noop) @dropdown)}}
-  {{on 'touchend' (fn (or @onTouchEnd this.noop) @dropdown)}}
-  {{on 'click' (fn (or @onClick this.noop) @dropdown)}}
-  {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
-  {{on 'mouseleave' (fn (or @onMouseLeave this.noop) @dropdown)}}
-  {{on 'focus' (fn (or @onFocus this.noop) @dropdown)}}
-  {{on 'blur' (fn (or @onBlur this.noop) @dropdown)}}
-  {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
-  {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
->
-  {{yield}}
-</BasicDropdownOptionalTag>
+{{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+  <OptionalTag
+    class='ember-basic-dropdown-trigger
+      {{if @renderInPlace ' ember-basic-dropdown-trigger--in-place'}}
+      {{if @hPosition (concat ' ember-basic-dropdown-trigger--' @hPosition)}}
+      {{if @vPosition (concat ' ember-basic-dropdown-trigger--' @vPosition)}}
+      {{@defaultClass}}'
+    role='button'
+    tabindex={{unless @dropdown.disabled '0'}}
+    data-ebd-id='{{@dropdown.uniqueId}}-trigger'
+    aria-owns='ember-basic-dropdown-content-{{@dropdown.uniqueId}}'
+    aria-expanded='{{@dropdown.isOpen}}'
+    aria-disabled={{if @dropdown.disabled 'true'}}
+    ...attributes
+    {{will-destroy this.removeGlobalHandlers}}
+    {{on 'mousedown' this.handleMouseDown}}
+    {{on 'click' this.handleClick}}
+    {{on 'keydown' this.handleKeyDown}}
+    {{on 'touchstart' this.handleTouchStart}}
+    {{on 'touchend' this.handleTouchEnd}}
+    {{! V1 compatibility - See #498 }}
+    {{on 'keydown' (fn (or @onKeyDown this.noop) @dropdown)}}
+    {{on 'mousedown' (fn (or @onMouseDown this.noop) @dropdown)}}
+    {{on 'touchend' (fn (or @onTouchEnd this.noop) @dropdown)}}
+    {{on 'click' (fn (or @onClick this.noop) @dropdown)}}
+    {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
+    {{on 'mouseleave' (fn (or @onMouseLeave this.noop) @dropdown)}}
+    {{on 'focus' (fn (or @onFocus this.noop) @dropdown)}}
+    {{on 'blur' (fn (or @onBlur this.noop) @dropdown)}}
+    {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
+    {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
+  >
+    {{yield}}
+  </OptionalTag>
+{{/let}}
