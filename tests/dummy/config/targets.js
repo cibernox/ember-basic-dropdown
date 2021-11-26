@@ -19,4 +19,6 @@ const browsers = [
 //   browsers.push('ie 11');
 // }
 
-module.exports = [...browsers, 'maintained node versions'];
+module.exports = {
+  browsers,
+};
