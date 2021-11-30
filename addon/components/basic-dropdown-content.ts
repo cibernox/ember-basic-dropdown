@@ -389,7 +389,7 @@ function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
   } else {
     let closestAttrs = closestDropdown.attributes as unknown as any;
     let trigger = document.querySelector(
-      `[aria-owns=${closestAttrs.id.value}]`
+      `[aria-controls=${closestAttrs.id.value}]`
     );
     if (trigger === null) return false;
     let parentDropdown = closestContent(trigger);

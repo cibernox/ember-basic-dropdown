@@ -148,7 +148,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       .hasAttribute('aria-expanded', 'true', 'the aria-expanded is true');
   });
 
-  test('If it has an `aria-owns="foo123"` attribute pointing to the id of the content', async function (assert) {
+  test('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', async function (assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
@@ -156,7 +156,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
     assert
       .dom('.ember-basic-dropdown-trigger')
-      .hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
+      .hasAttribute('aria-controls', 'ember-basic-dropdown-content-123');
   });
 
   test('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
