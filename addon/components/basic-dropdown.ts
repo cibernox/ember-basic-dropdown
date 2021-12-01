@@ -3,7 +3,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { getOwner } from '@ember/application';
-import { assign } from '@ember/polyfills';
 import calculatePosition, {
   CalculatePosition,
   CalculatePositionResult,
@@ -257,7 +256,7 @@ export default class BasicDropdown extends Component<Args> {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: assign({}, this.otherStyles),
+      otherStyles: Object.assign({}, this.otherStyles),
     };
 
     if (positions.style) {
@@ -296,8 +295,7 @@ export default class BasicDropdown extends Component<Args> {
       }
     }
     for (let prop in positions.style) {
-      // Array.includes is not available for IE11
-      if (IGNORED_STYLES.indexOf(prop) === -1) {
+      if (!IGNORED_STYLES.includes(prop)) {
         changes.otherStyles;
         changes.otherStyles[prop] = positions.style[prop];
       }
