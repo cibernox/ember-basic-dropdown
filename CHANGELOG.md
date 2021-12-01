@@ -1,3 +1,7 @@
+# 4.0.0 
+
+- (#633) A11y improvements, changing aria-controls instead of aria-owns, which seems to be more correct.
+- [BREAKING] Stop using a polyfill for `Object.assign`, which effectively removes support for Internet Exporer. But it's 2022, its about time.
 # 3.0.19
 
 - Update `ember-element-helper` to fix issues with CI.
