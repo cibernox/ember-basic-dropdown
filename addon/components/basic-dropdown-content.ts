@@ -60,6 +60,10 @@ export default class BasicDropdownContent extends Component<Args> {
     return document.getElementById(this.args.destination);
   }
 
+  get animationEnabled(): boolean {
+    return !isTesting();
+  }
+
   /**
    * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
    * Avoids adding extra dependencies.
@@ -136,6 +140,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   animateIn(dropdownElement: Element): void {
+    if (!this.animationEnabled) return;
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
     });
@@ -143,14 +148,11 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   animateOut(dropdownElement: Element): void {
+    if (!this.animationEnabled) return;
     let parentElement = dropdownElement.parentElement;
     if (parentElement === null) return;
     if (this.args.renderInPlace) {
       parentElement = parentElement.parentElement;
-
-      if (isTesting() && parentElement === null) {
-        parentElement = document.querySelector('.ember-basic-dropdown');
-      }
     }
     if (parentElement === null) return;
     let clone = dropdownElement.cloneNode(true) as Element;
