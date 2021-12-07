@@ -3,7 +3,14 @@ import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, click, focus, triggerEvent, waitUntil, find } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  focus,
+  triggerEvent,
+  waitUntil,
+  find,
+} from '@ember/test-helpers';
 
 let deprecations = [];
 
