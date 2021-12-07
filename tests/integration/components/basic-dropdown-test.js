@@ -3,7 +3,14 @@ import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, click, focus, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  focus,
+  triggerEvent,
+  waitUntil,
+  find,
+} from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -1028,5 +1035,85 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-content')
       .hasAttribute('style', /max-height: 500px; overflow-y: auto/);
+  });
+
+  /**
+   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/615
+   * Just in case animationEnabled on TEST ENV, this test would cover this change
+   */
+
+  test.skip('[BUGFIX] Dropdowns rendered in place have correct animation flow', async function (assert) {
+    assert.expect(4);
+
+    const basicDropdownContentClass = 'ember-basic-dropdown-content';
+    const transitioningInClass = 'ember-basic-dropdown--transitioning-in';
+    const transitionedInClass = 'ember-basic-dropdown--transitioned-in';
+    const transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
+
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `<style>
+          @keyframes grow-out{0%{opacity: 0;transform: scale(0);}100%{opacity: 1;transform: scale(1);}}
+          @keyframes drop-fade-below {0%{opacity:0;transform: translateY(-5px);}100%{opacity: 1;transform: translateY(0);}}
+          .ember-basic-dropdown--transitioning-in{animation: grow-out 1s ease-out;}
+          .ember-basic-dropdown--transitioning-out{animation: drop-fade-below 1s reverse;}
+        </style>
+        `
+    );
+
+    await render(hbs`
+       <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+         <dropdown.Trigger><button>Open me</button></dropdown.Trigger>
+         <dropdown.Content><div id="dropdown-is-opened">CONTENT</div></dropdown.Content>
+       </BasicDropdown>
+     `);
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningInClass,
+        `The dropdown content has .${transitioningInClass} class`
+      );
+
+    await waitUntil(() =>
+      find('.ember-basic-dropdown-content').classList.contains(
+        transitionedInClass
+      )
+    );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningOutClass,
+        `The dropdown content has .${transitioningOutClass} class`
+      );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningInClass,
+        `After closing dropdown, the dropdown content has .${transitioningInClass} class again as initial value`
+      );
+
+    await waitUntil(() =>
+      find('.ember-basic-dropdown-content').classList.contains(
+        transitionedInClass
+      )
+    );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningOutClass,
+        `The dropdown content has .${transitioningOutClass} class`
+      );
   });
 });

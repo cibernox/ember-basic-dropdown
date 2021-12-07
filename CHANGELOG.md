@@ -1,4 +1,9 @@
-# 4.0.0 
+# 4.0.1
+
+- (#628) Fix issue, The `@animationClass` class don't get reset after the first render.
+  When the dropdown content first renders, it animates correctly, but on subsequent renders there is no animation -
+  cause `@animationClass` not being reset back to transitioning--in state.
+# 4.0.0
 
 - (#633) A11y improvements, changing aria-controls instead of aria-owns, which seems to be more correct.
 - [BREAKING] Stop using a polyfill for `Object.assign`, which effectively removes support for Internet Exporer. But it's 2022, its about time.

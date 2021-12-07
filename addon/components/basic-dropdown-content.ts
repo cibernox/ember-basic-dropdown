@@ -54,9 +54,7 @@ export default class BasicDropdownContent extends Component<Args> {
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver?: MutationObserver;
-  @tracked animationClass = this.animationEnabled
-    ? this.transitioningInClass
-    : '';
+  @tracked animationClass = this.transitioningInClass
 
   get destinationElement(): Element | null {
     return document.getElementById(this.args.destination);
@@ -162,8 +160,8 @@ export default class BasicDropdownContent extends Component<Args> {
     clone.classList.remove(...this.transitioningInClass.split(' '));
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
-    this.animationClass = this.transitionedInClass;
-    waitForAnimations(clone, function () {
+    this.animationClass = this.transitioningInClass;
+    waitForAnimations(clone, function() {
       (parentElement as HTMLElement).removeChild(clone);
     });
   }
