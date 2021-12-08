@@ -1,4 +1,4 @@
-{{#with
+{{#let
   (hash
     uniqueId=this.publicAPI.uniqueId
     isOpen=this.publicAPI.isOpen
@@ -64,4 +64,4 @@ as |api|
   {{else}}
     {{yield api}}
   {{/if}}
-{{/with}}
+{{/let}}
