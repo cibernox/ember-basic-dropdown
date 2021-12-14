@@ -1,3 +1,5 @@
+# 4.0.2
+- Update dependency in @ember/render-modifiers to 2.0.2 with fixes a bug with unnecessary recomputations.
 # 4.0.1
 
 - (#628) Fix issue, The `@animationClass` class don't get reset after the first render.
