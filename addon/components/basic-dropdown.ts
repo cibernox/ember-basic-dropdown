@@ -11,7 +11,6 @@ import { schedule } from '@ember/runloop';
 import {
   macroCondition,
   isTesting,
-  dependencySatisfies,
   importSync,
 } from '@embroider/macros';
 declare const FastBoot: any;
@@ -319,15 +318,14 @@ export default class BasicDropdown extends Component<Args> {
 
     // This takes care of stripping this code out if not running tests
     if (macroCondition(isTesting())) {
-      if (
-        typeof FastBoot === 'undefined' &&
-        dependencySatisfies('@ember/test-helpers', '>= 1')
-      ) {
-        let getRootElement = importSync(
-          '@ember/test-helpers/dom/get-root-element'
-        ) as any;
+      if (typeof FastBoot === 'undefined') {
+        try {
+          let { getRootElement } = importSync('@ember/test-helpers') as any;
 
-        return getRootElement.default().id;
+          return getRootElement().id;
+        } catch (error) {
+          // use default below
+        }
       }
 
       let rootView = document.querySelector('#ember-testing > .ember-view');
