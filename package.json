@@ -32,7 +32,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.5.0",
-    "@embroider/test-setup": "^0.47.2",
+    "@embroider/test-setup": "^1.0.0",
     "@types/ember": "^3.16.0",
     "@types/ember-qunit": "^3.4.15",
     "@types/ember__test-helpers": "^0.7.9",
@@ -95,9 +95,9 @@
     "test": "tests"
   },
   "dependencies": {
-    "@ember/render-modifiers": "^2.0.2",
-    "@embroider/macros": "^0.47.2",
-    "@embroider/util": "^0.47.2",
+    "@ember/render-modifiers": "^2.0.3",
+    "@embroider/macros": "^1.0.0",
+    "@embroider/util": "^1.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "ember-cli-babel": "^7.26.6",
