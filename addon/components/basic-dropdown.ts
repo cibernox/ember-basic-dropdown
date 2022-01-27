@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { getOwner } from '@ember/application';
 import calculatePosition, {
   CalculatePosition,
   CalculatePositionResult,
@@ -14,6 +13,7 @@ import {
   importSync,
 } from '@embroider/macros';
 declare const FastBoot: any;
+import config from 'ember-get-config';
 
 export interface DropdownActions {
   toggle: (e?: Event) => void;
@@ -314,8 +314,6 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   _getDestinationId(): string {
-    let config = getOwner(this).resolveRegistration('config:environment');
-
     // This takes care of stripping this code out if not running tests
     if (macroCondition(isTesting())) {
       if (typeof FastBoot === 'undefined') {
