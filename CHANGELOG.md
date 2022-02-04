@@ -1,3 +1,6 @@
+# 4.0.3
+- Fix animation when component is not rendered in place.
+  
 # 4.0.2
 - Update dependency in @ember/render-modifiers to 2.0.2 with fixes a bug with unnecessary recomputations.
 # 4.0.1
