@@ -20,8 +20,8 @@
   display: block;
 }
 %wrapper {
-  max-width: 1024px; // not 960px because it's 2015
-  width: 1024px;
+  max-width: 1024px;
+  width: 100%;
   padding-left: $wrapper-padding;
   padding-right: $wrapper-padding;
   margin-left: auto;
