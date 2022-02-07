@@ -1,6 +1,6 @@
 # Ember-basic-dropdown
 
-[![Build Status](https://travis-ci.org/cibernox/ember-basic-dropdown.svg?branch=master)](https://travis-ci.org/cibernox/ember-basic-dropdown)
+[![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://travis-ci.org/cibernox/ember-basic-dropdown)
 
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
