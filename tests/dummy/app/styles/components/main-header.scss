@@ -83,6 +83,7 @@
   .main-header-nav-links {
     justify-content: space-between;
     background-color: rgba(black, 0.2);
+    overflow-x: auto;
   }
 }
 @media only screen and (min-width: $small-breakpoint) {
