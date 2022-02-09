@@ -1,3 +1,5 @@
+# 4.0.4
+- [FEATURE] Improve compatibility with Embroider/Ember 4
 # 4.0.3
 - Fix animation when component is not rendered in place.
   
