@@ -31,7 +31,6 @@
   ],
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^2.5.0",
     "@embroider/test-setup": "^1.0.0",
     "@types/ember": "^3.16.0",
     "@types/ember-qunit": "^3.4.15",
@@ -108,6 +107,9 @@
     "ember-maybe-in-element": "^2.0.3",
     "ember-style-modifier": "^0.7.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
+  },
+  "peerDependencies": {
+    "@ember/test-helpers": "^2.5.0"
   },
   "ember": {
     "edition": "octane"
