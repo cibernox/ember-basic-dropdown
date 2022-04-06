@@ -19,4 +19,4 @@ export default class extends Controller {
   resetHighlight() {
     this.set('checkboxLabelStyle', null);
   }
-};
+}

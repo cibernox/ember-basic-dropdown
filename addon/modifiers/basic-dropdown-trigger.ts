@@ -31,6 +31,7 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
 
     this.element.setAttribute('data-ebd-id', `${dropdown?.uniqueId}-trigger`);
     this.element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
+    this.element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
     this.element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
 
     if (dropdown?.disabled) {
@@ -101,7 +102,7 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
   handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
     const { disabled, actions } = this.args.named.dropdown;
-    if (e && e.defaultPrevented || disabled) {
+    if ((e && e.defaultPrevented) || disabled) {
       return;
     }
     if (!hasMoved(e, this.touchMoveEvent)) {

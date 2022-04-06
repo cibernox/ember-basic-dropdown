@@ -1,9 +1,16 @@
-import { run } from '@ember/runloop';
+import { run, scheduleOnce } from '@ember/runloop';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, click, focus, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  focus,
+  triggerEvent,
+  waitUntil,
+  find,
+} from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -99,9 +106,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(4);
 
     this.willOpen = function (dropdown, e) {
-      assert.equal(
+      assert.false(
         dropdown.isOpen,
-        false,
         'The received dropdown has a `isOpen` property that is still false'
       );
       assert.ok(
@@ -112,7 +118,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(true, 'onOpen action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -131,7 +137,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onOpen={{willOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -149,9 +155,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(7);
 
     this.willClose = function (dropdown, e) {
-      assert.equal(
+      assert.true(
         dropdown.isOpen,
-        true,
         'The received dropdown has a `isOpen` property and its value is `true`'
       );
       assert.ok(
@@ -162,7 +167,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(true, 'onClose action was invoked');
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -187,7 +192,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       return false;
     };
     await render(hbs`
-      <BasicDropdown @onClose={{willClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -224,7 +229,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdown @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -234,7 +239,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onOpenCalls, 1, 'onOpen has been called only once');
+    assert.strictEqual(onOpenCalls, 1, 'onOpen has been called only once');
   });
 
   test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
@@ -248,7 +253,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdown @onClose={{onClose}} as |dropdown|>
+      <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
         <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
@@ -258,7 +263,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(onCloseCalls, 0, 'onClose was never called');
+    assert.strictEqual(onCloseCalls, 0, 'onClose was never called');
   });
 
   test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function (assert) {
@@ -521,7 +526,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(2);
     this.disabled = true;
     await render(hbs`
-      <BasicDropdown @disabled={{disabled}} as |dropdown|>
+      <BasicDropdown @disabled={{this.disabled}} as |dropdown|>
         {{#if dropdown.disabled}}
           <div id="disabled-dropdown-marker">Disabled!</div>
         {{else}}
@@ -559,7 +564,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     this.isDisabled = false;
     await render(hbs`
-      <BasicDropdown @disabled={{isDisabled}} as |dropdown|>
+      <BasicDropdown @disabled={{this.isDisabled}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
@@ -577,13 +582,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.isDisabled = false;
     this.toggleDisabled = () => this.toggleProperty('isDisabled');
     this.registerAPI = (api) =>
-      run.scheduleOnce('actions', this, this.set, 'remoteController', api);
+      scheduleOnce('actions', this, this.set, 'remoteController', api);
     await render(hbs`
-      <BasicDropdown @disabled={{isDisabled}} @registerAPI={{action registerAPI}} as |dropdown|>
+      <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{action this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
       </BasicDropdown>
-      <button onclick={{action toggleDisabled}}>Toggle</button>
-      {{#if remoteController.disabled}}
+      <button onclick={{action this.toggleDisabled}}>Toggle</button>
+      {{#if this.remoteController.disabled}}
         <div id="is-disabled"></div>
       {{/if}}
     `);
@@ -620,7 +625,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // A11y
-  test('By default, the `aria-owns` attribute of the trigger contains the id of the content', async function (assert) {
+  test('By default, the `aria-controls` attribute of the trigger contains the id of the content', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -634,9 +639,35 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-trigger')
       .hasAttribute(
-        'aria-owns',
+        'aria-controls',
         content.id,
         'The trigger controls the content'
+      );
+  });
+
+  test('When opened, the `aria-owns` attribute of the trigger parent contains the id of the content', async function (assert) {
+    assert.expect(2);
+    await render(hbs`
+      <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
+      </BasicDropdown>
+    `);
+    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    assert
+      .dom(trigger.parentNode)
+      .doesNotHaveAttribute(
+        'aria-owns',
+        'Closed dropdown parent does not have aria-owns'
+      );
+    await click('.ember-basic-dropdown-trigger');
+    let content = this.element.querySelector('.ember-basic-dropdown-content');
+    assert
+      .dom(trigger.parentNode)
+      .hasAttribute(
+        'aria-owns',
+        content.id,
+        'The trigger parent owns the content'
       );
   });
 
@@ -647,7 +678,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.saveAPI = (api) => (remoteController = api);
 
     await render(hbs`
-      <BasicDropdown @registerAPI={{action saveAPI}} as |dropdown|>
+      <BasicDropdown @registerAPI={{action this.saveAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
@@ -667,6 +698,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function (assert) {
+    assert.expect(4);
     this.calculatePosition = function (
       triggerElement,
       dropdownElement,
@@ -806,7 +838,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       apis.push(api);
     };
     await render(hbs`
-      <BasicDropdown @disabled={{disabled}} @registerAPI={{registerAPI}} as |dropdown|>
+      <BasicDropdown @disabled={{this.disabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
@@ -814,18 +846,18 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await click('.ember-basic-dropdown-trigger');
     await click('.ember-basic-dropdown-trigger');
-    assert.equal(
+    assert.strictEqual(
       apis.length,
       3,
       'There have been 3 changes in the state of the public API'
     );
-    assert.equal(apis[0].isOpen, false, 'The component was closed');
-    assert.equal(apis[1].isOpen, true, 'Then it opened');
-    assert.equal(apis[2].isOpen, false, 'Then it closed again');
+    assert.false(apis[0].isOpen, 'The component was closed');
+    assert.true(apis[1].isOpen, 'Then it opened');
+    assert.false(apis[2].isOpen, 'Then it closed again');
     this.set('disabled', true);
-    assert.equal(apis.length, 4, 'There have been 4 changes now');
-    assert.equal(apis[2].disabled, false, 'the component was enabled');
-    assert.equal(apis[3].disabled, true, 'and it became disabled');
+    assert.strictEqual(apis.length, 4, 'There have been 4 changes now');
+    assert.false(apis[2].disabled, 'the component was enabled');
+    assert.true(apis[3].disabled, 'and it became disabled');
   });
 
   test('removing the dropdown in response to onClose does not error', async function (assert) {
@@ -838,8 +870,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
 
     await render(hbs`
-      {{#if isOpen}}
-        <BasicDropdown @onClose={{onClose}} as |dropdown|>
+      {{#if this.isOpen}}
+        <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
           <dropdown.Trigger>Open me</dropdown.Trigger>
           <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
         </BasicDropdown>
@@ -956,9 +988,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <input type="text" id="outer-input">
-      <BasicDropdown @renderInPlace={{true}} @onOpen={{onOpen}} as |dropdown|>
+      <BasicDropdown @renderInPlace={{true}} @onOpen={{this.onOpen}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
-        <dropdown.Content {{on "focusout" onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
+        <dropdown.Content {{on "focusout" this.onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
       </BasicDropdown>
     `);
     await click('.ember-basic-dropdown-trigger');
@@ -1003,5 +1035,85 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-content')
       .hasAttribute('style', /max-height: 500px; overflow-y: auto/);
+  });
+
+  /**
+   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/615
+   * Just in case animationEnabled on TEST ENV, this test would cover this change
+   */
+
+  test.skip('[BUGFIX] Dropdowns rendered in place have correct animation flow', async function (assert) {
+    assert.expect(4);
+
+    const basicDropdownContentClass = 'ember-basic-dropdown-content';
+    const transitioningInClass = 'ember-basic-dropdown--transitioning-in';
+    const transitionedInClass = 'ember-basic-dropdown--transitioned-in';
+    const transitioningOutClass = 'ember-basic-dropdown--transitioning-out';
+
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `<style>
+          @keyframes grow-out{0%{opacity: 0;transform: scale(0);}100%{opacity: 1;transform: scale(1);}}
+          @keyframes drop-fade-below {0%{opacity:0;transform: translateY(-5px);}100%{opacity: 1;transform: translateY(0);}}
+          .ember-basic-dropdown--transitioning-in{animation: grow-out 1s ease-out;}
+          .ember-basic-dropdown--transitioning-out{animation: drop-fade-below 1s reverse;}
+        </style>
+        `
+    );
+
+    await render(hbs`
+       <BasicDropdown @renderInPlace={{true}} as |dropdown|>
+         <dropdown.Trigger><button>Open me</button></dropdown.Trigger>
+         <dropdown.Content><div id="dropdown-is-opened">CONTENT</div></dropdown.Content>
+       </BasicDropdown>
+     `);
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningInClass,
+        `The dropdown content has .${transitioningInClass} class`
+      );
+
+    await waitUntil(() =>
+      find('.ember-basic-dropdown-content').classList.contains(
+        transitionedInClass
+      )
+    );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningOutClass,
+        `The dropdown content has .${transitioningOutClass} class`
+      );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningInClass,
+        `After closing dropdown, the dropdown content has .${transitioningInClass} class again as initial value`
+      );
+
+    await waitUntil(() =>
+      find('.ember-basic-dropdown-content').classList.contains(
+        transitionedInClass
+      )
+    );
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom(`.${basicDropdownContentClass}`)
+      .hasClass(
+        transitioningOutClass,
+        `The dropdown content has .${transitioningOutClass} class`
+      );
   });
 });

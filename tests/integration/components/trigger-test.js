@@ -146,7 +146,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       .hasAttribute('aria-expanded', 'true', 'the aria-expanded is true');
   });
 
-  test('If it has an `aria-owns="foo123"` attribute pointing to the id of the content', async function (assert) {
+  test('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', async function (assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
@@ -154,7 +154,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
     assert
       .dom('.ember-basic-dropdown-trigger')
-      .hasAttribute('aria-owns', 'ember-basic-dropdown-content-123');
+      .hasAttribute('aria-controls', 'ember-basic-dropdown-content-123');
   });
 
   test('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
@@ -163,7 +163,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     await render(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
     `);
-    assert.equal(
+    assert.strictEqual(
       this.element.querySelector('.ember-basic-dropdown-trigger').tagName,
       'BUTTON'
     );
@@ -194,7 +194,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = { uniqueId: 123 };
     this.onMouseEnter = (dropdown, e) => {
-      assert.equal(
+      assert.deepEqual(
         dropdown,
         this.dropdown,
         'receives the dropdown as 1st argument'
@@ -205,22 +205,27 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       );
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "mouseenter" (fn onMouseEnter dropdown)}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
   });
 
   // Default behaviour
   test('click events invoke the `toggle` action on the dropdown by default', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
@@ -264,15 +269,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('mousedown events invoke the `toggle` action on the dropdown if `eventType="mousedown"', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
@@ -284,7 +294,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('when `stopPropagation` is true the `click` event does not bubble', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
 
@@ -294,14 +304,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
     };
     await render(hbs`
-      <div onclick={{handlerInParent}}>
+      <div onclick={{this.handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
@@ -309,7 +324,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
 
@@ -319,14 +334,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
     };
     await render(hbs`
-      <div onclick={{handlerInParent}}>
+      <div onclick={{this.handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
@@ -334,15 +354,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing ENTER fires the `toggle` action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
@@ -355,15 +380,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
           assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
         },
@@ -377,15 +407,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Pressing ESC fires the `close` action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       uniqueId: 123,
       actions: {
         close(e) {
           assert.ok(true, 'The `close()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
@@ -412,7 +447,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "keydown" onKeyDown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "keydown" this.onKeyDown}}>Click me</BasicDropdownTrigger>
     `);
 
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13);
@@ -421,20 +456,25 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test('Tapping invokes the toggle action on the dropdown', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
     this.dropdown = {
       actions: {
         uniqueId: 123,
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
-          assert.equal(
+          assert.strictEqual(
             e.type,
             'touchend',
             'The event that toggles the dropdown is the touchend'
           );
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },
@@ -577,7 +617,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "click" onClick}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "click" this.onClick}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
 
     await click('.ember-basic-dropdown-trigger');
@@ -689,7 +729,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" this.onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
@@ -712,21 +752,26 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
-      <BasicDropdownTrigger {{on "keydown" onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger {{on "keydown" this.onKeyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent('.ember-basic-dropdown-trigger', 'keydown', 13); // Enter
   });
 
   test('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.dropdown = {
       actions: {
         uniqueId: 123,
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
-            e instanceof window.Event && arguments.length === 1,
-            'It receives the event as first and only argument'
+            e instanceof window.Event,
+            'It receives the event as first argument'
+          );
+          assert.strictEqual(
+            arguments.length,
+            1,
+            'It receives only one argument'
           );
         },
       },

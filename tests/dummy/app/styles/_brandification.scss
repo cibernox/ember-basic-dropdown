@@ -5,12 +5,14 @@
   }
   @include ember-code-example($brand-color);
 
-  .doc-page-nav-link-next, .doc-page-nav-link-prev {
+  .doc-page-nav-link-next,
+  .doc-page-nav-link-prev {
     border: 1px solid $brand-color;
   }
 
   .main-page-headline {
-    background: $brand-color linear-gradient($brand-color, $brand-color-brighter);
+    background: $brand-color
+      linear-gradient($brand-color, $brand-color-brighter);
   }
 
   .get-started-button {
@@ -99,4 +101,3 @@
 .brown-brand {
   // @include brandify($brown-color, $brown-color-brighter);
 }
-

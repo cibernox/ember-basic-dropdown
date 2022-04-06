@@ -1,30 +1,31 @@
 <section class="docs">
   <nav class="side-nav">
-    <header class="side-nav-header">Getting started</header>
-    <LinkTo @route="public-pages.docs.index" class="side-nav-link">Overview</LinkTo>
-    <LinkTo @route="public-pages.docs.installation" class="side-nav-link">Installation</LinkTo>
-    <LinkTo @route="public-pages.docs.how-to-use-it" class="side-nav-link">How to use it</LinkTo>
-    <LinkTo @route="public-pages.docs.dropdown-events" class="side-nav-link">Dropdown events</LinkTo>
-    <LinkTo @route="public-pages.docs.trigger-events" class="side-nav-link">Trigger events</LinkTo>
-    <LinkTo @route="public-pages.docs.content-events" class="side-nav-link">Content events</LinkTo>
-    <header class="side-nav-header">Basic customization</header>
-    <LinkTo @route="public-pages.docs.position" class="side-nav-link">Position</LinkTo>
-    <LinkTo @route="public-pages.docs.disabled" class="side-nav-link">Disabled</LinkTo>
-    <LinkTo @route="public-pages.docs.overlays" class="side-nav-link">Overlays</LinkTo>
-    <LinkTo @route="public-pages.docs.styles" class="side-nav-link">Styles</LinkTo>
-    <header class="side-nav-header">Advanced customization</header>
-    <LinkTo @route="public-pages.docs.custom-position" class="side-nav-link">Custom position</LinkTo>
-    <LinkTo @route="public-pages.docs.animations" class="side-nav-link">Animations</LinkTo>
-    <header class="side-nav-header">Other</header>
-    <LinkTo @route="public-pages.docs.test-helpers" class="side-nav-link">Test helpers</LinkTo>
-    <LinkTo @route="public-pages.docs.api-reference" class="side-nav-link">API reference</LinkTo>
+    {{#each this.groupedSections key='id' as |group|}}
+      <header class="side-nav-header" id={{group.id}}>
+        {{group.groupName}}
+      </header>
+      {{#each group.options key='route' as |option|}}
+        <LinkTo
+          @route={{option.route}}
+          @current-when={{option.route}}
+          class="side-nav-link"
+        >
+          {{option.text}}
+        </LinkTo>
+      {{/each}}
+    {{/each}}
   </nav>
   <section class="doc-page">
-    <select {{on "change" this.visit}} class="section-selector">
-      {{#each this.groupedSections as |group|}}
+    <select class="section-selector" {{on 'change' this.visit}}>
+      {{#each this.groupedSections key='id' as |group|}}
         <optgroup label={{group.groupName}}>
-          {{#each group.options as |section|}}
-            <option value={{section.route}} selected={{eq section.route this.currentSection.route}}>{{section.text}}</option>
+          {{#each group.options key='route' as |section|}}
+            <option
+              value={{section.route}}
+              selected={{eq section.route this.currentSection.route}}
+            >
+              {{section.text}}
+            </option>
           {{/each}}
         </optgroup>
       {{/each}}

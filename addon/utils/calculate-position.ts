@@ -1,39 +1,65 @@
 interface CalculatePositionOptions {
-  horizontalPosition: string
-  verticalPosition: string
-  matchTriggerWidth: boolean
-  previousHorizontalPosition?: string
-  previousVerticalPosition?: string
-  renderInPlace: boolean
-  dropdown: any
+  horizontalPosition: string;
+  verticalPosition: string;
+  matchTriggerWidth: boolean;
+  previousHorizontalPosition?: string;
+  previousVerticalPosition?: string;
+  renderInPlace: boolean;
+  dropdown: any;
 }
 export type CalculatePositionResultStyle = {
-  top?: number
-  left?: number
-  right?: number
-  width?: number
-  height?: number
-  [key: string]: string | number | undefined
-}
+  top?: number;
+  left?: number;
+  right?: number;
+  width?: number;
+  height?: number;
+  [key: string]: string | number | undefined;
+};
 export type CalculatePositionResult = {
-  horizontalPosition: string
-  verticalPosition: string
-  style: CalculatePositionResultStyle
-}
-export type CalculatePosition = (trigger: Element, content: HTMLElement, destination: HTMLElement, options: CalculatePositionOptions) => CalculatePositionResult
+  horizontalPosition: string;
+  verticalPosition: string;
+  style: CalculatePositionResultStyle;
+};
+export type CalculatePosition = (
+  trigger: Element,
+  content: HTMLElement,
+  destination: HTMLElement,
+  options: CalculatePositionOptions
+) => CalculatePositionResult;
 
-export let calculateWormholedPosition: CalculatePosition = (trigger, content, destination, { horizontalPosition, verticalPosition, matchTriggerWidth, previousHorizontalPosition, previousVerticalPosition }) => {
+export let calculateWormholedPosition: CalculatePosition = (
+  trigger,
+  content,
+  destination,
+  {
+    horizontalPosition,
+    verticalPosition,
+    matchTriggerWidth,
+    previousHorizontalPosition,
+    previousVerticalPosition,
+  }
+) => {
   // Collect information about all the involved DOM elements
   let scroll = { left: window.pageXOffset, top: window.pageYOffset };
-  let { left: triggerLeft, top: triggerTop, width: triggerWidth, height: triggerHeight } = trigger.getBoundingClientRect();
-  let { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
+  let {
+    left: triggerLeft,
+    top: triggerTop,
+    width: triggerWidth,
+    height: triggerHeight,
+  } = trigger.getBoundingClientRect();
+  let { height: dropdownHeight, width: dropdownWidth } =
+    content.getBoundingClientRect();
   let viewportWidth = document.body.clientWidth || window.innerWidth;
   let style: CalculatePositionResultStyle = {};
 
   // Apply containers' offset
   let anchorElement = destination.parentNode as HTMLElement;
   let anchorPosition = window.getComputedStyle(anchorElement).position;
-  while (anchorPosition !== 'relative' && anchorPosition !== 'absolute' && anchorElement.tagName.toUpperCase() !== 'BODY') {
+  while (
+    anchorPosition !== 'relative' &&
+    anchorPosition !== 'absolute' &&
+    anchorElement.tagName.toUpperCase() !== 'BODY'
+  ) {
     anchorElement = anchorElement.parentNode as HTMLElement;
     anchorPosition = window.getComputedStyle(anchorElement).position;
   }
@@ -59,8 +85,12 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
   if (horizontalPosition === 'auto' || horizontalPosition === 'auto-left') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
-    let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
-    let rightVisible = Math.min(viewportWidth, triggerLeft + triggerWidth) - Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
+    let leftVisible =
+      Math.min(viewportWidth, triggerLeft + dropdownWidth) -
+      Math.max(0, triggerLeft);
+    let rightVisible =
+      Math.min(viewportWidth, triggerLeft + triggerWidth) -
+      Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
 
     if (dropdownWidth > leftVisible && rightVisible > leftVisible) {
       // If the drop down won't fit left-aligned, and there is more space on the
@@ -77,8 +107,12 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
   } else if (horizontalPosition === 'auto-right') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
-    let leftVisible = Math.min(viewportWidth, triggerLeft + dropdownWidth) - Math.max(0, triggerLeft);
-    let rightVisible = Math.min(viewportWidth, triggerLeft + triggerWidth) - Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
+    let leftVisible =
+      Math.min(viewportWidth, triggerLeft + dropdownWidth) -
+      Math.max(0, triggerLeft);
+    let rightVisible =
+      Math.min(viewportWidth, triggerLeft + triggerWidth) -
+      Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
 
     if (dropdownWidth > rightVisible && leftVisible > rightVisible) {
       // If the drop down won't fit right-aligned, and there is more space on the
@@ -108,7 +142,9 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
    * Fixes bug where the dropdown always stays on the same position on the screen when
    * the <body> is relatively positioned
    */
-  let isBodyPositionRelative = window.getComputedStyle(document.body).getPropertyValue('position') === 'relative';
+  let isBodyPositionRelative =
+    window.getComputedStyle(document.body).getPropertyValue('position') ===
+    'relative';
   if (!isBodyPositionRelative) {
     triggerTopWithScroll += scroll.top;
   }
@@ -119,38 +155,55 @@ export let calculateWormholedPosition: CalculatePosition = (trigger, content, de
     style.top = triggerTopWithScroll + triggerHeight;
   } else {
     let viewportBottom = scroll.top + window.innerHeight;
-    let enoughRoomBelow = triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
+    let enoughRoomBelow =
+      triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
     let enoughRoomAbove = triggerTop > dropdownHeight;
 
     if (!enoughRoomBelow && !enoughRoomAbove) {
       verticalPosition = 'below';
-    } else if (previousVerticalPosition === 'below' && !enoughRoomBelow && enoughRoomAbove) {
+    } else if (
+      previousVerticalPosition === 'below' &&
+      !enoughRoomBelow &&
+      enoughRoomAbove
+    ) {
       verticalPosition = 'above';
-    } else if (previousVerticalPosition === 'above' && !enoughRoomAbove && enoughRoomBelow) {
+    } else if (
+      previousVerticalPosition === 'above' &&
+      !enoughRoomAbove &&
+      enoughRoomBelow
+    ) {
       verticalPosition = 'below';
     } else if (!previousVerticalPosition) {
       verticalPosition = enoughRoomBelow ? 'below' : 'above';
     } else {
       verticalPosition = previousVerticalPosition;
     }
-    style.top = triggerTopWithScroll + (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
+    style.top =
+      triggerTopWithScroll +
+      (verticalPosition === 'below' ? triggerHeight : -dropdownHeight);
   }
 
   return { horizontalPosition, verticalPosition, style };
-}
+};
 
-export let calculateInPlacePosition: CalculatePosition = (trigger, content, _destination, { horizontalPosition, verticalPosition }) => {
+export let calculateInPlacePosition: CalculatePosition = (
+  trigger,
+  content,
+  _destination,
+  { horizontalPosition, verticalPosition }
+) => {
   let dropdownRect;
   let positionData: CalculatePositionResult = {
     horizontalPosition: 'left',
     verticalPosition: 'below',
-    style: {}
-};
+    style: {},
+  };
   if (horizontalPosition === 'auto') {
     let triggerRect = trigger.getBoundingClientRect();
     dropdownRect = content.getBoundingClientRect();
     let viewportRight = window.pageXOffset + window.innerWidth;
-    positionData.horizontalPosition = triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
+    positionData.horizontalPosition =
+      triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
   } else if (horizontalPosition === 'center') {
     let { width: triggerWidth } = trigger.getBoundingClientRect();
     let { width: dropdownWidth } = content.getBoundingClientRect();
@@ -158,7 +211,8 @@ export let calculateInPlacePosition: CalculatePosition = (trigger, content, _des
   } else if (horizontalPosition === 'auto-right') {
     let triggerRect = trigger.getBoundingClientRect();
     let dropdownRect = content.getBoundingClientRect();
-    positionData.horizontalPosition = triggerRect.right > dropdownRect.width ? 'right' : 'left';
+    positionData.horizontalPosition =
+      triggerRect.right > dropdownRect.width ? 'right' : 'left';
   } else if (horizontalPosition === 'right') {
     positionData.horizontalPosition = 'right';
   }
@@ -171,32 +225,43 @@ export let calculateInPlacePosition: CalculatePosition = (trigger, content, _des
     positionData.verticalPosition = 'below';
   }
   return positionData;
-}
+};
 
 export function getScrollParent(element: Element) {
   let style = window.getComputedStyle(element);
-  let excludeStaticParent = style.position === "absolute";
+  let excludeStaticParent = style.position === 'absolute';
   let overflowRegex = /(auto|scroll)/;
 
-  if (style.position === "fixed") return document.body;
-  for (let parent: Element | null = element; (parent = parent.parentElement);) {
-      style = window.getComputedStyle(parent);
-      if (excludeStaticParent && style.position === "static") {
-          continue;
-      }
-      if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
-        return parent;
-      }
+  if (style.position === 'fixed') return document.body;
+  for (
+    let parent: Element | null = element;
+    (parent = parent.parentElement);
+
+  ) {
+    style = window.getComputedStyle(parent);
+    if (excludeStaticParent && style.position === 'static') {
+      continue;
+    }
+    if (
+      overflowRegex.test(style.overflow + style.overflowY + style.overflowX)
+    ) {
+      return parent;
+    }
   }
 
   return document.body;
 }
-let calculatePosition: CalculatePosition = (trigger, content, destination, options) => {
+let calculatePosition: CalculatePosition = (
+  trigger,
+  content,
+  destination,
+  options
+) => {
   if (options.renderInPlace) {
     return calculateInPlacePosition(trigger, content, destination, options);
   } else {
     return calculateWormholedPosition(trigger, content, destination, options);
   }
-}
+};
 
 export default calculatePosition;

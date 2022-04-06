@@ -4,6 +4,7 @@ import Controller from '@ember/controller';
 
 const groupedSections = [
   {
+    id: 'getting-started',
     groupName: 'Getting started',
     options: [
       { route: 'public-pages.docs.index', text: 'Overview' },
@@ -15,6 +16,7 @@ const groupedSections = [
     ],
   },
   {
+    id: 'basic-customization',
     groupName: 'Basic customization',
     options: [
       { route: 'public-pages.docs.position', text: 'Position' },
@@ -24,12 +26,15 @@ const groupedSections = [
     ],
   },
   {
+    id: 'advanced-customization',
     groupName: 'Advanced customization',
     options: [
       { route: 'public-pages.docs.custom-position', text: 'Custom position' },
+      { route: 'public-pages.docs.animations', text: 'Animations' },
     ],
   },
   {
+    id: 'other',
     groupName: 'Other',
     options: [
       { route: 'public-pages.docs.test-helpers', text: 'Test helpers' },

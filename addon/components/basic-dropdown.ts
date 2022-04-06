@@ -2,74 +2,82 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { getOwner } from '@ember/application';
-import { assign } from '@ember/polyfills';
-import calculatePosition, { CalculatePosition, CalculatePositionResult } from '../utils/calculate-position';
+import calculatePosition, {
+  CalculatePosition,
+  CalculatePositionResult,
+} from '../utils/calculate-position';
 import { schedule } from '@ember/runloop';
-import { macroCondition, isTesting, dependencySatisfies, importSync } from '@embroider/macros';
-declare const FastBoot: any
+import {
+  macroCondition,
+  isTesting,
+  importSync,
+} from '@embroider/macros';
+declare const FastBoot: any;
+import config from 'ember-get-config';
 
 export interface DropdownActions {
-  toggle: (e?: Event) => void
-  close: (e?: Event, skipFocus?: boolean) => void
-  open: (e?: Event) => void
-  reposition: (...args: any[]) => undefined | RepositionChanges
+  toggle: (e?: Event) => void;
+  close: (e?: Event, skipFocus?: boolean) => void;
+  open: (e?: Event) => void;
+  reposition: (...args: any[]) => undefined | RepositionChanges;
 }
 export interface Dropdown {
-  uniqueId: string
-  disabled: boolean
-  isOpen: boolean
-  actions: DropdownActions
+  uniqueId: string;
+  disabled: boolean;
+  isOpen: boolean;
+  actions: DropdownActions;
 }
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
 interface Args {
-  initiallyOpened?: boolean
-  renderInPlace?: boolean
-  verticalPosition?: string
-  horizontalPosition?: string
-  destination?: string
-  disabled?: boolean
-  dropdownId?: string
-  matchTriggerWidth?: boolean
-  onInit?: Function
-  registerAPI?: Function
-  onOpen?: Function
-  onClose?: Function
-  calculatePosition?: CalculatePosition
+  initiallyOpened?: boolean;
+  renderInPlace?: boolean;
+  verticalPosition?: string;
+  horizontalPosition?: string;
+  destination?: string;
+  disabled?: boolean;
+  dropdownId?: string;
+  matchTriggerWidth?: boolean;
+  onInit?: Function;
+  registerAPI?: Function;
+  onOpen?: Function;
+  onClose?: Function;
+  calculatePosition?: CalculatePosition;
 }
 
 type RepositionChanges = {
-  hPosition: string
-  vPosition: string
-  otherStyles: Record<string, string | number | undefined>
-  top?: string
-  left?: string
-  right?: string
-  width?: string
-  height?: string
-}
+  hPosition: string;
+  vPosition: string;
+  otherStyles: Record<string, string | number | undefined>;
+  top?: string;
+  left?: string;
+  right?: string;
+  width?: string;
+  height?: string;
+};
 
 export default class BasicDropdown extends Component<Args> {
-  @tracked hPosition: string | null = null
-  @tracked vPosition: string | null = null
-  @tracked top: string | undefined
-  @tracked left: string | undefined
-  @tracked right: string | undefined
-  @tracked width: string | undefined
-  @tracked height: string | undefined
-  @tracked otherStyles: Record<string, string | number | undefined> = {}
-  @tracked isOpen = this.args.initiallyOpened || false
-  @tracked renderInPlace = this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
-  private previousVerticalPosition?: string
-  private previousHorizontalPosition?: string
-  private destinationElement?: HTMLElement
+  @tracked hPosition: string | null = null;
+  @tracked vPosition: string | null = null;
+  @tracked top: string | undefined;
+  @tracked left: string | undefined;
+  @tracked right: string | undefined;
+  @tracked width: string | undefined;
+  @tracked height: string | undefined;
+  @tracked otherStyles: Record<string, string | number | undefined> = {};
+  @tracked isOpen = this.args.initiallyOpened || false;
+  @tracked renderInPlace =
+    this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
+  private previousVerticalPosition?: string;
+  private previousHorizontalPosition?: string;
+  private destinationElement?: HTMLElement;
 
-  private _uid = guidFor(this)
-  private _dropdownId: string = this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
-  private _previousDisabled = UNINITIALIZED
+  private _uid = guidFor(this);
+  private _dropdownId: string =
+    this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  private _previousDisabled = UNINITIALIZED;
   private _actions: DropdownActions = {
     open: this.open,
     close: this.close,
@@ -91,7 +99,10 @@ export default class BasicDropdown extends Component<Args> {
 
   get disabled(): boolean {
     let newVal = this.args.disabled || false;
-    if (this._previousDisabled !== UNINITIALIZED && this._previousDisabled !== newVal) {
+    if (
+      this._previousDisabled !== UNINITIALIZED &&
+      this._previousDisabled !== newVal
+    ) {
       schedule('actions', () => {
         if (newVal && this.publicAPI.isOpen) {
           this.isOpen = false;
@@ -100,7 +111,7 @@ export default class BasicDropdown extends Component<Args> {
       });
     }
     this._previousDisabled = newVal;
-    return newVal
+    return newVal;
   }
 
   get publicAPI(): Dropdown {
@@ -108,8 +119,8 @@ export default class BasicDropdown extends Component<Args> {
       uniqueId: this._uid,
       isOpen: this.isOpen,
       disabled: this.disabled,
-      actions: this._actions
-    }
+      actions: this._actions,
+    };
   }
 
   // Lifecycle hooks
@@ -142,6 +153,13 @@ export default class BasicDropdown extends Component<Args> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    let trigger = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    ) as HTMLElement;
+    if (trigger) {
+      let parent = trigger.parentElement;
+      if (parent) { parent.setAttribute("aria-owns", this._dropdownId); }
+    }
   }
 
   @action
@@ -163,11 +181,18 @@ export default class BasicDropdown extends Component<Args> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    let trigger = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    ) as HTMLElement;
+    if (!trigger) {
+      return;
+    }
+    let parent = trigger.parentElement;
+    if (parent) { parent.removeAttribute("aria-owns"); }
     if (skipFocus) {
       return;
     }
-    let trigger = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
-    if (trigger && trigger.tabIndex > -1) {
+    if (trigger.tabIndex > -1) {
       trigger.focus();
     }
   }
@@ -187,15 +212,24 @@ export default class BasicDropdown extends Component<Args> {
       return;
     }
     let dropdownElement = document.getElementById(this._dropdownId);
-    let triggerElement = document.querySelector(`[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`) as HTMLElement;
+    let triggerElement = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    ) as HTMLElement;
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
-    this.destinationElement = this.destinationElement || document.getElementById(this.destination) as HTMLElement;
-    let { horizontalPosition, verticalPosition, previousHorizontalPosition, previousVerticalPosition } = this;
+    this.destinationElement =
+      this.destinationElement ||
+      (document.getElementById(this.destination) as HTMLElement);
+    let {
+      horizontalPosition,
+      verticalPosition,
+      previousHorizontalPosition,
+      previousVerticalPosition,
+    } = this;
     let { renderInPlace = false, matchTriggerWidth = false } = this.args;
-    let calculatePositionFn = this.args.calculatePosition || calculatePosition
+    let calculatePositionFn = this.args.calculatePosition || calculatePosition;
     let positionData = calculatePositionFn(
       triggerElement,
       dropdownElement,
@@ -207,17 +241,21 @@ export default class BasicDropdown extends Component<Args> {
         previousVerticalPosition,
         renderInPlace,
         matchTriggerWidth,
-        dropdown: this
+        dropdown: this,
       }
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
 
-  applyReposition(_trigger: Element, dropdown: HTMLElement, positions: CalculatePositionResult): RepositionChanges {
+  applyReposition(
+    _trigger: Element,
+    dropdown: HTMLElement,
+    positions: CalculatePositionResult
+  ): RepositionChanges {
     let changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
-      otherStyles: assign({}, this.otherStyles)
+      otherStyles: Object.assign({}, this.otherStyles),
     };
 
     if (positions.style) {
@@ -256,8 +294,7 @@ export default class BasicDropdown extends Component<Args> {
       }
     }
     for (let prop in positions.style) {
-      // Array.includes is not available for IE11
-      if (IGNORED_STYLES.indexOf(prop) === -1) {
+      if (!IGNORED_STYLES.includes(prop)) {
         changes.otherStyles;
         changes.otherStyles[prop] = positions.style[prop];
       }
@@ -277,32 +314,28 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   _getDestinationId(): string {
-    let config = getOwner(this).resolveRegistration("config:environment");
-
     // This takes care of stripping this code out if not running tests
     if (macroCondition(isTesting())) {
-      if (
-        typeof FastBoot === "undefined" &&
-        dependencySatisfies("@ember/test-helpers", ">= 1")
-      ) {
-        let getRootElement = importSync(
-          "@ember/test-helpers/dom/get-root-element"
-        ) as any;
+      if (typeof FastBoot === 'undefined') {
+        try {
+          let { getRootElement } = importSync('@ember/test-helpers') as any;
 
-        return getRootElement.default().id;
-      } 
+          return getRootElement().id;
+        } catch (error) {
+          // use default below
+        }
+      }
 
       let rootView = document.querySelector('#ember-testing > .ember-view');
-        if (rootView) {
-          return rootView.id;
-        }
+      if (rootView) {
+        return rootView.id;
+      }
 
-        return '';
+      return '';
     }
 
-    return ((config["ember-basic-dropdown"] &&
-      config["ember-basic-dropdown"].destination) ||
-      "ember-basic-dropdown-wormhole") as string;
+    return ((config['ember-basic-dropdown'] &&
+      config['ember-basic-dropdown'].destination) ||
+      'ember-basic-dropdown-wormhole') as string;
   }
-
 }

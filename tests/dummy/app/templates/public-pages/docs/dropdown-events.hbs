@@ -1,8 +1,8 @@
-<h1 class="doc-page-title">Dropdown events</h1>
+<h1 class='doc-page-title'>Dropdown events</h1>
 
 <p>
-  Although the top-level component is tagless, it does fire a few events
-  that you can use to react to changes in the state of the dropdown.
+  Although the top-level component is tagless, it does fire a few events that
+  you can use to react to changes in the state of the dropdown.
 </p>
 
 <p>
@@ -12,35 +12,48 @@
 <h3><code>onOpen(dropdown, event?)</code></h3>
 
 <p>
-  Pretty self-explanatory. The <code>dropdown</code> argument in the signature
-  is the public API of the component. The <code>event</code> argument will be passed if
-  this event is fired as a consequence of another event (e.g. a click), but will be
-  undefined if it was fired programmatically.
+  Pretty self-explanatory. The
+  <code>dropdown</code>
+  argument in the signature is the public API of the component. The
+  <code>event</code>
+  argument will be passed if this event is fired as a consequence of another
+  event (e.g. a click), but will be undefined if it was fired programmatically.
 </p>
 
 <p>What kinds of things you can do with this event?</p>
 
 <p>
-  In general when you want to do something outside the component when this loads.
-  By example, you can delay the loading of some data until the dropdown is opened.
+  In general when you want to do something outside the component when this
+  loads. By example, you can delay the loading of some data until the dropdown
+  is opened.
 </p>
 
-<CodeExample @hbs="dropdown-events-1.hbs" @js="dropdown-events-1-js.js" as |partialName|>
+<CodeExample
+  @hbs='dropdown-events-1.hbs'
+  @js='dropdown-events-1-js.js'
+  as |partialName|
+>
   {{partial partialName}}
 </CodeExample>
 
 <p>
-  There is something you should know about this hook: If you <code>return false;</code>
+  There is something you should know about this hook: If you
+  <code>return false;</code>
   from it you will prevent the component from opening.
 </p>
 
 <p>
-  Let's use this feature along with the public API and event received as aguments to do a
-  nifty trick. We are going to iterate over the example above so we prevent
-  the component from opening, load the users and once loaded we open it.
+  Let's use this feature along with the public API and event received as
+  aguments to do a nifty trick. We are going to iterate over the example above
+  so we prevent the component from opening, load the users and once loaded we
+  open it.
 </p>
 
-<CodeExample @hbs="dropdown-events-2.hbs" @js="dropdown-events-2-js.js" as |partialName|>
+<CodeExample
+  @hbs='dropdown-events-2.hbs'
+  @js='dropdown-events-2-js.js'
+  as |partialName|
+>
   {{partial partialName}}
 </CodeExample>
 
@@ -49,28 +62,33 @@
 <h3><code>onClose(dropdown, event?)</code></h3>
 
 <p>
-  Symmetrically, you can perform on action when the dropdown is closed. For example, save
-  the a user selection, and you can also <code>return false</code> to prevent the component
-  from closing.
+  Symmetrically, you can perform on action when the dropdown is closed. For
+  example, save the a user selection, and you can also
+  <code>return false</code>
+  to prevent the component from closing.
 </p>
 
 <p>
-  Example: Create a dropdown with some checkboxes inside, and don't allow it to close
-  until one checkbox is selected.
+  Example: Create a dropdown with some checkboxes inside, and don't allow it to
+  close until one checkbox is selected.
 </p>
 
-<CodeExample @hbs="dropdown-events-3.hbs" @js="dropdown-events-3-js.js" as |partialName|>
+<CodeExample
+  @hbs='dropdown-events-3.hbs'
+  @js='dropdown-events-3-js.js'
+  as |partialName|
+>
   {{partial partialName}}
 </CodeExample>
 
 <p>Cruel, isn't it?</p>
 
 <p>
-  Those were the events fired by the top-level component, now let's go deep on the
-  events that are fired by the trigger.
+  Those were the events fired by the top-level component, now let's go deep on
+  the events that are fired by the trigger.
 </p>
 
-<div class="doc-page-nav">
-  <a href={{href-to "public-pages.docs.how-to-use-it"}} class="doc-page-nav-link-prev">&lt; How to use it</a>
-  <a href={{href-to "public-pages.docs.trigger-events"}} class="doc-page-nav-link-next">Trigger events &gt;</a>
+<div class='doc-page-nav'>
+  <LinkTo @route="public-pages.docs.how-to-use-it" class='doc-page-nav-link-prev'>&lt; How to use it</LinkTo>
+  <LinkTo @route="public-pages.docs.trigger-events" class='doc-page-nav-link-next'>Trigger events &gt;</LinkTo>
 </div>

@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import { run } from '@ember/runloop';
 import { render, click, triggerEvent } from '@ember/test-helpers';
+import settled from '@ember/test-helpers/settled';
 
 module('Integration | Component | basic-dropdown-content', function (hooks) {
   setupRenderingTest(hooks);
@@ -113,16 +114,6 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasClass('foo123', 'The dropdown contains that class');
   });
-
-  // test('If it receives `defaultClass="foo123"`, the rendered content will have that class along with the default one', async function(assert) {
-  //   assert.expect(1);
-  //   this.dropdown = { uniqueId: 'e123', isOpen: true, actions: { reposition() { } } };
-  //   await render(hbs`
-  //     <div id="destination-el"></div>
-  //     <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" defaultClass="foo123">Lorem ipsum</BasicDropdownContent>
-  //   `);
-  //   assert.dom('.ember-basic-dropdown-content').hasClass('foo123', 'The dropdown contains that class');
-  // });
 
   test('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function (assert) {
     assert.expect(1);
@@ -357,12 +348,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
     this.onMouseEnter = (api, e) => {
       assert.ok(true, 'The action is invoked');
-      assert.equal(api, this.dropdown, 'The first argument is the API');
+      assert.deepEqual(api, this.dropdown, 'The first argument is the API');
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn onMouseEnter dropdown)}}>
+      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>
         Content
       </BasicDropdownContent>
     `);
@@ -433,9 +424,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       bubbles: true,
     });
     run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
-    assert.strictEqual(
+    assert.false(
       innerScrollableEvent.defaultPrevented,
-      false,
       'The inner scrollable does not cancel wheel events.'
     );
 
@@ -446,9 +436,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       bubbles: true,
     });
     run(() => innerScrollable.dispatchEvent(innerScrollableCanceledEvent));
-    assert.strictEqual(
+    assert.true(
       innerScrollableCanceledEvent.defaultPrevented,
-      true,
       'The inner scrollable cancels out of bound wheel events.'
     );
     assert.strictEqual(
@@ -464,9 +453,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       bubbles: true,
     });
     run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
-    assert.strictEqual(
+    assert.true(
       outerScrollableEvent.defaultPrevented,
-      true,
       'The outer scrollable cancels wheel events.'
     );
   });
@@ -488,7 +476,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
-    assert.equal(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned if the window is resized', async function (assert) {
@@ -508,7 +500,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('resize')));
-    assert.equal(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned if the orientation changes', async function (assert) {
@@ -528,12 +524,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('orientationchange')));
-    assert.equal(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   test('The component is repositioned when the content of the dropdown changes', async function (assert) {
     assert.expect(1);
-    let done = assert.async();
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -541,10 +540,6 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       actions: {
         reposition() {
           repositions++;
-          if (repositions === 2) {
-            assert.equal(repositions, 2, 'It was repositioned twice');
-            done();
-          }
         },
       },
     };
@@ -554,16 +549,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    run(() => {
+    await run(() => {
       let target = document.getElementById('content-target-div');
       let span = document.createElement('SPAN');
       target.appendChild(span);
     });
+    await settled();
+    assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
 
   test('The component is repositioned when the content of the dropdown is changed through ember', async function (assert) {
     assert.expect(1);
-    let done = assert.async();
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
@@ -571,10 +567,6 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       actions: {
         reposition() {
           repositions++;
-          if (repositions === 2) {
-            assert.equal(repositions, 2, 'It was repositioned twice');
-            done();
-          }
         },
       },
     };
@@ -587,9 +579,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         {{/if}}
       </BasicDropdownContent>
     `);
-    run(() => {
+    await run(() => {
       this.set('divVisible', true);
     });
+    await settled();
+    assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
 
   test('@shouldReposition can be used to control which mutations should trigger a reposition', async function (assert) {
@@ -617,7 +611,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
     await render(hbs`
       <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{shouldReposition}}>
+      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{this.shouldReposition}}>
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
@@ -645,7 +639,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     run(() => window.dispatchEvent(new window.Event('scroll')));
-    assert.equal(repositions, 2, 'The component has been repositioned twice');
+    assert.strictEqual(
+      repositions,
+      2,
+      'The component has been repositioned twice'
+    );
   });
 
   // Overlay

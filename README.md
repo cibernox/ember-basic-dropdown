@@ -1,6 +1,6 @@
 # Ember-basic-dropdown
 
-[![Build Status](https://travis-ci.org/cibernox/ember-basic-dropdown.svg?branch=master)](https://travis-ci.org/cibernox/ember-basic-dropdown)
+[![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://travis-ci.org/cibernox/ember-basic-dropdown)
 
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
@@ -80,7 +80,8 @@ You can make the dropdown content standout a little more by adding `overlay=true
 ```hbs
 <BasicDropdown as |dd|>
   <dd.Trigger>Click me!</dd.Trigger>
-  <dd.Content @overlay={{true}}> {{!-- here! --}}
+  <dd.Content @overlay={{true}}>
+    {{! here! }}
     content!
   </dd.Content>
 </BasicDropdown>
@@ -89,6 +90,7 @@ You can make the dropdown content standout a little more by adding `overlay=true
 NOTE: If for some reason clicking outside a dropdown doesn't work, you might want to make sure the `<body>` spans the entire viewport. Adding a css rule like `body {min-height: 100vh;}` would do the trick. It ensures that wherever you click on the page, it will close the dropdown.
 
 #### Close automatically when clicking inside the component
+
 If you'd like the dropdown to close itself after a user clicks on it, you can use `dd.actions.close` from our public API.
 
 ```hbs
@@ -100,7 +102,6 @@ If you'd like the dropdown to close itself after a user clicks on it, you can us
     </div>
   </dd.Content>
 </BasicDropdown>
-
 ```
 
 #### Keyboard and touchscreen support
@@ -128,9 +129,11 @@ You can force the component to be fixed in one position by passing `verticalPosi
 
 If even that doesn't match your preferences and you feel brave enough, you can roll your own positioning logic if you pass a `calculatePosition`
 function. It's signature is:
+
 ```
 calculatePosition(trigger, dropdown, { previousHorizontalPosition, horizontalPosition, previousVerticalPosition, verticalPosition, matchTriggerWidth })
 ```
+
 The return value must be an object with this interface: `{ horizontalPosition, verticalPosition, style }` where
 where `horizontalPosition` is a string (`"right" | "center" | "left"`), `verticalPosition` is also a string
 (`"above" | "below"`) and `style` is an object with CSS properties, typically `top` and `left`/`right`.

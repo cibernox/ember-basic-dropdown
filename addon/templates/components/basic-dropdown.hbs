@@ -1,19 +1,19 @@
-{{#with
+{{#let
   (hash
     uniqueId=this.publicAPI.uniqueId
     isOpen=this.publicAPI.isOpen
     disabled=this.publicAPI.disabled
     actions=this.publicAPI.actions
-    Trigger=(if (eq @triggerComponent undefined) 
-      (component 
-        "basic-dropdown-trigger"
+    Trigger=(if
+      (eq @triggerComponent undefined)
+      (component
+        'basic-dropdown-trigger'
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         vPosition=(readonly this.vPosition)
       )
-
-      (component 
+      (component
         (ensure-safe-component @triggerComponent)
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
@@ -21,14 +21,15 @@
         vPosition=(readonly this.vPosition)
       )
     )
-    Content=(if (eq @contentComponent undefined)
-      (component 
-        "basic-dropdown-content"
+    Content=(if
+      (eq @contentComponent undefined)
+      (component
+        'basic-dropdown-content'
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         preventScroll=(readonly @preventScroll)
-        rootEventType=(or @rootEventType "click")
+        rootEventType=(or @rootEventType 'click')
         vPosition=(readonly this.vPosition)
         destination=(readonly this.destination)
         top=(readonly this.top)
@@ -38,14 +39,13 @@
         height=(readonly this.height)
         otherStyles=(readonly this.otherStyles)
       )
-
-      (component 
+      (component
         (ensure-safe-component @contentComponent)
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         preventScroll=(readonly @preventScroll)
-        rootEventType=(or @rootEventType "click")
+        rootEventType=(or @rootEventType 'click')
         vPosition=(readonly this.vPosition)
         destination=(readonly this.destination)
         top=(readonly this.top)
@@ -60,8 +60,8 @@
 as |api|
 }}
   {{#if this.renderInPlace}}
-    <div class="ember-basic-dropdown" ...attributes>{{yield api}}</div>
+    <div class='ember-basic-dropdown' ...attributes>{{yield api}}</div>
   {{else}}
     {{yield api}}
   {{/if}}
-{{/with}}
+{{/let}}

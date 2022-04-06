@@ -7,19 +7,21 @@
   line-height: 40px;
   width: 40px;
   height: 40px;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,.26);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.26);
   outline: none;
   user-select: none;
-  transition: all .3s cubic-bezier(.55,0,.55,.2);
-  transition-property: background-color,box-shadow,transform;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  transition-property: background-color, box-shadow, transform;
 }
 
-.trigger-material-round:focus, .trigger-material-round:hover {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,.4)
+.trigger-material-round:focus,
+.trigger-material-round:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .content-material-round {
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   border-radius: 50%;
   overflow: hidden;
   margin: 5px 0 0;

@@ -1,6 +1,7 @@
 'use strict';
 
 const getChannelURL = require('ember-source-channel-url');
+const { embroiderSafe } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
@@ -37,6 +38,21 @@ module.exports = async function () {
           },
         },
       },
+      {
+        name: 'ember-default-with-jquery',
+        env: {
+          EMBER_OPTIONAL_FEATURES: JSON.stringify({
+            'jquery-integration': true,
+          }),
+        },
+        npm: {
+          devDependencies: {
+            '@ember/jquery': '^1.1.0',
+          },
+        },
+      },
+      embroiderSafe(),
+      // embroiderOptimized(),  doesn't work, not sure why yet
     ],
   };
 };
