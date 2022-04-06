@@ -1,54 +1,63 @@
 import Modifier from 'ember-modifier';
 import { action } from '@ember/object';
+import { registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
 
+interface NamedArgs {
+  dropdown: Dropdown;
+  eventType?: 'click' | 'mousedown';
+  stopPropagation?: boolean;
+  [named: string]: unknown;
+}
+type PositionalArgs = unknown[];
 interface Args {
-  positional: unknown[];
-  named: {
-    dropdown: Dropdown;
-    eventType?: 'click' | 'mousedown';
-    stopPropagation?: boolean;
-  };
+  positional: PositionalArgs;
+  named: NamedArgs;
 };
 
 export default class DropdownTriggerModifier extends Modifier<Args> {
+  didSetup = false;
+
+  triggerElement?: HTMLElement;
+
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent?: TouchEvent;
 
-  didInstall() {
-    if(!this.element.getAttribute('role')) this.element.setAttribute('role', 'button');
-
-    this.element.addEventListener('click', this.handleMouseEvent);
-    this.element.addEventListener('mousedown', this.handleMouseEvent);
-    this.element.addEventListener('keydown', this.handleKeyDown);
-    this.element.addEventListener('touchstart', this.handleTouchStart);
-    this.element.addEventListener('touchend', this.handleTouchEnd);
+  constructor(owner: unknown, args: Args) {
+    super(owner, args)
+    registerDestructor(this, cleanup)
   }
 
-  didReceiveArguments() {
-    const { dropdown } = this.args.named
-
-    this.element.setAttribute('data-ebd-id', `${dropdown?.uniqueId}-trigger`);
-    this.element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
-    this.element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
-    this.element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
-
-    if (dropdown?.disabled) {
-      this.element.setAttribute('aria-disabled', 'true');
-    } else {
-      this.element.setAttribute('aria-disabled', 'false');
+  modify(element: HTMLElement, positional: PositionalArgs, named: NamedArgs): void {
+    if (!this.didSetup) {
+      this.setup(element)
+      this.didSetup = true
     }
+    this.update(element, positional, named)
   }
 
-  willRemove() {
-    if (typeof document !== 'undefined') document.removeEventListener('touchmove', this._touchMoveHandler);
+  setup(element: HTMLElement) {
+    // Keep a reference to the element for cleanup
+    this.triggerElement = element
 
-    this.element.removeEventListener('click', this.handleMouseEvent);
-    this.element.removeEventListener('mousedown', this.handleMouseEvent);
-    this.element.removeEventListener('keydown', this.handleKeyDown);
-    this.element.removeEventListener('touchstart', this.handleTouchStart);
-    this.element.removeEventListener('touchend', this.handleTouchEnd);
+    if(!element.getAttribute('role')) element.setAttribute('role', 'button');
+
+    element.addEventListener('click', this.handleMouseEvent);
+    element.addEventListener('mousedown', this.handleMouseEvent);
+    element.addEventListener('keydown', this.handleKeyDown);
+    element.addEventListener('touchstart', this.handleTouchStart);
+    element.addEventListener('touchend', this.handleTouchEnd);
+  }
+
+  update(element: HTMLElement, _positional: PositionalArgs, named: NamedArgs) {
+    const { dropdown } = named
+
+    element.setAttribute('data-ebd-id', `${dropdown?.uniqueId}-trigger`);
+    element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
+    element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
+    element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
+    element.setAttribute('aria-disabled', dropdown?.disabled ? 'true' : 'false');
   }
 
   @action
@@ -131,5 +140,18 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
   _touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this._touchMoveHandler);
+  }
+}
+
+function cleanup(instance: DropdownTriggerModifier) {
+  const { triggerElement } = instance
+  if (triggerElement) {
+    if (typeof document !== 'undefined') document.removeEventListener('touchmove', instance._touchMoveHandler);
+
+    triggerElement.removeEventListener('click', instance.handleMouseEvent);
+    triggerElement.removeEventListener('mousedown', instance.handleMouseEvent);
+    triggerElement.removeEventListener('keydown', instance.handleKeyDown);
+    triggerElement.removeEventListener('touchstart', instance.handleTouchStart);
+    triggerElement.removeEventListener('touchend', instance.handleTouchEnd);
   }
 }
