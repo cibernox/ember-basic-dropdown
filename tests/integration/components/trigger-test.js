@@ -55,17 +55,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       .hasAttribute('tabindex', '0', 'Has a tabindex of 0');
   });
 
-  // test('If it receives a tabindex={{false}}, it removes the tabindex', async function (assert) {
-  //   assert.expect(1);
-  //   this.dropdown = { uniqueId: 123 };
-  //   await render(hbs`
-  //     <BasicDropdownTrigger tabindex={{false}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-  //   `);
+  test('If it receives a tabindex={{false}}, it removes the tabindex', async function (assert) {
+    assert.expect(1);
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      <BasicDropdownTrigger tabindex={{false}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
+    `);
 
-  //   assert
-  //     .dom('.ember-basic-dropdown-trigger')
-  //     .doesNotHaveAttribute('tabindex');
-  // });
+    assert
+      .dom('.ember-basic-dropdown-trigger')
+      .doesNotHaveAttribute('tabindex');
+  });
 
   test('If it receives `tabindex="3"`, the tabindex of the element is 3', async function (assert) {
     assert.expect(1);

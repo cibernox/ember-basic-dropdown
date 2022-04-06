@@ -10,6 +10,7 @@
       eventType=@eventType
       stopPropagation=@stopPropagation
     }}
+    tabindex={{unless @dropdown.disabled "0"}}
     ...attributes
     {{! V1 compatibility - See #498 }}
     {{on 'keydown' (fn (or @onKeyDown this.noop) @dropdown)}}

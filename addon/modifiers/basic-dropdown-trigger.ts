@@ -35,12 +35,8 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
     this.element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
 
     if (dropdown?.disabled) {
-      // only remove if tabindex is not a custom value
-      if (this.element.getAttribute('tabindex') === '0') this.element.removeAttribute('tabindex');
       this.element.setAttribute('aria-disabled', 'true');
     } else {
-      // only set to 0 if tab index is not a custom value
-      if (this.element.getAttribute('tabindex') === null) this.element.setAttribute('tabindex', '0');
       this.element.setAttribute('aria-disabled', 'false');
     }
   }
