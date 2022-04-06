@@ -4,17 +4,17 @@ import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
 
 interface Args {
-  positional: []
+  positional: unknown[];
   named: {
-    dropdown: Dropdown
-    eventType?: 'click' | 'mousedown'
-    stopPropagation?: boolean
-  }
-}
+    dropdown: Dropdown;
+    eventType?: 'click' | 'mousedown';
+    stopPropagation?: boolean;
+  };
+};
 
 export default class DropdownTriggerModifier extends Modifier<Args> {
-  private toggleIsBeingHandledByTouchEvents: boolean = false
-  private touchMoveEvent?: TouchEvent
+  toggleIsBeingHandledByTouchEvents: boolean = false;
+  touchMoveEvent?: TouchEvent;
 
   didInstall() {
     if(!this.element.getAttribute('role')) this.element.setAttribute('role', 'button');
