@@ -1,3 +1,6 @@
+# 5.0.0
+- [BREAKING] Co-locate component templates. This is breaking for anyone overriding the component's templates with their own, as the location of the template has changed.
+- Typescript fix for configuration.
 # 4.0.4
 - [FEATURE] Improve compatibility with Embroider/Ember 4
 # 4.0.3
