@@ -334,8 +334,10 @@ export default class BasicDropdown extends Component<Args> {
       return '';
     }
 
-    return ((config['ember-basic-dropdown'] &&
-      config['ember-basic-dropdown'].destination) ||
+    const _config = config as unknown as any;
+
+    return ((_config['ember-basic-dropdown'] &&
+    _config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
   }
 }
