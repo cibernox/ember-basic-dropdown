@@ -1,22 +1,23 @@
-import Modifier from 'ember-modifier';
+import Modifier, { ArgsFor, PositionalArgs, NamedArgs } from 'ember-modifier';
 import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
 
-interface NamedArgs {
-  dropdown: Dropdown;
-  eventType?: 'click' | 'mousedown';
-  stopPropagation?: boolean;
-  [named: string]: unknown;
+interface Signature {
+  Element: HTMLElement;
+  Args: {
+    Named: {
+      dropdown: Dropdown;
+      eventType?: 'click' | 'mousedown';
+      stopPropagation?: boolean;
+      [named: string]: unknown;
+    };
+    Positional: unknown[];
+  };
 }
-type PositionalArgs = unknown[];
-interface Args {
-  positional: PositionalArgs;
-  named: NamedArgs;
-};
 
-export default class DropdownTriggerModifier extends Modifier<Args> {
+export default class DropdownTriggerModifier extends Modifier<Signature> {
   didSetup = false;
 
   triggerElement?: HTMLElement;
@@ -24,12 +25,12 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent?: TouchEvent;
 
-  constructor(owner: unknown, args: Args) {
+  constructor(owner: unknown, args: ArgsFor<Signature>) {
     super(owner, args)
     registerDestructor(this, cleanup)
   }
 
-  modify(element: HTMLElement, positional: PositionalArgs, named: NamedArgs): void {
+  modify(element: HTMLElement, positional: PositionalArgs<Signature>, named: NamedArgs<Signature>): void {
     if (!this.didSetup) {
       this.setup(element)
       this.didSetup = true
@@ -50,7 +51,7 @@ export default class DropdownTriggerModifier extends Modifier<Args> {
     element.addEventListener('touchend', this.handleTouchEnd);
   }
 
-  update(element: HTMLElement, _positional: PositionalArgs, named: NamedArgs) {
+  update(element: HTMLElement, _positional: PositionalArgs<Signature>, named: NamedArgs<Signature>) {
     const { dropdown } = named
 
     element.setAttribute('data-ebd-id', `${dropdown?.uniqueId}-trigger`);
