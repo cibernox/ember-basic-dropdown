@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { Dropdown } from './basic-dropdown';
 interface Args {
   dropdown: Dropdown;
@@ -27,4 +28,15 @@ export default class BasicDropdownTrigger extends Component<Args> {
    * @memberof BasicDropdownContent
    */
   noop(): void {}
+
+  @action
+  disableDocumentTextSelect(disable: boolean) {
+    if (disable) {
+      document.body.classList.add('ember-basic-dropdown-text-select-disabled');
+    } else {
+      document.body.classList.remove(
+        'ember-basic-dropdown-text-select-disabled'
+      );
+    }
+  }
 }

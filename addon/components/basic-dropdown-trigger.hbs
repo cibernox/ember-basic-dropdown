@@ -1,17 +1,19 @@
 {{#let (element (or @htmlTag 'div')) as |OptionalTag|}}
   <OptionalTag
     class='ember-basic-dropdown-trigger
-      {{if @renderInPlace ' ember-basic-dropdown-trigger--in-place'}}
-      {{if @hPosition (concat ' ember-basic-dropdown-trigger--' @hPosition)}}
-      {{if @vPosition (concat ' ember-basic-dropdown-trigger--' @vPosition)}}
+      {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
+      {{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}
+      {{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}
       {{@defaultClass}}'
     {{basic-dropdown-trigger
       dropdown=@dropdown
       eventType=@eventType
       stopPropagation=@stopPropagation
     }}
-    tabindex={{unless @dropdown.disabled "0"}}
+    tabindex={{unless @dropdown.disabled '0'}}
     ...attributes
+    {{on 'mousedown' (fn this.disableDocumentTextSelect true)}}
+    {{on 'mouseup' (fn this.disableDocumentTextSelect false)}}
     {{! V1 compatibility - See #498 }}
     {{on 'keydown' (fn (or @onKeyDown this.noop) @dropdown)}}
     {{on 'mousedown' (fn (or @onMouseDown this.noop) @dropdown)}}
