@@ -10,7 +10,8 @@ or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/
 
 ### Compatibility
 
-Version 2.0 requires Ember 3.13 or greater
+Version 3.X requires Ember 3.24 or greater
+Version 2.X requires Ember 3.13 or greater
 Versions 1.X require Ember 2.16 or greater
 
 ### Installation
