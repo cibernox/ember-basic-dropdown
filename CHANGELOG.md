@@ -1,3 +1,7 @@
+# 6.0.0
+- [MAYBE-BREAKING] The trigger component is now implemented internally as an element modifier. This should not be breaking, but a refactor this big is
+  always risky. This makes much easier to make any component the trigger of a dropdown, just applying that modifier to any element.
+- Because of the element modifier change, not the minimum version of Ember supported is 3.24
 # 5.0.0
 - [BREAKING] Co-locate component templates. This is breaking for anyone overriding the component's templates with their own, as the location of the template has changed.
 - Typescript fix for configuration.
