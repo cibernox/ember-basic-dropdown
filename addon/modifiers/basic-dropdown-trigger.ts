@@ -36,7 +36,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   }
 
   modify(element: HTMLElement, positional: PositionalArgs<Signature>, named: NamedArgs<Signature>): void {
-    assert('must be provided dropdown element', named.dropdown)
+    assert('must be provided dropdown object', named.dropdown)
     this.dropdown = named.dropdown
     this.desiredEventType = named.eventType ?? 'click'
     this.stopPropagation = named.stopPropagation
