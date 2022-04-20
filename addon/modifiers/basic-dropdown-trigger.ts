@@ -1,6 +1,7 @@
 import Modifier, { ArgsFor, PositionalArgs, NamedArgs } from 'ember-modifier';
+import { assert } from '@ember/debug'
 import { action } from '@ember/object';
-import { registerDestructor } from '@ember/destroyable';
+import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
 
@@ -25,12 +26,21 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent?: TouchEvent;
 
+  dropdown!: Dropdown
+  desiredEventType!: string
+  stopPropagation?: boolean
+
   constructor(owner: unknown, args: ArgsFor<Signature>) {
     super(owner, args)
     registerDestructor(this, cleanup)
   }
 
   modify(element: HTMLElement, positional: PositionalArgs<Signature>, named: NamedArgs<Signature>): void {
+    assert('must be provided dropdown element', named.dropdown)
+    this.dropdown = named.dropdown
+    this.desiredEventType = named.eventType ?? 'click'
+    this.stopPropagation = named.stopPropagation
+
     if (!this.didSetup) {
       this.setup(element)
       this.didSetup = true
@@ -54,19 +64,19 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   update(element: HTMLElement, _positional: PositionalArgs<Signature>, named: NamedArgs<Signature>) {
     const { dropdown } = named
 
-    element.setAttribute('data-ebd-id', `${dropdown?.uniqueId}-trigger`);
-    element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
-    element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown?.uniqueId}`);
-    element.setAttribute('aria-expanded', dropdown?.isOpen ? 'true' : 'false');
-    element.setAttribute('aria-disabled', dropdown?.disabled ? 'true' : 'false');
+    element.setAttribute('data-ebd-id', `${dropdown.uniqueId}-trigger`);
+    element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown.uniqueId}`);
+    element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown.uniqueId}`);
+    element.setAttribute('aria-expanded', dropdown.isOpen ? 'true' : 'false');
+    element.setAttribute('aria-disabled', dropdown.disabled ? 'true' : 'false');
   }
 
   @action
   handleMouseEvent(e: MouseEvent): void {
     if (typeof document === 'undefined') return;
-    const { dropdown, stopPropagation, eventType: desiredEventType = 'click' } = this.args.named;
+    const { dropdown, desiredEventType, stopPropagation } = this;
 
-    if (this.isDestroyed || !dropdown || dropdown.disabled) return;
+    if (isDestroyed(this) || !dropdown || dropdown.disabled) return;
 
     const eventType = e.type;
     const notLeftClick = e.button !== 0;
@@ -86,7 +96,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
   @action
   handleKeyDown(e: KeyboardEvent): void {
-    const { disabled, actions } = this.args.named.dropdown;
+    const { disabled, actions } = this.dropdown;
 
     if (disabled) return;
     if (e.keyCode === 13) {  // Enter
@@ -107,7 +117,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   @action
   handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
-    const { disabled, actions } = this.args.named.dropdown;
+    const { disabled, actions } = this.dropdown;
     if ((e && e.defaultPrevented) || disabled) {
       return;
     }
