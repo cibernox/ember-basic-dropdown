@@ -1,3 +1,5 @@
+# 6.0.1
+- Allow ember-get-config v2
 # 6.0.0
 - [MAYBE-BREAKING] The trigger component is now implemented internally as an element modifier. This should not be breaking, but a refactor this big is
   always risky. This makes much easier to make any component the trigger of a dropdown, just applying that modifier to any element.
