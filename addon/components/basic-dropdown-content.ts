@@ -150,12 +150,10 @@ export default class BasicDropdownContent extends Component<Args> {
   animateOut(dropdownElement: Element): void {
     if (!this.animationEnabled) return;
     let parentElement =
-      dropdownElement.parentElement ?? this.destinationElement;
-    if (parentElement === null) return;
-    if (this.args.renderInPlace) {
-      parentElement = parentElement.parentElement;
-    }
-    if (parentElement === null) return;
+      this.args.renderInPlace ? document.querySelector(
+        `[aria-controls="ember-basic-dropdown-content-${this.args.dropdown.uniqueId}"]`
+      )?.parentElement : this.destinationElement;
+    if (!parentElement) return;
     let clone = dropdownElement.cloneNode(true) as Element;
     clone.id = `${clone.id}--clone`;
     clone.classList.remove(...this.transitioningInClass.split(' '));
