@@ -1,3 +1,6 @@
+# 6.0.2
+- Relax dependency on ember-style-modifier so version 1.0 is also allowed
+  
 # 6.0.1
 - Allow ember-get-config v2
 # 6.0.0
