@@ -50,10 +50,10 @@ export default class BasicDropdownContent extends Component<Args> {
   isTouchDevice =
     this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
   dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`;
-  private touchMoveEvent?: TouchEvent;
+  private touchMoveEvent: TouchEvent | undefined;
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
-  private mutationObserver?: MutationObserver;
+  private mutationObserver: MutationObserver | undefined;
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
