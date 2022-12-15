@@ -26,3 +26,8 @@
 /package.json.ember-try
 .eslintcache
 .vscode
+
+# Ignore generated types
+/components
+/modifiers
+/utils
