@@ -43,8 +43,7 @@
     <tr>
       <td>destination</td>
       <td>String</td>
-      <td>The id of a DOM element where the dropdown will be rendered
-        using
+      <td>The id of a DOM element where the dropdown will be rendered using
         <code>#-in-element</code></td>
     </tr>
     <tr>
@@ -190,6 +189,11 @@
         focusable by default</td>
     </tr>
     <tr>
+      <td>htmlTag</td>
+      <td>String</td>
+      <td>(Default: <code>'div'</code>) The tag of the trigger component</td>
+    </tr>
+    <tr>
       <td>title</td>
       <td>String</td>
       <td>Maps to the <code>title</code> attribute</td>
@@ -240,6 +244,11 @@
         Defaults to true</td>
     </tr>
     <tr>
+      <td>htmlTag</td>
+      <td>String</td>
+      <td>(Default: <code>'div'</code>) The tag of the content component</td>
+    </tr>
+    <tr>
       <td>shouldReposition</td>
       <td>Function</td>
       <td>An optional function that can be used to avoid uncecessary
@@ -280,5 +289,8 @@
 </pre>
 
 <div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.test-helpers" class='doc-page-nav-link-prev'>&lt; Test helpers</LinkTo>
+  <LinkTo
+    @route='public-pages.docs.test-helpers'
+    class='doc-page-nav-link-prev'
+  >&lt; Test helpers</LinkTo>
 </div>
