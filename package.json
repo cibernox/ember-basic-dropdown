@@ -47,7 +47,7 @@
     "ember-cli-deprecation-workflow": "^2.1.0",
     "ember-cli-fastboot": "^3.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-memory-leak-detector": "^0.5.1",
+    "ember-cli-memory-leak-detector": "0.5.1",
     "ember-cli-sass": "^10.0.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-typescript-blueprints": "^3.0.0",
