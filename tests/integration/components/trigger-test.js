@@ -316,7 +316,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <div onclick={{this.handlerInParent}}>
+      <div role="button" onclick={{this.handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
@@ -346,7 +346,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <div onclick={{this.handlerInParent}}>
+      <div role="button" onclick={{this.handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
       </div>
     `);
