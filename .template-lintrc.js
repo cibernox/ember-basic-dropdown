@@ -12,6 +12,6 @@ module.exports = {
     'require-input-label': false,
     'no-unbalanced-curlies': false,
     'no-duplicate-landmark-elements': false,
-    'no-pointer-down-event-binding': false
+    'no-pointer-down-event-binding': false,
   },
 };
