@@ -112,9 +112,6 @@
     "ember-style-modifier": "^0.8.0 || ^1.0.0 || ^2.0.0 || ^3.0.0",
     "ember-truth-helpers": "^2.1.0 || ^3.0.0"
   },
-  "peerDependencies": {
-    "@ember/string": "^3.0.1"
-  },
   "ember": {
     "edition": "octane"
   },
