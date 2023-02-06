@@ -8,7 +8,6 @@ module.exports = {
     'no-partial': false,
     'no-positive-tabindex': false,
     'no-quoteless-attributes': false,
-    'no-down-event-binding': false,
     'require-input-label': false,
     'no-unbalanced-curlies': false,
     'no-duplicate-landmark-elements': false,

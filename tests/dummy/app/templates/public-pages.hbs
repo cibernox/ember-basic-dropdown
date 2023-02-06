@@ -23,6 +23,7 @@
         <LinkTo @route="public-pages.index" class="home-link">
           <img src='/ember_logo.png' alt='ember' />
           <strong>Basic</strong>
+          {{!-- template-lint-disable no-pointer-down-event-binding --}}
           <dd.Trigger
             @htmlTag='span'
             {{on 'mousedown' this.preventIfNotInIndex}}

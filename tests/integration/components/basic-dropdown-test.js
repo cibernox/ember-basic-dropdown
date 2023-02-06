@@ -515,8 +515,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(1);
 
     await render(hbs`
-      <BasicDropdown @renderInPlace={{true}} as |dropdown|></BasicDropdown>
-      <BasicDropdown @renderInPlace={{true}} as |dropdown|></BasicDropdown>
+      <BasicDropdown @renderInPlace={{true}}></BasicDropdown>
+      <BasicDropdown @renderInPlace={{true}}></BasicDropdown>
     `);
 
     assert.ok(true, 'The test has run without errors');

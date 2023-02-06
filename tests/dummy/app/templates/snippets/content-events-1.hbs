@@ -3,6 +3,7 @@
     <div class='demo-fake-logo'>Bookface</div>
     <div class='demo-fake-notifications'>
       <BasicDropdown @horizontalPosition='right' as |dd|>
+        {{!-- template-lint-disable no-pointer-down-event-binding --}}
         <dd.Trigger
           {{on 'mousedown' this.prevent}}
           {{on 'mouseenter' (fn this.open dd)}}

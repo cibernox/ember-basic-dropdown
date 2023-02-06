@@ -170,13 +170,15 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('type', 'button');
   });
 
-  test('If it receives `role="foo123"` it gets that attribute', async function (assert) {
+  test('If it receives `role="presentation"` it gets that attribute', async function (assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };
     await render(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} role="foo123">Click me</BasicDropdownTrigger>
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} role="presentation">Click me</BasicDropdownTrigger>
     `);
-    assert.dom('.ember-basic-dropdown-trigger').hasAttribute('role', 'foo123');
+    assert
+      .dom('.ember-basic-dropdown-trigger')
+      .hasAttribute('role', 'presentation');
   });
 
   test('If it does not receive an specific `role`, the default is `button`', async function (assert) {
@@ -316,8 +318,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <div onclick={{this.handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} rule="presentation">Click me</BasicDropdownTrigger>
+      <div role="button" onclick={{this.handlerInParent}}>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} role="presentation">Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -346,7 +348,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render(hbs`
-      <div onclick={{this.handlerInParent}}>
+      <div role="button" onclick={{this.handlerInParent}}>
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} role="presentation">Click me</BasicDropdownTrigger>
       </div>
     `);
@@ -593,6 +595,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
+      {{!-- template-lint-disable no-pointer-down-event-binding --}}
       <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 
