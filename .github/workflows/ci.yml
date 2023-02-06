@@ -33,6 +33,7 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 14
+          persist-credentials: false
 
       - run: npm ci
 
@@ -50,6 +51,7 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 14
+          persist-credentials: false
 
       - run: npm install --package-lock=false
 
@@ -79,6 +81,7 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 14.x
+          persist-credentials: false
 
       - name: install dependencies
         run: npm install
