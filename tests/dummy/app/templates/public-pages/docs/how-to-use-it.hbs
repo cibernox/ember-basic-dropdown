@@ -25,8 +25,8 @@
   Go, use it and inspect the DOM. I know it looks ugly, we'll style it later.
 </p>
 
-<CodeExample @hbs='how-to-use-it-1.hbs' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='how-to-use-it-1.hbs'>
+  {{component (ensure-safe-component this.howToUseIt1Component)}}
 </CodeExample>
 
 <p>
@@ -70,9 +70,8 @@
 <CodeExample
   @hbs='how-to-use-it-2.hbs'
   @css='how-to-use-it-2-css.scss'
-  as |partialName|
 >
-  {{component partialName}}
+  {{component (ensure-safe-component this.howToUseIt2Component)}}
 </CodeExample>
 
 <p>
@@ -89,9 +88,8 @@
 <CodeExample
   @hbs='how-to-use-it-3.hbs'
   @css='how-to-use-it-3-css.scss'
-  as |partialName|
 >
-  {{component partialName}}
+  {{component (ensure-safe-component this.howToUseIt3Component)}}
 </CodeExample>
 
 <p>

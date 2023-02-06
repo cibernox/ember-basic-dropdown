@@ -39,8 +39,8 @@
 
 <p>This sounds like a lot, but with an example it will be crystal clear.</p>
 
-<CodeExample @hbs='position-1.hbs' @js='position-1.js' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='position-1.hbs' @js='position-1.js'>
+  {{component (ensure-safe-component this.position1Component)}}
 </CodeExample>
 
 <p>
@@ -78,8 +78,8 @@
   to the component. Inspect the DOM of the next example to see the difference.
 </p>
 
-<CodeExample @hbs='position-2.hbs' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='position-2.hbs'>
+  {{component (ensure-safe-component this.position2Component)}}
 </CodeExample>
 
 <p>
@@ -98,8 +98,8 @@
   option to enable this behaviour.
 </p>
 
-<CodeExample @hbs='position-3.hbs' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='position-3.hbs'>
+  {{component (ensure-safe-component this.position3Component)}}
 </CodeExample>
 
 <p>

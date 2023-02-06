@@ -5,8 +5,8 @@
   keyboard or touch screen.
 </p>
 
-<CodeExample @hbs='disabled-1.hbs' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='disabled-1.hbs'>
+  {{component (ensure-safe-component this.disabled1Component)}}
 </CodeExample>
 
 <p>

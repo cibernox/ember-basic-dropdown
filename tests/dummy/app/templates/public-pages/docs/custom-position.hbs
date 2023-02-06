@@ -109,9 +109,8 @@
 <CodeExample
   @hbs='custom-position-1.hbs'
   @js='custom-position-1.js'
-  as |partialName|
 >
-  {{component partialName}}
+  {{component (ensure-safe-component this.customPosition1Component)}}
 </CodeExample>
 
 <p>
@@ -124,9 +123,8 @@
 <CodeExample
   @hbs='custom-position-2.hbs'
   @js='custom-position-2.js'
-  as |partialName|
 >
-  {{component partialName}}
+  {{component (ensure-safe-component this.customPosition2Component)}}
 </CodeExample>
 
 <p>

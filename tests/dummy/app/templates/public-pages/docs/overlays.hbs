@@ -6,8 +6,8 @@
   that and make dropdowns look cooler.
 </p>
 
-<CodeExample @hbs='overlays-1.hbs' as |partialName|>
-  {{component partialName}}
+<CodeExample @hbs='overlays-1.hbs'>
+  {{component (ensure-safe-component this.overlays1Component)}}
 </CodeExample>
 
 <p>

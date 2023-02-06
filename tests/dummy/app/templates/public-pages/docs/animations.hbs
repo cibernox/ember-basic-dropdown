@@ -24,9 +24,8 @@
 <CodeExample
   @hbs='animations-1.hbs'
   @css='animations-1-css.scss'
-  as |partialName|
 >
-  {{component partialName}}
+  {{component (ensure-safe-component this.animations1Component)}}
 </CodeExample>
 
 <p>

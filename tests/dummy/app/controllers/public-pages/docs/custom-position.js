@@ -2,10 +2,15 @@ import { set } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
+import CustomPosition1Component from '../../../components/snippets/custom-position-1';
+import CustomPosition2Component from '../../../components/snippets/custom-position-2';
 
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
 export default class extends Controller {
+  customPosition1Component = CustomPosition1Component;
+  customPosition2Component = CustomPosition2Component;
+
   names = [];
 
   calculatePosition(trigger, content) {
