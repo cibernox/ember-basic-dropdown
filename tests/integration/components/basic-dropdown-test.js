@@ -29,7 +29,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
       <BasicDropdown as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -67,7 +67,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
       <BasicDropdown as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -86,7 +86,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
       <BasicDropdown @initiallyOpened={{true}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -119,7 +119,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -138,7 +138,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -168,7 +168,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -193,7 +193,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     };
     await render(hbs`
       <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -230,7 +230,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
       <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -254,7 +254,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
       <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
-        <button class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -587,7 +587,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{action this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
       </BasicDropdown>
-      <button onclick={{action this.toggleDisabled}}>Toggle</button>
+      <button type="button" onclick={{action this.toggleDisabled}}>Toggle</button>
       {{#if this.remoteController.disabled}}
         <div id="is-disabled"></div>
       {{/if}}
@@ -1063,7 +1063,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(hbs`
        <BasicDropdown @renderInPlace={{true}} as |dropdown|>
-         <dropdown.Trigger><button>Open me</button></dropdown.Trigger>
+         <dropdown.Trigger><button type="button">Open me</button></dropdown.Trigger>
          <dropdown.Content><div id="dropdown-is-opened">CONTENT</div></dropdown.Content>
        </BasicDropdown>
      `);

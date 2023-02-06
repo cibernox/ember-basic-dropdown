@@ -1,4 +1,5 @@
 {{#let (element (or @htmlTag 'div')) as |OptionalTag|}}
+  {{!-- template-lint-disable no-pointer-down-event-binding --}}
   <OptionalTag
     class='ember-basic-dropdown-trigger
       {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
