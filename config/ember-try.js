@@ -4,10 +4,14 @@ const getChannelURL = require('ember-source-channel-url');
 const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 const embroiderSafeScenario = embroiderSafe();
-embroiderSafeScenario.npm.dependencies['ember-cli-htmlbars'] = '^5.3.2';
+embroiderSafeScenario.npm.dependencies = {
+  'ember-cli-htmlbars': '^5.3.2',
+};
 
 const embroiderOptimizedScenario = embroiderOptimized();
-embroiderOptimizedScenario.npm.dependencies['ember-cli-htmlbars'] = '^5.3.2';
+embroiderOptimizedScenario.npm.dependencies = {
+  'ember-cli-htmlbars': '^5.3.2',
+};
 
 module.exports = async function () {
   return {
