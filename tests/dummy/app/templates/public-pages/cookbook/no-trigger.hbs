@@ -43,8 +43,10 @@
   will open below the input, not not below the button that you clicked.
 </p>
 
-<CodeExample @hbs='no-trigger-1.hbs' as |partialName|>
-  {{partial partialName}}
+<CodeExample @hbs='no-trigger-1.hbs'
+  as |partialName|
+>
+  {{component partialName}}
 </CodeExample>
 
 <p>
@@ -60,6 +62,8 @@
   bindings that the <code>&#60;dropdown.trigger></code> component gets.
 </p>
 
-<CodeExample @hbs="no-trigger-2.hbs" as |partialName|>
-  {{partial partialName}}
+<CodeExample @hbs="no-trigger-2.hbs"
+  as |partialName|
+>
+  {{component partialName}}
 </CodeExample>

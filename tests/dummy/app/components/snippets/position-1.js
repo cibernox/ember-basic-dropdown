@@ -1,6 +1,6 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 
-export default class extends Controller {
+export default class extends Component {
   horizontalPosition = 'auto';
   verticalPosition = 'auto';
   buttonPosition = 'left';

@@ -1,6 +1,6 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 
-export default class extends Controller {
+export default class extends Component {
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
     let { height: contentHeight } = content.getBoundingClientRect();

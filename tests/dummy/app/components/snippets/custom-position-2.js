@@ -1,10 +1,10 @@
+import Component from '@glimmer/component';
 import { A } from '@ember/array';
-import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 
 const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
-export default class extends Controller {
+export default class extends Component {
   names = [];
 
   calculatePosition(trigger, content) {

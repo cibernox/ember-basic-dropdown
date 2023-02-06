@@ -1,4 +1,4 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 import { task, timeout } from 'ember-concurrency';
 
 const users = [
@@ -7,7 +7,7 @@ const users = [
   { name: 'Leah', assignment: 'Community' },
 ];
 
-export default class extends Controller {
+export default class extends Component {
   @task(function* () {
     yield timeout(1000);
     return users;

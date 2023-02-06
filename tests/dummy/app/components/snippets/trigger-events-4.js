@@ -1,7 +1,7 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class extends Controller {
+export default class extends Component {
   parentDivClass = null;
   @action
   simulateFocusParent() {

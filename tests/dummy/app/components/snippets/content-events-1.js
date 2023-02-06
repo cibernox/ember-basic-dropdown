@@ -1,8 +1,8 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { later, cancel } from '@ember/runloop';
 
-export default class extends Controller {
+export default class extends Component {
   notifications = [
     { text: 'Edward' },
     { text: 'Jonathan' },

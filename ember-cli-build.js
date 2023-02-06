@@ -6,7 +6,10 @@ const crawl = require('prember-crawler');
 module.exports = function (defaults) {
   let project = defaults.project;
   let options = {
-    snippetPaths: ['tests/dummy/app/templates/snippets'],
+    snippetPaths: ['tests/dummy/app/components/snippets'],
+    'ember-prism': {
+      components: ['scss', 'javascript'], //needs to be an array, or undefined.
+    },
     prember: {
       urls: crawl,
     },
