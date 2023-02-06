@@ -317,7 +317,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
     await render(hbs`
       <div onclick={{this.handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} rule="presentation">Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -347,7 +347,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
     await render(hbs`
       <div onclick={{this.handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}}>Click me</BasicDropdownTrigger>
+        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} role="presentation">Click me</BasicDropdownTrigger>
       </div>
     `);
     await triggerEvent('.ember-basic-dropdown-trigger', 'click');
@@ -641,6 +641,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render(hbs`
+      {{!-- template-lint-disable no-pointer-down-event-binding --}}
       <BasicDropdownTrigger {{on "mousedown" this.onMouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
 

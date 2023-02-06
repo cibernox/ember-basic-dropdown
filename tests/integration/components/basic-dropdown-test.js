@@ -584,10 +584,10 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.registerAPI = (api) =>
       scheduleOnce('actions', this, this.set, 'remoteController', api);
     await render(hbs`
-      <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{action this.registerAPI}} as |dropdown|>
+      <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
       </BasicDropdown>
-      <button type="button" onclick={{action this.toggleDisabled}}>Toggle</button>
+      <button type="button" {{on "click" this.toggleDisabled}}>Toggle</button>
       {{#if this.remoteController.disabled}}
         <div id="is-disabled"></div>
       {{/if}}
@@ -678,7 +678,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.saveAPI = (api) => (remoteController = api);
 
     await render(hbs`
-      <BasicDropdown @registerAPI={{action this.saveAPI}} as |dropdown|>
+      <BasicDropdown @registerAPI={{this.saveAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
