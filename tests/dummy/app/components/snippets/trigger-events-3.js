@@ -11,12 +11,12 @@ export default class extends Component {
   @action
   highlightCheckboxIfDisabled() {
     if (this.dropdownDisabled) {
-      this.set('checkboxLabelStyle', htmlSafe('color: red'));
+      this.checkboxLabelStyle = htmlSafe('color: red');
     }
   }
 
   @action
   resetHighlight() {
-    this.set('checkboxLabelStyle', null);
+    this.checkboxLabelStyle = null;
   }
 }

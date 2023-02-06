@@ -19,7 +19,7 @@ export default class extends Component {
   }
 
   @task(function* () {
-    this.set('names', A([]));
+    this.names = A([]);
     for (let name of names) {
       this.names.pushObject(name);
       yield timeout(750);
