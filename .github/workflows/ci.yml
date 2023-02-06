@@ -30,10 +30,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - uses: volta-cli/action@v1
         with:
           node-version: 14
-          persist-credentials: false
 
       - run: npm ci
 
@@ -48,10 +49,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - uses: volta-cli/action@v1
         with:
           node-version: 14
-          persist-credentials: false
 
       - run: npm install --package-lock=false
 
@@ -78,10 +80,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - uses: volta-cli/action@v1
         with:
           node-version: 14.x
-          persist-credentials: false
 
       - name: install dependencies
         run: npm install
