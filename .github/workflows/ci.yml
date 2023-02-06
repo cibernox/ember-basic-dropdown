@@ -98,4 +98,4 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }} --skip-cleanup
