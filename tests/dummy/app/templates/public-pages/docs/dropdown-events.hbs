@@ -30,10 +30,9 @@
 
 <CodeExample
   @hbs='dropdown-events-1.hbs'
-  @js='dropdown-events-1-js.js'
-  as |partialName|
+  @js='dropdown-events-1.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.dropDownEvents1Component)}}
 </CodeExample>
 
 <p>
@@ -51,10 +50,9 @@
 
 <CodeExample
   @hbs='dropdown-events-2.hbs'
-  @js='dropdown-events-2-js.js'
-  as |partialName|
+  @js='dropdown-events-2.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.dropDownEvents2Component)}}
 </CodeExample>
 
 <p><em><small>For the record, I don't think this is good UX</small></em></p>
@@ -75,10 +73,9 @@
 
 <CodeExample
   @hbs='dropdown-events-3.hbs'
-  @js='dropdown-events-3-js.js'
-  as |partialName|
+  @js='dropdown-events-3.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.dropDownEvents3Component)}}
 </CodeExample>
 
 <p>Cruel, isn't it?</p>

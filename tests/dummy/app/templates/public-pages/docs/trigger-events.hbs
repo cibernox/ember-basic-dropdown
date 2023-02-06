@@ -14,8 +14,8 @@
   to the trigger. Check below for both approaches. The difference is subtle.
 </p>
 
-<CodeExample @hbs='trigger-events-0.hbs' as |partialName|>
-  {{partial partialName}}
+<CodeExample @hbs='trigger-events-0.hbs'>
+  {{component (ensure-safe-component this.triggerEvents0Component)}}
 </CodeExample>
 
 <p>
@@ -51,10 +51,9 @@
 
 <CodeExample
   @hbs='trigger-events-1.hbs'
-  @js='trigger-events-1-js.js'
-  as |partialName|
+  @js='trigger-events-1.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.triggerEvents1Component)}}
 </CodeExample>
 
 <p>
@@ -85,10 +84,9 @@
 
 <CodeExample
   @hbs='trigger-events-2.hbs'
-  @js='trigger-events-2-js.js'
-  as |partialName|
+  @js='trigger-events-2.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.triggerEvents2Component)}}
 </CodeExample>
 
 <h3><code>\{{on "touchend"}}</code></h3>
@@ -113,10 +111,9 @@
 
 <CodeExample
   @hbs='trigger-events-3.hbs'
-  @js='trigger-events-3-js.js'
-  as |partialName|
+  @js='trigger-events-3.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.triggerEvents3Component)}}
 </CodeExample>
 
 <h3><code>\{{on "focus"}}/\{{on "blur"}}</code></h3>
@@ -131,10 +128,9 @@
 
 <CodeExample
   @hbs='trigger-events-4.hbs'
-  @js='trigger-events-4-js.js'
-  as |partialName|
+  @js='trigger-events-4.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.triggerEvents4Component)}}
 </CodeExample>
 
 <p>

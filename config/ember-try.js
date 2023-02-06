@@ -3,14 +3,42 @@
 const getChannelURL = require('ember-source-channel-url');
 const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
+const embroiderSafeScenario = embroiderSafe();
+embroiderSafeScenario.npm.dependencies = {
+  'ember-cli-htmlbars': '^5.3.2',
+};
+
+const embroiderOptimizedScenario = embroiderOptimized();
+embroiderOptimizedScenario.npm.dependencies = {
+  'ember-cli-htmlbars': '^5.3.2',
+};
+
 module.exports = async function () {
   return {
     scenarios: [
       {
-        name: 'ember-3.24',
+        name: 'ember-lts-3.28',
         npm: {
           devDependencies: {
-            'ember-source': '~3.24.0',
+            'ember-resolver': '^8.0.0',
+            'ember-source': '~3.28.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-4.4',
+        npm: {
+          devDependencies: {
+            'ember-resolver': '^8.0.0',
+            'ember-source': '~4.4.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-4.8',
+        npm: {
+          devDependencies: {
+            'ember-source': '~4.8.0',
           },
         },
       },
@@ -38,21 +66,8 @@ module.exports = async function () {
           },
         },
       },
-      {
-        name: 'ember-default-with-jquery',
-        env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({
-            'jquery-integration': true,
-          }),
-        },
-        npm: {
-          devDependencies: {
-            '@ember/jquery': '^1.1.0',
-          },
-        },
-      },
-      embroiderSafe(),
-      embroiderOptimized(),
+      embroiderSafeScenario,
+      embroiderOptimizedScenario,
     ],
   };
 };

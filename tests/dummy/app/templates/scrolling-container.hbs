@@ -11,7 +11,7 @@
     for the dropdown to be positioned properly.
   </p>
 
-  <CodeExample @hbs='scrollable-container-1.hbs' as |partialName|>
-    {{partial partialName}}
+  <CodeExample @hbs='scrollable-container-1.hbs'>
+    {{component (ensure-safe-component this.scrollableContainer1Component)}}
   </CodeExample>
 </div>

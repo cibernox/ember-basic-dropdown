@@ -26,10 +26,9 @@
 
 <CodeExample
   @hbs='content-events-1.hbs'
-  @js='content-events-1-js.js'
-  as |partialName|
+  @js='content-events-1.js'
 >
-  {{partial partialName}}
+  {{component (ensure-safe-component this.contentEvents1Component)}}
 </CodeExample>
 
 <p>

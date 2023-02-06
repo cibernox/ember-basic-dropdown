@@ -1,8 +1,11 @@
 import Controller from '@ember/controller';
 import { later, cancel } from '@ember/runloop';
 import { action } from '@ember/object';
+import ContentEvents1Component from '../../../components/snippets/content-events-1';
 
 export default class extends Controller {
+  contentEvents1Component = ContentEvents1Component;
+
   notifications = [
     { text: 'Edward' },
     { text: 'Jonathan' },
