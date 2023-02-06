@@ -10,7 +10,7 @@ import {
 } from 'ember-basic-dropdown/utils/scroll-helpers';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | scroll helpers', function() {
+module('Unit | Utility | scroll helpers', function () {
   test('getScrollLineHeight', function (assert) {
     // Depends on device and settings.
     let result = getScrollLineHeight();
