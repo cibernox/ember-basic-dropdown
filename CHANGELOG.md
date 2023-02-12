@@ -1,3 +1,6 @@
+# 7.0.0
+- Update ember-maybe-in-element for version that plays nicely with parallel compilation.
+- [BREAKING] Update many dependencies, including qunit and ember-auto-import v2. Now the minimum version is 3.28+ 
 # 6.0.2
 - Relax dependency on ember-style-modifier so version 1.0 is also allowed
   
