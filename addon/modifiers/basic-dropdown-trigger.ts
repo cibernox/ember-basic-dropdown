@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from '../components/basic-dropdown';
+import type Owner from '@ember/owner';
 
 interface Signature {
   Element: HTMLElement;
@@ -30,7 +31,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   desiredEventType!: string
   stopPropagation?: boolean
 
-  constructor(owner: unknown, args: ArgsFor<Signature>) {
+  constructor(owner: Owner, args: ArgsFor<Signature>) {
     super(owner, args)
     registerDestructor(this, cleanup)
   }
