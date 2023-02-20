@@ -14,6 +14,7 @@ import {
 } from '@embroider/macros';
 declare const FastBoot: any;
 import config from 'ember-get-config';
+import type Owner from '@ember/owner';
 
 export interface DropdownActions {
   toggle: (e?: Event) => void;
@@ -124,7 +125,7 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   // Lifecycle hooks
-  constructor(owner: unknown, args: Args) {
+  constructor(owner: Owner, args: Args) {
     super(owner, args);
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
