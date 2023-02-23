@@ -1,3 +1,5 @@
+# 7.0.1
+- Receive `@animationEnabled` in the content component.
 # 7.0.0
 - Update ember-maybe-in-element for version that plays nicely with parallel compilation.
 - [BREAKING] Update many dependencies, including qunit and ember-auto-import v2. Now the minimum version is 3.28+ 
