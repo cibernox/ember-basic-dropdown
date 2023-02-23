@@ -13,6 +13,7 @@ import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
 
 interface Args {
+  animationEnabled?: boolean;
   transitioningInClass?: string;
   transitionedInClass?: string;
   transitioningOutClass?: string;
@@ -61,7 +62,9 @@ export default class BasicDropdownContent extends Component<Args> {
   }
 
   get animationEnabled(): boolean {
-    return !isTesting();
+    const { animationEnabled: animationEnabledArg = true } = this.args;
+
+    return animationEnabledArg && !isTesting();
   }
 
   /**
