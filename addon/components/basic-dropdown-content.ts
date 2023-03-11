@@ -55,7 +55,7 @@ export default class BasicDropdownContent extends Component<Args> {
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver?: MutationObserver;
-  @tracked animationClass = this.transitioningInClass;
+  @tracked animationClass = this.animationEnabled ? this.transitioningInClass : '';
 
   get destinationElement(): Element | null {
     return document.getElementById(this.args.destination);
