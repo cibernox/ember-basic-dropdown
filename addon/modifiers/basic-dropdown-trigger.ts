@@ -1,5 +1,5 @@
 import Modifier, { ArgsFor, PositionalArgs, NamedArgs } from 'ember-modifier';
-import { assert } from '@ember/debug'
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved';
@@ -27,33 +27,37 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent?: TouchEvent;
 
-  dropdown!: Dropdown
-  desiredEventType!: string
-  stopPropagation?: boolean
+  dropdown!: Dropdown;
+  desiredEventType!: string;
+  stopPropagation?: boolean;
 
   constructor(owner: Owner, args: ArgsFor<Signature>) {
-    super(owner, args)
-    registerDestructor(this, cleanup)
+    super(owner, args);
+    registerDestructor(this, cleanup);
   }
 
-  modify(element: HTMLElement, positional: PositionalArgs<Signature>, named: NamedArgs<Signature>): void {
-    assert('must be provided dropdown object', named.dropdown)
-    this.dropdown = named.dropdown
-    this.desiredEventType = named.eventType ?? 'click'
-    this.stopPropagation = named.stopPropagation
+  modify(
+    element: HTMLElement,
+    positional: PositionalArgs<Signature>,
+    named: NamedArgs<Signature>
+  ): void {
+    assert('must be provided dropdown object', named.dropdown);
+    this.dropdown = named.dropdown;
+    this.desiredEventType = named.eventType ?? 'click';
+    this.stopPropagation = named.stopPropagation;
 
     if (!this.didSetup) {
-      this.setup(element)
-      this.didSetup = true
+      this.setup(element);
+      this.didSetup = true;
     }
-    this.update(element, positional, named)
+    this.update(element, positional, named);
   }
 
   setup(element: HTMLElement) {
     // Keep a reference to the element for cleanup
-    this.triggerElement = element
+    this.triggerElement = element;
 
-    if(!element.getAttribute('role')) element.setAttribute('role', 'button');
+    if (!element.getAttribute('role')) element.setAttribute('role', 'button');
 
     element.addEventListener('click', this.handleMouseEvent);
     element.addEventListener('mousedown', this.handleMouseEvent);
@@ -62,12 +66,22 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     element.addEventListener('touchend', this.handleTouchEnd);
   }
 
-  update(element: HTMLElement, _positional: PositionalArgs<Signature>, named: NamedArgs<Signature>) {
-    const { dropdown } = named
+  update(
+    element: HTMLElement,
+    _positional: PositionalArgs<Signature>,
+    named: NamedArgs<Signature>
+  ) {
+    const { dropdown } = named;
 
     element.setAttribute('data-ebd-id', `${dropdown.uniqueId}-trigger`);
-    element.setAttribute('aria-owns', `ember-basic-dropdown-content-${dropdown.uniqueId}`);
-    element.setAttribute('aria-controls', `ember-basic-dropdown-content-${dropdown.uniqueId}`);
+    element.setAttribute(
+      'aria-owns',
+      `ember-basic-dropdown-content-${dropdown.uniqueId}`
+    );
+    element.setAttribute(
+      'aria-controls',
+      `ember-basic-dropdown-content-${dropdown.uniqueId}`
+    );
     element.setAttribute('aria-expanded', dropdown.isOpen ? 'true' : 'false');
     element.setAttribute('aria-disabled', dropdown.disabled ? 'true' : 'false');
   }
@@ -82,7 +96,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     const eventType = e.type;
     const notLeftClick = e.button !== 0;
     if (eventType !== desiredEventType || notLeftClick) return;
-    
+
     if (stopPropagation) e.stopPropagation();
 
     if (this.toggleIsBeingHandledByTouchEvents) {
@@ -100,9 +114,11 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     const { disabled, actions } = this.dropdown;
 
     if (disabled) return;
-    if (e.keyCode === 13) {  // Enter
+    if (e.keyCode === 13) {
+      // Enter
       actions.toggle(e);
-    } else if (e.keyCode === 32) { // Space
+    } else if (e.keyCode === 32) {
+      // Space
       e.preventDefault(); // prevents the space to trigger a scroll page-next
       actions.toggle(e);
     } else if (e.keyCode === 27) {
@@ -130,19 +146,37 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    const target = e.target as HTMLElement;
+    const target = (e.composedPath?.()[0] || e.target) as HTMLElement;
     if (target !== null) {
       target.focus();
     }
-    setTimeout(function() {
-      if (!e.target) { return; }
+    setTimeout(function () {
+      if (!target) {
+        return;
+      }
       try {
         const event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        e.target.dispatchEvent(event);
-      } catch (e) {
+        event.initMouseEvent(
+          'click',
+          true,
+          true,
+          window,
+          0,
+          0,
+          0,
+          0,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
+        target.dispatchEvent(event);
+      } catch (error) {
         const event = new Event('click');
-        e.target.dispatchEvent(event);
+        target.dispatchEvent(event);
       }
     }, 0);
     e.preventDefault();
@@ -156,9 +190,10 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 }
 
 function cleanup(instance: DropdownTriggerModifier) {
-  const { triggerElement } = instance
+  const { triggerElement } = instance;
   if (triggerElement) {
-    if (typeof document !== 'undefined') document.removeEventListener('touchmove', instance._touchMoveHandler);
+    if (typeof document !== 'undefined')
+      document.removeEventListener('touchmove', instance._touchMoveHandler);
 
     triggerElement.removeEventListener('click', instance.handleMouseEvent);
     triggerElement.removeEventListener('mousedown', instance.handleMouseEvent);

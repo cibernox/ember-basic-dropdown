@@ -7,14 +7,11 @@ import calculatePosition, {
   CalculatePositionResult,
 } from '../utils/calculate-position';
 import { schedule } from '@ember/runloop';
-import {
-  macroCondition,
-  isTesting,
-  importSync,
-} from '@embroider/macros';
+import { macroCondition, isTesting, importSync } from '@embroider/macros';
 declare const FastBoot: any;
 import config from 'ember-get-config';
 import type Owner from '@ember/owner';
+import { getOwner } from '@ember/application';
 
 export interface DropdownActions {
   toggle: (e?: Event) => void;
@@ -154,12 +151,12 @@ export default class BasicDropdown extends Component<Args> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    let trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
-    ) as HTMLElement;
+    let trigger = this._getTriggerElement();
     if (trigger) {
       let parent = trigger.parentElement;
-      if (parent) { parent.setAttribute("aria-owns", this._dropdownId); }
+      if (parent) {
+        parent.setAttribute('aria-owns', this._dropdownId);
+      }
     }
   }
 
@@ -189,7 +186,9 @@ export default class BasicDropdown extends Component<Args> {
       return;
     }
     let parent = trigger.parentElement;
-    if (parent) { parent.removeAttribute("aria-owns"); }
+    if (parent) {
+      parent.removeAttribute('aria-owns');
+    }
     if (skipFocus) {
       return;
     }
@@ -212,17 +211,14 @@ export default class BasicDropdown extends Component<Args> {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    let dropdownElement = document.getElementById(this._dropdownId);
-    let triggerElement = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
-    ) as HTMLElement;
+    let dropdownElement = this._getDropdownElement();
+    let triggerElement = this._getTriggerElement();
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
     this.destinationElement =
-      this.destinationElement ||
-      (document.getElementById(this.destination) as HTMLElement);
+      this.destinationElement || this._getDestinationElement();
     let {
       horizontalPosition,
       verticalPosition,
@@ -338,7 +334,32 @@ export default class BasicDropdown extends Component<Args> {
     const _config = config as unknown as any;
 
     return ((_config['ember-basic-dropdown'] &&
-    _config['ember-basic-dropdown'].destination) ||
+      _config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
+  }
+
+  _getDestinationElement(): HTMLElement {
+    const owner: any = getOwner(this);
+    return (
+      document.getElementById(this.destination) ??
+      owner.rootElement.querySelector?.(`[id="${this.destination}"]`)
+    );
+  }
+
+  _getDropdownElement(): HTMLElement {
+    const owner: any = getOwner(this);
+    return (
+      document.getElementById(this._dropdownId) ??
+      owner.rootElement.querySelector?.(`[id="${this._dropdownId}"]`)
+    );
+  }
+
+  _getTriggerElement(): HTMLElement {
+    const owner: any = getOwner(this);
+    const selector = `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`;
+    return (
+      document.querySelector(selector) ??
+      owner.rootElement.querySelector?.(selector)
+    );
   }
 }

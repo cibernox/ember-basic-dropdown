@@ -11,6 +11,7 @@ import {
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
+import { getOwner } from '@ember/application';
 
 interface Args {
   animationEnabled?: boolean;
@@ -23,6 +24,7 @@ interface Args {
   renderInPlace: boolean;
   preventScroll?: boolean;
   rootEventType: 'click' | 'mousedown';
+  triggerElement: HTMLElement;
   top: string | undefined;
   left: string | undefined;
   right: string | undefined;
@@ -58,7 +60,11 @@ export default class BasicDropdownContent extends Component<Args> {
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
-    return document.getElementById(this.args.destination);
+    let owner: any = getOwner(this);
+    return (
+      document.getElementById(this.args.destination) ??
+      owner.rootElement.querySelector?.(`[id="${this.args.destination}"]`)
+    );
   }
 
   get animationEnabled(): boolean {
@@ -79,16 +85,13 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   setup(dropdownElement: Element): void {
-    let triggerElement = document.querySelector(
-      `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`
-    );
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
-      if (e.target === null) return;
-      let target = e.target as Element;
+      let target = (e.composedPath?.()[0] || e.target) as Element;
+      if (target === null) return;
       if (
         hasMoved(e as TouchEvent, this.touchMoveEvent) ||
         dropdownElement.contains(target) ||
-        (triggerElement && triggerElement.contains(target))
+        (this.args.triggerElement && this.args.triggerElement.contains(target))
       ) {
         this.touchMoveEvent = undefined;
         return;
@@ -113,8 +116,10 @@ export default class BasicDropdownContent extends Component<Args> {
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
-    if (triggerElement !== null) {
-      this.scrollableAncestors = getScrollableAncestors(triggerElement);
+    if (this.args.triggerElement !== null) {
+      this.scrollableAncestors = getScrollableAncestors(
+        this.args.triggerElement
+      );
     }
     this.addScrollHandling(dropdownElement);
   }
@@ -233,12 +238,10 @@ export default class BasicDropdownContent extends Component<Args> {
   addScrollHandling(dropdownElement: Element): void {
     if (this.args.preventScroll === true) {
       let wheelHandler = (event: WheelEvent) => {
+        let target = (event.composedPath?.()[0] || event.target) as Element;
+
         if (event.target === null) return;
-        let target = event.target as Element;
-        if (
-          dropdownElement.contains(target) ||
-          dropdownElement === event.target
-        ) {
+        if (dropdownElement.contains(target) || dropdownElement === target) {
           // Discover the amount of scrollable canvas that is within the dropdown.
           const availableScroll = getAvailableScroll(target, dropdownElement);
 
