@@ -52,11 +52,11 @@ type RepositionChanges = {
   hPosition: string;
   vPosition: string;
   otherStyles: Record<string, string | number | undefined>;
-  top?: string;
-  left?: string;
-  right?: string;
-  width?: string;
-  height?: string;
+  top?: string | undefined;
+  left?: string | undefined;
+  right?: string | undefined;
+  width?: string | undefined;
+  height?: string | undefined;
 };
 
 export default class BasicDropdown extends Component<Args> {
@@ -71,8 +71,8 @@ export default class BasicDropdown extends Component<Args> {
   @tracked isOpen = this.args.initiallyOpened || false;
   @tracked renderInPlace =
     this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
-  private previousVerticalPosition?: string;
-  private previousHorizontalPosition?: string;
+  private previousVerticalPosition?: string | undefined;
+  private previousHorizontalPosition?: string | undefined;
   private destinationElement?: HTMLElement;
 
   private _uid = guidFor(this);
@@ -133,7 +133,7 @@ export default class BasicDropdown extends Component<Args> {
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
   }
 
-  willDestroy(): void {
+  override willDestroy(): void {
     super.willDestroy();
     if (this.args.registerAPI) {
       this.args.registerAPI(null);

@@ -2,17 +2,17 @@ interface CalculatePositionOptions {
   horizontalPosition: string;
   verticalPosition: string;
   matchTriggerWidth: boolean;
-  previousHorizontalPosition?: string;
-  previousVerticalPosition?: string;
+  previousHorizontalPosition?: string | undefined;
+  previousVerticalPosition?: string | undefined;
   renderInPlace: boolean;
   dropdown: any;
 }
 export type CalculatePositionResultStyle = {
-  top?: number;
-  left?: number;
-  right?: number;
-  width?: number;
-  height?: number;
+  top?: number | undefined;
+  left?: number | undefined;
+  right?: number | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
   [key: string]: string | number | undefined;
 };
 export type CalculatePositionResult = {
