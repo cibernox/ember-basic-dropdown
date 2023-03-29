@@ -1,3 +1,6 @@
+# 7.0.2
+- Improve typescript expertience for users using `exactOptionalPropertyTypes` and `noImplicitOverride`
+- 
 # 7.0.1
 - Receive `@animationEnabled` in the content component.
 # 7.0.0
