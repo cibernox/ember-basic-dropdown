@@ -1,3 +1,5 @@
+# 7.1.0
+- Many dependency updates and cleanups (ember-concurrency 3.0, ember 4.12, drop node 14...) #705
 # 7.0.2
 - Improve typescript expertience for users using `exactOptionalPropertyTypes` and `noImplicitOverride`
 - 
