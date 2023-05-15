@@ -57,6 +57,9 @@ module.exports = async function () {
             'ember-source': await getChannelURL('release'),
           },
         },
+        overrides: {
+          'ember-source': '$ember-source',
+        },
       },
       {
         name: 'ember-beta',
@@ -65,6 +68,9 @@ module.exports = async function () {
             'ember-source': await getChannelURL('beta'),
           },
         },
+        overrides: {
+          'ember-source': '$ember-source',
+        },
       },
       {
         name: 'ember-canary',
@@ -72,6 +78,9 @@ module.exports = async function () {
           devDependencies: {
             'ember-source': await getChannelURL('canary'),
           },
+        },
+        overrides: {
+          'ember-source': '$ember-source',
         },
       },
       embroiderSafeScenario,
