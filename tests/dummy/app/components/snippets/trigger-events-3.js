@@ -5,7 +5,7 @@ import { htmlSafe } from '@ember/template';
 export default class extends Component {
   dropdownDisabled = true;
   checkboxClass = null;
-  checkboxLabelStyle = '';
+  checkboxLabelStyle = null;
 
   // Actions
   @action

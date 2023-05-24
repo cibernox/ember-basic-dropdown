@@ -22,21 +22,21 @@ interface Signature {
 export default class DropdownTriggerModifier extends Modifier<Signature> {
   didSetup = false;
 
-  triggerElement?: HTMLElement;
+  triggerElement: HTMLElement | undefined;
 
   toggleIsBeingHandledByTouchEvents: boolean = false;
-  touchMoveEvent?: TouchEvent;
+  touchMoveEvent: TouchEvent | undefined;
 
   dropdown!: Dropdown;
   desiredEventType!: string;
-  stopPropagation?: boolean;
+  stopPropagation: boolean | undefined;
 
   constructor(owner: Owner, args: ArgsFor<Signature>) {
     super(owner, args);
     registerDestructor(this, cleanup);
   }
 
-  modify(
+  override modify(
     element: HTMLElement,
     positional: PositionalArgs<Signature>,
     named: NamedArgs<Signature>
