@@ -1122,7 +1122,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.expect(4);
     let publicApi;
     this.registerAPI = (api) => (publicApi = api);
-    
+
     let timesCalled = 0;
     this.calculatePosition = function () {
       const style = {
