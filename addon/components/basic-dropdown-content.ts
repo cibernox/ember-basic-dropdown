@@ -66,6 +66,26 @@ export default class BasicDropdownContent extends Component<Args> {
 
     return animationEnabledArg && !isTesting();
   }
+  
+  get positionStyles(): Record<string, string> {
+    const style: Record<string, string> = {};
+    if (this.args.top !== undefined) {
+      style.top = this.args.top;
+    }
+    if (this.args.left !== undefined) {
+      style.left = this.args.left;
+    }
+    if (this.args.right !== undefined) {
+      style.right = this.args.right;
+    }
+    if (this.args.width !== undefined) {
+      style.width = this.args.width;
+    }
+    if (this.args.height !== undefined) {
+      style.height = this.args.height;
+    }
+    return style;
+  }
 
   /**
    * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.

@@ -20,7 +20,7 @@
           ...attributes
           {{style
             @otherStyles
-            (hash top=@top left=@left right=@right width=@width height=@height)
+            this.positionStyles
           }}
           {{did-insert this.setup}}
           {{did-insert @dropdown.actions.reposition}}
