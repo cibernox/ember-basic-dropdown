@@ -27,7 +27,10 @@
     "addon-test-support/",
     "test-support/",
     "index.js",
-    "vendor"
+    "vendor",
+    "components/**/*.d.ts",
+    "modifiers/**/*.d.ts",
+    "utils/**/*.d.ts"
   ],
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
