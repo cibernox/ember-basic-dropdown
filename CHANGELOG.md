@@ -1,3 +1,7 @@
+# 7.2.0
+- Publish types to npm
+- Fix reposition reset issue reported in #707
+- Make addon compatible with Ember 5
 # 7.1.0
 - Many dependency updates and cleanups (ember-concurrency 3.0, ember 4.12, drop node 14...) #705
 # 7.0.2
