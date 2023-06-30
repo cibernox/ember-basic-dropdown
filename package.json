@@ -37,6 +37,7 @@
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.9.3",
     "@embroider/test-setup": "^2.1.1",
+    "@glint/template": "^1.0.2",
     "@types/ember": "^4.0.3",
     "@types/ember__destroyable": "^4.0.1",
     "@types/ember__modifier": "^4.0.3",
