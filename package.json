@@ -100,8 +100,8 @@
   },
   "dependencies": {
     "@ember/render-modifiers": "^2.0.5",
-    "@embroider/macros": "^1.10.0",
-    "@embroider/util": "^1.10.0",
+    "@embroider/macros": "^1.12.0",
+    "@embroider/util": "^1.11.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "ember-auto-import": "^2.6.3",
