@@ -1116,4 +1116,77 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         `The dropdown content has .${transitioningOutClass} class`
       );
   });
+
+  // Styles properly get reset
+  test('Styles properly get reset if the positioning changes while open', async function (assert) {
+    assert.expect(4);
+    let publicApi;
+    this.registerAPI = (api) => (publicApi = api);
+
+    let timesCalled = 0;
+    this.calculatePosition = function () {
+      const style = {
+        top: 111,
+      };
+      let horizontalPosition;
+      if (timesCalled % 2 === 1) {
+        style.right = 100;
+        horizontalPosition = 'right';
+      } else {
+        style.left = 100;
+        horizontalPosition = 'left';
+      }
+
+      timesCalled++;
+
+      return {
+        horizontalPosition,
+        verticalPosition: 'above',
+        style,
+      };
+    };
+
+    await render(hbs`
+      <BasicDropdown @registerAPI={{this.registerAPI}} @calculatePosition={{this.calculatePosition}} as |dropdown|>
+        <dropdown.Trigger>Click me</dropdown.Trigger>
+        <dropdown.Content>
+          <div id="dropdown-is-opened"></div>
+        </dropdown.Content>
+      </BasicDropdown>
+    `);
+
+    await click('.ember-basic-dropdown-trigger');
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .hasStyle(
+        { top: '111px', left: '100px' },
+        'The style attribute is the expected one'
+      );
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .doesNotHaveStyle(
+        { right: '100px' },
+        'The style attribute is the expected one'
+      );
+
+    run(() => {
+      publicApi.actions.reposition();
+    });
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .hasStyle(
+        { top: '111px', right: '100px' },
+        'The style attribute is the expected one'
+      );
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .doesNotHaveStyle(
+        { left: '100px' },
+        'The style attribute is the expected one'
+      );
+  });
 });
