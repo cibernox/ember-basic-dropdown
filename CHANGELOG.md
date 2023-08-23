@@ -1,3 +1,5 @@
+# 7.2.2
+- Update ember-element-helper
 # 7.2.0
 - Publish types to npm
 - Fix reposition reset issue reported in #707
