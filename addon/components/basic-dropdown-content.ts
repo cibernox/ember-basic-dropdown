@@ -24,7 +24,6 @@ interface Args {
   renderInPlace: boolean;
   preventScroll?: boolean;
   rootEventType: 'click' | 'mousedown';
-  triggerElement: HTMLElement;
   top: string | undefined;
   left: string | undefined;
   right: string | undefined;
@@ -85,19 +84,26 @@ export default class BasicDropdownContent extends Component<Args> {
 
   @action
   setup(dropdownElement: Element): void {
+    const owner: any = getOwner(this);
+    const selector = `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`;
+    const triggerElement = (
+      document.querySelector(selector) ??
+      owner.rootElement.querySelector?.(selector)
+    );
+
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
       let target = (e.composedPath?.()[0] || e.target) as Element;
       if (target === null) return;
       if (
         hasMoved(e as TouchEvent, this.touchMoveEvent) ||
         dropdownElement.contains(target) ||
-        (this.args.triggerElement && this.args.triggerElement.contains(target))
+        (triggerElement && triggerElement.contains(target))
       ) {
         this.touchMoveEvent = undefined;
         return;
       }
 
-      if (dropdownIsValidParent(target, this.dropdownId)) {
+      if (dropdownIsValidParent(owner, target, this.dropdownId)) {
         this.touchMoveEvent = undefined;
         return;
       }
@@ -116,10 +122,8 @@ export default class BasicDropdownContent extends Component<Args> {
       document.addEventListener('touchstart', this.touchStartHandler, true);
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
-    if (this.args.triggerElement !== null) {
-      this.scrollableAncestors = getScrollableAncestors(
-        this.args.triggerElement
-      );
+    if (triggerElement !== null) {
+      this.scrollableAncestors = getScrollableAncestors(triggerElement);
     }
     this.addScrollHandling(dropdownElement);
   }
@@ -384,17 +388,20 @@ function waitForAnimations(element: Element, callback: Function): void {
 /**
  * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
  *
+ * @param {any} owner
  * @param {HTMLElement} el
  * @param {String} dropdownId
  */
-function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
+function dropdownIsValidParent(owner: any, el: Element, dropdownId: string): boolean {
   let closestDropdown = closestContent(el);
   if (closestDropdown === null) {
     return false;
   } else {
     let closestAttrs = closestDropdown.attributes as unknown as any;
-    let trigger = document.querySelector(
-      `[aria-controls=${closestAttrs.id.value}]`
+    const selector = `[aria-controls=${closestAttrs.id.value}]`;
+    let trigger = (
+      document.querySelector(selector) ??
+      owner.rootElement.querySelector?.(selector)
     );
     if (trigger === null) return false;
     let parentDropdown = closestContent(trigger);
@@ -402,7 +409,7 @@ function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
     let parentAttrs = parentDropdown.attributes as unknown as any;
     return (
       (parentDropdown && parentAttrs.id.value === dropdownId) ||
-      dropdownIsValidParent(parentDropdown, dropdownId)
+      dropdownIsValidParent(owner, parentDropdown, dropdownId)
     );
   }
 }

@@ -179,9 +179,7 @@ export default class BasicDropdown extends Component<Args> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    let trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
-    ) as HTMLElement;
+    let trigger = this._getTriggerElement();
     if (!trigger) {
       return;
     }
