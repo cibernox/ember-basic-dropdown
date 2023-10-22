@@ -98,8 +98,7 @@ export default class BasicDropdownContent extends Component<Args> {
    */
   noop(): void {}
 
-  @action
-  setup(dropdownElement: Element): void {
+  respondToEvents = modifier((dropdownElement: Element): () => void => {
     let triggerElement = document.querySelector(
       `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`
     );
@@ -138,29 +137,27 @@ export default class BasicDropdownContent extends Component<Args> {
       this.scrollableAncestors = getScrollableAncestors(triggerElement);
     }
     this.addScrollHandling(dropdownElement);
-  }
+    return () => {
+      this.removeGlobalEvents();
+      this.removeScrollHandling();
+      this.scrollableAncestors = [];
 
-  @action
-  teardown(): void {
-    this.removeGlobalEvents();
-    this.removeScrollHandling();
-    this.scrollableAncestors = [];
-
-    document.removeEventListener(
-      this.args.rootEventType,
-      this.handleRootMouseDown as RootMouseDownHandler,
-      true
-    );
-
-    if (this.isTouchDevice) {
-      document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener(
-        'touchend',
+        this.args.rootEventType,
         this.handleRootMouseDown as RootMouseDownHandler,
         true
       );
+
+      if (this.isTouchDevice) {
+        document.removeEventListener('touchstart', this.touchStartHandler, true);
+        document.removeEventListener(
+          'touchend',
+          this.handleRootMouseDown as RootMouseDownHandler,
+          true
+        );
+      }
     }
-  }
+  });
 
   animateInAndOut = modifier((dropdownElement: Element): () => void => {
     if (!this.animationEnabled) return () => {};
