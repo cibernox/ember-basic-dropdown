@@ -11,6 +11,7 @@ import {
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
+import { modifier } from 'ember-modifier';
 
 interface Args {
   animationEnabled?: boolean;
@@ -66,7 +67,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
     return animationEnabledArg && !isTesting();
   }
-  
+
   get positionStyles(): Record<string, string> {
     const style: Record<string, string> = {};
     if (this.args.top !== undefined) {
@@ -161,34 +162,31 @@ export default class BasicDropdownContent extends Component<Args> {
     }
   }
 
-  @action
-  animateIn(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
+  animateInAndOut = modifier((dropdownElement: Element): () => void => {
+    if (!this.animationEnabled) return () => {};
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
     });
-  }
-
-  @action
-  animateOut(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
-    let parentElement =
-      dropdownElement.parentElement ?? this.destinationElement;
-    if (parentElement === null) return;
-    if (this.args.renderInPlace) {
-      parentElement = parentElement.parentElement;
-    }
-    if (parentElement === null) return;
-    let clone = dropdownElement.cloneNode(true) as Element;
-    clone.id = `${clone.id}--clone`;
-    clone.classList.remove(...this.transitioningInClass.split(' '));
-    clone.classList.add(...this.transitioningOutClass.split(' '));
-    parentElement.appendChild(clone);
-    this.animationClass = this.transitioningInClass;
-    waitForAnimations(clone, function () {
-      (parentElement as HTMLElement).removeChild(clone);
-    });
-  }
+    return () => {
+      if (!this.animationEnabled) return;
+      let parentElement =
+        dropdownElement.parentElement ?? this.destinationElement;
+      if (parentElement === null) return;
+      if (this.args.renderInPlace) {
+        parentElement = parentElement.parentElement;
+      }
+      if (parentElement === null) return;
+      let clone = dropdownElement.cloneNode(true) as Element;
+      clone.id = `${clone.id}--clone`;
+      clone.classList.remove(...this.transitioningInClass.split(' '));
+      clone.classList.add(...this.transitioningOutClass.split(' '));
+      parentElement.appendChild(clone);
+      this.animationClass = this.transitioningInClass;
+      waitForAnimations(clone, function () {
+        (parentElement as HTMLElement).removeChild(clone);
+      });
+    };
+  });
 
   @action
   setupMutationObserver(dropdownElement: Element): void {

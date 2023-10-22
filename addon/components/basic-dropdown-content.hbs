@@ -25,9 +25,8 @@
           {{did-insert this.setup}}
           {{did-insert @dropdown.actions.reposition}}
           {{did-insert this.setupMutationObserver}}
-          {{did-insert this.animateIn}}
+          {{this.animateInAndOut}}
           {{will-destroy this.teardownMutationObserver}}
-          {{will-destroy this.animateOut}}
           {{will-destroy this.teardown}}
           {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
           {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
