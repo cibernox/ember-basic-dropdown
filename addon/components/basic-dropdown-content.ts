@@ -157,14 +157,16 @@ export default class BasicDropdownContent extends Component<Args> {
         );
       }
     }
-  });
+  // @ts-ignore
+  }, { eager: false });
 
   initiallyReposition = modifier(() => {
     // Escape autotracking frame and avoid backtracking re-render
     Promise.resolve().then(() => {
       this.args.dropdown.actions.reposition()
     });
-  });
+  // @ts-ignore
+  }, { eager: false });
 
   animateInAndOut = modifier((dropdownElement: Element): () => void => {
     if (!this.animationEnabled) return () => {};
@@ -190,7 +192,8 @@ export default class BasicDropdownContent extends Component<Args> {
         (parentElement as HTMLElement).removeChild(clone);
       });
     };
-  });
+  // @ts-ignore
+  }, { eager: false });
 
   observeMutations = modifier((dropdownElement: Element): () => void => {
     this.mutationObserver = new MutationObserver((mutations) => {
@@ -221,7 +224,8 @@ export default class BasicDropdownContent extends Component<Args> {
         this.mutationObserver = undefined;
       }
     }
-  });
+  // @ts-ignore
+  }, { eager: false });
 
   @action
   touchStartHandler(): void {
