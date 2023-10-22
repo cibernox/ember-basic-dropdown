@@ -23,7 +23,7 @@
             this.positionStyles
           }}
           {{this.respondToEvents}}
-          {{did-insert @dropdown.actions.reposition}}
+          {{this.initiallyReposition}}
           {{this.observeMutations}}
           {{this.animateInAndOut}}
           {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}

@@ -159,6 +159,13 @@ export default class BasicDropdownContent extends Component<Args> {
     }
   });
 
+  initiallyReposition = modifier(() => {
+    // Escape autotracking frame and avoid backtracking re-render
+    Promise.resolve().then(() => {
+      this.args.dropdown.actions.reposition()
+    });
+  });
+
   animateInAndOut = modifier((dropdownElement: Element): () => void => {
     if (!this.animationEnabled) return () => {};
     waitForAnimations(dropdownElement, () => {
