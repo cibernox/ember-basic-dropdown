@@ -188,8 +188,7 @@ export default class BasicDropdownContent extends Component<Args> {
     };
   });
 
-  @action
-  setupMutationObserver(dropdownElement: Element): void {
+  observeMutations = modifier((dropdownElement: Element): () => void => {
     this.mutationObserver = new MutationObserver((mutations) => {
       let shouldReposition = mutations.some(
         (record: MutationRecord) =>
@@ -212,15 +211,13 @@ export default class BasicDropdownContent extends Component<Args> {
       childList: true,
       subtree: true,
     });
-  }
-
-  @action
-  teardownMutationObserver(): void {
-    if (this.mutationObserver !== undefined) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = undefined;
+    return () => {
+      if (this.mutationObserver !== undefined) {
+        this.mutationObserver.disconnect();
+        this.mutationObserver = undefined;
+      }
     }
-  }
+  });
 
   @action
   touchStartHandler(): void {
