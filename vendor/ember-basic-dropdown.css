@@ -1,3 +1,5 @@
+/* stylelint-disable alpha-value-notation */
+/* stylelint-disable color-function-notation */
 .ember-basic-dropdown {
   position: relative;
 }
@@ -15,10 +17,12 @@
   background-color: #fff;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .ember-basic-dropdown-content--left {
   left: 0;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .ember-basic-dropdown-content--right {
   right: 0;
 }
