@@ -11,6 +11,7 @@ import {
 import hasMoved from '../utils/has-moved';
 import { Dropdown } from './basic-dropdown';
 import { isTesting } from '@embroider/macros';
+import { modifier } from 'ember-modifier';
 
 interface Args {
   animationEnabled?: boolean;
@@ -66,7 +67,7 @@ export default class BasicDropdownContent extends Component<Args> {
 
     return animationEnabledArg && !isTesting();
   }
-  
+
   get positionStyles(): Record<string, string> {
     const style: Record<string, string> = {};
     if (this.args.top !== undefined) {
@@ -97,8 +98,7 @@ export default class BasicDropdownContent extends Component<Args> {
    */
   noop(): void {}
 
-  @action
-  setup(dropdownElement: Element): void {
+  respondToEvents = modifier((dropdownElement: Element): () => void => {
     let triggerElement = document.querySelector(
       `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`
     );
@@ -137,61 +137,65 @@ export default class BasicDropdownContent extends Component<Args> {
       this.scrollableAncestors = getScrollableAncestors(triggerElement);
     }
     this.addScrollHandling(dropdownElement);
-  }
+    return () => {
+      this.removeGlobalEvents();
+      this.removeScrollHandling();
+      this.scrollableAncestors = [];
 
-  @action
-  teardown(): void {
-    this.removeGlobalEvents();
-    this.removeScrollHandling();
-    this.scrollableAncestors = [];
-
-    document.removeEventListener(
-      this.args.rootEventType,
-      this.handleRootMouseDown as RootMouseDownHandler,
-      true
-    );
-
-    if (this.isTouchDevice) {
-      document.removeEventListener('touchstart', this.touchStartHandler, true);
       document.removeEventListener(
-        'touchend',
+        this.args.rootEventType,
         this.handleRootMouseDown as RootMouseDownHandler,
         true
       );
-    }
-  }
 
-  @action
-  animateIn(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
+      if (this.isTouchDevice) {
+        document.removeEventListener('touchstart', this.touchStartHandler, true);
+        document.removeEventListener(
+          'touchend',
+          this.handleRootMouseDown as RootMouseDownHandler,
+          true
+        );
+      }
+    }
+  // @ts-ignore
+  }, { eager: false });
+
+  initiallyReposition = modifier(() => {
+    // Escape autotracking frame and avoid backtracking re-render
+    Promise.resolve().then(() => {
+      this.args.dropdown.actions.reposition()
+    });
+  // @ts-ignore
+  }, { eager: false });
+
+  animateInAndOut = modifier((dropdownElement: Element): () => void => {
+    if (!this.animationEnabled) return () => {};
     waitForAnimations(dropdownElement, () => {
       this.animationClass = this.transitionedInClass;
     });
-  }
+    return () => {
+      if (!this.animationEnabled) return;
+      let parentElement =
+        dropdownElement.parentElement ?? this.destinationElement;
+      if (parentElement === null) return;
+      if (this.args.renderInPlace) {
+        parentElement = parentElement.parentElement;
+      }
+      if (parentElement === null) return;
+      let clone = dropdownElement.cloneNode(true) as Element;
+      clone.id = `${clone.id}--clone`;
+      clone.classList.remove(...this.transitioningInClass.split(' '));
+      clone.classList.add(...this.transitioningOutClass.split(' '));
+      parentElement.appendChild(clone);
+      this.animationClass = this.transitioningInClass;
+      waitForAnimations(clone, function () {
+        (parentElement as HTMLElement).removeChild(clone);
+      });
+    };
+  // @ts-ignore
+  }, { eager: false });
 
-  @action
-  animateOut(dropdownElement: Element): void {
-    if (!this.animationEnabled) return;
-    let parentElement =
-      dropdownElement.parentElement ?? this.destinationElement;
-    if (parentElement === null) return;
-    if (this.args.renderInPlace) {
-      parentElement = parentElement.parentElement;
-    }
-    if (parentElement === null) return;
-    let clone = dropdownElement.cloneNode(true) as Element;
-    clone.id = `${clone.id}--clone`;
-    clone.classList.remove(...this.transitioningInClass.split(' '));
-    clone.classList.add(...this.transitioningOutClass.split(' '));
-    parentElement.appendChild(clone);
-    this.animationClass = this.transitioningInClass;
-    waitForAnimations(clone, function () {
-      (parentElement as HTMLElement).removeChild(clone);
-    });
-  }
-
-  @action
-  setupMutationObserver(dropdownElement: Element): void {
+  observeMutations = modifier((dropdownElement: Element): () => void => {
     this.mutationObserver = new MutationObserver((mutations) => {
       let shouldReposition = mutations.some(
         (record: MutationRecord) =>
@@ -214,15 +218,14 @@ export default class BasicDropdownContent extends Component<Args> {
       childList: true,
       subtree: true,
     });
-  }
-
-  @action
-  teardownMutationObserver(): void {
-    if (this.mutationObserver !== undefined) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = undefined;
+    return () => {
+      if (this.mutationObserver !== undefined) {
+        this.mutationObserver.disconnect();
+        this.mutationObserver = undefined;
+      }
     }
-  }
+  // @ts-ignore
+  }, { eager: false });
 
   @action
   touchStartHandler(): void {

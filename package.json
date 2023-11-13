@@ -100,7 +100,6 @@
     "test": "tests"
   },
   "dependencies": {
-    "@ember/render-modifiers": "^2.0.5",
     "@embroider/macros": "^1.12.0",
     "@embroider/util": "^1.11.0",
     "@glimmer/component": "^1.1.2",

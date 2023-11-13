@@ -22,13 +22,10 @@
             @otherStyles
             this.positionStyles
           }}
-          {{did-insert this.setup}}
-          {{did-insert @dropdown.actions.reposition}}
-          {{did-insert this.setupMutationObserver}}
-          {{did-insert this.animateIn}}
-          {{will-destroy this.teardownMutationObserver}}
-          {{will-destroy this.animateOut}}
-          {{will-destroy this.teardown}}
+          {{this.respondToEvents}}
+          {{this.initiallyReposition}}
+          {{this.observeMutations}}
+          {{this.animateInAndOut}}
           {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
           {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
           {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
