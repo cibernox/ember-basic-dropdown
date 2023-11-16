@@ -1,3 +1,22 @@
+
+## v7.3.0 (2023-11-16)
+
+#### :rocket: Enhancement
+* [#714](https://github.com/cibernox/ember-basic-dropdown/pull/714) Drop `@ember/render-modifiers` ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#721](https://github.com/cibernox/ember-basic-dropdown/pull/721) Fix peerDependency of ember-source in package.json ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#720](https://github.com/cibernox/ember-basic-dropdown/pull/720) Add release-it ([@mkszepp](https://github.com/mkszepp))
+* [#718](https://github.com/cibernox/ember-basic-dropdown/pull/718) Remove `ember-cli-htmlbars` workaround in ember-try ([@mkszepp](https://github.com/mkszepp))
+* [#717](https://github.com/cibernox/ember-basic-dropdown/pull/717) Remove `ember-cli-memory-leak-detector` ([@mkszepp](https://github.com/mkszepp))
+* [#716](https://github.com/cibernox/ember-basic-dropdown/pull/716) Upgrade ember cli to 4.12.2 ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## 7.2.2
 - Update ember-element-helper
 
