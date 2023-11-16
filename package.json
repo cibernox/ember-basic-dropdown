@@ -21,7 +21,7 @@
     "postpublish": "ember ts:clean"
   },
   "peerDependencies": {
-    "ember-source": "^3.28.0"
+    "ember-source": "^3.28.0 || ^4.0.0 || >=5.0.0"
   },
   "engines": {
     "node": "16.* || >= 18"
