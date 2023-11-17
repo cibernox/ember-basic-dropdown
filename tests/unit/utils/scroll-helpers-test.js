@@ -113,11 +113,11 @@ module('Unit | Utility | scroll helpers', function () {
     });
     assert.strictEqual(
       deltaX,
-      originalDeltaX * scrollLineHeight * LINES_PER_PAGE
+      originalDeltaX * scrollLineHeight * LINES_PER_PAGE,
     );
     assert.strictEqual(
       deltaY,
-      originalDeltaY * scrollLineHeight * LINES_PER_PAGE
+      originalDeltaY * scrollLineHeight * LINES_PER_PAGE,
     );
   });
 });

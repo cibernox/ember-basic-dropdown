@@ -165,7 +165,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
     assert.strictEqual(
       this.element.querySelector('.ember-basic-dropdown-trigger').tagName,
-      'BUTTON'
+      'BUTTON',
     );
     assert.dom('.ember-basic-dropdown-trigger').hasAttribute('type', 'button');
   });
@@ -199,11 +199,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       assert.deepEqual(
         dropdown,
         this.dropdown,
-        'receives the dropdown as 1st argument'
+        'receives the dropdown as 1st argument',
       );
       assert.ok(
         e instanceof window.Event,
-        'It receives the event as second argument'
+        'It receives the event as second argument',
       );
     };
     await render(hbs`
@@ -222,12 +222,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -279,12 +279,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -307,12 +307,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -337,12 +337,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -364,12 +364,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -390,12 +390,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
           assert.ok(e.defaultPrevented, 'The event is defaultPrevented');
         },
@@ -417,12 +417,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `close()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -467,16 +467,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.strictEqual(
             e.type,
             'touchend',
-            'The event that toggles the dropdown is the touchend'
+            'The event that toggles the dropdown is the touchend',
           );
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -582,7 +582,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle: () => {
           assert.ok(
             userActionRanfirst,
-            'User-supplied `{{on "mousedown"}}` ran before default `toggle`'
+            'User-supplied `{{on "mousedown"}}` ran before default `toggle`',
           );
         },
       },
@@ -661,7 +661,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle: () => {
           assert.ok(
             userActionRanfirst,
-            'User-supplied `{{on "touchend"}}` ran before default `toggle`'
+            'User-supplied `{{on "touchend"}}` ran before default `toggle`',
           );
         },
       },
@@ -691,7 +691,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.notEqual(
             e.type,
             'touchend',
-            'Default `toggle` action should not run'
+            'Default `toggle` action should not run',
           );
         },
       },
@@ -720,7 +720,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         toggle: () => {
           assert.ok(
             userActionRanfirst,
-            'User-supplied `{{on "keydown}}` ran before default `toggle`'
+            'User-supplied `{{on "keydown}}` ran before default `toggle`',
           );
         },
       },
@@ -770,12 +770,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
             e instanceof window.Event,
-            'It receives the event as first argument'
+            'It receives the event as first argument',
           );
           assert.strictEqual(
             arguments.length,
             1,
-            'It receives only one argument'
+            'It receives only one argument',
           );
         },
       },
@@ -800,11 +800,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       assert.ok(
         dropdown.uniqueId === this.dropdown.uniqueId,
-        'It receives the dropdown argument as the first argument'
+        'It receives the dropdown argument as the first argument',
       );
       assert.ok(
         e instanceof window.Event,
-        'It receives the event as second argument'
+        'It receives the event as second argument',
       );
       assert.ok(args.length === 2, 'It receives only 2 arguments');
     }

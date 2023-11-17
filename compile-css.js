@@ -6,7 +6,7 @@ var inputFile = path.join(
   __dirname,
   'app',
   'styles',
-  'ember-basic-dropdown.scss'
+  'ember-basic-dropdown.scss',
 );
 var outputFile = path.join(__dirname, 'vendor', 'ember-basic-dropdown.css');
 var buf = fs.readFileSync(inputFile, 'utf8');

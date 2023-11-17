@@ -108,11 +108,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.willOpen = function (dropdown, e) {
       assert.false(
         dropdown.isOpen,
-        'The received dropdown has a `isOpen` property that is still false'
+        'The received dropdown has a `isOpen` property that is still false',
       );
       assert.ok(
         Object.prototype.hasOwnProperty.call(dropdown, 'actions'),
-        'The received dropdown has a `actions` property'
+        'The received dropdown has a `actions` property',
       );
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onOpen action was invoked');
@@ -157,11 +157,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.willClose = function (dropdown, e) {
       assert.true(
         dropdown.isOpen,
-        'The received dropdown has a `isOpen` property and its value is `true`'
+        'The received dropdown has a `isOpen` property and its value is `true`',
       );
       assert.ok(
         Object.prototype.hasOwnProperty.call(dropdown, 'actions'),
-        'The received dropdown has a `actions` property'
+        'The received dropdown has a `actions` property',
       );
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onClose action was invoked');
@@ -281,13 +281,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -306,13 +306,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--center',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--center',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -331,13 +331,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -356,13 +356,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--above',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--above',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -397,13 +397,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
-        'The trigger has a special `--in-place` class'
+        'The trigger has a special `--in-place` class',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--in-place',
-        'The content has a special `--in-place` class'
+        'The content has a special `--in-place` class',
       );
   });
 
@@ -422,7 +422,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--below',
-        'The content has a class indicating that it was placed below the trigger'
+        'The content has a class indicating that it was placed below the trigger',
       );
 
     await render(hbs`
@@ -437,7 +437,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--above',
-        'The content has a class indicating that it was placed above the trigger'
+        'The content has a class indicating that it was placed above the trigger',
       );
   });
 
@@ -457,7 +457,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
-        'The trigger has a special `--in-place` class'
+        'The trigger has a special `--in-place` class',
       );
   });
 
@@ -476,13 +476,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -501,13 +501,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
         'ember-basic-dropdown-trigger--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The proper class has been added'
+        'The proper class has been added',
       );
   });
 
@@ -615,12 +615,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     assert
       .dom(
-        this.element.querySelector('.ember-basic-dropdown-content').parentNode
+        this.element.querySelector('.ember-basic-dropdown-content').parentNode,
       )
       .hasAttribute(
         'id',
         'id-of-elmnt',
-        'The content has been rendered in an alternative destination'
+        'The content has been rendered in an alternative destination',
       );
   });
 
@@ -641,7 +641,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .hasAttribute(
         'aria-controls',
         content.id,
-        'The trigger controls the content'
+        'The trigger controls the content',
       );
   });
 
@@ -658,7 +658,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(trigger.parentNode)
       .doesNotHaveAttribute(
         'aria-owns',
-        'Closed dropdown parent does not have aria-owns'
+        'Closed dropdown parent does not have aria-owns',
       );
     await click('.ember-basic-dropdown-trigger');
     let content = this.element.querySelector('.ember-basic-dropdown-content');
@@ -667,7 +667,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .hasAttribute(
         'aria-owns',
         content.id,
-        'The trigger parent owns the content'
+        'The trigger parent owns the content',
       );
   });
 
@@ -703,7 +703,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       triggerElement,
       dropdownElement,
       destinationElement,
-      { dropdown }
+      { dropdown },
     ) {
       assert.ok(dropdown, 'dropdown should be passed to the component');
       return {
@@ -732,14 +732,14 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The dropdown is in the right'
+        'The dropdown is in the right',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasAttribute(
         'style',
         'top: 111px; width: 100px; height: 110px;',
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
   });
 
@@ -749,7 +749,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       triggerElement,
       dropdownElement,
       destinationElement,
-      { dropdown, renderInPlace }
+      { dropdown, renderInPlace },
     ) {
       assert.ok(dropdown, 'dropdown should be passed to the component');
       if (renderInPlace) {
@@ -788,13 +788,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasClass(
         'ember-basic-dropdown-content--right',
-        'The dropdown is in the right'
+        'The dropdown is in the right',
       );
     assert
       .dom('.ember-basic-dropdown-content')
       .hasStyle(
         { top: '111px', right: '222px' },
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
   });
 
@@ -849,7 +849,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.strictEqual(
       apis.length,
       3,
-      'There have been 3 changes in the state of the public API'
+      'There have been 3 changes in the state of the public API',
     );
     assert.false(apis[0].isOpen, 'The component was closed');
     assert.true(apis[1].isOpen, 'Then it opened');
@@ -949,7 +949,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('.body-grandchild')
       .doesNotExist(
-        'grandchild dropdown should not exist becuase we clicked in child'
+        'grandchild dropdown should not exist becuase we clicked in child',
       );
     assert
       .dom('.body-child')
@@ -963,12 +963,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('.body-grandchild')
       .doesNotExist(
-        'grandchild dropdown should not exist becuase we clicked in parent'
+        'grandchild dropdown should not exist becuase we clicked in parent',
       );
     assert
       .dom('.body-child')
       .doesNotExist(
-        'child dropdown should not exist becuase we clicked in parent'
+        'child dropdown should not exist becuase we clicked in parent',
       );
     assert
       .dom('.body-parent')
@@ -1058,7 +1058,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
           .ember-basic-dropdown--transitioning-in{animation: grow-out 1s ease-out;}
           .ember-basic-dropdown--transitioning-out{animation: drop-fade-below 1s reverse;}
         </style>
-        `
+        `,
     );
 
     await render(hbs`
@@ -1074,13 +1074,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(`.${basicDropdownContentClass}`)
       .hasClass(
         transitioningInClass,
-        `The dropdown content has .${transitioningInClass} class`
+        `The dropdown content has .${transitioningInClass} class`,
       );
 
     await waitUntil(() =>
       find('.ember-basic-dropdown-content').classList.contains(
-        transitionedInClass
-      )
+        transitionedInClass,
+      ),
     );
 
     await click('.ember-basic-dropdown-trigger');
@@ -1089,7 +1089,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(`.${basicDropdownContentClass}`)
       .hasClass(
         transitioningOutClass,
-        `The dropdown content has .${transitioningOutClass} class`
+        `The dropdown content has .${transitioningOutClass} class`,
       );
 
     await click('.ember-basic-dropdown-trigger');
@@ -1098,13 +1098,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(`.${basicDropdownContentClass}`)
       .hasClass(
         transitioningInClass,
-        `After closing dropdown, the dropdown content has .${transitioningInClass} class again as initial value`
+        `After closing dropdown, the dropdown content has .${transitioningInClass} class again as initial value`,
       );
 
     await waitUntil(() =>
       find('.ember-basic-dropdown-content').classList.contains(
-        transitionedInClass
-      )
+        transitionedInClass,
+      ),
     );
 
     await click('.ember-basic-dropdown-trigger');
@@ -1113,7 +1113,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(`.${basicDropdownContentClass}`)
       .hasClass(
         transitioningOutClass,
-        `The dropdown content has .${transitioningOutClass} class`
+        `The dropdown content has .${transitioningOutClass} class`,
       );
   });
 
@@ -1161,14 +1161,14 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasStyle(
         { top: '111px', left: '100px' },
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
 
     assert
       .dom('.ember-basic-dropdown-content')
       .doesNotHaveStyle(
         { right: '100px' },
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
 
     run(() => {
@@ -1179,14 +1179,14 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content')
       .hasStyle(
         { top: '111px', right: '100px' },
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
 
     assert
       .dom('.ember-basic-dropdown-content')
       .doesNotHaveStyle(
         { left: '100px' },
-        'The style attribute is the expected one'
+        'The style attribute is the expected one',
       );
   });
 });
