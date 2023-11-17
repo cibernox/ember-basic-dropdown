@@ -14,7 +14,6 @@
 @import 'components/side-nav';
 @import 'components/docs';
 @import 'components/cookbook';
-@import 'ember-code-example';
 @import 'components/spinners';
 
 // Looks and feels for examples
@@ -26,6 +25,9 @@
 @import 'demos/content-mouse-enter-leave';
 @import 'demos/position';
 @import 'demos/scrollable-container';
+
+// Docs
+@import 'docs/code-example';
 
 // Easter egg
 @import 'brandification';
