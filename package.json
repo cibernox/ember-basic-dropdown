@@ -59,7 +59,6 @@
     "concurrently": "^8.2.2",
     "ember-cli": "~4.12.2",
     "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-deprecation-workflow": "^2.2.0",
     "ember-cli-fastboot": "4.1.2",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sass": "^11.0.1",
