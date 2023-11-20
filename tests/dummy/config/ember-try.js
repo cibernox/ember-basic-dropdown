@@ -41,10 +41,10 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-5.0',
+        name: 'ember-5.4',
         npm: {
           devDependencies: {
-            'ember-source': '~5.0.0',
+            'ember-source': '~5.4.0',
           },
         },
       },
