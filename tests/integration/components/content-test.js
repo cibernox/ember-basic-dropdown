@@ -95,7 +95,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       .hasAttribute(
         'id',
         'ember-basic-dropdown-content-e123',
-        'contains the expected ID'
+        'contains the expected ID',
       );
   });
 
@@ -426,7 +426,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
     assert.false(
       innerScrollableEvent.defaultPrevented,
-      'The inner scrollable does not cancel wheel events.'
+      'The inner scrollable does not cancel wheel events.',
     );
 
     innerScrollable.scrollTop = 4;
@@ -438,12 +438,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     run(() => innerScrollable.dispatchEvent(innerScrollableCanceledEvent));
     assert.true(
       innerScrollableCanceledEvent.defaultPrevented,
-      'The inner scrollable cancels out of bound wheel events.'
+      'The inner scrollable cancels out of bound wheel events.',
     );
     assert.strictEqual(
       innerScrollable.scrollTop,
       0,
-      'The innerScrollable was scrolled anyway.'
+      'The innerScrollable was scrolled anyway.',
     );
 
     let outerScrollable = this.element.querySelector('#outer-div');
@@ -455,7 +455,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
     assert.true(
       outerScrollableEvent.defaultPrevented,
-      'The outer scrollable cancels wheel events.'
+      'The outer scrollable cancels wheel events.',
     );
   });
 
@@ -479,7 +479,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert.strictEqual(
       repositions,
       2,
-      'The component has been repositioned twice'
+      'The component has been repositioned twice',
     );
   });
 
@@ -503,7 +503,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert.strictEqual(
       repositions,
       2,
-      'The component has been repositioned twice'
+      'The component has been repositioned twice',
     );
   });
 
@@ -527,7 +527,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert.strictEqual(
       repositions,
       2,
-      'The component has been repositioned twice'
+      'The component has been repositioned twice',
     );
   });
 
@@ -642,7 +642,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert.strictEqual(
       repositions,
       2,
-      'The component has been repositioned twice'
+      'The component has been repositioned twice',
     );
   });
 
@@ -689,11 +689,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
       assert.ok(
         dropdown.uniqueId === this.dropdown.uniqueId,
-        'It receives the dropdown argument as the first argument'
+        'It receives the dropdown argument as the first argument',
       );
       assert.ok(
         e instanceof window.Event,
-        'It receives the event as second argument'
+        'It receives the event as second argument',
       );
       assert.ok(args.length === 2, 'It receives only 2 arguments');
     }
