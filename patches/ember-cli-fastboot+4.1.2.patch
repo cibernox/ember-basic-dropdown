@@ -1,0 +1,13 @@
+diff --git a/node_modules/ember-cli-fastboot/vendor/experimental-render-mode-rehydrate.js b/node_modules/ember-cli-fastboot/vendor/experimental-render-mode-rehydrate.js
+index 721109b..fcdde4b 100644
+--- a/node_modules/ember-cli-fastboot/vendor/experimental-render-mode-rehydrate.js
++++ b/node_modules/ember-cli-fastboot/vendor/experimental-render-mode-rehydrate.js
+@@ -1,7 +1,7 @@
+ (function() {
+   if (typeof FastBoot === 'undefined') {
+     var current = document.getElementById('fastboot-body-start');
+-    var _Ember = require.has('ember') ? require('ember').default : Ember;
++    var _Ember = require.has('ember') ? require('ember').default : globalThis.Ember;
+ 
+     if (
+       current &&
