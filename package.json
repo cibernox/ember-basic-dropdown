@@ -145,8 +145,5 @@
   },
   "volta": {
     "node": "16.19.0"
-  },
-  "overrides": {
-    "ember-source": "$ember-source"
   }
 }
