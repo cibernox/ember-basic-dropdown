@@ -60,11 +60,19 @@ export default {
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
 
-    // Copy Readme and License into published package
+    // Copy SCSS / LESS into published package
     copy({
       targets: [
-        { src: 'src/styles/_index.scss', dest: '.' },
-        { src: 'src/styles/_index.less', dest: '.' },
+        {
+          src: 'src/styles/ember-basic-dropdown.scss',
+          dest: 'dist',
+          rename: '_index.scss',
+        },
+        {
+          src: 'src/styles/ember-basic-dropdown.less',
+          dest: 'dist',
+          rename: '_index.less',
+        },
       ],
     }),
   ],
