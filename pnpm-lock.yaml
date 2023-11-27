@@ -303,9 +303,6 @@ importers:
       '@babel/core':
         specifier: ^7.23.3
         version: 7.23.3
-      '@ember/test-helpers':
-        specifier: ^3.2.1
-        version: 3.2.1(@glint/template@1.2.1)(ember-source@5.4.0)(webpack@5.89.0)
       '@embroider/addon-shim':
         specifier: ^1.0.0
         version: 1.0.0
@@ -352,6 +349,9 @@ importers:
       '@babel/runtime':
         specifier: ^7.17.0
         version: 7.17.0
+      '@ember/test-helpers':
+        specifier: ^3.2.1
+        version: 3.2.1(@glint/template@1.2.1)(ember-source@5.4.0)(webpack@5.89.0)
       '@embroider/addon-dev':
         specifier: ^4.1.0
         version: 4.1.0(@glint/template@1.2.1)(rollup@3.21.8)
@@ -2298,6 +2298,7 @@ packages:
       - '@glint/template'
       - supports-color
       - webpack
+    dev: true
 
   /@ember/test-waiters@3.1.0:
     resolution: {integrity: sha512-bb9h95ktG2wKY9+ja1sdsFBdOms2lB19VWs8wmNpzgHv1NCetonBoV5jHBV4DHt0uS1tg9z66cZqhUVlYs96KQ==}
@@ -2309,6 +2310,7 @@ packages:
       semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@embroider/addon-dev@4.1.0(@glint/template@1.2.1)(rollup@3.21.8):
     resolution: {integrity: sha512-DR9mGlFxcXFIP9jmVbYhy0CwxIzVqMppiIg8at9C+qayr3Wj3SdS7jM95p0kxv3mMgOYs+Z6FsAaj2em6aRs4w==}
