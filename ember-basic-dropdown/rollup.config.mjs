@@ -63,8 +63,6 @@ export default {
     // Copy Readme and License into published package
     copy({
       targets: [
-        { src: '../README.md', dest: '.' },
-        { src: '../LICENSE.md', dest: '.' },
         { src: 'src/styles/_index.scss', dest: '.' },
         { src: 'src/styles/_index.less', dest: '.' },
       ],
