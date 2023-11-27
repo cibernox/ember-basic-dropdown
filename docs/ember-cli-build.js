@@ -6,10 +6,7 @@ const crawl = require('prember-crawler');
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
-    snippetPaths: [
-      'app/components/snippets',
-      'app/templates/snippets',
-    ],
+    snippetPaths: ['app/components/snippets', 'app/templates/snippets'],
     'ember-prism': {
       components: ['scss', 'javascript'], //needs to be an array, or undefined.
     },
