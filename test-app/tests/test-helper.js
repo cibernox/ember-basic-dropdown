@@ -1,4 +1,3 @@
-// @ts-ignore
 import Application from 'test-app/app';
 import config from 'test-app/config/environment';
 import * as QUnit from 'qunit';
@@ -7,7 +6,6 @@ import { setup } from 'qunit-dom';
 import { start } from 'ember-qunit';
 import 'qunit-dom';
 
-// @ts-ignore
 setApplication(Application.create(config.APP));
 
 setup(QUnit.assert);

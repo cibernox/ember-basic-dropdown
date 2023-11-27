@@ -7,9 +7,8 @@ import calculatePosition, {
   CalculatePositionResult,
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
-import { macroCondition, isTesting, importSync } from '@embroider/macros';
+import { macroCondition, isTesting } from '@embroider/macros';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const FastBoot: any;
 import config from 'ember-get-config';
 import type Owner from '@ember/owner';
 import { ComponentLike } from '@glint/template';
@@ -335,29 +334,12 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   _getDestinationId(): string {
-    // This takes care of stripping this code out if not running tests
-    if (macroCondition(isTesting())) {
-      if (typeof FastBoot === 'undefined') {
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const { getRootElement } = importSync('@ember/test-helpers') as any;
-
-          return getRootElement().id;
-        } catch (error) {
-          // use default below
-        }
-      }
-
-      const rootView = document.querySelector('#ember-testing > .ember-view');
-      if (rootView) {
-        return rootView.id;
-      }
-
-      return '';
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _config = config as unknown as any;
+
+    if (macroCondition(isTesting())) {
+      return document.querySelector(_config.APP.rootElement).id;
+    }
 
     return ((_config['ember-basic-dropdown'] &&
       _config['ember-basic-dropdown'].destination) ||

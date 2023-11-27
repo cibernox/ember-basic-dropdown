@@ -1,0 +1,69 @@
+<h1 class='doc-page-title'>Content events</h1>
+
+<p>
+  Like the trigger, the dropdown accepts function to bind a few handy events.
+</p>
+
+<h3><code>onFocusIn/onFocusOut(dropdown, event)</code></h3>
+
+<p>
+  Those events are just identical to the ones in the trigger.
+</p>
+
+<h3><code>onMouseEnter / onMouseLeave(dropdown, event)</code></h3>
+
+<p>
+  Used in conjunction with the same events in the trigger it quite easy to make
+  a dropdown that opens when you hover the trigger and closes leave it, but
+  stays open if you move from the trigger to the content.
+</p>
+
+<p>
+  You can even delay the closing a bit to allow the users to briefly pass
+  outside the boundaries of the dropdown without closing it. Think the navbar of
+  your favourite social network:
+</p>
+
+<CodeExample
+  @hbs='content-events-1.hbs'
+  @js='content-events-1.js'
+>
+  {{component (ensure-safe-component this.contentEvents1Component)}}
+</CodeExample>
+
+<p>
+  Let's break this down.
+</p>
+
+<p>
+  First we
+  <code>&lt;dd.Trigger \{{on "mousedown" this.prevent\\}}&gt;</code>
+  neglect mouse input: Open/close both by click and hover will trip our users.
+</p>
+
+<p>
+  Then
+  <code>\{{on "mouseenter" (fn this.open dd)}}</code>
+  and
+  <code>\{{on "mouseleave" (fn this.closeLater dd)}}</code>
+  open a close the dropdown, but we we leave we don't close immediately. Instead
+  we delay the close a few milliseconds as a grace period, allowing the user to
+  transition from the trigger to the content even if the trajectory of the mouse
+  is not perfect.
+</p>
+
+<p>
+  If before that grace period they enter again the boundaries of the component,
+  we cancel the scheduled close. This would be much cleaner using
+  <code>ember-concurrency</code>
+  tasks.
+</p>
+
+<p>
+  In the following chapters we will learn how to customize the dropdown
+  behaviour with all the different options.
+</p>
+
+<div class='doc-page-nav'>
+  <LinkTo @route="public-pages.docs.trigger-events" class='doc-page-nav-link-prev'>&lt; Trigger events</LinkTo>
+</div>

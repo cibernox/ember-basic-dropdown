@@ -20,6 +20,7 @@
   },
   "workspaces": [
     "ember-basic-dropdown",
+    "docs",
     "test-app"
   ],
   "engines": {
