@@ -922,6 +922,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         </parent.Content>
       </BasicDropdown>
     `);
+    
     //open the nested dropdown
     await click('.ember-basic-dropdown-trigger.parent');
     assert.dom('.body-parent').exists('the parent dropdown is rendered');
