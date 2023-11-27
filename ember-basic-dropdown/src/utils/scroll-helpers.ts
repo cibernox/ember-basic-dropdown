@@ -72,10 +72,11 @@ export function getScrollLineHeight(): number | undefined {
     const iframeDocument = (iframe.contentWindow as Window).document;
     iframeDocument.open();
     iframeDocument.write(
-      '<!doctype html><html><head></head><body><span>X</span></body></html>'
+      '<!doctype html><html><head></head><body><span>X</span></body></html>',
     );
     iframeDocument.close();
-    let body = iframeDocument.body as unknown as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const body = iframeDocument.body as unknown as any;
     scrollLineHeight = (body.firstElementChild as HTMLElement).offsetHeight;
     document.body.removeChild(iframe);
   }
@@ -99,7 +100,7 @@ export function getAvailableScroll(element: Element, container: Element) {
     availableScroll.deltaXPositive += scrollLeftMax - element.scrollLeft;
     availableScroll.deltaYNegative += -element.scrollTop;
     availableScroll.deltaYPositive += scrollTopMax - element.scrollTop;
-    let parent = element.parentNode;
+    const parent = element.parentNode;
     if (parent === null) break;
     element = parent as Element;
   }
@@ -115,7 +116,7 @@ function calculateScrollDistribution(
   deltaY: number,
   element: Element,
   container: Element,
-  accumulator: ScrollInformation[] = []
+  accumulator: ScrollInformation[] = [],
 ): ScrollInformation[] {
   const scrollInformation: ScrollInformation = {
     element,
@@ -166,7 +167,7 @@ function calculateScrollDistribution(
       deltaY,
       element.parentNode as Element,
       container,
-      accumulator.concat([scrollInformation])
+      accumulator.concat([scrollInformation]),
     );
   }
 

@@ -7,11 +7,8 @@ import calculatePosition, {
   CalculatePositionResult,
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
-import {
-  macroCondition,
-  isTesting,
-  importSync,
-} from '@embroider/macros';
+import { macroCondition, isTesting, importSync } from '@embroider/macros';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const FastBoot: any;
 import config from 'ember-get-config';
 import type Owner from '@ember/owner';
@@ -21,6 +18,7 @@ export interface DropdownActions {
   toggle: (e?: Event) => void;
   close: (e?: Event, skipFocus?: boolean) => void;
   open: (e?: Event) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reposition: (...args: any[]) => undefined | RepositionChanges;
 }
 export interface Dropdown {
@@ -45,11 +43,17 @@ interface Args {
   rootEventType?: string;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onInit?: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   registerAPI?: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onOpen?: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onClose?: Function;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   triggerComponent: string | ComponentLike<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contentComponent: string | ComponentLike<any>;
   calculatePosition?: CalculatePosition;
   Blocks: {
@@ -108,18 +112,20 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   get disabled(): boolean {
-    let newVal = this.args.disabled || false;
+    const newVal = this.args.disabled || false;
     if (
       this._previousDisabled !== UNINITIALIZED &&
       this._previousDisabled !== newVal
     ) {
       schedule('actions', () => {
         if (newVal && this.publicAPI.isOpen) {
+          // eslint-disable-next-line ember/no-side-effects
           this.isOpen = false;
         }
         this.args.registerAPI && this.args.registerAPI(this.publicAPI);
       });
     }
+    // eslint-disable-next-line ember/no-side-effects
     this._previousDisabled = newVal;
     return newVal;
   }
@@ -163,12 +169,14 @@ export default class BasicDropdown extends Component<Args> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    let trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    const trigger = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
     ) as HTMLElement;
     if (trigger) {
-      let parent = trigger.parentElement;
-      if (parent) { parent.setAttribute("aria-owns", this._dropdownId); }
+      const parent = trigger.parentElement;
+      if (parent) {
+        parent.setAttribute('aria-owns', this._dropdownId);
+      }
     }
   }
 
@@ -191,14 +199,16 @@ export default class BasicDropdown extends Component<Args> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    let trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    const trigger = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
     ) as HTMLElement;
     if (!trigger) {
       return;
     }
-    let parent = trigger.parentElement;
-    if (parent) { parent.removeAttribute("aria-owns"); }
+    const parent = trigger.parentElement;
+    if (parent) {
+      parent.removeAttribute('aria-owns');
+    }
     if (skipFocus) {
       return;
     }
@@ -221,9 +231,9 @@ export default class BasicDropdown extends Component<Args> {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    let dropdownElement = document.getElementById(this._dropdownId);
-    let triggerElement = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`
+    const dropdownElement = document.getElementById(this._dropdownId);
+    const triggerElement = document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
     ) as HTMLElement;
     if (!dropdownElement || !triggerElement) {
       return;
@@ -232,15 +242,16 @@ export default class BasicDropdown extends Component<Args> {
     this.destinationElement =
       this.destinationElement ||
       (document.getElementById(this.destination) as HTMLElement);
-    let {
+    const {
       horizontalPosition,
       verticalPosition,
       previousHorizontalPosition,
       previousVerticalPosition,
     } = this;
-    let { renderInPlace = false, matchTriggerWidth = false } = this.args;
-    let calculatePositionFn = this.args.calculatePosition || calculatePosition;
-    let positionData = calculatePositionFn(
+    const { renderInPlace = false, matchTriggerWidth = false } = this.args;
+    const calculatePositionFn =
+      this.args.calculatePosition || calculatePosition;
+    const positionData = calculatePositionFn(
       triggerElement,
       dropdownElement,
       this.destinationElement,
@@ -252,7 +263,7 @@ export default class BasicDropdown extends Component<Args> {
         renderInPlace,
         matchTriggerWidth,
         dropdown: this,
-      }
+      },
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
   }
@@ -260,9 +271,9 @@ export default class BasicDropdown extends Component<Args> {
   applyReposition(
     _trigger: Element,
     dropdown: HTMLElement,
-    positions: CalculatePositionResult
+    positions: CalculatePositionResult,
   ): RepositionChanges {
-    let changes: RepositionChanges = {
+    const changes: RepositionChanges = {
       hPosition: positions.horizontalPosition,
       vPosition: positions.verticalPosition,
       otherStyles: Object.assign({}, this.otherStyles),
@@ -292,7 +303,7 @@ export default class BasicDropdown extends Component<Args> {
       }
       if (this.top === undefined) {
         // Bypass Ember on the first reposition only to avoid flickering.
-        for (let prop in positions.style) {
+        for (const prop in positions.style) {
           if (positions.style[prop] !== undefined) {
             if (typeof positions.style[prop] === 'number') {
               dropdown.style.setProperty(prop, `${positions.style[prop]}px`);
@@ -303,7 +314,7 @@ export default class BasicDropdown extends Component<Args> {
         }
       }
     }
-    for (let prop in positions.style) {
+    for (const prop in positions.style) {
       if (!IGNORED_STYLES.includes(prop)) {
         changes.otherStyles;
         changes.otherStyles[prop] = positions.style[prop];
@@ -328,7 +339,8 @@ export default class BasicDropdown extends Component<Args> {
     if (macroCondition(isTesting())) {
       if (typeof FastBoot === 'undefined') {
         try {
-          let { getRootElement } = importSync('@ember/test-helpers') as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { getRootElement } = importSync('@ember/test-helpers') as any;
 
           return getRootElement().id;
         } catch (error) {
@@ -336,7 +348,7 @@ export default class BasicDropdown extends Component<Args> {
         }
       }
 
-      let rootView = document.querySelector('#ember-testing > .ember-view');
+      const rootView = document.querySelector('#ember-testing > .ember-view');
       if (rootView) {
         return rootView.id;
       }
@@ -344,10 +356,11 @@ export default class BasicDropdown extends Component<Args> {
       return '';
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _config = config as unknown as any;
 
     return ((_config['ember-basic-dropdown'] &&
-    _config['ember-basic-dropdown'].destination) ||
+      _config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
   }
 }

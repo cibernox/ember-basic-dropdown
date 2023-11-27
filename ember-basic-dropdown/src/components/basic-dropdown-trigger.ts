@@ -47,7 +47,7 @@ export default class BasicDropdownTrigger extends Component<BasicDropdownSignatu
       document.body.classList.add('ember-basic-dropdown-text-select-disabled');
     } else {
       document.body.classList.remove(
-        'ember-basic-dropdown-text-select-disabled'
+        'ember-basic-dropdown-text-select-disabled',
       );
     }
   }

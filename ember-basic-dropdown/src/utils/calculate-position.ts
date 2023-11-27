@@ -5,6 +5,7 @@ interface CalculatePositionOptions {
   previousHorizontalPosition?: string | undefined;
   previousVerticalPosition?: string | undefined;
   renderInPlace: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dropdown: any;
 }
 export type CalculatePositionResultStyle = {
@@ -24,10 +25,10 @@ export type CalculatePosition = (
   trigger: Element,
   content: HTMLElement,
   destination: HTMLElement,
-  options: CalculatePositionOptions
+  options: CalculatePositionOptions,
 ) => CalculatePositionResult;
 
-export let calculateWormholedPosition: CalculatePosition = (
+export const calculateWormholedPosition: CalculatePosition = (
   trigger,
   content,
   destination,
@@ -37,20 +38,17 @@ export let calculateWormholedPosition: CalculatePosition = (
     matchTriggerWidth,
     previousHorizontalPosition,
     previousVerticalPosition,
-  }
+  },
 ) => {
   // Collect information about all the involved DOM elements
-  let scroll = { left: window.pageXOffset, top: window.pageYOffset };
-  let {
-    left: triggerLeft,
-    top: triggerTop,
-    width: triggerWidth,
-    height: triggerHeight,
-  } = trigger.getBoundingClientRect();
-  let { height: dropdownHeight, width: dropdownWidth } =
-    content.getBoundingClientRect();
-  let viewportWidth = document.body.clientWidth || window.innerWidth;
-  let style: CalculatePositionResultStyle = {};
+  const scroll = { left: window.pageXOffset, top: window.pageYOffset };
+  let { left: triggerLeft, top: triggerTop } = trigger.getBoundingClientRect();
+  const { width: triggerWidth, height: triggerHeight } =
+    trigger.getBoundingClientRect();
+  const { height: dropdownHeight } = content.getBoundingClientRect();
+  let { width: dropdownWidth } = content.getBoundingClientRect();
+  const viewportWidth = document.body.clientWidth || window.innerWidth;
+  const style: CalculatePositionResultStyle = {};
 
   // Apply containers' offset
   let anchorElement = destination.parentNode as HTMLElement;
@@ -64,10 +62,10 @@ export let calculateWormholedPosition: CalculatePosition = (
     anchorPosition = window.getComputedStyle(anchorElement).position;
   }
   if (anchorPosition === 'relative' || anchorPosition === 'absolute') {
-    let rect = anchorElement.getBoundingClientRect();
+    const rect = anchorElement.getBoundingClientRect();
     triggerLeft = triggerLeft - rect.left;
     triggerTop = triggerTop - rect.top;
-    let { offsetParent } = anchorElement;
+    const { offsetParent } = anchorElement;
     if (offsetParent) {
       triggerLeft -= offsetParent.scrollLeft;
       triggerTop -= offsetParent.scrollTop;
@@ -81,14 +79,14 @@ export let calculateWormholedPosition: CalculatePosition = (
   }
 
   // Calculate horizontal position
-  let triggerLeftWithScroll = triggerLeft + scroll.left;
+  const triggerLeftWithScroll = triggerLeft + scroll.left;
   if (horizontalPosition === 'auto' || horizontalPosition === 'auto-left') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
-    let leftVisible =
+    const leftVisible =
       Math.min(viewportWidth, triggerLeft + dropdownWidth) -
       Math.max(0, triggerLeft);
-    let rightVisible =
+    const rightVisible =
       Math.min(viewportWidth, triggerLeft + triggerWidth) -
       Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
 
@@ -107,10 +105,10 @@ export let calculateWormholedPosition: CalculatePosition = (
   } else if (horizontalPosition === 'auto-right') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
-    let leftVisible =
+    const leftVisible =
       Math.min(viewportWidth, triggerLeft + dropdownWidth) -
       Math.max(0, triggerLeft);
-    let rightVisible =
+    const rightVisible =
       Math.min(viewportWidth, triggerLeft + triggerWidth) -
       Math.max(0, triggerLeft + triggerWidth - dropdownWidth);
 
@@ -142,7 +140,7 @@ export let calculateWormholedPosition: CalculatePosition = (
    * Fixes bug where the dropdown always stays on the same position on the screen when
    * the <body> is relatively positioned
    */
-  let isBodyPositionRelative =
+  const isBodyPositionRelative =
     window.getComputedStyle(document.body).getPropertyValue('position') ===
     'relative';
   if (!isBodyPositionRelative) {
@@ -154,10 +152,10 @@ export let calculateWormholedPosition: CalculatePosition = (
   } else if (verticalPosition === 'below') {
     style.top = triggerTopWithScroll + triggerHeight;
   } else {
-    let viewportBottom = scroll.top + window.innerHeight;
-    let enoughRoomBelow =
+    const viewportBottom = scroll.top + window.innerHeight;
+    const enoughRoomBelow =
       triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
-    let enoughRoomAbove = triggerTop > dropdownHeight;
+    const enoughRoomAbove = triggerTop > dropdownHeight;
 
     if (!enoughRoomBelow && !enoughRoomAbove) {
       verticalPosition = 'below';
@@ -186,31 +184,31 @@ export let calculateWormholedPosition: CalculatePosition = (
   return { horizontalPosition, verticalPosition, style };
 };
 
-export let calculateInPlacePosition: CalculatePosition = (
+export const calculateInPlacePosition: CalculatePosition = (
   trigger,
   content,
   _destination,
-  { horizontalPosition, verticalPosition }
+  { horizontalPosition, verticalPosition },
 ) => {
   let dropdownRect;
-  let positionData: CalculatePositionResult = {
+  const positionData: CalculatePositionResult = {
     horizontalPosition: 'left',
     verticalPosition: 'below',
     style: {},
   };
   if (horizontalPosition === 'auto') {
-    let triggerRect = trigger.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
     dropdownRect = content.getBoundingClientRect();
-    let viewportRight = window.pageXOffset + window.innerWidth;
+    const viewportRight = window.pageXOffset + window.innerWidth;
     positionData.horizontalPosition =
       triggerRect.left + dropdownRect.width > viewportRight ? 'right' : 'left';
   } else if (horizontalPosition === 'center') {
-    let { width: triggerWidth } = trigger.getBoundingClientRect();
-    let { width: dropdownWidth } = content.getBoundingClientRect();
+    const { width: triggerWidth } = trigger.getBoundingClientRect();
+    const { width: dropdownWidth } = content.getBoundingClientRect();
     positionData.style = { left: (triggerWidth - dropdownWidth) / 2 };
   } else if (horizontalPosition === 'auto-right') {
-    let triggerRect = trigger.getBoundingClientRect();
-    let dropdownRect = content.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const dropdownRect = content.getBoundingClientRect();
     positionData.horizontalPosition =
       triggerRect.right > dropdownRect.width ? 'right' : 'left';
   } else if (horizontalPosition === 'right') {
@@ -229,8 +227,8 @@ export let calculateInPlacePosition: CalculatePosition = (
 
 export function getScrollParent(element: Element) {
   let style = window.getComputedStyle(element);
-  let excludeStaticParent = style.position === 'absolute';
-  let overflowRegex = /(auto|scroll)/;
+  const excludeStaticParent = style.position === 'absolute';
+  const overflowRegex = /(auto|scroll)/;
 
   if (style.position === 'fixed') return document.body;
   for (
@@ -251,11 +249,11 @@ export function getScrollParent(element: Element) {
 
   return document.body;
 }
-let calculatePosition: CalculatePosition = (
+const calculatePosition: CalculatePosition = (
   trigger,
   content,
   destination,
-  options
+  options,
 ) => {
   if (options.renderInPlace) {
     return calculateInPlacePosition(trigger, content, destination, options);

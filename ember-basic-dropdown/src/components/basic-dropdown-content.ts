@@ -111,134 +111,155 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
    */
   noop(): void {}
 
-  respondToEvents = modifier((dropdownElement: Element): () => void => {
-    let triggerElement = document.querySelector(
-      `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`
-    );
-    this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
-      if (e.target === null) return;
-      let target = e.target as Element;
-      if (
-        hasMoved(e as TouchEvent, this.touchMoveEvent) ||
-        dropdownElement.contains(target) ||
-        (triggerElement && triggerElement.contains(target))
-      ) {
-        this.touchMoveEvent = undefined;
-        return;
-      }
-
-      if (dropdownIsValidParent(target, this.dropdownId)) {
-        this.touchMoveEvent = undefined;
-        return;
-      }
-
-      this.args.dropdown.actions.close(e, true);
-    };
-    document.addEventListener(
-      this.args.rootEventType,
-      this.handleRootMouseDown,
-      true
-    );
-    window.addEventListener('resize', this.runloopAwareReposition);
-    window.addEventListener('orientationchange', this.runloopAwareReposition);
-
-    if (this.isTouchDevice) {
-      document.addEventListener('touchstart', this.touchStartHandler, true);
-      document.addEventListener('touchend', this.handleRootMouseDown, true);
-    }
-    if (triggerElement !== null) {
-      this.scrollableAncestors = getScrollableAncestors(triggerElement);
-    }
-    this.addScrollHandling(dropdownElement);
-    return () => {
-      this.removeGlobalEvents();
-      this.removeScrollHandling();
-      this.scrollableAncestors = [];
-
-      document.removeEventListener(
-        this.args.rootEventType,
-        this.handleRootMouseDown as RootMouseDownHandler,
-        true
+  respondToEvents = modifier(
+    (dropdownElement: Element): (() => void) => {
+      const triggerElement = document.querySelector(
+        `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`,
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
+        if (e.target === null) return;
+        const target = e.target as Element;
+        if (
+          hasMoved(e as TouchEvent, this.touchMoveEvent) ||
+          dropdownElement.contains(target) ||
+          (triggerElement && triggerElement.contains(target))
+        ) {
+          this.touchMoveEvent = undefined;
+          return;
+        }
+
+        if (dropdownIsValidParent(target, this.dropdownId)) {
+          this.touchMoveEvent = undefined;
+          return;
+        }
+
+        this.args.dropdown.actions.close(e, true);
+      };
+      document.addEventListener(
+        this.args.rootEventType,
+        this.handleRootMouseDown,
+        true,
+      );
+      window.addEventListener('resize', this.runloopAwareReposition);
+      window.addEventListener('orientationchange', this.runloopAwareReposition);
 
       if (this.isTouchDevice) {
-        document.removeEventListener('touchstart', this.touchStartHandler, true);
+        document.addEventListener('touchstart', this.touchStartHandler, true);
+        document.addEventListener('touchend', this.handleRootMouseDown, true);
+      }
+      if (triggerElement !== null) {
+        this.scrollableAncestors = getScrollableAncestors(triggerElement);
+      }
+      this.addScrollHandling(dropdownElement);
+      return () => {
+        this.removeGlobalEvents();
+        this.removeScrollHandling();
+        this.scrollableAncestors = [];
+
         document.removeEventListener(
-          'touchend',
+          this.args.rootEventType,
           this.handleRootMouseDown as RootMouseDownHandler,
-          true
+          true,
         );
-      }
-    }
-  // @ts-ignore
-  }, { eager: false });
 
-  initiallyReposition = modifier(() => {
-    // Escape autotracking frame and avoid backtracking re-render
-    Promise.resolve().then(() => {
-      this.args.dropdown.actions.reposition()
-    });
-  // @ts-ignore
-  }, { eager: false });
+        if (this.isTouchDevice) {
+          document.removeEventListener(
+            'touchstart',
+            this.touchStartHandler,
+            true,
+          );
+          document.removeEventListener(
+            'touchend',
+            this.handleRootMouseDown as RootMouseDownHandler,
+            true,
+          );
+        }
+      };
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { eager: false },
+  );
 
-  animateInAndOut = modifier((dropdownElement: Element): () => void => {
-    if (!this.animationEnabled) return () => {};
-    waitForAnimations(dropdownElement, () => {
-      this.animationClass = this.transitionedInClass;
-    });
-    return () => {
-      if (!this.animationEnabled) return;
-      let parentElement =
-        dropdownElement.parentElement ?? this.destinationElement;
-      if (parentElement === null) return;
-      if (this.args.renderInPlace) {
-        parentElement = parentElement.parentElement;
-      }
-      if (parentElement === null) return;
-      let clone = dropdownElement.cloneNode(true) as Element;
-      clone.id = `${clone.id}--clone`;
-      clone.classList.remove(...this.transitioningInClass.split(' '));
-      clone.classList.add(...this.transitioningOutClass.split(' '));
-      parentElement.appendChild(clone);
-      this.animationClass = this.transitioningInClass;
-      waitForAnimations(clone, function () {
-        (parentElement as HTMLElement).removeChild(clone);
+  initiallyReposition = modifier(
+    () => {
+      // Escape autotracking frame and avoid backtracking re-render
+      Promise.resolve().then(() => {
+        this.args.dropdown.actions.reposition();
       });
-    };
-  // @ts-ignore
-  }, { eager: false });
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { eager: false },
+  );
 
-  observeMutations = modifier((dropdownElement: Element): () => void => {
-    this.mutationObserver = new MutationObserver((mutations) => {
-      let shouldReposition = mutations.some(
-        (record: MutationRecord) =>
-          containsRelevantMutation(record.addedNodes) ||
-          containsRelevantMutation(record.removedNodes)
-      );
+  animateInAndOut = modifier(
+    (dropdownElement: Element): (() => void) => {
+      if (!this.animationEnabled) return () => {};
+      waitForAnimations(dropdownElement, () => {
+        this.animationClass = this.transitionedInClass;
+      });
+      return () => {
+        if (!this.animationEnabled) return;
+        let parentElement =
+          dropdownElement.parentElement ?? this.destinationElement;
+        if (parentElement === null) return;
+        if (this.args.renderInPlace) {
+          parentElement = parentElement.parentElement;
+        }
+        if (parentElement === null) return;
+        const clone = dropdownElement.cloneNode(true) as Element;
+        clone.id = `${clone.id}--clone`;
+        clone.classList.remove(...this.transitioningInClass.split(' '));
+        clone.classList.add(...this.transitioningOutClass.split(' '));
+        parentElement.appendChild(clone);
+        this.animationClass = this.transitioningInClass;
+        waitForAnimations(clone, function () {
+          (parentElement as HTMLElement).removeChild(clone);
+        });
+      };
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { eager: false },
+  );
 
-      if (shouldReposition && this.args.shouldReposition) {
-        shouldReposition = this.args.shouldReposition(
-          mutations,
-          this.args.dropdown
+  observeMutations = modifier(
+    (dropdownElement: Element): (() => void) => {
+      this.mutationObserver = new MutationObserver((mutations) => {
+        let shouldReposition = mutations.some(
+          (record: MutationRecord) =>
+            containsRelevantMutation(record.addedNodes) ||
+            containsRelevantMutation(record.removedNodes),
         );
-      }
 
-      if (shouldReposition) {
-        this.runloopAwareReposition();
-      }
-    });
-    this.mutationObserver.observe(dropdownElement, {
-      childList: true,
-      subtree: true,
-    });
-    return () => {
-      if (this.mutationObserver !== undefined) {
-        this.mutationObserver.disconnect();
-        this.mutationObserver = undefined;
-      }
-    }
-  // @ts-ignore
-  }, { eager: false });
+        if (shouldReposition && this.args.shouldReposition) {
+          shouldReposition = this.args.shouldReposition(
+            mutations,
+            this.args.dropdown,
+          );
+        }
+
+        if (shouldReposition) {
+          this.runloopAwareReposition();
+        }
+      });
+      this.mutationObserver.observe(dropdownElement, {
+        childList: true,
+        subtree: true,
+      });
+      return () => {
+        if (this.mutationObserver !== undefined) {
+          this.mutationObserver.disconnect();
+          this.mutationObserver = undefined;
+        }
+      };
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { eager: false },
+  );
 
   @action
   touchStartHandler(): void {
@@ -261,16 +282,16 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     window.removeEventListener('resize', this.runloopAwareReposition);
     window.removeEventListener(
       'orientationchange',
-      this.runloopAwareReposition
+      this.runloopAwareReposition,
     );
   }
 
   // Methods
   addScrollHandling(dropdownElement: Element): void {
     if (this.args.preventScroll === true) {
-      let wheelHandler = (event: WheelEvent) => {
+      const wheelHandler = (event: WheelEvent) => {
         if (event.target === null) return;
-        let target = event.target as Element;
+        const target = event.target as Element;
         if (
           dropdownElement.contains(target) ||
           dropdownElement === event.target
@@ -361,12 +382,12 @@ function containsRelevantMutation(nodeList: NodeList): boolean {
 
 // All ancestors with scroll (except the BODY, which is treated differently)
 function getScrollableAncestors(triggerElement: Element): Element[] {
-  let scrollableAncestors = [];
+  const scrollableAncestors = [];
   if (triggerElement) {
-    let parent = triggerElement.parentNode;
+    const parent = triggerElement.parentNode;
     if (parent !== null) {
       let nextScrollable: Element | undefined = getScrollParent(
-        parent as Element
+        parent as Element,
       );
       while (
         nextScrollable &&
@@ -374,7 +395,7 @@ function getScrollableAncestors(triggerElement: Element): Element[] {
         nextScrollable.tagName.toUpperCase() !== 'HTML'
       ) {
         scrollableAncestors.push(nextScrollable);
-        let nextParent = nextScrollable.parentNode;
+        const nextParent = nextScrollable.parentNode;
         if (nextParent === null) {
           nextScrollable = undefined;
         } else {
@@ -397,14 +418,15 @@ function closestContent(el: Element): Element | null {
   return el;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 function waitForAnimations(element: Element, callback: Function): void {
   window.requestAnimationFrame(function () {
-    let computedStyle = window.getComputedStyle(element);
+    const computedStyle = window.getComputedStyle(element);
     if (
       computedStyle.animationName !== 'none' &&
       computedStyle.animationPlayState === 'running'
     ) {
-      let eventCallback = function () {
+      const eventCallback = function () {
         element.removeEventListener('animationend', eventCallback);
         callback();
       };
@@ -422,18 +444,20 @@ function waitForAnimations(element: Element, callback: Function): void {
  * @param {String} dropdownId
  */
 function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
-  let closestDropdown = closestContent(el);
+  const closestDropdown = closestContent(el);
   if (closestDropdown === null) {
     return false;
   } else {
-    let closestAttrs = closestDropdown.attributes as unknown as any;
-    let trigger = document.querySelector(
-      `[aria-controls=${closestAttrs.id.value}]`
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const closestAttrs = closestDropdown.attributes as unknown as any;
+    const trigger = document.querySelector(
+      `[aria-controls=${closestAttrs.id.value}]`,
     );
     if (trigger === null) return false;
-    let parentDropdown = closestContent(trigger);
+    const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
-    let parentAttrs = parentDropdown.attributes as unknown as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const parentAttrs = parentDropdown.attributes as unknown as any;
     return (
       (parentDropdown && parentAttrs.id.value === dropdownId) ||
       dropdownIsValidParent(parentDropdown, dropdownId)
