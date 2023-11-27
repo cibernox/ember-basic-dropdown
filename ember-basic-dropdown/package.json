@@ -115,6 +115,10 @@
     "rollup-plugin-copy": "^3.4.0",
     "typescript": "^5.0.4"
   },
+  "peerDependencies": {
+    "ember-source": "^3.28.0 || ^4.0.0 || >=5.0.0",
+    "@ember/test-helpers": "^2.9.4 || ^3.2.1"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -133,8 +137,18 @@
       "./test-support/helpers.js": "./dist/_app_/test-support/helpers.js"
     }
   },
-  "peerDependencies": {
-    "ember-source": "^3.28.0 || ^4.0.0 || >=5.0.0",
-    "@ember/test-helpers": "^2.9.4 || ^3.2.1"
+  "release-it": {
+    "plugins": {
+      "@release-it-plugins/lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
