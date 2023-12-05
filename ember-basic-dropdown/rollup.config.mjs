@@ -64,12 +64,12 @@ export default {
     copy({
       targets: [
         {
-          src: 'src/styles/ember-basic-dropdown.scss',
+          src: 'src/css/ember-basic-dropdown.scss',
           dest: 'dist',
           rename: '_index.scss',
         },
         {
-          src: 'src/styles/ember-basic-dropdown.less',
+          src: 'src/css/ember-basic-dropdown.less',
           dest: 'dist',
           rename: '_index.less',
         },

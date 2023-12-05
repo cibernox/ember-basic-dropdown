@@ -2,30 +2,41 @@
 
 <p>
   Ember-basic-dropdown is distributed as an
-  <a href='http://www.ember-cli.com/'>Ember CLI</a>
-  addon, so the only thing you need to do to install it is run the following
+  <a href='https://www.ember-cli.com/'>Ember CLI</a>
+  addon, so you need to install it is run the following
   command in your ember project directory
 </p>
 
 <div class='highlight'>
   <pre>
-    <code class='language-text' data-lang='text'>
-      $ ember install ember-basic-dropdown
-    </code>
+    <code class='language-text' data-lang='text'>$ ember install ember-basic-dropdown</code>
   </pre>
 </div>
 
 <p>
-  If you use just vanilla CSS, you're good to go. Ember-basic-dropdown will add
-  the default styles to your vendor css file.
+  After you have installed you need to add the following lines in your <code>application.hbs</code>. In this component there will be rendered the drop down.
 </p>
+
+<div class='highlight'>
+  <pre>
+    <code class='language-text' data-lang='text'>&lt;BasicDropdownWormhole /&gt;</code>
+  </pre>
+</div>
 
 <p>
-  However, if you are using SASS or LESS won't load any style by default.
-  Instead you need add an import statement to your styles explicitly.
+  If you use vanilla CSS, you need to add the following line into <code>ember-cli-build.js</code>:
 </p>
 
-{{get-code-snippet "installation-1.scss"}}
+<CodeBlock @language="css" @code="app.import('node_modules/ember-basic-dropdown/dist/css/base.css');" />
+
+<p>
+  However, if you are using SASS or LESS you need add an import statement to your styles.
+</p>
+
+
+{{#let (get-code-snippet "installation-1.scss") as |snippet|}}
+  <CodeBlock @language="scss" @code={{snippet.source}} />
+{{/let}}
 
 <br />
 
