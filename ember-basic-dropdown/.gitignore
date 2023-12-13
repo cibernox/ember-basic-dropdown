@@ -5,6 +5,8 @@
 # compiled output
 /dist
 /declarations
+/_index.scss
+/_index.less
 
 # npm/pnpm/yarn pack output
 *.tgz
