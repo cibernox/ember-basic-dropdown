@@ -5,9 +5,9 @@
 # compiled output
 /dist
 /declarations
+/vendor
 /_index.scss
 /_index.less
-/styles.css
 
 # npm/pnpm/yarn pack output
 *.tgz

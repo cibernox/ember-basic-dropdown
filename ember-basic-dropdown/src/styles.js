@@ -1,1 +1,1 @@
-﻿import '../styles.css';
+﻿import '../vendor/ember-basic-dropdown.css';

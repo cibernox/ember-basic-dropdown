@@ -17,7 +17,10 @@
       "types": "./declarations/*.d.ts",
       "default": "./dist/*.js"
     },
-    "./addon-main.js": "./addon-main.cjs"
+    "./addon-main.js": "./addon-main.cjs",
+    "./_index.scss": "./_index.scss",
+    "./_index.less": "./_index.less",
+    "./styles.css": "./vendor/ember-basic-dropdown.css"
   },
   "typesVersions": {
     "*": {
@@ -29,7 +32,10 @@
   "files": [
     "addon-main.cjs",
     "declarations",
-    "dist"
+    "dist",
+    "_index.scss",
+    "_index.less",
+    "vendor"
   ],
   "scripts": {
     "build": "concurrently 'npm:build:*'",

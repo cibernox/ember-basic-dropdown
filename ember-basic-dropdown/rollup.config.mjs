@@ -17,7 +17,7 @@ export default [
     },
     plugins: [
       sass({
-        output: './styles.css',
+        output: './vendor/ember-basic-dropdown.css',
         failOnError: true,
       }),
     ],
