@@ -1,7 +1,6 @@
 import { babel } from '@rollup/plugin-babel';
-import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
-import sass from 'rollup-plugin-sass';
+import styles from 'rollup-plugin-styles';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -9,16 +8,16 @@ const addon = new Addon({
 });
 
 export default [
-  // Compile scss file
+  // Compile scss file for js import
   {
-    input: './src/styles/ember-basic-dropdown.scss',
+    input: './_index.scss',
     output: {
-      dir: 'dist',
+      file: './vendor/ember-basic-dropdown.js',
+      assetFileNames: '[name][extname]',
     },
     plugins: [
-      sass({
-        output: './vendor/ember-basic-dropdown.css',
-        failOnError: true,
+      styles({
+        mode: ['extract', 'ember-basic-dropdown.css'],
       }),
     ],
   },
@@ -74,22 +73,6 @@ export default [
 
       // Remove leftover build artifacts when starting a new build.
       addon.clean(),
-
-      // Copy SCSS / LESS into published package
-      copy({
-        targets: [
-          {
-            src: 'src/styles/ember-basic-dropdown.scss',
-            dest: '.',
-            rename: '_index.scss',
-          },
-          {
-            src: 'src/styles/ember-basic-dropdown.less',
-            dest: '.',
-            rename: '_index.less',
-          },
-        ],
-      }),
     ],
   },
 ];

@@ -6,8 +6,6 @@
 /dist
 /declarations
 /vendor
-/_index.scss
-/_index.less
 
 # npm/pnpm/yarn pack output
 *.tgz
