@@ -40,6 +40,7 @@ export default [
       // "app" tree. Things in here should also be in publicEntrypoints above, but
       // not everything in publicEntrypoints necessarily needs to go here.
       addon.appReexports([
+        'blueprints/**/*.js',
         'components/**/*.js',
         'modifiers/**/*.js',
         'test-support/*.js',
