@@ -67,7 +67,5 @@ module.exports = {
         {},
       );
     }
-
-    this.cleanRemove('<BasicDropdownWormhole />');
   },
 };
