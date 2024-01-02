@@ -150,19 +150,5 @@
       "./modifiers/basic-dropdown-trigger.js": "./dist/_app_/modifiers/basic-dropdown-trigger.js",
       "./test-support/helpers.js": "./dist/_app_/test-support/helpers.js"
     }
-  },
-  "release-it": {
-    "plugins": {
-      "@release-it-plugins/lerna-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    }
   }
 }
