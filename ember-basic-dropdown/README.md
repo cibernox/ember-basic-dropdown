@@ -10,9 +10,17 @@ or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/
 
 ### Compatibility
 
-Version 3.X requires Ember 3.24 or greater
-Version 2.X requires Ember 3.13 or greater
+* Ember.js v3.28 or above
+* Ember CLI v3.28 or above
+* Node.js v18 or above
+
 Versions 1.X require Ember 2.16 or greater
+
+Version 2.X requires Ember 3.13 or greater
+
+Version 3.X - 6.X requires Ember 3.24 or greater
+
+Version 7.X - 8.X requires Ember 3.28 or greater
 
 ### Installation
 
@@ -20,17 +28,7 @@ Versions 1.X require Ember 2.16 or greater
 ember install ember-basic-dropdown
 ```
 
-If you are using this addon in an application that uses ember-cli-sass, you need to import the
-styles explicitly.
-
-Add to your `app.scss` this line:
-
-```scss
-@import 'ember-basic-dropdown';
-```
-
-If you are using [ember-power-select](https://github.com/cibernox/ember-power-select) you don't need
-any of those steps because you already have this addon :D
+For more installation details see [documentation](https://ember-basic-dropdown.com/docs/installation)
 
 ### Usage
 
