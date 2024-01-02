@@ -37,6 +37,7 @@
     "_index.scss",
     "_index.less",
     "addon-main.cjs",
+    "blueprints",
     "declarations",
     "dist",
     "less",
@@ -143,7 +144,6 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
-      "./blueprints/ember-basic-dropdown/index.js": "./dist/_app_/blueprints/ember-basic-dropdown/index.js",
       "./components/basic-dropdown-content.js": "./dist/_app_/components/basic-dropdown-content.js",
       "./components/basic-dropdown-trigger.js": "./dist/_app_/components/basic-dropdown-trigger.js",
       "./components/basic-dropdown-wormhole.js": "./dist/_app_/components/basic-dropdown-wormhole.js",
