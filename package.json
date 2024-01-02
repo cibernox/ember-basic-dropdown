@@ -1,149 +1,34 @@
 {
-  "name": "ember-basic-dropdown",
-  "version": "7.3.0",
-  "description": "The basic dropdown that your ember app needs",
-  "homepage": "http://ember-basic-dropdown.com",
-  "scripts": {
-    "postinstall": "patch-package",
-    "build": "ember build --environment=production",
-    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
-    "lint:css": "stylelint \"**/*.css\"",
-    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
-    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
-    "lint:hbs": "ember-template-lint .",
-    "lint:hbs:fix": "ember-template-lint . --fix",
-    "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix",
-    "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
-    "prepublishOnly": "ember ts:precompile",
-    "postpublish": "ember ts:clean"
-  },
-  "peerDependencies": {
-    "ember-source": "^3.28.0 || ^4.0.0 || >=5.0.0"
-  },
-  "engines": {
-    "node": ">= 18"
-  },
-  "files": [
-    "addon/",
-    "app/",
-    "addon-test-support/",
-    "test-support/",
-    "index.js",
-    "vendor",
-    "components/**/*.d.ts",
-    "modifiers/**/*.d.ts",
-    "utils/**/*.d.ts"
-  ],
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.23.3",
-    "@babel/plugin-proposal-decorators": "^7.23.3",
-    "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^3.1.1",
-    "@ember/test-helpers": "^3.2.0",
-    "@embroider/test-setup": "^3.0.3",
-    "@glint/template": "^1.2.1",
-    "@release-it-plugins/lerna-changelog": "^6.0.0",
-    "@types/ember": "^4.0.9",
-    "@types/ember__destroyable": "^4.0.4",
-    "@types/ember__modifier": "^4.0.8",
-    "@types/ember__owner": "^4.0.8",
-    "@types/qunit": "^2.19.8",
-    "@types/rsvp": "^4.0.7",
-    "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.2",
-    "ember-cli": "~5.4.0",
-    "ember-cli-clean-css": "^3.0.0",
-    "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-fastboot": "4.1.2",
-    "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-sass": "^11.0.1",
-    "ember-cli-terser": "^4.0.2",
-    "ember-code-snippet": "git://github.com/ef4/ember-code-snippet.git#d054b697098ad52481c94a952ccf8d89ba1f25fe",
-    "ember-concurrency": "^3.1.1",
-    "ember-load-initializers": "^2.1.2",
-    "ember-page-title": "^8.1.0",
-    "ember-prism": "^0.13.0",
-    "ember-qunit": "^8.0.2",
-    "ember-resolver": "^11.0.1",
-    "ember-source": "~5.4.0",
-    "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^5.12.0",
-    "ember-try": "^3.0.0",
-    "eslint": "^8.53.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-ember": "^11.11.1",
-    "eslint-plugin-n": "^16.3.1",
-    "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-qunit": "^8.0.1",
-    "loader.js": "^4.7.0",
-    "patch-package": "^8.0.0",
-    "prember": "~2.0.0",
-    "prember-crawler": "^1.0.0",
-    "prettier": "^3.1.0",
-    "qunit": "^2.20.0",
-    "qunit-dom": "^3.0.0",
-    "release-it": "^16.0.0",
-    "sass": "^1.69.5",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard": "^34.0.0",
-    "stylelint-prettier": "^4.0.2",
-    "typescript": "^5.2.2",
-    "webpack": "^5.89.0"
-  },
-  "keywords": [
-    "ember-addon",
-    "dropdown",
-    "basic-dropdown"
-  ],
+  "private": true,
   "repository": "https://github.com/cibernox/ember-basic-dropdown",
   "license": "MIT",
   "author": "Miguel Camba",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
+  "scripts": {
+    "build": "pnpm run --filter ember-basic-dropdown build",
+    "build:docs": "pnpm run --filter docs build",
+    "lint": "pnpm run --filter '*' lint",
+    "lint:fix": "pnpm run --filter '*' lint:fix",
+    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:addon": "pnpm run --filter ember-basic-dropdown start --no-watch.clearScreen",
+    "start:docs": "pnpm run --filter docs start --preserveWatchOutput",
+    "start:test-app": "pnpm run --filter test-app start"
   },
-  "dependencies": {
-    "@babel/core": "^7.23.3",
-    "@embroider/macros": "^1.13.3",
-    "@embroider/util": "^1.12.1",
-    "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2",
-    "ember-auto-import": "^2.6.3",
-    "ember-cli-babel": "^8.2.0",
-    "ember-cli-htmlbars": "^6.3.0",
-    "ember-cli-typescript": "^5.2.1",
-    "ember-element-helper": "^0.8.5",
-    "ember-get-config": "^2.1.1",
-    "ember-maybe-in-element": "^2.1.0",
-    "ember-modifier": "^4.1.0",
-    "ember-style-modifier": "^3.0.1",
-    "ember-truth-helpers": "^4.0.3"
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-ember-template-tag": "^1.1.0"
   },
-  "ember": {
-    "edition": "octane"
+  "workspaces": [
+    "ember-basic-dropdown",
+    "docs",
+    "test-app"
+  ],
+  "engines": {
+    "node": ">= 18"
   },
-  "ember-addon": {
-    "configPath": "tests/dummy/config"
-  },
-  "release-it": {
-    "plugins": {
-      "@release-it-plugins/lerna-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
+  "pnpm": {
+    "patchedDependencies": {
+      "ember-cli-fastboot@4.1.2": "patches/ember-cli-fastboot@4.1.2.patch"
     }
-  },
-  "volta": {
-    "node": "18.14.2"
   }
 }

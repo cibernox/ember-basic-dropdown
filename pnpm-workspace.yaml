@@ -1,0 +1,4 @@
+packages:
+  - 'ember-basic-dropdown'
+  - 'test-app'
+  - 'docs'
