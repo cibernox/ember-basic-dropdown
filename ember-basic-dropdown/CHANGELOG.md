@@ -1,5 +1,17 @@
 
 
+
+## v8.0.0-beta.1 (2024-01-02)
+
+#### :bug: Bug Fix
+* [#730](https://github.com/cibernox/ember-basic-dropdown/pull/730) Fix blueprint export ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#729](https://github.com/cibernox/ember-basic-dropdown/pull/729) Fix doc ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.0 (2024-01-02)
 
 #### :boom: Breaking Change
