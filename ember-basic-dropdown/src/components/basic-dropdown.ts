@@ -8,7 +8,6 @@ import calculatePosition, {
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
 import { macroCondition, isTesting } from '@embroider/macros';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import config from 'ember-get-config';
 import type Owner from '@ember/owner';
 import { ComponentLike } from '@glint/template';
