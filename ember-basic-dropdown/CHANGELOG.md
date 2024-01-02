@@ -1,4 +1,22 @@
 
+
+## v8.0.0-beta.0 (2024-01-02)
+
+#### :boom: Breaking Change
+* [#728](https://github.com/cibernox/ember-basic-dropdown/pull/728) Switch to v2 addon ([@mkszepp](https://github.com/mkszepp))
+* [#727](https://github.com/cibernox/ember-basic-dropdown/pull/727) Drop NodeJs v16 ([@mkszepp](https://github.com/mkszepp))
+* [#726](https://github.com/cibernox/ember-basic-dropdown/pull/726) Allow only latest version in dependencies ([@mkszepp](https://github.com/mkszepp))
+* [#725](https://github.com/cibernox/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#725](https://github.com/cibernox/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
+* [#724](https://github.com/cibernox/ember-basic-dropdown/pull/724) Drop `@types/ember-qunit` & `@types/ember__test-helpers` ([@mkszepp](https://github.com/mkszepp))
+* [#723](https://github.com/cibernox/ember-basic-dropdown/pull/723) Fix embroider-optimized ci build ([@mkszepp](https://github.com/mkszepp))
+* [#722](https://github.com/cibernox/ember-basic-dropdown/pull/722) Update devDependencies ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v7.3.0 (2023-11-16)
 
 #### :rocket: Enhancement

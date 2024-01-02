@@ -1,6 +1,6 @@
 {
   "name": "ember-basic-dropdown",
-  "version": "7.3.0",
+  "version": "8.0.0-beta.0",
   "description": "The basic dropdown that your ember app needs",
   "keywords": [
     "ember-addon"
