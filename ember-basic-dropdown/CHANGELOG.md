@@ -1,6 +1,17 @@
 
 
 
+
+## v8.0.0-beta.2 (2024-01-02)
+
+#### :bug: Bug Fix
+* [#732](https://github.com/cibernox/ember-basic-dropdown/pull/732) Fix blueprint ([@mkszepp](https://github.com/mkszepp))
+* [#731](https://github.com/cibernox/ember-basic-dropdown/pull/731) docs: Bring back missing assets in docs after conversion to v2 addon ([@johanrd](https://github.com/johanrd))
+
+#### Committers: 2
+- [@johanrd](https://github.com/johanrd)
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.1 (2024-01-02)
 
 #### :bug: Bug Fix
