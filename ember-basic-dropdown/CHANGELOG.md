@@ -2,6 +2,18 @@
 
 
 
+
+## v8.0.0-beta.4 (2024-01-04)
+
+#### :bug: Bug Fix
+* [#733](https://github.com/cibernox/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#733](https://github.com/cibernox/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.3 (2024-01-02)
 
 ## v8.0.0-beta.2 (2024-01-02)
