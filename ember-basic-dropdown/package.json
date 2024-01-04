@@ -18,7 +18,7 @@
       "default": "./dist/*.js"
     },
     "./addon-main.js": "./addon-main.cjs",
-    "./_index.less": "./_index.less",
+    "./ember-basic-dropdown.less": "./ember-basic-dropdown.less",
     "./_index.scss": "./_index.scss",
     "./less/base.less": "./less/base.less",
     "./scss/base.scss": "./scss/base.scss",
@@ -35,11 +35,11 @@
   },
   "files": [
     "_index.scss",
-    "_index.less",
     "addon-main.cjs",
     "blueprints",
     "declarations",
     "dist",
+    "ember-basic-dropdown.less",
     "less",
     "scss",
     "vendor"

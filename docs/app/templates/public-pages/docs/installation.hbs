@@ -7,9 +7,7 @@
 </p>
 
 <div class='highlight'>
-  <pre>
-    <code class='language-text' data-lang='text'>$ ember install ember-basic-dropdown</code>
-  </pre>
+  <pre><code class='language-text' data-lang='text'>$ ember install ember-basic-dropdown</code></pre>
 </div>
 
 <p>
@@ -24,17 +22,20 @@
   In this component will be rendered the dropdown content.
 </p>
 
-<div class='highlight'>
-  <pre>
-    <code class='language-text' data-lang='text'>&lt;BasicDropdownWormhole /&gt;</code>
-  </pre>
-</div>
+<CodeBlock @language="hbs" @code="<BasicDropdownWormhole />" />
 
 <p>
-  If you use vanilla CSS, you need to add the following line into <code>app.js</code>:
+  If you use vanilla CSS, you need to add the following line into <code>app.js</code> or in any route/controller/component <code>.js/.ts</code> file:
 </p>
 
 <CodeBlock @language="css" @code="import 'ember-basic-dropdown/styles';" />
+
+<p>
+  Instead of adding the styling in an <code>.js</code> file and depending from your build config you can also add the css in any template/component css file by using following line
+</p>
+
+{{!-- template-lint-disable no-potential-path-strings --}}
+<CodeBlock @language="css" @code="@import 'ember-basic-dropdown/vendor/ember-basic-dropdown.css';" />
 
 <p>
   However, if you are using SASS or LESS you need to add an import statement to your styles.
@@ -44,7 +45,13 @@
   <CodeBlock @language="scss" @code={{snippet.source}} />
 {{/let}}
 
-<br />
+<p>
+  If you are using LESS there is also necessary to register the <code>paths</code> in <code>lessOptions</code>
+</p>
+
+{{#let (get-code-snippet "installation-2.js") as |snippet|}}
+  <CodeBlock @language="js" @code={{snippet.source}} />
+{{/let}}
 
 <p>
   The styles of the addon are
