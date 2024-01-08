@@ -19,6 +19,7 @@
     },
     "./addon-main.js": "./addon-main.cjs",
     "./ember-basic-dropdown.less": "./ember-basic-dropdown.less",
+    "./ember-basic-dropdown.scss": "./ember-basic-dropdown.scss",
     "./_index.scss": "./_index.scss",
     "./less/base.less": "./less/base.less",
     "./scss/base.scss": "./scss/base.scss",
@@ -40,6 +41,7 @@
     "declarations",
     "dist",
     "ember-basic-dropdown.less",
+    "ember-basic-dropdown.scss",
     "less",
     "scss",
     "vendor"
