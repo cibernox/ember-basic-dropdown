@@ -29,8 +29,15 @@ export interface Dropdown {
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
-interface Args {
+interface BasicDropdownSignature {
   Element: HTMLElement;
+  Args: BasicDropdownArgs;
+  Blocks: {
+    default: [api: Dropdown];
+  };
+}
+
+interface BasicDropdownArgs {
   initiallyOpened?: boolean;
   renderInPlace?: boolean;
   verticalPosition?: string;
@@ -54,9 +61,6 @@ interface Args {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contentComponent: string | ComponentLike<any>;
   calculatePosition?: CalculatePosition;
-  Blocks: {
-    default: [api: Dropdown];
-  };
 }
 
 type RepositionChanges = {
@@ -70,7 +74,7 @@ type RepositionChanges = {
   height?: string | undefined;
 };
 
-export default class BasicDropdown extends Component<Args> {
+export default class BasicDropdown extends Component<BasicDropdownSignature> {
   @tracked hPosition: string | null = null;
   @tracked vPosition: string | null = null;
   @tracked top: string | undefined;
@@ -138,7 +142,7 @@ export default class BasicDropdown extends Component<Args> {
   }
 
   // Lifecycle hooks
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: BasicDropdownArgs) {
     super(owner, args);
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
