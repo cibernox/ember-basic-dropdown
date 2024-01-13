@@ -11,7 +11,6 @@ import {
   waitUntil,
   find,
 } from '@ember/test-helpers';
-import { settled } from '@ember/test-helpers';
 
 let deprecations = [];
 
@@ -278,7 +277,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click('.ember-basic-dropdown-trigger');
-    
+
     assert
       .dom('.ember-basic-dropdown-trigger')
       .hasClass(
@@ -922,7 +921,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         </parent.Content>
       </BasicDropdown>
     `);
-    
+
     //open the nested dropdown
     await click('.ember-basic-dropdown-trigger.parent');
     assert.dom('.body-parent').exists('the parent dropdown is rendered');

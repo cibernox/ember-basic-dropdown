@@ -2,4 +2,8 @@
 
 module.exports = {
   extends: 'recommended',
+  rules: {
+    'no-inline-styles': false,
+    'no-positive-tabindex': false,
+  },
 };
