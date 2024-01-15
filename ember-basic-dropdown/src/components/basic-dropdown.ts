@@ -2,7 +2,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import calculatePosition, {
+import calculatePosition from '../utils/calculate-position.ts';
+import type {
   CalculatePosition,
   CalculatePositionResult,
 } from '../utils/calculate-position.ts';
@@ -10,7 +11,7 @@ import { schedule } from '@ember/runloop';
 import { macroCondition, isTesting } from '@embroider/macros';
 import config from 'ember-get-config';
 import type Owner from '@ember/owner';
-import { ComponentLike } from '@glint/template';
+import type { ComponentLike } from '@glint/template';
 
 export interface DropdownActions {
   toggle: (e?: Event) => void;
