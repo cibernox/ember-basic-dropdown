@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { Dropdown } from './basic-dropdown';
+import type { Dropdown } from './basic-dropdown';
 
 interface BasicDropdownSignature {
   Element: Element;

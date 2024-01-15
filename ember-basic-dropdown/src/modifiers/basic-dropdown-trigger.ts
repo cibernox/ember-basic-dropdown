@@ -1,9 +1,10 @@
-import Modifier, { ArgsFor, PositionalArgs, NamedArgs } from 'ember-modifier';
+import Modifier from 'ember-modifier';
+import type { ArgsFor, PositionalArgs, NamedArgs } from 'ember-modifier';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved.ts';
-import { Dropdown } from '../components/basic-dropdown';
+import type { Dropdown } from '../components/basic-dropdown';
 import type Owner from '@ember/owner';
 
 interface Signature {

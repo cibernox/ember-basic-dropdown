@@ -11,7 +11,7 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
-import { Dropdown } from './basic-dropdown.ts';
+import type { Dropdown } from './basic-dropdown.ts';
 
 export interface BasicDropdownContentSignature {
   Element: Element;
