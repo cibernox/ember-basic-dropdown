@@ -70,7 +70,6 @@
     "@embroider/macros": "^1.13.4",
     "@embroider/util": "^1.12.1",
     "ember-element-helper": "^0.8.5",
-    "ember-get-config": "^2.1.1",
     "ember-modifier": "^4.1.0",
     "ember-style-modifier": "^4.1.0",
     "ember-truth-helpers": "^4.0.3"

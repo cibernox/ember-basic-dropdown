@@ -8,8 +8,7 @@ import type {
   CalculatePositionResult,
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
-import { macroCondition, isTesting } from '@embroider/macros';
-import config from 'ember-get-config';
+import { getOwner } from '@ember/application';
 import type Owner from '@ember/owner';
 import type { ComponentLike } from '@glint/template';
 
@@ -338,15 +337,25 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   }
 
   _getDestinationId(): string {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const _config = config as unknown as any;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const config = getOwner(this).resolveRegistration('config:environment') as {
+      environment: string;
+      APP: {
+        rootElement: string;
+      };
+      'ember-basic-dropdown': {
+        destination: string;
+      };
+    };
 
-    if (macroCondition(isTesting())) {
-      return document.querySelector(_config.APP.rootElement).id;
+    if (config.environment === 'test') {
+      const rootElement = config['APP']?.rootElement;
+      return document.querySelector(rootElement)?.id ?? '';
     }
 
-    return ((_config['ember-basic-dropdown'] &&
-      _config['ember-basic-dropdown'].destination) ||
+    return ((config['ember-basic-dropdown'] &&
+      config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
   }
 }
