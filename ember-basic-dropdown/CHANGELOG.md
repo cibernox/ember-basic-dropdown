@@ -3,6 +3,28 @@
 
 
 
+
+## v8.0.0-beta.5 (2024-01-18)
+
+#### :rocket: Enhancement
+* [#739](https://github.com/cibernox/ember-basic-dropdown/pull/739) Allow passing attributes in wormhole component & add tests for wormhole ([@mkszepp](https://github.com/mkszepp))
+* [#736](https://github.com/cibernox/ember-basic-dropdown/pull/736) Types: Separate Args and Signature ([@mkszepp](https://github.com/mkszepp))
+* [#735](https://github.com/cibernox/ember-basic-dropdown/pull/735) Add option to use `ember-basic-dropdown.scss` ([@mkszepp](https://github.com/mkszepp))
+
+#### :bug: Bug Fix
+* [#738](https://github.com/cibernox/ember-basic-dropdown/pull/738) Update appReexports ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#737](https://github.com/cibernox/ember-basic-dropdown/pull/737) DOCS: Fix typos ([@mkszepp](https://github.com/mkszepp))
+* [#734](https://github.com/cibernox/ember-basic-dropdown/pull/734) docs: Fix that code snippets were rendered as [object Object] ([@johanrd](https://github.com/johanrd))
+
+#### :house: Internal
+* [#743](https://github.com/cibernox/ember-basic-dropdown/pull/743) Remove ember-get-config ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 2
+- [@johanrd](https://github.com/johanrd)
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.4 (2024-01-04)
 
 #### :bug: Bug Fix
