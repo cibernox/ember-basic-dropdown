@@ -6,6 +6,8 @@ import calculatePosition from '../utils/calculate-position.ts';
 import type {
   CalculatePosition,
   CalculatePositionResult,
+  HorizontalPosition,
+  VerticalPosition
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
 import { getOwner } from '@ember/application';
@@ -28,10 +30,6 @@ export interface Dropdown {
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
-
-export type VerticalPosition = 'auto' | 'above' | 'below';
-export type HorizontalPosition = 'auto' | 'auto-right' | 'left' | 'right' | 'center';
-
 interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
@@ -67,8 +65,8 @@ interface BasicDropdownArgs {
 }
 
 type RepositionChanges = {
-  hPosition: string;
-  vPosition: string;
+  hPosition: HorizontalPosition;
+  vPosition: VerticalPosition;
   otherStyles: Record<string, string | number | undefined>;
   top?: string | undefined;
   left?: string | undefined;
@@ -78,8 +76,8 @@ type RepositionChanges = {
 };
 
 export default class BasicDropdown extends Component<BasicDropdownSignature> {
-  @tracked hPosition: string | null = null;
-  @tracked vPosition: string | null = null;
+  @tracked hPosition: HorizontalPosition | null = null;
+  @tracked vPosition: VerticalPosition | null = null;
   @tracked top: string | undefined;
   @tracked left: string | undefined;
   @tracked right: string | undefined;
