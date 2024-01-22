@@ -29,6 +29,9 @@ export interface Dropdown {
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
+export type VerticalPosition = 'auto' | 'above' | 'below';
+export type HorizontalPosition = 'auto' | 'auto-right' | 'left' | 'right' | 'center';
+
 interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
@@ -40,8 +43,8 @@ interface BasicDropdownSignature {
 interface BasicDropdownArgs {
   initiallyOpened?: boolean;
   renderInPlace?: boolean;
-  verticalPosition?: string;
-  horizontalPosition?: string;
+  verticalPosition?: VerticalPosition;
+  horizontalPosition?: HorizontalPosition;
   destination?: string;
   disabled?: boolean;
   dropdownId?: string;
@@ -86,8 +89,8 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   @tracked isOpen = this.args.initiallyOpened || false;
   @tracked renderInPlace =
     this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
-  private previousVerticalPosition?: string | undefined;
-  private previousHorizontalPosition?: string | undefined;
+  private previousVerticalPosition?: VerticalPosition | undefined;
+  private previousHorizontalPosition?: HorizontalPosition | undefined;
   private destinationElement?: HTMLElement;
 
   private _uid = guidFor(this);
