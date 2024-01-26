@@ -1,9 +1,18 @@
+export type VerticalPosition = 'auto' | 'above' | 'below';
+export type HorizontalPosition =
+  | 'auto'
+  | 'auto-right'
+  | 'auto-left'
+  | 'left'
+  | 'right'
+  | 'center';
+
 interface CalculatePositionOptions {
-  horizontalPosition: string;
-  verticalPosition: string;
+  horizontalPosition: HorizontalPosition;
+  verticalPosition: VerticalPosition;
   matchTriggerWidth: boolean;
-  previousHorizontalPosition?: string | undefined;
-  previousVerticalPosition?: string | undefined;
+  previousHorizontalPosition?: HorizontalPosition | undefined;
+  previousVerticalPosition?: VerticalPosition | undefined;
   renderInPlace: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dropdown: any;
@@ -17,8 +26,8 @@ export type CalculatePositionResultStyle = {
   [key: string]: string | number | undefined;
 };
 export type CalculatePositionResult = {
-  horizontalPosition: string;
-  verticalPosition: string;
+  horizontalPosition: HorizontalPosition;
+  verticalPosition: VerticalPosition;
   style: CalculatePositionResultStyle;
 };
 export type CalculatePosition = (
