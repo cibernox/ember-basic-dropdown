@@ -7,7 +7,7 @@ import type {
   CalculatePosition,
   CalculatePositionResult,
   HorizontalPosition,
-  VerticalPosition
+  VerticalPosition,
 } from '../utils/calculate-position.ts';
 import { schedule } from '@ember/runloop';
 import { getOwner } from '@ember/application';
