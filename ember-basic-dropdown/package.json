@@ -114,7 +114,7 @@
     "@types/ember__utils": "^4.0.6",
     "@types/ember__destroyable": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
-    "@typescript-eslint/parser": "^6.18.1",
+    "@typescript-eslint/parser": "^6.19.1",
     "babel-plugin-ember-template-compilation": "^2.2.1",
     "concurrently": "^8.2.2",
     "ember-template-lint": "^5.13.0",
