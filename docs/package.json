@@ -107,7 +107,7 @@
     "loader.js": "^4.7.0",
     "prember": "~2.0.0",
     "prember-crawler": "^1.0.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "qunit": "^2.20.0",
     "qunit-dom": "^3.0.0",
     "sass": "^1.69.7",
