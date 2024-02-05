@@ -2,12 +2,12 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import type { Dropdown } from './basic-dropdown';
 
-interface BasicDropdownSignature {
+export interface BasicDropdownTriggerSignature {
   Element: Element;
   Args: {
-    dropdown: Dropdown;
-    eventType: 'click' | 'mousedown';
-    stopPropagation: boolean;
+    dropdown?: Dropdown;
+    eventType?: 'click' | 'mousedown';
+    stopPropagation?: boolean;
     vPosition?: string;
     hPosition?: string;
     defaultClass?: string;
@@ -29,7 +29,7 @@ interface BasicDropdownSignature {
   };
 }
 
-export default class BasicDropdownTrigger extends Component<BasicDropdownSignature> {
+export default class BasicDropdownTrigger extends Component<BasicDropdownTriggerSignature> {
   // Actions
   /**
    * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
