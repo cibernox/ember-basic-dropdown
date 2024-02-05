@@ -329,6 +329,9 @@ importers:
       '@embroider/util':
         specifier: ^1.12.1
         version: 1.12.1(@glint/environment-ember-loose@1.3.0)(@glint/template@1.3.0)(ember-source@5.6.0)
+      decorator-transforms:
+        specifier: ^1.1.0
+        version: 1.1.0(@babel/core@7.23.9)
       ember-element-helper:
         specifier: ^0.8.5
         version: 0.8.5(@glint/environment-ember-loose@1.3.0)(@glint/template@1.3.0)(ember-source@5.6.0)
@@ -345,21 +348,9 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3(ember-source@5.6.0)
     devDependencies:
-      '@babel/plugin-proposal-class-properties':
-        specifier: ^7.18.6
-        version: 7.18.6(@babel/core@7.23.9)
-      '@babel/plugin-proposal-decorators':
-        specifier: ^7.23.9
-        version: 7.23.9(@babel/core@7.23.9)
-      '@babel/plugin-transform-class-static-block':
-        specifier: ^7.23.4
-        version: 7.23.4(@babel/core@7.23.9)
       '@babel/plugin-transform-typescript':
         specifier: ^7.23.6
         version: 7.23.6(@babel/core@7.23.9)
-      '@babel/preset-typescript':
-        specifier: ^7.23.3
-        version: 7.23.3(@babel/core@7.23.9)
       '@babel/runtime':
         specifier: ^7.23.9
         version: 7.23.9
@@ -1185,16 +1176,6 @@ packages:
       '@babel/core': 7.23.9
       '@babel/helper-plugin-utils': 7.22.5
 
-  /@babel/plugin-syntax-jsx@7.23.3(@babel/core@7.23.9):
-    resolution: {integrity: sha512-EB2MELswq55OHUoRZLGg/zC7QWUKfNLpE57m/S2yr1uEneIgsTgrSzXP3NXEsMkVn76OlaVVnzN+ugObuYGwhg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.23.9
-      '@babel/helper-plugin-utils': 7.22.5
-    dev: true
-
   /@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@7.23.9):
     resolution: {integrity: sha512-d8waShlpFDinQ5MtvGU9xDAOzKH47+FFoney2baFIoMr952hKOLp1HR7VszoZvOsV/4+RRszNY7D17ba0te0ig==}
     peerDependencies:
@@ -1918,20 +1899,6 @@ packages:
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/types': 7.23.9
       esutils: 2.0.3
-
-  /@babel/preset-typescript@7.23.3(@babel/core@7.23.9):
-    resolution: {integrity: sha512-17oIGVlqz6CchO9RFYn5U6ZpWRZIngayYCtrPRSgANSwC2V1Jb+iP74nVxzzXJte8b8BYxrL1yY96xfhTBrNNQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.23.9
-      '@babel/helper-plugin-utils': 7.22.5
-      '@babel/helper-validator-option': 7.23.5
-      '@babel/plugin-syntax-jsx': 7.23.3(@babel/core@7.23.9)
-      '@babel/plugin-transform-modules-commonjs': 7.23.3(@babel/core@7.23.9)
-      '@babel/plugin-transform-typescript': 7.23.6(@babel/core@7.23.9)
-    dev: true
 
   /@babel/regjsgen@0.8.0:
     resolution: {integrity: sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==}
@@ -4706,14 +4673,15 @@ packages:
       is-string: 1.0.7
     dev: true
 
-  /arraybuffer.prototype.slice@1.0.2:
-    resolution: {integrity: sha512-yMBKppFur/fbHu9/6USUe03bZ4knMYiwFBcyiaXB8Go0qNehwX6inYPzK9U0NeQvGxKthcmHcaR8P5MStSRBAw==}
+  /arraybuffer.prototype.slice@1.0.3:
+    resolution: {integrity: sha512-bMxMKAjg13EBSVscxTaYA4mRc5t1UAXa2kXiGTNfZ079HIWXEkKmkgFrh/nJqamaLSrXO5H4WFFkPEaLJWbs3A==}
     engines: {node: '>= 0.4'}
     dependencies:
       array-buffer-byte-length: 1.0.1
       call-bind: 1.0.5
       define-properties: 1.2.1
       es-abstract: 1.22.3
+      es-errors: 1.3.0
       get-intrinsic: 1.2.3
       is-array-buffer: 3.0.4
       is-shared-array-buffer: 1.0.2
@@ -5768,7 +5736,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001583
+      caniuse-lite: 1.0.30001584
       electron-to-chromium: 1.4.656
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
@@ -5966,13 +5934,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.22.3
-      caniuse-lite: 1.0.30001583
+      caniuse-lite: 1.0.30001584
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001583:
-    resolution: {integrity: sha512-acWTYaha8xfhA/Du/z4sNZjHUWjkiuoAi2LM+T/aL+kemKQgPT1xBb/YKjlQ0Qo8gvbHsGNplrEJ+9G3gL7i4Q==}
+  /caniuse-lite@1.0.30001584:
+    resolution: {integrity: sha512-LOz7CCQ9M1G7OjJOF9/mzmqmj3jE/7VOmrfw6Mgs0E8cjOsbRXQJHsPBfmBOXDskXKrHLyyW3n7kpDW/4BsfpQ==}
 
   /capture-exit@2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
@@ -7016,6 +6984,15 @@ packages:
     dependencies:
       mimic-response: 3.1.0
     dev: true
+
+  /decorator-transforms@1.1.0(@babel/core@7.23.9):
+    resolution: {integrity: sha512-n3WCgc3PB2t9mLV4SJd87IjTbKeFUGw2sU5eEBYczSmcvj3guX4eMW4XOowlQqGk7I/da6+bwv1ydw1ZtNqWaw==}
+    dependencies:
+      '@babel/plugin-syntax-decorators': 7.23.3(@babel/core@7.23.9)
+      babel-import-util: 2.0.1
+    transitivePeerDependencies:
+      - '@babel/core'
+    dev: false
 
   /deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
@@ -8533,7 +8510,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       array-buffer-byte-length: 1.0.1
-      arraybuffer.prototype.slice: 1.0.2
+      arraybuffer.prototype.slice: 1.0.3
       available-typed-arrays: 1.0.6
       call-bind: 1.0.5
       es-set-tostringtag: 2.0.2
@@ -8576,8 +8553,8 @@ packages:
     resolution: {integrity: sha512-wd6JXUmyHmt8T5a2xreUwKcGPq6f1f+WwIJkijUqiGcJz1qqnZgP6XIK+QyIWU5lT7imeNxUll48bziG+TSYcA==}
     dev: true
 
-  /es-errors@1.2.1:
-    resolution: {integrity: sha512-pxzkrX6Jf/KtJH+qn7qyy8XQjNLwcLiU2gL6+gozhYXKBE8DoTaeCn3Tobb324QI6Fe3L8FuaVUMUaWtnSCRRw==}
+  /es-errors@1.3.0:
+    resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
 
   /es-get-iterator@1.1.3:
@@ -9800,7 +9777,7 @@ packages:
     resolution: {integrity: sha512-JIcZczvcMVE7AUOP+X72bh8HqHBRxFdz5PDHYtNG/lE3yk9b3KZBJlwFcTyPYjg3L4RLLmZJzvjxhaZVapxFrQ==}
     engines: {node: '>= 0.4'}
     dependencies:
-      es-errors: 1.2.1
+      es-errors: 1.3.0
       function-bind: 1.1.2
       has-proto: 1.0.1
       has-symbols: 1.0.3
