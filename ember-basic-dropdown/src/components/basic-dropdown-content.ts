@@ -21,17 +21,17 @@ export interface BasicDropdownContentSignature {
     transitionedInClass?: string;
     transitioningOutClass?: string;
     isTouchDevice?: boolean;
-    destination: string;
-    dropdown: Dropdown;
-    renderInPlace: boolean;
+    destination?: string;
+    dropdown?: Dropdown;
+    renderInPlace?: boolean;
     preventScroll?: boolean;
-    rootEventType: 'click' | 'mousedown';
-    top: string | undefined;
-    left: string | undefined;
-    right: string | undefined;
-    width: string | undefined;
-    height: string | undefined;
-    otherStyles: Record<string, string>;
+    rootEventType?: 'click' | 'mousedown';
+    top?: string | undefined;
+    left?: string | undefined;
+    right?: string | undefined;
+    width?: string | undefined;
+    height?: string | undefined;
+    otherStyles?: Record<string, string>;
     hPosition?: string;
     vPosition?: string;
     dir?: string;
@@ -42,9 +42,9 @@ export interface BasicDropdownContentSignature {
     onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
     onMouseLeave?: (dropdown?: Dropdown, event?: MouseEvent) => void;
-    shouldReposition: (
+    shouldReposition?: (
       mutations: MutationRecord[],
-      dropdown: Dropdown,
+      dropdown?: Dropdown,
     ) => boolean;
   };
   Blocks: {
@@ -64,7 +64,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     'ember-basic-dropdown--transitioning-out';
   isTouchDevice =
     this.args.isTouchDevice || Boolean(!!window && 'ontouchstart' in window);
-  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown.uniqueId}`;
+  dropdownId = `ember-basic-dropdown-content-${this.args.dropdown?.uniqueId}`;
   private touchMoveEvent: TouchEvent | undefined;
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
@@ -72,6 +72,10 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
+    if (!this.args.destination) {
+      return null;
+    }
+
     return document.getElementById(this.args.destination);
   }
 
@@ -114,7 +118,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
       const triggerElement = document.querySelector(
-        `[data-ebd-id=${this.args.dropdown.uniqueId}-trigger]`,
+        `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`,
       );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
@@ -134,10 +138,10 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           return;
         }
 
-        this.args.dropdown.actions.close(e, true);
+        this.args.dropdown?.actions.close(e, true);
       };
       document.addEventListener(
-        this.args.rootEventType,
+        this.args.rootEventType || 'click',
         this.handleRootMouseDown,
         true,
       );
@@ -158,7 +162,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         this.scrollableAncestors = [];
 
         document.removeEventListener(
-          this.args.rootEventType,
+          this.args.rootEventType || 'click',
           this.handleRootMouseDown as RootMouseDownHandler,
           true,
         );
@@ -186,7 +190,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     () => {
       // Escape autotracking frame and avoid backtracking re-render
       Promise.resolve().then(() => {
-        this.args.dropdown.actions.reposition();
+        this.args.dropdown?.actions.reposition();
       });
     },
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -274,6 +278,10 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   @action
   runloopAwareReposition(): void {
+    if (!this.args.dropdown) {
+      return;
+    }
+
     join(this.args.dropdown.actions.reposition);
   }
 

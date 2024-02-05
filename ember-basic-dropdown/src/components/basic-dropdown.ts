@@ -13,6 +13,8 @@ import { schedule } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import type Owner from '@ember/owner';
 import type { ComponentLike } from '@glint/template';
+import type { BasicDropdownTriggerSignature } from './basic-dropdown-trigger.ts';
+import type { BasicDropdownContentSignature } from './basic-dropdown-content.ts';
 
 export interface DropdownActions {
   toggle: (e?: Event) => void;
@@ -34,7 +36,16 @@ interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
   Blocks: {
-    default: [api: Dropdown];
+    default: [
+      {
+        uniqueId: string;
+        disabled: boolean;
+        isOpen: boolean;
+        actions: DropdownActions;
+        Trigger: ComponentLike<BasicDropdownTriggerSignature>;
+        Content: ComponentLike<BasicDropdownContentSignature>;
+      },
+    ];
   };
 }
 
@@ -58,9 +69,9 @@ interface BasicDropdownArgs {
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClose?: Function;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  triggerComponent: string | ComponentLike<any>;
+  triggerComponent?: string | ComponentLike<any> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  contentComponent: string | ComponentLike<any>;
+  contentComponent?: string | ComponentLike<any> | undefined;
   calculatePosition?: CalculatePosition;
 }
 
