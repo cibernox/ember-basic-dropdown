@@ -12,5 +12,8 @@ export interface CodeBlockRegistry {
 }
 
 declare module '@glint/environment-ember-loose/registry' {
-  export default interface Registry extends EmberBasicDropdownRegistry, GetCodeSnippetHelperRegistry, CodeBlockRegistry {}
+  export default interface Registry
+    extends EmberBasicDropdownRegistry,
+      GetCodeSnippetHelperRegistry,
+      CodeBlockRegistry {}
 }

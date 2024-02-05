@@ -75,7 +75,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     if (!this.args.destination) {
       return null;
     }
-    
+
     return document.getElementById(this.args.destination);
   }
 
@@ -281,7 +281,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     if (!this.args.dropdown) {
       return;
     }
-    
+
     join(this.args.dropdown.actions.reposition);
   }
 

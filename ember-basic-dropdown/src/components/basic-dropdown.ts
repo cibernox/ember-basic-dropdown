@@ -36,14 +36,16 @@ interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
   Blocks: {
-    default: [{
-      uniqueId: string;
-      disabled: boolean;
-      isOpen: boolean;
-      actions: DropdownActions;
-      Trigger: ComponentLike<BasicDropdownTriggerSignature>;
-      Content: ComponentLike<BasicDropdownContentSignature>;
-    }];
+    default: [
+      {
+        uniqueId: string;
+        disabled: boolean;
+        isOpen: boolean;
+        actions: DropdownActions;
+        Trigger: ComponentLike<BasicDropdownTriggerSignature>;
+        Content: ComponentLike<BasicDropdownContentSignature>;
+      },
+    ];
   };
 }
 

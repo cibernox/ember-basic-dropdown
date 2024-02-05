@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
+import templateOnly from '@ember/component/template-only';
 
 export interface MyCustomContentSignature {
   Element: Element;
 }
 
-export default class MyCustomContentComponent extends Component<MyCustomContentSignature> {}
+export default templateOnly<MyCustomContentSignature>();

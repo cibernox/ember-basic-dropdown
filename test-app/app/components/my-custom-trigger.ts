@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
+import templateOnly from '@ember/component/template-only';
 
 export interface MyCustomTriggerSignature {
   Element: Element;
 }
 
-export default class MyCustomTriggerComponent extends Component<MyCustomTriggerSignature> {}
+export default templateOnly<MyCustomTriggerSignature>();
