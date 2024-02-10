@@ -181,6 +181,28 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       .hasAttribute('role', 'presentation');
   });
 
+  test('If it receives `aria-owns="custom-owns"` it gets that attribute', async function (assert) {
+    assert.expect(1);
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-owns="custom-owns">Click me</BasicDropdownTrigger>
+    `);
+    assert
+      .dom('.ember-basic-dropdown-trigger')
+      .hasAttribute('aria-owns', 'custom-owns');
+  });
+
+  test('If it receives `aria-controls="custom-controls"` it gets that attribute', async function (assert) {
+    assert.expect(1);
+    this.dropdown = { uniqueId: 123 };
+    await render(hbs`
+      <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-controls="custom-controls">Click me</BasicDropdownTrigger>
+    `);
+    assert
+      .dom('.ember-basic-dropdown-trigger')
+      .hasAttribute('aria-controls', 'custom-controls');
+  });
+
   test('If it does not receive an specific `role`, the default is `button`', async function (assert) {
     assert.expect(1);
     this.dropdown = { uniqueId: 123 };

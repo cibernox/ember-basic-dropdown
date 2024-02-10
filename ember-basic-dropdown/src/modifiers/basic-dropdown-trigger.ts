@@ -75,14 +75,21 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     const { dropdown } = named;
 
     element.setAttribute('data-ebd-id', `${dropdown.uniqueId}-trigger`);
-    element.setAttribute(
-      'aria-owns',
-      `ember-basic-dropdown-content-${dropdown.uniqueId}`,
-    );
-    element.setAttribute(
-      'aria-controls',
-      `ember-basic-dropdown-content-${dropdown.uniqueId}`,
-    );
+
+    if (!element.getAttribute('aria-owns')) {
+      element.setAttribute(
+        'aria-owns',
+        `ember-basic-dropdown-content-${dropdown.uniqueId}`,
+      );
+    }
+
+    if (!element.getAttribute('aria-controls')) {
+      element.setAttribute(
+        'aria-controls',
+        `ember-basic-dropdown-content-${dropdown.uniqueId}`,
+      );
+    }
+
     element.setAttribute('aria-expanded', dropdown.isOpen ? 'true' : 'false');
     element.setAttribute('aria-disabled', dropdown.disabled ? 'true' : 'false');
   }
