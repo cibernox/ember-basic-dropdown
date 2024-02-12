@@ -16,6 +16,11 @@ module.exports = function (defaults) {
     autoImport: {
       watchDependencies: ['ember-basic-dropdown'],
     },
+    babel: {
+      plugins: [
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
+    },
   });
 
   const { maybeEmbroider } = require('@embroider/test-setup');
