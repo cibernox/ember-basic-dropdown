@@ -39,6 +39,7 @@ export default [
         'style.js',
         'components/**/*.js',
         'modifiers/**/*.js',
+        'test-support/**/*.js',
         'utils/**/*.js',
       ]),
 
