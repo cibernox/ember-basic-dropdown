@@ -4,6 +4,22 @@
 
 
 
+
+## v8.0.0-beta.6 (2024-02-12)
+
+#### :rocket: Enhancement
+* [#777](https://github.com/cibernox/ember-basic-dropdown/pull/777) Allow override `aria-owns` & `aria-controls` ([@mkszepp](https://github.com/mkszepp))
+* [#774](https://github.com/cibernox/ember-basic-dropdown/pull/774) Add `template-registry` and activate glint in `test-app` / `docs` ([@mkszepp](https://github.com/mkszepp))
+* [#753](https://github.com/cibernox/ember-basic-dropdown/pull/753) Introduce Horizontal and Vertical position union types ([@gwak](https://github.com/gwak))
+
+#### :house: Internal
+* [#776](https://github.com/cibernox/ember-basic-dropdown/pull/776) Stricter dep management ([@mkszepp](https://github.com/mkszepp))
+* [#775](https://github.com/cibernox/ember-basic-dropdown/pull/775) Update `babel.config.json` to latest blueprint ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 2
+- [@gwak](https://github.com/gwak)
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.5 (2024-01-18)
 
 #### :rocket: Enhancement
