@@ -5,6 +5,15 @@
 
 
 
+
+## v8.0.0-beta.7 (2024-02-12)
+
+#### :bug: Bug Fix
+* [#787](https://github.com/cibernox/ember-basic-dropdown/pull/787) Readd test-support in publicEntrypoints ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.6 (2024-02-12)
 
 #### :rocket: Enhancement
