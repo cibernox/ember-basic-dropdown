@@ -183,9 +183,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    const trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
+    const trigger = this._getTriggerElement();
     if (trigger) {
       const parent = trigger.parentElement;
       if (parent) {
@@ -213,9 +211,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    const trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
+    const trigger = this._getTriggerElement();
     if (!trigger) {
       return;
     }
@@ -245,17 +241,14 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    const dropdownElement = document.getElementById(this._dropdownId);
-    const triggerElement = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
+    const dropdownElement = this._getDropdownElement();
+    const triggerElement = this._getTriggerElement();
     if (!dropdownElement || !triggerElement) {
       return;
     }
 
     this.destinationElement =
-      this.destinationElement ||
-      (document.getElementById(this.destination) as HTMLElement);
+      this.destinationElement || this._getDestinationElement();
     const {
       horizontalPosition,
       verticalPosition,
@@ -369,5 +362,33 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     return ((config['ember-basic-dropdown'] &&
       config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
+  }
+
+  _getDestinationElement(): HTMLElement {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const owner: any = getOwner(this);
+    return (
+      document.getElementById(this.destination) ??
+      owner.rootElement.querySelector?.(`[id="${this.destination}"]`)
+    );
+  }
+
+  _getDropdownElement(): HTMLElement {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const owner: any = getOwner(this);
+    return (
+      document.getElementById(this._dropdownId) ??
+      owner.rootElement.querySelector?.(`[id="${this._dropdownId}"]`)
+    );
+  }
+
+  _getTriggerElement(): HTMLElement {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const owner: any = getOwner(this);
+    const selector = `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`;
+    return (
+      document.querySelector(selector) ??
+      owner.rootElement.querySelector?.(selector)
+    );
   }
 }

@@ -11,6 +11,7 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
+import { getOwner } from '@ember/application';
 import type { Dropdown } from './basic-dropdown.ts';
 
 export interface BasicDropdownContentSignature {
@@ -76,7 +77,12 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       return null;
     }
 
-    return document.getElementById(this.args.destination);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const owner: any = getOwner(this);
+    return (
+      document.getElementById(this.args.destination) ??
+      owner.rootElement.querySelector?.(`[id="${this.args.destination}"]`)
+    );
   }
 
   get animationEnabled(): boolean {
@@ -117,13 +123,16 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
-      const triggerElement = document.querySelector(
-        `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`,
-      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const owner: any = getOwner(this);
+      const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
+      const triggerElement =
+        document.querySelector(selector) ??
+        owner.rootElement.querySelector?.(selector);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
-        if (e.target === null) return;
-        const target = e.target as Element;
+        const target = (e.composedPath?.()[0] || e.target) as Element;
+        if (target === null) return;
         if (
           hasMoved(e as TouchEvent, this.touchMoveEvent) ||
           dropdownElement.contains(target) ||
@@ -133,7 +142,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           return;
         }
 
-        if (dropdownIsValidParent(target, this.dropdownId)) {
+        if (dropdownIsValidParent(owner, target, this.dropdownId)) {
           this.touchMoveEvent = undefined;
           return;
         }
@@ -298,8 +307,8 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   addScrollHandling(dropdownElement: Element): void {
     if (this.args.preventScroll === true) {
       const wheelHandler = (event: WheelEvent) => {
-        if (event.target === null) return;
-        const target = event.target as Element;
+        const target = (event.composedPath?.()[0] || event.target) as Element;
+        if (target === null) return;
         if (
           dropdownElement.contains(target) ||
           dropdownElement === event.target
@@ -448,19 +457,25 @@ function waitForAnimations(element: Element, callback: Function): void {
 /**
  * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
  *
+ * @param {any} owner
  * @param {HTMLElement} el
  * @param {String} dropdownId
  */
-function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
+function dropdownIsValidParent(
+  owner: any,
+  el: Element,
+  dropdownId: string,
+): boolean {
   const closestDropdown = closestContent(el);
   if (closestDropdown === null) {
     return false;
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const closestAttrs = closestDropdown.attributes as unknown as any;
-    const trigger = document.querySelector(
-      `[aria-controls=${closestAttrs.id.value}]`,
-    );
+    const selector = `[aria-controls=${closestAttrs.id.value}]`;
+    const trigger =
+      document.querySelector(selector) ??
+      owner.rootElement.querySelector?.(selector);
     if (trigger === null) return false;
     const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
@@ -468,7 +483,7 @@ function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
     const parentAttrs = parentDropdown.attributes as unknown as any;
     return (
       (parentDropdown && parentAttrs.id.value === dropdownId) ||
-      dropdownIsValidParent(parentDropdown, dropdownId)
+      dropdownIsValidParent(owner, parentDropdown, dropdownId)
     );
   }
 }

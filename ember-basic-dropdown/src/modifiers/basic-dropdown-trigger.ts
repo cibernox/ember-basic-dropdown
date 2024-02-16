@@ -154,7 +154,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    const target = e.target as HTMLElement;
+    const target = (e.composedPath?.()[0] || e.target) as HTMLElement;
     if (target !== null) {
       target.focus();
     }
