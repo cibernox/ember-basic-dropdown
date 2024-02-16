@@ -76,14 +76,14 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
     element.setAttribute('data-ebd-id', `${dropdown.uniqueId}-trigger`);
 
-    if (!element.getAttribute('aria-owns')) {
+    if (element.getAttribute('aria-owns') === null) {
       element.setAttribute(
         'aria-owns',
         `ember-basic-dropdown-content-${dropdown.uniqueId}`,
       );
     }
 
-    if (!element.getAttribute('aria-controls')) {
+    if (element.getAttribute('aria-controls') === null) {
       element.setAttribute(
         'aria-controls',
         `ember-basic-dropdown-content-${dropdown.uniqueId}`,
