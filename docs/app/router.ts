@@ -27,6 +27,9 @@ Router.map(function () {
       this.route('custom-position');
       this.route('animations');
 
+      // Migrate
+      this.route('migrate-7-0-to-8-0');
+
       // Other
       this.route('test-helpers');
       this.route('api-reference');

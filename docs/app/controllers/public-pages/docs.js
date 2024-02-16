@@ -34,6 +34,16 @@ const groupedSections = [
     ],
   },
   {
+    id: 'upgrade',
+    groupName: 'Advanced customization',
+    options: [
+      {
+        route: 'public-pages.docs.migrate-7-0-to-8-0',
+        text: 'Migrate from 7.0 to 8.0',
+      },
+    ],
+  },
+  {
     id: 'other',
     groupName: 'Other',
     options: [
