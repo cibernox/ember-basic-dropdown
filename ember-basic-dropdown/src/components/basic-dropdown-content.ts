@@ -462,6 +462,7 @@ function waitForAnimations(element: Element, callback: Function): void {
  * @param {String} dropdownId
  */
 function dropdownIsValidParent(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   owner: any,
   el: Element,
   dropdownId: string,
