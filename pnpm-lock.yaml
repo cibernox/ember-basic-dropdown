@@ -342,8 +342,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(ember-source@5.6.0)
       ember-style-modifier:
-        specifier: ^4.2.0
-        version: 4.2.0(@ember/string@3.1.1)(ember-source@5.6.0)
+        specifier: ^4.3.0
+        version: 4.3.0(@ember/string@3.1.1)(ember-source@5.6.0)
       ember-truth-helpers:
         specifier: ^4.0.3
         version: 4.0.3(ember-source@5.6.0)
@@ -8280,8 +8280,8 @@ packages:
       - supports-color
       - webpack
 
-  /ember-style-modifier@4.2.0(@ember/string@3.1.1)(ember-source@5.6.0):
-    resolution: {integrity: sha512-BkVoyhi6P6SY+1aaC4oGrdUSqGw7mFPWNsHLgP/wYgEPWpBWYEWtEdqkrgoWz66Yw8zye9qo9PTUH7JL9eiiZA==}
+  /ember-style-modifier@4.3.0(@ember/string@3.1.1)(ember-source@5.6.0):
+    resolution: {integrity: sha512-fL82w/sYu5LibLcM2t7K3CjE+SacgHYX7+ovSHBT5L2HJf1Mjnx5/UNe4/1zdwWqyw2mtik3qJdUpJjP+MSeNg==}
     peerDependencies:
       '@ember/string': ^3.0.1
       ember-source: ^3.28.0 || ^4.0.0 || >=5.0.0
