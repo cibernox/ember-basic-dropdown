@@ -26,6 +26,7 @@
           {{this.initiallyReposition}}
           {{this.observeMutations}}
           {{this.animateInAndOut}}
+          {{basic-dropdown-content dropdown=@dropdown}}
           {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
           {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
           {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
@@ -61,6 +62,7 @@
             {{this.initiallyReposition}}
             {{this.observeMutations}}
             {{this.animateInAndOut}}
+            {{basic-dropdown-content dropdown=@dropdown}}
             {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
             {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
             {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
@@ -78,5 +80,6 @@
     id={{this.dropdownId}}
     class='ember-basic-dropdown-content-placeholder'
     {{style (hash display='none')}}
+    {{basic-dropdown-content dropdown=@dropdown}}
   ></div>
 {{/if}}

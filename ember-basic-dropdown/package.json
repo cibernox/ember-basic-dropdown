@@ -152,6 +152,7 @@
       "./components/basic-dropdown-trigger.js": "./dist/_app_/components/basic-dropdown-trigger.js",
       "./components/basic-dropdown-wormhole.js": "./dist/_app_/components/basic-dropdown-wormhole.js",
       "./components/basic-dropdown.js": "./dist/_app_/components/basic-dropdown.js",
+      "./modifiers/basic-dropdown-content.js": "./dist/_app_/modifiers/basic-dropdown-content.js",
       "./modifiers/basic-dropdown-trigger.js": "./dist/_app_/modifiers/basic-dropdown-trigger.js"
     }
   }

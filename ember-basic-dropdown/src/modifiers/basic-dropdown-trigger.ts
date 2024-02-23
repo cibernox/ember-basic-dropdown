@@ -28,7 +28,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent: TouchEvent | undefined;
 
-  dropdown!: Dropdown;
+  dropdown?: Dropdown;
   desiredEventType!: string;
   stopPropagation: boolean | undefined;
 
@@ -57,6 +57,8 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   setup(element: HTMLElement) {
     // Keep a reference to the element for cleanup
     this.triggerElement = element;
+    this.dropdown?.actions?.registerTriggerElement &&
+      this.dropdown.actions.registerTriggerElement(element);
 
     if (!element.getAttribute('role')) element.setAttribute('role', 'button');
 
@@ -119,9 +121,10 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
   @action
   handleKeyDown(e: KeyboardEvent): void {
-    const { disabled, actions } = this.dropdown;
+    const disabled = this.dropdown?.disabled,
+      actions = this.dropdown?.actions;
 
-    if (disabled) return;
+    if (disabled || !actions) return;
     if (e.keyCode === 13) {
       // Enter
       actions.toggle(e);
@@ -142,8 +145,10 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   @action
   handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
-    const { disabled, actions } = this.dropdown;
-    if ((e && e.defaultPrevented) || disabled) {
+    const disabled = this.dropdown?.disabled,
+      actions = this.dropdown?.actions;
+
+    if ((e && e.defaultPrevented) || disabled || !actions) {
       return;
     }
     if (!hasMoved(e, this.touchMoveEvent)) {

@@ -11,7 +11,6 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
-import { getOwner } from '@ember/application';
 import type { Dropdown } from './basic-dropdown.ts';
 
 export interface BasicDropdownContentSignature {
@@ -23,6 +22,7 @@ export interface BasicDropdownContentSignature {
     transitioningOutClass?: string;
     isTouchDevice?: boolean;
     destination?: string;
+    destinationElement?: HTMLElement;
     dropdown?: Dropdown;
     renderInPlace?: boolean;
     preventScroll?: boolean;
@@ -73,16 +73,15 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
+    if (this.args.destinationElement) {
+      return this.args.destinationElement;
+    }
+
     if (!this.args.destination) {
       return null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const owner: any = getOwner(this);
-    return (
-      document.getElementById(this.args.destination) ??
-      owner.rootElement.querySelector?.(`[id="${this.args.destination}"]`)
-    );
+    return document.getElementById(this.args.destination);
   }
 
   get animationEnabled(): boolean {
@@ -123,12 +122,16 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const owner: any = getOwner(this);
       const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
-      const triggerElement =
-        document.querySelector(selector) ??
-        owner.rootElement.querySelector?.(selector);
+      let triggerElement: HTMLElement | null = null;
+      if (
+        typeof this.args.dropdown?.actions?.getTriggerElement === 'function'
+      ) {
+        triggerElement = this.args.dropdown?.actions?.getTriggerElement();
+      }
+      if (!triggerElement) {
+        triggerElement = document.querySelector(selector) as HTMLElement;
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
         const target = (e.composedPath?.()[0] || e.target) as Element;
@@ -142,12 +145,13 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           return;
         }
 
-        if (dropdownIsValidParent(owner, target, this.dropdownId)) {
+        if (dropdownIsValidParent(triggerElement, target, this.dropdownId)) {
           this.touchMoveEvent = undefined;
           return;
         }
 
-        this.args.dropdown?.actions.close(e, true);
+        this.args.dropdown?.actions?.close &&
+          this.args.dropdown.actions.close(e, true);
       };
       document.addEventListener(
         this.args.rootEventType || 'click',
@@ -161,7 +165,10 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         document.addEventListener('touchstart', this.touchStartHandler, true);
         document.addEventListener('touchend', this.handleRootMouseDown, true);
       }
-      if (triggerElement !== null) {
+      if (
+        triggerElement !== null &&
+        !(triggerElement.getRootNode() instanceof ShadowRoot)
+      ) {
         this.scrollableAncestors = getScrollableAncestors(triggerElement);
       }
       this.addScrollHandling(dropdownElement);
@@ -462,8 +469,7 @@ function waitForAnimations(element: Element, callback: Function): void {
  * @param {String} dropdownId
  */
 function dropdownIsValidParent(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  owner: any,
+  triggerElement: HTMLElement | null,
   el: Element,
   dropdownId: string,
 ): boolean {
@@ -471,12 +477,7 @@ function dropdownIsValidParent(
   if (closestDropdown === null) {
     return false;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const closestAttrs = closestDropdown.attributes as unknown as any;
-    const selector = `[aria-controls=${closestAttrs.id.value}]`;
-    const trigger =
-      document.querySelector(selector) ??
-      owner.rootElement.querySelector?.(selector);
+    const trigger = triggerElement;
     if (trigger === null) return false;
     const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
@@ -484,7 +485,7 @@ function dropdownIsValidParent(
     const parentAttrs = parentDropdown.attributes as unknown as any;
     return (
       (parentDropdown && parentAttrs.id.value === dropdownId) ||
-      dropdownIsValidParent(owner, parentDropdown, dropdownId)
+      dropdownIsValidParent(triggerElement, parentDropdown, dropdownId)
     );
   }
 }
