@@ -477,7 +477,9 @@ function dropdownIsValidParent(
   if (closestDropdown === null) {
     return false;
   } else {
-    const trigger = triggerElement;
+    const closestAttrs = closestDropdown.attributes as unknown as any;
+    const selector = `[aria-controls=${closestAttrs.id.value}]`;
+    const trigger = document.querySelector(selector) ?? (triggerElement?.getRootNode() as HTMLElement)?.querySelector(selector);
     if (trigger === null) return false;
     const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
