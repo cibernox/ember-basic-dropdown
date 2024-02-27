@@ -48,7 +48,7 @@ importers:
         specifier: ^7.23.9
         version: 7.23.9(@babel/core@7.23.9)
       '@ember/optional-features':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@ember/string':
         specifier: ^3.1.1
@@ -150,7 +150,7 @@ importers:
         specifier: ^3.16.3
         version: 3.16.3
       '@types/ember__template':
-        specifier: ^4.0.6
+        specifier: ^4.0.7
         version: 4.0.7
       '@types/ember__test':
         specifier: ^4.0.6
@@ -255,7 +255,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       eslint:
-        specifier: ^8.56.0
+        specifier: ^8.57.0
         version: 8.57.0
       eslint-config-prettier:
         specifier: ^9.1.0
@@ -297,7 +297,7 @@ importers:
         specifier: ^4.8.5
         version: 4.8.5
       sass:
-        specifier: ^1.71.0
+        specifier: ^1.71.1
         version: 1.71.1
       stylelint:
         specifier: ^16.2.1
@@ -315,7 +315,7 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       webpack:
-        specifier: ^5.90.2
+        specifier: ^5.90.3
         version: 5.90.3
 
   ember-basic-dropdown:
@@ -442,7 +442,7 @@ importers:
         specifier: ^3.16.3
         version: 3.16.3
       '@types/ember__template':
-        specifier: ^4.0.5
+        specifier: ^4.0.7
         version: 4.0.7
       '@types/ember__test':
         specifier: ^4.0.5
@@ -469,7 +469,7 @@ importers:
         specifier: ^5.13.0
         version: 5.13.0
       eslint:
-        specifier: ^8.56.0
+        specifier: ^8.57.0
         version: 8.57.0
       eslint-config-prettier:
         specifier: ^9.1.0
@@ -505,7 +505,7 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       webpack:
-        specifier: ^5.90.2
+        specifier: ^5.90.3
         version: 5.90.3
 
   test-app:
@@ -514,7 +514,7 @@ importers:
         specifier: ^7.23.9
         version: 7.23.9
       '@ember/optional-features':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@ember/string':
         specifier: ^3.1.1
@@ -601,7 +601,7 @@ importers:
         specifier: ^3.16.3
         version: 3.16.3
       '@types/ember__template':
-        specifier: ^4.0.6
+        specifier: ^4.0.7
         version: 4.0.7
       '@types/ember__test':
         specifier: ^4.0.6
@@ -694,7 +694,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       eslint:
-        specifier: ^8.56.0
+        specifier: ^8.57.0
         version: 8.57.0
       eslint-config-prettier:
         specifier: ^9.1.0
@@ -742,7 +742,7 @@ importers:
         specifier: ~5.3.3
         version: 5.3.3
       webpack:
-        specifier: ^5.90.2
+        specifier: ^5.90.3
         version: 5.90.3
 
 packages:
@@ -10953,7 +10953,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.8
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
