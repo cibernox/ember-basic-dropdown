@@ -6,18 +6,11 @@ const isFastBoot = typeof FastBoot !== 'undefined';
 
 export default class ShadowRootComponent extends Component<{
   Element: HTMLDivElement;
-  Args: {
-    shadowRootElement?: ShadowRoot;
-  };
   Blocks: { default: [] };
 }> {
   get shadowDom() {
     if (this.isFastBoot) {
       return false;
-    }
-
-    if (this.args.shadowRootElement) {
-      return true;
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,12 +26,12 @@ export default class ShadowRootComponent extends Component<{
 
   isFastBoot = isFastBoot;
 
-  get shadowRootElement(): ShadowRoot | null | undefined {
-    if (this.args.shadowRootElement) {
-      return this.args.shadowRootElement;
-    }
+  get shadowRootElement(): HTMLElement | null | undefined {
+    const shadowRoot = document.getElementById('shadow-root')?.shadowRoot;
+    let div = document.createElement('div');
+    shadowRoot.appendChild(div);
 
-    return document.getElementById('shadow-root')?.shadowRoot;
+    return div;
   }
 
   get getStyles() {

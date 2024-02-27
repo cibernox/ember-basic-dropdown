@@ -6,7 +6,7 @@ export default class ShadowComponent extends Component<{
   Element: HTMLDivElement;
   Blocks: { default: [] };
 }> {
-  @tracked shadow: HTMLDivElement | undefined;
+  @tracked shadow: Element | undefined;
 
   setShadow = (shadowRoot: HTMLDivElement) => {
     this.shadow = shadowRoot;
@@ -17,9 +17,11 @@ export default class ShadowComponent extends Component<{
   }
 
   attachShadow = modifier(
-    (element: Element, [set]: [(shadowRoot: ShadowRoot) => void]) => {
-      const shadow = element.attachShadow({ mode: 'open' });
-      set(shadow);
+    (element: Element, [set]: [(shadowRoot: Element) => void]) => {
+      const shadowRoot = element.attachShadow({ mode: 'open' });
+      let div = document.createElement('div');
+      shadowRoot.appendChild(div);
+      set(div);
     },
   );
 }
