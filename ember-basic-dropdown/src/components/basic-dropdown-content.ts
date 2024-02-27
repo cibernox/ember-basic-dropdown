@@ -122,6 +122,11 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
+      this.args.dropdown?.actions?.registerDropdownElement &&
+        this.args.dropdown.actions.registerDropdownElement(
+          dropdownElement as HTMLElement,
+        );
+
       const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
       let triggerElement: HTMLElement | null = null;
       if (

@@ -1191,4 +1191,77 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         'The style attribute is the expected one',
       );
   });
+
+  // Shadow dom test
+  test('Shadow dom: Its `toggle` action opens and closes the dropdown', async function (assert) {
+    await render(hbs`
+      <Shadow>
+        <BasicDropdown as |dropdown|>
+          <dropdown.Trigger>Click me</dropdown.Trigger>
+          <dropdown.Content>
+            <div id="dropdown-is-opened"></div>
+          </dropdown.Content>
+        </BasicDropdown>
+      </Shadow>
+    `);
+
+    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+
+    const triggerElement = find('[data-shadow]')?.shadowRoot.querySelector(
+      '.ember-basic-dropdown-trigger',
+    );
+
+    await click(triggerElement);
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .exists('The dropdown is rendered');
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
+
+    await click(triggerElement);
+
+    assert
+      .dom('#dropdown-is-opened')
+      .doesNotExist('The dropdown is closed again');
+  });
+
+  test('Shadow dom: Its `toggle` action opens and closes the dropdown when wormhole is inside shadow dom', async function (assert) {
+    await render(hbs`
+      <Shadow>
+        <BasicDropdown @destination="wormhole-in-shadow-dom" as |dropdown|>
+          <dropdown.Trigger>Click me</dropdown.Trigger>
+          <dropdown.Content>
+            <div id="dropdown-is-opened"></div>
+          </dropdown.Content>
+        </BasicDropdown>
+        
+        <div id="wormhole-in-shadow-dom"></div>
+      </Shadow>
+    `);
+
+    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+
+    const shadowRoot = find('[data-shadow]')?.shadowRoot;
+
+    const triggerElement = shadowRoot.querySelector(
+      '.ember-basic-dropdown-trigger',
+    );
+
+    await click(triggerElement);
+
+    assert
+      .dom(shadowRoot.querySelector('.ember-basic-dropdown-content'))
+      .exists('The dropdown is rendered');
+
+    assert
+      .dom(shadowRoot.querySelector('#dropdown-is-opened'))
+      .exists('The dropdown is opened');
+
+    await click(triggerElement);
+
+    assert
+      .dom(shadowRoot.querySelector('#dropdown-is-opened'))
+      .doesNotExist('The dropdown is closed again');
+  });
 });

@@ -23,7 +23,7 @@ export interface DropdownActions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reposition: (...args: any[]) => undefined | RepositionChanges;
   registerTriggerElement: (e: HTMLElement) => void;
-  registerContentElement: (e: HTMLElement) => void;
+  registerDropdownElement: (e: HTMLElement) => void;
   getTriggerElement: () => HTMLElement | null;
 }
 export interface Dropdown {
@@ -117,7 +117,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     toggle: this.toggle,
     reposition: this.reposition,
     registerTriggerElement: this.registerTriggerElement,
-    registerContentElement: this.registerContentElement,
+    registerDropdownElement: this.registerDropdownElement,
     getTriggerElement: () => this.triggerElement,
   };
 
@@ -138,7 +138,22 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       return this.args.destinationElement;
     }
 
-    return document.getElementById(this.destination);
+    const element = document.getElementById(this.destination);
+
+    if (element) {
+      return element;
+    }
+
+    if (
+      this.triggerElement &&
+      this.triggerElement.getRootNode() instanceof ShadowRoot
+    ) {
+      return (this.triggerElement.getRootNode() as HTMLElement)?.querySelector(
+        `#${this.destination}`,
+      );
+    }
+
+    return null;
   }
 
   get disabled(): boolean {
@@ -295,7 +310,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   }
 
   @action
-  registerContentElement(element: HTMLElement): void {
+  registerDropdownElement(element: HTMLElement): void {
     this.dropdownElement = element;
   }
 

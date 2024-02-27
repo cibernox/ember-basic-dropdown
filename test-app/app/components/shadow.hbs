@@ -1,7 +1,7 @@
-{{#if (not this.shadowDom)}}
-  {{yield}}
-{{else if this.shadowRootElement}}
-  {{#in-element this.shadowRootElement}}
+<div data-shadow {{this.attachShadow this.setShadow}} ...attributes></div>
+
+{{#if this.shadow}}
+  {{#in-element this.shadow}}
     {{#each this.getStyles as |styleHref|}}
       <link rel="stylesheet" type="text/css" href={{styleHref}} />
     {{/each}}
