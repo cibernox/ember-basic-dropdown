@@ -140,6 +140,12 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   @action
   handleTouchStart(): void {
     document.addEventListener('touchmove', this._touchMoveHandler);
+    if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (this.triggerElement?.getRootNode() as HTMLElement).addEventListener(
+        'touchmove',
+        this._touchMoveHandler,
+      );
+    }
   }
 
   @action
@@ -199,6 +205,13 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   _touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this._touchMoveHandler);
+
+    if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (this.triggerElement?.getRootNode() as HTMLElement).removeEventListener(
+        'touchmove',
+        this._touchMoveHandler,
+      );
+    }
   }
 }
 
@@ -207,6 +220,13 @@ function cleanup(instance: DropdownTriggerModifier) {
   if (triggerElement) {
     if (typeof document !== 'undefined')
       document.removeEventListener('touchmove', instance._touchMoveHandler);
+
+    if (triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (triggerElement?.getRootNode() as HTMLElement).removeEventListener(
+        'touchmove',
+        instance._touchMoveHandler,
+      );
+    }
 
     triggerElement.removeEventListener('click', instance.handleMouseEvent);
     triggerElement.removeEventListener('mousedown', instance.handleMouseEvent);

@@ -1,6 +1,6 @@
 {{! template-lint-disable no-inline-styles }}
 {{#if @dropdown.isOpen}}
-  <div class='ember-basic-dropdown-content-wormhole-origin'>
+  <div class='ember-basic-dropdown-content-wormhole-origin' {{this.registerDropdownContentWormhole}}>
     {{#if @renderInPlace}}
       {{#if @overlay}}
         <div class='ember-basic-dropdown-overlay'></div>

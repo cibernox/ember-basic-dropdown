@@ -395,7 +395,10 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
     if (config.environment === 'test') {
       const rootElement = config['APP']?.rootElement;
-      return document.querySelector(rootElement)?.id ?? '';
+      return (
+        document.querySelector(rootElement)?.id ??
+        'ember-basic-dropdown-wormhole'
+      );
     }
 
     return ((config['ember-basic-dropdown'] &&

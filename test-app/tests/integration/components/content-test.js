@@ -21,10 +21,13 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasText('Lorem ipsum', 'It contains the given block');
     assert
-      .dom('#destination-el > .ember-basic-dropdown-content')
+      .dom(
+        '#destination-el > .ember-basic-dropdown-content',
+        this.element.getRootNode(),
+      )
       .exists('It is rendered in the #ember-testing div');
   });
 
@@ -40,9 +43,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @defaultClass="extra-class">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasText('Lorem ipsum', 'It contains the given block');
-    assert.dom('.ember-basic-dropdown-content').hasClass('extra-class');
+    assert
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .hasClass('extra-class');
   });
 
   test('If the dropdown is closed, nothing is rendered', async function (assert) {
@@ -53,7 +58,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .doesNotExist('Nothing is rendered');
   });
 
@@ -72,10 +77,13 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @renderInPlace={{true}}>Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .exists('It is rendered in the spot');
     assert
-      .dom('#destination-el .ember-basic-dropdown-content')
+      .dom(
+        '#destination-el .ember-basic-dropdown-content',
+        this.element.getRootNode(),
+      )
       .doesNotExist("It isn't rendered in the #ember-testing div");
   });
 
@@ -91,7 +99,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasAttribute(
         'id',
         'ember-basic-dropdown-content-e123',
@@ -111,7 +119,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" class="foo123">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass('foo123', 'The dropdown contains that class');
   });
 
@@ -123,7 +131,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" dir="rtl">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
   });
 
@@ -417,7 +425,9 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </BasicDropdownContent>
     `);
 
-    let innerScrollable = this.element.querySelector('#inner-div');
+    let innerScrollable = this.element
+      .getRootNode()
+      .querySelector('#inner-div');
     let innerScrollableEvent = new WheelEvent('wheel', {
       deltaY: 4,
       cancelable: true,
@@ -446,7 +456,9 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       'The innerScrollable was scrolled anyway.',
     );
 
-    let outerScrollable = this.element.querySelector('#outer-div');
+    let outerScrollable = this.element
+      .getRootNode()
+      .querySelector('#outer-div');
     let outerScrollableEvent = new WheelEvent('wheel', {
       deltaY: 4,
       cancelable: true,
@@ -550,7 +562,9 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </BasicDropdownContent>
     `);
     await run(() => {
-      let target = document.getElementById('content-target-div');
+      let target = this.element
+        .getRootNode()
+        .querySelector('#content-target-div');
       let span = document.createElement('SPAN');
       target.appendChild(span);
     });
@@ -616,7 +630,9 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </BasicDropdownContent>
     `);
     run(() => {
-      let target = document.getElementById('content-target-div');
+      let target = this.element
+        .getRootNode()
+        .querySelector('#content-target-div');
       let span = document.createElement('SPAN');
       target.appendChild(span);
     });
@@ -660,10 +676,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <input type="text" id="test-input-focusin" />
       </BasicDropdownContent>
     `);
-    assert.dom('.ember-basic-dropdown-overlay').exists('There is one overlay');
+    assert
+      .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
+      .exists('There is one overlay');
     run(this, 'set', 'dropdown.isOpen', false);
     assert
-      .dom('.ember-basic-dropdown-overlay')
+      .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
       .doesNotExist('There is no overlay when closed');
   });
 
@@ -719,7 +737,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         </BasicDropdownContent>
       `);
 
-      await triggerEvent('.ember-basic-dropdown-content', 'focusin');
+      await triggerEvent(
+        this.element
+          .getRootNode()
+          .querySelector('.ember-basic-dropdown-content'),
+        'focusin',
+      );
     });
 
     test('It properly handles the onFocusOut action', async function (assert) {
@@ -743,7 +766,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           </BasicDropdownContent>
         `);
 
-      await triggerEvent('.ember-basic-dropdown-content', 'focusout');
+      await triggerEvent(
+        this.element
+          .getRootNode()
+          .querySelector('.ember-basic-dropdown-content'),
+        'focusout',
+      );
     });
 
     test('It properly handles the onMouseEnter action', async function (assert) {
@@ -767,7 +795,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           </BasicDropdownContent>
         `);
 
-      await triggerEvent('.ember-basic-dropdown-content', 'mouseenter');
+      await triggerEvent(
+        this.element
+          .getRootNode()
+          .querySelector('.ember-basic-dropdown-content'),
+        'mouseenter',
+      );
     });
 
     test('It properly handles the onMouseLeave action', async function (assert) {
@@ -791,7 +824,12 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           </BasicDropdownContent>
         `);
 
-      await triggerEvent('.ember-basic-dropdown-content', 'mouseleave');
+      await triggerEvent(
+        this.element
+          .getRootNode()
+          .querySelector('.ember-basic-dropdown-content'),
+        'mouseleave',
+      );
     });
   });
 });

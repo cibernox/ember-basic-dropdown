@@ -36,12 +36,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
-    await click('.ember-basic-dropdown-trigger');
     assert
-      .dom('#dropdown-is-opened')
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
       .doesNotExist('The dropdown is closed again');
   });
 
@@ -57,9 +65,13 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
     await triggerEvent('.ember-basic-dropdown-trigger', 'click', { button: 2 });
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
   });
 
   test('Its `open` action opens the dropdown', async function (assert) {
@@ -74,11 +86,21 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is still opened');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is still opened');
   });
 
   test('Its `close` action closes the dropdown', async function (assert) {
@@ -93,12 +115,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger');
     assert
-      .dom('#dropdown-is-opened')
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
       .doesNotExist('The dropdown is still closed');
   });
 
@@ -126,7 +156,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
   });
 
   test('returning false from the `onOpen` action prevents the dropdown from opening', async function (assert) {
@@ -145,9 +177,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('#dropdown-is-opened')
+      .dom('#dropdown-is-opened', this.element.getRootNode())
       .doesNotExist('The dropdown is still closed');
   });
 
@@ -175,12 +209,18 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
-    await click('.ember-basic-dropdown-trigger');
     assert
-      .dom('#dropdown-is-opened')
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
+    await click('.ember-basic-dropdown-trigger', this.element.getRootNode());
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
       .doesNotExist('The dropdown is now opened');
   });
 
@@ -200,11 +240,21 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The dropdown is still opened');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is still opened');
   });
 
   test('It can be rendered already opened when the `initiallyOpened=true`', async function (assert) {
@@ -218,7 +268,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The dropdown is opened');
   });
 
   test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
@@ -236,9 +288,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         {{/if}}
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert.strictEqual(onOpenCalls, 1, 'onOpen has been called only once');
   });
 
@@ -260,9 +318,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         {{/if}}
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert.strictEqual(onCloseCalls, 0, 'onClose was never called');
   });
 
@@ -276,16 +340,18 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
@@ -302,15 +368,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--center',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--center',
         'The proper class has been added',
@@ -327,15 +395,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
@@ -352,15 +422,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--above',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--above',
         'The proper class has been added',
@@ -377,9 +449,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .exists('The dropdown is rendered in place');
   });
 
@@ -393,15 +467,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
         'The trigger has a special `--in-place` class',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--in-place',
         'The content has a special `--in-place` class',
@@ -418,9 +494,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--below',
         'The content has a class indicating that it was placed below the trigger',
@@ -433,9 +511,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--above',
         'The content has a class indicating that it was placed above the trigger',
@@ -452,10 +532,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown').exists();
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert.dom('.ember-basic-dropdown', this.element.getRootNode()).exists();
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
         'The trigger has a special `--in-place` class',
@@ -472,15 +554,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
@@ -497,15 +581,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
@@ -537,11 +623,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#disabled-dropdown-marker')
+      .dom('#disabled-dropdown-marker', this.element.getRootNode())
       .exists('The public API of the component is marked as disabled');
     this.set('disabled', false);
     assert
-      .dom('#enabled-dropdown-marker')
+      .dom('#enabled-dropdown-marker', this.element.getRootNode())
       .exists('The public API of the component is marked as enabled');
   });
 
@@ -556,7 +642,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-unique-id-container')
+      .dom('#dropdown-unique-id-container', this.element.getRootNode())
       .hasText(/ember\d+/, 'It yields the uniqueId');
   });
 
@@ -571,10 +657,16 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#dropdown-is-opened').exists('The select is open');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .exists('The select is open');
     run(() => this.set('isDisabled', true));
-    assert.dom('#dropdown-is-opened').doesNotExist('The select is now closed');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The select is now closed');
   });
 
   test("If the component's `disabled` property changes, the `registerAPI` action is called", async function (assert) {
@@ -594,12 +686,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       {{/if}}
     `);
 
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('#is-disabled').doesNotExist('The select is enabled');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('#is-disabled', this.element.getRootNode())
+      .doesNotExist('The select is enabled');
     run(() => this.set('isDisabled', true));
-    assert.dom('#is-disabled').exists('The select is disabled');
+    assert
+      .dom('#is-disabled', this.element.getRootNode())
+      .exists('The select is disabled');
     run(() => this.set('isDisabled', false));
-    assert.dom('#is-disabled').doesNotExist('The select is enabled again');
+    assert
+      .dom('#is-disabled', this.element.getRootNode())
+      .doesNotExist('The select is enabled again');
   });
 
   test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function (assert) {
@@ -612,11 +712,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
       <div id="id-of-elmnt"></div>
     `);
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
       .dom(
-        this.element.querySelector('.ember-basic-dropdown-content').parentNode,
+        this.element
+          .getRootNode()
+          .querySelector('.ember-basic-dropdown-content').parentNode,
       )
       .hasAttribute(
         'id',
@@ -635,10 +739,14 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
-    let content = this.element.querySelector('.ember-basic-dropdown-content');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    let content = this.element
+      .getRootNode()
+      .querySelector('.ember-basic-dropdown-content');
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .hasAttribute(
         'aria-controls',
         content.id,
@@ -654,15 +762,21 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
     `);
-    let trigger = this.element.querySelector('.ember-basic-dropdown-trigger');
+    let trigger = this.element
+      .getRootNode()
+      .querySelector('.ember-basic-dropdown-trigger');
     assert
       .dom(trigger.parentNode)
       .doesNotHaveAttribute(
         'aria-owns',
         'Closed dropdown parent does not have aria-owns',
       );
-    await click('.ember-basic-dropdown-trigger');
-    let content = this.element.querySelector('.ember-basic-dropdown-content');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    let content = this.element
+      .getRootNode()
+      .querySelector('.ember-basic-dropdown-content');
     assert
       .dom(trigger.parentNode)
       .hasAttribute(
@@ -687,7 +801,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
     let returnValue;
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     run(() => {
       returnValue = remoteController.actions.reposition();
@@ -725,18 +841,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         </dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The dropdown is in the right',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasAttribute(
         'style',
         'top: 111px; width: 100px; height: 110px;',
@@ -781,18 +899,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         </dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The dropdown is in the right',
       );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasStyle(
         { top: '111px', right: '222px' },
         'The style attribute is the expected one',
@@ -811,7 +931,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#my-custom-trigger')
+      .dom('#my-custom-trigger', this.element.getRootNode())
       .exists('The custom component has been rendered');
   });
 
@@ -824,9 +944,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('#my-custom-content')
+      .dom('#my-custom-content', this.element.getRootNode())
       .exists('The custom component has been rendered');
   });
 
@@ -845,8 +967,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert.strictEqual(
       apis.length,
       3,
@@ -880,12 +1006,16 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .exists('the dropdown is rendered');
-    await click('.ember-basic-dropdown-trigger');
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-trigger')
+      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
       .doesNotExist('the dropdown has been removed');
   });
 
@@ -923,57 +1053,73 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     //open the nested dropdown
-    await click('.ember-basic-dropdown-trigger.parent');
-    assert.dom('.body-parent').exists('the parent dropdown is rendered');
-
-    await click('.ember-basic-dropdown-trigger.child');
-    assert.dom('.body-child').exists('the child dropdown is rendered');
-
-    await click('.ember-basic-dropdown-trigger.grandchild');
+    await click(
+      this.element
+        .getRootNode()
+        .querySelector('.ember-basic-dropdown-trigger.parent'),
+    );
     assert
-      .dom('.body-grandchild')
+      .dom('.body-parent', this.element.getRootNode())
+      .exists('the parent dropdown is rendered');
+
+    await click(
+      this.element
+        .getRootNode()
+        .querySelector('.ember-basic-dropdown-trigger.child'),
+    );
+    assert
+      .dom('.body-child', this.element.getRootNode())
+      .exists('the child dropdown is rendered');
+
+    await click(
+      this.element
+        .getRootNode()
+        .querySelector('.ember-basic-dropdown-trigger.grandchild'),
+    );
+    assert
+      .dom('.body-grandchild', this.element.getRootNode())
       .exists('the grandchild dropdown is rendered');
 
     // click in the grandchild dropdown
-    await click('.body-grandchild');
+    await click(this.element.getRootNode().querySelector('.body-grandchild'));
     assert
-      .dom('.body-grandchild')
+      .dom('.body-grandchild', this.element.getRootNode())
       .exists('can click in grandchild dropdown and still be open');
     assert
-      .dom('.body-child')
+      .dom('.body-child', this.element.getRootNode())
       .exists('can click in grandchild dropdown and still be open');
     assert
-      .dom('.body-parent')
+      .dom('.body-parent', this.element.getRootNode())
       .exists('can click in grandchild dropdown and still be open');
 
     // click in the child dropdown
-    await click('.body-child');
+    await click(this.element.getRootNode().querySelector('.body-child'));
     assert
-      .dom('.body-grandchild')
+      .dom('.body-grandchild', this.element.getRootNode())
       .doesNotExist(
         'grandchild dropdown should not exist becuase we clicked in child',
       );
     assert
-      .dom('.body-child')
+      .dom('.body-child', this.element.getRootNode())
       .exists('can click in child dropdown and still be open');
     assert
-      .dom('.body-parent')
+      .dom('.body-parent', this.element.getRootNode())
       .exists('can click in child dropdown and still be open');
 
     // click in the parent dropdown
-    await click('.body-parent');
+    await click(this.element.getRootNode().querySelector('.body-parent'));
     assert
-      .dom('.body-grandchild')
+      .dom('.body-grandchild', this.element.getRootNode())
       .doesNotExist(
         'grandchild dropdown should not exist becuase we clicked in parent',
       );
     assert
-      .dom('.body-child')
+      .dom('.body-child', this.element.getRootNode())
       .doesNotExist(
         'child dropdown should not exist becuase we clicked in parent',
       );
     assert
-      .dom('.body-parent')
+      .dom('.body-parent', this.element.getRootNode())
       .exists('can click in parent dropdown and still be open');
   });
 
@@ -995,9 +1141,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content {{on "focusout" this.onFocusOut}}><input type="text" id="inner-input"></dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
-    await focus('#inner-input');
-    await focus('#outer-input');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    await focus(this.element.getRootNode().querySelector('#inner-input'));
+    await focus(this.element.getRootNode().querySelector('#outer-input'));
   });
 
   test('[BUGFIX] It protects the inline styles from undefined values returned in the `calculatePosition` callback', async function (assert) {
@@ -1013,8 +1161,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
-    assert.dom('.ember-basic-dropdown-content').doesNotHaveAttribute('style');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
+    assert
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .doesNotHaveAttribute('style');
   });
 
   test('It includes the inline styles returned from the `calculatePosition` callback', async function (assert) {
@@ -1033,9 +1185,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
     `);
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasAttribute('style', /max-height: 500px; overflow-y: auto/);
   });
 
@@ -1070,7 +1224,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
        </BasicDropdown>
      `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
       .dom(`.${basicDropdownContentClass}`)
@@ -1085,7 +1241,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       ),
     );
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
       .dom(`.${basicDropdownContentClass}`)
@@ -1094,7 +1252,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         `The dropdown content has .${transitioningOutClass} class`,
       );
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
       .dom(`.${basicDropdownContentClass}`)
@@ -1109,7 +1269,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       ),
     );
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
       .dom(`.${basicDropdownContentClass}`)
@@ -1157,17 +1319,19 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
 
-    await click('.ember-basic-dropdown-trigger');
+    await click(
+      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+    );
 
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasStyle(
         { top: '111px', left: '100px' },
         'The style attribute is the expected one',
       );
 
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .doesNotHaveStyle(
         { right: '100px' },
         'The style attribute is the expected one',
@@ -1178,14 +1342,14 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     });
 
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .hasStyle(
         { top: '111px', right: '100px' },
         'The style attribute is the expected one',
       );
 
     assert
-      .dom('.ember-basic-dropdown-content')
+      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
       .doesNotHaveStyle(
         { left: '100px' },
         'The style attribute is the expected one',
@@ -1194,6 +1358,10 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
   // Shadow dom test
   test('Shadow dom: Its `toggle` action opens and closes the dropdown', async function (assert) {
+    const wormhole = document.createElement('div');
+    wormhole.id = 'ember-basic-dropdown-wormhole';
+    document.getElementById('ember-testing').appendChild(wormhole);
+
     await render(hbs`
       <Shadow>
         <BasicDropdown as |dropdown|>
@@ -1205,7 +1373,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </Shadow>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
 
     const triggerElement = find('[data-shadow]')?.shadowRoot.querySelector(
       '.ember-basic-dropdown-trigger',
@@ -1224,6 +1394,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('#dropdown-is-opened')
       .doesNotExist('The dropdown is closed again');
+
+    wormhole.remove();
   });
 
   test('Shadow dom: Its `toggle` action opens and closes the dropdown when wormhole is inside shadow dom', async function (assert) {
@@ -1240,7 +1412,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </Shadow>
     `);
 
-    assert.dom('#dropdown-is-opened').doesNotExist('The dropdown is closed');
+    assert
+      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .doesNotExist('The dropdown is closed');
 
     const shadowRoot = find('[data-shadow]')?.shadowRoot;
 

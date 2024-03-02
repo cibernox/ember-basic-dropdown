@@ -70,6 +70,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver: MutationObserver | undefined;
+  @tracked private _contentWormhole?: Element;
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
@@ -81,7 +82,19 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       return null;
     }
 
-    return document.getElementById(this.args.destination);
+    const element = document.getElementById(this.args.destination);
+
+    if (element) {
+      return element;
+    }
+
+    if (this._contentWormhole) {
+      return (
+        this._contentWormhole.getRootNode() as HTMLElement
+      )?.querySelector('#' + this.args.destination);
+    }
+
+    return null;
   }
 
   get animationEnabled(): boolean {
@@ -119,6 +132,12 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
    * @memberof BasicDropdownContent
    */
   noop(): void {}
+
+  registerDropdownContentWormhole = modifier(
+    (dropdownContentWormhole: Element) => {
+      this._contentWormhole = dropdownContentWormhole;
+    },
+  );
 
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
@@ -163,12 +182,43 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         this.handleRootMouseDown,
         true,
       );
+
+      // We need to register closing event on shadow dom element, otherwise all clicks inside a shadow dom are not closing the dropdown
+      let rootElement;
+      if (
+        this._contentWormhole &&
+        this._contentWormhole.getRootNode() instanceof ShadowRoot
+      ) {
+        rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      }
+
+      if (rootElement) {
+        rootElement.addEventListener(
+          this.args.rootEventType || 'click',
+          this.handleRootMouseDown,
+          true,
+        );
+      }
+
       window.addEventListener('resize', this.runloopAwareReposition);
       window.addEventListener('orientationchange', this.runloopAwareReposition);
 
       if (this.isTouchDevice) {
         document.addEventListener('touchstart', this.touchStartHandler, true);
         document.addEventListener('touchend', this.handleRootMouseDown, true);
+
+        if (rootElement) {
+          rootElement.addEventListener(
+            'touchstart',
+            this.touchStartHandler,
+            true,
+          );
+          rootElement.addEventListener(
+            'touchend',
+            this.handleRootMouseDown,
+            true,
+          );
+        }
       }
       if (
         triggerElement !== null &&
@@ -188,6 +238,22 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           true,
         );
 
+        let rootElement;
+        if (
+          this._contentWormhole &&
+          this._contentWormhole.getRootNode() instanceof ShadowRoot
+        ) {
+          rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+        }
+
+        if (rootElement) {
+          rootElement.removeEventListener(
+            this.args.rootEventType || 'click',
+            this.handleRootMouseDown as RootMouseDownHandler,
+            true,
+          );
+        }
+
         if (this.isTouchDevice) {
           document.removeEventListener(
             'touchstart',
@@ -199,6 +265,19 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
             this.handleRootMouseDown as RootMouseDownHandler,
             true,
           );
+
+          if (rootElement) {
+            rootElement.removeEventListener(
+              'touchstart',
+              this.touchStartHandler,
+              true,
+            );
+            rootElement.removeEventListener(
+              'touchend',
+              this.handleRootMouseDown as RootMouseDownHandler,
+              true,
+            );
+          }
         }
       };
     },
@@ -289,12 +368,28 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   @action
   touchStartHandler(): void {
     document.addEventListener('touchmove', this.touchMoveHandler, true);
+
+    if (
+      this._contentWormhole &&
+      this._contentWormhole.getRootNode() instanceof ShadowRoot
+    ) {
+      const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      rootElement.addEventListener('touchmove', this.touchMoveHandler, true);
+    }
   }
 
   @action
   touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
+
+    if (
+      this._contentWormhole &&
+      this._contentWormhole.getRootNode() instanceof ShadowRoot
+    ) {
+      const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      rootElement.removeEventListener('touchmove', this.touchMoveHandler, true);
+    }
   }
 
   @action
@@ -366,8 +461,31 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         capture: true,
         passive: false,
       });
+
+      if (
+        this._contentWormhole &&
+        this._contentWormhole.getRootNode() instanceof ShadowRoot
+      ) {
+        const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+        rootElement.addEventListener('wheel', wheelHandler, {
+          capture: true,
+          passive: false,
+        });
+      }
+
       this.removeScrollHandling = () => {
         document.removeEventListener('wheel', wheelHandler, { capture: true });
+
+        if (
+          this._contentWormhole &&
+          this._contentWormhole.getRootNode() instanceof ShadowRoot
+        ) {
+          const rootElement =
+            this._contentWormhole.getRootNode() as HTMLElement;
+          rootElement.removeEventListener('wheel', wheelHandler, {
+            capture: true,
+          });
+        }
       };
     } else {
       this.addScrollEvents();
