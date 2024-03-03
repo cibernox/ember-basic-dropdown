@@ -25,7 +25,9 @@
   file:
 </p>
 
-{{get-code-snippet "system-wide-config-1-js.js" }}
+{{#let (get-code-snippet "system-wide-config-1-js.js") as |snippet|}}
+  <CodeBlock @language="js" @code={{snippet.source}} />
+{{/let}}
 
 <p>
   That's all. No new concepts to learn, just your usual ember-cli work flow.
