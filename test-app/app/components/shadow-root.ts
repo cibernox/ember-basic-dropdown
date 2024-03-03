@@ -28,8 +28,8 @@ export default class ShadowRootComponent extends Component<{
 
   get shadowRootElement(): HTMLElement | null | undefined {
     const shadowRoot = document.getElementById('shadow-root')?.shadowRoot;
-    let div = document.createElement('div');
-    shadowRoot.appendChild(div);
+    const div = document.createElement('div');
+    shadowRoot?.appendChild(div);
 
     return div;
   }

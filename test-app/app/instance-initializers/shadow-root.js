@@ -27,8 +27,6 @@ export function initialize(appInstance) {
   hostElement.shadowRoot.appendChild(rootElement);
   targetElement.appendChild(hostElement);
 
-  // stuff to insert css into shadow dom...
-
   config.APP.rootElement = '#ember-basic-dropdown-wormhole';
   appInstance.set('rootElement', rootElement);
 }
