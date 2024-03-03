@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@ember/test-helpers';
+import config from 'test-app/config/environment';
 
 module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
   setupRenderingTest(hooks);
@@ -11,7 +12,12 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
       <BasicDropdownWormhole />
     `);
 
-    assert.dom('#ember-testing').exists('wormhole is present');
+    let id = '#ember-testing';
+    if (config.APP.shadowDom) {
+      id = '#ember-basic-dropdown-wormhole';
+    }
+
+    assert.dom(id, this.element.getRootNode()).exists('wormhole is present');
   });
 
   test('Has class my-custom-class', async function (assert) {
@@ -19,6 +25,8 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
       <BasicDropdownWormhole class="my-custom-class" />
     `);
 
-    assert.dom('.my-custom-class').exists('my-custom-class was set');
+    assert
+      .dom('.my-custom-class', this.element.getRootNode())
+      .exists('my-custom-class was set');
   });
 });

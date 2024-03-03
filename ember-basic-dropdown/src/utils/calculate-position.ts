@@ -61,11 +61,17 @@ export const calculateWormholedPosition: CalculatePosition = (
 
   // Apply containers' offset
   let anchorElement = destination.parentNode as HTMLElement;
+
+  if (anchorElement instanceof ShadowRoot) {
+    anchorElement = anchorElement.host as HTMLElement;
+  }
+
   let anchorPosition = window.getComputedStyle(anchorElement).position;
   while (
     anchorPosition !== 'relative' &&
     anchorPosition !== 'absolute' &&
-    anchorElement.tagName.toUpperCase() !== 'BODY'
+    anchorElement.tagName.toUpperCase() !== 'BODY' &&
+    !(anchorElement.parentNode instanceof ShadowRoot)
   ) {
     anchorElement = anchorElement.parentNode as HTMLElement;
     anchorPosition = window.getComputedStyle(anchorElement).position;

@@ -28,7 +28,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   toggleIsBeingHandledByTouchEvents: boolean = false;
   touchMoveEvent: TouchEvent | undefined;
 
-  dropdown!: Dropdown;
+  dropdown?: Dropdown;
   desiredEventType!: string;
   stopPropagation: boolean | undefined;
 
@@ -57,6 +57,8 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   setup(element: HTMLElement) {
     // Keep a reference to the element for cleanup
     this.triggerElement = element;
+    this.dropdown?.actions?.registerTriggerElement &&
+      this.dropdown.actions.registerTriggerElement(element);
 
     if (!element.getAttribute('role')) element.setAttribute('role', 'button');
 
@@ -119,9 +121,10 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
   @action
   handleKeyDown(e: KeyboardEvent): void {
-    const { disabled, actions } = this.dropdown;
+    const disabled = this.dropdown?.disabled,
+      actions = this.dropdown?.actions;
 
-    if (disabled) return;
+    if (disabled || !actions) return;
     if (e.keyCode === 13) {
       // Enter
       actions.toggle(e);
@@ -137,13 +140,21 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   @action
   handleTouchStart(): void {
     document.addEventListener('touchmove', this._touchMoveHandler);
+    if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (this.triggerElement?.getRootNode() as HTMLElement).addEventListener(
+        'touchmove',
+        this._touchMoveHandler,
+      );
+    }
   }
 
   @action
   handleTouchEnd(e: TouchEvent): void {
     this.toggleIsBeingHandledByTouchEvents = true;
-    const { disabled, actions } = this.dropdown;
-    if ((e && e.defaultPrevented) || disabled) {
+    const disabled = this.dropdown?.disabled,
+      actions = this.dropdown?.actions;
+
+    if ((e && e.defaultPrevented) || disabled || !actions) {
       return;
     }
     if (!hasMoved(e, this.touchMoveEvent)) {
@@ -154,7 +165,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
-    const target = e.target as HTMLElement;
+    const target = (e.composedPath?.()[0] || e.target) as HTMLElement;
     if (target !== null) {
       target.focus();
     }
@@ -194,6 +205,13 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   _touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this._touchMoveHandler);
+
+    if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (this.triggerElement?.getRootNode() as HTMLElement).removeEventListener(
+        'touchmove',
+        this._touchMoveHandler,
+      );
+    }
   }
 }
 
@@ -202,6 +220,13 @@ function cleanup(instance: DropdownTriggerModifier) {
   if (triggerElement) {
     if (typeof document !== 'undefined')
       document.removeEventListener('touchmove', instance._touchMoveHandler);
+
+    if (triggerElement?.getRootNode() instanceof ShadowRoot) {
+      (triggerElement?.getRootNode() as HTMLElement).removeEventListener(
+        'touchmove',
+        instance._touchMoveHandler,
+      );
+    }
 
     triggerElement.removeEventListener('click', instance.handleMouseEvent);
     triggerElement.removeEventListener('mousedown', instance.handleMouseEvent);

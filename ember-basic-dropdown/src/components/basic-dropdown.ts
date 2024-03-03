@@ -22,6 +22,9 @@ export interface DropdownActions {
   open: (e?: Event) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reposition: (...args: any[]) => undefined | RepositionChanges;
+  registerTriggerElement: (e: HTMLElement) => void;
+  registerDropdownElement: (e: HTMLElement) => void;
+  getTriggerElement: () => HTMLElement | null;
 }
 export interface Dropdown {
   uniqueId: string;
@@ -55,6 +58,7 @@ interface BasicDropdownArgs {
   verticalPosition?: VerticalPosition;
   horizontalPosition?: HorizontalPosition;
   destination?: string;
+  destinationElement?: HTMLElement;
   disabled?: boolean;
   dropdownId?: string;
   rootEventType?: string;
@@ -100,7 +104,8 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
   private previousVerticalPosition?: VerticalPosition | undefined;
   private previousHorizontalPosition?: HorizontalPosition | undefined;
-  private destinationElement?: HTMLElement;
+  private triggerElement: HTMLElement | null = null;
+  private dropdownElement: HTMLElement | null = null;
 
   private _uid = guidFor(this);
   private _dropdownId: string =
@@ -111,6 +116,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     close: this.close,
     toggle: this.toggle,
     reposition: this.reposition,
+    registerTriggerElement: this.registerTriggerElement,
+    registerDropdownElement: this.registerDropdownElement,
+    getTriggerElement: () => this.triggerElement,
   };
 
   private get horizontalPosition() {
@@ -123,6 +131,29 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
   get destination(): string {
     return this.args.destination || this._getDestinationId();
+  }
+
+  get destinationElement(): HTMLElement | null {
+    if (this.args.destinationElement) {
+      return this.args.destinationElement;
+    }
+
+    const element = document.getElementById(this.destination);
+
+    if (element) {
+      return element;
+    }
+
+    if (
+      this.triggerElement &&
+      this.triggerElement.getRootNode() instanceof ShadowRoot
+    ) {
+      return (this.triggerElement.getRootNode() as HTMLElement)?.querySelector(
+        `#${this.destination}`,
+      );
+    }
+
+    return null;
   }
 
   get disabled(): boolean {
@@ -183,9 +214,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     }
     this.isOpen = true;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    const trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
+    const trigger = this._getTriggerElement();
     if (trigger) {
       const parent = trigger.parentElement;
       if (parent) {
@@ -213,9 +242,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
     this.args.registerAPI && this.args.registerAPI(this.publicAPI);
-    const trigger = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
+    const trigger = this._getTriggerElement();
     if (!trigger) {
       return;
     }
@@ -245,17 +272,12 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     if (!this.publicAPI.isOpen) {
       return;
     }
-    const dropdownElement = document.getElementById(this._dropdownId);
-    const triggerElement = document.querySelector(
-      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
-    ) as HTMLElement;
-    if (!dropdownElement || !triggerElement) {
+    const dropdownElement = this._getDropdownElement();
+    const triggerElement = this._getTriggerElement();
+    if (!dropdownElement || !triggerElement || !this.destinationElement) {
       return;
     }
 
-    this.destinationElement =
-      this.destinationElement ||
-      (document.getElementById(this.destination) as HTMLElement);
     const {
       horizontalPosition,
       verticalPosition,
@@ -280,6 +302,16 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       },
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
+  }
+
+  @action
+  registerTriggerElement(element: HTMLElement): void {
+    this.triggerElement = element;
+  }
+
+  @action
+  registerDropdownElement(element: HTMLElement): void {
+    this.dropdownElement = element;
   }
 
   applyReposition(
@@ -363,11 +395,32 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
     if (config.environment === 'test') {
       const rootElement = config['APP']?.rootElement;
-      return document.querySelector(rootElement)?.id ?? '';
+      return (
+        document.querySelector(rootElement)?.id ??
+        'ember-basic-dropdown-wormhole'
+      );
     }
 
     return ((config['ember-basic-dropdown'] &&
       config['ember-basic-dropdown'].destination) ||
       'ember-basic-dropdown-wormhole') as string;
+  }
+
+  _getDropdownElement(): HTMLElement | null {
+    if (this.dropdownElement) {
+      return this.dropdownElement;
+    }
+
+    return document.querySelector(`[id="${this._dropdownId}"]`);
+  }
+
+  _getTriggerElement(): HTMLElement | null {
+    if (this.triggerElement) {
+      return this.triggerElement;
+    }
+
+    return document.querySelector(
+      `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
+    );
   }
 }

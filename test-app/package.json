@@ -24,6 +24,7 @@
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test",
+    "test:ember-shadow-dom": "ember test shadowDom",
     "test:ember-try": "ember try:one"
   },
   "devDependencies": {
@@ -61,8 +62,8 @@
     "@types/ember__test": "^4.0.6",
     "@types/ember__utils": "^4.0.7",
     "@types/qunit": "^2.19.10",
-    "@typescript-eslint/eslint-plugin": "^7.0.2",
-    "@typescript-eslint/parser": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.2",
     "ember-auto-import": "^2.7.2",
@@ -75,6 +76,7 @@
     "ember-cli-fastboot": "4.1.2",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
+    "ember-cli-sass": "^11.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-fetch": "^8.1.2",

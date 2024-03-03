@@ -22,6 +22,7 @@ export interface BasicDropdownContentSignature {
     transitioningOutClass?: string;
     isTouchDevice?: boolean;
     destination?: string;
+    destinationElement?: HTMLElement;
     dropdown?: Dropdown;
     renderInPlace?: boolean;
     preventScroll?: boolean;
@@ -69,14 +70,31 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver: MutationObserver | undefined;
+  @tracked private _contentWormhole?: Element;
   @tracked animationClass = this.transitioningInClass;
 
   get destinationElement(): Element | null {
+    if (this.args.destinationElement) {
+      return this.args.destinationElement;
+    }
+
     if (!this.args.destination) {
       return null;
     }
 
-    return document.getElementById(this.args.destination);
+    const element = document.getElementById(this.args.destination);
+
+    if (element) {
+      return element;
+    }
+
+    if (this._contentWormhole) {
+      return (
+        this._contentWormhole.getRootNode() as HTMLElement
+      )?.querySelector('#' + this.args.destination);
+    }
+
+    return null;
   }
 
   get animationEnabled(): boolean {
@@ -115,15 +133,33 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
    */
   noop(): void {}
 
+  registerDropdownContentWormhole = modifier(
+    (dropdownContentWormhole: Element) => {
+      this._contentWormhole = dropdownContentWormhole;
+    },
+  );
+
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
-      const triggerElement = document.querySelector(
-        `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`,
-      );
+      this.args.dropdown?.actions?.registerDropdownElement &&
+        this.args.dropdown.actions.registerDropdownElement(
+          dropdownElement as HTMLElement,
+        );
+
+      const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
+      let triggerElement: HTMLElement | null = null;
+      if (
+        typeof this.args.dropdown?.actions?.getTriggerElement === 'function'
+      ) {
+        triggerElement = this.args.dropdown?.actions?.getTriggerElement();
+      }
+      if (!triggerElement) {
+        triggerElement = document.querySelector(selector) as HTMLElement;
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
-        if (e.target === null) return;
-        const target = e.target as Element;
+        const target = (e.composedPath?.()[0] || e.target) as Element;
+        if (target === null) return;
         if (
           hasMoved(e as TouchEvent, this.touchMoveEvent) ||
           dropdownElement.contains(target) ||
@@ -133,26 +169,61 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           return;
         }
 
-        if (dropdownIsValidParent(target, this.dropdownId)) {
+        if (dropdownIsValidParent(triggerElement, target, this.dropdownId)) {
           this.touchMoveEvent = undefined;
           return;
         }
 
-        this.args.dropdown?.actions.close(e, true);
+        this.args.dropdown?.actions?.close &&
+          this.args.dropdown.actions.close(e, true);
       };
       document.addEventListener(
         this.args.rootEventType || 'click',
         this.handleRootMouseDown,
         true,
       );
+
+      // We need to register closing event on shadow dom element, otherwise all clicks inside a shadow dom are not closing the dropdown
+      let rootElement;
+      if (
+        this._contentWormhole &&
+        this._contentWormhole.getRootNode() instanceof ShadowRoot
+      ) {
+        rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      }
+
+      if (rootElement) {
+        rootElement.addEventListener(
+          this.args.rootEventType || 'click',
+          this.handleRootMouseDown,
+          true,
+        );
+      }
+
       window.addEventListener('resize', this.runloopAwareReposition);
       window.addEventListener('orientationchange', this.runloopAwareReposition);
 
       if (this.isTouchDevice) {
         document.addEventListener('touchstart', this.touchStartHandler, true);
         document.addEventListener('touchend', this.handleRootMouseDown, true);
+
+        if (rootElement) {
+          rootElement.addEventListener(
+            'touchstart',
+            this.touchStartHandler,
+            true,
+          );
+          rootElement.addEventListener(
+            'touchend',
+            this.handleRootMouseDown,
+            true,
+          );
+        }
       }
-      if (triggerElement !== null) {
+      if (
+        triggerElement !== null &&
+        !(triggerElement.getRootNode() instanceof ShadowRoot)
+      ) {
         this.scrollableAncestors = getScrollableAncestors(triggerElement);
       }
       this.addScrollHandling(dropdownElement);
@@ -167,6 +238,22 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           true,
         );
 
+        let rootElement;
+        if (
+          this._contentWormhole &&
+          this._contentWormhole.getRootNode() instanceof ShadowRoot
+        ) {
+          rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+        }
+
+        if (rootElement) {
+          rootElement.removeEventListener(
+            this.args.rootEventType || 'click',
+            this.handleRootMouseDown as RootMouseDownHandler,
+            true,
+          );
+        }
+
         if (this.isTouchDevice) {
           document.removeEventListener(
             'touchstart',
@@ -178,6 +265,19 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
             this.handleRootMouseDown as RootMouseDownHandler,
             true,
           );
+
+          if (rootElement) {
+            rootElement.removeEventListener(
+              'touchstart',
+              this.touchStartHandler,
+              true,
+            );
+            rootElement.removeEventListener(
+              'touchend',
+              this.handleRootMouseDown as RootMouseDownHandler,
+              true,
+            );
+          }
         }
       };
     },
@@ -268,12 +368,28 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   @action
   touchStartHandler(): void {
     document.addEventListener('touchmove', this.touchMoveHandler, true);
+
+    if (
+      this._contentWormhole &&
+      this._contentWormhole.getRootNode() instanceof ShadowRoot
+    ) {
+      const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      rootElement.addEventListener('touchmove', this.touchMoveHandler, true);
+    }
   }
 
   @action
   touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
     document.removeEventListener('touchmove', this.touchMoveHandler, true);
+
+    if (
+      this._contentWormhole &&
+      this._contentWormhole.getRootNode() instanceof ShadowRoot
+    ) {
+      const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      rootElement.removeEventListener('touchmove', this.touchMoveHandler, true);
+    }
   }
 
   @action
@@ -298,8 +414,8 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   addScrollHandling(dropdownElement: Element): void {
     if (this.args.preventScroll === true) {
       const wheelHandler = (event: WheelEvent) => {
-        if (event.target === null) return;
-        const target = event.target as Element;
+        const target = (event.composedPath?.()[0] || event.target) as Element;
+        if (target === null) return;
         if (
           dropdownElement.contains(target) ||
           dropdownElement === event.target
@@ -345,8 +461,31 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         capture: true,
         passive: false,
       });
+
+      if (
+        this._contentWormhole &&
+        this._contentWormhole.getRootNode() instanceof ShadowRoot
+      ) {
+        const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+        rootElement.addEventListener('wheel', wheelHandler, {
+          capture: true,
+          passive: false,
+        });
+      }
+
       this.removeScrollHandling = () => {
         document.removeEventListener('wheel', wheelHandler, { capture: true });
+
+        if (
+          this._contentWormhole &&
+          this._contentWormhole.getRootNode() instanceof ShadowRoot
+        ) {
+          const rootElement =
+            this._contentWormhole.getRootNode() as HTMLElement;
+          rootElement.removeEventListener('wheel', wheelHandler, {
+            capture: true,
+          });
+        }
       };
     } else {
       this.addScrollEvents();
@@ -448,19 +587,25 @@ function waitForAnimations(element: Element, callback: Function): void {
 /**
  * Evaluates if the given element is in a dropdown or any of its parent dropdowns.
  *
+ * @param {any} owner
  * @param {HTMLElement} el
  * @param {String} dropdownId
  */
-function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
+function dropdownIsValidParent(
+  triggerElement: HTMLElement | null,
+  el: Element,
+  dropdownId: string,
+): boolean {
   const closestDropdown = closestContent(el);
   if (closestDropdown === null) {
     return false;
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const closestAttrs = closestDropdown.attributes as unknown as any;
-    const trigger = document.querySelector(
-      `[aria-controls=${closestAttrs.id.value}]`,
-    );
+    const selector = `[aria-controls=${closestAttrs.id.value}]`;
+    const trigger =
+      document.querySelector(selector) ??
+      (triggerElement?.getRootNode() as HTMLElement)?.querySelector(selector);
     if (trigger === null) return false;
     const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
@@ -468,7 +613,7 @@ function dropdownIsValidParent(el: Element, dropdownId: string): boolean {
     const parentAttrs = parentDropdown.attributes as unknown as any;
     return (
       (parentDropdown && parentAttrs.id.value === dropdownId) ||
-      dropdownIsValidParent(parentDropdown, dropdownId)
+      dropdownIsValidParent(triggerElement, parentDropdown, dropdownId)
     );
   }
 }
