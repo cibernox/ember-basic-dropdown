@@ -24,6 +24,7 @@
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test",
+    "test:ember-shadow-dom": "ember test shadowDom",
     "test:ember-try": "ember try:one"
   },
   "devDependencies": {

@@ -57,6 +57,30 @@ jobs:
         
       - name: Run Tests
         run: pnpm --filter test-app test:ember
+  
+  test-shadow-dom:
+    name: "Tests Shadow dom"
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+          
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: pnpm
+          
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Run Tests
+        run: pnpm --filter test-app test:ember-shadow-dom
 
   floating:
     name: "Floating Dependencies"
