@@ -6,6 +6,21 @@
 
 
 
+
+## v8.0.0-beta.8 (2024-03-05)
+
+#### :rocket: Enhancement
+* [#791](https://github.com/cibernox/ember-basic-dropdown/pull/791) Add shadow DOM support ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#814](https://github.com/cibernox/ember-basic-dropdown/pull/814) Fix snippets in docs ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#813](https://github.com/cibernox/ember-basic-dropdown/pull/813) Remove ember-data (unused package) ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.7 (2024-02-12)
 
 #### :bug: Bug Fix
