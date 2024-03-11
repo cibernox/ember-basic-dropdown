@@ -68,7 +68,7 @@
     "@embroider/addon-shim": "^1.8.7",
     "@babel/core": "^7.24.0",
     "@embroider/macros": "^1.14.0",
-    "@embroider/util": "^1.12.1",
+    "@embroider/util": "^1.13.0",
     "decorator-transforms": "^1.1.0",
     "ember-element-helper": "^0.8.5",
     "ember-modifier": "^4.1.0",
