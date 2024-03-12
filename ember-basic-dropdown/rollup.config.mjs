@@ -36,7 +36,7 @@ export default [
       // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
       addon.publicEntrypoints([
         'index.js',
-        'style.js',
+        'styles.js',
         'components/**/*.js',
         'modifiers/**/*.js',
         'test-support/**/*.js',
