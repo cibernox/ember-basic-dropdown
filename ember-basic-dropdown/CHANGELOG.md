@@ -7,6 +7,17 @@
 
 
 
+
+## v8.0.0 (2024-03-12)
+
+For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migrate-7-0-to-8-0)
+
+#### :memo: Documentation
+* [#819](https://github.com/cibernox/ember-basic-dropdown/pull/819) DOCS: Add `destinationElement` to api-reference ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.0-beta.8 (2024-03-05)
 
 #### :rocket: Enhancement
