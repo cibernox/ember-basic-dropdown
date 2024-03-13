@@ -1,7 +1,7 @@
 import { click, tap } from '@ember/test-helpers';
 
 export function clickTrigger(
-  scope: string | undefined,
+  scope: string | undefined = undefined,
   options: MouseEventInit = {},
 ): Promise<void> {
   let selector = '.ember-basic-dropdown-trigger';
@@ -17,7 +17,7 @@ export function clickTrigger(
 }
 
 export function tapTrigger(
-  scope: string | undefined,
+  scope: string | undefined = undefined,
   options: TouchEventInit = {},
 ): Promise<void> {
   let selector = '.ember-basic-dropdown-trigger';
