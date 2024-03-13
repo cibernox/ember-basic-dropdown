@@ -21,7 +21,7 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
 
     if (config.environment === 'test') {
       // document doesn't exists in fastboot apps, for this reason we need this check
-      if (!document) {
+      if (typeof document === 'undefined') {
         return '';
       }
       const rootElement = config['APP']?.rootElement;
