@@ -9,6 +9,15 @@
 
 
 
+
+## v8.0.2 (2024-03-13)
+
+#### :bug: Bug Fix
+* [#834](https://github.com/cibernox/ember-basic-dropdown/pull/834) Fix fastboot `ReferenceError: document is not defined` ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.0.1 (2024-03-12)
 
 #### :bug: Bug Fix
