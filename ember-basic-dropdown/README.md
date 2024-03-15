@@ -12,7 +12,6 @@ or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/
 
 * Ember.js v3.28 or above
 * Ember CLI v3.28 or above
-* Node.js v18 or above
 
 Versions 1.X require Ember 2.16 or greater
 
