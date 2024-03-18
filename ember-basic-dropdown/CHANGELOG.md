@@ -1,15 +1,16 @@
 
 
+## v8.0.4 (2024-03-18)
 
+#### :bug: Bug Fix
+* [#836](https://github.com/cibernox/ember-basic-dropdown/pull/836) Test Support Helpers: Make scope optional ([@andreyfel](https://github.com/andreyfel))
 
+#### :house: Internal
+* [#837](https://github.com/cibernox/ember-basic-dropdown/pull/837) Remove NodeJs info (not necessary for v2 addon) ([@mkszepp](https://github.com/mkszepp))
 
-
-
-
-
-
-
-
+#### Committers: 2
+- Andrey Fel ([@andreyfel](https://github.com/andreyfel))
+- [@mkszepp](https://github.com/mkszepp)
 
 ## v8.0.3 (2024-03-13)
 
