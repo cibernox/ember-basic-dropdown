@@ -109,7 +109,7 @@
     "prember": "~2.0.0",
     "prember-crawler": "^1.0.0",
     "prettier": "^3.2.5",
-    "prettier-plugin-ember-template-tag": "^2.0.0",
+    "prettier-plugin-ember-template-tag": "^2.0.1",
     "qunit": "^2.20.1",
     "qunit-dom": "^3.0.0",
     "rsvp": "^4.8.5",
