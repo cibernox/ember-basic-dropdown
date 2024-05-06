@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { scheduleTask } from 'ember-lifeline';
 import calculatePosition from '../utils/calculate-position.ts';
 import type {
   CalculatePosition,
@@ -9,7 +10,6 @@ import type {
   HorizontalPosition,
   VerticalPosition,
 } from '../utils/calculate-position.ts';
-import { schedule } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import type Owner from '@ember/owner';
 import type { ComponentLike } from '@glint/template';
@@ -162,7 +162,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       this._previousDisabled !== UNINITIALIZED &&
       this._previousDisabled !== newVal
     ) {
-      schedule('actions', () => {
+      scheduleTask(this, 'actions', () => {
         if (newVal && this.publicAPI.isOpen) {
           // eslint-disable-next-line ember/no-side-effects
           this.isOpen = false;

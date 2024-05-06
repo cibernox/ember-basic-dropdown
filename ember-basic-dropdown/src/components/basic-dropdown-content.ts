@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { join } from '@ember/runloop';
 import { getScrollParent } from '../utils/calculate-position.ts';
 import {
   distributeScroll,
@@ -12,6 +11,7 @@ import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
 import type { Dropdown } from './basic-dropdown.ts';
+import { runTask } from 'ember-lifeline';
 
 export interface BasicDropdownContentSignature {
   Element: Element;
@@ -398,7 +398,13 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       return;
     }
 
-    join(this.args.dropdown.actions.reposition);
+    runTask(this, () => {
+      if (!this.args.dropdown) {
+        return;
+      }
+
+      this.args.dropdown.actions.reposition();
+    });
   }
 
   @action

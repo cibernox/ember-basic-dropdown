@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { runTask } from 'ember-lifeline';
 import { hbs } from 'ember-cli-htmlbars';
-import { run } from '@ember/runloop';
-import { render, click, triggerEvent } from '@ember/test-helpers';
-import settled from '@ember/test-helpers/settled';
+import { render, click, triggerEvent, settled } from '@ember/test-helpers';
 
 module('Integration | Component | basic-dropdown-content', function (hooks) {
   setupRenderingTest(hooks);
@@ -433,7 +432,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       cancelable: true,
       bubbles: true,
     });
-    run(() => innerScrollable.dispatchEvent(innerScrollableEvent));
+    innerScrollable.dispatchEvent(innerScrollableEvent);
     assert.false(
       innerScrollableEvent.defaultPrevented,
       'The inner scrollable does not cancel wheel events.',
@@ -445,7 +444,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       cancelable: true,
       bubbles: true,
     });
-    run(() => innerScrollable.dispatchEvent(innerScrollableCanceledEvent));
+    innerScrollable.dispatchEvent(innerScrollableCanceledEvent);
     assert.true(
       innerScrollableCanceledEvent.defaultPrevented,
       'The inner scrollable cancels out of bound wheel events.',
@@ -464,7 +463,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       cancelable: true,
       bubbles: true,
     });
-    run(() => outerScrollable.dispatchEvent(outerScrollableEvent));
+    outerScrollable.dispatchEvent(outerScrollableEvent);
     assert.true(
       outerScrollableEvent.defaultPrevented,
       'The outer scrollable cancels wheel events.',
@@ -487,7 +486,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
-    run(() => window.dispatchEvent(new window.Event('scroll')));
+    window.dispatchEvent(new window.Event('scroll'));
+    await settled();
     assert.strictEqual(
       repositions,
       2,
@@ -511,7 +511,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
-    run(() => window.dispatchEvent(new window.Event('resize')));
+    window.dispatchEvent(new window.Event('resize'));
+    await settled();
     assert.strictEqual(
       repositions,
       2,
@@ -535,7 +536,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
-    run(() => window.dispatchEvent(new window.Event('orientationchange')));
+    window.dispatchEvent(new window.Event('orientationchange'));
+    await settled();
     assert.strictEqual(
       repositions,
       2,
@@ -561,7 +563,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    await run(() => {
+    await runTask(this, () => {
       let target = this.element
         .getRootNode()
         .querySelector('#content-target-div');
@@ -593,7 +595,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         {{/if}}
       </BasicDropdownContent>
     `);
-    await run(() => {
+    await runTask(this, () => {
       this.set('divVisible', true);
     });
     await settled();
@@ -629,7 +631,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    run(() => {
+    runTask(this, () => {
       let target = this.element
         .getRootNode()
         .querySelector('#content-target-div');
@@ -654,7 +656,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
-    run(() => window.dispatchEvent(new window.Event('scroll')));
+    window.dispatchEvent(new window.Event('scroll'));
+    await settled();
     assert.strictEqual(
       repositions,
       2,
@@ -679,7 +682,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert
       .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
       .exists('There is one overlay');
-    run(this, 'set', 'dropdown.isOpen', false);
+    this.set('dropdown.isOpen', false);
     assert
       .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
       .doesNotExist('There is no overlay when closed');
