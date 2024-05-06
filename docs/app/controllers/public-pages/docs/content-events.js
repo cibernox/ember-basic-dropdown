@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { later, cancel } from '@ember/runloop';
+import { runTask, cancelTask } from 'ember-lifeline';
 import { action } from '@ember/object';
 import ContentEvents1Component from '../../../components/snippets/content-events-1';
 
@@ -20,7 +20,7 @@ export default class extends Controller {
   @action
   open(dropdown) {
     if (this.closeTimer) {
-      cancel(this.closeTimer);
+      cancelTask(this, this.closeTimer);
       this.closeTimer = null;
     } else {
       dropdown.actions.open();
@@ -29,7 +29,7 @@ export default class extends Controller {
 
   @action
   closeLater(dropdown) {
-    this.closeTimer = later(() => {
+    this.closeTimer = runTask(this, () => {
       this.closeTimer = null;
       dropdown.actions.close();
     }, 200);

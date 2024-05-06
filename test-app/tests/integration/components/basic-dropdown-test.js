@@ -1,4 +1,4 @@
-import { run, scheduleOnce } from '@ember/runloop';
+import { runTask, scheduleTask } from 'ember-lifeline';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -10,6 +10,7 @@ import {
   triggerEvent,
   waitUntil,
   find,
+  settled,
 } from '@ember/test-helpers';
 
 let deprecations = [];
@@ -663,7 +664,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('#dropdown-is-opened', this.element.getRootNode())
       .exists('The select is open');
-    run(() => this.set('isDisabled', true));
+    this.set('isDisabled', true);
     assert
       .dom('#dropdown-is-opened', this.element.getRootNode())
       .doesNotExist('The select is now closed');
@@ -675,7 +676,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.isDisabled = false;
     this.toggleDisabled = () => this.toggleProperty('isDisabled');
     this.registerAPI = (api) =>
-      scheduleOnce('actions', this, this.set, 'remoteController', api);
+      scheduleTask(this, 'actions', () => this.set('remoteController', api));
     await render(hbs`
       <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
@@ -692,11 +693,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert
       .dom('#is-disabled', this.element.getRootNode())
       .doesNotExist('The select is enabled');
-    run(() => this.set('isDisabled', true));
+    this.set('isDisabled', true);
     assert
       .dom('#is-disabled', this.element.getRootNode())
       .exists('The select is disabled');
-    run(() => this.set('isDisabled', false));
+    this.set('isDisabled', false);
     assert
       .dom('#is-disabled', this.element.getRootNode())
       .doesNotExist('The select is enabled again');
@@ -805,9 +806,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
     );
 
-    run(() => {
-      returnValue = remoteController.actions.reposition();
-    });
+    returnValue = remoteController.actions.reposition();
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'hPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'vPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'top'));
@@ -1337,9 +1336,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         'The style attribute is the expected one',
       );
 
-    run(() => {
-      publicApi.actions.reposition();
-    });
+    publicApi.actions.reposition();
+    
+    await settled();
 
     assert
       .dom('.ember-basic-dropdown-content', this.element.getRootNode())
