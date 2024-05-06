@@ -1,17 +1,16 @@
-import { set } from '@ember/object';
-import { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import CustomPosition1Component from '../../../components/snippets/custom-position-1';
 import CustomPosition2Component from '../../../components/snippets/custom-position-2';
 
-const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
+const NAMES = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
 export default class extends Controller {
   customPosition1Component = CustomPosition1Component;
   customPosition2Component = CustomPosition2Component;
 
-  names = [];
+  @tracked names = [];
 
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
@@ -25,9 +24,9 @@ export default class extends Controller {
   }
 
   @task(function* () {
-    set(this, 'names', A([]));
-    for (let name of names) {
-      this.names.pushObject(name);
+    this.names = [];
+    for (let name of NAMES) {
+      this.names = [...this.names, name];
       yield timeout(750);
     }
   })
