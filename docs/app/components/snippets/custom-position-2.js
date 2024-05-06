@@ -1,11 +1,11 @@
 import Component from '@glimmer/component';
-import { A } from '@ember/array';
+import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
-const names = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
+const NAMES = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
 export default class extends Component {
-  names = [];
+  @tracked names = [];
 
   calculatePosition(trigger, content) {
     let { top, left, width, height } = trigger.getBoundingClientRect();
@@ -19,9 +19,9 @@ export default class extends Component {
   }
 
   @task(function* () {
-    this.names = A([]);
-    for (let name of names) {
-      this.names.pushObject(name);
+    this.names = [];
+    for (let name of NAMES) {
+      this.names = [...this.names, name];
       yield timeout(750);
     }
   })
