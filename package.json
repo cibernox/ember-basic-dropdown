@@ -14,12 +14,12 @@
     "start:test-app": "pnpm run --filter test-app start"
   },
   "devDependencies": {
-    "@release-it-plugins/lerna-changelog": "^6.0.0",
-    "@release-it-plugins/workspaces": "^4.0.0",
-    "concurrently": "^8.2.0",
+    "@release-it-plugins/lerna-changelog": "^6.1.0",
+    "@release-it-plugins/workspaces": "^4.2.0",
+    "concurrently": "^8.2.2",
     "prettier": "^3.2.5",
-    "prettier-plugin-ember-template-tag": "^2.0.1",
-    "release-it": "^17.1.1"
+    "prettier-plugin-ember-template-tag": "^2.0.2",
+    "release-it": "^17.2.1"
   },
   "workspaces": [
     "ember-basic-dropdown",
@@ -48,11 +48,6 @@
       "tokenRef": "GITHUB_AUTH"
     },
     "npm": false
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "ember-cli-fastboot@4.1.2": "patches/ember-cli-fastboot@4.1.2.patch"
-    }
   },
   "version": "8.0.4"
 }
