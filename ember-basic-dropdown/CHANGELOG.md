@@ -1,5 +1,17 @@
 
 
+
+## v8.1.0 (2024-05-06)
+
+#### :rocket: Enhancement
+* [#891](https://github.com/cibernox/ember-basic-dropdown/pull/891) Replace `@ember/runloop` with `ember-lifeline` ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#888](https://github.com/cibernox/ember-basic-dropdown/pull/888) Remove last ember-array using in docs ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.0.4 (2024-03-18)
 
 #### :bug: Bug Fix
