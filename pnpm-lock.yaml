@@ -4,32 +4,27 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  ember-cli-fastboot@4.1.2:
-    hash: ahnqicjnbzhwx4wfnmchjl6u4i
-    path: patches/ember-cli-fastboot@4.1.2.patch
-
 importers:
 
   .:
     devDependencies:
       '@release-it-plugins/lerna-changelog':
-        specifier: ^6.0.0
+        specifier: ^6.1.0
         version: 6.1.0(release-it@17.2.1)
       '@release-it-plugins/workspaces':
-        specifier: ^4.0.0
+        specifier: ^4.2.0
         version: 4.2.0(release-it@17.2.1)
       concurrently:
-        specifier: ^8.2.0
+        specifier: ^8.2.2
         version: 8.2.2
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
       prettier-plugin-ember-template-tag:
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: 2.0.2(prettier@3.2.5)
       release-it:
-        specifier: ^17.1.1
+        specifier: ^17.2.1
         version: 17.2.1
 
   docs:
@@ -39,10 +34,10 @@ importers:
         version: link:../ember-basic-dropdown
     devDependencies:
       '@babel/core':
-        specifier: ^7.24.4
+        specifier: ^7.24.5
         version: 7.24.5
       '@babel/eslint-parser':
-        specifier: ^7.24.1
+        specifier: ^7.24.5
         version: 7.24.5(@babel/core@7.24.5)(eslint@8.57.0)
       '@babel/plugin-proposal-decorators':
         specifier: ^7.24.1
@@ -57,8 +52,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(@glint/template@1.4.0)(ember-source@5.8.0)(webpack@5.91.0)
       '@embroider/test-setup':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^4.0.0
+        version: 4.0.0
       '@glimmer/component':
         specifier: ^1.1.2
         version: 1.1.2(@babel/core@7.24.5)
@@ -165,10 +160,10 @@ importers:
         specifier: ^4.0.9
         version: 4.0.9
       '@typescript-eslint/eslint-plugin':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       broccoli-asset-rev:
         specifier: ^3.0.0
@@ -195,8 +190,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(ember-cli@5.8.1)
       ember-cli-fastboot:
-        specifier: 4.1.2
-        version: 4.1.2(patch_hash=ahnqicjnbzhwx4wfnmchjl6u4i)
+        specifier: ^4.1.4
+        version: 4.1.4(ember-source@5.8.0)
       ember-cli-htmlbars:
         specifier: ^6.3.0
         version: 6.3.0
@@ -282,22 +277,22 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       prettier-plugin-ember-template-tag:
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: 2.0.2(prettier@3.2.5)
       qunit:
         specifier: ^2.20.1
         version: 2.20.1
       qunit-dom:
-        specifier: ^3.0.0
+        specifier: ^3.1.2
         version: 3.1.2
       rsvp:
         specifier: ^4.8.5
         version: 4.8.5
       sass:
-        specifier: ^1.72.0
+        specifier: ^1.76.0
         version: 1.76.0
       stylelint:
-        specifier: ^16.3.1
+        specifier: ^16.5.0
         version: 16.5.0(typescript@5.4.5)
       stylelint-config-standard:
         specifier: ^36.0.0
@@ -318,16 +313,16 @@ importers:
   ember-basic-dropdown:
     dependencies:
       '@babel/core':
-        specifier: ^7.24.3
+        specifier: ^7.24.5
         version: 7.24.5
       '@embroider/addon-shim':
         specifier: ^1.8.7
         version: 1.8.7
       '@embroider/macros':
-        specifier: ^1.15.0
+        specifier: ^1.16.1
         version: 1.16.1(@glint/template@1.4.0)
       '@embroider/util':
-        specifier: ^1.13.0
+        specifier: ^1.13.1
         version: 1.13.1(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       decorator-transforms:
         specifier: ^1.1.0
@@ -346,19 +341,19 @@ importers:
         version: 4.0.3(ember-source@5.8.0)
     devDependencies:
       '@babel/plugin-transform-typescript':
-        specifier: ^7.24.1
+        specifier: ^7.24.5
         version: 7.24.5(@babel/core@7.24.5)
       '@babel/runtime':
-        specifier: ^7.24.1
+        specifier: ^7.24.5
         version: 7.24.5
       '@ember/string':
-        specifier: ^3.0.1
+        specifier: ^3.1.1
         version: 3.1.1
       '@ember/test-helpers':
         specifier: ^3.3.0
         version: 3.3.0(@glint/template@1.4.0)(ember-source@5.8.0)(webpack@5.91.0)
       '@embroider/addon-dev':
-        specifier: ^4.2.1
+        specifier: ^4.3.1
         version: 4.3.1(@glint/template@1.4.0)(rollup@4.17.2)
       '@glimmer/component':
         specifier: ^1.1.2
@@ -385,46 +380,46 @@ importers:
         specifier: ^3.0.6
         version: 3.0.6
       '@types/ember':
-        specifier: ^4.0.10
+        specifier: ^4.0.11
         version: 4.0.11(@babel/core@7.24.5)
       '@types/ember__application':
-        specifier: ^4.0.10
+        specifier: ^4.0.11
         version: 4.0.11(@babel/core@7.24.5)
       '@types/ember__array':
-        specifier: ^4.0.9
+        specifier: ^4.0.10
         version: 4.0.10(@babel/core@7.24.5)
       '@types/ember__component':
-        specifier: ^4.0.21
+        specifier: ^4.0.22
         version: 4.0.22(@babel/core@7.24.5)
       '@types/ember__controller':
-        specifier: ^4.0.11
+        specifier: ^4.0.12
         version: 4.0.12(@babel/core@7.24.5)
       '@types/ember__debug':
-        specifier: ^4.0.7
+        specifier: ^4.0.8
         version: 4.0.8(@babel/core@7.24.5)
       '@types/ember__destroyable':
-        specifier: ^4.0.4
+        specifier: ^4.0.5
         version: 4.0.5
       '@types/ember__engine':
-        specifier: ^4.0.10
+        specifier: ^4.0.11
         version: 4.0.11(@babel/core@7.24.5)
       '@types/ember__error':
-        specifier: ^4.0.5
+        specifier: ^4.0.6
         version: 4.0.6
       '@types/ember__helper':
-        specifier: ^4.0.6
+        specifier: ^4.0.7
         version: 4.0.7(@babel/core@7.24.5)
       '@types/ember__modifier':
-        specifier: ^4.0.8
+        specifier: ^4.0.9
         version: 4.0.9(@babel/core@7.24.5)
       '@types/ember__object':
-        specifier: ^4.0.11
+        specifier: ^4.0.12
         version: 4.0.12(@babel/core@7.24.5)
       '@types/ember__owner':
-        specifier: ^4.0.8
+        specifier: ^4.0.9
         version: 4.0.9
       '@types/ember__polyfills':
-        specifier: ^4.0.5
+        specifier: ^4.0.6
         version: 4.0.6
       '@types/ember__routing':
         specifier: ^4.0.22
@@ -433,7 +428,7 @@ importers:
         specifier: ^4.0.10
         version: 4.0.10(@babel/core@7.24.5)
       '@types/ember__service':
-        specifier: ^4.0.8
+        specifier: ^4.0.9
         version: 4.0.9(@babel/core@7.24.5)
       '@types/ember__string':
         specifier: ^3.16.3
@@ -442,19 +437,19 @@ importers:
         specifier: ^4.0.7
         version: 4.0.7
       '@types/ember__test':
-        specifier: ^4.0.5
+        specifier: ^4.0.6
         version: 4.0.6(@babel/core@7.24.5)
       '@types/ember__utils':
-        specifier: ^4.0.6
+        specifier: ^4.0.7
         version: 4.0.7(@babel/core@7.24.5)
       '@typescript-eslint/eslint-plugin':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       babel-plugin-ember-template-compilation:
-        specifier: ^2.2.1
+        specifier: ^2.2.3
         version: 2.2.3
       concurrently:
         specifier: ^8.2.2
@@ -487,10 +482,10 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       prettier-plugin-ember-template-tag:
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: 2.0.2(prettier@3.2.5)
       rollup:
-        specifier: ^4.13.2
+        specifier: ^4.17.2
         version: 4.17.2
       rollup-plugin-styles:
         specifier: ^4.0.0
@@ -499,7 +494,7 @@ importers:
         specifier: ^4.8.5
         version: 4.8.5
       typescript:
-        specifier: ^5.4.3
+        specifier: ^5.4.5
         version: 5.4.5
       webpack:
         specifier: ^5.91.0
@@ -508,7 +503,7 @@ importers:
   test-app:
     devDependencies:
       '@babel/core':
-        specifier: ^7.24.4
+        specifier: ^7.24.5
         version: 7.24.5
       '@ember/optional-features':
         specifier: ^2.1.0
@@ -520,8 +515,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(@glint/template@1.4.0)(ember-source@5.8.0)(webpack@5.91.0)
       '@embroider/test-setup':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^4.0.0
+        version: 4.0.0
       '@glimmer/component':
         specifier: ^1.1.2
         version: 1.1.2(@babel/core@7.24.5)
@@ -610,10 +605,10 @@ importers:
         specifier: ^2.19.10
         version: 2.19.10
       '@typescript-eslint/eslint-plugin':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser':
-        specifier: ^7.4.0
+        specifier: ^7.8.0
         version: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       broccoli-asset-rev:
         specifier: ^3.0.0
@@ -643,8 +638,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(ember-cli@5.8.1)
       ember-cli-fastboot:
-        specifier: 4.1.2
-        version: 4.1.2(patch_hash=ahnqicjnbzhwx4wfnmchjl6u4i)
+        specifier: ^4.1.4
+        version: 4.1.4(ember-source@5.8.0)
       ember-cli-htmlbars:
         specifier: ^6.3.0
         version: 6.3.0
@@ -718,13 +713,13 @@ importers:
         specifier: ^2.20.1
         version: 2.20.1
       qunit-dom:
-        specifier: ^3.0.0
+        specifier: ^3.1.2
         version: 3.1.2
       rsvp:
         specifier: ^4.8.5
         version: 4.8.5
       stylelint:
-        specifier: ^16.3.1
+        specifier: ^16.5.0
         version: 16.5.0(typescript@5.4.5)
       stylelint-config-standard:
         specifier: ^36.0.0
@@ -2215,13 +2210,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@embroider/test-setup@3.0.3:
-    resolution: {integrity: sha512-3K5KSyTdnxAkZQill6+TdC/XTRr6226LNwZMsrhRbBM0FFZXw2D8qmJSHPvZLheQx3A1jnF9t1lyrAzrKlg6Yw==}
+  /@embroider/test-setup@4.0.0:
+    resolution: {integrity: sha512-1S3Ebk0CEh3XDqD93AWSwQZBCk+oGv03gtkaGgdgyXGIR7jrVyDgEnEuslN/hJ0cuU8TqhiXrzHMw7bJwIGhWw==}
     engines: {node: 12.* || 14.* || >= 16}
     peerDependencies:
-      '@embroider/compat': ^3.3.0
-      '@embroider/core': ^3.4.0
-      '@embroider/webpack': ^3.2.1
+      '@embroider/compat': ^3.4.8
+      '@embroider/core': ^3.4.8
+      '@embroider/webpack': ^4.0.0
     peerDependenciesMeta:
       '@embroider/compat':
         optional: true
@@ -7250,9 +7245,11 @@ packages:
       - supports-color
     dev: true
 
-  /ember-cli-fastboot@4.1.2(patch_hash=ahnqicjnbzhwx4wfnmchjl6u4i):
-    resolution: {integrity: sha512-cC2ET8AbRTssA4sg9qF9KLX9N/Xnwa7kS0PKZADMMOUXtuBF4jmgnXsjzlvIE+lgWcwK4tc6udgwpMeNMkOg7w==}
-    engines: {node: 14.* || 16.* || >=18}
+  /ember-cli-fastboot@4.1.4(ember-source@5.8.0):
+    resolution: {integrity: sha512-RYgmY8oiEnPHQ5A8T2jKKB5IbZG8JZuxHCiFoMcOnD+85T3rVulgF7Wt7GFzZ3Ic2pocSFZef45jZG+gT1mJnA==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: '>=3.16'
     dependencies:
       broccoli-concat: 4.2.5
       broccoli-file-creator: 2.1.1
@@ -7264,7 +7261,8 @@ packages:
       ember-cli-lodash-subset: 2.0.1
       ember-cli-preprocess-registry: 3.3.0
       ember-cli-version-checker: 5.1.2
-      fastboot: 4.1.2
+      ember-source: 5.8.0(@babel/core@7.24.5)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)
+      fastboot: 4.1.4
       fastboot-express-middleware: 4.1.2
       fastboot-transform: 0.1.3
       fs-extra: 10.1.0
@@ -7278,7 +7276,6 @@ packages:
       - supports-color
       - utf-8-validate
     dev: true
-    patched: true
 
   /ember-cli-get-component-path-option@1.0.0:
     resolution: {integrity: sha512-k47TDwcJ2zPideBCZE8sCiShSxQSpebY2BHcX2DdipMmBox5gsfyVrbKJWIHeSTTKyEUgmBIvQkqTOozEziCZA==}
