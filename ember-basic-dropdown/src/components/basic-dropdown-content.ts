@@ -401,8 +401,8 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
     runTask(this, () => {
       if (!this.args.dropdown) {
         return;
-      };
-      
+      }
+
       this.args.dropdown.actions.reposition();
     });
   }

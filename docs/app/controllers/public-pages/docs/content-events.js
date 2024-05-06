@@ -29,9 +29,13 @@ export default class extends Controller {
 
   @action
   closeLater(dropdown) {
-    this.closeTimer = runTask(this, () => {
-      this.closeTimer = null;
-      dropdown.actions.close();
-    }, 200);
+    this.closeTimer = runTask(
+      this,
+      () => {
+        this.closeTimer = null;
+        dropdown.actions.close();
+      },
+      200,
+    );
   }
 }

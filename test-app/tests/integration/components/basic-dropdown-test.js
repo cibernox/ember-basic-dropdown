@@ -1,4 +1,4 @@
-import { runTask, scheduleTask } from 'ember-lifeline';
+import { scheduleTask } from 'ember-lifeline';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -1337,7 +1337,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
 
     publicApi.actions.reposition();
-    
+
     await settled();
 
     assert
