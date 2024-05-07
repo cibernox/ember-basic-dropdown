@@ -42,6 +42,9 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (process.argv.includes('buildGhPage')) {
+      ENV.rootURL = '/ember-basic-dropdown';
+    }
   }
 
   return ENV;
