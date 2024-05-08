@@ -1,5 +1,5 @@
 import '@glint/environment-ember-loose';
-import EmberBasicDropdownRegistry from 'ember-basic-dropdown/template-registry';
+import type EmberBasicDropdownRegistry from 'ember-basic-dropdown/template-registry';
 
 export interface GetCodeSnippetHelperRegistry {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
