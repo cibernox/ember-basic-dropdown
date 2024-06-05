@@ -33,6 +33,8 @@ export interface Dropdown {
   actions: DropdownActions;
 }
 
+export type TRootEventType = 'click' | 'mousedown';
+
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 interface BasicDropdownSignature {
@@ -61,7 +63,7 @@ interface BasicDropdownArgs {
   destinationElement?: HTMLElement;
   disabled?: boolean;
   dropdownId?: string;
-  rootEventType?: string;
+  rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
