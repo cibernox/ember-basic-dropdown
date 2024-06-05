@@ -10,7 +10,7 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
-import type { Dropdown } from './basic-dropdown.ts';
+import type { Dropdown, TRootEventType } from './basic-dropdown.ts';
 import { runTask } from 'ember-lifeline';
 
 export interface BasicDropdownContentSignature {
@@ -26,7 +26,7 @@ export interface BasicDropdownContentSignature {
     dropdown?: Dropdown;
     renderInPlace?: boolean;
     preventScroll?: boolean;
-    rootEventType?: 'click' | 'mousedown';
+    rootEventType?: TRootEventType;
     top?: string | undefined;
     left?: string | undefined;
     right?: string | undefined;
