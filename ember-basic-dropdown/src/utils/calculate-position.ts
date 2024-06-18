@@ -93,8 +93,21 @@ export const calculateWormholedPosition: CalculatePosition = (
     style.width = dropdownWidth;
   }
 
+  /**
+   * Fixes bug where the dropdown always stays on the same position on the screen when
+   * the <body> is relatively positioned
+   */
+  const isBodyPositionRelative =
+    window.getComputedStyle(document.body).getPropertyValue('position') ===
+    'relative';
+
   // Calculate horizontal position
-  const triggerLeftWithScroll = triggerLeft + scroll.left;
+  let triggerLeftWithScroll = triggerLeft;
+
+  if (!isBodyPositionRelative) {
+    triggerLeftWithScroll += scroll.left;
+  }
+
   if (horizontalPosition === 'auto' || horizontalPosition === 'auto-left') {
     // Calculate the number of visible horizontal pixels if we were to place the
     // dropdown on the left and right
@@ -151,13 +164,6 @@ export const calculateWormholedPosition: CalculatePosition = (
   // Calculate vertical position
   let triggerTopWithScroll = triggerTop;
 
-  /**
-   * Fixes bug where the dropdown always stays on the same position on the screen when
-   * the <body> is relatively positioned
-   */
-  const isBodyPositionRelative =
-    window.getComputedStyle(document.body).getPropertyValue('position') ===
-    'relative';
   if (!isBodyPositionRelative) {
     triggerTopWithScroll += scroll.top;
   }
