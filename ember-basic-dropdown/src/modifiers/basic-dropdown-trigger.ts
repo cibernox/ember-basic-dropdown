@@ -65,7 +65,9 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
     element.addEventListener('click', this.handleMouseEvent);
     element.addEventListener('mousedown', this.handleMouseEvent);
     element.addEventListener('keydown', this.handleKeyDown);
-    element.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+    element.addEventListener('touchstart', this.handleTouchStart, {
+      passive: false,
+    });
     element.addEventListener('touchend', this.handleTouchEnd);
   }
 
