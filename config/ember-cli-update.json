@@ -11,8 +11,6 @@
           "isBaseBlueprint": true,
           "options": [
             "--pnpm",
-            "--addon-location=ember-basic-dropdown",
-            "--test-app-location=test-app",
             "--release-it",
             "--typescript"
           ]
