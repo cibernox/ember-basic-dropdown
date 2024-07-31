@@ -1,6 +1,28 @@
 
 
 
+
+## v8.2.0 (2024-07-31)
+
+#### :rocket: Enhancement
+* [#910](https://github.com/cibernox/ember-basic-dropdown/pull/910) Improve `rootEventType` type and export for EPS ([@mkszepp](https://github.com/mkszepp))
+
+#### :bug: Bug Fix
+* [#930](https://github.com/cibernox/ember-basic-dropdown/pull/930) silence chrome warning for non-passive 'touchstart' event. ([@xomaczar](https://github.com/xomaczar))
+* [#927](https://github.com/cibernox/ember-basic-dropdown/pull/927) Fix dropdown not correctly positioned horizontally when body position is relative ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
+
+#### :memo: Documentation
+* [#903](https://github.com/cibernox/ember-basic-dropdown/pull/903) Document @rootEventType ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
+
+#### :house: Internal
+* [#929](https://github.com/cibernox/ember-basic-dropdown/pull/929) Add push dist workflow ([@mkszepp](https://github.com/mkszepp))
+* [#892](https://github.com/cibernox/ember-basic-dropdown/pull/892) Add missing addon blueprint config, fix vscode settings & package lint ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 3
+- Andrey Khomenko ([@xomaczar](https://github.com/xomaczar))
+- Arnaud Weyts ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.1.0 (2024-05-06)
 
 #### :rocket: Enhancement
