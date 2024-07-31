@@ -9,6 +9,7 @@
 
 // My own placeholders
 %clearfix {
+  display: block;
   &::after {
     visibility: hidden;
     display: block;
@@ -17,7 +18,6 @@
     clear: both;
     height: 0;
   }
-  display: block;
 }
 %wrapper {
   max-width: 1024px;

@@ -4,16 +4,13 @@
   "packages": [
     {
       "name": "@embroider/addon-blueprint",
-      "version": "2.16.0",
+      "version": "2.17.0",
       "blueprints": [
         {
           "name": "@embroider/addon-blueprint",
           "isBaseBlueprint": true,
           "options": [
             "--pnpm",
-            "--addon-location=ember-basic-dropdown",
-            "--test-app-location=test-app",
-            "--release-it",
             "--typescript"
           ]
         }
