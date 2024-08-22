@@ -2,6 +2,15 @@
 
 
 
+
+## v8.2.1 (2024-08-22)
+
+#### :bug: Bug Fix
+* [#934](https://github.com/cibernox/ember-basic-dropdown/pull/934) Export interface `CalculatePositionOptions` ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.2.0 (2024-07-31)
 
 #### :rocket: Enhancement
