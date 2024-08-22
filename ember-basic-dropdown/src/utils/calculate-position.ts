@@ -7,7 +7,7 @@ export type HorizontalPosition =
   | 'right'
   | 'center';
 
-interface CalculatePositionOptions {
+export interface CalculatePositionOptions {
   horizontalPosition: HorizontalPosition;
   verticalPosition: VerticalPosition;
   matchTriggerWidth: boolean;
