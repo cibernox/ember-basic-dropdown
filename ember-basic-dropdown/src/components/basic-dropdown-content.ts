@@ -141,10 +141,11 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   respondToEvents = modifier(
     (dropdownElement: Element): (() => void) => {
-      this.args.dropdown?.actions?.registerDropdownElement &&
+      if (this.args.dropdown?.actions?.registerDropdownElement) {
         this.args.dropdown.actions.registerDropdownElement(
           dropdownElement as HTMLElement,
         );
+      }
 
       const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
       let triggerElement: HTMLElement | null = null;
@@ -174,8 +175,9 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           return;
         }
 
-        this.args.dropdown?.actions?.close &&
+        if (this.args.dropdown?.actions?.close) {
           this.args.dropdown.actions.close(e, true);
+        }
       };
       document.addEventListener(
         this.args.rootEventType || 'click',
@@ -571,7 +573,7 @@ function closestContent(el: Element): Element | null {
   return el;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 function waitForAnimations(element: Element, callback: Function): void {
   window.requestAnimationFrame(function () {
     const computedStyle = window.getComputedStyle(element);

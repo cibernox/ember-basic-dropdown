@@ -15,28 +15,13 @@ export interface ReadonlyRegistry {
 }
 
 declare module '@glint/environment-ember-loose/registry' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   export default interface Registry
-    extends EmberTruthRegistry /* other addon registries */ {
-    // local entries
-  }
-
-  export default interface Registry
-    extends EmbroiderUtilRegistry /* other registries here */ {
-    // ...
-  }
-
-  export default interface Registry
-    extends EmberElementHelperRegistry /* other registries here */ {
-    // ...
-  }
-
-  export default interface Registry
-    extends StyleHelperRegistry /* other registries here */ {
-    // ...
-  }
-
-  export default interface Registry
-    extends ReadonlyRegistry /* other registries here */ {
+    extends EmberTruthRegistry,
+      EmbroiderUtilRegistry,
+      EmberElementHelperRegistry,
+      StyleHelperRegistry,
+      ReadonlyRegistry /* other registries here */ {
     // ...
   }
 }

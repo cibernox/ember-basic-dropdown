@@ -57,8 +57,9 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   setup(element: HTMLElement) {
     // Keep a reference to the element for cleanup
     this.triggerElement = element;
-    this.dropdown?.actions?.registerTriggerElement &&
+    if (this.dropdown?.actions?.registerTriggerElement) {
       this.dropdown.actions.registerTriggerElement(element);
+    }
 
     if (!element.getAttribute('role')) element.setAttribute('role', 'button');
 

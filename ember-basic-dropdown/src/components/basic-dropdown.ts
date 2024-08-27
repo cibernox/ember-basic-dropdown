@@ -66,13 +66,13 @@ interface BasicDropdownArgs {
   rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   onInit?: Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   registerAPI?: Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   onOpen?: Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   onClose?: Function;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   triggerComponent?: string | ComponentLike<any> | undefined;
@@ -169,7 +169,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
           // eslint-disable-next-line ember/no-side-effects
           this.isOpen = false;
         }
-        this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+        if (this.args.registerAPI) {
+          this.args.registerAPI(this.publicAPI);
+        }
       });
     }
     // eslint-disable-next-line ember/no-side-effects
@@ -192,7 +194,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
     }
-    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    if (this.args.registerAPI) {
+      this.args.registerAPI(this.publicAPI);
+    }
   }
 
   override willDestroy(): void {
@@ -215,7 +219,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       return;
     }
     this.isOpen = true;
-    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    if (this.args.registerAPI) {
+      this.args.registerAPI(this.publicAPI);
+    }
     const trigger = this._getTriggerElement();
     if (trigger) {
       const parent = trigger.parentElement;
@@ -243,7 +249,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.top = this.left = this.right = this.width = this.height = undefined;
     this.previousVerticalPosition = this.previousHorizontalPosition = undefined;
     this.isOpen = false;
-    this.args.registerAPI && this.args.registerAPI(this.publicAPI);
+    if (this.args.registerAPI) {
+      this.args.registerAPI(this.publicAPI);
+    }
     const trigger = this._getTriggerElement();
     if (!trigger) {
       return;
@@ -364,7 +372,6 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     }
     for (const prop in positions.style) {
       if (!IGNORED_STYLES.includes(prop)) {
-        changes.otherStyles;
         changes.otherStyles[prop] = positions.style[prop];
       }
     }
