@@ -3,6 +3,19 @@
 
 
 
+
+## v8.3.0 (2024-08-27)
+
+#### :rocket: Enhancement
+* [#935](https://github.com/cibernox/ember-basic-dropdown/pull/935) Allow `@ember/test-helpers` v4 ([@mkszepp](https://github.com/mkszepp))
+
+#### :bug: Bug Fix
+* [#937](https://github.com/cibernox/ember-basic-dropdown/pull/937) Remove test-specific behaviour for BasicDropdownWormhole ([@rohitpaulk](https://github.com/rohitpaulk))
+
+#### Committers: 2
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+- Paul Kuruvilla ([@rohitpaulk](https://github.com/rohitpaulk))
+
 ## v8.2.1 (2024-08-22)
 
 #### :bug: Bug Fix
