@@ -10,23 +10,10 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const config = getOwner(this).resolveRegistration('config:environment') as {
-      environment: string;
-      APP: {
-        rootElement: string;
-      };
-      'ember-basic-dropdown': {
-        destination: string;
+      'ember-basic-dropdown'?: {
+        destination?: string;
       };
     };
-
-    if (config.environment === 'test') {
-      // document doesn't exists in fastboot apps, for this reason we need this check
-      if (typeof document === 'undefined') {
-        return '';
-      }
-      const rootElement = config['APP']?.rootElement;
-      return document.querySelector(rootElement)?.id ?? '';
-    }
 
     return ((config['ember-basic-dropdown'] &&
       config['ember-basic-dropdown'].destination) ||
