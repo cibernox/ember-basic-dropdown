@@ -36,11 +36,17 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
     await render(hbs`<BasicDropdownWormhole />`);
 
     assert
-      .dom('#custom-wormhole-destination', this.element.getRootNode())
+      .dom(
+        '.ember-application  #custom-wormhole-destination',
+        this.element.getRootNode(),
+      )
       .exists('custom destination is used');
 
     assert
-      .dom('#ember-basic-dropdown-wormhole', this.element.getRootNode())
+      .dom(
+        '.ember-application #ember-basic-dropdown-wormhole',
+        this.element.getRootNode(),
+      )
       .doesNotExist('default destination is not used');
   });
 
