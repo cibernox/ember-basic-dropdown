@@ -7,9 +7,6 @@ module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
     snippetPaths: ['app/components/snippets', 'app/templates/snippets'],
-    'ember-prism': {
-      components: ['scss', 'javascript', 'handlebars', 'markup-templating'], //needs to be an array, or undefined.
-    },
     prember: {
       urls: crawl,
     },
