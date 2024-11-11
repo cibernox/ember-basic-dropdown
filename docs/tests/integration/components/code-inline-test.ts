@@ -10,8 +10,10 @@ module('Integration | Component | code-inline', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<CodeInline @language="js" @code="console.log('hello');" />`);
+    await render(
+      hbs`<CodeInline @language="js" @code="console.log('hello');" />`,
+    );
 
-    assert.dom().hasText('console.log(\'hello\');');
+    assert.dom().hasText("console.log('hello');");
   });
 });
