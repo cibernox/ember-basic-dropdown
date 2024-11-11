@@ -18,12 +18,12 @@
   </nav>
   {{#if (and @hbs (eq this.activeTab 'hbs'))}}
     {{#let (get-code-snippet @hbs) as |snippet|}}
-      <CodeBlock @language="markup" @code={{snippet.source}} />
+      <CodeBlock @language="handlebars" @code={{snippet.source}} />
     {{/let}}
   {{/if}}
   {{#if @hbs2}}
     {{#let (get-code-snippet @hbs2) as |snippet|}}
-      <CodeBlock @language="markup" @code={{snippet.source}} />
+      <CodeBlock @language="handlebars" @code={{snippet.source}} />
     {{/let}}
   {{/if}}
   {{#if (and @js (eq this.activeTab 'js'))}}
