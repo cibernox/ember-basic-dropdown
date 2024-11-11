@@ -10,17 +10,8 @@ module('Integration | Component | code-inline', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<CodeInline />`);
+    await render(hbs`<CodeInline @language="js" @code="console.log('hello');" />`);
 
-    assert.dom().hasText('');
-
-    // Template block usage:
-    await render(hbs`
-      <CodeInline>
-        template block text
-      </CodeInline>
-    `);
-
-    assert.dom().hasText('template block text');
+    assert.dom().hasText('console.log(\'hello\');');
   });
 });

@@ -10,17 +10,8 @@ module('Integration | Component | code-block', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<CodeBlock />`);
+    await render(hbs`<CodeBlock @language="js" @code="console.log('hello');" />`);
 
-    assert.dom().hasText('');
-
-    // Template block usage:
-    await render(hbs`
-      <CodeBlock>
-        template block text
-      </CodeBlock>
-    `);
-
-    assert.dom().hasText('template block text');
+    assert.dom().hasText('console.log(\'hello\');');
   });
 });

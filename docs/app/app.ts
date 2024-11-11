@@ -9,6 +9,7 @@ import 'prismjs/components/prism-scss';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-handlebars';
 import 'prismjs/components/prism-markup-templating';
+// @ts-expect-error no types shipped from prismjs-glimmer
 import { setup } from 'prismjs-glimmer';
 
 import 'prismjs/themes/prism.css';
