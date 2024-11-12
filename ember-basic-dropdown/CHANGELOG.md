@@ -4,6 +4,21 @@
 
 
 
+
+## v8.4.0 (2024-11-12)
+
+#### :rocket: Enhancement
+* [#941](https://github.com/cibernox/ember-basic-dropdown/pull/941) Allow `@glimmer/component` v2 ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#940](https://github.com/cibernox/ember-basic-dropdown/pull/940) Remove `ember-prism`, use `primsjs` in docs ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#938](https://github.com/cibernox/ember-basic-dropdown/pull/938) Replace scss to css compiler while rollup ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.3.0 (2024-08-27)
 
 #### :rocket: Enhancement
