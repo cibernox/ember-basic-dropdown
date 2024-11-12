@@ -27,13 +27,18 @@
     "test:ember-shadow-dom": "ember test shadowDom",
     "test:ember-try": "ember try:one"
   },
+  "dependenciesMeta": {
+    "ember-basic-dropdown": {
+      "injected": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@ember/optional-features": "^2.1.0",
     "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^4.0.2",
     "@embroider/test-setup": "^4.0.0",
-    "@glimmer/component": "^1.1.2",
+    "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@glint/core": "^1.4.0",
     "@glint/environment-ember-loose": "^1.4.0",
