@@ -67,7 +67,7 @@ module.exports = async function () {
       {
         name: 'glimmer-component-v1',
         npm: {
-          overrides: {
+          devDependencies: {
             '@glimmer/component': '^1.1.2',
           },
         },
