@@ -1,32 +1,32 @@
-{{#let (element (or @htmlTag 'div')) as |OptionalTag|}}
-  {{!-- template-lint-disable no-pointer-down-event-binding --}}
+{{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+  {{! template-lint-disable no-pointer-down-event-binding }}
   {{!@glint-ignore}}
   <OptionalTag
-    class='ember-basic-dropdown-trigger
-      {{if @renderInPlace " ember-basic-dropdown-trigger--in-place"}}
-      {{if @hPosition (concat " ember-basic-dropdown-trigger--" @hPosition)}}
-      {{if @vPosition (concat " ember-basic-dropdown-trigger--" @vPosition)}}
-      {{@defaultClass}}'
+    class="ember-basic-dropdown-trigger
+      {{if @renderInPlace ' ember-basic-dropdown-trigger--in-place'}}
+      {{if @hPosition (concat ' ember-basic-dropdown-trigger--' @hPosition)}}
+      {{if @vPosition (concat ' ember-basic-dropdown-trigger--' @vPosition)}}
+      {{@defaultClass}}"
     {{basic-dropdown-trigger
       dropdown=@dropdown
       eventType=@eventType
       stopPropagation=@stopPropagation
     }}
-    tabindex={{unless @dropdown.disabled '0'}}
+    tabindex={{unless @dropdown.disabled "0"}}
     ...attributes
-    {{on 'mousedown' (fn this.disableDocumentTextSelect true)}}
-    {{on 'mouseup' (fn this.disableDocumentTextSelect false)}}
+    {{on "mousedown" (fn this.disableDocumentTextSelect true)}}
+    {{on "mouseup" (fn this.disableDocumentTextSelect false)}}
     {{! V1 compatibility - See #498 }}
-    {{on 'keydown' (fn (or @onKeyDown this.noop) @dropdown)}}
-    {{on 'mousedown' (fn (or @onMouseDown this.noop) @dropdown)}}
-    {{on 'touchend' (fn (or @onTouchEnd this.noop) @dropdown)}}
-    {{on 'click' (fn (or @onClick this.noop) @dropdown)}}
-    {{on 'mouseenter' (fn (or @onMouseEnter this.noop) @dropdown)}}
-    {{on 'mouseleave' (fn (or @onMouseLeave this.noop) @dropdown)}}
-    {{on 'focus' (fn (or @onFocus this.noop) @dropdown)}}
-    {{on 'blur' (fn (or @onBlur this.noop) @dropdown)}}
-    {{on 'focusin' (fn (or @onFocusIn this.noop) @dropdown)}}
-    {{on 'focusout' (fn (or @onFocusOut this.noop) @dropdown)}}
+    {{on "keydown" (fn (or @onKeyDown this.noop) @dropdown)}}
+    {{on "mousedown" (fn (or @onMouseDown this.noop) @dropdown)}}
+    {{on "touchend" (fn (or @onTouchEnd this.noop) @dropdown)}}
+    {{on "click" (fn (or @onClick this.noop) @dropdown)}}
+    {{on "mouseenter" (fn (or @onMouseEnter this.noop) @dropdown)}}
+    {{on "mouseleave" (fn (or @onMouseLeave this.noop) @dropdown)}}
+    {{on "focus" (fn (or @onFocus this.noop) @dropdown)}}
+    {{on "blur" (fn (or @onBlur this.noop) @dropdown)}}
+    {{on "focusin" (fn (or @onFocusIn this.noop) @dropdown)}}
+    {{on "focusout" (fn (or @onFocusOut this.noop) @dropdown)}}
   >
     {{yield}}
   </OptionalTag>

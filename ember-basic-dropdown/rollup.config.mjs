@@ -1,6 +1,6 @@
 import { babel } from '@rollup/plugin-babel';
 import { Addon } from '@embroider/addon-dev/rollup';
-import sass from 'rollup-plugin-sass'
+import sass from 'rollup-plugin-sass';
 import postcss from 'postcss';
 
 const addon = new Addon({
@@ -19,8 +19,8 @@ export default [
     plugins: [
       sass({
         output: './vendor/ember-basic-dropdown.css',
-      })
-    ]
+      }),
+    ],
   },
   {
     input: './_index.scss',
@@ -30,13 +30,14 @@ export default [
     },
     plugins: [
       sass({
-        processor: css => postcss()
-          .process(css, {
-            from: undefined,
-          })
-          .then(result => result.css)
-      })
-    ]
+        processor: (css) =>
+          postcss()
+            .process(css, {
+              from: undefined,
+            })
+            .then((result) => result.css),
+      }),
+    ],
   },
   {
     // This provides defaults that work well alongside `publicEntrypoints` below.
