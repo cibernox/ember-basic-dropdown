@@ -12,11 +12,9 @@
       "docs/tests/*": ["tests/*"],
       "docs/*": ["app/*"],
       "*": ["types/*"]
-    }
-  },
-  "include": [
-    "app/**/*",
-    "tests/**/*",
-    "types/**/*"
-  ]
+    },
+    "types": [
+      "./node_modules/ember-source/types/stable",
+    ]
+  }
 }
