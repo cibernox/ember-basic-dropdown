@@ -15,8 +15,10 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
       };
     };
 
-    return ((config['ember-basic-dropdown'] &&
-      config['ember-basic-dropdown'].destination) ||
-      'ember-basic-dropdown-wormhole') as string;
+    return (
+      (config['ember-basic-dropdown'] &&
+        config['ember-basic-dropdown'].destination) ||
+      'ember-basic-dropdown-wormhole'
+    );
   }
 }

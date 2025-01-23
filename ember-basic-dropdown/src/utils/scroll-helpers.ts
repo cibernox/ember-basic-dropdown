@@ -51,8 +51,8 @@ export function getScrollDeltas({
     }
     const scrollLineHeight = getScrollLineHeight();
     if (scrollLineHeight !== undefined) {
-      deltaX *= scrollLineHeight as number;
-      deltaY *= scrollLineHeight as number;
+      deltaX *= scrollLineHeight;
+      deltaY *= scrollLineHeight;
     }
   }
 
@@ -75,8 +75,7 @@ export function getScrollLineHeight(): number | undefined {
       '<!doctype html><html><head></head><body><span>X</span></body></html>',
     );
     iframeDocument.close();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const body = iframeDocument.body as unknown as any;
+    const body = iframeDocument.body;
     scrollLineHeight = (body.firstElementChild as HTMLElement).offsetHeight;
     document.body.removeChild(iframe);
   }
