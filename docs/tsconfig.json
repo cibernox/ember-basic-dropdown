@@ -15,6 +15,7 @@
     },
     "types": [
       "./node_modules/ember-source/types/stable",
+      "./node_modules/@types/prismjs",
     ]
   }
 }
