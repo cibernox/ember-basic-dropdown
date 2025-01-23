@@ -8,21 +8,11 @@
     "build:docs": "pnpm run --filter docs build",
     "lint": "pnpm run --filter '*' lint",
     "lint:fix": "pnpm run --filter '*' lint:fix",
-    "start": "concurrently 'pnpm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start": "concurrently 'pnpm:start:*' --restart-after 5000 --prefixColors auto",
     "start:addon": "pnpm run --filter ember-basic-dropdown start --no-watch.clearScreen",
     "start:docs": "pnpm run --filter docs start --preserveWatchOutput",
     "start:test-app": "pnpm run --filter test-app start",
     "test:ember": "pnpm --filter '*' test:ember"
-  },
-  "devDependencies": {
-    "@glint/core": "^1.5.0",
-    "@release-it-plugins/lerna-changelog": "^7.0.0",
-    "@release-it-plugins/workspaces": "^4.2.0",
-    "concurrently": "^9.1.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-ember-template-tag": "^2.0.4",
-    "release-it": "^17.10.0",
-    "typescript": "^5.6.3"
   },
   "workspaces": [
     "ember-basic-dropdown",
@@ -53,5 +43,15 @@
     "npm": false
   },
   "version": "8.4.0",
-  "packageManager": "pnpm@9.2.0+sha512.98a80fd11c2e7096747762304106432b3ddc67dcf54b5a8c01c93f68a2cd5e05e6821849522a06fb76284d41a2660d5e334f2ee3bbf29183bf2e739b1dafa771"
+  "packageManager": "pnpm@10.0.0",
+  "devDependencies": {
+    "@glint/core": "^1.5.0",
+    "@release-it-plugins/lerna-changelog": "^7.0.0",
+    "@release-it-plugins/workspaces": "^4.2.0",
+    "concurrently": "^9.1.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-ember-template-tag": "^2.0.4",
+    "release-it": "^17.10.0",
+    "typescript": "^5.6.3"
+  }
 }
