@@ -10,8 +10,8 @@ or `ember-paper`'s [menu component](http://miguelcobain.github.io/ember-paper/#/
 
 ### Compatibility
 
-* Ember.js v3.28 or above
-* Ember CLI v3.28 or above
+- Ember.js v3.28 or above
+- Ember CLI v3.28 or above
 
 Versions 1.X require Ember 2.16 or greater
 

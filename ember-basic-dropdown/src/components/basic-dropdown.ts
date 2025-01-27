@@ -414,9 +414,11 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       );
     }
 
-    return ((config['ember-basic-dropdown'] &&
-      config['ember-basic-dropdown'].destination) ||
-      'ember-basic-dropdown-wormhole') as string;
+    return (
+      (config['ember-basic-dropdown'] &&
+        config['ember-basic-dropdown'].destination) ||
+      'ember-basic-dropdown-wormhole'
+    );
   }
 
   _getDropdownElement(): HTMLElement | null {

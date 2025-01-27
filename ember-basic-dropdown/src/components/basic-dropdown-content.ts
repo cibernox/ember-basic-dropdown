@@ -291,7 +291,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   initiallyReposition = modifier(
     () => {
       // Escape autotracking frame and avoid backtracking re-render
-      Promise.resolve().then(() => {
+      void Promise.resolve().then(() => {
         this.args.dropdown?.actions.reposition();
       });
     },
@@ -608,19 +608,17 @@ function dropdownIsValidParent(
   if (closestDropdown === null) {
     return false;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const closestAttrs = closestDropdown.attributes as unknown as any;
-    const selector = `[aria-controls=${closestAttrs.id.value}]`;
+    const closestAttrId = closestDropdown.getAttribute('id') ?? '';
+    const selector = `[aria-controls=${closestAttrId}]`;
     const trigger =
       document.querySelector(selector) ??
       (triggerElement?.getRootNode() as HTMLElement)?.querySelector(selector);
     if (trigger === null) return false;
     const parentDropdown = closestContent(trigger);
     if (parentDropdown === null) return false;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parentAttrs = parentDropdown.attributes as unknown as any;
+    const parentAttrId = parentDropdown.getAttribute('id') ?? '';
     return (
-      (parentDropdown && parentAttrs.id.value === dropdownId) ||
+      (parentDropdown && parentAttrId === dropdownId) ||
       dropdownIsValidParent(triggerElement, parentDropdown, dropdownId)
     );
   }

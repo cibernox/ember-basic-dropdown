@@ -15,6 +15,7 @@ export default class ShadowRootComponent extends Component<{
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const config = getOwner(this).resolveRegistration('config:environment') as {
       APP: {
         shadowDom: boolean;

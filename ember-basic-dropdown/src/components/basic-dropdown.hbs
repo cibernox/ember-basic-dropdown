@@ -14,7 +14,7 @@
         vPosition=(readonly this.vPosition)
       )
       (component
-        'basic-dropdown-trigger'
+        "basic-dropdown-trigger"
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
@@ -29,7 +29,7 @@
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         preventScroll=(readonly @preventScroll)
-        rootEventType=(or @rootEventType 'click')
+        rootEventType=(or @rootEventType "click")
         vPosition=(readonly this.vPosition)
         destination=(readonly this.destination)
         destinationElement=(readonly this.destinationElement)
@@ -41,12 +41,12 @@
         otherStyles=(readonly this.otherStyles)
       )
       (component
-        'basic-dropdown-content'
+        "basic-dropdown-content"
         dropdown=(readonly this.publicAPI)
         hPosition=(readonly this.hPosition)
         renderInPlace=(readonly this.renderInPlace)
         preventScroll=(readonly @preventScroll)
-        rootEventType=(or @rootEventType 'click')
+        rootEventType=(or @rootEventType "click")
         vPosition=(readonly this.vPosition)
         destination=(readonly this.destination)
         destinationElement=(readonly this.destinationElement)
@@ -59,10 +59,10 @@
       )
     )
   )
-as |api|
+  as |api|
 }}
   {{#if this.renderInPlace}}
-    <div class='ember-basic-dropdown' ...attributes>{{yield api}}</div>
+    <div class="ember-basic-dropdown" ...attributes>{{yield api}}</div>
   {{else}}
     {{yield api}}
   {{/if}}
