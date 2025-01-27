@@ -5,6 +5,18 @@
 
 
 
+
+## v8.5.0 (2025-01-27)
+
+#### :rocket: Enhancement
+* [#944](https://github.com/cibernox/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#944](https://github.com/cibernox/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.4.0 (2024-11-12)
 
 #### :rocket: Enhancement
