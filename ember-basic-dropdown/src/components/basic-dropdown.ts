@@ -37,7 +37,7 @@ export type TRootEventType = 'click' | 'mousedown';
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
-interface BasicDropdownSignature {
+export interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
   Blocks: {
@@ -54,7 +54,7 @@ interface BasicDropdownSignature {
   };
 }
 
-interface BasicDropdownArgs {
+export interface BasicDropdownArgs {
   initiallyOpened?: boolean;
   renderInPlace?: boolean;
   verticalPosition?: VerticalPosition;
