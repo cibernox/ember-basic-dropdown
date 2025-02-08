@@ -409,9 +409,11 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       }
 
       // check if destination exists in tests:
-      if (config['ember-basic-dropdown'] &&
-        config['ember-basic-dropdown'].destination) {
-        const destination = config['ember-basic-dropdown'].destination
+      if (
+        config['ember-basic-dropdown'] &&
+        config['ember-basic-dropdown'].destination
+      ) {
+        const destination = config['ember-basic-dropdown'].destination;
         if (document.getElementById(destination) !== null) {
           return destination;
         }
