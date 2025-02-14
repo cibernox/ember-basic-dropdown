@@ -26,6 +26,7 @@ export interface DropdownActions {
   registerDropdownElement: (e: HTMLElement) => void;
   getTriggerElement: () => HTMLElement | null;
 }
+
 export interface Dropdown {
   uniqueId: string;
   disabled: boolean;
@@ -37,20 +38,21 @@ export type TRootEventType = 'click' | 'mousedown';
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
+
+export interface BasicDropdownDefaultBlock {
+  uniqueId: string;
+  disabled: boolean;
+  isOpen: boolean;
+  actions: DropdownActions;
+  Trigger: ComponentLike<BasicDropdownTriggerSignature>;
+  Content: ComponentLike<BasicDropdownContentSignature>;
+}
+
 export interface BasicDropdownSignature {
   Element: HTMLElement;
   Args: BasicDropdownArgs;
   Blocks: {
-    default: [
-      {
-        uniqueId: string;
-        disabled: boolean;
-        isOpen: boolean;
-        actions: DropdownActions;
-        Trigger: ComponentLike<BasicDropdownTriggerSignature>;
-        Content: ComponentLike<BasicDropdownContentSignature>;
-      },
-    ];
+    default: [BasicDropdownDefaultBlock];
   };
 }
 
