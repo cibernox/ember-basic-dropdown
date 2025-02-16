@@ -63,13 +63,13 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
     if (!element.getAttribute('role')) element.setAttribute('role', 'button');
 
-    element.addEventListener('click', this.handleMouseEvent);
-    element.addEventListener('mousedown', this.handleMouseEvent);
-    element.addEventListener('keydown', this.handleKeyDown);
-    element.addEventListener('touchstart', this.handleTouchStart, {
+    element.addEventListener('click', this.handleMouseEventBound);
+    element.addEventListener('mousedown', this.handleMouseEventBound);
+    element.addEventListener('keydown', this.handleKeyDownBound);
+    element.addEventListener('touchstart', this.handleTouchStartBound, {
       passive: false,
     });
-    element.addEventListener('touchend', this.handleTouchEnd);
+    element.addEventListener('touchend', this.handleTouchEndBound);
   }
 
   update(
@@ -142,11 +142,11 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
 
   @action
   handleTouchStart(): void {
-    document.addEventListener('touchmove', this._touchMoveHandler);
+    document.addEventListener('touchmove', this.touchMoveHandlerBound);
     if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
       (this.triggerElement?.getRootNode() as HTMLElement).addEventListener(
         'touchmove',
-        this._touchMoveHandler,
+        this.touchMoveHandlerBound,
       );
     }
   }
@@ -164,7 +164,7 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
       actions.toggle(e);
     }
     this.touchMoveEvent = undefined;
-    document.removeEventListener('touchmove', this._touchMoveHandler);
+    document.removeEventListener('touchmove', this.touchMoveHandlerBound);
     // This next three lines are stolen from hammertime. This prevents the default
     // behaviour of the touchend, but synthetically trigger a focus and a (delayed) click
     // to simulate natural behaviour.
@@ -207,34 +207,40 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   @action
   _touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
-    document.removeEventListener('touchmove', this._touchMoveHandler);
+    document.removeEventListener('touchmove', this.touchMoveHandlerBound);
 
     if (this.triggerElement?.getRootNode() instanceof ShadowRoot) {
       (this.triggerElement?.getRootNode() as HTMLElement).removeEventListener(
         'touchmove',
-        this._touchMoveHandler,
+        this.touchMoveHandlerBound,
       );
     }
   }
+
+  handleMouseEventBound = (e: MouseEvent) => this.handleMouseEvent(e);
+  handleKeyDownBound = (e: KeyboardEvent) => this.handleKeyDown(e);
+  handleTouchStartBound = () => this.handleTouchStart();
+  handleTouchEndBound = (e: TouchEvent) => this.handleTouchEnd(e);
+  touchMoveHandlerBound = (e: TouchEvent) => this._touchMoveHandler(e);
 }
 
 function cleanup(instance: DropdownTriggerModifier) {
   const { triggerElement } = instance;
   if (triggerElement) {
     if (typeof document !== 'undefined')
-      document.removeEventListener('touchmove', instance._touchMoveHandler);
+      document.removeEventListener('touchmove', instance.touchMoveHandlerBound);
 
     if (triggerElement?.getRootNode() instanceof ShadowRoot) {
       (triggerElement?.getRootNode() as HTMLElement).removeEventListener(
         'touchmove',
-        instance._touchMoveHandler,
+        instance.touchMoveHandlerBound,
       );
     }
 
-    triggerElement.removeEventListener('click', instance.handleMouseEvent);
-    triggerElement.removeEventListener('mousedown', instance.handleMouseEvent);
-    triggerElement.removeEventListener('keydown', instance.handleKeyDown);
-    triggerElement.removeEventListener('touchstart', instance.handleTouchStart);
-    triggerElement.removeEventListener('touchend', instance.handleTouchEnd);
+    triggerElement.removeEventListener('click', instance.handleMouseEventBound);
+    triggerElement.removeEventListener('mousedown', instance.handleMouseEventBound);
+    triggerElement.removeEventListener('keydown', instance.handleKeyDownBound);
+    triggerElement.removeEventListener('touchstart', instance.handleTouchStartBound);
+    triggerElement.removeEventListener('touchend', instance.handleTouchEndBound);
   }
 }

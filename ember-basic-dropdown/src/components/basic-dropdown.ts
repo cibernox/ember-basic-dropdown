@@ -116,12 +116,12 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
   private _previousDisabled = UNINITIALIZED;
   private _actions: DropdownActions = {
-    open: this.open,
-    close: this.close,
-    toggle: this.toggle,
-    reposition: this.reposition,
-    registerTriggerElement: this.registerTriggerElement,
-    registerDropdownElement: this.registerDropdownElement,
+    open: this.open.bind(this),
+    close: this.close.bind(this),
+    toggle: this.toggle.bind(this),
+    reposition: this.reposition.bind(this),
+    registerTriggerElement: this.registerTriggerElement.bind(this),
+    registerDropdownElement: this.registerDropdownElement.bind(this),
     getTriggerElement: () => this.triggerElement,
   };
 

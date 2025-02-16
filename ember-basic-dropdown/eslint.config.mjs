@@ -87,7 +87,6 @@ export default ts.config(
     extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
     rules: {
       '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/unbound-method': 'off',
     },
   },
   {
