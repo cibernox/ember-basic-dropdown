@@ -405,10 +405,28 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     };
 
     if (config.environment === 'test') {
-      // document doesn't exists in fastboot apps, for this reason we need this check
+      // document doesn't exist in fastboot apps, for this reason we need this check
       if (typeof document === 'undefined') {
         return 'ember-basic-dropdown-wormhole';
       }
+
+      // check if destination exists in tests:
+      if (
+        config['ember-basic-dropdown'] &&
+        config['ember-basic-dropdown'].destination
+      ) {
+        const destination = config['ember-basic-dropdown'].destination;
+        if (document.getElementById(destination) !== null) {
+          return destination;
+        }
+      }
+
+      // check if default element exists in tests:
+      if (document.getElementById('ember-basic-dropdown-wormhole') !== null) {
+        return 'ember-basic-dropdown-wormhole';
+      }
+
+      // fall back to rootElement as destination
       const rootElement = config['APP']?.rootElement;
       return (
         document.querySelector(rootElement)?.id ??
