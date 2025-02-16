@@ -203,10 +203,17 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       }
 
       window.addEventListener('resize', this.runloopAwareRepositionBound);
-      window.addEventListener('orientationchange', this.runloopAwareRepositionBound);
+      window.addEventListener(
+        'orientationchange',
+        this.runloopAwareRepositionBound,
+      );
 
       if (this.isTouchDevice) {
-        document.addEventListener('touchstart', this.touchStartHandlerBound, true);
+        document.addEventListener(
+          'touchstart',
+          this.touchStartHandlerBound,
+          true,
+        );
         document.addEventListener('touchend', this.handleRootMouseDown, true);
 
         if (rootElement) {
@@ -376,7 +383,11 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       this._contentWormhole.getRootNode() instanceof ShadowRoot
     ) {
       const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-      rootElement.addEventListener('touchmove', this.touchMoveHandlerBound, true);
+      rootElement.addEventListener(
+        'touchmove',
+        this.touchMoveHandlerBound,
+        true,
+      );
     }
   }
 
@@ -390,7 +401,11 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       this._contentWormhole.getRootNode() instanceof ShadowRoot
     ) {
       const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-      rootElement.removeEventListener('touchmove', this.touchMoveHandlerBound, true);
+      rootElement.removeEventListener(
+        'touchmove',
+        this.touchMoveHandlerBound,
+        true,
+      );
     }
   }
 
@@ -577,8 +592,7 @@ function closestContent(el: Element): Element | null {
   return el;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-function waitForAnimations(element: Element, callback: Function): void {
+function waitForAnimations(element: Element, callback: () => void): void {
   window.requestAnimationFrame(function () {
     const computedStyle = window.getComputedStyle(element);
     if (

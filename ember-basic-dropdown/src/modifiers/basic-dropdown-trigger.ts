@@ -238,9 +238,18 @@ function cleanup(instance: DropdownTriggerModifier) {
     }
 
     triggerElement.removeEventListener('click', instance.handleMouseEventBound);
-    triggerElement.removeEventListener('mousedown', instance.handleMouseEventBound);
+    triggerElement.removeEventListener(
+      'mousedown',
+      instance.handleMouseEventBound,
+    );
     triggerElement.removeEventListener('keydown', instance.handleKeyDownBound);
-    triggerElement.removeEventListener('touchstart', instance.handleTouchStartBound);
-    triggerElement.removeEventListener('touchend', instance.handleTouchEndBound);
+    triggerElement.removeEventListener(
+      'touchstart',
+      instance.handleTouchStartBound,
+    );
+    triggerElement.removeEventListener(
+      'touchend',
+      instance.handleTouchEndBound,
+    );
   }
 }
