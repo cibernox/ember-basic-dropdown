@@ -68,18 +68,18 @@ export interface BasicDropdownArgs {
   rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  onInit?: Function;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  registerAPI?: Function;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  onOpen?: Function;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  onClose?: Function;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  triggerComponent?: string | ComponentLike<any> | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  contentComponent?: string | ComponentLike<any> | undefined;
+  onInit?: (dropdown: Dropdown) => void;
+  registerAPI?: (dropdown: Dropdown | null) => void;
+  onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
+  onClose?: (dropdown: Dropdown, e?: Event) => boolean | void;
+  triggerComponent?:
+    | string
+    | ComponentLike<BasicDropdownTriggerSignature>
+    | undefined;
+  contentComponent?:
+    | string
+    | ComponentLike<BasicDropdownContentSignature>
+    | undefined;
   calculatePosition?: CalculatePosition;
 }
 
@@ -116,12 +116,12 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
   private _previousDisabled = UNINITIALIZED;
   private _actions: DropdownActions = {
-    open: this.open,
-    close: this.close,
-    toggle: this.toggle,
-    reposition: this.reposition,
-    registerTriggerElement: this.registerTriggerElement,
-    registerDropdownElement: this.registerDropdownElement,
+    open: this.open.bind(this),
+    close: this.close.bind(this),
+    toggle: this.toggle.bind(this),
+    reposition: this.reposition.bind(this),
+    registerTriggerElement: this.registerTriggerElement.bind(this),
+    registerDropdownElement: this.registerDropdownElement.bind(this),
     getTriggerElement: () => this.triggerElement,
   };
 
@@ -394,6 +394,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   _getDestinationId(): string {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const config = getOwner(this).resolveRegistration('config:environment') as {
       environment: string;
       APP: {

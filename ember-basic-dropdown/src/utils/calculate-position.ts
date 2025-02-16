@@ -1,3 +1,5 @@
+import type BasicDropdown from '../components/basic-dropdown';
+
 export type VerticalPosition = 'auto' | 'above' | 'below';
 export type HorizontalPosition =
   | 'auto'
@@ -14,8 +16,7 @@ export interface CalculatePositionOptions {
   previousHorizontalPosition?: HorizontalPosition | undefined;
   previousVerticalPosition?: VerticalPosition | undefined;
   renderInPlace: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dropdown: any;
+  dropdown: BasicDropdown;
 }
 export type CalculatePositionResultStyle = {
   top?: number | undefined;

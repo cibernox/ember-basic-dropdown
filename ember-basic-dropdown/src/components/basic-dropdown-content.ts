@@ -202,17 +202,24 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         );
       }
 
-      window.addEventListener('resize', this.runloopAwareReposition);
-      window.addEventListener('orientationchange', this.runloopAwareReposition);
+      window.addEventListener('resize', this.runloopAwareRepositionBound);
+      window.addEventListener(
+        'orientationchange',
+        this.runloopAwareRepositionBound,
+      );
 
       if (this.isTouchDevice) {
-        document.addEventListener('touchstart', this.touchStartHandler, true);
+        document.addEventListener(
+          'touchstart',
+          this.touchStartHandlerBound,
+          true,
+        );
         document.addEventListener('touchend', this.handleRootMouseDown, true);
 
         if (rootElement) {
           rootElement.addEventListener(
             'touchstart',
-            this.touchStartHandler,
+            this.touchStartHandlerBound,
             true,
           );
           rootElement.addEventListener(
@@ -259,7 +266,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         if (this.isTouchDevice) {
           document.removeEventListener(
             'touchstart',
-            this.touchStartHandler,
+            this.touchStartHandlerBound,
             true,
           );
           document.removeEventListener(
@@ -271,7 +278,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           if (rootElement) {
             rootElement.removeEventListener(
               'touchstart',
-              this.touchStartHandler,
+              this.touchStartHandlerBound,
               true,
             );
             rootElement.removeEventListener(
@@ -369,28 +376,36 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   @action
   touchStartHandler(): void {
-    document.addEventListener('touchmove', this.touchMoveHandler, true);
+    document.addEventListener('touchmove', this.touchMoveHandlerBound, true);
 
     if (
       this._contentWormhole &&
       this._contentWormhole.getRootNode() instanceof ShadowRoot
     ) {
       const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-      rootElement.addEventListener('touchmove', this.touchMoveHandler, true);
+      rootElement.addEventListener(
+        'touchmove',
+        this.touchMoveHandlerBound,
+        true,
+      );
     }
   }
 
   @action
   touchMoveHandler(e: TouchEvent): void {
     this.touchMoveEvent = e;
-    document.removeEventListener('touchmove', this.touchMoveHandler, true);
+    document.removeEventListener('touchmove', this.touchMoveHandlerBound, true);
 
     if (
       this._contentWormhole &&
       this._contentWormhole.getRootNode() instanceof ShadowRoot
     ) {
       const rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-      rootElement.removeEventListener('touchmove', this.touchMoveHandler, true);
+      rootElement.removeEventListener(
+        'touchmove',
+        this.touchMoveHandlerBound,
+        true,
+      );
     }
   }
 
@@ -411,12 +426,16 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
 
   @action
   removeGlobalEvents(): void {
-    window.removeEventListener('resize', this.runloopAwareReposition);
+    window.removeEventListener('resize', this.runloopAwareRepositionBound);
     window.removeEventListener(
       'orientationchange',
-      this.runloopAwareReposition,
+      this.runloopAwareRepositionBound,
     );
   }
+
+  touchMoveHandlerBound = (e: TouchEvent) => this.touchMoveHandler(e);
+  runloopAwareRepositionBound = () => this.runloopAwareReposition();
+  touchStartHandlerBound = () => this.touchStartHandler();
 
   // Methods
   addScrollHandling(dropdownElement: Element): void {
@@ -497,7 +516,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       };
     } else {
       this.addScrollEvents();
-      this.removeScrollHandling = this.removeScrollEvents;
+      this.removeScrollHandling = this.removeScrollEvents.bind(this);
     }
   }
 
@@ -508,15 +527,15 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
   addScrollEvents(): void {
-    window.addEventListener('scroll', this.runloopAwareReposition);
+    window.addEventListener('scroll', this.runloopAwareRepositionBound);
     this.scrollableAncestors.forEach((el) => {
-      el.addEventListener('scroll', this.runloopAwareReposition);
+      el.addEventListener('scroll', this.runloopAwareRepositionBound);
     });
   }
   removeScrollEvents(): void {
-    window.removeEventListener('scroll', this.runloopAwareReposition);
+    window.removeEventListener('scroll', this.runloopAwareRepositionBound);
     this.scrollableAncestors.forEach((el) => {
-      el.removeEventListener('scroll', this.runloopAwareReposition);
+      el.removeEventListener('scroll', this.runloopAwareRepositionBound);
     });
   }
 }
@@ -573,8 +592,7 @@ function closestContent(el: Element): Element | null {
   return el;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-function waitForAnimations(element: Element, callback: Function): void {
+function waitForAnimations(element: Element, callback: () => void): void {
   window.requestAnimationFrame(function () {
     const computedStyle = window.getComputedStyle(element);
     if (

@@ -9,6 +9,7 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
   get getDestinationId(): string {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const config = getOwner(this).resolveRegistration('config:environment') as {
       'ember-basic-dropdown'?: {
         destination?: string;
