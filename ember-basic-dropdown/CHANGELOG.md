@@ -6,6 +6,21 @@
 
 
 
+
+## v8.6.0 (2025-02-22)
+
+#### :rocket: Enhancement
+* [#947](https://github.com/cibernox/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
+* [#946](https://github.com/cibernox/ember-basic-dropdown/pull/946) Test: Prefer `config.destination` and default `ember-basic-dropdown-wormhole` ([@dagroe](https://github.com/dagroe))
+* [#945](https://github.com/cibernox/ember-basic-dropdown/pull/945) Export interfaces `BasicDropdownSignature`, `BasicDropdownArgs` and `BasicDropdownDefaultBlock` ([@dagroe](https://github.com/dagroe))
+
+#### :house: Internal
+* [#947](https://github.com/cibernox/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 2
+- Daniel Gröger ([@dagroe](https://github.com/dagroe))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.5.0 (2025-01-27)
 
 #### :rocket: Enhancement
