@@ -28,7 +28,7 @@
     cursor: pointer;
     height: 30px;
     &:focus,
-    &[aria-expanded='true'] {
+    &[aria-expanded="true"] {
       outline: none;
       background-color: #1b94ef;
     }
@@ -58,7 +58,7 @@
   border-radius: 4px;
   margin-top: 10px;
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     width: 0;

@@ -1,4 +1,4 @@
-<h1 class='doc-page-title'>Dropdown events</h1>
+<h1 class="doc-page-title">Dropdown events</h1>
 
 <p>
   Although the top-level component is tagless, it does fire a few events that
@@ -28,10 +28,7 @@
   is opened.
 </p>
 
-<CodeExample
-  @hbs='dropdown-events-1.hbs'
-  @js='dropdown-events-1.js'
->
+<CodeExample @hbs="dropdown-events-1.hbs" @js="dropdown-events-1.js">
   {{component (ensure-safe-component this.dropDownEvents1Component)}}
 </CodeExample>
 
@@ -48,10 +45,7 @@
   open it.
 </p>
 
-<CodeExample
-  @hbs='dropdown-events-2.hbs'
-  @js='dropdown-events-2.js'
->
+<CodeExample @hbs="dropdown-events-2.hbs" @js="dropdown-events-2.js">
   {{component (ensure-safe-component this.dropDownEvents2Component)}}
 </CodeExample>
 
@@ -71,10 +65,7 @@
   close until one checkbox is selected.
 </p>
 
-<CodeExample
-  @hbs='dropdown-events-3.hbs'
-  @js='dropdown-events-3.js'
->
+<CodeExample @hbs="dropdown-events-3.hbs" @js="dropdown-events-3.js">
   {{component (ensure-safe-component this.dropDownEvents3Component)}}
 </CodeExample>
 
@@ -85,7 +76,13 @@
   the events that are fired by the trigger.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.how-to-use-it" class='doc-page-nav-link-prev'>&lt; How to use it</LinkTo>
-  <LinkTo @route="public-pages.docs.trigger-events" class='doc-page-nav-link-next'>Trigger events &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.how-to-use-it"
+    class="doc-page-nav-link-prev"
+  >&lt; How to use it</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.trigger-events"
+    class="doc-page-nav-link-next"
+  >Trigger events &gt;</LinkTo>
 </div>

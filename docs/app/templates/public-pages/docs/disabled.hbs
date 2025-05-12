@@ -1,11 +1,11 @@
-<h1 class='doc-page-title'>Disabled</h1>
+<h1 class="doc-page-title">Disabled</h1>
 
 <p>
   If you disable the dropdown, it will not open or close by any mean, mouse,
   keyboard or touch screen.
 </p>
 
-<CodeExample @hbs='disabled-1.hbs'>
+<CodeExample @hbs="disabled-1.hbs">
   {{component (ensure-safe-component this.disabled1Component)}}
 </CodeExample>
 
@@ -23,7 +23,13 @@
   to assist screen readers.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.position" class='doc-page-nav-link-prev'>&lt; Position</LinkTo>
-  <LinkTo @route="public-pages.docs.overlays" class='doc-page-nav-link-next'>Overlays &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.position"
+    class="doc-page-nav-link-prev"
+  >&lt; Position</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.overlays"
+    class="doc-page-nav-link-next"
+  >Overlays &gt;</LinkTo>
 </div>

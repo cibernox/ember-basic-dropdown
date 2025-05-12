@@ -1,4 +1,4 @@
-<h1 class='doc-page-title'>Position</h1>
+<h1 class="doc-page-title">Position</h1>
 
 <p>
   The number one thing that you will want to customize in a dropdown is where
@@ -39,7 +39,7 @@
 
 <p>This sounds like a lot, but with an example it will be crystal clear.</p>
 
-<CodeExample @hbs='position-1.hbs' @js='position-1.js'>
+<CodeExample @hbs="position-1.hbs" @js="position-1.js">
   {{component (ensure-safe-component this.position1Component)}}
 </CodeExample>
 
@@ -78,7 +78,7 @@
   to the component. Inspect the DOM of the next example to see the difference.
 </p>
 
-<CodeExample @hbs='position-2.hbs'>
+<CodeExample @hbs="position-2.hbs">
   {{component (ensure-safe-component this.position2Component)}}
 </CodeExample>
 
@@ -98,19 +98,25 @@
   option to enable this behaviour.
 </p>
 
-<CodeExample @hbs='position-3.hbs'>
+<CodeExample @hbs="position-3.hbs">
   {{component (ensure-safe-component this.position3Component)}}
 </CodeExample>
 
 <p>
   In the section about
-  <a href='/docs/custom-position'>Custom Position</a>
+  <a href="/docs/custom-position">Custom Position</a>
   strategies we will see how to totally customize how the dropdown is positioned
   by passing it a function. If you do so the options in this section will not
   work unless your function, which will receive those options, honors them.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.trigger-events" class='doc-page-nav-link-prev'>&lt; Trigger events</LinkTo>
-  <LinkTo @route="public-pages.docs.disabled" class='doc-page-nav-link-next'>Disabled &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.trigger-events"
+    class="doc-page-nav-link-prev"
+  >&lt; Trigger events</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.disabled"
+    class="doc-page-nav-link-next"
+  >Disabled &gt;</LinkTo>
 </div>

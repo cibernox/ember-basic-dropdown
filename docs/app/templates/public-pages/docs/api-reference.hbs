@@ -1,4 +1,4 @@
-<h1 class='doc-page-title'>API reference</h1>
+<h1 class="doc-page-title">API reference</h1>
 
 <p>
   It's hard to find a proper place in the guides for explaining every single
@@ -49,7 +49,9 @@
     <tr>
       <td>destinationElement</td>
       <td><code>HTMLElement</code></td>
-      <td>Instead of passing <code>destination</code>, you can pass the DOM element where the dropdown will be rendered using
+      <td>Instead of passing
+        <code>destination</code>, you can pass the DOM element where the
+        dropdown will be rendered using
         <code>#in-element</code></td>
     </tr>
     <tr>
@@ -153,8 +155,8 @@
       <td>rootEventType</td>
       <td>String</td>
       <td>(Default:
-        <code>'click'</code>) The type of mouse event that handles closing the dropdown.
-        Valid values: "mousedown" and "click"</td>
+        <code>'click'</code>) The type of mouse event that handles closing the
+        dropdown. Valid values: "mousedown" and "click"</td>
     </tr>
   </tbody>
 </table>
@@ -222,8 +224,8 @@
       <td>stopPropagation</td>
       <td>Boolean</td>
       <td>(Default:
-        <code>false</code>) Whether the trigger should prevent the propagation of
-        the event that triggers it (click or mousedown)</td>
+        <code>false</code>) Whether the trigger should prevent the propagation
+        of the event that triggers it (click or mousedown)</td>
     </tr>
   </tbody>
 </table>
@@ -269,9 +271,9 @@
         <code>false</code>. This function will be invoked when the DOM of the
         content is changed. It receives two arguments: a
         <a
-          href='https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord'
-          target='_blank'
-          rel='noopener noreferrer'
+          href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"
+          target="_blank"
+          rel="noopener noreferrer"
         >MutationRecord</a>
         and the public API object.</td>
     </tr>
@@ -287,12 +289,13 @@
 
 <p>
   Any non-underscored property or action of this object can be considered public
-  and it's not going to change without causing a major version bump, so
-  if you are building another component on top of Ember Basic Dropdown, you know
-  that you are safe as long as you use this object.
+  and it's not going to change without causing a major version bump, so if you
+  are building another component on top of Ember Basic Dropdown, you know that
+  you are safe as long as you use this object.
 </p>
 
-<pre>
+<pre
+>
   { uniqueId: &lt;string&gt;, // Contains the unique of this instance of
   EmberBasicDropdown. It's of the form `ember1234`. disabled: &lt;boolean&gt;,
   // Truthy if the component received `disabled=true` isOpen: &lt;boolean&gt;,
@@ -301,9 +304,9 @@
   }, // Repositions the dropdown toggle() { ... } // Toggles the dropdown } }
 </pre>
 
-<div class='doc-page-nav'>
+<div class="doc-page-nav">
   <LinkTo
-    @route='public-pages.docs.test-helpers'
-    class='doc-page-nav-link-prev'
+    @route="public-pages.docs.test-helpers"
+    class="doc-page-nav-link-prev"
   >&lt; Test helpers</LinkTo>
 </div>
