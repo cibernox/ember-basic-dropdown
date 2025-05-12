@@ -29,6 +29,11 @@
     "test:ember-shadow-dom": "ember test shadowDom",
     "test:ember-try": "ember try:one"
   },
+  "dependenciesMeta": {
+    "ember-basic-dropdown": {
+      "injected": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/eslint-parser": "^7.27.1",
