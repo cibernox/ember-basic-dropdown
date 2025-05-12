@@ -1,9 +1,9 @@
 <BasicDropdown @onOpen={{perform this.loadUsers}} as |dd|>
-  <dd.Trigger class='trigger-bootstrap-feel'>Click me</dd.Trigger>
+  <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
 
-  <dd.Content class='content-bootstrap-feel width-300'>
+  <dd.Content class="content-bootstrap-feel width-300">
     {{#if this.loadUsers.isRunning}}
-      <div class='circular-loader'></div>
+      <div class="circular-loader"></div>
     {{else}}
       {{#each this.loadUsers.lastSuccessful.value as |user|}}
         <p>{{user.name}} - {{user.assignment}}</p>

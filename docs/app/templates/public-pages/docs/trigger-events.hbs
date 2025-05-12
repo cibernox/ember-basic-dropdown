@@ -1,4 +1,4 @@
-<h1 class='doc-page-title'>Trigger events</h1>
+<h1 class="doc-page-title">Trigger events</h1>
 
 <p>
   The trigger is the component in charge of opening and closing the dropdown
@@ -14,7 +14,7 @@
   to the trigger. Check below for both approaches. The difference is subtle.
 </p>
 
-<CodeExample @hbs='trigger-events-0.hbs'>
+<CodeExample @hbs="trigger-events-0.hbs">
   {{component (ensure-safe-component this.triggerEvents0Component)}}
 </CodeExample>
 
@@ -49,10 +49,7 @@
   the arrow keys.
 </p>
 
-<CodeExample
-  @hbs='trigger-events-1.hbs'
-  @js='trigger-events-1.js'
->
+<CodeExample @hbs="trigger-events-1.hbs" @js="trigger-events-1.js">
   {{component (ensure-safe-component this.triggerEvents1Component)}}
 </CodeExample>
 
@@ -82,10 +79,7 @@
   and/or react in some way to those attempts.
 </p>
 
-<CodeExample
-  @hbs='trigger-events-2.hbs'
-  @js='trigger-events-2.js'
->
+<CodeExample @hbs="trigger-events-2.hbs" @js="trigger-events-2.js">
   {{component (ensure-safe-component this.triggerEvents2Component)}}
 </CodeExample>
 
@@ -109,10 +103,7 @@
   other element in the form that the user must enable first.
 </p>
 
-<CodeExample
-  @hbs='trigger-events-3.hbs'
-  @js='trigger-events-3.js'
->
+<CodeExample @hbs="trigger-events-3.hbs" @js="trigger-events-3.js">
   {{component (ensure-safe-component this.triggerEvents3Component)}}
 </CodeExample>
 
@@ -126,10 +117,7 @@
   pseudo selector.
 </p>
 
-<CodeExample
-  @hbs='trigger-events-4.hbs'
-  @js='trigger-events-4.js'
->
+<CodeExample @hbs="trigger-events-4.hbs" @js="trigger-events-4.js">
   {{component (ensure-safe-component this.triggerEvents4Component)}}
 </CodeExample>
 
@@ -150,7 +138,13 @@
   custom events to the trigger.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.dropdown-events" class='doc-page-nav-link-prev'>&lt; Dropdown events</LinkTo>
-  <LinkTo @route="public-pages.docs.content-events" class='doc-page-nav-link-next'>Content events &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.dropdown-events"
+    class="doc-page-nav-link-prev"
+  >&lt; Dropdown events</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.content-events"
+    class="doc-page-nav-link-next"
+  >Content events &gt;</LinkTo>
 </div>

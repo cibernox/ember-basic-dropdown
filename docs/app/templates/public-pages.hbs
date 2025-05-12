@@ -1,44 +1,44 @@
-<header class='main-header'>
-  <nav class='main-header-nav'>
-    <div class='main-header-nav-links'>
+<header class="main-header">
+  <nav class="main-header-nav">
+    <div class="main-header-nav-links">
       <LinkTo
-        @route='public-pages.docs'
-        class='main-header-nav-link'
+        @route="public-pages.docs"
+        class="main-header-nav-link"
       >Docs</LinkTo>
       <LinkTo
-        @route='public-pages.cookbook'
-        class='main-header-nav-link'
+        @route="public-pages.cookbook"
+        class="main-header-nav-link"
       >Cookbook</LinkTo>
       <LinkTo
-        @route='public-pages.addons'
-        class='main-header-nav-link'
+        @route="public-pages.addons"
+        class="main-header-nav-link"
       >Addons</LinkTo>
       <a
-        href='https://github.com/cibernox/ember-basic-dropdown'
-        class='main-header-nav-link'
+        href="https://github.com/cibernox/ember-basic-dropdown"
+        class="main-header-nav-link"
       >Github</a>
     </div>
-    <div class='main-header-logo'>
+    <div class="main-header-logo">
       <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dd|>
         <LinkTo @route="public-pages.index" class="home-link">
-          <img src='/ember_logo.png' alt='ember' />
+          <img src="/ember_logo.png" alt="ember" />
           <strong>Basic</strong>
-          {{!-- template-lint-disable no-pointer-down-event-binding --}}
+          {{! template-lint-disable no-pointer-down-event-binding }}
           <dd.Trigger
-            @htmlTag='span'
-            {{on 'mousedown' this.preventIfNotInIndex}}
-            {{on 'touchend' this.preventIfNotInIndex}}
-            class='logo-dropdown-button'
+            @htmlTag="span"
+            {{on "mousedown" this.preventIfNotInIndex}}
+            {{on "touchend" this.preventIfNotInIndex}}
+            class="logo-dropdown-button"
           >
             Dropdown
           </dd.Trigger>
         </LinkTo>
-        <dd.Content class='logo-dropdown-content'>
+        <dd.Content class="logo-dropdown-content">
           {{#each this.colors as |color|}}
             <button
-              type='button'
-              class='logo-dropdown-content-pantone-entry {{color}}'
-              {{on 'click' (fn this.setBrandColor color dd)}}
+              type="button"
+              class="logo-dropdown-content-pantone-entry {{color}}"
+              {{on "click" (fn this.setBrandColor color dd)}}
             ></button>
           {{/each}}
         </dd.Content>
@@ -46,19 +46,19 @@
     </div>
   </nav>
 </header>
-<div class='main-content'>
+<div class="main-content">
   {{outlet}}
 </div>
-<aside class='link-to-other-version'>
+<aside class="link-to-other-version">
   This is the documentation for version 2.X of the addon. If you are looking for
   version 1.X you can find the docs
-  <a href='https://1-x.ember-basic-dropdown.com'>here</a>
+  <a href="https://1-x.ember-basic-dropdown.com">here</a>
 </aside>
-<footer class='main-footer'>
-  <div class='main-footer-content'>
+<footer class="main-footer">
+  <div class="main-footer-content">
     Deployed with love by
-    <a href='http://github.com/cibernox'>Miguel Camba</a>
-    <div class='contribute-call-to-action'>
+    <a href="http://github.com/cibernox">Miguel Camba</a>
+    <div class="contribute-call-to-action">
       Enjoy the addon?
       <LinkTo @route="public-pages.support-the-project">Support it!</LinkTo>
     </div>

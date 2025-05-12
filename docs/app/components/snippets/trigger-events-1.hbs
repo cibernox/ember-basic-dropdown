@@ -1,12 +1,12 @@
-<input type='text' placeholder='Focus me and hit TAB to focus the trigger' />
+<input type="text" placeholder="Focus me and hit TAB to focus the trigger" />
 <br />
 <BasicDropdown as |dd|>
   <dd.Trigger
-    {{on 'keydown' (fn this.openOnArrowDown dd)}}
-    class='trigger-bootstrap-feel'
+    {{on "keydown" (fn this.openOnArrowDown dd)}}
+    class="trigger-bootstrap-feel"
   >Click me</dd.Trigger>
 
-  <dd.Content class='content-bootstrap-feel width-300'>
+  <dd.Content class="content-bootstrap-feel width-300">
     Don't you love those little keys?
   </dd.Content>
 </BasicDropdown>

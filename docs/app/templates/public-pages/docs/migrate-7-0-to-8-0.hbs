@@ -1,6 +1,8 @@
 <h1 class="doc-page-title">Migrate from 7.0 to 8.0</h1>
 
-<p>The addon is now a <a href="https://rfcs.emberjs.com/id/0507-embroider-v2-package-format/">V2 Embroider Addon</a>. The following changes are necessary:</p>
+<p>The addon is now a
+  <a href="https://rfcs.emberjs.com/id/0507-embroider-v2-package-format/">V2
+    Embroider Addon</a>. The following changes are necessary:</p>
 
 <ul>
   <li>
@@ -8,21 +10,34 @@
     <CodeBlock @language="hbs" @code="<BasicDropdownWormhole />" />
   </li>
   <li>
-    <p>Vanilla JS: If you have used vanilla js you must now import the css in <code>app.js</code> manually like (for other css adding examples see under installation)</p>
+    <p>Vanilla JS: If you have used vanilla js you must now import the css in
+      <code>app.js</code>
+      manually like (for other css adding examples see under installation)</p>
     <CodeBlock @language="js" @code="import 'ember-basic-dropdown/styles';" />
   </li>
   <li>
-    <p>LESS: If you are using with less you need to add <code>lessOptions</code> into your <code>ember-cli-build.js</code> file</p>
+    <p>LESS: If you are using with less you need to add
+      <code>lessOptions</code>
+      into your
+      <code>ember-cli-build.js</code>
+      file</p>
     {{#let (get-code-snippet "installation-2.js") as |snippet|}}
       <CodeBlock @language="js" @code={{snippet.source}} />
     {{/let}}
   </li>
   <li>
-    <p>Typescript: There were added / modified / fixed the typescript declarations. This could be braking for consumer app</p>
+    <p>Typescript: There were added / modified / fixed the typescript
+      declarations. This could be braking for consumer app</p>
   </li>
 </ul>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.animations" class='doc-page-nav-link-prev'>&lt; Animations</LinkTo>
-  <LinkTo @route="public-pages.docs.test-helpers" class='doc-page-nav-link-next'>Test helpers &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.animations"
+    class="doc-page-nav-link-prev"
+  >&lt; Animations</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.test-helpers"
+    class="doc-page-nav-link-next"
+  >Test helpers &gt;</LinkTo>
 </div>

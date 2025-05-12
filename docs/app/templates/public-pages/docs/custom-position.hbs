@@ -1,8 +1,8 @@
-<h1 class='doc-page-title'>Custom position</h1>
+<h1 class="doc-page-title">Custom position</h1>
 
 <p>
   In
-  <a href='/docs/position'>a previous section</a>
+  <a href="/docs/position">a previous section</a>
   we already say that the dropdown bundles a few positioning strategies both
   horizontally and vertically.
 </p>
@@ -106,10 +106,7 @@
   centered with it.
 </p>
 
-<CodeExample
-  @hbs='custom-position-1.hbs'
-  @js='custom-position-1.js'
->
+<CodeExample @hbs="custom-position-1.hbs" @js="custom-position-1.js">
   {{component (ensure-safe-component this.customPosition1Component)}}
 </CodeExample>
 
@@ -120,10 +117,7 @@
   <code>MutationObservers</code>.
 </p>
 
-<CodeExample
-  @hbs='custom-position-2.hbs'
-  @js='custom-position-2.js'
->
+<CodeExample @hbs="custom-position-2.hbs" @js="custom-position-2.js">
   {{component (ensure-safe-component this.customPosition2Component)}}
 </CodeExample>
 
@@ -134,7 +128,13 @@
   function that calculates the cordinates.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.disabled" class='doc-page-nav-link-prev'>&lt; Disabled</LinkTo>
-  <LinkTo @route="public-pages.docs.animations" class='doc-page-nav-link-next'>Animations &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.disabled"
+    class="doc-page-nav-link-prev"
+  >&lt; Disabled</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.animations"
+    class="doc-page-nav-link-next"
+  >Animations &gt;</LinkTo>
 </div>

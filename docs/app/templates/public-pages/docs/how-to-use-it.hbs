@@ -1,10 +1,10 @@
-<h1 class='doc-page-title'>How to use it</h1>
+<h1 class="doc-page-title">How to use it</h1>
 
 <p>
   This component is built with a technique known as
   <em>Contextual Components</em>. If you haven't heard of it, check
   <a
-    href='https://guides.emberjs.com/v2.8.0/components/wrapping-content-in-a-component/#toc_sharing-component-data-with-its-wrapped-content'
+    href="https://guides.emberjs.com/v2.8.0/components/wrapping-content-in-a-component/#toc_sharing-component-data-with-its-wrapped-content"
   >the official guides</a>
   for some background.
 </p>
@@ -25,7 +25,7 @@
   Go, use it and inspect the DOM. I know it looks ugly, we'll style it later.
 </p>
 
-<CodeExample @hbs='how-to-use-it-1.hbs'>
+<CodeExample @hbs="how-to-use-it-1.hbs">
   {{component (ensure-safe-component this.howToUseIt1Component)}}
 </CodeExample>
 
@@ -67,10 +67,7 @@
   inspired by dropdown buttons in bootstrap:
 </p>
 
-<CodeExample
-  @hbs='how-to-use-it-2.hbs'
-  @css='how-to-use-it-2-css.scss'
->
+<CodeExample @hbs="how-to-use-it-2.hbs" @css="how-to-use-it-2-css.scss">
   {{component (ensure-safe-component this.howToUseIt2Component)}}
 </CodeExample>
 
@@ -85,10 +82,7 @@
   Let's make a material-like round button with a round content.
 </p>
 
-<CodeExample
-  @hbs='how-to-use-it-3.hbs'
-  @css='how-to-use-it-3-css.scss'
->
+<CodeExample @hbs="how-to-use-it-3.hbs" @css="how-to-use-it-3-css.scss">
   {{component (ensure-safe-component this.howToUseIt3Component)}}
 </CodeExample>
 
@@ -107,7 +101,13 @@
   gives you to hook to events like opening and closing and many others.
 </p>
 
-<div class='doc-page-nav'>
-  <LinkTo @route="public-pages.docs.installation" class='doc-page-nav-link-prev'>&lt; Installation</LinkTo>
-  <LinkTo @route="public-pages.docs.dropdown-events" class='doc-page-nav-link-next'>Dropdown events &gt;</LinkTo>
+<div class="doc-page-nav">
+  <LinkTo
+    @route="public-pages.docs.installation"
+    class="doc-page-nav-link-prev"
+  >&lt; Installation</LinkTo>
+  <LinkTo
+    @route="public-pages.docs.dropdown-events"
+    class="doc-page-nav-link-next"
+  >Dropdown events &gt;</LinkTo>
 </div>
