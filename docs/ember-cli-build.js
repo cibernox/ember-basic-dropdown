@@ -4,7 +4,7 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const crawl = require('prember-crawler');
 
 module.exports = function (defaults) {
-  let app = new EmberApp(defaults, {
+  const app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
     snippetPaths: ['app/components/snippets', 'app/templates/snippets'],
     prember: {
