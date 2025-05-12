@@ -20,7 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18.x
@@ -57,7 +56,7 @@ jobs:
 
       - name: Run Tests
         run: pnpm --filter test-app test:ember
-  
+
   test-shadow-dom:
     name: "Tests Shadow dom"
     runs-on: ubuntu-latest
@@ -66,19 +65,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-          
+
       - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
           cache: 'pnpm'
-          
+
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - run: pnpm build
       - run: pnpm i -f # re-sync injected deps
-        
+
       - name: Run Tests
         run: pnpm --filter test-app test:ember-shadow-dom
 
@@ -90,7 +89,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18.x
