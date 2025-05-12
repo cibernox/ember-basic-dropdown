@@ -38,9 +38,6 @@ importers:
       ember-basic-dropdown:
         specifier: workspace:*
         version: link:../ember-basic-dropdown
-    dependenciesMeta:
-      ember-basic-dropdown:
-        injected: true
     devDependencies:
       '@babel/core':
         specifier: ^7.27.1
@@ -396,9 +393,6 @@ importers:
         version: 5.99.8
 
   test-app:
-    dependenciesMeta:
-      ember-basic-dropdown:
-        injected: true
     devDependencies:
       '@babel/core':
         specifier: ^7.27.1
