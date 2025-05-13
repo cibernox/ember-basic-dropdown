@@ -7,6 +7,16 @@
 
 
 
+
+## v8.6.1 (2025-05-13)
+
+#### :bug: Bug Fix
+* [#948](https://github.com/cibernox/ember-basic-dropdown/pull/948) Remove ember-source and glimmer tracking as a peer dependency ([@runspired](https://github.com/runspired))
+
+#### Committers: 2
+- Chris Thoburn ([@runspired](https://github.com/runspired))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.6.0 (2025-02-22)
 
 #### :rocket: Enhancement
