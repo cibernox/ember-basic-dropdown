@@ -1388,11 +1388,29 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
 
+    let contentElement = find('[data-shadow]')?.shadowRoot.querySelector(
+      '.ember-basic-dropdown-trigger',
+    );
+    await click(contentElement);
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown stays opened when clicking content');
+
     await click(triggerElement);
 
     assert
       .dom('#dropdown-is-opened')
       .doesNotExist('The dropdown is closed again');
+
+    await click(triggerElement);
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown is opened 2d time');
+
+    contentElement = find('[data-shadow]')?.shadowRoot.querySelector(
+      '.ember-basic-dropdown-trigger',
+    );
+    await click(contentElement);
+
+    assert.dom('#dropdown-is-opened').exists('The dropdown stays opened when clicking contentb after 2d open');
 
     wormhole.remove();
   });
