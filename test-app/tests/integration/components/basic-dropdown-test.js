@@ -1389,7 +1389,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
 
     let contentElement = find('[data-shadow]')?.shadowRoot.querySelector(
-      '.ember-basic-dropdown-trigger',
+      '#dropdown-is-opened',
     );
     await click(contentElement);
 
@@ -1406,7 +1406,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened 2d time');
 
     contentElement = find('[data-shadow]')?.shadowRoot.querySelector(
-      '.ember-basic-dropdown-trigger',
+      '#dropdown-is-opened',
     );
     await click(contentElement);
 
