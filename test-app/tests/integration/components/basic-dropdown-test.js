@@ -1367,7 +1367,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <BasicDropdown as |dropdown|>
           <dropdown.Trigger>Click me</dropdown.Trigger>
           <dropdown.Content>
-            <div style="height: 50px; width: 50px" id="dropdown-is-opened"></div>
+            <div id="dropdown-is-opened"></div>
           </dropdown.Content>
         </BasicDropdown>
       </Shadow>
