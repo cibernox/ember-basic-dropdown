@@ -1398,7 +1398,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     wormhole.remove();
   });
 
-  test('Shadow dom renderInPlace: Its `toggle` action opens and closes the dropdown ', async function (assert) {
+  test('Shadow dom: Its `toggle` action opens and closes the dropdown with renderInPlace', async function (assert) {
 
     await render(hbs`
         <Shadow>
