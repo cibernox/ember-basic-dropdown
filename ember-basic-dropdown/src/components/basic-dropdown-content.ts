@@ -70,6 +70,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   private handleRootMouseDown?: RootMouseDownHandler;
   private scrollableAncestors: Element[] = [];
   private mutationObserver: MutationObserver | undefined;
+  private rootElement: HTMLElement | undefined;
   @tracked private _contentWormhole?: Element;
   @tracked animationClass = this.transitioningInClass;
 
@@ -186,16 +187,18 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       );
 
       // We need to register closing event on shadow dom element, otherwise all clicks inside a shadow dom are not closing the dropdown
-      let rootElement;
+      // In additional store the rootElement for outside clicks (ensure that we do removeEventListener on correct element)
       if (
         this._contentWormhole &&
         this._contentWormhole.getRootNode() instanceof ShadowRoot
       ) {
-        rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+        this.rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+      } else {
+        this.rootElement = undefined;
       }
 
-      if (rootElement) {
-        rootElement.addEventListener(
+      if (this.rootElement) {
+        this.rootElement.addEventListener(
           this.args.rootEventType || 'click',
           this.handleRootMouseDown,
           true,
@@ -216,13 +219,13 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         );
         document.addEventListener('touchend', this.handleRootMouseDown, true);
 
-        if (rootElement) {
-          rootElement.addEventListener(
+        if (this.rootElement) {
+          this.rootElement.addEventListener(
             'touchstart',
             this.touchStartHandlerBound,
             true,
           );
-          rootElement.addEventListener(
+          this.rootElement.addEventListener(
             'touchend',
             this.handleRootMouseDown,
             true,
@@ -247,16 +250,8 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
           true,
         );
 
-        let rootElement;
-        if (
-          this._contentWormhole &&
-          this._contentWormhole.getRootNode() instanceof ShadowRoot
-        ) {
-          rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-        }
-
-        if (rootElement) {
-          rootElement.removeEventListener(
+        if (this.rootElement) {
+          this.rootElement.removeEventListener(
             this.args.rootEventType || 'click',
             this.handleRootMouseDown as RootMouseDownHandler,
             true,
@@ -275,13 +270,13 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
             true,
           );
 
-          if (rootElement) {
-            rootElement.removeEventListener(
+          if (this.rootElement) {
+            this.rootElement.removeEventListener(
               'touchstart',
               this.touchStartHandlerBound,
               true,
             );
-            rootElement.removeEventListener(
+            this.rootElement.removeEventListener(
               'touchend',
               this.handleRootMouseDown as RootMouseDownHandler,
               true,
