@@ -42,7 +42,7 @@
     },
     "npm": false
   },
-  "version": "8.6.1",
+  "version": "8.6.2",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
     "@glint/core": "^1.5.2",

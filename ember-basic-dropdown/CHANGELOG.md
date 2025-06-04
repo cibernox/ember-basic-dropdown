@@ -8,6 +8,15 @@
 
 
 
+
+## v8.6.2 (2025-06-04)
+
+#### :bug: Bug Fix
+* [#973](https://github.com/cibernox/ember-basic-dropdown/pull/973) Fix removing event listener for shadow root element ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.6.1 (2025-05-13)
 
 #### :bug: Bug Fix
