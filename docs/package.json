@@ -73,7 +73,6 @@
     "ember-code-snippet": "git://github.com/ef4/ember-code-snippet.git#d054b697098ad52481c94a952ccf8d89ba1f25fe",
     "ember-concurrency": "^4.0.4",
     "ember-fetch": "^8.1.2",
-    "ember-lifeline": "^7.0.0",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.2.0",
     "ember-page-title": "^9.0.1",

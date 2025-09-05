@@ -38,9 +38,6 @@ importers:
       ember-basic-dropdown:
         specifier: workspace:*
         version: link:../ember-basic-dropdown
-    dependenciesMeta:
-      ember-basic-dropdown:
-        injected: true
     devDependencies:
       '@babel/core':
         specifier: ^7.27.1
@@ -156,9 +153,6 @@ importers:
       ember-fetch:
         specifier: ^8.1.2
         version: 8.1.2(encoding@0.1.13)
-      ember-lifeline:
-        specifier: ^7.0.0
-        version: 7.0.0(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))
       ember-load-initializers:
         specifier: ^3.0.1
         version: 3.0.1(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -258,6 +252,9 @@ importers:
       webpack:
         specifier: ^5.99.8
         version: 5.99.8
+    dependenciesMeta:
+      ember-basic-dropdown:
+        injected: true
 
   ember-basic-dropdown:
     dependencies:
@@ -276,9 +273,6 @@ importers:
       ember-element-helper:
         specifier: ^0.8.7
         version: 0.8.7(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
-      ember-lifeline:
-        specifier: ^7.0.0
-        version: 7.0.0(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))
       ember-modifier:
         specifier: ^4.2.0
         version: 4.2.0(@babel/core@7.27.1)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -396,9 +390,6 @@ importers:
         version: 5.99.8
 
   test-app:
-    dependenciesMeta:
-      ember-basic-dropdown:
-        injected: true
     devDependencies:
       '@babel/core':
         specifier: ^7.27.1
@@ -505,9 +496,6 @@ importers:
       ember-fetch:
         specifier: ^8.1.2
         version: 8.1.2(encoding@0.1.13)
-      ember-lifeline:
-        specifier: ^7.0.0
-        version: 7.0.0(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))
       ember-load-initializers:
         specifier: ^3.0.1
         version: 3.0.1(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -592,6 +580,9 @@ importers:
       webpack:
         specifier: ^5.99.8
         version: 5.99.8
+    dependenciesMeta:
+      ember-basic-dropdown:
+        injected: true
 
 packages:
 
@@ -3857,15 +3848,6 @@ packages:
     engines: {node: '>= 14.0.0'}
     peerDependencies:
       ember-source: ^3.25.0 || >=4.0.0
-
-  ember-lifeline@7.0.0:
-    resolution: {integrity: sha512-2l51NzgH5vjN972zgbs+32rnXnnEFKB7qsSpJF+lBI4V5TG6DMy4SfowC72ZEuAtS58OVfwITbOO+RnM21EdpA==}
-    engines: {node: 16.* || >= 18}
-    peerDependencies:
-      '@ember/test-helpers': '>= 1.0.0'
-    peerDependenciesMeta:
-      '@ember/test-helpers':
-        optional: true
 
   ember-load-initializers@3.0.1:
     resolution: {integrity: sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==}
@@ -12604,14 +12586,6 @@ snapshots:
       ember-cli-typescript: 5.3.0
       ember-cli-version-checker: 5.1.2
       ember-source: 6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
-    transitivePeerDependencies:
-      - supports-color
-
-  ember-lifeline@7.0.0(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2)):
-    dependencies:
-      '@embroider/addon-shim': 1.10.0
-    optionalDependencies:
-      '@ember/test-helpers': 5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2)
     transitivePeerDependencies:
       - supports-color
 
