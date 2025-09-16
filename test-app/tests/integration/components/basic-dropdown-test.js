@@ -1,4 +1,3 @@
-import { scheduleTask } from 'ember-lifeline';
 import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -675,8 +674,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     this.isDisabled = false;
     this.toggleDisabled = () => this.toggleProperty('isDisabled');
-    this.registerAPI = (api) =>
-      scheduleTask(this, 'actions', () => this.set('remoteController', api));
+    this.registerAPI = (api) => this.set('remoteController', api);
     await render(hbs`
       <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>

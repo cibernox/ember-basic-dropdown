@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { runTask } from 'ember-lifeline';
 import { hbs } from 'ember-cli-htmlbars';
 import { render, click, triggerEvent, settled } from '@ember/test-helpers';
 
@@ -563,13 +562,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    await runTask(this, () => {
-      let target = this.element
-        .getRootNode()
-        .querySelector('#content-target-div');
-      let span = document.createElement('SPAN');
-      target.appendChild(span);
-    });
+    let target = this.element
+      .getRootNode()
+      .querySelector('#content-target-div');
+    let span = document.createElement('SPAN');
+    target.appendChild(span);
     await settled();
     assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
@@ -595,9 +592,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         {{/if}}
       </BasicDropdownContent>
     `);
-    await runTask(this, () => {
-      this.set('divVisible', true);
-    });
+    this.set('divVisible', true);
     await settled();
     assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
@@ -631,13 +626,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    runTask(this, () => {
-      let target = this.element
-        .getRootNode()
-        .querySelector('#content-target-div');
-      let span = document.createElement('SPAN');
-      target.appendChild(span);
-    });
+    let target = this.element
+      .getRootNode()
+      .querySelector('#content-target-div');
+    let span = document.createElement('SPAN');
+    target.appendChild(span);
   });
 
   test('A renderInPlace component is repositioned if the window scrolls', async function (assert) {
