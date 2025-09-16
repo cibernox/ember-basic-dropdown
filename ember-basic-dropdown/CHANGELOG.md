@@ -9,6 +9,17 @@
 
 
 
+
+## v8.7.0 (2025-09-16)
+
+#### :rocket: Enhancement
+* [#1003](https://github.com/cibernox/ember-basic-dropdown/pull/1003) Allow `ember-truth-helpers` v5 as dependency ([@mkszepp](https://github.com/mkszepp))
+* [#1002](https://github.com/cibernox/ember-basic-dropdown/pull/1002) Remove use of `ember-lifeline` ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 2
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.6.2 (2025-06-04)
 
 #### :bug: Bug Fix
