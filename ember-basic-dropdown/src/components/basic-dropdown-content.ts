@@ -11,7 +11,6 @@ import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
 import type { Dropdown, TRootEventType } from './basic-dropdown.ts';
-import { runTask } from 'ember-lifeline';
 
 export interface BasicDropdownContentSignature {
   Element: Element;
@@ -205,11 +204,8 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         );
       }
 
-      window.addEventListener('resize', this.runloopAwareRepositionBound);
-      window.addEventListener(
-        'orientationchange',
-        this.runloopAwareRepositionBound,
-      );
+      window.addEventListener('resize', this.repositionBound);
+      window.addEventListener('orientationchange', this.repositionBound);
 
       if (this.isTouchDevice) {
         document.addEventListener(
@@ -350,7 +346,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
         }
 
         if (shouldReposition) {
-          this.runloopAwareReposition();
+          this.reposition();
         }
       });
       this.mutationObserver.observe(dropdownElement, {
@@ -405,31 +401,22 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   }
 
   @action
-  runloopAwareReposition(): void {
+  reposition(): void {
     if (!this.args.dropdown) {
       return;
     }
 
-    runTask(this, () => {
-      if (!this.args.dropdown) {
-        return;
-      }
-
-      this.args.dropdown.actions.reposition();
-    });
+    this.args.dropdown.actions.reposition();
   }
 
   @action
   removeGlobalEvents(): void {
-    window.removeEventListener('resize', this.runloopAwareRepositionBound);
-    window.removeEventListener(
-      'orientationchange',
-      this.runloopAwareRepositionBound,
-    );
+    window.removeEventListener('resize', this.repositionBound);
+    window.removeEventListener('orientationchange', this.repositionBound);
   }
 
   touchMoveHandlerBound = (e: TouchEvent) => this.touchMoveHandler(e);
-  runloopAwareRepositionBound = () => this.runloopAwareReposition();
+  repositionBound = () => this.reposition();
   touchStartHandlerBound = () => this.touchStartHandler();
 
   // Methods
@@ -522,15 +509,15 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
   addScrollEvents(): void {
-    window.addEventListener('scroll', this.runloopAwareRepositionBound);
+    window.addEventListener('scroll', this.repositionBound);
     this.scrollableAncestors.forEach((el) => {
-      el.addEventListener('scroll', this.runloopAwareRepositionBound);
+      el.addEventListener('scroll', this.repositionBound);
     });
   }
   removeScrollEvents(): void {
-    window.removeEventListener('scroll', this.runloopAwareRepositionBound);
+    window.removeEventListener('scroll', this.repositionBound);
     this.scrollableAncestors.forEach((el) => {
-      el.removeEventListener('scroll', this.runloopAwareRepositionBound);
+      el.removeEventListener('scroll', this.repositionBound);
     });
   }
 }

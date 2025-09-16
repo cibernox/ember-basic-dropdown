@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { runTask, cancelTask } from 'ember-lifeline';
+import { task, timeout } from 'ember-concurrency';
 
 export default class extends Component {
   notifications = [
@@ -17,23 +17,17 @@ export default class extends Component {
 
   @action
   open(dropdown) {
-    if (this.closeTimer) {
-      cancelTask(this, this.closeTimer);
-      this.closeTimer = null;
-    } else {
-      dropdown.actions.open();
-    }
+    this.closeLaterTask.cancelAll();
+    dropdown.actions.open();
   }
 
   @action
   closeLater(dropdown) {
-    this.closeTimer = runTask(
-      this,
-      () => {
-        this.closeTimer = null;
-        dropdown.actions.close();
-      },
-      200,
-    );
+    this.closeLaterTask.perform(dropdown);
   }
+
+  closeLaterTask = task(async (dropdown) => {
+    await timeout(200);
+    dropdown.actions.close();
+  });
 }
