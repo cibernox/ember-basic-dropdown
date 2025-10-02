@@ -525,6 +525,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       el.addEventListener('scroll', this.repositionBound);
     });
   }
+
   removeScrollEvents(): void {
     window.removeEventListener('scroll', this.repositionBound);
     this.scrollableAncestors.forEach((el) => {
@@ -533,7 +534,6 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
   }
 
   <template>
-    {{! template-lint-disable no-inline-styles }}
     {{#if @dropdown.isOpen}}
       <div
         class="ember-basic-dropdown-content-wormhole-origin"

@@ -39,9 +39,9 @@ export interface BasicDropdownTriggerSignature {
 export default class BasicDropdownTrigger extends Component<BasicDropdownTriggerSignature> {
   // Actions
   /**
-   * Allows similair behaviour to `ember-composable-helpers`' `optional` helper.
+   * Allows similar behavior to `ember-composable-helpers`' `optional` helper.
    * Avoids adding extra dependencies.
-   * Can be removed when the template `V1` compatability event handlers are removed.
+   * Can be removed when the template `V1` compatibility event handlers are removed.
    *
    * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
