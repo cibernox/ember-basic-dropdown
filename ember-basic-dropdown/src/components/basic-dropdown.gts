@@ -23,7 +23,7 @@ import { or } from 'ember-truth-helpers';
 import type { Dropdown, DropdownActions, RepositionChanges, TRootEventType } from '../types.ts';
 
 // To avoid breaking the current types export we need this
-export type { Dropdown, DropdownActions, TRootEventType } from '../types.ts';
+export type { Dropdown, DropdownActions, TRootEventType };
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
