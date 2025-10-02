@@ -61,13 +61,19 @@ export default class BasicDropdownTrigger extends Component<BasicDropdownTrigger
 
   <template>
     {{#if @dropdown}}
-      {{#let (element (or @htmlTag 'div')) as |OptionalTag|}}
+      {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
         {{! template-lint-disable no-pointer-down-event-binding }}
         <OptionalTag
           class="ember-basic-dropdown-trigger
             {{if @renderInPlace ' ember-basic-dropdown-trigger--in-place'}}
-            {{if @hPosition (concat ' ember-basic-dropdown-trigger--' @hPosition)}}
-            {{if @vPosition (concat ' ember-basic-dropdown-trigger--' @vPosition)}}
+            {{if
+              @hPosition
+              (concat ' ember-basic-dropdown-trigger--' @hPosition)
+            }}
+            {{if
+              @vPosition
+              (concat ' ember-basic-dropdown-trigger--' @vPosition)
+            }}
             {{@defaultClass}}"
           {{basicDropdownTriggerModifier
             dropdown=@dropdown

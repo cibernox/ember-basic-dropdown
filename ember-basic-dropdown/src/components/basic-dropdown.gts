@@ -20,7 +20,12 @@ import { hash } from '@ember/helper';
 import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
 import BasicDropdownContent from './basic-dropdown-content.gts';
 import { or } from 'ember-truth-helpers';
-import type { Dropdown, DropdownActions, RepositionChanges, TRootEventType } from '../types.ts';
+import type {
+  Dropdown,
+  DropdownActions,
+  RepositionChanges,
+  TRootEventType,
+} from '../types.ts';
 
 // To avoid breaking the current types export we need this
 export type { Dropdown, DropdownActions, TRootEventType };
@@ -441,7 +446,10 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
   get triggerComponent(): ComponentLike<BasicDropdownTriggerSignature> {
     if (this.args.triggerComponent) {
-      return ensureSafeComponent(this.args.triggerComponent, this) as ComponentLike<BasicDropdownTriggerSignature>;
+      return ensureSafeComponent(
+        this.args.triggerComponent,
+        this,
+      ) as ComponentLike<BasicDropdownTriggerSignature>;
     }
 
     return BasicDropdownTrigger as ComponentLike<BasicDropdownTriggerSignature>;
@@ -449,7 +457,10 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
   get contentComponent(): ComponentLike<BasicDropdownContentSignature> {
     if (this.args.contentComponent) {
-      return ensureSafeComponent(this.args.contentComponent, this) as ComponentLike<BasicDropdownContentSignature>;
+      return ensureSafeComponent(
+        this.args.contentComponent,
+        this,
+      ) as ComponentLike<BasicDropdownContentSignature>;
     }
 
     return BasicDropdownContent as ComponentLike<BasicDropdownContentSignature>;

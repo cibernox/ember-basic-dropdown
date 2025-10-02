@@ -1,8 +1,8 @@
-import type BasicDropdown from '../components/basic-dropdown';
+import type BasicDropdown from '../components/basic-dropdown.gts';
 import type { VerticalPosition, HorizontalPosition } from '../types.ts';
 
 // To avoid breaking the current types export we need this
-export type { VerticalPosition, HorizontalPosition } from '../types.ts';
+export type { VerticalPosition, HorizontalPosition };
 
 export interface CalculatePositionOptions {
   horizontalPosition: HorizontalPosition;

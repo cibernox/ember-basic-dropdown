@@ -16,7 +16,12 @@ import style from 'ember-style-modifier';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { hash } from '@ember/helper';
-import type { Dropdown, TRootEventType, HorizontalPosition, VerticalPosition } from '../types.ts';
+import type {
+  Dropdown,
+  TRootEventType,
+  HorizontalPosition,
+  VerticalPosition,
+} from '../types.ts';
 
 export interface BasicDropdownContentSignature {
   Element: HTMLElement;
