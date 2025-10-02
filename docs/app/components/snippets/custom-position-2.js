@@ -18,12 +18,11 @@ export default class extends Component {
     return { style };
   }
 
-  @task(function* () {
+  addNames = task(async () => {
     this.names = [];
     for (let name of NAMES) {
       this.names = [...this.names, name];
-      yield timeout(750);
+      await timeout(750);
     }
-  })
-  addNames;
+  });
 }

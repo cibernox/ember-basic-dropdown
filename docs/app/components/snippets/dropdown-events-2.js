@@ -21,10 +21,9 @@ export default class extends Component {
   }
 
   // Tasks
-  @task(function* (dropdown) {
-    yield timeout(1000);
+  loadUsersAndOpen = task(async (dropdown) => {
+    await timeout(1000);
     dropdown.actions.open(); // invoked without event
     return users;
-  })
-  loadUsersAndOpen;
+  });
 }

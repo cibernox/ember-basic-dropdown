@@ -35,16 +35,14 @@ export default class extends Controller {
   }
 
   // Tasks
-  @task(function* () {
-    yield timeout(1000);
+  loadUsers = task(async () => {
+    await timeout(1000);
     return users;
-  })
-  loadUsers;
+  });
 
-  @task(function* (dropdown) {
-    yield timeout(1000);
+  loadUsersAndOpen = task(async (dropdown) => {
+    await timeout(1000);
     dropdown.actions.open();
     return users;
-  })
-  loadUsersAndOpen;
+  });
 }
