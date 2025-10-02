@@ -8,9 +8,8 @@ const users = [
 ];
 
 export default class extends Component {
-  @task(function* () {
-    yield timeout(1000);
+  loadUsers = task(async () => {
+    await timeout(1000);
     return users;
-  })
-  loadUsers;
+  });
 }
