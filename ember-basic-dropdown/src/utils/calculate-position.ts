@@ -1,13 +1,8 @@
 import type BasicDropdown from '../components/basic-dropdown';
+import type { VerticalPosition, HorizontalPosition } from '../types.ts';
 
-export type VerticalPosition = 'auto' | 'above' | 'below';
-export type HorizontalPosition =
-  | 'auto'
-  | 'auto-right'
-  | 'auto-left'
-  | 'left'
-  | 'right'
-  | 'center';
+// To avoid breaking the current types export we need this
+export type { VerticalPosition, HorizontalPosition } from '../types.ts';
 
 export interface CalculatePositionOptions {
   horizontalPosition: HorizontalPosition;
@@ -18,6 +13,7 @@ export interface CalculatePositionOptions {
   renderInPlace: boolean;
   dropdown: BasicDropdown;
 }
+
 export type CalculatePositionResultStyle = {
   top?: number | undefined;
   left?: number | undefined;
@@ -26,11 +22,13 @@ export type CalculatePositionResultStyle = {
   height?: number | undefined;
   [key: string]: string | number | undefined;
 };
+
 export type CalculatePositionResult = {
   horizontalPosition: HorizontalPosition;
   verticalPosition: VerticalPosition;
   style: CalculatePositionResultStyle;
 };
+
 export type CalculatePosition = (
   trigger: Element,
   content: HTMLElement,

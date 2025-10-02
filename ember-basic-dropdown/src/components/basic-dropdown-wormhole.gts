@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { getOwner } from '@ember/application';
 
 export interface BasicDropdownWormholeSignature {
-  Element: Element;
+  Element: HTMLElement;
 }
 
 export default class BasicDropdownWormholeComponent extends Component<BasicDropdownWormholeSignature> {
@@ -22,4 +22,8 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
       'ember-basic-dropdown-wormhole'
     );
   }
+
+  <template>
+    <div id={{this.getDestinationId}} ...attributes></div>
+  </template>
 }

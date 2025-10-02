@@ -15,26 +15,15 @@ import { schedule } from '@ember/runloop';
 import type { ComponentLike } from '@glint/template';
 import type { BasicDropdownTriggerSignature } from './basic-dropdown-trigger.ts';
 import type { BasicDropdownContentSignature } from './basic-dropdown-content.ts';
+import { ensureSafeComponent } from '@embroider/util';
+import { hash } from '@ember/helper';
+import BasicDropdownTrigger from './basic-dropdown-trigger.ts';
+import BasicDropdownContent from './basic-dropdown-content.ts';
+import { or } from 'ember-truth-helpers';
+import type { Dropdown, DropdownActions, RepositionChanges, TRootEventType } from '../types.ts';
 
-export interface DropdownActions {
-  toggle: (e?: Event) => void;
-  close: (e?: Event, skipFocus?: boolean) => void;
-  open: (e?: Event) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  reposition: (...args: any[]) => undefined | RepositionChanges;
-  registerTriggerElement: (e: HTMLElement) => void;
-  registerDropdownElement: (e: HTMLElement) => void;
-  getTriggerElement: () => HTMLElement | null;
-}
-
-export interface Dropdown {
-  uniqueId: string;
-  disabled: boolean;
-  isOpen: boolean;
-  actions: DropdownActions;
-}
-
-export type TRootEventType = 'click' | 'mousedown';
+// To avoid breaking the current types export we need this
+export type { Dropdown, DropdownActions, TRootEventType } from '../types.ts';
 
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
@@ -82,17 +71,6 @@ export interface BasicDropdownArgs {
     | undefined;
   calculatePosition?: CalculatePosition;
 }
-
-type RepositionChanges = {
-  hPosition: HorizontalPosition;
-  vPosition: VerticalPosition;
-  otherStyles: Record<string, string | number | undefined>;
-  top?: string | undefined;
-  left?: string | undefined;
-  right?: string | undefined;
-  width?: string | undefined;
-  height?: string | undefined;
-};
 
 export default class BasicDropdown extends Component<BasicDropdownSignature> {
   @tracked hPosition: HorizontalPosition | null = null;
@@ -460,4 +438,62 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       `[data-ebd-id=${this.publicAPI.uniqueId}-trigger]`,
     );
   }
+
+  get triggerComponent(): ComponentLike<BasicDropdownTriggerSignature> {
+    if (this.args.triggerComponent) {
+      return ensureSafeComponent(this.args.triggerComponent, this) as ComponentLike<BasicDropdownTriggerSignature>;
+    }
+
+    return BasicDropdownTrigger as ComponentLike<BasicDropdownTriggerSignature>;
+  }
+
+  get contentComponent(): ComponentLike<BasicDropdownContentSignature> {
+    if (this.args.contentComponent) {
+      return ensureSafeComponent(this.args.contentComponent, this) as ComponentLike<BasicDropdownContentSignature>;
+    }
+
+    return BasicDropdownContent as ComponentLike<BasicDropdownContentSignature>;
+  }
+
+  <template>
+    {{#let
+      (hash
+        uniqueId=this.publicAPI.uniqueId
+        isOpen=this.publicAPI.isOpen
+        disabled=this.publicAPI.disabled
+        actions=this.publicAPI.actions
+        Trigger=(component
+          this.triggerComponent
+          dropdown=this.publicAPI
+          hPosition=this.hPosition
+          renderInPlace=this.renderInPlace
+          vPosition=this.vPosition
+        )
+        Content=(component
+          this.contentComponent
+          dropdown=this.publicAPI
+          hPosition=this.hPosition
+          renderInPlace=this.renderInPlace
+          preventScroll=@preventScroll
+          rootEventType=(or @rootEventType "click")
+          vPosition=this.vPosition
+          destination=this.destination
+          destinationElement=this.destinationElement
+          top=this.top
+          left=this.left
+          right=this.right
+          width=this.width
+          height=this.height
+          otherStyles=this.otherStyles
+        )
+      )
+      as |api|
+    }}
+      {{#if this.renderInPlace}}
+        <div class="ember-basic-dropdown" ...attributes>{{yield api}}</div>
+      {{else}}
+        {{yield api}}
+      {{/if}}
+    {{/let}}
+  </template>
 }
