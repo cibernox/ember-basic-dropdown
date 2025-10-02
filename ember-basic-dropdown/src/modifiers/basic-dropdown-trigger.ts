@@ -4,16 +4,16 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved.ts';
-import type { Dropdown } from '../components/basic-dropdown';
 import type Owner from '@ember/owner';
+import type { Dropdown } from '../types.ts';
 
 interface Signature {
   Element: HTMLElement;
   Args: {
     Named: {
       dropdown: Dropdown;
-      eventType?: 'click' | 'mousedown';
-      stopPropagation?: boolean;
+      eventType?: 'click' | 'mousedown' | undefined;
+      stopPropagation?: boolean | undefined;
       [named: string]: unknown;
     };
     Positional: unknown[];

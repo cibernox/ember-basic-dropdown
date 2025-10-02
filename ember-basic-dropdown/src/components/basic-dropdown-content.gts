@@ -10,10 +10,21 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
-import type { Dropdown, TRootEventType } from './basic-dropdown.ts';
+import { element } from 'ember-element-helper';
+import { or } from 'ember-truth-helpers';
+import style from 'ember-style-modifier';
+import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
+import { hash } from '@ember/helper';
+import type {
+  Dropdown,
+  TRootEventType,
+  HorizontalPosition,
+  VerticalPosition,
+} from '../types.ts';
 
 export interface BasicDropdownContentSignature {
-  Element: Element;
+  Element: HTMLElement;
   Args: {
     animationEnabled?: boolean;
     transitioningInClass?: string;
@@ -21,23 +32,23 @@ export interface BasicDropdownContentSignature {
     transitioningOutClass?: string;
     isTouchDevice?: boolean;
     destination?: string;
-    destinationElement?: HTMLElement;
+    destinationElement?: HTMLElement | null;
     dropdown?: Dropdown;
     renderInPlace?: boolean;
-    preventScroll?: boolean;
+    preventScroll?: boolean | undefined;
     rootEventType?: TRootEventType;
     top?: string | undefined;
     left?: string | undefined;
     right?: string | undefined;
     width?: string | undefined;
     height?: string | undefined;
-    otherStyles?: Record<string, string>;
-    hPosition?: string;
-    vPosition?: string;
+    otherStyles?: Record<string, string | number | undefined>;
+    hPosition?: HorizontalPosition | null;
+    vPosition?: VerticalPosition | null;
     dir?: string;
     defaultClass?: string;
     overlay?: boolean;
-    htmlTag?: string;
+    htmlTag?: keyof HTMLElementTagNameMap;
     onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
@@ -514,12 +525,94 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       el.addEventListener('scroll', this.repositionBound);
     });
   }
+
   removeScrollEvents(): void {
     window.removeEventListener('scroll', this.repositionBound);
     this.scrollableAncestors.forEach((el) => {
       el.removeEventListener('scroll', this.repositionBound);
     });
   }
+
+  <template>
+    {{#if @dropdown.isOpen}}
+      <div
+        class="ember-basic-dropdown-content-wormhole-origin"
+        {{this.registerDropdownContentWormhole}}
+      >
+        {{#if @renderInPlace}}
+          {{#if @overlay}}
+            <div class="ember-basic-dropdown-overlay"></div>
+          {{/if}}
+
+          {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+            <OptionalTag
+              id={{this.dropdownId}}
+              class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
+                ember-basic-dropdown-content--{{@vPosition}}
+                {{this.animationClass}}{{if
+                  @renderInPlace
+                  ' ember-basic-dropdown-content--in-place'
+                }}
+                {{@defaultClass}}"
+              dir={{@dir}}
+              ...attributes
+              {{style @otherStyles this.positionStyles}}
+              {{this.respondToEvents}}
+              {{this.initiallyReposition}}
+              {{this.observeMutations}}
+              {{this.animateInAndOut}}
+              {{on "focusin" (fn (or @onFocusIn this.noop) @dropdown)}}
+              {{on "focusout" (fn (or @onFocusOut this.noop) @dropdown)}}
+              {{on "mouseenter" (fn (or @onMouseEnter this.noop) @dropdown)}}
+              {{on "mouseleave" (fn (or @onMouseLeave this.noop) @dropdown)}}
+              {{! V1 compatibility - See #498 }}
+            >
+              {{yield}}
+            </OptionalTag>
+          {{/let}}
+        {{else if this.destinationElement}}
+          {{#in-element this.destinationElement insertBefore=null}}
+            {{#if @overlay}}
+              <div class="ember-basic-dropdown-overlay"></div>
+            {{/if}}
+
+            {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+              <OptionalTag
+                id={{this.dropdownId}}
+                class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
+                  ember-basic-dropdown-content--{{@vPosition}}
+                  {{this.animationClass}}{{if
+                    @renderInPlace
+                    ' ember-basic-dropdown-content--in-place'
+                  }}
+                  {{@defaultClass}}"
+                dir={{@dir}}
+                ...attributes
+                {{style @otherStyles this.positionStyles}}
+                {{this.respondToEvents}}
+                {{this.initiallyReposition}}
+                {{this.observeMutations}}
+                {{this.animateInAndOut}}
+                {{on "focusin" (fn (or @onFocusIn this.noop) @dropdown)}}
+                {{on "focusout" (fn (or @onFocusOut this.noop) @dropdown)}}
+                {{on "mouseenter" (fn (or @onMouseEnter this.noop) @dropdown)}}
+                {{on "mouseleave" (fn (or @onMouseLeave this.noop) @dropdown)}}
+                {{! V1 compatibility - See #498 }}
+              >
+                {{yield}}
+              </OptionalTag>
+            {{/let}}
+          {{/in-element}}
+        {{/if}}
+      </div>
+    {{else}}
+      <div
+        id={{this.dropdownId}}
+        class="ember-basic-dropdown-content-placeholder"
+        {{style (hash display="none")}}
+      ></div>
+    {{/if}}
+  </template>
 }
 
 function containsRelevantMutation(nodeList: NodeList): boolean {
