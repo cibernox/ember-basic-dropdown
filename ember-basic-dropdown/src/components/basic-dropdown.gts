@@ -17,8 +17,8 @@ import type { BasicDropdownTriggerSignature } from './basic-dropdown-trigger.ts'
 import type { BasicDropdownContentSignature } from './basic-dropdown-content.ts';
 import { ensureSafeComponent } from '@embroider/util';
 import { hash } from '@ember/helper';
-import BasicDropdownTrigger from './basic-dropdown-trigger.ts';
-import BasicDropdownContent from './basic-dropdown-content.ts';
+import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
+import BasicDropdownContent from './basic-dropdown-content.gts';
 import { or } from 'ember-truth-helpers';
 import type { Dropdown, DropdownActions, RepositionChanges, TRootEventType } from '../types.ts';
 
