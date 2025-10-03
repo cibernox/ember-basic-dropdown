@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import type { CalculatePositionOptions, CalculatePositionResult } from 'ember-basic-dropdown/utils/calculate-position';
+import { action } from '@ember/object';
 
 const NAMES = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 
@@ -28,10 +29,15 @@ export default class extends Component {
     }
   });
 
+  @action
+  open() {
+    void this.addNames.perform();
+  }
+
   <template>
     <BasicDropdown
       @calculatePosition={{this.calculatePosition}}
-      @onOpen={{this.addNames.perform}}
+      @onOpen={{this.open}}
       as |dd|
     >
       <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>

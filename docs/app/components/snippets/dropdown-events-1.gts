@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import { task, timeout } from 'ember-concurrency';
@@ -16,8 +17,13 @@ export default class extends Component {
     this.users = users;
   });
 
+  @action
+  open() {
+    void this.loadUsers.perform();
+  }
+
   <template>
-    <BasicDropdown @onOpen={{this.loadUsers.perform}} as |dd|>
+    <BasicDropdown @onOpen={{this.open}} as |dd|>
       <dd.Trigger class="trigger-bootstrap-feel">Click me</dd.Trigger>
 
       <dd.Content class="content-bootstrap-feel width-300">
