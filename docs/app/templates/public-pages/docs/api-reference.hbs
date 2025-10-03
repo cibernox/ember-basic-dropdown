@@ -56,7 +56,7 @@
     </tr>
     <tr>
       <td>contentComponent</td>
-      <td><code>String or Component</code></td>
+      <td><code>Component</code></td>
       <td>The component to render as content instead of the default content
         component. You
         <em>probably</em>
@@ -115,7 +115,7 @@
     </tr>
     <tr>
       <td>triggerComponent</td>
-      <td><code>String</code></td>
+      <td><code>Component</code></td>
       <td>The component to render as trigger instead of the default trigger
         component.</td>
     </tr>
@@ -247,12 +247,6 @@
       <td>The class of the dropdown's content</td>
     </tr>
     <tr>
-      <td>to</td>
-      <td>String</td>
-      <td><strong>[DEPRECATED]</strong>The selector of a DOM element where the
-        dropdown will be rendered using ember-wormhole</td>
-    </tr>
-    <tr>
       <td>animationEnabled</td>
       <td>boolean</td>
       <td>Flag to determine whether the content will allow CSS animations.
@@ -296,12 +290,17 @@
 
 <pre
 >
-  { uniqueId: &lt;string&gt;, // Contains the unique of this instance of
-  EmberBasicDropdown. It's of the form `ember1234`. disabled: &lt;boolean&gt;,
-  // Truthy if the component received `disabled=true` isOpen: &lt;boolean&gt;,
-  // Truthy if the component is currently opened actions: { close() { ... }, //
-  Closes the dropdown open() { ... }, // Opens the dropdown reposition() { ...
-  }, // Repositions the dropdown toggle() { ... } // Toggles the dropdown } }
+  {
+    uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form `ember1234`.
+    disabled: &lt;boolean&gt;, // Truthy if the component received `disabled=true`
+    isOpen: &lt;boolean&gt;, // Truthy if the component is currently opened
+    actions: {
+      close() { ... }, // Closes the dropdown
+      open() { ... }, // Opens the dropdown
+      reposition() { ... }, // Repositions the dropdown
+      toggle() { ... } // Toggles the dropdown
+    }
+  }
 </pre>
 
 <div class="doc-page-nav">
