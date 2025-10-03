@@ -1,4 +1,4 @@
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
 
@@ -35,7 +35,7 @@ const groupedSections = [
   },
   {
     id: 'upgrade',
-    groupName: 'Advanced customization',
+    groupName: 'Upgrade',
     options: [
       {
         route: 'public-pages.docs.migrate-7-0-to-8-0',

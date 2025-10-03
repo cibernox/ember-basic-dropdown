@@ -1,12 +1,11 @@
 import Component from '@glimmer/component';
+import CodeInline from './code-inline';
 
 interface CodeBlockSignature {
   Element: HTMLElement;
   Args: {
     code: string;
     language?: string;
-    showLineNumbers?: boolean;
-    start?: string;
   };
 }
 
@@ -15,9 +14,17 @@ export default class CodeBlock extends Component<CodeBlockSignature> {
     return this.args.language ?? 'markup';
   }
 
-  get languageClass() {
-    return `language-${this.language}`;
-  }
+  <template>
+    <div class="code-block">
+      {{~! ~}}
+      <CodeInline
+        ...attributes
+        @code={{@code}}
+        @language={{@language}}
+      />
+      {{~! ~}}
+    </div>
+  </template>
 }
 
 declare module '@glint/environment-ember-loose/registry' {
