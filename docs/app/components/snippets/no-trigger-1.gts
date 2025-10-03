@@ -1,6 +1,6 @@
-import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+import { on } from '@ember/modifier';
 
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class extends Component {
