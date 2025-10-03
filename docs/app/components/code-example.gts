@@ -22,7 +22,7 @@ interface CodeExampleSignature {
   }
 }
 
-export default class CodeExampleComponent extends Component<CodeExampleSignature> {
+export default class CodeExample extends Component<CodeExampleSignature> {
   showResult = true;
   @tracked _activeTab: string = '';
 
