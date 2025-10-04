@@ -38,10 +38,6 @@ Router.map(function () {
     this.route('cookbook', function () {
       this.route('no-trigger');
     });
-
-    this.route('addons', function () {});
-
-    this.route('support-the-project');
   });
 
   this.route('scrolling-container');

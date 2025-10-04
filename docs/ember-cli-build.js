@@ -6,7 +6,7 @@ const crawl = require('prember-crawler');
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
-    snippetPaths: ['app/components/snippets', 'app/templates/snippets'],
+    snippetPaths: ['app/components/snippets'],
     prember: {
       urls: crawl,
     },

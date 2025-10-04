@@ -1421,12 +1421,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('.ember-basic-dropdown-content', find('[data-shadow]').shadowRoot)
       .exists('The dropdown is rendered');
 
+    assert
+      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .exists('The dropdown is opened');
 
-    assert.dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot).exists('The dropdown is opened');
+    await click(
+      find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'),
+    );
 
-    await click(find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'));
-
-    assert.dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot).exists('The dropdown stays opened when clicking content');
+    assert
+      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .exists('The dropdown stays opened when clicking content');
 
     await click(triggerElement);
 
@@ -1436,11 +1441,17 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await click(triggerElement);
 
-    assert.dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot).exists('The dropdown is opened 2d time');
+    assert
+      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .exists('The dropdown is opened 2d time');
 
-    await click(find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'));
+    await click(
+      find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'),
+    );
 
-    assert.dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot).exists('The dropdown stays opened when clicking content after 2d open');
+    assert
+      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .exists('The dropdown stays opened when clicking content after 2d open');
   });
 
   test('Shadow dom: Its `toggle` action opens and closes the dropdown when wormhole is inside shadow dom', async function (assert) {

@@ -1,0 +1,147 @@
+import CustomPosition1Component from '../../../components/snippets/custom-position-1';
+import CustomPosition2Component from '../../../components/snippets/custom-position-2';
+import CodeExample from '../../../components/code-example';
+import { LinkTo } from '@ember/routing';
+
+<template>
+  <h1 class="doc-page-title">Custom position</h1>
+
+  <p>
+    In
+    <a href="/docs/position">a previous section</a>
+    we already say that the dropdown bundles a few positioning strategies both
+    horizontally and vertically.
+  </p>
+
+  <p>
+    But you don't want to be limited to the positioning strategies I designed
+    for you. You might want the dropdown to float to the left of the trigger or
+    perhaps one inch south-west of it.
+  </p>
+
+  <p>
+    Fear not, my friend, the component has an escape valve for this. You can
+    design your own positioning function and pass it to the component. It just
+    has to fulfill a specific contract.
+  </p>
+
+  <h3><code>calculatePosition</code></h3>
+
+  <p>
+    This function is the only thing you have to implement to tell the component
+    where it should be positioned.
+  </p>
+
+  <p>
+    The complete signature of the function is:
+    <br />
+    <code>calculatePosition(trigger, content, destination, {
+      previousHorizontalPosition, horizontalPosition, previousVerticalPosition,
+      verticalPosition, matchTriggerWidth })</code>
+    <br />
+  </p>
+
+  <ul>
+    <li><code>trigger</code>: The DOM element of the trigger component</li>
+    <li><code>content</code>: The DOM element of the content component</li>
+    <li><code>destination</code>: The DOM element where the content component is
+      going to be inserted</li>
+    <li><code>previousHorizontalPosition</code>: The string with the horizontal
+      position the component had in the last time it was repositioned. If you
+      don't provide any or you pass
+      <code>horizontalPosition="auto"</code>
+      it will be
+      <code>"left"</code>
+      or
+      <code>"right"</code>
+      depending on the space around the trigger</li>
+    <li><code>horizontalPosition</code>: The string with the current horizontal
+      position. If you don't provide any or you pass
+      <code>horizontalPosition="auto"</code>
+      it will be
+      <code>"left"</code>
+      or
+      <code>"right"</code>
+      depending on the space around the trigger</li>
+    <li><code>previousVerticalPosition</code>: The string with the vertical
+      position the component had in the last time it was repositioned. If you
+      don't provide any or you pass
+      <code>verticalPosition="auto"</code>
+      it will be
+      <code>"above"</code>
+      or
+      <code>"below"</code>
+      depending on the space around the trigger</li>
+    <li><code>verticalPosition</code>: The string with the current vertical
+      position. If you don't provide any or you pass
+      <code>verticalPosition="auto"</code>
+      it will be
+      <code>"above"</code>
+      or
+      <code>"below"</code>
+      depending on the space around the trigger</li>
+    <li><code>matchTriggerWidth</code>: Boolean that express the intention of
+      the developer to make the dropdown have the same width as the trigger</li>
+    <li><code>renderInPlace</code>: Boolean that express if the content will be
+      rendered in place. Useful since very usually the reposition logic must be
+      entirely different</li>
+  </ul>
+
+  <p>
+    The return value of this function must also be an object with a specific
+    shape:
+    <br />
+    <code>{ horizontalPosition, verticalPosition, style }</code>
+  </p>
+
+  <ul>
+    <li><code>horizontalPosition</code>: The new value of horizontalPosition</li>
+    <li><code>verticalPosition</code>: The new value of verticalPosition</li>
+    <li><code>style</code>: An object containing the CSS properties that will
+      position the object. It supports
+      <code>top</code>,
+      <code>left</code>,
+      <code>right</code>
+      and
+      <code>width</code></li>
+  </ul>
+
+  <p>
+    Sounds like a lot, but with an example you will see that it's not really
+    hard. Let's create a dropdown that opens to the right of the trigger,
+    vertically centered with it.
+  </p>
+
+  <CodeExample @glimmerTs="custom-position-1.gts">
+    <CustomPosition1Component />
+  </CodeExample>
+
+  <p>
+    You can resize the window and scroll and you can see that the content stays
+    just where it should. It will even reposition automatically if the content
+    inside changes thanks to the magic of
+    <code>MutationObservers</code>.
+  </p>
+
+  <CodeExample @glimmerTs="custom-position-2.gts">
+    <CustomPosition2Component />
+  </CodeExample>
+
+  <p>
+    The key concept that you need to extract is that all the machinery to
+    position the content and reposition when the content, scroll or screen
+    changes is handled by the dropdown, so the only missing piece you have to
+    provide is the function that calculates the cordinates.
+  </p>
+
+  <div class="doc-page-nav">
+    <LinkTo
+      @route="public-pages.docs.disabled"
+      class="doc-page-nav-link-prev"
+    >&lt; Disabled</LinkTo>
+    <LinkTo
+      @route="public-pages.docs.animations"
+      class="doc-page-nav-link-next"
+    >Animations &gt;</LinkTo>
+  </div>
+</template>

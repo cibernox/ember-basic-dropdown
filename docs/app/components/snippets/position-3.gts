@@ -1,0 +1,11 @@
+import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+
+<template>
+  <BasicDropdown @matchTriggerWidth={{true}} as |dd|>
+    <dd.Trigger class="trigger-bootstrap-feel">Click me!</dd.Trigger>
+
+    <dd.Content class="content-bootstrap-feel">
+      I'm not in the root of the app
+    </dd.Content>
+  </BasicDropdown>
+</template>
