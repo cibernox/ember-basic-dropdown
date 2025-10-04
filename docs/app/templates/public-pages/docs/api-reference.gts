@@ -291,19 +291,18 @@ import { LinkTo } from "@ember/routing";
     you are safe as long as you use this object.
   </p>
 
-  <pre
-  >
-    {
-      uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form `ember1234`.
-      disabled: &lt;boolean&gt;, // Truthy if the component received `disabled=true`
-      isOpen: &lt;boolean&gt;, // Truthy if the component is currently opened
-      actions: {
-        close() { ... }, // Closes the dropdown
-        open() { ... }, // Opens the dropdown
-        reposition() { ... }, // Repositions the dropdown
-        toggle() { ... } // Toggles the dropdown
-      }
+  <pre>
+  {
+    uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form 'ember1234'.
+    disabled: &lt;boolean&gt;, // Truthy if the component received 'disabled=true'
+    isOpen: &lt;boolean&gt;, // Truthy if the component is currently opened
+    actions: {
+      close() { ... }, // Closes the dropdown
+      open() { ... }, // Opens the dropdown
+      reposition() { ... }, // Repositions the dropdown
+      toggle() { ... } // Toggles the dropdown
     }
+  }
   </pre>
 
   <div class="doc-page-nav">
