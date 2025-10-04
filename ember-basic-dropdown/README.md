@@ -1,4 +1,3 @@
-
 [![NPM](https://badge.fury.io/js/ember-basic-dropdown.svg)](https://www.npmjs.com/package/ember-basic-dropdown)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-basic-dropdown.svg)](http://emberobserver.com/addons/ember-basic-dropdown)
 ![Ember Version](https://img.shields.io/badge/ember->=3.28-brightgreen.svg)
@@ -9,13 +8,20 @@
 
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
-It is intended to be a building block for more complex components but is perfectly usable. It is
-by example the addon on which [ember-power-select](https://www.ember-power-select.com) is built upon.
+It is intended to be a building block for more complex components but is perfectly usable.
 
-- ✅ TypeScript and Glint ready
-- 🧵 V2 addon format
-- 🚀 FastBoot support
-- 🫚 Shadow root support
+### Highlights
+
+* 🖊 **TypeScript support** – ships with type definitions for smooth TypeScript integration.
+* ✨ **Glint support** – template type-checking out of the box for safer templates.
+* 🚀 **FastBoot compatible** – works in server-rendered Ember apps.
+* 🕶 **Shadow DOM support** – can be rendered inside shadow roots without breaking positioning or events.
+* 🛠 **Addon v2 ready** – modern Ember Addon v2 format.
+* 🎯 **Headless & lightweight** – provides dropdown logic and accessibility without forcing styles.
+* 🔧 **Flexible API** – fully customizable trigger and content; you control the markup and styling.
+* 🧩 **Composable** – integrates seamlessly with other Ember addons (e.g. [ember-power-select](https://www.ember-power-select.com)).
+* ♿ **Accessible by default** – full keyboard navigation, ARIA attributes, and focus management built-in.
+* 📱 **Responsive positioning** – automatic repositioning on scroll and viewport boundaries.
 
 ### Compatibility
 
@@ -68,7 +74,7 @@ Check the full documentation with live examples in http://ember-basic-dropdown.c
 
 #### Renders on the body or in place
 
-By default this component will render the dropdown in the body using `#-in-element` and absolutely
+By default this component will render the dropdown in the body using `#in-element` and absolutely
 position it to place it in the proper coordinates.
 
 You can opt out to this behavior by passing `renderInPlace=true`. That will add the dropdown just
