@@ -67,9 +67,7 @@ properties and actions that you can use to control the component.
     registerTriggerElement: <action>,
     registerDropdownElement: <action>,
     getTriggerElement: <action>
-  },
-  Trigger: <component>,
-  Content: <component>
+  }
 }
 ```
 
