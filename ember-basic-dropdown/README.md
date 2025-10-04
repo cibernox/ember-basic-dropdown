@@ -12,16 +12,16 @@ It is intended to be a building block for more complex components but is perfect
 
 ### Highlights
 
-* 🖊 **TypeScript support** – ships with type definitions for smooth TypeScript integration.
-* ✨ **Glint support** – template type-checking out of the box for safer templates.
-* 🚀 **FastBoot compatible** – works in server-rendered Ember apps.
-* 🕶 **Shadow DOM support** – can be rendered inside shadow roots without breaking positioning or events.
-* 🛠 **Addon v2 ready** – modern Ember Addon v2 format.
-* 🎯 **Headless & lightweight** – provides dropdown logic and accessibility without forcing styles.
-* 🔧 **Flexible API** – fully customizable trigger and content; you control the markup and styling.
-* 🧩 **Composable** – integrates seamlessly with other Ember addons (e.g. [ember-power-select](https://www.ember-power-select.com)).
-* ♿ **Accessible by default** – full keyboard navigation, ARIA attributes, and focus management built-in.
-* 📱 **Responsive positioning** – automatic repositioning on scroll and viewport boundaries.
+- 🖊 **TypeScript support** – ships with type definitions for smooth TypeScript integration.
+- ✨ **Glint support** – template type-checking out of the box for safer templates.
+- 🚀 **FastBoot compatible** – works in server-rendered Ember apps.
+- 🕶 **Shadow DOM support** – can be rendered inside shadow roots without breaking positioning or events.
+- 🛠 **Addon v2 ready** – modern Ember Addon v2 format.
+- 🎯 **Headless & lightweight** – provides dropdown logic and accessibility without forcing styles.
+- 🔧 **Flexible API** – fully customizable trigger and content; you control the markup and styling.
+- 🧩 **Composable** – integrates seamlessly with other Ember addons (e.g. [ember-power-select](https://www.ember-power-select.com)).
+- ♿ **Accessible by default** – full keyboard navigation, ARIA attributes, and focus management built-in.
+- 📱 **Responsive positioning** – automatic repositioning on scroll and viewport boundaries.
 
 ### Compatibility
 
@@ -41,7 +41,7 @@ For more installation details see [documentation](https://ember-basic-dropdown.c
 This component leverages contextual components for its API:
 
 ```glimmer-ts
-import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+import BasicDropdown from "ember-basic-dropdown/components/basic-dropdown";
 
 <template>
   <BasicDropdown as |dd|>
@@ -87,7 +87,7 @@ You don't need to care about adding or removing events, it does that for you.
 You can make the dropdown content standout a little more by adding `overlay=true` to the content options, see example below. This will add a semi transparent overlay covering the whole screen. Also this will stop bubbling the click/touch event which closed the dropdown.
 
 ```glimmer-ts
-import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+import BasicDropdown from "ember-basic-dropdown/components/basic-dropdown";
 
 <template>
   <BasicDropdown as |dd|>
