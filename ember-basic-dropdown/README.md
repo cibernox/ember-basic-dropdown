@@ -78,7 +78,7 @@ You don't need to care about adding or removing events, it does that for you.
 
 You can make the dropdown content standout a little more by adding `overlay=true` to the content options, see example below. This will add a semi transparent overlay covering the whole screen. Also this will stop bubbling the click/touch event which closed the dropdown.
 
-```hbs
+```glimmer-ts
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
@@ -98,7 +98,7 @@ NOTE: If for some reason clicking outside a dropdown doesn't work, you might wan
 
 If you'd like the dropdown to close itself after a user clicks on it, you can use `dd.actions.close` from our public API.
 
-```hbs
+```glimmer-ts
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
