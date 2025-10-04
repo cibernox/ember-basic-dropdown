@@ -31,7 +31,8 @@ import Animations1Component from '../../../components/snippets/animations-1';
   </CodeExample>
 
   <p>
-    There is nothing else to know about animations, other that you have to use CSS
+    There is nothing else to know about animations, other that you have to use
+    CSS
     <strong>animations</strong>, not transitions.
   </p>
 

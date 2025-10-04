@@ -29,7 +29,10 @@ export default class extends Component {
       type="checkbox"
       id="enable-dd-chk"
       checked={{not this.dropdownDisabled}}
-      {{on "change" (fn (mut this.dropdownDisabled) (not this.dropdownDisabled))}}
+      {{on
+        "change"
+        (fn (mut this.dropdownDisabled) (not this.dropdownDisabled))
+      }}
     />
     <label for="enable-dd-chk" style={{this.checkboxLabelStyle}}>Enable dropdown</label>
     <br />

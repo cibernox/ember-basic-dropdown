@@ -2,9 +2,14 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { htmlSafe } from '@ember/template';
-import calculatePosition, { type CalculatePositionOptions, type CalculatePositionResult } from 'ember-basic-dropdown/utils/calculate-position';
-import { LinkTo } from "@ember/routing";
-import BasicDropdown, { type BasicDropdownDefaultBlock } from "ember-basic-dropdown/components/basic-dropdown";
+import calculatePosition, {
+  type CalculatePositionOptions,
+  type CalculatePositionResult,
+} from 'ember-basic-dropdown/utils/calculate-position';
+import { LinkTo } from '@ember/routing';
+import BasicDropdown, {
+  type BasicDropdownDefaultBlock,
+} from 'ember-basic-dropdown/components/basic-dropdown';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import type RouterService from '@ember/routing/router-service';
@@ -34,7 +39,12 @@ export default class extends Component {
   }
 
   // Methods
-  calculatePosition(trigger: Element, content: HTMLElement, destination: HTMLElement, options: CalculatePositionOptions): CalculatePositionResult {
+  calculatePosition(
+    trigger: Element,
+    content: HTMLElement,
+    destination: HTMLElement,
+    options: CalculatePositionOptions,
+  ): CalculatePositionResult {
     const pos = calculatePosition(trigger, content, destination, options);
 
     if (pos.style.top) {

@@ -24,7 +24,8 @@ import DropDownEvents3Component from '../../../components/snippets/dropdown-even
     argument in the signature is the public API of the component. The
     <code>event</code>
     argument will be passed if this event is fired as a consequence of another
-    event (e.g. a click), but will be undefined if it was fired programmatically.
+    event (e.g. a click), but will be undefined if it was fired
+    programmatically.
   </p>
 
   <p>What kinds of things you can do with this event?</p>
@@ -68,8 +69,8 @@ import DropDownEvents3Component from '../../../components/snippets/dropdown-even
   </p>
 
   <p>
-    Example: Create a dropdown with some checkboxes inside, and don't allow it to
-    close until one checkbox is selected.
+    Example: Create a dropdown with some checkboxes inside, and don't allow it
+    to close until one checkbox is selected.
   </p>
 
   <CodeExample @glimmerTs="dropdown-events-3.gts">

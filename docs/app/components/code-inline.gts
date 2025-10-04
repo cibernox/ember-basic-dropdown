@@ -42,10 +42,10 @@ export default class CodeInline extends Component<CodeInlineSignature> {
 
     const htmlCode = await codeToHtml(code, {
       lang: language,
-      theme: 'github-light-default'
+      theme: 'github-light-default',
     });
 
-    this.prismCode = htmlSafe(htmlCode)
+    this.prismCode = htmlSafe(htmlCode);
   });
 
   <template>

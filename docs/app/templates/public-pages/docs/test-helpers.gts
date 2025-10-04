@@ -10,8 +10,8 @@ import CodeExample from '../../../components/code-example';
     Ember Basic Dropdown bundles some handy test helpers (<code
     >clickDropdown</code>
     and
-    <code>tapDropdown</code>) that make it easier to simulate user interaction in
-    acceptance tests.
+    <code>tapDropdown</code>) that make it easier to simulate user interaction
+    in acceptance tests.
   </p>
 
   <p>
@@ -31,8 +31,8 @@ import CodeExample from '../../../components/code-example';
   </p>
 
   <p>
-    In case there is more than one dropdown rendered at the same time you can pass
-    a string with the scope to trigger it over the desired one.
+    In case there is more than one dropdown rendered at the same time you can
+    pass a string with the scope to trigger it over the desired one.
   </p>
 
   <CodeExample @js="test-helpers-2-js.js" @showResult={{false}} />

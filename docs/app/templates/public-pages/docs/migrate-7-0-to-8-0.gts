@@ -11,7 +11,11 @@ import { LinkTo } from '@ember/routing';
   <ul>
     <li>
       <p>Add following line to your <code>application.hbs</code></p>
-      <CodeExample @glimmerTs="installation-0.gts" @showResult={{false}} @activeTab="glimmer-ts" />
+      <CodeExample
+        @glimmerTs="installation-0.gts"
+        @showResult={{false}}
+        @activeTab="glimmer-ts"
+      />
     </li>
     <li>
       <p>Vanilla JS: If you have used vanilla js you must now import the css in

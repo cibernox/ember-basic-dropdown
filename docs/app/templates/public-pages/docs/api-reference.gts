@@ -1,4 +1,4 @@
-import { LinkTo } from "@ember/routing";
+import { LinkTo } from '@ember/routing';
 
 <template>
   <h1 class="doc-page-title">API reference</h1>
@@ -40,8 +40,8 @@ import { LinkTo } from "@ember/routing";
         <td>Another way of providing a class to the component without polluting
           the
           <code>class</code>
-          attribute. Useful in contextual component to allow users give their own
-          classes while still retaining some defaults</td>
+          attribute. Useful in contextual component to allow users give their
+          own classes while still retaining some defaults</td>
       </tr>
       <tr>
         <td>destination</td>
@@ -87,11 +87,11 @@ import { LinkTo } from "@ember/routing";
         <td>preventScroll</td>
         <td><code>Boolean</code></td>
         <td>(Default:
-          <code>false</code>). Flag that prevents any elements on the page outside
-          the dropdown from scrolling. This matches platform-provided
+          <code>false</code>). Flag that prevents any elements on the page
+          outside the dropdown from scrolling. This matches platform-provided
           <code>select</code>
-          element behavior. Note that this has no effect when scroll is performed
-          on a touch device</td>
+          element behavior. Note that this has no effect when scroll is
+          performed on a touch device</td>
       </tr>
       <tr>
         <td>renderInPlace</td>
@@ -220,8 +220,8 @@ import { LinkTo } from "@ember/routing";
         <td>eventType</td>
         <td>String</td>
         <td>(Default:
-          <code>'click'</code>) The type of mouse event that triggers the trigger.
-          Valid values: "mousedown" and "click"</td>
+          <code>'click'</code>) The type of mouse event that triggers the
+          trigger. Valid values: "mousedown" and "click"</td>
       </tr>
       <tr>
         <td>stopPropagation</td>
@@ -280,18 +280,19 @@ import { LinkTo } from "@ember/routing";
   <h2>Public API's methods and actions</h2>
 
   <p>
-    All actions and subcomponents of Ember Basic Dropdown receive a single object
-    containing the entirety of the public API of the component.
+    All actions and subcomponents of Ember Basic Dropdown receive a single
+    object containing the entirety of the public API of the component.
   </p>
 
   <p>
-    Any non-underscored property or action of this object can be considered public
-    and it's not going to change without causing a major version bump, so if you
-    are building another component on top of Ember Basic Dropdown, you know that
-    you are safe as long as you use this object.
+    Any non-underscored property or action of this object can be considered
+    public and it's not going to change without causing a major version bump, so
+    if you are building another component on top of Ember Basic Dropdown, you
+    know that you are safe as long as you use this object.
   </p>
 
-  <pre>
+  <pre
+  >
   {
     uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form 'ember1234'.
     disabled: &lt;boolean&gt;, // Truthy if the component received 'disabled=true'

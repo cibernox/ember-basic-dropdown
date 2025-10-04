@@ -1,4 +1,4 @@
-import BasicDropdown from "ember-basic-dropdown/components/basic-dropdown";
+import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
   <h1>Helpers testing</h1>

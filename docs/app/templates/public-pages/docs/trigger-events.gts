@@ -53,9 +53,9 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
   <h3><code>\{{on "keydown"}}</code></h3>
 
   <p>
-    One real world situation where I found this to be necessary, is when you want
-    to open the dropdown with a key that usually does not open it, like by example
-    the arrow keys.
+    One real world situation where I found this to be necessary, is when you
+    want to open the dropdown with a key that usually does not open it, like by
+    example the arrow keys.
   </p>
 
   <CodeExample @glimmerTs="trigger-events-1.gts">
@@ -84,8 +84,8 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
   </p>
 
   <p>
-    Good examples of this are preventing the component from opening with the mouse
-    and/or react in some way to those attempts.
+    Good examples of this are preventing the component from opening with the
+    mouse and/or react in some way to those attempts.
   </p>
 
   <CodeExample @glimmerTs="trigger-events-2.gts">
@@ -103,13 +103,13 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
   <h3><code>\{{on "mouseenter"}} / \{{on "mouseleave"}}</code></h3>
 
   <p>
-    I use this event to open the dropdown when you hover it and close it when you
-    leave but you can really use it a lot more.
+    I use this event to open the dropdown when you hover it and close it when
+    you leave but you can really use it a lot more.
   </p>
 
   <p>
-    By example, imagine that a dropdown is disabled and you want to highlight some
-    other element in the form that the user must enable first.
+    By example, imagine that a dropdown is disabled and you want to highlight
+    some other element in the form that the user must enable first.
   </p>
 
   <CodeExample @glimmerTs="trigger-events-3.gts">
@@ -120,8 +120,8 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
 
   <p>
     I've used this two events in conjuntion to style a parent element while some
-    of the components inside it have the focus, achieving a poor mans' version of
-    the upcoming CSS
+    of the components inside it have the focus, achieving a poor mans' version
+    of the upcoming CSS
     <code>:focus-within</code>
     pseudo selector.
   </p>
@@ -131,10 +131,10 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
   </CodeExample>
 
   <p>
-    This is the most involved example yet. Both the text input and the trigger are
-    focusable on their own, but by tracking when they get and loose the focus we
-    simulate that the entire input-group is focused, which would be impossible
-    just just CSS today.
+    This is the most involved example yet. Both the text input and the trigger
+    are focusable on their own, but by tracking when they get and loose the
+    focus we simulate that the entire input-group is focused, which would be
+    impossible just just CSS today.
   </p>
 
   <p>
@@ -143,8 +143,8 @@ import TriggerEvents4Component from '../../../components/snippets/trigger-events
   </p>
 
   <p>
-    Those are just some examples of the kind of behaviors you can implement adding
-    custom events to the trigger.
+    Those are just some examples of the kind of behaviors you can implement
+    adding custom events to the trigger.
   </p>
 
   <div class="doc-page-nav">

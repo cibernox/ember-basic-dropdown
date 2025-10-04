@@ -21,8 +21,8 @@ import HowToUseIt3Component from '../../../components/snippets/how-to-use-it-3';
     the
     <code>basic-dropdown</code>
     component which yields the public API to its block. That top-level component
-    has no markup, just pure behaviour. Once inside the block, the yielded API has
-    two contextual components on it that you can use:
+    has no markup, just pure behaviour. Once inside the block, the yielded API
+    has two contextual components on it that you can use:
     <code>trigger</code>
     and
     <code>content</code>.
@@ -63,10 +63,10 @@ import HowToUseIt3Component from '../../../components/snippets/how-to-use-it-3';
   <p>
     Lastly, if you inspect the DOM a second time you can see all the
     <strong>a11y</strong>
-    machinery in place to make the component accesible. Even the trigger, despite
-    being a div, is focusable as it should be for a good keyboard experience. Also
-    if you have the trigger focus, you can open and close it with the enter or
-    space keys.
+    machinery in place to make the component accesible. Even the trigger,
+    despite being a div, is focusable as it should be for a good keyboard
+    experience. Also if you have the trigger focus, you can open and close it
+    with the enter or space keys.
   </p>
 
   <p>
@@ -79,14 +79,14 @@ import HowToUseIt3Component from '../../../components/snippets/how-to-use-it-3';
   </CodeExample>
 
   <p>
-    It just took a little bit of CSS. You could also have just assigned the right
-    classes and reused the styles from the framework (I can't demo that because I
-    don't have bootstrap here).
+    It just took a little bit of CSS. You could also have just assigned the
+    right classes and reused the styles from the framework (I can't demo that
+    because I don't have bootstrap here).
   </p>
 
   <p>
-    I want to stress that when it comes to CSS, the dropdown really doesn't care.
-    Let's make a material-like round button with a round content.
+    I want to stress that when it comes to CSS, the dropdown really doesn't
+    care. Let's make a material-like round button with a round content.
   </p>
 
   <CodeExample @glimmerTs="how-to-use-it-3.gts" @css="how-to-use-it-3-css.scss">
@@ -99,8 +99,8 @@ import HowToUseIt3Component from '../../../components/snippets/how-to-use-it-3';
 
   <p>
     And this is more or less everything you need to know about styles. Basically
-    there is none, so you can add create your own in CSS or reuse the classes that
-    CSS frameworks give you.
+    there is none, so you can add create your own in CSS or reuse the classes
+    that CSS frameworks give you.
   </p>
 
   <p>

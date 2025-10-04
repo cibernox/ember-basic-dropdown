@@ -2,7 +2,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
-import type { CalculatePositionOptions, CalculatePositionResult } from 'ember-basic-dropdown/utils/calculate-position';
+import type {
+  CalculatePositionOptions,
+  CalculatePositionResult,
+} from 'ember-basic-dropdown/utils/calculate-position';
 import { action } from '@ember/object';
 
 const NAMES = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
@@ -10,7 +13,12 @@ const NAMES = ['Katie', 'Ricardo', 'Igor', 'Alex', 'Martin', 'Godfrey'];
 export default class extends Component {
   @tracked names: string[] = [];
 
-  calculatePosition(trigger: Element, content: HTMLElement, _destination: HTMLElement, { horizontalPosition, verticalPosition }: CalculatePositionOptions): CalculatePositionResult {
+  calculatePosition(
+    trigger: Element,
+    content: HTMLElement,
+    _destination: HTMLElement,
+    { horizontalPosition, verticalPosition }: CalculatePositionOptions,
+  ): CalculatePositionResult {
     const { top, left, width, height } = trigger.getBoundingClientRect();
     const { height: contentHeight } = content.getBoundingClientRect();
     const style = {

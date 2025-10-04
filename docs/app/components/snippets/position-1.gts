@@ -3,7 +3,10 @@ import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import { eq, not } from 'ember-truth-helpers';
-import type { HorizontalPosition, VerticalPosition } from 'ember-basic-dropdown/types';
+import type {
+  HorizontalPosition,
+  VerticalPosition,
+} from 'ember-basic-dropdown/types';
 
 export default class extends Component {
   horizontalPosition: HorizontalPosition = 'auto';

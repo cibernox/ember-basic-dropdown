@@ -5,9 +5,9 @@ import CodeExample from '../../../components/code-example';
   <h1 class="doc-page-title">Styles</h1>
 
   <p>
-    Since this component doesn't any visual theme, you can apply styles to it just
-    with plain CSS or even adding the classes your favourite CSS framework gives
-    you.
+    Since this component doesn't any visual theme, you can apply styles to it
+    just with plain CSS or even adding the classes your favourite CSS framework
+    gives you.
   </p>
 
   <p>

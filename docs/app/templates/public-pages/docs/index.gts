@@ -6,16 +6,17 @@ import { LinkTo } from '@ember/routing';
   <p>I'm going to tell you the story of how this dropdown addon was born.</p>
 
   <p>
-    I was building a select component but I realized that a select is nothing more
-    than a dropdown with some extra stuff on top. And datepickers too. And
+    I was building a select component but I realized that a select is nothing
+    more than a dropdown with some extra stuff on top. And datepickers too. And
     colorpickers, contextual menus and many other widgets.
   </p>
 
   <p>
-    Essentially, any floating box of content that is opened when you interact with
-    a trigger is basically a dropdown. Dropdowns are the foundation to at least
-    half a dozen common UI widgets we use daily, so I decided to shape this addon
-    in a way that was easy to reuse and customize to create those other widgets.
+    Essentially, any floating box of content that is opened when you interact
+    with a trigger is basically a dropdown. Dropdowns are the foundation to at
+    least half a dozen common UI widgets we use daily, so I decided to shape
+    this addon in a way that was easy to reuse and customize to create those
+    other widgets.
   </p>
 
   <p>
@@ -44,10 +45,10 @@ import { LinkTo } from '@ember/routing';
   </ul>
 
   <p>
-    After I built the initial version, I started to build other widgets on top and
-    I had to step back a few times and identify where it wasn't flexible enough.
-    This process ended up in a component that distilled the essence of what a
-    dropdown is with as few assumptions as possible.
+    After I built the initial version, I started to build other widgets on top
+    and I had to step back a few times and identify where it wasn't flexible
+    enough. This process ended up in a component that distilled the essence of
+    what a dropdown is with as few assumptions as possible.
   </p>
 
   <p>
@@ -58,8 +59,8 @@ import { LinkTo } from '@ember/routing';
     This component is a
     <strong>building block</strong>
     for you to build other components on top, so it prioritizes flexibility and
-    explicitness over succinctness in its API, but still allows allows basic usage
-    out of the box with no ceremony.
+    explicitness over succinctness in its API, but still allows allows basic
+    usage out of the box with no ceremony.
   </p>
 
   <p>

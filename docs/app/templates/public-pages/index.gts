@@ -35,8 +35,8 @@ import { LinkTo } from '@ember/routing';
       </div>
       <div class="selling-point-text">
         <h2>With Ember for Ember</h2>
-        Built on top of other ember addons, it provides an API based on contextual
-        components that feels natural to use and style.
+        Built on top of other ember addons, it provides an API based on
+        contextual components that feels natural to use and style.
       </div>
     </article>
 
@@ -54,9 +54,9 @@ import { LinkTo } from '@ember/routing';
       </svg>
       <div class="selling-point-text">
         <h2>Low level primitives</h2>
-        Designed as a building block for your own components, it has no styles and
-        makes no assumptions. It gives you the right primitives to taylor your
-        perfect widget.
+        Designed as a building block for your own components, it has no styles
+        and makes no assumptions. It gives you the right primitives to taylor
+        your perfect widget.
       </div>
     </article>
   </section>

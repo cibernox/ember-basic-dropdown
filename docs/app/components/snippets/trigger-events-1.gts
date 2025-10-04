@@ -1,7 +1,9 @@
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
-import BasicDropdown, { type BasicDropdownDefaultBlock } from 'ember-basic-dropdown/components/basic-dropdown';
+import BasicDropdown, {
+  type BasicDropdownDefaultBlock,
+} from 'ember-basic-dropdown/components/basic-dropdown';
 
 export default class extends Component {
   openOnArrowDown(dropdown: BasicDropdownDefaultBlock, e: KeyboardEvent) {
@@ -11,7 +13,10 @@ export default class extends Component {
   }
 
   <template>
-    <input type="text" placeholder="Focus me and hit TAB to focus the trigger" />
+    <input
+      type="text"
+      placeholder="Focus me and hit TAB to focus the trigger"
+    />
     <br />
     <BasicDropdown as |dd|>
       <dd.Trigger

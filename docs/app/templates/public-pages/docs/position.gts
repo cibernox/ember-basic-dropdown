@@ -26,17 +26,17 @@ import Position3Component from '../../../components/snippets/position-3';
       has not pre-defined size, so it will adapt to the size its childs.
     </li>
     <li>
-      The dropdown's content is positioned below the trigger, unless there is not
-      enough space to fit it, in which case it is positioned above it.
+      The dropdown's content is positioned below the trigger, unless there is
+      not enough space to fit it, in which case it is positioned above it.
     </li>
     <li>
-      The content's left border will be aligned with the trigger's left border and
-      content will flow towards the right.
+      The content's left border will be aligned with the trigger's left border
+      and content will flow towards the right.
     </li>
     <li>
-      If there isn't enough size towards the right to fit the content but there is
-      enough room to the left, the right border of the content will align with the
-      right border of the trigger and it will grow towards the left.
+      If there isn't enough size towards the right to fit the content but there
+      is enough room to the left, the right border of the content will align
+      with the right border of the trigger and it will grow towards the left.
     </li>
     <li>
       All the rules above are re-checked every time the content of the dropdown
@@ -91,8 +91,8 @@ import Position3Component from '../../../components/snippets/position-3';
 
   <p>
     Please note that when rendering the content in place, the vertical position
-    will not automatically detect the best position based on the space around the
-    trigger. You have to explicitly pass
+    will not automatically detect the best position based on the space around
+    the trigger. You have to explicitly pass
     <code>verticalPosition="above"</code>
     to render it over the trigger.
   </p>
@@ -100,9 +100,9 @@ import Position3Component from '../../../components/snippets/position-3';
   <h3><code>matchTriggerWidth</code></h3>
 
   <p>
-    There is a few widgets in which the width of the floating box has to match the
-    width of the trigger design reasons. Since this is common enough, there is an
-    option to enable this behaviour.
+    There is a few widgets in which the width of the floating box has to match
+    the width of the trigger design reasons. Since this is common enough, there
+    is an option to enable this behaviour.
   </p>
 
   <CodeExample @glimmerTs="position-3.gts">
@@ -112,9 +112,10 @@ import Position3Component from '../../../components/snippets/position-3';
   <p>
     In the section about
     <a href="/docs/custom-position">Custom Position</a>
-    strategies we will see how to totally customize how the dropdown is positioned
-    by passing it a function. If you do so the options in this section will not
-    work unless your function, which will receive those options, honors them.
+    strategies we will see how to totally customize how the dropdown is
+    positioned by passing it a function. If you do so the options in this
+    section will not work unless your function, which will receive those
+    options, honors them.
   </p>
 
   <div class="doc-page-nav">

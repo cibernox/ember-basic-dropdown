@@ -27,11 +27,15 @@ import { LinkTo } from '@ember/routing';
   <p>
     After the installation you need to add the following lines somewhere in your
     templates where you want to render the dropdown content into e.g. your
-    <code>application.hbs</code>. In this component will be rendered the dropdown
-    content.
+    <code>application.hbs</code>. In this component will be rendered the
+    dropdown content.
   </p>
 
-  <CodeExample @glimmerTs="installation-0.gts" @showResult={{false}} @activeTab="glimmer-ts" />
+  <CodeExample
+    @glimmerTs="installation-0.gts"
+    @showResult={{false}}
+    @activeTab="glimmer-ts"
+  />
 
   <p>
     If you use vanilla CSS, you need to add the following line into
@@ -50,14 +54,22 @@ import { LinkTo } from '@ember/routing';
     template/component css file by using following line
   </p>
 
-  <CodeExample @css="installation-1.css" @showResult={{false}} @activeTab="css" />
+  <CodeExample
+    @css="installation-1.css.txt"
+    @showResult={{false}}
+    @activeTab="css"
+  />
 
   <p>
-    However, if you are using SASS or LESS you need to add an import statement to
-    your styles.
+    However, if you are using SASS or LESS you need to add an import statement
+    to your styles.
   </p>
 
-  <CodeExample @scss="installation-1.scss" @showResult={{false}} @activeTab="scss" />
+  <CodeExample
+    @scss="installation-1.scss"
+    @showResult={{false}}
+    @activeTab="scss"
+  />
 
   <p>
     If you are using LESS there is also necessary to register the
@@ -71,8 +83,8 @@ import { LinkTo } from '@ember/routing';
   <p>
     The styles of the addon are
     <strong>very minimal</strong>
-    and deal mostly with positioning. You can tweak a couple things but we'll get
-    to that later.
+    and deal mostly with positioning. You can tweak a couple things but we'll
+    get to that later.
   </p>
 
   <p>

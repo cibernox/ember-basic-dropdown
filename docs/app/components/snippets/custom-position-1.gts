@@ -1,9 +1,17 @@
 import Component from '@glimmer/component';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
-import type { CalculatePositionOptions, CalculatePositionResult } from 'ember-basic-dropdown/utils/calculate-position';
+import type {
+  CalculatePositionOptions,
+  CalculatePositionResult,
+} from 'ember-basic-dropdown/utils/calculate-position';
 
 export default class extends Component {
-  calculatePosition(trigger: Element, content: HTMLElement, _destination: HTMLElement, { horizontalPosition, verticalPosition }: CalculatePositionOptions): CalculatePositionResult {
+  calculatePosition(
+    trigger: Element,
+    content: HTMLElement,
+    _destination: HTMLElement,
+    { horizontalPosition, verticalPosition }: CalculatePositionOptions,
+  ): CalculatePositionResult {
     const { top, left, width, height } = trigger.getBoundingClientRect();
     const { height: contentHeight } = content.getBoundingClientRect();
     const style = {

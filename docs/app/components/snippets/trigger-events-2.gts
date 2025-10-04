@@ -9,7 +9,10 @@ export default class extends Component {
   }
 
   <template>
-    <input type="text" placeholder="Focus me and hit TAB to focus the trigger" />
+    <input
+      type="text"
+      placeholder="Focus me and hit TAB to focus the trigger"
+    />
     <br />
     <BasicDropdown as |dd|>
       <dd.Trigger

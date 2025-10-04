@@ -4,10 +4,7 @@ import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
   <div style="display: flex;">
     <div style="flex: 1;">
       <BasicDropdown as |dd|>
-        <dd.Trigger
-          class="trigger-bootstrap-feel"
-          @eventType="mousedown"
-        >
+        <dd.Trigger class="trigger-bootstrap-feel" @eventType="mousedown">
           Mousedown (default)
         </dd.Trigger>
 

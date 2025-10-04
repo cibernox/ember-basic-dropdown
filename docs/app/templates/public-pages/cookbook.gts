@@ -4,10 +4,8 @@ import { LinkTo } from '@ember/routing';
   <section class="docs">
     <nav class="side-nav">
       <header class="side-nav-header">Basic recipes</header>
-      <LinkTo
-        @route="public-pages.cookbook.index"
-        class="side-nav-link"
-      >Usage without trigger</LinkTo>
+      <LinkTo @route="public-pages.cookbook.index" class="side-nav-link">Usage
+        without trigger</LinkTo>
     </nav>
     <section class="doc-page">
       {{outlet}}

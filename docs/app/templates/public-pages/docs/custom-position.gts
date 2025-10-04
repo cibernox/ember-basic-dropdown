@@ -14,15 +14,15 @@ import { LinkTo } from '@ember/routing';
   </p>
 
   <p>
-    But you don't want to be limited to the positioning strategies I designed for
-    you. You might want the dropdown to float to the left of the trigger or
+    But you don't want to be limited to the positioning strategies I designed
+    for you. You might want the dropdown to float to the left of the trigger or
     perhaps one inch south-west of it.
   </p>
 
   <p>
     Fear not, my friend, the component has an escape valve for this. You can
-    design your own positioning function and pass it to the component. It just has
-    to fulfill a specific contract.
+    design your own positioning function and pass it to the component. It just
+    has to fulfill a specific contract.
   </p>
 
   <h3><code>calculatePosition</code></h3>
@@ -80,8 +80,8 @@ import { LinkTo } from '@ember/routing';
       or
       <code>"below"</code>
       depending on the space around the trigger</li>
-    <li><code>matchTriggerWidth</code>: Boolean that express the intention of the
-      developer to make the dropdown have the same width as the trigger</li>
+    <li><code>matchTriggerWidth</code>: Boolean that express the intention of
+      the developer to make the dropdown have the same width as the trigger</li>
     <li><code>renderInPlace</code>: Boolean that express if the content will be
       rendered in place. Useful since very usually the reposition logic must be
       entirely different</li>
@@ -107,9 +107,9 @@ import { LinkTo } from '@ember/routing';
   </ul>
 
   <p>
-    Sounds like a lot, but with an example you will see that it's not really hard.
-    Let's create a dropdown that opens to the right of the trigger, vertically
-    centered with it.
+    Sounds like a lot, but with an example you will see that it's not really
+    hard. Let's create a dropdown that opens to the right of the trigger,
+    vertically centered with it.
   </p>
 
   <CodeExample @glimmerTs="custom-position-1.gts">
@@ -128,10 +128,10 @@ import { LinkTo } from '@ember/routing';
   </CodeExample>
 
   <p>
-    The key concept that you need to extract is that all the machinery to position
-    the content and reposition when the content, scroll or screen changes is
-    handled by the dropdown, so the only missing piece you have to provide is the
-    function that calculates the cordinates.
+    The key concept that you need to extract is that all the machinery to
+    position the content and reposition when the content, scroll or screen
+    changes is handled by the dropdown, so the only missing piece you have to
+    provide is the function that calculates the cordinates.
   </p>
 
   <div class="doc-page-nav">

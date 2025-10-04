@@ -19,10 +19,10 @@ interface CodeExampleSignature {
     scss?: string;
     activeTab?: string;
     showResult?: boolean;
-  },
+  };
   Blocks: {
-    default: []
-  }
+    default: [];
+  };
 }
 
 export default class CodeExample extends Component<CodeExampleSignature> {
@@ -33,7 +33,10 @@ export default class CodeExample extends Component<CodeExampleSignature> {
   }
 
   get activeTab() {
-    return this._activeTab || (this.showResult ? 'result' : this.args.activeTab || 'js');
+    return (
+      this._activeTab ||
+      (this.showResult ? 'result' : this.args.activeTab || 'js')
+    );
   }
 
   @action
@@ -46,7 +49,8 @@ export default class CodeExample extends Component<CodeExampleSignature> {
       <nav class="code-example-tabs">
         {{#if @glimmerTs}}
           <div
-            class="code-example-tab {{if (eq this.activeTab 'glimmer-ts') 'active'}}"
+            class="code-example-tab
+              {{if (eq this.activeTab 'glimmer-ts') 'active'}}"
             role="button"
             {{on "click" (fn this.setActiveTab "glimmer-ts")}}
           >Template</div>
@@ -88,7 +92,8 @@ export default class CodeExample extends Component<CodeExampleSignature> {
         {{/if}}
         {{#if this.showResult}}
           <div
-            class="code-example-tab {{if (eq this.activeTab 'result') 'active'}}"
+            class="code-example-tab
+              {{if (eq this.activeTab 'result') 'active'}}"
             role="button"
             {{on "click" (fn this.setActiveTab "result")}}
           >Result</div>

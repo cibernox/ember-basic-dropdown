@@ -17,11 +17,7 @@ export default class CodeBlock extends Component<CodeBlockSignature> {
   <template>
     <div class="code-block">
       {{~! ~}}
-      <CodeInline
-        ...attributes
-        @code={{@code}}
-        @language={{@language}}
-      />
+      <CodeInline ...attributes @code={{@code}} @language={{@language}} />
       {{~! ~}}
     </div>
   </template>

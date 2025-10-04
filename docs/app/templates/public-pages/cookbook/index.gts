@@ -14,8 +14,8 @@ import NoTrigger2Component from '../../../components/snippets/no-trigger-2';
     <code>&#60;dropdown.trigger></code>
     component to make the dropdown work. The yielded
     <code>dropdown</code>
-    has actions you can invoke from any other item. Yes, it is. You don't need to
-    invoke the
+    has actions you can invoke from any other item. Yes, it is. You don't need
+    to invoke the
     <code>&#60;dropdown.trigger></code>
     component to make the dropdown work. The yielded
     <code>dropdown</code>
@@ -32,8 +32,8 @@ import NoTrigger2Component from '../../../components/snippets/no-trigger-2';
     <code>open</code>
     or
     <code>toggle</code>
-    action from say, a button, the dropdown is going to open and will take as the
-    element to be anchored to element with
+    action from say, a button, the dropdown is going to open and will take as
+    the element to be anchored to element with
     <code>data-ebd-id="\{{dropdown.uniqueId}}-trigger"</code>.
   </p>
 
@@ -59,15 +59,15 @@ import NoTrigger2Component from '../../../components/snippets/no-trigger-2';
     Remember that almost always you will want to use the provided trigger
     component
     <code>&#60;dropdown.trigger></code>
-    because it takes care of all the A11y, bindings and classes for you, but when
-    you can't it's good to know that you can still use your own markup and wire
-    things together yourself.
+    because it takes care of all the A11y, bindings and classes for you, but
+    when you can't it's good to know that you can still use your own markup and
+    wire things together yourself.
   </p>
 
   <p>
-    A good middle-ground is to apply the same trigger modifier that the component
-    uses, but to your element or component. It will get all of the same a11y and
-    bindings that the
+    A good middle-ground is to apply the same trigger modifier that the
+    component uses, but to your element or component. It will get all of the
+    same a11y and bindings that the
     <code>&#60;dropdown.trigger></code>
     component gets.
   </p>
