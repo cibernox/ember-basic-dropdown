@@ -116,7 +116,7 @@ export default class CodeExample extends Component<CodeExampleSignature> {
       {{/if}}
       {{#if (and @js (eq this.activeTab "js"))}}
         {{#let (getCodeSnippet @js) as |snippet|}}
-          <CodeBlock @language={{snippet.language}} @code={{snippet.source}} />
+          <CodeBlock @language="js" @code={{snippet.source}} />
         {{/let}}
       {{/if}}
       {{#if (and @scss (eq this.activeTab "scss"))}}
@@ -126,7 +126,7 @@ export default class CodeExample extends Component<CodeExampleSignature> {
       {{/if}}
       {{#if (and @css (eq this.activeTab "css"))}}
         {{#let (getCodeSnippet @css) as |snippet|}}
-          <CodeBlock @language={{snippet.language}} @code={{snippet.source}} />
+          <CodeBlock @language="css" @code={{snippet.source}} />
         {{/let}}
       {{/if}}
       {{#if (and this.showResult (has-block))}}

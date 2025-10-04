@@ -11,10 +11,11 @@ import { LinkTo } from '@ember/routing';
     directory
   </p>
 
-  <div class="highlight">
-    <pre><code class="language-text" data-lang="text">$ ember install
-        ember-basic-dropdown</code></pre>
-  </div>
+  <p>
+    <div class="code-block">
+      <pre>$ ember install ember-basic-dropdown</pre>
+    </div>
+  </p>
 
   <p>
     When installing this through
