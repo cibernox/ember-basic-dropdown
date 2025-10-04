@@ -1,4 +1,4 @@
-# Ember-basic-dropdown
+# ember-basic-dropdown
 
 [![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cibernox/ember-basic-dropdown)
 [![NPM](https://badge.fury.io/js/ember-basic-dropdown.svg)](https://www.npmjs.com/package/ember-basic-dropdown)
