@@ -41,7 +41,7 @@ For more installation details see [documentation](https://ember-basic-dropdown.c
 This component leverages contextual components for its API:
 
 ```glimmer-ts
-import BasicDropdown from "ember-basic-dropdown/components/basic-dropdown";
+import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
   <BasicDropdown as |dd|>
