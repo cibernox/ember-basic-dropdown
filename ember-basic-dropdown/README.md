@@ -1,9 +1,11 @@
-# ember-basic-dropdown
 
-[![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cibernox/ember-basic-dropdown)
 [![NPM](https://badge.fury.io/js/ember-basic-dropdown.svg)](https://www.npmjs.com/package/ember-basic-dropdown)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-basic-dropdown.svg)](http://emberobserver.com/addons/ember-basic-dropdown)
-![Ember Version](https://img.shields.io/badge/Ember-3.28+-brightgreen.svg)
+![Ember Version](https://img.shields.io/badge/ember->=3.28-brightgreen.svg)
+[![Discord](https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord)](https://discord.com/channels/480462759797063690/486202731766349824)
+[![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cibernox/ember-basic-dropdown)
+
+# ember-basic-dropdown
 
 This is a very minimal dropdown. That means that it is agnostic about what it is going to contain.
 
