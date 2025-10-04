@@ -1,6 +1,6 @@
 [![NPM](https://badge.fury.io/js/ember-basic-dropdown.svg)](https://www.npmjs.com/package/ember-basic-dropdown)
-[![Ember Observer Score](https://emberobserver.com/badges/ember-basic-dropdown.svg)](http://emberobserver.com/addons/ember-basic-dropdown)
-![Ember Version](https://img.shields.io/badge/🐹%20ember->=3.28-brightgreen.svg)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-basic-dropdown.svg)](https://emberobserver.com/addons/ember-basic-dropdown)
+![Ember Version](https://img.shields.io/badge/ember-%3E%3D3.28-brightgreen?logo=emberdotjs&logoColor=white)
 [![Discord](https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord)](https://discord.com/channels/480462759797063690/486202731766349824)
 [![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cibernox/ember-basic-dropdown)
 
@@ -57,18 +57,23 @@ properties and actions that you can use to control the component.
 ```js
 {
   uniqueId: <string>,
-  isOpen: <boolean>,
   disabled: <boolean>,
+  isOpen: <boolean>,
   actions: {
     open: <action>,
     close: <action>,
     toggle: <action>,
-    reposition: <action>
-  }
+    reposition: <action>,
+    registerTriggerElement: <action>,
+    registerDropdownElement: <action>,
+    getTriggerElement: <action>
+  },
+  Trigger: <component>,
+  Content: <component>
 }
 ```
 
-Check the full documentation with live examples in http://ember-basic-dropdown.com
+Check the full documentation with live examples in https://ember-basic-dropdown.com
 
 ### Features
 
@@ -134,7 +139,7 @@ you can do pretty much anything you want.
 #### Easy to animate.
 
 You can animate it, in an out, with just CSS3 animations.
-Check the example in the [Ember Power Select documentation](http://www.ember-power-select.com/cookbook/css-animations)
+Check the example in the [Ember Power Select documentation](https://www.ember-power-select.com/cookbook/css-animations)
 
 #### Intelligent and customizable positioning
 
