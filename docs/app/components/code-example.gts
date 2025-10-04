@@ -16,6 +16,9 @@ interface CodeExampleSignature {
     hbs2?: string;
     js?: string;
     css?: string;
+    scss?: string;
+    activeTab?: string;
+    showResult?: boolean;
   },
   Blocks: {
     default: []
@@ -23,11 +26,14 @@ interface CodeExampleSignature {
 }
 
 export default class CodeExample extends Component<CodeExampleSignature> {
-  showResult = true;
   @tracked _activeTab: string = '';
 
+  get showResult() {
+    return this.args.showResult !== undefined ? this.args.showResult : true;
+  }
+
   get activeTab() {
-    return this._activeTab || (this.showResult ? 'result' : 'js');
+    return this._activeTab || (this.showResult ? 'result' : this.args.activeTab || 'js');
   }
 
   @action
@@ -66,6 +72,13 @@ export default class CodeExample extends Component<CodeExampleSignature> {
             {{on "click" (fn this.setActiveTab "js")}}
           >Javascript</div>
         {{/if}}
+        {{#if @scss}}
+          <div
+            class="code-example-tab {{if (eq this.activeTab 'scss') 'active'}}"
+            role="button"
+            {{on "click" (fn this.setActiveTab "scss")}}
+          >SCSS</div>
+        {{/if}}
         {{#if @css}}
           <div
             class="code-example-tab {{if (eq this.activeTab 'css') 'active'}}"
@@ -99,6 +112,11 @@ export default class CodeExample extends Component<CodeExampleSignature> {
       {{#if (and @js (eq this.activeTab "js"))}}
         {{#let (getCodeSnippet @js) as |snippet|}}
           <CodeBlock @language={{snippet.language}} @code={{snippet.source}} />
+        {{/let}}
+      {{/if}}
+      {{#if (and @scss (eq this.activeTab "scss"))}}
+        {{#let (getCodeSnippet @scss) as |snippet|}}
+          <CodeBlock @language="scss" @code={{snippet.source}} />
         {{/let}}
       {{/if}}
       {{#if (and @css (eq this.activeTab "css"))}}

@@ -1,0 +1,315 @@
+import { LinkTo } from "@ember/routing";
+
+<template>
+  <h1 class="doc-page-title">API reference</h1>
+
+  <p>
+    It's hard to find a proper place in the guides for explaining every single
+    option in depth, and some of them are so straightforward that they don't
+    require an example, so use this section as a more exhaustive list.
+  </p>
+
+  <br />
+  <h2>Dropdown</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>calculatePosition</td>
+        <td><code>Function</code></td>
+        <td>Function to customize how the content of the dropdown is positioned.</td>
+      </tr>
+      <tr>
+        <td>class</td>
+        <td><code>String</code></td>
+        <td>The class of the dropdown component. Since this component is tagless
+          by default, you need to combine it with the
+          <code>tagName</code>
+          to be effective</td>
+      </tr>
+      <tr>
+        <td>defaultClass</td>
+        <td><code>String</code></td>
+        <td>Another way of providing a class to the component without polluting
+          the
+          <code>class</code>
+          attribute. Useful in contextual component to allow users give their own
+          classes while still retaining some defaults</td>
+      </tr>
+      <tr>
+        <td>destination</td>
+        <td><code>String</code></td>
+        <td>The id of a DOM element where the dropdown will be rendered using
+          <code>#in-element</code></td>
+      </tr>
+      <tr>
+        <td>destinationElement</td>
+        <td><code>HTMLElement</code></td>
+        <td>Instead of passing
+          <code>destination</code>, you can pass the DOM element where the
+          dropdown will be rendered using
+          <code>#in-element</code></td>
+      </tr>
+      <tr>
+        <td>contentComponent</td>
+        <td><code>Component</code></td>
+        <td>The component to render as content instead of the default content
+          component. You
+          <em>probably</em>
+          don't want to use this option.</td>
+      </tr>
+      <tr>
+        <td>horizontalPosition</td>
+        <td><code>String</code></td>
+        <td>The horizontal positioning strategy of the content. Can be one of
+          <code>auto</code>
+          (the default),
+          <code>left</code>,
+          <code>center</code>
+          or
+          <code>right</code></td>
+      </tr>
+      <tr>
+        <td>matchTriggerWidth</td>
+        <td><code>Boolean</code></td>
+        <td>(Default:
+          <code>false</code>). Flag that indicates whether or not the content's
+          width should be equal to the width of the trigger.</td>
+      </tr>
+      <tr>
+        <td>preventScroll</td>
+        <td><code>Boolean</code></td>
+        <td>(Default:
+          <code>false</code>). Flag that prevents any elements on the page outside
+          the dropdown from scrolling. This matches platform-provided
+          <code>select</code>
+          element behavior. Note that this has no effect when scroll is performed
+          on a touch device</td>
+      </tr>
+      <tr>
+        <td>renderInPlace</td>
+        <td><code>String</code></td>
+        <td>When passed
+          <code>true</code>, the content will render next to the trigger instead
+          of being placed in the root of the body.</td>
+      </tr>
+      <tr>
+        <td>initiallyOpened</td>
+        <td><code>Boolean</code></td>
+        <td>(Default:
+          <code>false</code>). When passed
+          <code>true</code>
+          the component is first rendered open. Used in combination with
+          <code>preventScroll</code>
+          it changes Fastboot user experience, but other than that it does not
+          alter its behavior. The user can close it as usual.</td>
+      </tr>
+      <tr>
+        <td>tagName</td>
+        <td><code>String</code></td>
+        <td>(Default: <code>""</code>) The tag of the component.</td>
+      </tr>
+      <tr>
+        <td>triggerComponent</td>
+        <td><code>Component</code></td>
+        <td>The component to render as trigger instead of the default trigger
+          component.</td>
+      </tr>
+      <tr>
+        <td>verticalPosition</td>
+        <td><code>String</code></td>
+        <td>The vertical positioning strategy of the content. Can be one of
+          <code>auto</code>
+          (the default),
+          <code>above</code>
+          or
+          <code>below</code></td>
+      </tr>
+      <tr>
+        <td>registerAPI</td>
+        <td><code>Function</code></td>
+        <td>An action that will be invoked with the new public API of the
+          component every time there is a change in the state of the component.</td>
+      </tr>
+      <tr>
+        <td>onOpen</td>
+        <td><code>Function</code></td>
+        <td>Action that will be called when the component is about to open.
+          Returning
+          <code>false</code>
+          from this function will prevent the component from being opened.</td>
+      </tr>
+      <tr>
+        <td>onClose </td>
+        <td><code>Function</code></td>
+        <td>Action that will be called when the component is about to close.
+          Returning
+          <code>false</code>
+          from this function will prevent the component from being closed.</td>
+      </tr>
+      <tr>
+        <td>rootEventType</td>
+        <td>String</td>
+        <td>(Default:
+          <code>'click'</code>) The type of mouse event that handles closing the
+          dropdown. Valid values: "mousedown" and "click"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Trigger</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ariaDescribedBy</td>
+        <td>String</td>
+        <td>Maps to <code>aria-described-by</code></td>
+      </tr>
+      <tr>
+        <td>ariaInvalid</td>
+        <td>Boolean</td>
+        <td>Maps to <code>aria-invalid</code></td>
+      </tr>
+      <tr>
+        <td>ariaLabel</td>
+        <td>String</td>
+        <td>Maps to <code>aria-label</code></td>
+      </tr>
+      <tr>
+        <td>ariaLabelledBy</td>
+        <td>String</td>
+        <td>Maps to <code>aria-labeledby</code></td>
+      </tr>
+      <tr>
+        <td>class</td>
+        <td>String</td>
+        <td>Extra classes to be added to the trigger components</td>
+      </tr>
+      <tr>
+        <td>tabindex</td>
+        <td>Number</td>
+        <td>Tabindex of the trigger, which defaults to 0 so the trigger is
+          focusable by default</td>
+      </tr>
+      <tr>
+        <td>htmlTag</td>
+        <td>String</td>
+        <td>(Default: <code>'div'</code>) The tag of the trigger component</td>
+      </tr>
+      <tr>
+        <td>title</td>
+        <td>String</td>
+        <td>Maps to the <code>title</code> attribute</td>
+      </tr>
+      <tr>
+        <td>eventType</td>
+        <td>String</td>
+        <td>(Default:
+          <code>'click'</code>) The type of mouse event that triggers the trigger.
+          Valid values: "mousedown" and "click"</td>
+      </tr>
+      <tr>
+        <td>stopPropagation</td>
+        <td>Boolean</td>
+        <td>(Default:
+          <code>false</code>) Whether the trigger should prevent the propagation
+          of the event that triggers it (click or mousedown)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Content</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>class</td>
+        <td>String</td>
+        <td>The class of the dropdown's content</td>
+      </tr>
+      <tr>
+        <td>animationEnabled</td>
+        <td>boolean</td>
+        <td>Flag to determine whether the content will allow CSS animations.
+          Defaults to true</td>
+      </tr>
+      <tr>
+        <td>htmlTag</td>
+        <td>String</td>
+        <td>(Default: <code>'div'</code>) The tag of the content component</td>
+      </tr>
+      <tr>
+        <td>shouldReposition</td>
+        <td>Function</td>
+        <td>An optional function that can be used to avoid uncecessary
+          repositions. To skip a reposition, simply return
+          <code>false</code>. This function will be invoked when the DOM of the
+          content is changed. It receives two arguments: a
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"
+            target="_blank"
+            rel="noopener noreferrer"
+          >MutationRecord</a>
+          and the public API object.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Public API's methods and actions</h2>
+
+  <p>
+    All actions and subcomponents of Ember Basic Dropdown receive a single object
+    containing the entirety of the public API of the component.
+  </p>
+
+  <p>
+    Any non-underscored property or action of this object can be considered public
+    and it's not going to change without causing a major version bump, so if you
+    are building another component on top of Ember Basic Dropdown, you know that
+    you are safe as long as you use this object.
+  </p>
+
+  <pre
+  >
+    {
+      uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form `ember1234`.
+      disabled: &lt;boolean&gt;, // Truthy if the component received `disabled=true`
+      isOpen: &lt;boolean&gt;, // Truthy if the component is currently opened
+      actions: {
+        close() { ... }, // Closes the dropdown
+        open() { ... }, // Opens the dropdown
+        reposition() { ... }, // Repositions the dropdown
+        toggle() { ... } // Toggles the dropdown
+      }
+    }
+  </pre>
+
+  <div class="doc-page-nav">
+    <LinkTo
+      @route="public-pages.docs.test-helpers"
+      class="doc-page-nav-link-prev"
+    >&lt; Test helpers</LinkTo>
+  </div>
+</template>
