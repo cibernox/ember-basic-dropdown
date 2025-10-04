@@ -79,7 +79,7 @@ import { LinkTo } from '@ember/routing';
     <code>lessOptions</code>
   </p>
 
-  <CodeExample @js="installation-2.js" @showResult={{false}} />
+  <CodeExample @js="installation-2-snippet.js" @showResult={{false}} />
 
   <p>
     The styles of the addon are

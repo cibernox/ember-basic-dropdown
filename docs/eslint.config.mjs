@@ -62,7 +62,7 @@ export default ts.config(
       'dist/',
       'node_modules/',
       'coverage/',
-      'app/templates/snippets/',
+      'app/components/snippets/*-snippet.*',
       '!**/.*',
     ],
   },

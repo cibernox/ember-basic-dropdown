@@ -29,7 +29,7 @@ import { LinkTo } from '@ember/routing';
         into your
         <code>ember-cli-build.js</code>
         file</p>
-      <CodeExample @js="installation-2.js" @showResult={{false}} />
+      <CodeExample @js="installation-2-snippet.js" @showResult={{false}} />
     </li>
     <li>
       <p>Typescript: There were added / modified / fixed the typescript

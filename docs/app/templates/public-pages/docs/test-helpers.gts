@@ -20,7 +20,7 @@ import CodeExample from '../../../components/code-example';
     <code>await</code>.
   </p>
 
-  <CodeExample @js="test-helpers-1-js.js" @showResult={{false}} />
+  <CodeExample @js="test-helpers-1-js-snippet.js" @showResult={{false}} />
 
   <h3><code>clickTrigger(scope = null, eventOptions)</code></h3>
 
@@ -35,7 +35,7 @@ import CodeExample from '../../../components/code-example';
     pass a string with the scope to trigger it over the desired one.
   </p>
 
-  <CodeExample @js="test-helpers-2-js.js" @showResult={{false}} />
+  <CodeExample @js="test-helpers-2-js-snippet.js" @showResult={{false}} />
 
   <h3><code>tapTrigger(scope = null, eventOptions)</code></h3>
 
@@ -45,7 +45,7 @@ import CodeExample from '../../../components/code-example';
     but simulates a tap instead.
   </p>
 
-  <CodeExample @js="test-helpers-3-js.js" @showResult={{false}} />
+  <CodeExample @js="test-helpers-3-js-snippet.js" @showResult={{false}} />
 
   <div class="doc-page-nav">
     <LinkTo
