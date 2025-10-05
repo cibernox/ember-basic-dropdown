@@ -9,6 +9,7 @@ declare const config: {
   locationType: 'history' | 'hash' | 'none';
   rootURL: string;
   APP: Record<string, unknown>;
+  'ember-basic-dropdown': Record<string, unknown>;
 };
 
 export default config;

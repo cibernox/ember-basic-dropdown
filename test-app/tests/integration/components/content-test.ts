@@ -1,103 +1,195 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, click, triggerEvent, settled } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  triggerEvent,
+  settled,
+  type TestContext,
+} from '@ember/test-helpers';
+import type { Dropdown } from 'ember-basic-dropdown/types';
+
+interface ExtendedTestContext extends TestContext {
+  element: HTMLElement;
+  dropdown: Dropdown;
+  dropdown1: Dropdown;
+  dropdown2: Dropdown;
+  divVisible?: boolean;
+  onFocusIn: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onFocusOut: (dropdown?: Dropdown, event?: FocusEvent) => void;
+  onMouseEnter: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  onMouseLeave: (dropdown?: Dropdown, event?: MouseEvent) => void;
+  shouldReposition?: (
+    mutations: MutationRecord[],
+    dropdown?: Dropdown,
+  ) => boolean;
+}
+
+function getRootNode(element: Element): HTMLElement {
+  return element.getRootNode() as HTMLElement;
+}
 
 module('Integration | Component | basic-dropdown-content', function (hooks) {
   setupRenderingTest(hooks);
 
   // Basic rendering
-  test('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', async function (assert) {
+  test<ExtendedTestContext>('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', async function (assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasText('Lorem ipsum', 'It contains the given block');
     assert
       .dom(
         '#destination-el > .ember-basic-dropdown-content',
-        this.element.getRootNode(),
+        getRootNode(this.element),
       )
       .exists('It is rendered in the #ember-testing div');
   });
 
-  test('If a `@defaultClass` argument is provided to the content, its value is added to the list of classes', async function (assert) {
+  test<ExtendedTestContext>('If a `@defaultClass` argument is provided to the content, its value is added to the list of classes', async function (assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @defaultClass="extra-class">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasText('Lorem ipsum', 'It contains the given block');
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass('extra-class');
   });
 
-  test('If the dropdown is closed, nothing is rendered', async function (assert) {
+  test<ExtendedTestContext>('If the dropdown is closed, nothing is rendered', async function (assert) {
     assert.expect(1);
-    this.dropdown = { uniqueId: 'e123', isOpen: false };
-    await render(hbs`
+    this.dropdown = {
+      uniqueId: 'e123',
+      isOpen: false,
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
+    };
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .doesNotExist('Nothing is rendered');
   });
 
-  test('If it receives `@renderInPlace={{true}}`, it is rendered right here instead of elsewhere', async function (assert) {
+  test<ExtendedTestContext>('If it receives `@renderInPlace={{true}}`, it is rendered right here instead of elsewhere', async function (assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
-        reposition() {
-          return {};
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @renderInPlace={{true}}>Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .exists('It is rendered in the spot');
     assert
       .dom(
         '#destination-el .ember-basic-dropdown-content',
-        this.element.getRootNode(),
+        getRootNode(this.element),
       )
       .doesNotExist("It isn't rendered in the #ember-testing div");
   });
 
-  test('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function (assert) {
+  test<ExtendedTestContext>('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute(
         'id',
         'ember-basic-dropdown-content-e123',
@@ -105,48 +197,88 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       );
   });
 
-  test('If it receives `class="foo123"`, the rendered content will have that class along with the default one', async function (assert) {
+  test<ExtendedTestContext>('If it receives `class="foo123"`, the rendered content will have that class along with the default one', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" class="foo123">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass('foo123', 'The dropdown contains that class');
   });
 
-  test('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function (assert) {
+  test<ExtendedTestContext>('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function (assert) {
     assert.expect(1);
-    this.dropdown = { isOpen: true, actions: { reposition() {} } };
-    await render(hbs`
+    this.dropdown = {
+      uniqueId: '',
+      isOpen: true,
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
+    };
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" dir="rtl">Lorem ipsum</BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
   });
 
   // Clicking while the component is opened
-  test('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(true, 'The close action gets called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
@@ -155,19 +287,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     await click('#other-div');
   });
 
-  test('Specifying the rootEventType as click will not close a component if it is opened', async function (assert) {
+  test<ExtendedTestContext>('Specifying the rootEventType as click will not close a component if it is opened', async function (assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(true, 'The close action should not be called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="click" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
@@ -176,19 +318,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     await triggerEvent('#other-div', 'mousedown');
   });
 
-  test('Specifying the rootEventType as mousedown will close a component if it is opened', async function (assert) {
+  test<ExtendedTestContext>('Specifying the rootEventType as mousedown will close a component if it is opened', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(true, 'The close action gets called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
@@ -197,53 +349,79 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     await triggerEvent('#other-div', 'mousedown');
   });
 
-  test("Clicking anywhere inside the dropdown content doesn't invoke the close action", async function (assert) {
+  test<ExtendedTestContext>("Clicking anywhere inside the dropdown content doesn't invoke the close action", async function (assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(false, 'The close action should not be called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el"><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
     `);
     await click('#inside-div');
   });
 
-  test("Clicking in inside the a dropdown content nested inside another dropdown content doesn't invoke the close action on neither of them if the second is rendered in place", async function (assert) {
+  test<ExtendedTestContext>("Clicking in inside the a dropdown content nested inside another dropdown content doesn't invoke the close action on neither of them if the second is rendered in place", async function (assert) {
     assert.expect(0);
     this.dropdown1 = {
       uniqueId: 'ember1',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(false, 'The close action should not be called');
         },
-        reposition() {
-          return {};
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
     this.dropdown2 = {
       uniqueId: 'ember2',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(false, 'The close action should not be called either');
         },
-        reposition() {
-          return {};
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="fake-trigger"></div>
       <BasicDropdownContent @dropdown={{this.dropdown1}} @destination="destination-el">
@@ -258,19 +436,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   // Touch gestures while the component is opened
-  test('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(true, 'The close action gets called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
@@ -280,19 +468,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     await triggerEvent('#other-div', 'touchend');
   });
 
-  test('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(false, 'The close action does not called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
@@ -307,19 +505,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     });
   });
 
-  test('Using stylus on touch device will handle scroll/tap to fire close action properly', async function (assert) {
+  test<ExtendedTestContext>('Using stylus on touch device will handle scroll/tap to fire close action properly', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
         close() {
           assert.ok(true, 'The close action is called');
         },
-        reposition() {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="other-div"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
@@ -345,19 +553,32 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   // Arbitrary events
-  test('The user can attach arbitrary events to the content', async function (assert) {
+  test<ExtendedTestContext>('The user can attach arbitrary events to the content', async function (assert) {
     assert.expect(3);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
     this.onMouseEnter = (api, e) => {
       assert.ok(true, 'The action is invoked');
       assert.deepEqual(api, this.dropdown, 'The first argument is the API');
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>
         Content
@@ -367,51 +588,83 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   // Repositining
-  test('The component is repositioned immediatly when opened', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned immediatly when opened', async function (assert) {
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           assert.ok(true, 'Reposition is invoked exactly once');
+
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
   });
 
-  test('The component is not repositioned if it is closed', async function (assert) {
+  test<ExtendedTestContext>('The component is not repositioned if it is closed', async function (assert) {
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: false,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           assert.ok(false, 'Reposition is invoked exactly once');
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
   });
 
-  test('The component cancels events when preventScroll is true', async function (assert) {
+  test<ExtendedTestContext>('The component cancels events when preventScroll is true', async function (assert) {
     assert.expect(4);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
-        reposition() {},
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
       },
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
         <div style="width: 200px; height: 200px;">content scroll test</div>
@@ -423,10 +676,10 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </BasicDropdownContent>
     `);
 
-    let innerScrollable = this.element
-      .getRootNode()
-      .querySelector('#inner-div');
-    let innerScrollableEvent = new WheelEvent('wheel', {
+    const innerScrollable = getRootNode(this.element).querySelector(
+      '#inner-div',
+    ) as HTMLElement;
+    const innerScrollableEvent = new WheelEvent('wheel', {
       deltaY: 4,
       cancelable: true,
       bubbles: true,
@@ -438,7 +691,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
 
     innerScrollable.scrollTop = 4;
-    let innerScrollableCanceledEvent = new WheelEvent('wheel', {
+    const innerScrollableCanceledEvent = new WheelEvent('wheel', {
       deltaY: -10,
       cancelable: true,
       bubbles: true,
@@ -454,10 +707,10 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       'The innerScrollable was scrolled anyway.',
     );
 
-    let outerScrollable = this.element
-      .getRootNode()
-      .querySelector('#outer-div');
-    let outerScrollableEvent = new WheelEvent('wheel', {
+    const outerScrollable = getRootNode(this.element).querySelector(
+      '#outer-div',
+    ) as HTMLElement;
+    const outerScrollableEvent = new WheelEvent('wheel', {
       deltaY: 4,
       cancelable: true,
       bubbles: true,
@@ -469,19 +722,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
   });
 
-  test('The component is repositioned if the window scrolls', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned if the window scrolls', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
@@ -494,19 +757,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
   });
 
-  test('The component is repositioned if the window is resized', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned if the window is resized', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
@@ -519,19 +792,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
   });
 
-  test('The component is repositioned if the orientation changes', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned if the orientation changes', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
@@ -544,47 +827,67 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
   });
 
-  test('The component is repositioned when the content of the dropdown changes', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned when the content of the dropdown changes', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    let target = this.element
-      .getRootNode()
-      .querySelector('#content-target-div');
-    let span = document.createElement('SPAN');
+    const target = getRootNode(this.element).querySelector(
+      '#content-target-div',
+    ) as HTMLElement;
+    const span = document.createElement('SPAN');
     target.appendChild(span);
     await settled();
     assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
 
-  test('The component is repositioned when the content of the dropdown is changed through ember', async function (assert) {
+  test<ExtendedTestContext>('The component is repositioned when the content of the dropdown is changed through ember', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
     this.divVisible = false;
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">
         {{#if this.divVisible}}
@@ -597,55 +900,78 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
 
-  test('@shouldReposition can be used to control which mutations should trigger a reposition', async function (assert) {
+  test<ExtendedTestContext>('@shouldReposition can be used to control which mutations should trigger a reposition', async function (assert) {
     assert.expect(2);
-    let done = assert.async();
+    const done = assert.async();
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           assert.ok(true, 'It was repositioned once');
           done();
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
 
     this.shouldReposition = (mutations) => {
       assert.ok(true, '@shouldReposition was called');
+      if (!mutations[0]) {
+        return false;
+      }
       return Array.prototype.slice
         .call(mutations[0].addedNodes)
-        .some((node) => {
+        .some((node: Node) => {
           return node.nodeName !== 'SPAN';
         });
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{this.shouldReposition}}>
         <div id="content-target-div"></div>
       </BasicDropdownContent>
     `);
-    let target = this.element
-      .getRootNode()
-      .querySelector('#content-target-div');
-    let span = document.createElement('SPAN');
-    target.appendChild(span);
+    const target = getRootNode(this.element).querySelector(
+      '#content-target-div',
+    );
+    const span = document.createElement('SPAN');
+    target?.appendChild(span);
   });
 
-  test('A renderInPlace component is repositioned if the window scrolls', async function (assert) {
+  test<ExtendedTestContext>('A renderInPlace component is repositioned if the window scrolls', async function (assert) {
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
+      disabled: false,
       actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
         reposition() {
           repositions++;
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
         },
       },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
     `);
@@ -659,25 +985,38 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   // Overlay
-  test('If it receives an `overlay=true` option, there is an overlay covering all the screen', async function (assert) {
+  test<ExtendedTestContext>('If it receives an `overlay=true` option, there is an overlay covering all the screen', async function (assert) {
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
       isOpen: true,
-      actions: { reposition() {} },
+      disabled: false,
+      actions: {
+        toggle: () => {},
+        close: () => {},
+        open: () => {},
+        reposition: () => {
+          return undefined;
+        },
+        registerTriggerElement: () => {},
+        registerDropdownElement: () => {},
+        getTriggerElement: () => {
+          return null;
+        },
+      },
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <div id="destination-el"></div>
       <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @overlay={{true}}>
         <input type="text" id="test-input-focusin" />
       </BasicDropdownContent>
     `);
     assert
-      .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-overlay', getRootNode(this.element))
       .exists('There is one overlay');
     this.set('dropdown.isOpen', false);
     assert
-      .dom('.ember-basic-dropdown-overlay', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-overlay', getRootNode(this.element))
       .doesNotExist('There is no overlay when closed');
   });
 
@@ -690,15 +1029,28 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       this.set('dropdown', {
         uniqueId: 'e123',
         isOpen: true,
+        disabled: false,
         actions: {
-          reposition() {
-            return {};
+          toggle: () => {},
+          close: () => {},
+          open: () => {},
+          reposition: () => {
+            return undefined;
+          },
+          registerTriggerElement: () => {},
+          registerDropdownElement: () => {},
+          getTriggerElement: () => {
+            return null;
           },
         },
       });
     });
 
-    function assertCommonEventHandlerArgs(assert, args) {
+    function assertCommonEventHandlerArgs(
+      this: ExtendedTestContext,
+      assert: Assert,
+      args: [Dropdown, Event | undefined],
+    ) {
       const [dropdown, e] = args;
 
       assert.ok(
@@ -712,17 +1064,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       assert.ok(args.length === 2, 'It receives only 2 arguments');
     }
 
-    test('It properly handles the onFocusIn action', async function (assert) {
+    test<ExtendedTestContext>('It properly handles the onFocusIn action', async function (assert) {
       assert.expect(4);
 
-      const onFocusIn = function () {
+      const onFocusIn = (dropdown: Dropdown, e?: FocusEvent) => {
         assert.ok(true, 'The `onFocusIn()` action has been fired');
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
+        assertCommonEventHandlerArgs.call(this, assert, [dropdown, e]);
       };
 
-      this.set('onFocusIn', onFocusIn.bind(this));
+      this.set('onFocusIn', onFocusIn);
 
-      await render(hbs`
+      await render<ExtendedTestContext>(hbs`
         <div id="destination-el"></div>
         <BasicDropdownContent
           @dropdown={{this.dropdown}}
@@ -734,24 +1086,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       `);
 
       await triggerEvent(
-        this.element
-          .getRootNode()
-          .querySelector('.ember-basic-dropdown-content'),
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-content',
+        ) as HTMLElement,
         'focusin',
       );
     });
 
-    test('It properly handles the onFocusOut action', async function (assert) {
+    test<ExtendedTestContext>('It properly handles the onFocusOut action', async function (assert) {
       assert.expect(4);
 
-      const onFocusOut = function () {
+      const onFocusOut = (dropdown: Dropdown, e?: FocusEvent) => {
         assert.ok(true, 'The `onFocusOut()` action has been fired');
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
+        assertCommonEventHandlerArgs.call(this, assert, [dropdown, e]);
       };
 
-      this.set('onFocusOut', onFocusOut.bind(this));
+      this.set('onFocusOut', onFocusOut);
 
-      await render(hbs`
+      await render<ExtendedTestContext>(hbs`
           <div id="destination-el"></div>
           <BasicDropdownContent
             @dropdown={{this.dropdown}}
@@ -763,24 +1115,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         `);
 
       await triggerEvent(
-        this.element
-          .getRootNode()
-          .querySelector('.ember-basic-dropdown-content'),
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-content',
+        ) as HTMLElement,
         'focusout',
       );
     });
 
-    test('It properly handles the onMouseEnter action', async function (assert) {
+    test<ExtendedTestContext>('It properly handles the onMouseEnter action', async function (assert) {
       assert.expect(4);
 
-      const onMouseEnter = function () {
+      const onMouseEnter = (dropdown: Dropdown, e?: MouseEvent) => {
         assert.ok(true, 'The `onMouseEnter()` action has been fired');
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
+        assertCommonEventHandlerArgs.call(this, assert, [dropdown, e]);
       };
 
-      this.set('onMouseEnter', onMouseEnter.bind(this));
+      this.set('onMouseEnter', onMouseEnter);
 
-      await render(hbs`
+      await render<ExtendedTestContext>(hbs`
           <div id="destination-el"></div>
           <BasicDropdownContent
             @dropdown={{this.dropdown}}
@@ -792,24 +1144,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         `);
 
       await triggerEvent(
-        this.element
-          .getRootNode()
-          .querySelector('.ember-basic-dropdown-content'),
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-content',
+        ) as HTMLElement,
         'mouseenter',
       );
     });
 
-    test('It properly handles the onMouseLeave action', async function (assert) {
+    test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function (assert) {
       assert.expect(4);
 
-      const onMouseLeave = function () {
+      const onMouseLeave = (dropdown: Dropdown, e?: MouseEvent) => {
         assert.ok(true, 'The `onMouseLeave()` action has been fired');
-        assertCommonEventHandlerArgs.call(this, assert, arguments);
+        assertCommonEventHandlerArgs.call(this, assert, [dropdown, e]);
       };
 
-      this.set('onMouseLeave', onMouseLeave.bind(this));
+      this.set('onMouseLeave', onMouseLeave);
 
-      await render(hbs`
+      await render<ExtendedTestContext>(hbs`
           <div id="destination-el"></div>
           <BasicDropdownContent
             @dropdown={{this.dropdown}}
@@ -821,9 +1173,9 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         `);
 
       await triggerEvent(
-        this.element
-          .getRootNode()
-          .querySelector('.ember-basic-dropdown-content'),
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-content',
+        ) as HTMLElement,
         'mouseleave',
       );
     });
