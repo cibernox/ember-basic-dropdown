@@ -1,4 +1,3 @@
-import { registerDeprecationHandler } from '@ember/debug';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
@@ -10,26 +9,44 @@ import {
   waitUntil,
   find,
   settled,
+  type TestContext,
 } from '@ember/test-helpers';
+import type { Dropdown, HorizontalPosition } from 'ember-basic-dropdown/types';
+import type { CalculatePosition } from 'ember-basic-dropdown/utils/calculate-position';
+import type { ComponentLike } from '@glint/template';
+import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
+import MyCustomTrigger from 'test-app/components/my-custom-trigger';
+import MyCustomContent from 'test-app/components/my-custom-content';
+import type { BasicDropdownContentSignature } from 'ember-basic-dropdown/components/basic-dropdown-content';
 
-let deprecations = [];
+interface ExtendedTestContext extends TestContext {
+  element: HTMLElement;
+  disabled?: boolean;
+  isOpen?: boolean;
+  remoteController?: Dropdown | null;
+  triggerComponent?: ComponentLike<BasicDropdownTriggerSignature>;
+  contentComponent?: ComponentLike<BasicDropdownContentSignature>;
+  toggleDisabled: () => void;
+  onFocusOut: () => void;
+  registerAPI?: (dropdown: Dropdown | null) => void;
+  onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
+  onClose?: (dropdown: Dropdown, e?: Event) => boolean | void;
+  calculatePosition?: CalculatePosition;
+}
 
-registerDeprecationHandler((message, options, next) => {
-  deprecations.push(message);
-  next(message, options);
-});
+function getRootNode(element: Element): HTMLElement {
+  return element.getRootNode() as HTMLElement;
+}
 
 module('Integration | Component | basic-dropdown', function (hooks) {
-  hooks.beforeEach(() => (deprecations = []));
-
   setupRenderingTest(hooks);
 
-  test('Its `toggle` action opens and closes the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Its `toggle` action opens and closes the dropdown', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
       <BasicDropdown as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -37,23 +54,27 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is opened');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed again');
   });
 
-  test("The click event with the right button doesn't open it", async function (assert) {
+  test<ExtendedTestContext>("The click event with the right button doesn't open it", async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -66,20 +87,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
     await triggerEvent('.ember-basic-dropdown-trigger', 'click', { button: 2 });
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
   });
 
-  test('Its `open` action opens the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Its `open` action opens the dropdown', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
       <BasicDropdown as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -87,28 +108,32 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is opened');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is still opened');
   });
 
-  test('Its `close` action closes the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Its `close` action closes the dropdown', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
       <BasicDropdown @initiallyOpened={{true}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -116,26 +141,30 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is opened');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is still closed');
   });
 
-  test('It can receive an onOpen action that is fired just before the component opens', async function (assert) {
+  test<ExtendedTestContext>('It can receive an onOpen action that is fired just before the component opens', async function (assert) {
     assert.expect(4);
 
-    this.willOpen = function (dropdown, e) {
+    this.onOpen = function (dropdown: Dropdown, e?: Event) {
       assert.false(
         dropdown.isOpen,
         'The received dropdown has a `isOpen` property that is still false',
@@ -147,9 +176,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onOpen action was invoked');
     };
-    await render(hbs`
-      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -157,20 +186,22 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
-  test('returning false from the `onOpen` action prevents the dropdown from opening', async function (assert) {
+  test<ExtendedTestContext>('returning false from the `onOpen` action prevents the dropdown from opening', async function (assert) {
     assert.expect(2);
 
-    this.willOpen = function () {
+    this.onOpen = function () {
       assert.ok(true, 'willOpen has been called');
       return false;
     };
-    await render(hbs`
-      <BasicDropdown @onOpen={{this.willOpen}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -178,17 +209,19 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is still closed');
   });
 
-  test('It can receive an onClose action that is fired when the component closes', async function (assert) {
+  test<ExtendedTestContext>('It can receive an onClose action that is fired when the component closes', async function (assert) {
     assert.expect(7);
 
-    this.willClose = function (dropdown, e) {
+    this.onClose = function (dropdown, e) {
       assert.true(
         dropdown.isOpen,
         'The received dropdown has a `isOpen` property and its value is `true`',
@@ -200,9 +233,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       assert.ok(!!e, 'Receives an argument as second argument');
       assert.ok(true, 'onClose action was invoked');
     };
-    await render(hbs`
-      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -210,30 +243,36 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
-    await click('.ember-basic-dropdown-trigger', this.element.getRootNode());
-    assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
-      .exists('The dropdown is opened');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
+      .exists('The dropdown is opened');
+    await click(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
+    );
+    assert
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is now opened');
   });
 
-  test('returning false from the `onClose` action prevents the dropdown from closing', async function (assert) {
+  test<ExtendedTestContext>('returning false from the `onClose` action prevents the dropdown from closing', async function (assert) {
     assert.expect(4);
 
-    this.willClose = function () {
+    this.onClose = function () {
       assert.ok(true, 'willClose has been invoked');
       return false;
     };
-    await render(hbs`
-      <BasicDropdown @onClose={{this.willClose}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.toggle}}></button>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.toggle}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
@@ -241,23 +280,27 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is opened');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is still opened');
   });
 
-  test('It can be rendered already opened when the `initiallyOpened=true`', async function (assert) {
+  test<ExtendedTestContext>('It can be rendered already opened when the `initiallyOpened=true`', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -269,68 +312,78 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The dropdown is opened');
   });
 
-  test('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
+  test<ExtendedTestContext>('Calling the `open` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
     assert.expect(1);
     let onOpenCalls = 0;
     this.onOpen = () => {
       onOpenCalls++;
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @onOpen={{this.onOpen}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.open}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.open}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert.strictEqual(onOpenCalls, 1, 'onOpen has been called only once');
   });
 
-  test('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
+  test<ExtendedTestContext>('Calling the `close` method while the dropdown is already opened does not call `onOpen` action', async function (assert) {
     assert.expect(1);
     let onCloseCalls = 0;
-    this.onFocus = (dropdown) => {
-      dropdown.actions.close();
-    };
+
     this.onClose = () => {
       onCloseCalls++;
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
-        <button type="button" class="ember-basic-dropdown-trigger" onclick={{dropdown.actions.close}}></button>
+        <button type="button" class="ember-basic-dropdown-trigger" {{on "click" dropdown.actions.close}}></button>
         {{#if dropdown.isOpen}}
           <div id="dropdown-is-opened"></div>
         {{/if}}
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert.strictEqual(onCloseCalls, 0, 'onClose was never called');
   });
 
-  test('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function (assert) {
+  test<ExtendedTestContext>('It adds the proper class to trigger and content when it receives `@horizontalPosition="right"`', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -341,24 +394,26 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
       );
   });
 
-  test('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', async function (assert) {
+  test<ExtendedTestContext>('It adds the proper class to trigger and content when it receives `horizontalPosition="center"`', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -369,23 +424,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--center',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--center',
         'The proper class has been added',
       );
   });
 
-  test('It prefers right over left when it receives "auto-right"', async function (assert) {
+  test<ExtendedTestContext>('It prefers right over left when it receives "auto-right"', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -396,23 +453,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
       );
   });
 
-  test('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', async function (assert) {
+  test<ExtendedTestContext>('It adds the proper class to trigger and content when it receives `verticalPosition="above"`', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -423,23 +482,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--above',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--above',
         'The proper class has been added',
       );
   });
 
-  test('It passes the `renderInPlace` property to the yielded content component', async function (assert) {
+  test<ExtendedTestContext>('It passes the `renderInPlace` property to the yielded content component', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -450,14 +511,16 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .exists('The dropdown is rendered in place');
   });
 
-  test('It adds a special class to both trigger and content when `@renderInPlace={{true}}`', async function (assert) {
+  test<ExtendedTestContext>('It adds a special class to both trigger and content when `@renderInPlace={{true}}`', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -468,23 +531,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
         'The trigger has a special `--in-place` class',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--in-place',
         'The content has a special `--in-place` class',
       );
   });
 
-  test('When rendered in-place, the content still contains the --above/below classes', async function (assert) {
+  test<ExtendedTestContext>('When rendered in-place, the content still contains the --above/below classes', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -495,10 +560,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--below',
         'The content has a class indicating that it was placed below the trigger',
@@ -512,17 +579,19 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--above',
         'The content has a class indicating that it was placed above the trigger',
       );
   });
 
-  test('It adds a wrapper element when `@renderInPlace={{true}}`', async function (assert) {
+  test<ExtendedTestContext>('It adds a wrapper element when `@renderInPlace={{true}}`', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -533,18 +602,20 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
-    assert.dom('.ember-basic-dropdown', this.element.getRootNode()).exists();
+    assert.dom('.ember-basic-dropdown', getRootNode(this.element)).exists();
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
         'The trigger has a special `--in-place` class',
       );
   });
 
-  test('When rendered in-place, it prefers right over left with position "auto-right"', async function (assert) {
+  test<ExtendedTestContext>('When rendered in-place, it prefers right over left with position "auto-right"', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -555,23 +626,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
       );
   });
 
-  test('When rendered in-place, it applies right class for position "right"', async function (assert) {
+  test<ExtendedTestContext>('When rendered in-place, it applies right class for position "right"', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -582,23 +655,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-trigger--right',
         'The proper class has been added',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The proper class has been added',
       );
   });
 
-  test('[ISSUE #127] Having more than one dropdown with `@renderInPlace={{true}}` raises an exception', async function (assert) {
+  test<ExtendedTestContext>('[ISSUE #127] Having more than one dropdown with `@renderInPlace={{true}}` raises an exception', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -609,10 +684,10 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     assert.ok(true, 'The test has run without errors');
   });
 
-  test('It passes the `disabled` property as part of the public API, and updates is if it changes', async function (assert) {
+  test<ExtendedTestContext>('It passes the `disabled` property as part of the public API, and updates is if it changes', async function (assert) {
     assert.expect(2);
     this.disabled = true;
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @disabled={{this.disabled}} as |dropdown|>
         {{#if dropdown.disabled}}
           <div id="disabled-dropdown-marker">Disabled!</div>
@@ -623,17 +698,16 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#disabled-dropdown-marker', this.element.getRootNode())
+      .dom('#disabled-dropdown-marker', getRootNode(this.element))
       .exists('The public API of the component is marked as disabled');
     this.set('disabled', false);
     assert
-      .dom('#enabled-dropdown-marker', this.element.getRootNode())
+      .dom('#enabled-dropdown-marker', getRootNode(this.element))
       .exists('The public API of the component is marked as enabled');
   });
 
-  test('It passes the `uniqueId` property as part of the public API', async function (assert) {
+  test<ExtendedTestContext>('It passes the `uniqueId` property as part of the public API', async function (assert) {
     assert.expect(1);
-    this.disabled = true;
 
     await render(hbs`
       <BasicDropdown as |dropdown|>
@@ -642,41 +716,43 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-unique-id-container', this.element.getRootNode())
+      .dom('#dropdown-unique-id-container', getRootNode(this.element))
       .hasText(/ember\d+/, 'It yields the uniqueId');
   });
 
-  test("If the dropdown gets disabled while it's open, it closes automatically", async function (assert) {
+  test<ExtendedTestContext>("If the dropdown gets disabled while it's open, it closes automatically", async function (assert) {
     assert.expect(2);
 
-    this.isDisabled = false;
-    await render(hbs`
-      <BasicDropdown @disabled={{this.isDisabled}} as |dropdown|>
+    this.disabled = false;
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @disabled={{this.disabled}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .exists('The select is open');
-    this.set('isDisabled', true);
+    this.set('disabled', true);
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The select is now closed');
   });
 
-  test("If the component's `disabled` property changes, the `registerAPI` action is called", async function (assert) {
+  test<ExtendedTestContext>("If the component's `disabled` property changes, the `registerAPI` action is called", async function (assert) {
     assert.expect(3);
 
-    this.isDisabled = false;
-    this.toggleDisabled = () => this.toggleProperty('isDisabled');
+    this.disabled = false;
+    this.toggleDisabled = () => this.set('disabled', this.disabled);
     this.registerAPI = (api) => this.set('remoteController', api);
-    await render(hbs`
-      <BasicDropdown @disabled={{this.isDisabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @disabled={{this.disabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
       </BasicDropdown>
       <button type="button" {{on "click" this.toggleDisabled}}>Toggle</button>
@@ -686,22 +762,24 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#is-disabled', this.element.getRootNode())
+      .dom('#is-disabled', getRootNode(this.element))
       .doesNotExist('The select is enabled');
-    this.set('isDisabled', true);
+    this.set('disabled', true);
     assert
-      .dom('#is-disabled', this.element.getRootNode())
+      .dom('#is-disabled', getRootNode(this.element))
       .exists('The select is disabled');
-    this.set('isDisabled', false);
+    this.set('disabled', false);
     assert
-      .dom('#is-disabled', this.element.getRootNode())
+      .dom('#is-disabled', getRootNode(this.element))
       .doesNotExist('The select is enabled again');
   });
 
-  test('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function (assert) {
+  test<ExtendedTestContext>('It can receive `@destination="id-of-elmnt"` to customize where `#-in-element` is going to render the content', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -712,14 +790,18 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       <div id="id-of-elmnt"></div>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
       .dom(
-        this.element
-          .getRootNode()
-          .querySelector('.ember-basic-dropdown-content').parentNode,
+        (
+          getRootNode(this.element).querySelector(
+            '.ember-basic-dropdown-content',
+          ) as HTMLElement
+        ).parentNode as HTMLElement,
       )
       .hasAttribute(
         'id',
@@ -729,7 +811,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // A11y
-  test('By default, the `aria-controls` attribute of the trigger contains the id of the content', async function (assert) {
+  test<ExtendedTestContext>('By default, the `aria-controls` attribute of the trigger contains the id of the content', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -739,13 +821,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
-    let content = this.element
-      .getRootNode()
-      .querySelector('.ember-basic-dropdown-content');
+    const content = getRootNode(this.element).querySelector(
+      '.ember-basic-dropdown-content',
+    ) as HTMLElement;
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute(
         'aria-controls',
         content.id,
@@ -753,7 +837,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
   });
 
-  test('When opened, the `aria-owns` attribute of the trigger parent contains the id of the content', async function (assert) {
+  test<ExtendedTestContext>('When opened, the `aria-owns` attribute of the trigger parent contains the id of the content', async function (assert) {
     assert.expect(2);
     await render(hbs`
       <BasicDropdown @renderInPlace={{true}} as |dropdown|>
@@ -761,23 +845,25 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         <dropdown.Content><div id="dropdown-is-opened"></div></dropdown.Content>
       </BasicDropdown>
     `);
-    let trigger = this.element
-      .getRootNode()
-      .querySelector('.ember-basic-dropdown-trigger');
+    const trigger = getRootNode(this.element).querySelector(
+      '.ember-basic-dropdown-trigger',
+    ) as HTMLElement;
     assert
-      .dom(trigger.parentNode)
+      .dom(trigger.parentNode as HTMLElement)
       .doesNotHaveAttribute(
         'aria-owns',
         'Closed dropdown parent does not have aria-owns',
       );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
-    let content = this.element
-      .getRootNode()
-      .querySelector('.ember-basic-dropdown-content');
+    const content = getRootNode(this.element).querySelector(
+      '.ember-basic-dropdown-content',
+    ) as HTMLElement;
     assert
-      .dom(trigger.parentNode)
+      .dom(trigger.parentNode as HTMLElement)
       .hasAttribute(
         'aria-owns',
         content.id,
@@ -786,37 +872,41 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // Repositioning
-  test('The `reposition` public action returns an object with the changes', async function (assert) {
+  test<ExtendedTestContext>('The `reposition` public action returns an object with the changes', async function (assert) {
     assert.expect(4);
-    let remoteController;
-    this.saveAPI = (api) => (remoteController = api);
+    let remoteController: Dropdown | null = null;
+    this.registerAPI = (api) => (remoteController = api);
 
-    await render(hbs`
-      <BasicDropdown @registerAPI={{this.saveAPI}} as |dropdown|>
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
           <div id="dropdown-is-opened"></div>
         </dropdown.Content>
       </BasicDropdown>
     `);
-    let returnValue;
+
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
-    returnValue = remoteController.actions.reposition();
+    const returnValue = (
+      remoteController as unknown as Dropdown
+    )?.actions.reposition();
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'hPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'vPosition'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'top'));
     assert.ok(Object.prototype.hasOwnProperty.call(returnValue, 'left'));
   });
 
-  test('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function (assert) {
+  test<ExtendedTestContext>('The user can pass a custom `calculatePosition` function to customize how the component is placed on the screen', async function (assert) {
     assert.expect(4);
     this.calculatePosition = function (
-      triggerElement,
-      dropdownElement,
-      destinationElement,
+      _triggerElement,
+      _dropdownElement,
+      _destinationElement,
       { dropdown },
     ) {
       assert.ok(dropdown, 'dropdown should be passed to the component');
@@ -830,7 +920,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         },
       };
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
@@ -839,19 +929,21 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The dropdown is in the right',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute(
         'style',
         'top: 111px; width: 100px; height: 110px;',
@@ -859,12 +951,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
   });
 
-  test('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function (assert) {
+  test<ExtendedTestContext>('The user can use the `renderInPlace` flag option to modify how the position is calculated in the `calculatePosition` function', async function (assert) {
     assert.expect(4);
     this.calculatePosition = function (
-      triggerElement,
-      dropdownElement,
-      destinationElement,
+      _triggerElement,
+      _dropdownElement,
+      _destinationElement,
       { dropdown, renderInPlace },
     ) {
       assert.ok(dropdown, 'dropdown should be passed to the component');
@@ -880,7 +972,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       } else {
         return {
           horizontalPosition: 'left',
-          verticalPosition: 'bottom',
+          verticalPosition: 'below',
           style: {
             top: 333,
             right: 444,
@@ -888,7 +980,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         };
       }
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @calculatePosition={{this.calculatePosition}} @renderInPlace={{true}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
@@ -897,19 +989,21 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass('ember-basic-dropdown-content--above', 'The dropdown is above');
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass(
         'ember-basic-dropdown-content--right',
         'The dropdown is in the right',
       );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasStyle(
         { top: '111px', right: '222px' },
         'The style attribute is the expected one',
@@ -917,47 +1011,55 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // Customization of inner components
-  test('It allows to customize the trigger passing `@triggerComponent="my-custom-trigger"`', async function (assert) {
+  test<ExtendedTestContext>('It allows to customize the trigger passing `@triggerComponent="my-custom-trigger"`', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`
-      <BasicDropdown @triggerComponent={{component "my-custom-trigger"}} as |dropdown|>
+    this.triggerComponent = MyCustomTrigger;
+
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @triggerComponent={{this.triggerComponent}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
     `);
 
     assert
-      .dom('#my-custom-trigger', this.element.getRootNode())
+      .dom('#my-custom-trigger', getRootNode(this.element))
       .exists('The custom component has been rendered');
   });
 
-  test('It allows to customize the content passing `contentComponent="my-custom-content"`', async function (assert) {
+  test<ExtendedTestContext>('It allows to customize the content passing `contentComponent="my-custom-content"`', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`
-      <BasicDropdown @contentComponent={{component "my-custom-content"}} as |dropdown|>
+    this.contentComponent = MyCustomContent;
+
+    await render<ExtendedTestContext>(hbs`
+      <BasicDropdown @contentComponent={{this.contentComponent}} as |dropdown|>
         <dropdown.Trigger>Press me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('#my-custom-content', this.element.getRootNode())
+      .dom('#my-custom-content', getRootNode(this.element))
       .exists('The custom component has been rendered');
   });
 
   // State replacement
-  test('The registerAPI is called with every mutation of the publicAPI object', async function (assert) {
+  test<ExtendedTestContext>('The registerAPI is called with every mutation of the publicAPI object', async function (assert) {
     assert.expect(7);
-    let apis = [];
+    const apis: Dropdown[] = [];
     this.disabled = false;
     this.registerAPI = function (api) {
-      apis.push(api);
+      if (api) {
+        apis.push(api);
+      }
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @disabled={{this.disabled}} @registerAPI={{this.registerAPI}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
@@ -965,26 +1067,33 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert.strictEqual(
       apis.length,
       3,
       'There have been 3 changes in the state of the public API',
     );
-    assert.false(apis[0].isOpen, 'The component was closed');
-    assert.true(apis[1].isOpen, 'Then it opened');
-    assert.false(apis[2].isOpen, 'Then it closed again');
+    assert.false(apis[0] ? apis[0].isOpen : true, 'The component was closed');
+    assert.true(apis[1] ? apis[1].isOpen : false, 'Then it opened');
+    assert.false(apis[2] ? apis[2].isOpen : true, 'Then it closed again');
     this.set('disabled', true);
     assert.strictEqual(apis.length, 4, 'There have been 4 changes now');
-    assert.false(apis[2].disabled, 'the component was enabled');
-    assert.true(apis[3].disabled, 'and it became disabled');
+    assert.false(
+      apis[2] ? apis[2].disabled : true,
+      'the component was enabled',
+    );
+    assert.true(apis[3] ? apis[3].disabled : false, 'and it became disabled');
   });
 
-  test('removing the dropdown in response to onClose does not error', async function (assert) {
+  test<ExtendedTestContext>('removing the dropdown in response to onClose does not error', async function (assert) {
     assert.expect(2);
 
     this.isOpen = true;
@@ -993,7 +1102,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       this.set('isOpen', false);
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       {{#if this.isOpen}}
         <BasicDropdown @onClose={{this.onClose}} as |dropdown|>
           <dropdown.Trigger>Open me</dropdown.Trigger>
@@ -1003,20 +1112,24 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .exists('the dropdown is rendered');
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-trigger', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .doesNotExist('the dropdown has been removed');
   });
 
-  test('Dropdowns can be infinitely nested, clicking in children will not close parents, clicking in parents closes children', async function (assert) {
+  test<ExtendedTestContext>('Dropdowns can be infinitely nested, clicking in children will not close parents, clicking in parents closes children', async function (assert) {
     assert.expect(12);
 
     await render(hbs`
@@ -1051,77 +1164,85 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     //open the nested dropdown
     await click(
-      this.element
-        .getRootNode()
-        .querySelector('.ember-basic-dropdown-trigger.parent'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger.parent',
+      ) as HTMLElement,
     );
     assert
-      .dom('.body-parent', this.element.getRootNode())
+      .dom('.body-parent', getRootNode(this.element))
       .exists('the parent dropdown is rendered');
 
     await click(
-      this.element
-        .getRootNode()
-        .querySelector('.ember-basic-dropdown-trigger.child'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger.child',
+      ) as HTMLElement,
     );
     assert
-      .dom('.body-child', this.element.getRootNode())
+      .dom('.body-child', getRootNode(this.element))
       .exists('the child dropdown is rendered');
 
     await click(
-      this.element
-        .getRootNode()
-        .querySelector('.ember-basic-dropdown-trigger.grandchild'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger.grandchild',
+      ) as HTMLElement,
     );
     assert
-      .dom('.body-grandchild', this.element.getRootNode())
+      .dom('.body-grandchild', getRootNode(this.element))
       .exists('the grandchild dropdown is rendered');
 
     // click in the grandchild dropdown
-    await click(this.element.getRootNode().querySelector('.body-grandchild'));
+    await click(
+      getRootNode(this.element).querySelector(
+        '.body-grandchild',
+      ) as HTMLElement,
+    );
     assert
-      .dom('.body-grandchild', this.element.getRootNode())
+      .dom('.body-grandchild', getRootNode(this.element))
       .exists('can click in grandchild dropdown and still be open');
     assert
-      .dom('.body-child', this.element.getRootNode())
+      .dom('.body-child', getRootNode(this.element))
       .exists('can click in grandchild dropdown and still be open');
     assert
-      .dom('.body-parent', this.element.getRootNode())
+      .dom('.body-parent', getRootNode(this.element))
       .exists('can click in grandchild dropdown and still be open');
 
     // click in the child dropdown
-    await click(this.element.getRootNode().querySelector('.body-child'));
+    await click(
+      getRootNode(this.element).querySelector('.body-child') as HTMLElement,
+    );
     assert
-      .dom('.body-grandchild', this.element.getRootNode())
+      .dom('.body-grandchild', getRootNode(this.element))
       .doesNotExist(
         'grandchild dropdown should not exist becuase we clicked in child',
       );
     assert
-      .dom('.body-child', this.element.getRootNode())
+      .dom('.body-child', getRootNode(this.element))
       .exists('can click in child dropdown and still be open');
     assert
-      .dom('.body-parent', this.element.getRootNode())
+      .dom('.body-parent', getRootNode(this.element))
       .exists('can click in child dropdown and still be open');
 
     // click in the parent dropdown
-    await click(this.element.getRootNode().querySelector('.body-parent'));
+    await click(
+      getRootNode(this.element).querySelector('.body-parent') as HTMLElement,
+    );
     assert
-      .dom('.body-grandchild', this.element.getRootNode())
+      .dom('.body-grandchild', getRootNode(this.element))
       .doesNotExist(
         'grandchild dropdown should not exist becuase we clicked in parent',
       );
     assert
-      .dom('.body-child', this.element.getRootNode())
+      .dom('.body-child', getRootNode(this.element))
       .doesNotExist(
         'child dropdown should not exist becuase we clicked in parent',
       );
     assert
-      .dom('.body-parent', this.element.getRootNode())
+      .dom('.body-parent', getRootNode(this.element))
       .exists('can click in parent dropdown and still be open');
   });
 
   // Misc bugfixes
-  test('[BUGFIX] Dropdowns rendered in place do not register events twice', async function (assert) {
+  test<ExtendedTestContext>('[BUGFIX] Dropdowns rendered in place do not register events twice', async function (assert) {
     assert.expect(2);
     let called = false;
     this.onFocusOut = function () {
@@ -1131,7 +1252,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     this.onOpen = function () {
       assert.ok(true);
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <input type="text" id="outer-input">
       <BasicDropdown @renderInPlace={{true}} @onOpen={{this.onOpen}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
@@ -1139,54 +1260,68 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
-    await focus(this.element.getRootNode().querySelector('#inner-input'));
-    await focus(this.element.getRootNode().querySelector('#outer-input'));
+    await focus(
+      getRootNode(this.element).querySelector('#inner-input') as HTMLElement,
+    );
+    await focus(
+      getRootNode(this.element).querySelector('#outer-input') as HTMLElement,
+    );
   });
 
-  test('[BUGFIX] It protects the inline styles from undefined values returned in the `calculatePosition` callback', async function (assert) {
+  test<ExtendedTestContext>('[BUGFIX] It protects the inline styles from undefined values returned in the `calculatePosition` callback', async function (assert) {
     assert.expect(1);
     this.calculatePosition = function () {
       return {
+        horizontalPosition: 'auto',
+        verticalPosition: 'auto',
         style: {},
       };
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .doesNotHaveAttribute('style');
   });
 
-  test('It includes the inline styles returned from the `calculatePosition` callback', async function (assert) {
+  test<ExtendedTestContext>('It includes the inline styles returned from the `calculatePosition` callback', async function (assert) {
     assert.expect(1);
     this.calculatePosition = function () {
       return {
+        horizontalPosition: 'auto',
+        verticalPosition: 'auto',
         style: {
           'max-height': '500px',
           'overflow-y': 'auto',
         },
       };
     };
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Open me</dropdown.Trigger>
         <dropdown.Content>Some content</dropdown.Content>
       </BasicDropdown>
     `);
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute('style', /max-height: 500px; overflow-y: auto/);
   });
 
@@ -1195,7 +1330,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
    * Just in case animationEnabled on TEST ENV, this test would cover this change
    */
 
-  test.skip('[BUGFIX] Dropdowns rendered in place have correct animation flow', async function (assert) {
+  test.skip<ExtendedTestContext>('[BUGFIX] Dropdowns rendered in place have correct animation flow', async function (assert) {
     assert.expect(4);
 
     const basicDropdownContentClass = 'ember-basic-dropdown-content';
@@ -1222,7 +1357,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
      `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
@@ -1233,13 +1370,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
 
     await waitUntil(() =>
-      find('.ember-basic-dropdown-content').classList.contains(
+      find('.ember-basic-dropdown-content')?.classList.contains(
         transitionedInClass,
       ),
     );
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
@@ -1250,7 +1389,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
@@ -1261,13 +1402,15 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
 
     await waitUntil(() =>
-      find('.ember-basic-dropdown-content').classList.contains(
+      find('.ember-basic-dropdown-content')?.classList.contains(
         transitionedInClass,
       ),
     );
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
@@ -1279,22 +1422,22 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // Styles properly get reset
-  test('Styles properly get reset if the positioning changes while open', async function (assert) {
+  test<ExtendedTestContext>('Styles properly get reset if the positioning changes while open', async function (assert) {
     assert.expect(4);
-    let publicApi;
+    let publicApi: Dropdown | null = null;
     this.registerAPI = (api) => (publicApi = api);
 
     let timesCalled = 0;
     this.calculatePosition = function () {
-      const style = {
+      const style: Record<string, string | number> = {
         top: 111,
       };
-      let horizontalPosition;
+      let horizontalPosition: HorizontalPosition;
       if (timesCalled % 2 === 1) {
-        style.right = 100;
+        style['right'] = 100;
         horizontalPosition = 'right';
       } else {
-        style.left = 100;
+        style['left'] = 100;
         horizontalPosition = 'left';
       }
 
@@ -1307,7 +1450,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       };
     };
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <BasicDropdown @registerAPI={{this.registerAPI}} @calculatePosition={{this.calculatePosition}} as |dropdown|>
         <dropdown.Trigger>Click me</dropdown.Trigger>
         <dropdown.Content>
@@ -1317,36 +1460,38 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     await click(
-      this.element.getRootNode().querySelector('.ember-basic-dropdown-trigger'),
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
 
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasStyle(
         { top: '111px', left: '100px' },
         'The style attribute is the expected one',
       );
 
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .doesNotHaveStyle(
         { right: '100px' },
         'The style attribute is the expected one',
       );
 
-    publicApi.actions.reposition();
+    (publicApi as unknown as Dropdown).actions.reposition();
 
     await settled();
 
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasStyle(
         { top: '111px', right: '100px' },
         'The style attribute is the expected one',
       );
 
     assert
-      .dom('.ember-basic-dropdown-content', this.element.getRootNode())
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .doesNotHaveStyle(
         { left: '100px' },
         'The style attribute is the expected one',
@@ -1354,12 +1499,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   // Shadow dom test
-  test('Shadow dom: Its `toggle` action opens and closes the dropdown', async function (assert) {
+  test<ExtendedTestContext>('Shadow dom: Its `toggle` action opens and closes the dropdown', async function (assert) {
     const wormhole = document.createElement('div');
     wormhole.id = 'ember-basic-dropdown-wormhole';
-    document.getElementById('ember-testing').appendChild(wormhole);
+    document.getElementById('ember-testing')?.appendChild(wormhole);
 
-    await render(hbs`
+    await render<ExtendedTestContext>(hbs`
       <Shadow>
         <BasicDropdown as |dropdown|>
           <dropdown.Trigger>Click me</dropdown.Trigger>
@@ -1371,14 +1516,16 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
 
-    const triggerElement = find('[data-shadow]')?.shadowRoot.querySelector(
+    const triggerElement = find('[data-shadow]')?.shadowRoot?.querySelector(
       '.ember-basic-dropdown-trigger',
     );
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
       .dom('.ember-basic-dropdown-content')
@@ -1386,7 +1533,9 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     assert.dom('#dropdown-is-opened').exists('The dropdown is opened');
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
       .dom('#dropdown-is-opened')
@@ -1395,7 +1544,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     wormhole.remove();
   });
 
-  test('Shadow dom: Its `toggle` action opens and closes the dropdown with renderInPlace', async function (assert) {
+  test<ExtendedTestContext>('Shadow dom: Its `toggle` action opens and closes the dropdown with renderInPlace', async function (assert) {
     await render(hbs`
         <Shadow>
             <BasicDropdown @renderInPlace={{true}} as |dropdown|>
@@ -1408,53 +1557,63 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
 
-    const triggerElement = find('[data-shadow]')?.shadowRoot.querySelector(
+    const triggerElement = find('[data-shadow]')?.shadowRoot?.querySelector(
       '.ember-basic-dropdown-trigger',
     );
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
-      .dom('.ember-basic-dropdown-content', find('[data-shadow]').shadowRoot)
+      .dom('.ember-basic-dropdown-content', find('[data-shadow]')?.shadowRoot)
       .exists('The dropdown is rendered');
 
     assert
-      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .dom('#dropdown-is-opened', find('[data-shadow]')?.shadowRoot)
       .exists('The dropdown is opened');
 
     await click(
-      find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'),
+      find('[data-shadow]')?.shadowRoot?.getElementById(
+        'dropdown-is-opened',
+      ) as HTMLElement,
     );
 
     assert
-      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .dom('#dropdown-is-opened', find('[data-shadow]')?.shadowRoot)
       .exists('The dropdown stays opened when clicking content');
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
-      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .dom('#dropdown-is-opened', find('[data-shadow]')?.shadowRoot)
       .doesNotExist('The dropdown is closed again');
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
-      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .dom('#dropdown-is-opened', find('[data-shadow]')?.shadowRoot)
       .exists('The dropdown is opened 2d time');
 
     await click(
-      find('[data-shadow]').shadowRoot.getElementById('dropdown-is-opened'),
+      find('[data-shadow]')?.shadowRoot?.getElementById(
+        'dropdown-is-opened',
+      ) as HTMLElement,
     );
 
     assert
-      .dom('#dropdown-is-opened', find('[data-shadow]').shadowRoot)
+      .dom('#dropdown-is-opened', find('[data-shadow]')?.shadowRoot)
       .exists('The dropdown stays opened when clicking content after 2d open');
   });
 
-  test('Shadow dom: Its `toggle` action opens and closes the dropdown when wormhole is inside shadow dom', async function (assert) {
+  test<ExtendedTestContext>('Shadow dom: Its `toggle` action opens and closes the dropdown when wormhole is inside shadow dom', async function (assert) {
     await render(hbs`
       <Shadow>
         <BasicDropdown @destination="wormhole-in-shadow-dom" as |dropdown|>
@@ -1469,29 +1628,33 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     `);
 
     assert
-      .dom('#dropdown-is-opened', this.element.getRootNode())
+      .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
 
     const shadowRoot = find('[data-shadow]')?.shadowRoot;
 
-    const triggerElement = shadowRoot.querySelector(
+    const triggerElement = shadowRoot?.querySelector(
       '.ember-basic-dropdown-trigger',
     );
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
-      .dom(shadowRoot.querySelector('.ember-basic-dropdown-content'))
+      .dom(shadowRoot?.querySelector('.ember-basic-dropdown-content'))
       .exists('The dropdown is rendered');
 
     assert
-      .dom(shadowRoot.querySelector('#dropdown-is-opened'))
+      .dom(shadowRoot?.querySelector('#dropdown-is-opened'))
       .exists('The dropdown is opened');
 
-    await click(triggerElement);
+    if (triggerElement) {
+      await click(triggerElement);
+    }
 
     assert
-      .dom(shadowRoot.querySelector('#dropdown-is-opened'))
+      .dom(shadowRoot?.querySelector('#dropdown-is-opened'))
       .doesNotExist('The dropdown is closed again');
   });
 });

@@ -13,7 +13,7 @@ import { module, test } from 'qunit';
 module('Unit | Utility | scroll helpers', function () {
   test('getScrollLineHeight', function (assert) {
     // Depends on device and settings.
-    let result = getScrollLineHeight();
+    const result = getScrollLineHeight();
 
     // Also blows up on 0, which is an invalid value.
     assert.ok(result, 'did not throw errors');
@@ -90,7 +90,7 @@ module('Unit | Utility | scroll helpers', function () {
   });
 
   test('getScrollDeltas DOM_DELTA_LINE', function (assert) {
-    const scrollLineHeight = getScrollLineHeight();
+    const scrollLineHeight = getScrollLineHeight() || 0;
     const originalDeltaX = 25;
     const originalDeltaY = 15;
     const { deltaX, deltaY } = getScrollDeltas({
@@ -103,7 +103,7 @@ module('Unit | Utility | scroll helpers', function () {
   });
 
   test('getScrollDeltas DOM_DELTA_PAGE', function (assert) {
-    const scrollLineHeight = getScrollLineHeight();
+    const scrollLineHeight = getScrollLineHeight() || 0;
     const originalDeltaX = 25;
     const originalDeltaY = 15;
     const { deltaX, deltaY } = getScrollDeltas({
