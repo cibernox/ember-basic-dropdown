@@ -4,7 +4,7 @@ import { getOwner } from '@ember/owner';
 // @ts-expect-error Public property 'isFastBoot' of exported class
 const isFastBoot = typeof FastBoot !== 'undefined';
 
-export default class ShadowRootComponent extends Component<{
+export default class ShadowRoot extends Component<{
   Element: HTMLDivElement;
   Blocks: { default: [] };
 }> {
@@ -37,5 +37,11 @@ export default class ShadowRootComponent extends Component<{
 
   get getStyles() {
     return [...document.head.querySelectorAll('link')].map((link) => link.href);
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    ShadowRoot: typeof ShadowRoot;
   }
 }

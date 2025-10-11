@@ -31,7 +31,7 @@ jobs:
       - run: pnpm i -f # re-sync injected deps
 
       - name: Lint
-        run: pnpm --filter ember-basic-dropdown lint
+        run: pnpm --filter ember-basic-dropdown --filter test-app lint
 
   test:
     name: "Tests"
