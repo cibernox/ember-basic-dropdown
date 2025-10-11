@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 
-export default class ShadowComponent extends Component<{
+export default class Shadow extends Component<{
   Element: HTMLDivElement;
   Blocks: { default: [] };
 }> {
@@ -28,6 +28,6 @@ export default class ShadowComponent extends Component<{
 
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry {
-    Shadow: typeof ShadowComponent;
+    Shadow: typeof Shadow;
   }
 }
