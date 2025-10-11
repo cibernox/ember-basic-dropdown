@@ -26,6 +26,7 @@ import type {
   RepositionChanges,
   TRootEventType,
 } from '../types.ts';
+import { deprecate } from '@ember/debug';
 
 // To avoid breaking the current types export we need this
 export type { Dropdown, DropdownActions, TRootEventType };
@@ -182,6 +183,22 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     }
     if (this.args.registerAPI) {
       this.args.registerAPI(this.publicAPI);
+    }
+
+    if (this.args.dropdownId !== undefined) {
+      deprecate(
+        'You have passed `@dropdownId` into `ember-basic-dropdown`. This property does not work correctly without custom modifiers and is undocumented. Remove this parameter and use the `uniqueId` property from the public API instead.',
+        false,
+        {
+          for: 'ember-basic-dropdown',
+          id: 'ember-basic-dropdown.deprecate-arg-dropdown-id',
+          since: {
+            enabled: '8.8',
+            available: '8.8',
+          },
+          until: '9.0.0',
+        },
+      );
     }
   }
 
