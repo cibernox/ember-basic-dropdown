@@ -70,7 +70,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <div id="direct-parent">
@@ -111,7 +111,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -126,7 +126,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger tabindex={{false}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -141,7 +141,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
@@ -156,7 +156,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} title="foobar">Click me</BasicDropdownTrigger>
@@ -171,7 +171,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} id="my-own-id">Click me</BasicDropdownTrigger>
@@ -187,7 +187,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
-      disabled: true
+      disabled: true,
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -203,7 +203,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
-      disabled: true
+      disabled: true,
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -223,7 +223,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
-      isOpen: false
+      isOpen: false,
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -241,7 +241,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -255,14 +255,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
     `);
     assert.strictEqual(
-      (getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement)
-        .tagName,
+      (
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement
+      ).tagName,
       'BUTTON',
     );
     assert
@@ -274,7 +277,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} role="presentation">Click me</BasicDropdownTrigger>
@@ -288,7 +291,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-owns="custom-owns">Click me</BasicDropdownTrigger>
@@ -302,7 +305,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-controls="custom-controls">Click me</BasicDropdownTrigger>
@@ -316,7 +319,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     await render<ExtendedTestContext>(hbs`
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
@@ -331,7 +334,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
-      uniqueId: '123'
+      uniqueId: '123',
     };
     this.onMouseEnter = (dropdown, e) => {
       assert.deepEqual(
@@ -348,7 +351,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'mouseenter',
     );
   });
@@ -360,7 +365,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       ...dropdownBase,
       uniqueId: '123',
       actions: {
-      ...dropdownBase.actions,
+        ...dropdownBase.actions,
         toggle(e) {
           assert.ok(true, 'The `toggle()` action has been fired');
           assert.ok(
@@ -379,7 +384,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'click',
     );
   });
@@ -390,7 +397,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       ...dropdownBase,
       uniqueId: '123',
       actions: {
-      ...dropdownBase.actions,
+        ...dropdownBase.actions,
         toggle() {
           assert.ok(false);
         },
@@ -400,7 +407,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'mousedown',
     );
   });
@@ -421,7 +430,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'click',
     );
   });
@@ -451,7 +462,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'mousedown',
     );
   });
@@ -486,7 +499,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       </div>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'click',
     );
   });
@@ -521,7 +536,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       </div>
     `);
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'click',
     );
   });
@@ -552,7 +569,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       13,
     );
@@ -585,7 +604,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       32,
     );
@@ -617,7 +638,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       27,
     );
@@ -644,17 +667,23 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       13,
     );
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       32,
     );
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       27,
     );
@@ -690,7 +719,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await tap(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -711,18 +742,24 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchstart',
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchmove',
       {
         changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }],
       },
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchend',
       {
         changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }],
@@ -751,18 +788,24 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
     // scroll
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchstart',
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchmove',
       {
         changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
       },
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchend',
       {
         changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }],
@@ -771,18 +814,24 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
     // tap
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchstart',
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchmove',
       {
         changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
       },
     );
     await triggerEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'touchend',
       {
         changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }],
@@ -813,21 +862,29 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await click(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
     await tap('.ember-basic-dropdown-trigger');
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       13,
     );
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       32,
     );
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       27,
     );
@@ -864,7 +921,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await click(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -892,7 +951,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await click(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -921,7 +982,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     `);
 
     await click(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -955,7 +1018,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       </BasicDropdownTrigger>
     `);
     await tap(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -988,7 +1053,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       </BasicDropdownTrigger>
     `);
     await tap(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -1020,7 +1087,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger {{on "keydown" this.keyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       13,
     ); // Enter
@@ -1049,7 +1118,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger {{on "keydown" this.keyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
     `);
     await triggerKeyEvent(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
       'keydown',
       13,
     ); // Enter
@@ -1080,7 +1151,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       <BasicDropdownTrigger @dropdown={{this.dropdown}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
     `);
     await tap(
-      getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
     );
   });
 
@@ -1090,7 +1163,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
    */
   module('trigger event handlers', function (hooks) {
     hooks.beforeEach(function () {
-      this.set('dropdown', { ...dropdownBase, uniqueId: 'e123', actions: { ...dropdownBase.actions, toggle: () => {} } });
+      this.set('dropdown', {
+        ...dropdownBase,
+        uniqueId: 'e123',
+        actions: { ...dropdownBase.actions, toggle: () => {} },
+      });
     });
 
     function assertCommonEventHandlerArgs(
@@ -1125,7 +1202,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onBlur={{this.onBlur}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'blur',
       ); // For some reason, `blur` test-helper fails here
     });
@@ -1144,7 +1223,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onClick={{this.onClick}}>hello</BasicDropdownTrigger>
       `);
       await click(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
       );
     });
 
@@ -1162,7 +1243,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocus={{this.onFocus}}>hello</BasicDropdownTrigger>
       `);
       await focus(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
       );
     });
 
@@ -1180,7 +1263,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusIn={{this.onFocusIn}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'focusin',
       );
     });
@@ -1199,7 +1284,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusOut={{this.onFocusOut}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'focusout',
       );
     });
@@ -1218,7 +1305,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onKeyDown={{this.onKeyDown}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'keydown',
       );
     });
@@ -1237,7 +1326,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseDown={{this.onMouseDown}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'mousedown',
       );
     });
@@ -1272,7 +1363,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseLeave={{this.onMouseLeave}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'mouseleave',
       );
     });
@@ -1291,7 +1384,9 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchEnd={{this.onTouchEnd}}>hello</BasicDropdownTrigger>
       `);
       await triggerEvent(
-        getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement,
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
         'touchend',
       );
     });
