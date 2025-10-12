@@ -12,7 +12,7 @@ module.exports = {
     // to us
   },
 
-  afterInstall() {
+  async afterInstall() {
     let dependencies = this.project.dependencies();
     const promises = [];
     let skipStyleImport = false;
@@ -71,6 +71,29 @@ module.exports = {
           {},
         ),
       );
+    } else {
+      applicationFile = path.join(templatePath, `application.gts`);
+      if (!fs.existsSync(applicationFile)) {
+        file = path.join(templatePath, `application.gjs`);
+      }
+      if (fs.existsSync(applicationFile)) {
+        this.ui.writeLine(`Added wormhole statement to ${applicationFile}`);
+        await this.insertIntoFile(
+          applicationFile,
+          `import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';${EOL}`,
+          {
+            before: '<template>',
+          },
+        );
+
+        await this.insertIntoFile(
+          applicationFile,
+          `${EOL} <BasicDropdownWormhole />`,
+          {
+            after: '<template>',
+          },
+        );
+      }
     }
 
     return Promise.all(promises);
