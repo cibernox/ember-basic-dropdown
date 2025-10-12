@@ -12,7 +12,7 @@ module.exports = {
     // to us
   },
 
-  afterInstall() {
+  async afterInstall() {
     let dependencies = this.project.dependencies();
     const promises = [];
     let skipStyleImport = false;
@@ -49,12 +49,6 @@ module.exports = {
         if (!fs.existsSync(file)) {
           file = path.join('app', `app.ts`);
         }
-        if (!fs.existsSync(file)) {
-          file = path.join('app', `app.gts`);
-        }
-        if (!fs.existsSync(file)) {
-          file = path.join('app', `app.gjs`);
-        }
         if (fs.existsSync(file)) {
           this.ui.writeLine(`Added import statement to ${file}`);
           promises.push(
@@ -79,20 +73,25 @@ module.exports = {
       );
     } else {
       applicationFile = path.join(templatePath, `application.gts`);
-      if (!fs.existsSync(file)) {
+      if (!fs.existsSync(applicationFile)) {
         file = path.join(templatePath, `application.gjs`);
       }
       if (fs.existsSync(applicationFile)) {
         this.ui.writeLine(`Added wormhole statement to ${applicationFile}`);
-        promises.push(
-          this.insertIntoFile(applicationFile, `import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';${EOL}`, {
-            before: `<template>`,
-          }),
+        await this.insertIntoFile(
+          applicationFile,
+          `import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';${EOL}`,
+          {
+            before: '<template>',
+          },
         );
-        promises.push(
-          this.insertIntoFile(applicationFile, `${EOL} <BasicDropdownWormhole />`, {
-            after: `<template>`,
-          }),
+
+        await this.insertIntoFile(
+          applicationFile,
+          `${EOL} <BasicDropdownWormhole />`,
+          {
+            after: '<template>',
+          },
         );
       }
     }
