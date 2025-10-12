@@ -85,13 +85,13 @@ module.exports = {
       if (fs.existsSync(applicationFile)) {
         this.ui.writeLine(`Added wormhole statement to ${applicationFile}`);
         promises.push(
-          this.insertIntoFile(applicationFile, "import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';", {
-            before: "<template>",
+          this.insertIntoFile(applicationFile, `import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';${EOL}`, {
+            before: `<template>`,
           }),
         );
         promises.push(
-          this.insertIntoFile(applicationFile, ` <BasicDropdownWormhole />${EOL}`, {
-            after: "<template>" + EOL,
+          this.insertIntoFile(applicationFile, `${EOL} <BasicDropdownWormhole />`, {
+            after: `<template>`,
           }),
         );
       }
