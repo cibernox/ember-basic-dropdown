@@ -10,7 +10,7 @@ This is a very minimal dropdown. That means that it is agnostic about what it is
 
 It is intended to be a building block for more complex components but is perfectly usable.
 
-### Highlights
+### Features
 
 - 🖊 **TypeScript support** – ships with type definitions for smooth TypeScript integration.
 - ✨ **Glint support** – template type-checking out of the box for safer templates.
