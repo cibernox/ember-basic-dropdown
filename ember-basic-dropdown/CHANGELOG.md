@@ -10,6 +10,26 @@
 
 
 
+
+## v8.8.0 (2025-10-12)
+
+#### :rocket: Enhancement
+* [#1015](https://github.com/cibernox/ember-basic-dropdown/pull/1015) Support gts/gjs in blueprint ([@mkszepp](https://github.com/mkszepp))
+* [#1012](https://github.com/cibernox/ember-basic-dropdown/pull/1012) Add deprecation for `@dropdownId` (undocumented & not handled correctly) ([@mkszepp](https://github.com/mkszepp))
+* [#1005](https://github.com/cibernox/ember-basic-dropdown/pull/1005) Convert addon to gts ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#1009](https://github.com/cibernox/ember-basic-dropdown/pull/1009) Convert docs to GTS ([@mkszepp](https://github.com/mkszepp))
+* [#1008](https://github.com/cibernox/ember-basic-dropdown/pull/1008) Remove broken v1 docs link ([@mkszepp](https://github.com/mkszepp))
+* [#1007](https://github.com/cibernox/ember-basic-dropdown/pull/1007) Update ember-concurrency tasks in docs ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1011](https://github.com/cibernox/ember-basic-dropdown/pull/1011) Activate test-app lint in CI ([@mkszepp](https://github.com/mkszepp))
+* [#1010](https://github.com/cibernox/ember-basic-dropdown/pull/1010) Convert test-app to TS ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.7.0 (2025-09-16)
 
 #### :rocket: Enhancement
