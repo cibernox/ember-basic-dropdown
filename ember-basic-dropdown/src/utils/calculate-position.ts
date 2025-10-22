@@ -36,6 +36,54 @@ export type CalculatePosition = (
   options: CalculatePositionOptions,
 ) => CalculatePositionResult;
 
+export type GetViewDataResult = {
+  scroll: { left: number; top: number };
+  triggerLeft: number;
+  triggerTop: number;
+  triggerWidth: number;
+  triggerHeight: number;
+  dropdownHeight: number;
+  dropdownWidth: number;
+  viewportWidth: number;
+  viewportBottom: number;
+};
+
+export type GetViewData = (
+  trigger: Element,
+  content: HTMLElement,
+) => GetViewDataResult;
+
+export const getViewData: GetViewData = (trigger, content) => {
+  const scroll = {
+    left: window.scrollX,
+    top: window.scrollY,
+  };
+  const {
+    left: triggerLeft,
+    top: triggerTop,
+    width: triggerWidth,
+    height: triggerHeight,
+  } = trigger.getBoundingClientRect();
+  const { height: dropdownHeight, width: dropdownWidth } =
+    content.getBoundingClientRect();
+  const viewportWidth = document.body.clientWidth || window.innerWidth;
+  const viewportBottom = scroll.top + window.innerHeight;
+  return {
+    scroll,
+    // The properties top and left of the trigger client rectangle need to be absolute to
+    // the top left corner of the document as the value it's compared to is also the total
+    // height and not only the viewport height (window client height + scroll offset).
+    triggerLeft: triggerLeft + window.scrollX,
+    triggerTop: triggerTop + window.scrollY,
+    triggerWidth,
+    triggerHeight,
+    dropdownHeight,
+    dropdownWidth,
+    viewportWidth,
+    viewportBottom,
+  };
+};
+
 export const calculateWormholedPosition: CalculatePosition = (
   trigger,
   content,
@@ -49,13 +97,17 @@ export const calculateWormholedPosition: CalculatePosition = (
   },
 ) => {
   // Collect information about all the involved DOM elements
-  const scroll = { left: window.pageXOffset, top: window.pageYOffset };
-  let { left: triggerLeft, top: triggerTop } = trigger.getBoundingClientRect();
-  const { width: triggerWidth, height: triggerHeight } =
-    trigger.getBoundingClientRect();
-  const { height: dropdownHeight } = content.getBoundingClientRect();
-  let { width: dropdownWidth } = content.getBoundingClientRect();
-  const viewportWidth = document.body.clientWidth || window.innerWidth;
+  const viewData = getViewData(trigger, content);
+  const {
+    scroll,
+    triggerWidth,
+    triggerHeight,
+    dropdownHeight,
+    viewportWidth,
+    viewportBottom,
+  } = viewData;
+  let { triggerLeft, triggerTop, dropdownWidth } = viewData;
+
   const style: CalculatePositionResultStyle = {};
 
   // Apply containers' offset
@@ -172,7 +224,6 @@ export const calculateWormholedPosition: CalculatePosition = (
   } else if (verticalPosition === 'below') {
     style.top = triggerTopWithScroll + triggerHeight;
   } else {
-    const viewportBottom = scroll.top + window.innerHeight;
     const enoughRoomBelow =
       triggerTopWithScroll + triggerHeight + dropdownHeight < viewportBottom;
     const enoughRoomAbove = triggerTop > dropdownHeight;
@@ -239,8 +290,28 @@ export const calculateInPlacePosition: CalculatePosition = (
     positionData.verticalPosition = verticalPosition;
     dropdownRect = dropdownRect || content.getBoundingClientRect();
     positionData.style.top = -dropdownRect.height;
-  } else {
+  } else if (verticalPosition === 'below') {
     positionData.verticalPosition = 'below';
+  } else {
+    // Automatically determine if there is enough space above or below
+    const { triggerTop, triggerHeight, dropdownHeight, viewportBottom } =
+      getViewData(trigger, content);
+
+    const enoughRoomBelow =
+      triggerTop + triggerHeight + dropdownHeight < viewportBottom;
+    const enoughRoomAbove = triggerTop > dropdownHeight;
+
+    if (enoughRoomBelow) {
+      verticalPosition = 'below';
+    } else if (enoughRoomAbove) {
+      verticalPosition = 'above';
+      dropdownRect = dropdownRect || content.getBoundingClientRect();
+      positionData.style.top = -dropdownRect.height;
+    } else {
+      // Not enough space above or below
+      verticalPosition = 'below';
+    }
+    positionData.verticalPosition = verticalPosition;
   }
   return positionData;
 };
