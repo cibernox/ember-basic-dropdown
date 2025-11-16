@@ -8,7 +8,6 @@ module.exports = async function (defaults) {
 
   const app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
-    snippetPaths: ['app/components/snippets'],
     autoImport: {
       watchDependencies: ['ember-basic-dropdown'],
     },

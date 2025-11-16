@@ -5,8 +5,6 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { eq, and } from 'ember-truth-helpers';
 import CodeBlock from './code-block';
-// @ts-expect-error Could not find a declaration file for module 'ember-code-snippet'.
-import { getCodeSnippet } from 'ember-code-snippet';
 
 interface CodeExampleSignature {
   Element: HTMLElement;
@@ -99,35 +97,33 @@ export default class CodeExample extends Component<CodeExampleSignature> {
           >Result</div>
         {{/if}}
       </nav>
-      {{#if (and @glimmerTs (eq this.activeTab "glimmer-ts"))}}
-        {{#let (getCodeSnippet @glimmerTs) as |snippet|}}
-          <CodeBlock @language="gts" @code={{snippet.source}} />
-        {{/let}}
+      {{#if @glimmerTs}}
+        {{#if (eq this.activeTab "glimmer-ts")}}
+          <CodeBlock @language="gts" @fileName={{@glimmerTs}} />
+        {{/if}}
       {{/if}}
-      {{#if (and @hbs (eq this.activeTab "hbs"))}}
-        {{#let (getCodeSnippet @hbs) as |snippet|}}
-          <CodeBlock @language="handlebars" @code={{snippet.source}} />
-        {{/let}}
+      {{#if @hbs}}
+        {{#if (eq this.activeTab "hbs")}}
+          <CodeBlock @language="handlebars" @fileName={{@hbs}} />
+        {{/if}}
       {{/if}}
       {{#if @hbs2}}
-        {{#let (getCodeSnippet @hbs2) as |snippet|}}
-          <CodeBlock @language="handlebars" @code={{snippet.source}} />
-        {{/let}}
+        <CodeBlock @language="handlebars" @fileName={{@hbs2}} />
       {{/if}}
-      {{#if (and @js (eq this.activeTab "js"))}}
-        {{#let (getCodeSnippet @js) as |snippet|}}
-          <CodeBlock @language="js" @code={{snippet.source}} />
-        {{/let}}
+      {{#if @js}}
+        {{#if (eq this.activeTab "js")}}
+          <CodeBlock @language="js" @fileName={{@js}} />
+        {{/if}}
       {{/if}}
-      {{#if (and @scss (eq this.activeTab "scss"))}}
-        {{#let (getCodeSnippet @scss) as |snippet|}}
-          <CodeBlock @language="scss" @code={{snippet.source}} />
-        {{/let}}
+      {{#if @scss}}
+        {{#if (eq this.activeTab "scss")}}
+          <CodeBlock @language="scss" @fileName={{@scss}} />
+        {{/if}}
       {{/if}}
-      {{#if (and @css (eq this.activeTab "css"))}}
-        {{#let (getCodeSnippet @css) as |snippet|}}
-          <CodeBlock @language="css" @code={{snippet.source}} />
-        {{/let}}
+      {{#if @css}}
+        {{#if (eq this.activeTab "css")}}
+          <CodeBlock @language="css" @fileName={{@css}} />
+        {{/if}}
       {{/if}}
       {{#if (and this.showResult (has-block))}}
         <div
