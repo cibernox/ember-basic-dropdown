@@ -36,7 +36,7 @@ export type CalculatePosition = (
   options: CalculatePositionOptions,
 ) => CalculatePositionResult;
 
-export type GetViewDataResult = {
+type GetViewDataResult = {
   scroll: { left: number; top: number };
   triggerLeft: number;
   triggerTop: number;
@@ -48,12 +48,12 @@ export type GetViewDataResult = {
   viewportBottom: number;
 };
 
-export type GetViewData = (
+type GetViewData = (
   trigger: Element,
   content: HTMLElement,
 ) => GetViewDataResult;
 
-export const getViewData: GetViewData = (trigger, content) => {
+const getViewData: GetViewData = (trigger, content) => {
   const scroll = {
     left: window.scrollX,
     top: window.scrollY,
@@ -68,6 +68,7 @@ export const getViewData: GetViewData = (trigger, content) => {
     content.getBoundingClientRect();
   const viewportWidth = document.body.clientWidth || window.innerWidth;
   const viewportBottom = scroll.top + window.innerHeight;
+
   return {
     scroll,
     // The properties top and left of the trigger client rectangle need to be absolute to
