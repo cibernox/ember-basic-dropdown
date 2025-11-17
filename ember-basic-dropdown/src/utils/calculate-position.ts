@@ -68,6 +68,7 @@ export const getViewData: GetViewData = (trigger, content) => {
     content.getBoundingClientRect();
   const viewportWidth = document.body.clientWidth || window.innerWidth;
   const viewportBottom = scroll.top + window.innerHeight;
+      debugger
   return {
     scroll,
     // The properties top and left of the trigger client rectangle need to be absolute to

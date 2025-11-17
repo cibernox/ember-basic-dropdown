@@ -282,6 +282,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
 
   @action
   reposition(): undefined | RepositionChanges {
+    debugger
     if (!this.publicAPI.isOpen) {
       return;
     }

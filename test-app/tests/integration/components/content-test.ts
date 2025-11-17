@@ -9,6 +9,7 @@ import {
   type TestContext,
 } from '@ember/test-helpers';
 import type { Dropdown } from 'ember-basic-dropdown/types';
+import { setContainerSize } from 'test-app/tests/helpers';
 
 interface ExtendedTestContext extends TestContext {
   element: HTMLElement;
@@ -1180,4 +1181,36 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       );
     });
   });
-});
+
+  module('calculate-position', function(hooks) {
+
+    setContainerSize(hooks, "300px", "200px", "hidden")
+    test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function(assert) {
+      assert.expect(4);
+
+      this.set("content", [])
+      await render<ExtendedTestContext>(hbs`
+        <div style="margin-top: 250px">
+          <BasicDropdown @renderInPlace={{true}} as |dd|>
+            <dd.Trigger id="trigger">Test</dd.Trigger>
+            <dd.Content id="content">
+              {{#each this.content as |item|}}
+                <p>{{item}}</p>
+              {{/each}}
+            </dd.Content>
+          </BasicDropdown>
+        </div>
+      `);
+
+      this.set("content", Array.from(Array(5)).map(i=>"Content"))
+      await click('#trigger');
+      await triggerEvent(
+        getRootNode(this.element).querySelector(
+          '#content',
+        ) as HTMLElement,
+        'scroll',
+      );
+      await this.pauseTest()
+    });
+  });
+})
