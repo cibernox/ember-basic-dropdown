@@ -37,7 +37,7 @@ export function initialize(appInstance: ApplicationInstance) {
 
   setConfig({
     ...defaultBasicDropdownConfig,
-    rootElement: '#ember-basic-dropdown-wormhole'
+    rootElement: '#ember-basic-dropdown-wormhole',
   });
 }
 
