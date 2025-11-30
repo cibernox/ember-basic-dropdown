@@ -27,6 +27,8 @@ import type {
   TRootEventType,
 } from '../types.ts';
 import { deprecate } from '@ember/debug';
+import { isTesting } from '@embroider/macros';
+import { config as utilConfig, _configSet, type Config } from '../config.ts';
 
 // To avoid breaking the current types export we need this
 export type { Dropdown, DropdownActions, TRootEventType };
@@ -393,31 +395,70 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   }
 
   _getDestinationId(): string {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const config = getOwner(this).resolveRegistration('config:environment') as {
-      environment: string;
-      APP: {
-        rootElement: string;
-      };
-      'ember-basic-dropdown': {
-        destination: string;
-      };
-    };
+    let config = utilConfig;
 
-    if (config.environment === 'test') {
+    if (!_configSet) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      const configEnvironment = getOwner(this).resolveRegistration(
+        'config:environment',
+      ) as {
+        APP: {
+          rootElement: string;
+        };
+        'ember-basic-dropdown': Config;
+      };
+
+      if (configEnvironment['ember-basic-dropdown']) {
+        const legacyConfigString = JSON.stringify(
+          configEnvironment['ember-basic-dropdown'],
+        );
+        deprecate(
+          `You have configured \`ember-basic-dropdown\` in \`ember-cli-build.js\`. Remove that configuration and instead use \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig(${legacyConfigString});`,
+          false,
+          {
+            for: 'ember-basic-dropdown',
+            id: 'ember-basic-dropdown.config-environment',
+            since: {
+              enabled: '8.9',
+              available: '8.9',
+            },
+            until: '9.0.0',
+          },
+        );
+
+        config = configEnvironment['ember-basic-dropdown'];
+      }
+
+      if (configEnvironment['APP']?.rootElement) {
+        deprecate(
+          `ember-basic-dropdown received the \`APP.rootElement\` value from \`ember-cli-build.js\`. You now need to pass this value using \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig({rootElement: config.APP['rootElement']});`,
+          false,
+          {
+            for: 'ember-basic-dropdown',
+            id: 'ember-basic-dropdown.config-environment',
+            since: {
+              enabled: '8.9',
+              available: '8.9',
+            },
+            until: '9.0.0',
+          },
+        );
+
+        config.rootElement = configEnvironment['APP']?.rootElement;
+      }
+    }
+
+    if (isTesting()) {
       // document doesn't exist in fastboot apps, for this reason we need this check
       if (typeof document === 'undefined') {
         return 'ember-basic-dropdown-wormhole';
       }
 
       // check if destination exists in tests:
-      if (
-        config['ember-basic-dropdown'] &&
-        config['ember-basic-dropdown'].destination
-      ) {
-        const destination = config['ember-basic-dropdown'].destination;
+      if (config.destination) {
+        const destination = config.destination;
         if (document.getElementById(destination) !== null) {
           return destination;
         }
@@ -429,18 +470,14 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       }
 
       // fall back to rootElement as destination
-      const rootElement = config['APP']?.rootElement;
+      const rootElement = config.rootElement;
       return (
-        document.querySelector(rootElement)?.id ??
+        (rootElement ? document.querySelector(rootElement)?.id : undefined) ??
         'ember-basic-dropdown-wormhole'
       );
     }
 
-    return (
-      (config['ember-basic-dropdown'] &&
-        config['ember-basic-dropdown'].destination) ||
-      'ember-basic-dropdown-wormhole'
-    );
+    return config.destination || 'ember-basic-dropdown-wormhole';
   }
 
   _getDropdownElement(): HTMLElement | null {
