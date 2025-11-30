@@ -1,4 +1,6 @@
 import type ApplicationInstance from '@ember/application/instance';
+import { setConfig } from 'ember-basic-dropdown/config';
+import { defaultBasicDropdownConfig } from 'test-app/app';
 import config from 'test-app/config/environment';
 
 // @ts-expect-error Public property 'isFastBoot' of exported class
@@ -32,6 +34,11 @@ export function initialize(appInstance: ApplicationInstance) {
 
   config.APP['rootElement'] = '#ember-basic-dropdown-wormhole';
   appInstance.set('rootElement', rootElement);
+
+  setConfig({
+    ...defaultBasicDropdownConfig,
+    rootElement: '#ember-basic-dropdown-wormhole'
+  });
 }
 
 export default {
