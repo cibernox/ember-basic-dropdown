@@ -15,12 +15,16 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const configEnvironment = getOwner(this).resolveRegistration('config:environment') as {
+      const configEnvironment = getOwner(this).resolveRegistration(
+        'config:environment',
+      ) as {
         'ember-basic-dropdown'?: Config;
       };
 
       if (configEnvironment['ember-basic-dropdown']) {
-        const legacyConfigString = JSON.stringify(configEnvironment['ember-basic-dropdown']);
+        const legacyConfigString = JSON.stringify(
+          configEnvironment['ember-basic-dropdown'],
+        );
         deprecate(
           `You have configured \`ember-basic-dropdown\` in \`ember-cli-build.js\`. Remove that configuration and instead use \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig(${legacyConfigString});`,
           false,
@@ -39,10 +43,7 @@ export default class BasicDropdownWormholeComponent extends Component<BasicDropd
       }
     }
 
-    return (
-      config.destination ||
-      'ember-basic-dropdown-wormhole'
-    );
+    return config.destination || 'ember-basic-dropdown-wormhole';
   }
 
   <template>

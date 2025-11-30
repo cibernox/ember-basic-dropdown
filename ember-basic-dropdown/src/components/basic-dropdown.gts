@@ -401,7 +401,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const configEnvironment = getOwner(this).resolveRegistration('config:environment') as {
+      const configEnvironment = getOwner(this).resolveRegistration(
+        'config:environment',
+      ) as {
         APP: {
           rootElement: string;
         };
@@ -409,7 +411,9 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       };
 
       if (configEnvironment['ember-basic-dropdown']) {
-        const legacyConfigString = JSON.stringify(configEnvironment['ember-basic-dropdown']);
+        const legacyConfigString = JSON.stringify(
+          configEnvironment['ember-basic-dropdown'],
+        );
         deprecate(
           `You have configured \`ember-basic-dropdown\` in \`ember-cli-build.js\`. Remove that configuration and instead use \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig(${legacyConfigString});`,
           false,
@@ -453,9 +457,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       }
 
       // check if destination exists in tests:
-      if (
-        config.destination
-      ) {
+      if (config.destination) {
         const destination = config.destination;
         if (document.getElementById(destination) !== null) {
           return destination;
@@ -475,10 +477,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
       );
     }
 
-    return (
-      config.destination ||
-      'ember-basic-dropdown-wormhole'
-    );
+    return config.destination || 'ember-basic-dropdown-wormhole';
   }
 
   _getDropdownElement(): HTMLElement | null {

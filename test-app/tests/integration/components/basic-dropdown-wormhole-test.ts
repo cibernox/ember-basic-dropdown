@@ -34,7 +34,7 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
   test<ExtendedTestContext>('Uses custom destination from config if present', async function (assert) {
     setConfig({
       ...defaultBasicDropdownConfig,
-      destination: 'custom-wormhole-destination'
+      destination: 'custom-wormhole-destination',
     });
 
     await render(hbs`<BasicDropdownWormhole />`);

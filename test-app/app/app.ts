@@ -10,8 +10,8 @@ if (macroCondition(isDevelopingApp())) {
 }
 
 export const defaultBasicDropdownConfig: Config = {
-  rootElement: config.APP['rootElement'] as string | undefined
-}
+  rootElement: config.APP['rootElement'] as string | undefined,
+};
 
 setConfig(defaultBasicDropdownConfig);
 
