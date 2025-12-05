@@ -1,0 +1,13 @@
+import config from './config/environment'; // this line should already be present
+import { setConfig } from 'ember-basic-dropdown/config';
+
+// Basic usage:
+setConfig({
+  rootElement: config.APP.rootElement, // Default is 'body' (or '#ember-testing' in tests)
+});
+
+// Advanced: If you need to override globally the destination element ID (BasicDropdownWormhole), you can do:
+setConfig({
+  destination: 'my-custom-destination-id',
+  rootElement: config.APP.rootElement, // Default is 'body' (or '#ember-testing' in tests)
+});

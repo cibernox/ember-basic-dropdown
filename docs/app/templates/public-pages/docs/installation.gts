@@ -5,30 +5,31 @@ import { LinkTo } from '@ember/routing';
   <h1 class="doc-page-title">Installation</h1>
 
   <p>
-    Ember-basic-dropdown is distributed as an
-    <a href="https://www.ember-cli.com/">Ember CLI</a>
-    addon. To install it, run the following command in your ember project
-    directory
+    To install ember-basic-dropdown, run the following command in your ember
+    project directory
   </p>
 
   <p>
     <div class="code-block">
-      <pre>$ ember install ember-basic-dropdown</pre>
+      <pre>$ pnpm install ember-basic-dropdown</pre>
     </div>
   </p>
 
   <p>
-    When installing this through
-    <code>ember install</code>
-    the addon will add the necessary snippet above automatically in your app.
+    After the installation you need to add the following lines somewhere in your
+    <code>app.js/ts</code>.
   </p>
 
-  <h3>Manual installation</h3>
+  <CodeExample
+    @js="installation-2.js.txt"
+    @showResult={{false}}
+    @activeTab="js"
+  />
 
   <p>
-    After the installation you need to add the following lines somewhere in your
-    templates where you want to render the dropdown content into e.g. your
-    <code>application.hbs</code>. In this component will be rendered the
+    Then you need to add the following lines somewhere in your templates where
+    you want to render the dropdown content into e.g. your
+    <code>application.gjs/gts</code>. In this component will be rendered the
     dropdown content.
   </p>
 

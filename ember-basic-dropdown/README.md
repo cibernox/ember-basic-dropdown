@@ -31,7 +31,7 @@ It is intended to be a building block for more complex components but is perfect
 ### Installation
 
 ```
-ember install ember-basic-dropdown
+pnpm install ember-basic-dropdown
 ```
 
 For more installation details see [documentation](https://ember-basic-dropdown.com/docs/installation)
@@ -111,12 +111,13 @@ If you'd like the dropdown to close itself after a user clicks on it, you can us
 
 ```glimmer-ts
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+import { on } from '@ember/modifier';
 
 <template>
   <BasicDropdown as |dd|>
     <dd.Trigger>Click me!</dd.Trigger>
     <dd.Content>
-      <div {{action dd.actions.close}}>
+      <div role="button" {{on "click" dd.actions.close}}>
         {{yield dd}}
       </div>
     </dd.Content>
