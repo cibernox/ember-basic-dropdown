@@ -13,19 +13,19 @@ export default [
   {
     input: './_index.scss',
     output: {
-      file: './vendor/ember-basic-dropdown.js',
+      file: './src/vendor/ember-basic-dropdown.js',
       assetFileNames: '[name][extname]',
     },
     plugins: [
       sass({
-        output: './vendor/ember-basic-dropdown.css',
+        output: './src/vendor/ember-basic-dropdown.css',
       }),
     ],
   },
   {
     input: './_index.scss',
     output: {
-      file: './vendor/ember-basic-dropdown.js',
+      file: './src/vendor/ember-basic-dropdown.js',
       assetFileNames: '[name][extname]',
     },
     plugins: [
@@ -60,6 +60,7 @@ export default [
         'modifiers/**/*.js',
         'test-support/**/*.js',
         'utils/**/*.js',
+        'vendor/**/*.js',
       ]),
 
       // These are the modules that should get reexported into the traditional

@@ -1,1 +1,1 @@
-import '../vendor/ember-basic-dropdown.css';
+import './vendor/ember-basic-dropdown.css';
