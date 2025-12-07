@@ -254,7 +254,6 @@ export function getScrollParent(element: Element) {
   for (
     let parent: Element | null = element;
     (parent = parent.parentElement);
-
   ) {
     style = window.getComputedStyle(parent);
     if (excludeStaticParent && style.position === 'static') {

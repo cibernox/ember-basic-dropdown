@@ -16,7 +16,8 @@ import type EmberElementHelperRegistry from 'ember-element-helper/template-regis
 
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry
-    extends EmberTruthRegistry,
+    extends
+      EmberTruthRegistry,
       EmbroiderUtilRegistry,
       EmberElementHelperRegistry /* other registries here */ {
     // ...

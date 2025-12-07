@@ -291,8 +291,7 @@ import { LinkTo } from '@ember/routing';
     know that you are safe as long as you use this object.
   </p>
 
-  <pre
-  >
+  <pre>
   {
     uniqueId: &lt;string&gt;, // Contains the unique of this instance of EmberBasicDropdown. It's of the form 'ember1234'.
     disabled: &lt;boolean&gt;, // Truthy if the component received 'disabled=true'
