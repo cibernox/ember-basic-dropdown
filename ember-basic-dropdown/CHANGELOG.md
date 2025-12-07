@@ -11,6 +11,23 @@
 
 
 
+
+## v8.9.0 (2025-12-07)
+
+#### :rocket: Enhancement
+* [#1020](https://github.com/cibernox/ember-basic-dropdown/pull/1020) Add `setConfig` and deprecate passing config via `environment.js` ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#1021](https://github.com/cibernox/ember-basic-dropdown/pull/1021) Update installation docs and minor fixes in readme ([@mkszepp](https://github.com/mkszepp))
+* [#1019](https://github.com/cibernox/ember-basic-dropdown/pull/1019) Move docs to vite ([@mkszepp](https://github.com/mkszepp))
+* [#1018](https://github.com/cibernox/ember-basic-dropdown/pull/1018) Docs: Remove fastboot, ember-try & prember ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1022](https://github.com/cibernox/ember-basic-dropdown/pull/1022) Update to @embroider/addon-dev v8 ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.8.0 (2025-10-12)
 
 #### :rocket: Enhancement
