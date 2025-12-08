@@ -52,9 +52,3 @@ export default class ShadowRoot extends Component<{
     {{/if}}
   </template>
 }
-
-declare module '@glint/environment-ember-loose/registry' {
-  export default interface Registry {
-    ShadowRoot: typeof ShadowRoot;
-  }
-}

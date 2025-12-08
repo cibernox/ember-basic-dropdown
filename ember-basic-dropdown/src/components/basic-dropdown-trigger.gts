@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { element } from 'ember-element-helper';
+import { element, type ElementFromTagName } from 'ember-element-helper';
 import { or } from 'ember-truth-helpers';
 import { concat } from '@ember/helper';
 import basicDropdownTriggerModifier from '../modifiers/basic-dropdown-trigger.ts';
@@ -9,8 +9,8 @@ import { fn } from '@ember/helper';
 import type { Dropdown } from './basic-dropdown';
 import type { HorizontalPosition, VerticalPosition } from '../types.ts';
 
-export interface BasicDropdownTriggerSignature {
-  Element: HTMLElement;
+export interface BasicDropdownTriggerSignature<T extends keyof HTMLElementTagNameMap = 'div'> {
+  Element: ElementFromTagName<T>;
   Args: {
     dropdown?: Dropdown;
     eventType?: 'click' | 'mousedown';
@@ -19,7 +19,7 @@ export interface BasicDropdownTriggerSignature {
     hPosition?: HorizontalPosition | null;
     defaultClass?: string;
     renderInPlace?: boolean;
-    htmlTag?: keyof HTMLElementTagNameMap;
+    htmlTag?: T;
     onBlur?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onClick?: (dropdown?: Dropdown, event?: MouseEvent) => void;
     onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void;
@@ -36,7 +36,7 @@ export interface BasicDropdownTriggerSignature {
   };
 }
 
-export default class BasicDropdownTrigger extends Component<BasicDropdownTriggerSignature> {
+export default class BasicDropdownTrigger<T extends keyof HTMLElementTagNameMap> extends Component<BasicDropdownTriggerSignature<T>> {
   // Actions
   /**
    * Allows similar behavior to `ember-composable-helpers`' `optional` helper.
@@ -59,9 +59,13 @@ export default class BasicDropdownTrigger extends Component<BasicDropdownTrigger
     }
   }
 
+  get tag(): keyof HTMLElementTagNameMap {
+    return this.args.htmlTag || 'div';
+  }
+
   <template>
     {{#if @dropdown}}
-      {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+      {{#let (element this.tag) as |OptionalTag|}}
         {{! template-lint-disable no-pointer-down-event-binding }}
         <OptionalTag
           class="ember-basic-dropdown-trigger

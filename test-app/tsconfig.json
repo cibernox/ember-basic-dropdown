@@ -1,8 +1,5 @@
 {
   "extends": "@tsconfig/ember",
-  "glint": {
-    "environment": ["ember-loose", "ember-template-imports"]
-  },
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmit": true,
