@@ -9,7 +9,9 @@ import { fn } from '@ember/helper';
 import type { Dropdown } from './basic-dropdown';
 import type { HorizontalPosition, VerticalPosition } from '../types.ts';
 
-export interface BasicDropdownTriggerSignature<T extends keyof HTMLElementTagNameMap = 'div'> {
+export interface BasicDropdownTriggerSignature<
+  T extends keyof HTMLElementTagNameMap = 'div',
+> {
   Element: ElementFromTagName<T>;
   Args: {
     dropdown?: Dropdown;
@@ -36,7 +38,9 @@ export interface BasicDropdownTriggerSignature<T extends keyof HTMLElementTagNam
   };
 }
 
-export default class BasicDropdownTrigger<T extends keyof HTMLElementTagNameMap> extends Component<BasicDropdownTriggerSignature<T>> {
+export default class BasicDropdownTrigger<
+  T extends keyof HTMLElementTagNameMap,
+> extends Component<BasicDropdownTriggerSignature<T>> {
   // Actions
   /**
    * Allows similar behavior to `ember-composable-helpers`' `optional` helper.
