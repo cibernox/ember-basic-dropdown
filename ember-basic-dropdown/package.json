@@ -37,7 +37,6 @@
   "files": [
     "_index.scss",
     "addon-main.cjs",
-    "blueprints",
     "declarations",
     "dist",
     "ember-basic-dropdown.less",
