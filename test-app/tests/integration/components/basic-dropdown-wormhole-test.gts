@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@ember/test-helpers';
 import { setConfig } from 'ember-basic-dropdown/config';
 import { defaultBasicDropdownConfig } from 'test-app/app';
+import BasicDropdownWormhole from 'ember-basic-dropdown/components/basic-dropdown-wormhole';
 import type { TestContext } from '@ember/test-helpers';
 
 interface ExtendedTestContext extends TestContext {
@@ -22,9 +22,7 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
   });
 
   test<ExtendedTestContext>('Is present', async function (assert) {
-    await render(hbs`
-      <BasicDropdownWormhole />
-    `);
+    await render(<template><BasicDropdownWormhole /></template>);
 
     assert
       .dom('#ember-basic-dropdown-wormhole', getRootNode(this.element))
@@ -37,7 +35,7 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
       destination: 'custom-wormhole-destination',
     });
 
-    await render(hbs`<BasicDropdownWormhole />`);
+    await render(<template><BasicDropdownWormhole /></template>);
 
     assert
       .dom(
@@ -55,9 +53,9 @@ module('Integration | Component | basic-dropdown-wormhole', function (hooks) {
   });
 
   test<ExtendedTestContext>('Has class my-custom-class', async function (assert) {
-    await render(hbs`
-      <BasicDropdownWormhole class="my-custom-class" />
-    `);
+    await render(
+      <template><BasicDropdownWormhole class="my-custom-class" /></template>,
+    );
 
     assert
       .dom('.my-custom-class', getRootNode(this.element))

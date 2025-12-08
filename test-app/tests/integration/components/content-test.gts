@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import {
   render,
   click,
@@ -8,6 +7,9 @@ import {
   settled,
   type TestContext,
 } from '@ember/test-helpers';
+import BasicDropdownContent from 'ember-basic-dropdown/components/basic-dropdown-content';
+import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
 import type { Dropdown } from 'ember-basic-dropdown/types';
 
 interface ExtendedTestContext extends TestContext {
@@ -35,6 +37,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
   // Basic rendering
   test<ExtendedTestContext>('If the dropdown is open renders the given block in a div with class `ember-basic-dropdown-content`', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
@@ -54,10 +58,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasText('Lorem ipsum', 'It contains the given block');
@@ -70,6 +79,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('If a `@defaultClass` argument is provided to the content, its value is added to the list of classes', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
@@ -89,10 +100,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @defaultClass="extra-class">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @defaultClass="extra-class"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasText('Lorem ipsum', 'It contains the given block');
@@ -102,6 +119,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('If the dropdown is closed, nothing is rendered', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -121,16 +140,23 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .doesNotExist('Nothing is rendered');
   });
 
   test<ExtendedTestContext>('If it receives `@renderInPlace={{true}}`, it is rendered right here instead of elsewhere', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
@@ -150,9 +176,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @renderInPlace={{true}}>Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @renderInPlace={{true}}
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .exists('It is rendered in the spot');
@@ -165,6 +197,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('It derives the ID of the content from the `uniqueId` property of of the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -184,10 +218,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute(
@@ -198,6 +237,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives `class="foo123"`, the rendered content will have that class along with the default one', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -217,16 +258,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" class="foo123">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          class="foo123"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasClass('foo123', 'The dropdown contains that class');
   });
 
   test<ExtendedTestContext>('If it receives `dir="rtl"`, the rendered content will have the attribute set', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: '',
@@ -246,10 +295,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" dir="rtl">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          dir="rtl"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
       .hasAttribute('dir', 'rtl', 'The dropdown has `dir="rtl"`');
@@ -257,6 +312,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
   // Clicking while the component is opened
   test<ExtendedTestContext>('Clicking anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -278,16 +335,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @rootEventType="mousedown"
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     await click('#other-div');
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as click will not close a component if it is opened', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
@@ -309,16 +374,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="click" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @rootEventType="click"
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     await triggerEvent('#other-div', 'mousedown');
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as mousedown will close a component if it is opened', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -340,16 +413,24 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @rootEventType="mousedown" @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @rootEventType="mousedown"
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     await triggerEvent('#other-div', 'mousedown');
   });
 
   test<ExtendedTestContext>("Clicking anywhere inside the dropdown content doesn't invoke the close action", async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
@@ -372,14 +453,21 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el"><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        ><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
+      </template>,
+    );
     await click('#inside-div');
   });
 
   test<ExtendedTestContext>("Clicking in inside the a dropdown content nested inside another dropdown content doesn't invoke the close action on neither of them if the second is rendered in place", async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown1 = {
       uniqueId: 'ember1',
@@ -421,22 +509,33 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="fake-trigger"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown1}} @destination="destination-el">
-        Lorem ipsum
-        <BasicDropdownContent @dropdown={{this.dropdown2}} @destination="destination-el" @renderInPlace={{true}}>
-          <div id="nested-content-div">dolor sit amet</div>
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="fake-trigger"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown1}}
+          @destination="destination-el"
+        >
+          Lorem ipsum
+          <BasicDropdownContent
+            @dropdown={{self.dropdown2}}
+            @destination="destination-el"
+            @renderInPlace={{true}}
+          >
+            <div id="nested-content-div">dolor sit amet</div>
+          </BasicDropdownContent>
         </BasicDropdownContent>
-      </BasicDropdownContent>
-    `);
+      </template>,
+    );
 
     await click('#nested-content-div');
   });
 
   // Touch gestures while the component is opened
   test<ExtendedTestContext>('Tapping anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -458,17 +557,25 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @isTouchDevice={{true}}
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     await triggerEvent('#other-div', 'touchstart');
     await triggerEvent('#other-div', 'touchend');
   });
 
   test<ExtendedTestContext>('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
@@ -490,11 +597,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @isTouchDevice={{true}}
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     await triggerEvent('#other-div', 'touchstart');
     await triggerEvent('#other-div', 'touchmove', {
@@ -506,6 +619,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('Using stylus on touch device will handle scroll/tap to fire close action properly', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -527,11 +642,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="other-div"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @isTouchDevice={{true}}>Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div id="other-div"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @isTouchDevice={{true}}
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
 
     // scroll
     await triggerEvent('#other-div', 'touchstart');
@@ -554,6 +675,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
   // Arbitrary events
   test<ExtendedTestContext>('The user can attach arbitrary events to the content', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       uniqueId: 'e123',
@@ -578,17 +701,25 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       assert.deepEqual(api, this.dropdown, 'The first argument is the API');
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>
-        Content
-      </BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
+        >
+          Content
+        </BasicDropdownContent>
+      </template>,
+    );
     await triggerEvent('.ember-basic-dropdown-content', 'mouseenter');
   });
 
   // Repositining
   test<ExtendedTestContext>('The component is repositioned immediatly when opened', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       uniqueId: 'e123',
@@ -610,13 +741,20 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
   });
 
   test<ExtendedTestContext>('The component is not repositioned if it is closed', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       uniqueId: 'e123',
@@ -637,13 +775,20 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
   });
 
   test<ExtendedTestContext>('The component cancels events when preventScroll is true', async function (assert) {
+    const self = this;
+
     assert.expect(4);
     this.dropdown = {
       uniqueId: 'e123',
@@ -664,17 +809,29 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <div id="outer-div" style="width: 100px; height: 100px; overflow: auto;">
-        <div style="width: 200px; height: 200px;">content scroll test</div>
-      </div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @preventScroll={{true}} @destination="destination-el">
-        <div id="inner-div" style="width: 100px; height: 100px; overflow: auto;">
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <div
+          id="outer-div"
+          style="width: 100px; height: 100px; overflow: auto;"
+        >
           <div style="width: 200px; height: 200px;">content scroll test</div>
         </div>
-      </BasicDropdownContent>
-    `);
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @preventScroll={{true}}
+          @destination="destination-el"
+        >
+          <div
+            id="inner-div"
+            style="width: 100px; height: 100px; overflow: auto;"
+          >
+            <div style="width: 200px; height: 200px;">content scroll test</div>
+          </div>
+        </BasicDropdownContent>
+      </template>,
+    );
 
     const innerScrollable = getRootNode(this.element).querySelector(
       '#inner-div',
@@ -723,6 +880,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('The component is repositioned if the window scrolls', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -744,10 +903,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     window.dispatchEvent(new window.Event('scroll'));
     await settled();
     assert.strictEqual(
@@ -758,6 +922,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('The component is repositioned if the window is resized', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -779,10 +945,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     window.dispatchEvent(new window.Event('resize'));
     await settled();
     assert.strictEqual(
@@ -793,6 +964,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('The component is repositioned if the orientation changes', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -814,10 +987,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     window.dispatchEvent(new window.Event('orientationchange'));
     await settled();
     assert.strictEqual(
@@ -828,6 +1006,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('The component is repositioned when the content of the dropdown changes', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -849,12 +1029,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">
-        <div id="content-target-div"></div>
-      </BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >
+          <div id="content-target-div"></div>
+        </BasicDropdownContent>
+      </template>,
+    );
     const target = getRootNode(this.element).querySelector(
       '#content-target-div',
     ) as HTMLElement;
@@ -865,6 +1050,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('The component is repositioned when the content of the dropdown is changed through ember', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -887,20 +1074,27 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     this.divVisible = false;
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el">
-        {{#if this.divVisible}}
-          <div></div>
-        {{/if}}
-      </BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+        >
+          {{#if self.divVisible}}
+            <div></div>
+          {{/if}}
+        </BasicDropdownContent>
+      </template>,
+    );
     this.set('divVisible', true);
     await settled();
     assert.strictEqual(repositions, 2, 'It was repositioned twice');
   });
 
   test<ExtendedTestContext>('@shouldReposition can be used to control which mutations should trigger a reposition', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     const done = assert.async();
     this.dropdown = {
@@ -936,12 +1130,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         });
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @shouldReposition={{this.shouldReposition}}>
-        <div id="content-target-div"></div>
-      </BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @shouldReposition={{self.shouldReposition}}
+        >
+          <div id="content-target-div"></div>
+        </BasicDropdownContent>
+      </template>,
+    );
     const target = getRootNode(this.element).querySelector(
       '#content-target-div',
     );
@@ -950,6 +1150,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   test<ExtendedTestContext>('A renderInPlace component is repositioned if the window scrolls', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     let repositions = 0;
     this.dropdown = {
@@ -971,10 +1173,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @renderInPlace={{true}} @destination="destination-el">Lorem ipsum</BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @renderInPlace={{true}}
+          @destination="destination-el"
+        >Lorem ipsum</BasicDropdownContent>
+      </template>,
+    );
     window.dispatchEvent(new window.Event('scroll'));
     await settled();
     assert.strictEqual(
@@ -986,6 +1194,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
   // Overlay
   test<ExtendedTestContext>('If it receives an `overlay=true` option, there is an overlay covering all the screen', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       uniqueId: 'e123',
@@ -1005,12 +1215,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="destination-el"></div>
-      <BasicDropdownContent @dropdown={{this.dropdown}} @destination="destination-el" @overlay={{true}}>
-        <input type="text" id="test-input-focusin" />
-      </BasicDropdownContent>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="destination-el"></div>
+        <BasicDropdownContent
+          @dropdown={{self.dropdown}}
+          @destination="destination-el"
+          @overlay={{true}}
+        >
+          <input type="text" id="test-input-focusin" />
+        </BasicDropdownContent>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-overlay', getRootNode(this.element))
       .exists('There is one overlay');
@@ -1065,6 +1281,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     }
 
     test<ExtendedTestContext>('It properly handles the onFocusIn action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onFocusIn = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1074,16 +1292,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
       this.set('onFocusIn', onFocusIn);
 
-      await render<ExtendedTestContext>(hbs`
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{this.dropdown}}
-          @destination="destination-el"
-          @onFocusIn={{this.onFocusIn}}
-        >
-          <div id="content-target-div"></div>
-        </BasicDropdownContent>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @onFocusIn={{self.onFocusIn}}
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        </template>,
+      );
 
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1094,6 +1314,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onFocusOut action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onFocusOut = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1103,16 +1325,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
       this.set('onFocusOut', onFocusOut);
 
-      await render<ExtendedTestContext>(hbs`
+      await render<ExtendedTestContext>(
+        <template>
           <div id="destination-el"></div>
           <BasicDropdownContent
-            @dropdown={{this.dropdown}}
+            @dropdown={{self.dropdown}}
             @destination="destination-el"
-            @onFocusOut={{this.onFocusOut}}
+            @onFocusOut={{self.onFocusOut}}
           >
             <div id="content-target-div"></div>
           </BasicDropdownContent>
-        `);
+        </template>,
+      );
 
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1123,6 +1347,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseEnter action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onMouseEnter = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1132,16 +1358,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
       this.set('onMouseEnter', onMouseEnter);
 
-      await render<ExtendedTestContext>(hbs`
+      await render<ExtendedTestContext>(
+        <template>
           <div id="destination-el"></div>
           <BasicDropdownContent
-            @dropdown={{this.dropdown}}
+            @dropdown={{self.dropdown}}
             @destination="destination-el"
-            @onMouseEnter={{this.onMouseEnter}}
+            @onMouseEnter={{self.onMouseEnter}}
           >
             <div id="content-target-div"></div>
           </BasicDropdownContent>
-        `);
+        </template>,
+      );
 
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1152,6 +1380,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onMouseLeave = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1161,16 +1391,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
       this.set('onMouseLeave', onMouseLeave);
 
-      await render<ExtendedTestContext>(hbs`
+      await render<ExtendedTestContext>(
+        <template>
           <div id="destination-el"></div>
           <BasicDropdownContent
-            @dropdown={{this.dropdown}}
+            @dropdown={{self.dropdown}}
             @destination="destination-el"
-            @onMouseLeave={{this.onMouseLeave}}
+            @onMouseLeave={{self.onMouseLeave}}
           >
             <div id="content-target-div"></div>
           </BasicDropdownContent>
-        `);
+        </template>,
+      );
 
       await triggerEvent(
         getRootNode(this.element).querySelector(

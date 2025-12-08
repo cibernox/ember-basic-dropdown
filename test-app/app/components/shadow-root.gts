@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { getOwner } from '@ember/owner';
+import not from 'ember-truth-helpers/helpers/not';
 
 // @ts-expect-error Public property 'isFastBoot' of exported class
 const isFastBoot = typeof FastBoot !== 'undefined';
@@ -38,6 +39,18 @@ export default class ShadowRoot extends Component<{
   get getStyles() {
     return [...document.head.querySelectorAll('link')].map((link) => link.href);
   }
+  <template>
+    {{#if (not this.shadowDom)}}
+      {{yield}}
+    {{else if this.shadowRootElement}}
+      {{#in-element this.shadowRootElement}}
+        {{#each this.getStyles as |styleHref|}}
+          <link rel="stylesheet" type="text/css" href={{styleHref}} />
+        {{/each}}
+        {{yield}}
+      {{/in-element}}
+    {{/if}}
+  </template>
 }
 
 declare module '@glint/environment-ember-loose/registry' {
