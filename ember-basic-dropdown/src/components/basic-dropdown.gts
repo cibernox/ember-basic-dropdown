@@ -15,7 +15,6 @@ import { schedule } from '@ember/runloop';
 import type { ComponentLike } from '@glint/template';
 import type { BasicDropdownTriggerSignature } from './basic-dropdown-trigger.ts';
 import type { BasicDropdownContentSignature } from './basic-dropdown-content.ts';
-import { ensureSafeComponent } from '@embroider/util';
 import { hash } from '@ember/helper';
 import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
 import BasicDropdownContent from './basic-dropdown-content.gts';
@@ -69,14 +68,8 @@ export interface BasicDropdownArgs {
   registerAPI?: (dropdown: Dropdown | null) => void;
   onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
   onClose?: (dropdown: Dropdown, e?: Event) => boolean | void;
-  triggerComponent?:
-    | string
-    | ComponentLike<BasicDropdownTriggerSignature>
-    | undefined;
-  contentComponent?:
-    | string
-    | ComponentLike<BasicDropdownContentSignature>
-    | undefined;
+  triggerComponent?: ComponentLike<BasicDropdownTriggerSignature> | undefined;
+  contentComponent?: ComponentLike<BasicDropdownContentSignature> | undefined;
   calculatePosition?: CalculatePosition;
 }
 
@@ -499,25 +492,17 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   }
 
   get triggerComponent(): ComponentLike<BasicDropdownTriggerSignature> {
-    if (this.args.triggerComponent) {
-      return ensureSafeComponent(
-        this.args.triggerComponent,
-        this,
-      ) as ComponentLike<BasicDropdownTriggerSignature>;
-    }
-
-    return BasicDropdownTrigger as ComponentLike<BasicDropdownTriggerSignature>;
+    return (
+      this.args.triggerComponent ||
+      (BasicDropdownTrigger as ComponentLike<BasicDropdownTriggerSignature>)
+    );
   }
 
   get contentComponent(): ComponentLike<BasicDropdownContentSignature> {
-    if (this.args.contentComponent) {
-      return ensureSafeComponent(
-        this.args.contentComponent,
-        this,
-      ) as ComponentLike<BasicDropdownContentSignature>;
-    }
-
-    return BasicDropdownContent as ComponentLike<BasicDropdownContentSignature>;
+    return (
+      this.args.contentComponent ||
+      (BasicDropdownContent as ComponentLike<BasicDropdownContentSignature>)
+    );
   }
 
   <template>
