@@ -26,7 +26,7 @@ It is intended to be a building block for more complex components but is perfect
 ### Compatibility
 
 - Embroider or ember-auto-import v2
-- Ember.js v3.28 or above
+- Ember.js v4.12 or above
 
 ### Installation
 
