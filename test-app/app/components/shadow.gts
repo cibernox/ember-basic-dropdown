@@ -24,6 +24,18 @@ export default class Shadow extends Component<{
       set(div);
     },
   );
+  <template>
+    <div data-shadow {{this.attachShadow this.setShadow}} ...attributes></div>
+
+    {{#if this.shadow}}
+      {{#in-element this.shadow}}
+        {{#each this.getStyles as |styleHref|}}
+          <link rel="stylesheet" type="text/css" href={{styleHref}} />
+        {{/each}}
+        {{yield}}
+      {{/in-element}}
+    {{/if}}
+  </template>
 }
 
 declare module '@glint/environment-ember-loose/registry' {

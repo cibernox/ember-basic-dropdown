@@ -96,6 +96,9 @@ export default ts.config(
     plugins: {
       qunit,
     },
+    rules: {
+      '@typescript-eslint/no-this-alias': 'off',
+    },
   },
   /**
    * CJS node files

@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import {
   render,
   triggerEvent,
@@ -10,6 +9,9 @@ import {
   focus,
   type TestContext,
 } from '@ember/test-helpers';
+import BasicDropdownTrigger from 'ember-basic-dropdown/components/basic-dropdown-trigger';
+import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
 import type { Dropdown } from 'ember-basic-dropdown/types';
 
 interface ExtendedTestContext extends TestContext {
@@ -67,16 +69,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   setupRenderingTest(hooks);
 
   test<ExtendedTestContext>('It renders the given block in a div with class `ember-basic-dropdown-trigger`, with no wrapper around', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="direct-parent">
-        <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-      </div>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="direct-parent">
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </div>
+      </template>,
+    );
 
     assert
       .dom(
@@ -90,16 +96,23 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If a `@defaultClass` argument is provided to the trigger, its value is added to the list of classes', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <div id="direct-parent">
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @defaultClass="extra-class">Click me</BasicDropdownTrigger>
-      </div>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div id="direct-parent">
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @defaultClass="extra-class"
+          >Click me</BasicDropdownTrigger>
+        </div>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -108,14 +121,18 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
   // Attributes and a11y
   test<ExtendedTestContext>("If it doesn't receive any tabindex, defaults to 0", async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -123,14 +140,21 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives a tabindex={{false}}, it removes the tabindex', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger tabindex={{false}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          tabindex={{false}}
+          @dropdown={{self.dropdown}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -138,14 +162,18 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives `tabindex="3"`, the tabindex of the element is 3', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -153,14 +181,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives `title="something"`, if has that title attribute', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} title="foobar">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}} title="foobar">Click
+          me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -168,14 +201,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives `id="some-id"`, if has that id', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} id="my-own-id">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}} id="my-own-id">Click
+          me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -183,15 +221,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>("If the dropdown is disabled, the trigger doesn't have tabindex attribute", async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
       disabled: true,
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -199,15 +241,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it belongs to a disabled dropdown, it gets an `aria-disabled=true` attribute for a11y', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
       disabled: true,
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -219,15 +265,19 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If the received dropdown is open, it has an `aria-expanded="true"` attribute, otherwise `"false"`', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
       isOpen: false,
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('aria-expanded', 'false', 'the aria-expanded is false');
@@ -238,28 +288,40 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it has an `aria-controls="foo123"` attribute pointing to the id of the content', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('aria-controls', 'ember-basic-dropdown-content-123');
   });
 
   test<ExtendedTestContext>('If it receives `@htmlTag`, the trigger uses that tag name', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} @htmlTag="button" type="button">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          @htmlTag="button"
+          type="button"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert.strictEqual(
       (
         getRootNode(this.element).querySelector(
@@ -274,56 +336,81 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('If it receives `role="presentation"` it gets that attribute', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} role="presentation">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          role="presentation"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('role', 'presentation');
   });
 
   test<ExtendedTestContext>('If it receives `aria-owns="custom-owns"` it gets that attribute', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-owns="custom-owns">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          aria-owns="custom-owns"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('aria-owns', 'custom-owns');
   });
 
   test<ExtendedTestContext>('If it receives `aria-controls="custom-controls"` it gets that attribute', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} aria-controls="custom-controls">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          aria-controls="custom-controls"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('aria-controls', 'custom-controls');
   });
 
   test<ExtendedTestContext>('If it does not receive an specific `role`, the default is `button`', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
       uniqueId: '123',
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
       .hasAttribute('role', 'button');
@@ -331,6 +418,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
   // Custom actions
   test<ExtendedTestContext>('the user can bind arbitrary events to the trigger', async function (assert) {
+    const self = this;
+
     assert.expect(2);
     this.dropdown = {
       ...dropdownBase,
@@ -347,9 +436,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         'It receives the event as second argument',
       );
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "mouseenter" (fn this.onMouseEnter this.dropdown)}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -360,6 +454,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
   // Default behaviour
   test<ExtendedTestContext>('click events invoke the `toggle` action on the dropdown by default', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       ...dropdownBase,
@@ -380,9 +476,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -392,6 +490,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('mousedown events DO NOT invoke the `toggle` action on the dropdown by default', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       ...dropdownBase,
@@ -403,9 +503,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -415,6 +517,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('click events DO NOT invoke the `toggle` action on the dropdown if `@eventType="mousedown"`', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       ...dropdownBase,
@@ -426,9 +530,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          @eventType="mousedown"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -438,6 +547,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('mousedown events invoke the `toggle` action on the dropdown if `eventType="mousedown"', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       ...dropdownBase,
@@ -458,9 +569,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          @eventType="mousedown"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -470,6 +586,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('when `stopPropagation` is true the `click` event does not bubble', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
@@ -493,11 +611,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div role="button" {{on "click" this.handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} role="presentation">Click me</BasicDropdownTrigger>
-      </div>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div role="button" {{on "click" self.handlerInParent}}>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @stopPropagation={{true}}
+            role="presentation"
+          >Click me</BasicDropdownTrigger>
+        </div>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -507,6 +631,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('when `stopPropagation` is true and eventType is true, the `click` event does not bubble', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.handlerInParent = () =>
       assert.ok(false, 'This should never be called');
@@ -530,11 +656,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <div role="button" {{on "click" this.handlerInParent}}>
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @stopPropagation={{true}} role="presentation">Click me</BasicDropdownTrigger>
-      </div>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <div role="button" {{on "click" self.handlerInParent}}>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @stopPropagation={{true}}
+            role="presentation"
+          >Click me</BasicDropdownTrigger>
+        </div>
+      </template>,
+    );
     await triggerEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -544,6 +676,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Pressing ENTER fires the `toggle` action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       ...dropdownBase,
@@ -564,9 +698,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -578,6 +714,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Pressing SPACE fires the `toggle` action on the dropdown and preventsDefault to avoid scrolling', async function (assert) {
+    const self = this;
+
     assert.expect(4);
     this.dropdown = {
       ...dropdownBase,
@@ -599,9 +737,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -613,6 +753,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Pressing ESC fires the `close` action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       ...dropdownBase,
@@ -633,9 +775,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -647,6 +791,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Pressing ENTER/SPACE/ESC does nothing if there is a `{{on "keydown"}}` event that calls stopImmediatePropagation', async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.keyDown = (e) => e.stopImmediatePropagation();
     this.dropdown = {
@@ -662,9 +808,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}} {{on "keydown" this.keyDown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          @dropdown={{self.dropdown}}
+          {{on "keydown" self.keyDown}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -690,6 +841,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Tapping invokes the toggle action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(4);
     this.dropdown = {
       ...dropdownBase,
@@ -715,9 +868,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await tap(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -726,6 +881,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>("Firing a mousemove between a touchstart and a touchend (touch scroll) doesn't fire the toggle action", async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       ...dropdownBase,
@@ -737,9 +894,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -768,6 +927,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Using stylus on touch device will handle scroll/tap to fire toggle action properly', async function (assert) {
+    const self = this;
+
     assert.expect(1);
     this.dropdown = {
       ...dropdownBase,
@@ -782,9 +943,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     // scroll
     await triggerEvent(
@@ -840,6 +1003,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>("If its dropdown is disabled it won't respond to mouse, touch or keyboard event", async function (assert) {
+    const self = this;
+
     assert.expect(0);
     this.dropdown = {
       ...dropdownBase,
@@ -858,9 +1023,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await click(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -892,6 +1059,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
   // Decorating and overriding default event handlers
   test<ExtendedTestContext>('A user-supplied {{on "mousedown"}} callback will execute before the default toggle behavior', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     let userActionRunFirst = false;
 
@@ -915,10 +1084,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       userActionRunFirst = true;
     };
 
-    await render<ExtendedTestContext>(hbs`
-      {{!-- template-lint-disable no-pointer-down-event-binding --}}
-      <BasicDropdownTrigger {{on "mousedown" this.mouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        {{! template-lint-disable no-pointer-down-event-binding }}
+        <BasicDropdownTrigger
+          {{on "mousedown" self.mouseDown}}
+          @dropdown={{self.dropdown}}
+          @eventType="mousedown"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await click(
       getRootNode(this.element).querySelector(
@@ -928,6 +1103,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied {{on "click"}} callback that calls `stopImmediatePropagation`, will prevent the default behavior', async function (assert) {
+    const self = this;
+
     assert.expect(1);
 
     this.dropdown = {
@@ -946,9 +1123,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger {{on "click" this.click}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          {{on "click" self.click}}
+          @dropdown={{self.dropdown}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await click(
       getRootNode(this.element).querySelector(
@@ -958,6 +1140,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied {{on "mousedown"}} callback that calls `stopImmediatePropagation` will prevent the default behavior', async function (assert) {
+    const self = this;
+
     assert.expect(1);
 
     this.dropdown = {
@@ -976,10 +1160,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       assert.ok(true, 'The user-supplied action has been fired');
     };
 
-    await render<ExtendedTestContext>(hbs`
-      {{!-- template-lint-disable no-pointer-down-event-binding --}}
-      <BasicDropdownTrigger {{on "mousedown" this.mouseDown}} @dropdown={{this.dropdown}} @eventType="mousedown">Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        {{! template-lint-disable no-pointer-down-event-binding }}
+        <BasicDropdownTrigger
+          {{on "mousedown" self.mouseDown}}
+          @dropdown={{self.dropdown}}
+          @eventType="mousedown"
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
 
     await click(
       getRootNode(this.element).querySelector(
@@ -989,6 +1179,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied {{on "touchend"}} callback will execute before the default toggle behavior', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     let userActionRunFirst = false;
 
@@ -1012,11 +1204,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       userActionRunFirst = true;
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger {{on "touchend" this.touchEnd}} @dropdown={{this.dropdown}}>
-        Click me
-      </BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          {{on "touchend" self.touchEnd}}
+          @dropdown={{self.dropdown}}
+        >
+          Click me
+        </BasicDropdownTrigger>
+      </template>,
+    );
     await tap(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1025,6 +1222,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied {{on "touchend"}} callback calling e.stopImmediatePropagation will prevent the default behavior', async function (assert) {
+    const self = this;
+
     assert.expect(2);
 
     this.dropdown = {
@@ -1047,11 +1246,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       assert.ok(true, 'The user-supplied touchend callback has been fired');
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger {{on "touchend" this.touchEnd}} @dropdown={{this.dropdown}}>
-        Click me
-      </BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          {{on "touchend" self.touchEnd}}
+          @dropdown={{self.dropdown}}
+        >
+          Click me
+        </BasicDropdownTrigger>
+      </template>,
+    );
     await tap(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1060,6 +1264,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied `{{on "keydown"}}` action will execute before the default toggle behavior', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     let userActionRunFirst = false;
 
@@ -1083,9 +1289,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       userActionRunFirst = true;
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger {{on "keydown" this.keyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          {{on "keydown" self.keyDown}}
+          @dropdown={{self.dropdown}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1096,6 +1307,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('A user-supplied `{{on "keydown"}}` action calling `stopImmediatePropagation` will prevent the default behavior', async function (assert) {
+    const self = this;
+
     assert.expect(1);
 
     this.dropdown = {
@@ -1114,9 +1327,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       assert.ok(true, 'The `userSuppliedAction()` action has been fired');
     };
 
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger {{on "keydown" this.keyDown}} @dropdown={{this.dropdown}}>Click me</BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger
+          {{on "keydown" self.keyDown}}
+          @dropdown={{self.dropdown}}
+        >Click me</BasicDropdownTrigger>
+      </template>,
+    );
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1127,6 +1345,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
   });
 
   test<ExtendedTestContext>('Tapping an SVG inside of the trigger invokes the toggle action on the dropdown', async function (assert) {
+    const self = this;
+
     assert.expect(3);
     this.dropdown = {
       ...dropdownBase,
@@ -1147,9 +1367,13 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         },
       },
     };
-    await render<ExtendedTestContext>(hbs`
-      <BasicDropdownTrigger @dropdown={{this.dropdown}}><svg class="trigger-child-svg">Click me</svg></BasicDropdownTrigger>
-    `);
+    await render<ExtendedTestContext>(
+      <template>
+        <BasicDropdownTrigger @dropdown={{self.dropdown}}><svg
+            class="trigger-child-svg"
+          >Click me</svg></BasicDropdownTrigger>
+      </template>,
+    );
     await tap(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1189,6 +1413,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     }
 
     test<ExtendedTestContext>('It properly handles the onBlur action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onBlur = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1198,9 +1424,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onBlur', onBlur);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onBlur={{this.onBlur}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onBlur={{self.onBlur}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1210,6 +1441,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onClick action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onClick = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1219,9 +1452,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onClick', onClick);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onClick={{this.onClick}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onClick={{self.onClick}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await click(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1230,6 +1468,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onFocus action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onFocus = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1239,9 +1479,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onFocus', onFocus);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocus={{this.onFocus}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onFocus={{self.onFocus}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await focus(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1250,6 +1495,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onFocusIn action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onFocusIn = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1259,9 +1506,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onFocusIn', onFocusIn);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusIn={{this.onFocusIn}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onFocusIn={{self.onFocusIn}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1271,6 +1523,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onFocusOut action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onFocusOut = (dropdown: Dropdown, e?: FocusEvent) => {
@@ -1280,9 +1534,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onFocusOut', onFocusOut);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onFocusOut={{this.onFocusOut}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onFocusOut={{self.onFocusOut}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1292,6 +1551,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onKeyDown action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onKeyDown = (dropdown: Dropdown, e?: KeyboardEvent) => {
@@ -1301,9 +1562,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onKeyDown', onKeyDown);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onKeyDown={{this.onKeyDown}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onKeyDown={{self.onKeyDown}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1313,6 +1579,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseDown action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onMouseDown = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1322,9 +1590,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onMouseDown', onMouseDown);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseDown={{this.onMouseDown}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onMouseDown={{self.onMouseDown}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1334,6 +1607,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseEnter action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onMouseEnter = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1343,13 +1618,20 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onMouseEnter', onMouseEnter);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseEnter={{this.onMouseEnter}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onMouseEnter={{self.onMouseEnter}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent('.ember-basic-dropdown-trigger', 'mouseenter');
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onMouseLeave = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1359,9 +1641,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onMouseLeave', onMouseLeave);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onMouseLeave={{this.onMouseLeave}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onMouseLeave={{self.onMouseLeave}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
@@ -1371,6 +1658,8 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     });
 
     test<ExtendedTestContext>('It properly handles the onTouchEnd action', async function (assert) {
+      const self = this;
+
       assert.expect(4);
 
       const onTouchEnd = (dropdown: Dropdown, e?: MouseEvent) => {
@@ -1380,9 +1669,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
 
       this.set('onTouchEnd', onTouchEnd);
 
-      await render<ExtendedTestContext>(hbs`
-        <BasicDropdownTrigger @dropdown={{this.dropdown}} @onTouchEnd={{this.onTouchEnd}}>hello</BasicDropdownTrigger>
-      `);
+      await render<ExtendedTestContext>(
+        <template>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @onTouchEnd={{self.onTouchEnd}}
+          >hello</BasicDropdownTrigger>
+        </template>,
+      );
       await triggerEvent(
         getRootNode(this.element).querySelector(
           '.ember-basic-dropdown-trigger',
