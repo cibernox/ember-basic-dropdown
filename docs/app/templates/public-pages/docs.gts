@@ -42,6 +42,10 @@ const groupedSections = [
     groupName: 'Upgrade',
     options: [
       {
+        route: 'public-pages.docs.migrate-8-0-to-9-0',
+        text: 'Migrate from 8.0 to 9.0',
+      },
+      {
         route: 'public-pages.docs.migrate-7-0-to-8-0',
         text: 'Migrate from 7.0 to 8.0',
       },

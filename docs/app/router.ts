@@ -33,6 +33,7 @@ Router.map(function () {
       // Other
       this.route('test-helpers');
       this.route('api-reference');
+      this.route('migrate-8-0-to-9-0');
     });
 
     this.route('cookbook', function () {
