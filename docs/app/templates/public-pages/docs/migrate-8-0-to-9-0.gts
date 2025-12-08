@@ -10,7 +10,13 @@ import { LinkTo } from '@ember/routing';
 
   <ul>
     <li>
-      <p>The minimum required Ember version is now 4.12.</p>
+      The minimum required versions are:
+      <ul>
+        <li>Ember 4.12 and above</li>
+        <li><code>ember-truth-helpers</code> 5.x and above</li>
+        <li><code>@ember/test-helpers</code> 5.x and above</li>
+        <li><code>@glimmer/component</code> 2.x and above</li>
+      </ul>
     </li>
     <li>
       <p>
