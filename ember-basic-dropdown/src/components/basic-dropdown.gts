@@ -306,7 +306,6 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
         previousVerticalPosition,
         renderInPlace,
         matchTriggerWidth,
-        dropdown: this,
       },
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
