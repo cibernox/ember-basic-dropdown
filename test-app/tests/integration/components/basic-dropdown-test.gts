@@ -1115,7 +1115,10 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       _destinationElement,
       { renderInPlace },
     ) {
-      assert.ok(renderInPlace, 'custom calculatePosition with renderInPlace was passed to the component');
+      assert.ok(
+        renderInPlace,
+        'custom calculatePosition with renderInPlace was passed to the component',
+      );
       if (renderInPlace) {
         return {
           horizontalPosition: 'right',
