@@ -42,10 +42,7 @@ export interface BasicDropdownDefaultBlock {
   actions: DropdownActions;
   Trigger: ComponentLike<
     Omit<BasicDropdownTriggerSignature, 'Args'> & {
-      Args: Omit<
-        BasicDropdownTriggerSignature['Args'],
-        'htmlTag'
-      >;
+      Args: Omit<BasicDropdownTriggerSignature['Args'], 'htmlTag'>;
     }
   >;
   Content: ComponentLike<BasicDropdownContentSignature>;
