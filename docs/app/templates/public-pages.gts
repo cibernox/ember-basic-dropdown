@@ -74,7 +74,11 @@ export default class extends Component {
           >Github</a>
         </div>
         <div class="main-header-logo">
-          <BasicDropdown @triggerHtmlTag="span" @calculatePosition={{this.calculatePosition}} as |dd|>
+          <BasicDropdown
+            @triggerHtmlTag="span"
+            @calculatePosition={{this.calculatePosition}}
+            as |dd|
+          >
             <LinkTo @route="public-pages.index" class="home-link">
               <img src="/ember_logo.png" alt="ember" />
               <strong>Basic</strong>
