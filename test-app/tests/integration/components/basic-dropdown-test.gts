@@ -1057,13 +1057,8 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     const self = this;
 
     assert.expect(4);
-    this.calculatePosition = function (
-      _triggerElement,
-      _dropdownElement,
-      _destinationElement,
-      { dropdown },
-    ) {
-      assert.ok(dropdown, 'dropdown should be passed to the component');
+    this.calculatePosition = function () {
+      assert.ok('custom calculatePosition was passed to the component');
       return {
         horizontalPosition: 'right',
         verticalPosition: 'above',
@@ -1118,9 +1113,12 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       _triggerElement,
       _dropdownElement,
       _destinationElement,
-      { dropdown, renderInPlace },
+      { renderInPlace },
     ) {
-      assert.ok(dropdown, 'dropdown should be passed to the component');
+      assert.ok(
+        renderInPlace,
+        'custom calculatePosition with renderInPlace was passed to the component',
+      );
       if (renderInPlace) {
         return {
           horizontalPosition: 'right',
