@@ -32,7 +32,7 @@ export default class extends Component {
     }
   }
 
-  setBrandColor(color: string, dropdown: BasicDropdownDefaultBlock) {
+  setBrandColor(color: string, dropdown: BasicDropdownDefaultBlock<'span'>) {
     brands.forEach((klass) => document.body.classList.remove(klass));
     document.body.classList.add(`${color}-brand`);
     dropdown.actions.close();
@@ -40,7 +40,7 @@ export default class extends Component {
 
   // Methods
   calculatePosition(
-    trigger: Element,
+    trigger: HTMLElement,
     content: HTMLElement,
     destination: HTMLElement,
     options: CalculatePositionOptions,
@@ -74,13 +74,12 @@ export default class extends Component {
           >Github</a>
         </div>
         <div class="main-header-logo">
-          <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dd|>
+          <BasicDropdown @triggerHtmlTag="span" @calculatePosition={{this.calculatePosition}} as |dd|>
             <LinkTo @route="public-pages.index" class="home-link">
               <img src="/ember_logo.png" alt="ember" />
               <strong>Basic</strong>
               {{! template-lint-disable no-pointer-down-event-binding }}
               <dd.Trigger
-                @htmlTag="span"
                 {{on "mousedown" this.preventIfNotInIndex}}
                 {{on "touchend" this.preventIfNotInIndex}}
                 class="logo-dropdown-button"
