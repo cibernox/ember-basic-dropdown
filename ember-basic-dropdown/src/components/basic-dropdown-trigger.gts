@@ -19,7 +19,7 @@ export interface BasicDropdownTriggerSignature {
     hPosition?: HorizontalPosition | null;
     defaultClass?: string;
     renderInPlace?: boolean;
-    htmlTag?: keyof HTMLElementTagNameMap;
+    htmlTag?: keyof HTMLElementTagNameMap | undefined;
     onBlur?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onClick?: (dropdown?: Dropdown, event?: MouseEvent) => void;
     onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void;
