@@ -48,7 +48,7 @@ import { LinkTo } from '@ember/routing';
         option has been removed from
         <code>calculatePosition</code>. Previously, this option passed the
         current class instance to
-        <code>calculatePosition</code>.<br>
+        <code>calculatePosition</code>.<br />
         Note: This option was never documented.
       </p>
     </li>
