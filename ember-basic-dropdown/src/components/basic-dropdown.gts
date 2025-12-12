@@ -539,6 +539,7 @@ export default class BasicDropdown<
           hPosition=this.hPosition
           renderInPlace=this.renderInPlace
           vPosition=this.vPosition
+          htmlTag=@triggerHtmlTag
         )
         Content=(component
           this.contentComponent
