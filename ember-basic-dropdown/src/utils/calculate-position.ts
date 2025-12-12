@@ -28,24 +28,24 @@ export type CalculatePositionResult = {
 };
 
 export type CalculatePosition = (
-  trigger: Element,
+  trigger: HTMLElement,
   content: HTMLElement,
   destination: HTMLElement,
   options: CalculatePositionOptions,
 ) => CalculatePositionResult;
 
-export const calculateWormholedPosition: CalculatePosition = (
-  trigger,
-  content,
-  destination,
+export function calculateWormholedPosition(
+  trigger: HTMLElement,
+  content: HTMLElement,
+  destination: HTMLElement,
   {
     horizontalPosition,
     verticalPosition,
     matchTriggerWidth,
     previousHorizontalPosition,
     previousVerticalPosition,
-  },
-) => {
+  }: CalculatePositionOptions,
+): CalculatePositionResult {
   // Collect information about all the involved DOM elements
   const scroll = { left: window.pageXOffset, top: window.pageYOffset };
   let { left: triggerLeft, top: triggerTop } = trigger.getBoundingClientRect();
@@ -200,14 +200,14 @@ export const calculateWormholedPosition: CalculatePosition = (
   }
 
   return { horizontalPosition, verticalPosition, style };
-};
+}
 
-export const calculateInPlacePosition: CalculatePosition = (
-  trigger,
-  content,
-  _destination,
-  { horizontalPosition, verticalPosition },
-) => {
+export function calculateInPlacePosition(
+  trigger: HTMLElement,
+  content: HTMLElement,
+  _destination: HTMLElement,
+  { horizontalPosition, verticalPosition }: CalculatePositionOptions,
+): CalculatePositionResult {
   let dropdownRect;
   const positionData: CalculatePositionResult = {
     horizontalPosition: 'left',
@@ -241,7 +241,7 @@ export const calculateInPlacePosition: CalculatePosition = (
     positionData.verticalPosition = 'below';
   }
   return positionData;
-};
+}
 
 export function getScrollParent(element: Element) {
   let style = window.getComputedStyle(element);
@@ -266,17 +266,18 @@ export function getScrollParent(element: Element) {
 
   return document.body;
 }
-const calculatePosition: CalculatePosition = (
-  trigger,
-  content,
-  destination,
-  options,
-) => {
+
+function calculatePosition(
+  trigger: HTMLElement,
+  content: HTMLElement,
+  destination: HTMLElement,
+  options: CalculatePositionOptions,
+): CalculatePositionResult {
   if (options.renderInPlace) {
     return calculateInPlacePosition(trigger, content, destination, options);
   } else {
     return calculateWormholedPosition(trigger, content, destination, options);
   }
-};
+}
 
 export default calculatePosition;

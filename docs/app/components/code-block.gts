@@ -26,9 +26,3 @@ export default class CodeBlock extends Component<CodeBlockSignature> {
     </div>
   </template>
 }
-
-declare module '@glint/environment-ember-loose/registry' {
-  export default interface Registry {
-    CodeBlock: typeof CodeBlock;
-  }
-}

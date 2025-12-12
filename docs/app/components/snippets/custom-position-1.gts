@@ -7,7 +7,7 @@ import type {
 
 export default class extends Component {
   calculatePosition(
-    trigger: Element,
+    trigger: HTMLElement,
     content: HTMLElement,
     _destination: HTMLElement,
     { horizontalPosition, verticalPosition }: CalculatePositionOptions,

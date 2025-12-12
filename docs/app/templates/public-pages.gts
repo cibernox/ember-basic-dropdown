@@ -32,7 +32,7 @@ export default class extends Component {
     }
   }
 
-  setBrandColor(color: string, dropdown: BasicDropdownDefaultBlock) {
+  setBrandColor(color: string, dropdown: BasicDropdownDefaultBlock<'span'>) {
     brands.forEach((klass) => document.body.classList.remove(klass));
     document.body.classList.add(`${color}-brand`);
     dropdown.actions.close();
@@ -40,7 +40,7 @@ export default class extends Component {
 
   // Methods
   calculatePosition(
-    trigger: Element,
+    trigger: HTMLElement,
     content: HTMLElement,
     destination: HTMLElement,
     options: CalculatePositionOptions,
