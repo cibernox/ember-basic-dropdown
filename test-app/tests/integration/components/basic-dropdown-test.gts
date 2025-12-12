@@ -1325,27 +1325,23 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(
       <template>
-        <BasicDropdown as |parent|>
-          <parent.Trigger class="parent" @htmlTag="button">Trigger of the first
-            dropdown</parent.Trigger>
+        <BasicDropdown @triggerHtmlTag="button" as |parent|>
+          <parent.Trigger class="parent">Trigger of the first dropdown</parent.Trigger>
           <parent.Content @overlay={{true}}>
-            <BasicDropdown as |child|>
+            <BasicDropdown @triggerHtmlTag="button" as |child|>
               <p class="body-parent">
                 <br />First level of the dropdpwn<br />
               </p>
-              <child.Trigger class="child" @htmlTag="button">Trigger of the
-                second dropdown</child.Trigger>
+              <child.Trigger class="child">Trigger of the second dropdown</child.Trigger>
               <child.Content @overlay={{true}}>
                 <p class="body-child">
                   <br />Second level of the second<br />
-                  <BasicDropdown as |grandchild|>
+                  <BasicDropdown @triggerHtmlTag="button" as |grandchild|>
                     <p>
                       <br />Second level of the dropdpwn<br />
                     </p>
-                    <grandchild.Trigger
-                      class="grandchild"
-                      @htmlTag="button"
-                    >Trigger of the Third dropdown</grandchild.Trigger>
+                    <grandchild.Trigger class="grandchild">Trigger of the Third
+                      dropdown</grandchild.Trigger>
                     <grandchild.Content @overlay={{true}}>
                       <p class="body-grandchild">
                         <br />Third level of the third<br />
