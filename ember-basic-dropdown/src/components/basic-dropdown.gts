@@ -35,24 +35,37 @@ export type { Dropdown, DropdownActions, TRootEventType };
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
-export interface BasicDropdownDefaultBlock {
+export interface BasicDropdownDefaultBlock<
+  TriggerHtmlTag extends keyof HTMLElementTagNameMap = 'div',
+> {
   uniqueId: string;
   disabled: boolean;
   isOpen: boolean;
   actions: DropdownActions;
-  Trigger: ComponentLike<BasicDropdownTriggerSignature>;
+  Trigger: ComponentLike<
+    Omit<BasicDropdownTriggerSignature<TriggerHtmlTag>, 'Args'> & {
+      Args: Omit<
+        BasicDropdownTriggerSignature<TriggerHtmlTag>['Args'],
+        'htmlTag'
+      >;
+    }
+  >;
   Content: ComponentLike<BasicDropdownContentSignature>;
 }
 
-export interface BasicDropdownSignature {
+export interface BasicDropdownSignature<
+  TriggerHtmlTag extends keyof HTMLElementTagNameMap = 'div',
+> {
   Element: HTMLElement;
-  Args: BasicDropdownArgs;
+  Args: BasicDropdownArgs<TriggerHtmlTag>;
   Blocks: {
-    default: [BasicDropdownDefaultBlock];
+    default: [BasicDropdownDefaultBlock<TriggerHtmlTag>];
   };
 }
 
-export interface BasicDropdownArgs {
+export interface BasicDropdownArgs<
+  TriggerHtmlTag extends keyof HTMLElementTagNameMap = 'div',
+> {
   initiallyOpened?: boolean;
   renderInPlace?: boolean;
   verticalPosition?: VerticalPosition;
@@ -64,16 +77,21 @@ export interface BasicDropdownArgs {
   rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
+  triggerHtmlTag?: TriggerHtmlTag;
   onInit?: (dropdown: Dropdown) => void;
   registerAPI?: (dropdown: Dropdown | null) => void;
   onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
   onClose?: (dropdown: Dropdown, e?: Event) => boolean | void;
-  triggerComponent?: ComponentLike<BasicDropdownTriggerSignature> | undefined;
+  triggerComponent?:
+    | ComponentLike<BasicDropdownTriggerSignature<TriggerHtmlTag>>
+    | undefined;
   contentComponent?: ComponentLike<BasicDropdownContentSignature> | undefined;
   calculatePosition?: CalculatePosition;
 }
 
-export default class BasicDropdown extends Component<BasicDropdownSignature> {
+export default class BasicDropdown<
+  TriggerHtmlTag extends keyof HTMLElementTagNameMap = 'div',
+> extends Component<BasicDropdownSignature<TriggerHtmlTag>> {
   @tracked hPosition: HorizontalPosition | null = null;
   @tracked vPosition: VerticalPosition | null = null;
   @tracked top: string | undefined;
@@ -171,7 +189,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
   }
 
   // Lifecycle hooks
-  constructor(owner: Owner, args: BasicDropdownArgs) {
+  constructor(owner: Owner, args: BasicDropdownArgs<TriggerHtmlTag>) {
     super(owner, args);
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
@@ -306,7 +324,6 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
         previousVerticalPosition,
         renderInPlace,
         matchTriggerWidth,
-        dropdown: this,
       },
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
@@ -491,10 +508,14 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
     );
   }
 
-  get triggerComponent(): ComponentLike<BasicDropdownTriggerSignature> {
+  get triggerComponent(): ComponentLike<
+    BasicDropdownTriggerSignature<TriggerHtmlTag>
+  > {
     return (
       this.args.triggerComponent ||
-      (BasicDropdownTrigger as ComponentLike<BasicDropdownTriggerSignature>)
+      (BasicDropdownTrigger as ComponentLike<
+        BasicDropdownTriggerSignature<TriggerHtmlTag>
+      >)
     );
   }
 
