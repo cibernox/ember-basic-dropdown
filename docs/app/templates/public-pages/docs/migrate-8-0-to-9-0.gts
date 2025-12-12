@@ -43,6 +43,16 @@ import { LinkTo } from '@ember/routing';
     </li>
     <li>
       <p>
+        The
+        <code>dropdown</code>
+        option has been removed from
+        <code>calculatePosition</code>. Previously, this option passed the
+        current class instance to
+        <code>calculatePosition</code>.
+      </p>
+    </li>
+    <li>
+      <p>
         Passing
         <code>@dropdownId</code>
         wasn't working correctly without using custom modifiers and was
