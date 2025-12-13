@@ -12,6 +12,15 @@
 
 
 
+
+## v8.10.0 (2025-12-13)
+
+#### :rocket: Enhancement
+* [#1033](https://github.com/cibernox/ember-basic-dropdown/pull/1033) Add `@triggerHtmlTag` and add workaround to resolve a typing issue when `@htmlTag="button"` is passed ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.9.0 (2025-12-07)
 
 #### :rocket: Enhancement
