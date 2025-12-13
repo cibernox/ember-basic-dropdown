@@ -11,9 +11,9 @@ import CodeExample from '../../../components/code-example';
   </p>
 
   <p>
-    If don't use any css pre-processor this is all. If you do use SASS or LESS,
-    the addon will know it and will have to
-    <code>@import</code>
+    If don't use any css pre-processor this is all. If you do use SASS, the
+    addon will know it and will have to
+    <code>@use</code>
     the styles explicitly. This gives you the chance to set a few variables that
     Ember Basic Dropdown will use.
   </p>
@@ -27,7 +27,7 @@ import CodeExample from '../../../components/code-example';
   <p>
     If by example you want to change the colour of the overlay to be blue, you
     could do this in your
-    <code>app.scss</code>/<code>app.less</code>.
+    <code>app.scss</code>.
   </p>
 
   <CodeExample @scss="styles-2.scss" @showResult={{false}} @activeTab="scss" />

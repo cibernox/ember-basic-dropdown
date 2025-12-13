@@ -43,6 +43,14 @@ import { LinkTo } from '@ember/routing';
     </li>
     <li>
       <p>
+        Our SCSS files have been migrated to the modern API. Please update their
+        usage in your app. See the
+        <LinkTo @route="public-pages.docs.styles">Styles</LinkTo>
+        section for details.
+      </p>
+    </li>
+    <li>
+      <p>
         The
         <code>dropdown</code>
         option has been removed from
