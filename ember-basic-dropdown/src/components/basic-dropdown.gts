@@ -65,6 +65,7 @@ export interface BasicDropdownArgs {
   rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
+  triggerHtmlTag?: keyof HTMLElementTagNameMap;
   onInit?: (dropdown: Dropdown) => void;
   registerAPI?: (dropdown: Dropdown | null) => void;
   onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
@@ -533,6 +534,7 @@ export default class BasicDropdown extends Component<BasicDropdownSignature> {
           hPosition=this.hPosition
           renderInPlace=this.renderInPlace
           vPosition=this.vPosition
+          htmlTag=@triggerHtmlTag
         )
         Content=(component
           this.contentComponent

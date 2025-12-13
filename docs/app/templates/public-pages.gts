@@ -74,13 +74,16 @@ export default class extends Component {
           >Github</a>
         </div>
         <div class="main-header-logo">
-          <BasicDropdown @calculatePosition={{this.calculatePosition}} as |dd|>
+          <BasicDropdown
+            @triggerHtmlTag="span"
+            @calculatePosition={{this.calculatePosition}}
+            as |dd|
+          >
             <LinkTo @route="public-pages.index" class="home-link">
               <img src="/ember_logo.png" alt="ember" />
               <strong>Basic</strong>
               {{! template-lint-disable no-pointer-down-event-binding }}
               <dd.Trigger
-                @htmlTag="span"
                 {{on "mousedown" this.preventIfNotInIndex}}
                 {{on "touchend" this.preventIfNotInIndex}}
                 class="logo-dropdown-button"

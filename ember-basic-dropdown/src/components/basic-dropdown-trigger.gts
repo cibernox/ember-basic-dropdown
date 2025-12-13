@@ -10,7 +10,7 @@ import type { Dropdown } from './basic-dropdown';
 import type { HorizontalPosition, VerticalPosition } from '../types.ts';
 
 export interface BasicDropdownTriggerSignature {
-  Element: HTMLElement;
+  Element: HTMLElement | HTMLButtonElement;
   Args: {
     dropdown?: Dropdown;
     eventType?: 'click' | 'mousedown';
@@ -19,7 +19,7 @@ export interface BasicDropdownTriggerSignature {
     hPosition?: HorizontalPosition | null;
     defaultClass?: string;
     renderInPlace?: boolean;
-    htmlTag?: keyof HTMLElementTagNameMap;
+    htmlTag?: keyof HTMLElementTagNameMap | undefined;
     onBlur?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onClick?: (dropdown?: Dropdown, event?: MouseEvent) => void;
     onFocus?: (dropdown?: Dropdown, event?: FocusEvent) => void;
