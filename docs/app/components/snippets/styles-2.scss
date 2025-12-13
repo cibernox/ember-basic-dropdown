@@ -1,5 +1,7 @@
 // Define your variables first
-$ember-basic-dropdown-overlay-background: rgba(#3b5998, 0.5);
+@use "ember-basic-dropdown/scss/variables.scss" with (
+  $ember-basic-dropdown-overlay-background: rgba(#3b5998, 0.5)
+);
 
-// Then import the styles, which will use your variable
-@import "ember-basic-dropdown";
+// Then use the styles, which will use your variable
+@use "ember-basic-dropdown";
