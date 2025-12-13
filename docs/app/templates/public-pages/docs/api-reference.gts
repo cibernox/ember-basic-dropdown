@@ -123,6 +123,11 @@ import { LinkTo } from '@ember/routing';
           component.</td>
       </tr>
       <tr>
+        <td>triggerHtmlTag</td>
+        <td><code>String</code></td>
+        <td>(Default: <code>'div'</code>) The tag of the trigger component</td>
+      </tr>
+      <tr>
         <td>verticalPosition</td>
         <td><code>String</code></td>
         <td>The vertical positioning strategy of the content. Can be one of
@@ -209,7 +214,10 @@ import { LinkTo } from '@ember/routing';
       <tr>
         <td>htmlTag</td>
         <td>String</td>
-        <td>(Default: <code>'div'</code>) The tag of the trigger component</td>
+        <td>(Default:
+          <code>'div'</code>) The tag of the trigger component (Note: If you are
+          using the yielded trigger component, please use
+          <code>@triggerHtmlTag</code>)</td>
       </tr>
       <tr>
         <td>title</td>
