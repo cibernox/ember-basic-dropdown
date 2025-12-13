@@ -54,6 +54,14 @@ import { LinkTo } from '@ember/routing';
     </li>
     <li>
       <p>
+        Passing
+        <code>@dir</code>
+        to the content component has been removed. Please pass this parameter as
+        a regular HTML attribute instead.
+      </p>
+    </li>
+    <li>
+      <p>
         If you are using
         <code>@htmlTag</code>
         on the yielded trigger component (for example,

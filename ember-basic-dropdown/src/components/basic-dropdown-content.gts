@@ -45,7 +45,6 @@ export interface BasicDropdownContentSignature {
     otherStyles?: Record<string, string | number | undefined>;
     hPosition?: HorizontalPosition | null;
     vPosition?: VerticalPosition | null;
-    dir?: string;
     defaultClass?: string;
     overlay?: boolean;
     htmlTag?: keyof HTMLElementTagNameMap;
@@ -554,7 +553,6 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
                   ' ember-basic-dropdown-content--in-place'
                 }}
                 {{@defaultClass}}"
-              dir={{@dir}}
               ...attributes
               {{style @otherStyles this.positionStyles}}
               {{this.respondToEvents}}
@@ -586,7 +584,6 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
                     ' ember-basic-dropdown-content--in-place'
                   }}
                   {{@defaultClass}}"
-                dir={{@dir}}
                 ...attributes
                 {{style @otherStyles this.positionStyles}}
                 {{this.respondToEvents}}
