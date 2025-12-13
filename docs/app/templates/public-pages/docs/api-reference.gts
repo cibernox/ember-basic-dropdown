@@ -27,23 +27,6 @@ import { LinkTo } from '@ember/routing';
         <td>Function to customize how the content of the dropdown is positioned.</td>
       </tr>
       <tr>
-        <td>class</td>
-        <td><code>String</code></td>
-        <td>The class of the dropdown component. Since this component is tagless
-          by default, you need to combine it with the
-          <code>tagName</code>
-          to be effective</td>
-      </tr>
-      <tr>
-        <td>defaultClass</td>
-        <td><code>String</code></td>
-        <td>Another way of providing a class to the component without polluting
-          the
-          <code>class</code>
-          attribute. Useful in contextual component to allow users give their
-          own classes while still retaining some defaults</td>
-      </tr>
-      <tr>
         <td>destination</td>
         <td><code>String</code></td>
         <td>The id of a DOM element where the dropdown will be rendered using
@@ -58,23 +41,34 @@ import { LinkTo } from '@ember/routing';
           <code>#in-element</code></td>
       </tr>
       <tr>
-        <td>contentComponent</td>
-        <td><code>Component</code></td>
-        <td>The component to render as content instead of the default content
-          component. You
-          <em>probably</em>
-          don't want to use this option.</td>
-      </tr>
-      <tr>
         <td>horizontalPosition</td>
         <td><code>String</code></td>
         <td>The horizontal positioning strategy of the content. Can be one of
           <code>auto</code>
           (the default),
           <code>left</code>,
-          <code>center</code>
+          <code>right</code>,
+          <code>center</code>,
+          <code>auto-left</code>
           or
-          <code>right</code></td>
+          <code>auto-right</code></td>
+      </tr>
+      <tr>
+        <td>verticalPosition</td>
+        <td><code>String</code></td>
+        <td>The vertical positioning strategy of the content. Can be one of
+          <code>auto</code>
+          (the default),
+          <code>above</code>
+          or
+          <code>below</code></td>
+      </tr>
+      <tr>
+        <td>disabled</td>
+        <td><code>Boolean</code></td>
+        <td>(Default:
+          <code>false</code>). Flag that disables opening and closing of the
+          dropdown.</td>
       </tr>
       <tr>
         <td>matchTriggerWidth</td>
@@ -112,9 +106,11 @@ import { LinkTo } from '@ember/routing';
           alter its behavior. The user can close it as usual.</td>
       </tr>
       <tr>
-        <td>tagName</td>
-        <td><code>String</code></td>
-        <td>(Default: <code>""</code>) The tag of the component.</td>
+        <td>rootEventType</td>
+        <td>String</td>
+        <td>(Default:
+          <code>'click'</code>) The type of mouse event that handles closing the
+          dropdown. Valid values: "mousedown" and "click"</td>
       </tr>
       <tr>
         <td>triggerComponent</td>
@@ -128,20 +124,23 @@ import { LinkTo } from '@ember/routing';
         <td>(Default: <code>'div'</code>) The tag of the trigger component</td>
       </tr>
       <tr>
-        <td>verticalPosition</td>
-        <td><code>String</code></td>
-        <td>The vertical positioning strategy of the content. Can be one of
-          <code>auto</code>
-          (the default),
-          <code>above</code>
-          or
-          <code>below</code></td>
+        <td>contentComponent</td>
+        <td><code>Component</code></td>
+        <td>The component to render as content instead of the default content
+          component. You
+          <em>probably</em>
+          don't want to use this option.</td>
       </tr>
       <tr>
         <td>registerAPI</td>
         <td><code>Function</code></td>
         <td>An action that will be invoked with the new public API of the
           component every time there is a change in the state of the component.</td>
+      </tr>
+      <tr>
+        <td>onInit</td>
+        <td><code>Function</code></td>
+        <td>Action that will be called when the component is initialized.</td>
       </tr>
       <tr>
         <td>onOpen</td>
@@ -152,19 +151,12 @@ import { LinkTo } from '@ember/routing';
           from this function will prevent the component from being opened.</td>
       </tr>
       <tr>
-        <td>onClose </td>
+        <td>onClose</td>
         <td><code>Function</code></td>
         <td>Action that will be called when the component is about to close.
           Returning
           <code>false</code>
           from this function will prevent the component from being closed.</td>
-      </tr>
-      <tr>
-        <td>rootEventType</td>
-        <td>String</td>
-        <td>(Default:
-          <code>'click'</code>) The type of mouse event that handles closing the
-          dropdown. Valid values: "mousedown" and "click"</td>
       </tr>
     </tbody>
   </table>
@@ -181,50 +173,6 @@ import { LinkTo } from '@ember/routing';
     </thead>
     <tbody>
       <tr>
-        <td>ariaDescribedBy</td>
-        <td>String</td>
-        <td>Maps to <code>aria-described-by</code></td>
-      </tr>
-      <tr>
-        <td>ariaInvalid</td>
-        <td>Boolean</td>
-        <td>Maps to <code>aria-invalid</code></td>
-      </tr>
-      <tr>
-        <td>ariaLabel</td>
-        <td>String</td>
-        <td>Maps to <code>aria-label</code></td>
-      </tr>
-      <tr>
-        <td>ariaLabelledBy</td>
-        <td>String</td>
-        <td>Maps to <code>aria-labeledby</code></td>
-      </tr>
-      <tr>
-        <td>class</td>
-        <td>String</td>
-        <td>Extra classes to be added to the trigger components</td>
-      </tr>
-      <tr>
-        <td>tabindex</td>
-        <td>Number</td>
-        <td>Tabindex of the trigger, which defaults to 0 so the trigger is
-          focusable by default</td>
-      </tr>
-      <tr>
-        <td>htmlTag</td>
-        <td>String</td>
-        <td>(Default:
-          <code>'div'</code>) The tag of the trigger component (Note: If you are
-          using the yielded trigger component, please use
-          <code>@triggerHtmlTag</code>)</td>
-      </tr>
-      <tr>
-        <td>title</td>
-        <td>String</td>
-        <td>Maps to the <code>title</code> attribute</td>
-      </tr>
-      <tr>
         <td>eventType</td>
         <td>String</td>
         <td>(Default:
@@ -237,6 +185,65 @@ import { LinkTo } from '@ember/routing';
         <td>(Default:
           <code>false</code>) Whether the trigger should prevent the propagation
           of the event that triggers it (click or mousedown)</td>
+      </tr>
+      <tr>
+        <td>defaultClass</td>
+        <td><code>String</code></td>
+        <td>Another way of providing a class to the component without polluting
+          the
+          <code>class</code>
+          attribute. Useful in contextual component to allow users give their
+          own classes while still retaining some defaults</td>
+      </tr>
+      <tr>
+        <td>onBlur</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on blur events.</td>
+      </tr>
+      <tr>
+        <td>onClick</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on click events.</td>
+      </tr>
+      <tr>
+        <td>onFocus</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on focus events.</td>
+      </tr>
+      <tr>
+        <td>onFocusIn</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on focus-in events.</td>
+      </tr>
+      <tr>
+        <td>onFocusOut</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on focus-out events.</td>
+      </tr>
+      <tr>
+        <td>onKeyDown</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on keydown events.</td>
+      </tr>
+      <tr>
+        <td>onMouseDown</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on mouse down events.</td>
+      </tr>
+      <tr>
+        <td>onMouseEnter</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on mouse enter events.</td>
+      </tr>
+      <tr>
+        <td>onMouseLeave</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on mouse leave events.</td>
+      </tr>
+      <tr>
+        <td>onTouchEnd</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on touch end events.</td>
       </tr>
     </tbody>
   </table>
@@ -252,11 +259,6 @@ import { LinkTo } from '@ember/routing';
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>class</td>
-        <td>String</td>
-        <td>The class of the dropdown's content</td>
-      </tr>
       <tr>
         <td>animationEnabled</td>
         <td>boolean</td>
@@ -281,6 +283,62 @@ import { LinkTo } from '@ember/routing';
             rel="noopener noreferrer"
           >MutationRecord</a>
           and the public API object.</td>
+      </tr>
+      <tr>
+        <td>transitioningInClass</td>
+        <td>String</td>
+        <td>Allow to customize the classes used for animations</td>
+      </tr>
+      <tr>
+        <td>transitioningOutClass</td>
+        <td>String</td>
+        <td>Allow to customize the classes used for animations</td>
+      </tr>
+      <tr>
+        <td>transitionedInClass</td>
+        <td>String</td>
+        <td>Allow to customize the classes used for animations</td>
+      </tr>
+      <tr>
+        <td>isTouchDevice</td>
+        <td>boolean</td>
+        <td>Forces adding touch events. By default we do auto-detected</td>
+      </tr>
+      <tr>
+        <td>overlay</td>
+        <td>boolean</td>
+        <td>Renders the dropdown content as an overlay (<LinkTo
+            @route="public-pages.docs.overlays"
+          >see example</LinkTo>).</td>
+      </tr>
+      <tr>
+        <td>defaultClass</td>
+        <td><code>String</code></td>
+        <td>Another way of providing a class to the component without polluting
+          the
+          <code>class</code>
+          attribute. Useful in contextual component to allow users give their
+          own classes while still retaining some defaults</td>
+      </tr>
+      <tr>
+        <td>onFocusIn</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on focus-in events.</td>
+      </tr>
+      <tr>
+        <td>onFocusOut</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on focus-out events.</td>
+      </tr>
+      <tr>
+        <td>onMouseEnter</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on mouse enter events.</td>
+      </tr>
+      <tr>
+        <td>onMouseLeave</td>
+        <td><code>Function</code></td>
+        <td>Action that is executed on mouse leave events.</td>
       </tr>
     </tbody>
   </table>
@@ -309,6 +367,9 @@ import { LinkTo } from '@ember/routing';
       open() { ... }, // Opens the dropdown
       reposition() { ... }, // Repositions the dropdown
       toggle() { ... } // Toggles the dropdown
+      registerTriggerElement() { ... }, Gives option to register the trigger element
+      registerDropdownElement() { ... }, Gives option to register the dropdown element
+      getTriggerElement() { ... } Return HTMLElement from registered trigger element
     }
   }
   </pre>
