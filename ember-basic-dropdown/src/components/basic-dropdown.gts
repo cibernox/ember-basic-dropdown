@@ -78,6 +78,7 @@ export interface BasicDropdownArgs<
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
   triggerHtmlTag?: TriggerHtmlTag;
+  contentHtmlTag?: keyof HTMLElementTagNameMap;
   onInit?: (dropdown: Dropdown) => void;
   registerAPI?: (dropdown: Dropdown | null) => void;
   onOpen?: (dropdown: Dropdown, e?: Event) => boolean | void;
@@ -549,6 +550,7 @@ export default class BasicDropdown<
           preventScroll=@preventScroll
           rootEventType=(or @rootEventType "click")
           vPosition=this.vPosition
+          htmlTag=@contentHtmlTag
           destination=this.destination
           destinationElement=this.destinationElement
           top=this.top

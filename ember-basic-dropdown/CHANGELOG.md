@@ -13,6 +13,15 @@
 
 
 
+
+## v8.11.0 (2025-12-14)
+
+#### :rocket: Enhancement
+* [#1038](https://github.com/cibernox/ember-basic-dropdown/pull/1038) Add `@contentHtmlTag` ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.10.0 (2025-12-13)
 
 #### :rocket: Enhancement
