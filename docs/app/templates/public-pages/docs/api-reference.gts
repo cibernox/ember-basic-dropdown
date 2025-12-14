@@ -132,6 +132,11 @@ import { LinkTo } from '@ember/routing';
           don't want to use this option.</td>
       </tr>
       <tr>
+        <td>contentHtmlTag</td>
+        <td><code>String</code></td>
+        <td>(Default: <code>'div'</code>) The tag of the content component</td>
+      </tr>
+      <tr>
         <td>registerAPI</td>
         <td><code>Function</code></td>
         <td>An action that will be invoked with the new public API of the
@@ -264,11 +269,6 @@ import { LinkTo } from '@ember/routing';
         <td>boolean</td>
         <td>Flag to determine whether the content will allow CSS animations.
           Defaults to true</td>
-      </tr>
-      <tr>
-        <td>htmlTag</td>
-        <td>String</td>
-        <td>(Default: <code>'div'</code>) The tag of the content component</td>
       </tr>
       <tr>
         <td>shouldReposition</td>

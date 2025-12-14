@@ -10,7 +10,7 @@ import {
 import hasMoved from '../utils/has-moved.ts';
 import { isTesting } from '@embroider/macros';
 import { modifier } from 'ember-modifier';
-import { element } from 'ember-element-helper';
+import { element, type ElementFromTagName } from 'ember-element-helper';
 import { or } from 'ember-truth-helpers';
 import style from 'ember-style-modifier';
 import { on } from '@ember/modifier';
@@ -23,8 +23,10 @@ import type {
   VerticalPosition,
 } from '../types.ts';
 
-export interface BasicDropdownContentSignature {
-  Element: HTMLElement;
+export interface BasicDropdownContentSignature<
+  T extends keyof HTMLElementTagNameMap = 'div',
+> {
+  Element: ElementFromTagName<T>;
   Args: {
     animationEnabled?: boolean;
     transitioningInClass?: string;
@@ -47,7 +49,7 @@ export interface BasicDropdownContentSignature {
     vPosition?: VerticalPosition | null;
     defaultClass?: string;
     overlay?: boolean;
-    htmlTag?: keyof HTMLElementTagNameMap;
+    htmlTag?: T | undefined;
     onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
@@ -64,7 +66,9 @@ export interface BasicDropdownContentSignature {
 
 type RootMouseDownHandler = (ev: MouseEvent | TouchEvent) => void;
 
-export default class BasicDropdownContent extends Component<BasicDropdownContentSignature> {
+export default class BasicDropdownContent<
+  T extends keyof HTMLElementTagNameMap,
+> extends Component<BasicDropdownContentSignature<T>> {
   transitioningInClass =
     this.args.transitioningInClass || 'ember-basic-dropdown--transitioning-in';
   transitionedInClass =
@@ -131,6 +135,10 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
       style['height'] = this.args.height;
     }
     return style;
+  }
+
+  get tag(): keyof HTMLElementTagNameMap {
+    return this.args.htmlTag || 'div';
   }
 
   /**
@@ -543,7 +551,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
             <div class="ember-basic-dropdown-overlay"></div>
           {{/if}}
 
-          {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+          {{#let (element this.tag) as |OptionalTag|}}
             <OptionalTag
               id={{this.dropdownId}}
               class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
@@ -574,7 +582,7 @@ export default class BasicDropdownContent extends Component<BasicDropdownContent
               <div class="ember-basic-dropdown-overlay"></div>
             {{/if}}
 
-            {{#let (element (or @htmlTag "div")) as |OptionalTag|}}
+            {{#let (element this.tag) as |OptionalTag|}}
               <OptionalTag
                 id={{this.dropdownId}}
                 class="ember-basic-dropdown-content ember-basic-dropdown-content--{{@hPosition}}
