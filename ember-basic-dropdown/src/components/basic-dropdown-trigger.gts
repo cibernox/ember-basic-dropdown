@@ -41,6 +41,10 @@ export interface BasicDropdownTriggerSignature<
 export default class BasicDropdownTrigger<
   T extends keyof HTMLElementTagNameMap,
 > extends Component<BasicDropdownTriggerSignature<T>> {
+  get tag(): keyof HTMLElementTagNameMap {
+    return this.args.htmlTag || 'div';
+  }
+
   // Actions
   /**
    * Allows similar behavior to `ember-composable-helpers`' `optional` helper.
@@ -61,10 +65,6 @@ export default class BasicDropdownTrigger<
         'ember-basic-dropdown-text-select-disabled',
       );
     }
-  }
-
-  get tag(): keyof HTMLElementTagNameMap {
-    return this.args.htmlTag || 'div';
   }
 
   <template>

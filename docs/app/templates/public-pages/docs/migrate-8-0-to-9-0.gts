@@ -64,6 +64,18 @@ import { LinkTo } from '@ember/routing';
       <p>
         If you are using
         <code>@htmlTag</code>
+        on the yielded content component (for example,
+        <code>&lt;dd.Content @htmlTag="span"&gt;</code>) replace it with
+        <code>&lt;BasicDropdown @contentHtmlTag="span"&gt;</code>
+        This change is required to fix Glint v2 typing issues.
+        <br />
+        <small><i>(Deprecation added in 8.11)</i></small>
+      </p>
+    </li>
+    <li>
+      <p>
+        If you are using
+        <code>@htmlTag</code>
         on the yielded trigger component (for example,
         <code>&lt;dd.Trigger @htmlTag="span"&gt;</code>) replace it with
         <code>&lt;BasicDropdown @triggerHtmlTag="span"&gt;</code>
