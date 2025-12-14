@@ -48,7 +48,7 @@ export interface BasicDropdownContentSignature {
     dir?: string;
     defaultClass?: string;
     overlay?: boolean;
-    htmlTag?: keyof HTMLElementTagNameMap;
+    htmlTag?: keyof HTMLElementTagNameMap | undefined;
     onFocusIn?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onFocusOut?: (dropdown?: Dropdown, event?: FocusEvent) => void;
     onMouseEnter?: (dropdown?: Dropdown, event?: MouseEvent) => void;
