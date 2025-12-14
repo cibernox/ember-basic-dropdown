@@ -1731,6 +1731,48 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       );
   });
 
+  test<ExtendedTestContext>('Passing @triggerHtmlTag and @contentHtmlTag works', async function (assert) {
+    assert.expect(2);
+
+    await render(
+      <template>
+        <BasicDropdown
+          @renderInPlace={{true}}
+          @triggerHtmlTag="button"
+          @contentHtmlTag="span"
+          as |dropdown|
+        >
+          <dropdown.Trigger>Press me</dropdown.Trigger>
+          <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+        </BasicDropdown>
+      </template>,
+    );
+
+    assert.strictEqual(
+      (
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement
+      ).tagName,
+      'BUTTON',
+    );
+
+    await click(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
+    );
+
+    assert.strictEqual(
+      (
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-content',
+        ) as HTMLElement
+      ).tagName,
+      'SPAN',
+    );
+  });
+
   // Shadow dom test
   test<ExtendedTestContext>('Shadow dom: Its `toggle` action opens and closes the dropdown', async function (assert) {
     const wormhole = document.createElement('div');

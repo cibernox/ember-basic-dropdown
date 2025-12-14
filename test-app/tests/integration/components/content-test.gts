@@ -1411,5 +1411,31 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         'mouseleave',
       );
     });
+
+    test<ExtendedTestContext>('If it receives `@htmlTag`, the content uses that tag name', async function (assert) {
+      const self = this;
+
+      await render<ExtendedTestContext>(
+        <template>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @htmlTag="span"
+          >
+            Content
+          </BasicDropdownContent>
+        </template>,
+      );
+
+      assert.strictEqual(
+        (
+          getRootNode(this.element).querySelector(
+            '.ember-basic-dropdown-content',
+          ) as HTMLElement
+        ).tagName,
+        'SPAN',
+      );
+    });
   });
 });
