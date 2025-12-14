@@ -1,6 +1,6 @@
 [![NPM](https://badge.fury.io/js/ember-basic-dropdown.svg)](https://www.npmjs.com/package/ember-basic-dropdown)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-basic-dropdown.svg)](https://emberobserver.com/addons/ember-basic-dropdown)
-![Ember Version](https://img.shields.io/badge/ember-%3E%3D3.28-brightgreen?logo=emberdotjs&logoColor=white)
+![Ember Version](https://img.shields.io/badge/ember-%3E%3D4.12-brightgreen?logo=emberdotjs&logoColor=white)
 [![Discord](https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord)](https://discord.com/channels/480462759797063690/486202731766349824)
 [![Build Status](https://github.com/cibernox/ember-basic-dropdown/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cibernox/ember-basic-dropdown)
 
