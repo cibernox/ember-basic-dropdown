@@ -57,7 +57,7 @@ import { LinkTo } from '@ember/routing';
         <code>calculatePosition</code>. Previously, this option passed the
         current class instance to
         <code>calculatePosition</code>.<br />
-        Note: This option was never documented.
+        <small>Note: This option was never documented.</small>
       </p>
     </li>
     <li>
@@ -77,7 +77,7 @@ import { LinkTo } from '@ember/routing';
         <code>&lt;BasicDropdown @contentHtmlTag="span"&gt;</code>
         This change is required to fix Glint v2 typing issues.
         <br />
-        <small><i>(Deprecation added in 8.11)</i></small>
+        <small><i>(Option added in 8.11)</i></small>
       </p>
     </li>
     <li>
@@ -89,7 +89,7 @@ import { LinkTo } from '@ember/routing';
         <code>&lt;BasicDropdown @triggerHtmlTag="span"&gt;</code>
         This change is required to fix Glint v2 typing issues.
         <br />
-        <small><i>(Deprecation added in 8.10)</i></small>
+        <small><i>(Option added in 8.10)</i></small>
       </p>
     </li>
     <li>
