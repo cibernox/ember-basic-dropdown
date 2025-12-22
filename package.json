@@ -139,6 +139,7 @@
     },
     "npm": false
   },
+  "packageManager": "pnpm@10.25.0",
   "ember": {
     "edition": "octane"
   },
