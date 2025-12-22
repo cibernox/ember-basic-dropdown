@@ -46,7 +46,7 @@ interface ExtendedTestContext extends TestContext {
 function getRootNode(element: Element): HTMLElement {
   const shadowRoot = element.querySelector('[data-host-wrapper]')?.shadowRoot;
   if (shadowRoot) {
-    return shadowRoot as HTMLElement;
+    return shadowRoot as unknown as HTMLElement;
   }
 
   return element.getRootNode() as HTMLElement;
@@ -1041,7 +1041,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
         '.ember-basic-dropdown-trigger',
       ) as HTMLElement,
     );
-    await tap(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger'));
+    await tap(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement);
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1634,7 +1634,7 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
           >hello</BasicDropdownTrigger>
         </HostWrapper></template>,
       );
-      await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger'), 'mouseenter');
+      await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement, 'mouseenter');
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function (assert) {

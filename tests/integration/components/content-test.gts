@@ -32,7 +32,7 @@ interface ExtendedTestContext extends TestContext {
 function getRootNode(element: Element): HTMLElement {
   const shadowRoot = element.querySelector('[data-host-wrapper]')?.shadowRoot;
   if (shadowRoot) {
-    return shadowRoot as HTMLElement;
+    return shadowRoot as unknown as HTMLElement;
   }
 
   return element.getRootNode() as HTMLElement;
@@ -353,7 +353,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await click(getRootNode(this.element).querySelector('#other-div'), getRootNode(this.element));
+    await click(getRootNode(this.element).querySelector('#other-div') as Element);
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as click will not close a component if it is opened', async function (assert) {
@@ -392,7 +392,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'mousedown');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'mousedown');
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as mousedown will close a component if it is opened', async function (assert) {
@@ -431,7 +431,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'mousedown');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'mousedown');
   });
 
   test<ExtendedTestContext>("Clicking anywhere inside the dropdown content doesn't invoke the close action", async function (assert) {
@@ -468,7 +468,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         ><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
       </HostWrapper></template>,
     );
-    await click(getRootNode(this.element).querySelector('#inside-div'), getRootNode(this.element));
+    await click(getRootNode(this.element).querySelector('#inside-div') as Element);
   });
 
   test<ExtendedTestContext>("Clicking in inside the a dropdown content nested inside another dropdown content doesn't invoke the close action on neither of them if the second is rendered in place", async function (assert) {
@@ -535,7 +535,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await click(getRootNode(this.element).querySelector('#nested-content-div'), getRootNode(this.element));
+    await click(getRootNode(this.element).querySelector('#nested-content-div') as Element);
   });
 
   // Touch gestures while the component is opened
@@ -575,8 +575,8 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchend');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend');
   });
 
   test<ExtendedTestContext>('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
@@ -615,11 +615,11 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       </HostWrapper></template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchmove', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
       changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }],
     });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchend', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
       changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }],
     });
   });
@@ -661,20 +661,20 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     );
 
     // scroll
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchmove', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
       changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
     });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchend', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
       changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }],
     });
 
     // tap
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchmove', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
       changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
     });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div'), 'touchend', {
+    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
       changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }],
     });
   });
@@ -719,7 +719,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         </BasicDropdownContent>
       </HostWrapper></template>,
     );
-    await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-content'), 'mouseenter');
+    await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-content') as HTMLElement, 'mouseenter');
   });
 
   // Repositining

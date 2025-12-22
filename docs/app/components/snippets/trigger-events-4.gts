@@ -20,6 +20,7 @@ export default class extends Component {
   <template>
     <p>Focus alternatively the input and the button next to it</p>
     <div class="trigger-event-demo input-group {{this.parentDivClass}}">
+      {{!-- template-lint-disable require-input-label --}}
       <input
         type="text"
         class="form-control"

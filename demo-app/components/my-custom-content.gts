@@ -1,4 +1,4 @@
-import type { BasicDropdownContentSignature } from 'ember-basic-dropdown/components/basic-dropdown-content';
+import type { BasicDropdownContentSignature } from '#src/components/basic-dropdown-content.gts';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 
 export default <template>

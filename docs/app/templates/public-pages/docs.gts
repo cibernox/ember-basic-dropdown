@@ -109,6 +109,7 @@ export default class extends Component {
         {{/each}}
       </nav>
       <section class="doc-page">
+        {{!-- template-lint-disable require-input-label --}}
         <select class="section-selector" {{on "change" this.visit}}>
           {{#each this.groupedSections key="id" as |group|}}
             <optgroup label={{group.groupName}}>

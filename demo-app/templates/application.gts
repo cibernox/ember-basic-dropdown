@@ -11,8 +11,8 @@ const isFastBoot = typeof FastBoot !== 'undefined';
 class Application extends Component {
   shadowDom = false;
 
-  constructor(owner: Owner) {
-    super(owner);
+  constructor(owner: Owner, args: object) {
+    super(owner, args);
 
     if (import.meta.env.VITE_SHADOW_DOM_BUILD === 'true') {
       this.shadowDom = true;
@@ -48,5 +48,4 @@ class Application extends Component {
   </template>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export default RouteTemplate(Application);

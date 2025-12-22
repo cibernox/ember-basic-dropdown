@@ -40,7 +40,7 @@ interface ExtendedTestContext extends TestContext {
 function getRootNode(element: Element): HTMLElement {
   const shadowRoot = element.querySelector('[data-host-wrapper]')?.shadowRoot;
   if (shadowRoot) {
-    return shadowRoot as HTMLElement;
+    return shadowRoot as unknown as HTMLElement;
   }
 
   return element.getRootNode() as HTMLElement;
@@ -1856,7 +1856,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom('#dropdown-is-opened', getRootNode(this.element))
       .doesNotExist('The dropdown is closed');
 
-    const triggerElement = getRootNode(this.element).querySelector('[data-shadow]').shadowRoot?.querySelector(
+    const triggerElement = getRootNode(this.element).querySelector('[data-shadow]')?.shadowRoot?.querySelector(
       '.ember-basic-dropdown-trigger',
     );
 
