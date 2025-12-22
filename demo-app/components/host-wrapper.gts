@@ -23,7 +23,9 @@ export default class HostWrapper extends Component<{
     (element: Element, [set]: [(shadowRoot: HTMLDivElement) => void]) => {
       let shadowRoot = element;
       if (shadowRootBuild) {
-        shadowRoot = element.attachShadow({ mode: 'open' }) as unknown as Element;
+        shadowRoot = element.attachShadow({
+          mode: 'open',
+        }) as unknown as Element;
       }
       const div = document.createElement('div');
       shadowRoot.appendChild(div);
@@ -31,7 +33,11 @@ export default class HostWrapper extends Component<{
     },
   );
   <template>
-    <div data-host-wrapper {{this.attachShadow this.setShadow}} ...attributes></div>
+    <div
+      data-host-wrapper
+      {{this.attachShadow this.setShadow}}
+      ...attributes
+    ></div>
 
     {{#if this.shadow}}
       {{#in-element this.shadow}}

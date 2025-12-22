@@ -1,7 +1,7 @@
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 
 <template>
-  {{!-- template-lint-disable no-inline-styles --}}
+  {{! template-lint-disable no-inline-styles }}
   <div style="display: flex;">
     <div style="flex: 1;">
       <BasicDropdown as |dd|>

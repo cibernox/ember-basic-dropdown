@@ -67,10 +67,12 @@ Router.map(function () {});
 // }
 
 export function start() {
-  setApplication(TestApp.create({
-    autoboot: false,
-    rootElement: '#ember-testing',
-  }));
+  setApplication(
+    TestApp.create({
+      autoboot: false,
+      rootElement: '#ember-testing',
+    }),
+  );
   setup(QUnit.assert);
   setupEmberOnerrorValidation();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -84,5 +86,8 @@ export function start() {
 }
 
 export const defaultBasicDropdownConfig: Config = {
-  rootElement: import.meta.env.VITE_SHADOW_DOM_BUILD === 'true' ? '#ember-basic-dropdown-wormhole' : '#ember-testing',
+  rootElement:
+    import.meta.env.VITE_SHADOW_DOM_BUILD === 'true'
+      ? '#ember-basic-dropdown-wormhole'
+      : '#ember-testing',
 };

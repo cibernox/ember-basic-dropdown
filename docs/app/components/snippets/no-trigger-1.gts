@@ -4,7 +4,7 @@ import { on } from '@ember/modifier';
 <template>
   <BasicDropdown as |dd|>
     <div class="form-inline">
-      {{!-- template-lint-disable require-input-label --}}
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         class="form-control"

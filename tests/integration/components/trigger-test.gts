@@ -83,11 +83,13 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="direct-parent">
-          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-        </div>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="direct-parent">
+            <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+          </div>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -110,14 +112,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="direct-parent">
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @defaultClass="extra-class"
-          >Click me</BasicDropdownTrigger>
-        </div>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="direct-parent">
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @defaultClass="extra-class"
+            >Click me</BasicDropdownTrigger>
+          </div>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -135,9 +139,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -154,13 +160,15 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        {{! template-lint-disable no-positive-tabindex }}
-        <BasicDropdownTrigger
-          tabindex={{false}}
-          @dropdown={{self.dropdown}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          {{! template-lint-disable no-positive-tabindex }}
+          <BasicDropdownTrigger
+            tabindex={{false}}
+            @dropdown={{self.dropdown}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -177,10 +185,13 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        {{! template-lint-disable no-positive-tabindex }}
-        <BasicDropdownTrigger @dropdown={{self.dropdown}} tabindex="3">Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          {{! template-lint-disable no-positive-tabindex }}
+          <BasicDropdownTrigger @dropdown={{self.dropdown}} tabindex="3">Click
+            me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -197,10 +208,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}} title="foobar">Click
-          me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}} title="foobar">Click
+            me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -217,10 +230,12 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}} id="my-own-id">Click
-          me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}} id="my-own-id">Click
+            me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -238,9 +253,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       disabled: true,
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -258,9 +275,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       disabled: true,
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     assert
@@ -282,9 +301,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       isOpen: false,
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -304,9 +325,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -322,13 +345,15 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          @htmlTag="button"
-          type="button"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @htmlTag="button"
+            type="button"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert.strictEqual(
       (
@@ -352,12 +377,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          role="presentation"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            role="presentation"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -373,12 +400,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          aria-owns="custom-owns"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            aria-owns="custom-owns"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -394,12 +423,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          aria-controls="custom-controls"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            aria-controls="custom-controls"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -415,9 +446,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       uniqueId: '123',
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
@@ -445,12 +478,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       );
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -485,9 +520,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -512,9 +549,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -539,12 +578,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          @eventType="mousedown"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @eventType="mousedown"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -578,12 +619,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          @eventType="mousedown"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            @eventType="mousedown"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -620,15 +663,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div role="button" {{on "click" self.handlerInParent}}>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @stopPropagation={{true}}
-            role="presentation"
-          >Click me</BasicDropdownTrigger>
-        </div>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div role="button" {{on "click" self.handlerInParent}}>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @stopPropagation={{true}}
+              role="presentation"
+            >Click me</BasicDropdownTrigger>
+          </div>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -665,15 +710,17 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div role="button" {{on "click" self.handlerInParent}}>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @stopPropagation={{true}}
-            role="presentation"
-          >Click me</BasicDropdownTrigger>
-        </div>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div role="button" {{on "click" self.handlerInParent}}>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @stopPropagation={{true}}
+              role="presentation"
+            >Click me</BasicDropdownTrigger>
+          </div>
+        </HostWrapper>
+      </template>,
     );
     await triggerEvent(
       getRootNode(this.element).querySelector(
@@ -707,9 +754,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await triggerKeyEvent(
@@ -746,9 +795,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await triggerKeyEvent(
@@ -784,9 +835,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await triggerKeyEvent(
@@ -817,12 +870,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          @dropdown={{self.dropdown}}
-          {{on "keydown" self.keyDown}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            @dropdown={{self.dropdown}}
+            {{on "keydown" self.keyDown}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await triggerKeyEvent(
@@ -877,9 +932,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await tap(
       getRootNode(this.element).querySelector(
@@ -903,9 +960,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await triggerEvent(
@@ -952,9 +1011,11 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     // scroll
@@ -1032,16 +1093,22 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}>Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await click(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
       ) as HTMLElement,
     );
-    await tap(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement);
+    await tap(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
+    );
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
         '.ember-basic-dropdown-trigger',
@@ -1093,14 +1160,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        {{! template-lint-disable no-pointer-down-event-binding }}
-        <BasicDropdownTrigger
-          {{on "mousedown" self.mouseDown}}
-          @dropdown={{self.dropdown}}
-          @eventType="mousedown"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          {{! template-lint-disable no-pointer-down-event-binding }}
+          <BasicDropdownTrigger
+            {{on "mousedown" self.mouseDown}}
+            @dropdown={{self.dropdown}}
+            @eventType="mousedown"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await click(
@@ -1132,12 +1201,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          {{on "click" self.click}}
-          @dropdown={{self.dropdown}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            {{on "click" self.click}}
+            @dropdown={{self.dropdown}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await click(
@@ -1169,14 +1240,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        {{! template-lint-disable no-pointer-down-event-binding }}
-        <BasicDropdownTrigger
-          {{on "mousedown" self.mouseDown}}
-          @dropdown={{self.dropdown}}
-          @eventType="mousedown"
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          {{! template-lint-disable no-pointer-down-event-binding }}
+          <BasicDropdownTrigger
+            {{on "mousedown" self.mouseDown}}
+            @dropdown={{self.dropdown}}
+            @eventType="mousedown"
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
 
     await click(
@@ -1213,14 +1286,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          {{on "touchend" self.touchEnd}}
-          @dropdown={{self.dropdown}}
-        >
-          Click me
-        </BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            {{on "touchend" self.touchEnd}}
+            @dropdown={{self.dropdown}}
+          >
+            Click me
+          </BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await tap(
       getRootNode(this.element).querySelector(
@@ -1255,14 +1330,16 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          {{on "touchend" self.touchEnd}}
-          @dropdown={{self.dropdown}}
-        >
-          Click me
-        </BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            {{on "touchend" self.touchEnd}}
+            @dropdown={{self.dropdown}}
+          >
+            Click me
+          </BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await tap(
       getRootNode(this.element).querySelector(
@@ -1298,12 +1375,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          {{on "keydown" self.keyDown}}
-          @dropdown={{self.dropdown}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            {{on "keydown" self.keyDown}}
+            @dropdown={{self.dropdown}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -1336,12 +1415,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger
-          {{on "keydown" self.keyDown}}
-          @dropdown={{self.dropdown}}
-        >Click me</BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger
+            {{on "keydown" self.keyDown}}
+            @dropdown={{self.dropdown}}
+          >Click me</BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await triggerKeyEvent(
       getRootNode(this.element).querySelector(
@@ -1376,11 +1457,13 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownTrigger @dropdown={{self.dropdown}}><svg
-            class="trigger-child-svg"
-          >Click me</svg></BasicDropdownTrigger>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownTrigger @dropdown={{self.dropdown}}><svg
+              class="trigger-child-svg"
+            >Click me</svg></BasicDropdownTrigger>
+        </HostWrapper>
+      </template>,
     );
     await tap(
       getRootNode(this.element).querySelector(
@@ -1433,12 +1516,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onBlur', onBlur);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onBlur={{self.onBlur}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onBlur={{self.onBlur}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1461,12 +1546,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onClick', onClick);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onClick={{self.onClick}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onClick={{self.onClick}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await click(
         getRootNode(this.element).querySelector(
@@ -1488,12 +1575,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onFocus', onFocus);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onFocus={{self.onFocus}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onFocus={{self.onFocus}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await focus(
         getRootNode(this.element).querySelector(
@@ -1515,12 +1604,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onFocusIn', onFocusIn);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onFocusIn={{self.onFocusIn}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onFocusIn={{self.onFocusIn}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1543,12 +1634,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onFocusOut', onFocusOut);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onFocusOut={{self.onFocusOut}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onFocusOut={{self.onFocusOut}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1571,12 +1664,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onKeyDown', onKeyDown);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onKeyDown={{self.onKeyDown}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onKeyDown={{self.onKeyDown}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1599,12 +1694,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onMouseDown', onMouseDown);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onMouseDown={{self.onMouseDown}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onMouseDown={{self.onMouseDown}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1627,14 +1724,21 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onMouseEnter', onMouseEnter);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onMouseEnter={{self.onMouseEnter}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onMouseEnter={{self.onMouseEnter}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
-      await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-trigger') as HTMLElement, 'mouseenter');
+      await triggerEvent(
+        getRootNode(this.element).querySelector(
+          '.ember-basic-dropdown-trigger',
+        ) as HTMLElement,
+        'mouseenter',
+      );
     });
 
     test<ExtendedTestContext>('It properly handles the onMouseLeave action', async function (assert) {
@@ -1650,12 +1754,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onMouseLeave', onMouseLeave);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onMouseLeave={{self.onMouseLeave}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onMouseLeave={{self.onMouseLeave}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(
@@ -1678,12 +1784,14 @@ module('Integration | Component | basic-dropdown-trigger', function (hooks) {
       this.set('onTouchEnd', onTouchEnd);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <BasicDropdownTrigger
-            @dropdown={{self.dropdown}}
-            @onTouchEnd={{self.onTouchEnd}}
-          >hello</BasicDropdownTrigger>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <BasicDropdownTrigger
+              @dropdown={{self.dropdown}}
+              @onTouchEnd={{self.onTouchEnd}}
+            >hello</BasicDropdownTrigger>
+          </HostWrapper>
+        </template>,
       );
       await triggerEvent(
         getRootNode(this.element).querySelector(

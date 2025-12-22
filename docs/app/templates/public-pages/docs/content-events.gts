@@ -39,7 +39,7 @@ import ContentEvents1Component from '../../../components/snippets/content-events
 
   <p>
     First we
-    {{!-- template-lint-disable no-unbalanced-curlies --}}
+    {{! template-lint-disable no-unbalanced-curlies }}
     <code>&lt;dd.Trigger \{{on "mousedown" this.prevent}}&gt;</code>
     neglect mouse input: Open/close both by click and hover will trip our users.
   </p>

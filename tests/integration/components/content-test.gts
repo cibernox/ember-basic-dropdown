@@ -65,13 +65,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -107,14 +109,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @defaultClass="extra-class"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @defaultClass="extra-class"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -147,13 +151,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -183,13 +189,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @renderInPlace={{true}}
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @renderInPlace={{true}}
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -225,13 +233,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -265,14 +275,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          class="foo123"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            class="foo123"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -302,14 +314,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          dir="rtl"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            dir="rtl"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-content', getRootNode(this.element))
@@ -342,18 +356,22 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @rootEventType="mousedown"
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @rootEventType="mousedown"
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
-    await click(getRootNode(this.element).querySelector('#other-div') as Element);
+    await click(
+      getRootNode(this.element).querySelector('#other-div') as Element,
+    );
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as click will not close a component if it is opened', async function (assert) {
@@ -381,18 +399,23 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @rootEventType="click"
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @rootEventType="click"
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'mousedown');
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'mousedown',
+    );
   });
 
   test<ExtendedTestContext>('Specifying the rootEventType as mousedown will close a component if it is opened', async function (assert) {
@@ -420,18 +443,23 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @rootEventType="mousedown"
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @rootEventType="mousedown"
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'mousedown');
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'mousedown',
+    );
   });
 
   test<ExtendedTestContext>("Clicking anywhere inside the dropdown content doesn't invoke the close action", async function (assert) {
@@ -460,15 +488,19 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        ><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          ><div id="inside-div">Lorem ipsum</div></BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
-    await click(getRootNode(this.element).querySelector('#inside-div') as Element);
+    await click(
+      getRootNode(this.element).querySelector('#inside-div') as Element,
+    );
   });
 
   test<ExtendedTestContext>("Clicking in inside the a dropdown content nested inside another dropdown content doesn't invoke the close action on neither of them if the second is rendered in place", async function (assert) {
@@ -516,26 +548,30 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="fake-trigger"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown1}}
-          @destination="destination-el"
-        >
-          Lorem ipsum
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="fake-trigger"></div>
           <BasicDropdownContent
-            @dropdown={{self.dropdown2}}
+            @dropdown={{self.dropdown1}}
             @destination="destination-el"
-            @renderInPlace={{true}}
           >
-            <div id="nested-content-div">dolor sit amet</div>
+            Lorem ipsum
+            <BasicDropdownContent
+              @dropdown={{self.dropdown2}}
+              @destination="destination-el"
+              @renderInPlace={{true}}
+            >
+              <div id="nested-content-div">dolor sit amet</div>
+            </BasicDropdownContent>
           </BasicDropdownContent>
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+        </HostWrapper>
+      </template>,
     );
 
-    await click(getRootNode(this.element).querySelector('#nested-content-div') as Element);
+    await click(
+      getRootNode(this.element).querySelector('#nested-content-div') as Element,
+    );
   });
 
   // Touch gestures while the component is opened
@@ -564,19 +600,27 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @isTouchDevice={{true}}
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @isTouchDevice={{true}}
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend');
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchstart',
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchend',
+    );
   });
 
   test<ExtendedTestContext>('Scrolling (touchstart + touchmove + touchend) anywhere in the app outside the component will invoke the close action on the dropdown', async function (assert) {
@@ -604,24 +648,37 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @isTouchDevice={{true}}
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @isTouchDevice={{true}}
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
-      changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }],
-    });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
-      changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }],
-    });
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchstart',
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchmove',
+      {
+        changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 0 }],
+      },
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchend',
+      {
+        changedTouches: [{ touchType: 'direct', pageX: 0, pageY: 10 }],
+      },
+    );
   });
 
   test<ExtendedTestContext>('Using stylus on touch device will handle scroll/tap to fire close action properly', async function (assert) {
@@ -649,34 +706,58 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <div id="other-div"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @isTouchDevice={{true}}
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <div id="other-div"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @isTouchDevice={{true}}
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
     // scroll
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
-      changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
-    });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
-      changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }],
-    });
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchstart',
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchmove',
+      {
+        changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
+      },
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchend',
+      {
+        changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 10 }],
+      },
+    );
 
     // tap
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchstart');
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchmove', {
-      changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
-    });
-    await triggerEvent(getRootNode(this.element).querySelector('#other-div') as HTMLElement, 'touchend', {
-      changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }],
-    });
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchstart',
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchmove',
+      {
+        changedTouches: [{ touchType: 'stylus', pageX: 0, pageY: 0 }],
+      },
+    );
+    await triggerEvent(
+      getRootNode(this.element).querySelector('#other-div') as HTMLElement,
+      'touchend',
+      {
+        changedTouches: [{ touchType: 'stylus', pageX: 4, pageY: 0 }],
+      },
+    );
   });
 
   // Arbitrary events
@@ -708,18 +789,25 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       assert.ok(e instanceof window.Event, 'the second argument is an event');
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
-        >
-          Content
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            {{on "mouseenter" (fn self.onMouseEnter self.dropdown)}}
+          >
+            Content
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
-    await triggerEvent(getRootNode(this.element).querySelector('.ember-basic-dropdown-content') as HTMLElement, 'mouseenter');
+    await triggerEvent(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-content',
+      ) as HTMLElement,
+      'mouseenter',
+    );
   });
 
   // Repositining
@@ -748,13 +836,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
   });
 
@@ -782,13 +872,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
   });
 
@@ -816,28 +908,30 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        {{! template-lint-disable no-inline-styles }}
-        <div
-          id="outer-div"
-          style="width: 100px; height: 100px; overflow: auto;"
-        >
-          <div style="width: 200px; height: 200px;">content scroll test</div>
-        </div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @preventScroll={{true}}
-          @destination="destination-el"
-        >
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          {{! template-lint-disable no-inline-styles }}
           <div
-            id="inner-div"
+            id="outer-div"
             style="width: 100px; height: 100px; overflow: auto;"
           >
             <div style="width: 200px; height: 200px;">content scroll test</div>
           </div>
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @preventScroll={{true}}
+            @destination="destination-el"
+          >
+            <div
+              id="inner-div"
+              style="width: 100px; height: 100px; overflow: auto;"
+            >
+              <div style="width: 200px; height: 200px;">content scroll test</div>
+            </div>
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
 
     const innerScrollable = getRootNode(this.element).querySelector(
@@ -911,13 +1005,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     window.dispatchEvent(new window.Event('scroll'));
     await settled();
@@ -953,13 +1049,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     window.dispatchEvent(new window.Event('resize'));
     await settled();
@@ -995,13 +1093,15 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     window.dispatchEvent(new window.Event('orientationchange'));
     await settled();
@@ -1037,15 +1137,17 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >
-          <div id="content-target-div"></div>
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     const target = getRootNode(this.element).querySelector(
       '#content-target-div',
@@ -1082,17 +1184,19 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
     this.divVisible = false;
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-        >
-          {{#if self.divVisible}}
-            <div></div>
-          {{/if}}
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+          >
+            {{#if self.divVisible}}
+              <div></div>
+            {{/if}}
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     this.set('divVisible', true);
     await settled();
@@ -1138,16 +1242,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
     };
 
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @shouldReposition={{self.shouldReposition}}
-        >
-          <div id="content-target-div"></div>
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @shouldReposition={{self.shouldReposition}}
+          >
+            <div id="content-target-div"></div>
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     const target = getRootNode(this.element).querySelector(
       '#content-target-div',
@@ -1181,14 +1287,16 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @renderInPlace={{true}}
-          @destination="destination-el"
-        >Lorem ipsum</BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @renderInPlace={{true}}
+            @destination="destination-el"
+          >Lorem ipsum</BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     window.dispatchEvent(new window.Event('scroll'));
     await settled();
@@ -1223,16 +1331,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       },
     };
     await render<ExtendedTestContext>(
-      <template><HostWrapper>
-        <div id="destination-el"></div>
-        <BasicDropdownContent
-          @dropdown={{self.dropdown}}
-          @destination="destination-el"
-          @overlay={{true}}
-        >
-          <input type="text" id="test-input-focusin" />
-        </BasicDropdownContent>
-      </HostWrapper></template>,
+      <template>
+        <HostWrapper>
+          <div id="destination-el"></div>
+          <BasicDropdownContent
+            @dropdown={{self.dropdown}}
+            @destination="destination-el"
+            @overlay={{true}}
+          >
+            <input type="text" id="test-input-focusin" />
+          </BasicDropdownContent>
+        </HostWrapper>
+      </template>,
     );
     assert
       .dom('.ember-basic-dropdown-overlay', getRootNode(this.element))
@@ -1300,16 +1410,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       this.set('onFocusIn', onFocusIn);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <div id="destination-el"></div>
-          <BasicDropdownContent
-            @dropdown={{self.dropdown}}
-            @destination="destination-el"
-            @onFocusIn={{self.onFocusIn}}
-          >
-            <div id="content-target-div"></div>
-          </BasicDropdownContent>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <div id="destination-el"></div>
+            <BasicDropdownContent
+              @dropdown={{self.dropdown}}
+              @destination="destination-el"
+              @onFocusIn={{self.onFocusIn}}
+            >
+              <div id="content-target-div"></div>
+            </BasicDropdownContent>
+          </HostWrapper>
+        </template>,
       );
 
       await triggerEvent(
@@ -1333,16 +1445,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       this.set('onFocusOut', onFocusOut);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <div id="destination-el"></div>
-          <BasicDropdownContent
-            @dropdown={{self.dropdown}}
-            @destination="destination-el"
-            @onFocusOut={{self.onFocusOut}}
-          >
-            <div id="content-target-div"></div>
-          </BasicDropdownContent>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <div id="destination-el"></div>
+            <BasicDropdownContent
+              @dropdown={{self.dropdown}}
+              @destination="destination-el"
+              @onFocusOut={{self.onFocusOut}}
+            >
+              <div id="content-target-div"></div>
+            </BasicDropdownContent>
+          </HostWrapper>
+        </template>,
       );
 
       await triggerEvent(
@@ -1366,16 +1480,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       this.set('onMouseEnter', onMouseEnter);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <div id="destination-el"></div>
-          <BasicDropdownContent
-            @dropdown={{self.dropdown}}
-            @destination="destination-el"
-            @onMouseEnter={{self.onMouseEnter}}
-          >
-            <div id="content-target-div"></div>
-          </BasicDropdownContent>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <div id="destination-el"></div>
+            <BasicDropdownContent
+              @dropdown={{self.dropdown}}
+              @destination="destination-el"
+              @onMouseEnter={{self.onMouseEnter}}
+            >
+              <div id="content-target-div"></div>
+            </BasicDropdownContent>
+          </HostWrapper>
+        </template>,
       );
 
       await triggerEvent(
@@ -1399,16 +1515,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       this.set('onMouseLeave', onMouseLeave);
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <div id="destination-el"></div>
-          <BasicDropdownContent
-            @dropdown={{self.dropdown}}
-            @destination="destination-el"
-            @onMouseLeave={{self.onMouseLeave}}
-          >
-            <div id="content-target-div"></div>
-          </BasicDropdownContent>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <div id="destination-el"></div>
+            <BasicDropdownContent
+              @dropdown={{self.dropdown}}
+              @destination="destination-el"
+              @onMouseLeave={{self.onMouseLeave}}
+            >
+              <div id="content-target-div"></div>
+            </BasicDropdownContent>
+          </HostWrapper>
+        </template>,
       );
 
       await triggerEvent(
@@ -1423,16 +1541,18 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
       const self = this;
 
       await render<ExtendedTestContext>(
-        <template><HostWrapper>
-          <div id="destination-el"></div>
-          <BasicDropdownContent
-            @dropdown={{self.dropdown}}
-            @destination="destination-el"
-            @htmlTag="span"
-          >
-            Content
-          </BasicDropdownContent>
-        </HostWrapper></template>,
+        <template>
+          <HostWrapper>
+            <div id="destination-el"></div>
+            <BasicDropdownContent
+              @dropdown={{self.dropdown}}
+              @destination="destination-el"
+              @htmlTag="span"
+            >
+              Content
+            </BasicDropdownContent>
+          </HostWrapper>
+        </template>,
       );
 
       assert.strictEqual(
