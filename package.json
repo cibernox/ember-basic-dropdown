@@ -90,7 +90,6 @@
     "@types/qunit": "^2.19.12",
     "babel-plugin-ember-template-compilation": "^2.2.5",
     "concurrently": "^9.0.1",
-    "ember-load-initializers": "^3.0.1",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.2",
     "ember-route-template": "^1.0.3",
