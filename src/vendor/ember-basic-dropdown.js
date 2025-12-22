@@ -1,0 +1,3 @@
+const _index = ".ember-basic-dropdown {\n  position: relative;\n}\n\n.ember-basic-dropdown,\n.ember-basic-dropdown-content,\n.ember-basic-dropdown-content * {\n  box-sizing: border-box;\n}\n\n.ember-basic-dropdown-content {\n  position: absolute;\n  width: auto;\n  z-index: 1000;\n  background-color: #fff;\n}\n\n.ember-basic-dropdown-content--left {\n  left: 0;\n}\n\n.ember-basic-dropdown-content--right {\n  right: 0;\n}\n\n.ember-basic-dropdown-overlay {\n  position: fixed;\n  background: rgba(0, 0, 0, 0.5);\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  pointer-events: none;\n}\n\n.ember-basic-dropdown-content-wormhole-origin {\n  display: inline;\n}";
+
+export { _index as default };
