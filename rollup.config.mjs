@@ -23,6 +23,7 @@ export default [
     },
     plugins: [
       sass({
+        api: 'modern',
         output: './src/vendor/ember-basic-dropdown.css',
       }),
     ],
@@ -35,6 +36,7 @@ export default [
     },
     plugins: [
       sass({
+        api: 'modern',
         processor: (css) =>
           postcss()
             .process(css, {
