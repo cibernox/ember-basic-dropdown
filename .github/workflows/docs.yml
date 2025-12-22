@@ -45,6 +45,8 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Run addon build
+        run: pnpm build
       - name: Run Tests
         run: pnpm --filter docs test:ember
 
@@ -63,6 +65,8 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Run addon build
+        run: pnpm build
       - name: Run Tests
         run: pnpm --filter docs build
       - name: Copy 404 page
