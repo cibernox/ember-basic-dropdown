@@ -3,15 +3,13 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import calculatePosition from '../utils/calculate-position.ts';
-import { getOwner } from '@ember/owner';
 import { schedule } from '@ember/runloop';
 import { hash } from '@ember/helper';
 import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
 import BasicDropdownContent from './basic-dropdown-content.gts';
 import { or } from 'ember-truth-helpers';
-import { deprecate } from '@ember/debug';
 import { isTesting } from '@embroider/macros';
-import { config as utilConfig, _configSet, type Config } from '../config.ts';
+import { getConfig } from '../config.ts';
 import type Owner from '@ember/owner';
 import type { ComponentLike } from '@glint/template';
 import type {
@@ -97,7 +95,6 @@ export interface BasicDropdownArgs<
   destination?: string;
   destinationElement?: HTMLElement;
   disabled?: boolean;
-  dropdownId?: string;
   rootEventType?: TRootEventType;
   preventScroll?: boolean;
   matchTriggerWidth?: boolean;
@@ -137,8 +134,7 @@ export default class BasicDropdown<
   private dropdownElement: HTMLElement | null = null;
 
   private _uid = guidFor(this);
-  private _dropdownId: string =
-    this.args.dropdownId || `ember-basic-dropdown-content-${this._uid}`;
+  private _dropdownId: string = `ember-basic-dropdown-content-${this._uid}`;
   private _previousDisabled = UNINITIALIZED;
   private _actions: DropdownActions = {
     open: this.open.bind(this),
@@ -227,22 +223,6 @@ export default class BasicDropdown<
     }
     if (this.args.registerAPI) {
       this.args.registerAPI(this.publicAPI);
-    }
-
-    if (this.args.dropdownId !== undefined) {
-      deprecate(
-        'You have passed `@dropdownId` into `ember-basic-dropdown`. This property does not work correctly without custom modifiers and is undocumented. Remove this parameter and use the `uniqueId` property from the public API instead.',
-        false,
-        {
-          for: 'ember-basic-dropdown',
-          id: 'ember-basic-dropdown.deprecate-arg-dropdown-id',
-          since: {
-            enabled: '8.8',
-            available: '8.8',
-          },
-          until: '9.0.0',
-        },
-      );
     }
   }
 
@@ -436,60 +416,7 @@ export default class BasicDropdown<
   }
 
   _getDestinationId(): string {
-    let config = utilConfig;
-
-    if (!_configSet) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const configEnvironment = getOwner(this).resolveRegistration(
-        'config:environment',
-      ) as {
-        APP: {
-          rootElement: string;
-        };
-        'ember-basic-dropdown': Config;
-      };
-
-      if (configEnvironment['ember-basic-dropdown']) {
-        const legacyConfigString = JSON.stringify(
-          configEnvironment['ember-basic-dropdown'],
-        );
-        deprecate(
-          `You have configured \`ember-basic-dropdown\` in \`ember-cli-build.js\`. Remove that configuration and instead use \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig(${legacyConfigString});`,
-          false,
-          {
-            for: 'ember-basic-dropdown',
-            id: 'ember-basic-dropdown.config-environment',
-            since: {
-              enabled: '8.9',
-              available: '8.9',
-            },
-            until: '9.0.0',
-          },
-        );
-
-        config = configEnvironment['ember-basic-dropdown'];
-      }
-
-      if (configEnvironment['APP']?.rootElement) {
-        deprecate(
-          `ember-basic-dropdown received the \`APP.rootElement\` value from \`ember-cli-build.js\`. You now need to pass this value using \`import { setConfig } from 'ember-basic-dropdown/config'; setConfig({rootElement: config.APP['rootElement']});`,
-          false,
-          {
-            for: 'ember-basic-dropdown',
-            id: 'ember-basic-dropdown.config-environment',
-            since: {
-              enabled: '8.9',
-              available: '8.9',
-            },
-            until: '9.0.0',
-          },
-        );
-
-        config.rootElement = configEnvironment['APP']?.rootElement;
-      }
-    }
+    const config = getConfig();
 
     if (isTesting()) {
       // document doesn't exist in fastboot apps, for this reason we need this check
