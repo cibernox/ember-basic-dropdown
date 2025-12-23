@@ -17,7 +17,7 @@ export default class extends Component {
     trigger: Element,
     content: HTMLElement,
     _destination: HTMLElement,
-    { horizontalPosition, verticalPosition }: CalculatePositionOptions,
+    { horizontalPosition, verticalPosition }: CalculatePositionOptions
   ): CalculatePositionResult {
     const { top, left, width, height } = trigger.getBoundingClientRect();
     const { height: contentHeight } = content.getBoundingClientRect();

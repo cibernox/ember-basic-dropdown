@@ -43,7 +43,7 @@ export default class extends Component {
     trigger: HTMLElement,
     content: HTMLElement,
     destination: HTMLElement,
-    options: CalculatePositionOptions,
+    options: CalculatePositionOptions
   ): CalculatePositionResult {
     const pos = calculatePosition(trigger, content, destination, options);
 
