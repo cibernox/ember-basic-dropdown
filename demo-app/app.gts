@@ -41,5 +41,5 @@ export class App extends EmberApp {
 Router.map(function () {});
 
 setConfig({
-  rootElement: 'body' as string | undefined,
+  rootElement: 'body',
 });
