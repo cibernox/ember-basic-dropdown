@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+export default {
   extends: 'recommended',
   rules: {
     'attribute-indentation': { 'open-invocation-max-len': 110 },
