@@ -2087,7 +2087,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         {{! template-lint-disable no-inline-styles }}
         <div style="position: absolute; bottom: 0">
           <HostWrapper>
-            <BasicDropdown @renderInPlace={{true}} @verticalPosition="auto" as |dropdown|>
+            <BasicDropdown
+              @renderInPlace={{true}}
+              @verticalPosition="auto"
+              as |dropdown|
+            >
               <dropdown.Trigger>Press me</dropdown.Trigger>
               <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
             </BasicDropdown>
@@ -2125,7 +2129,11 @@ module('Integration | Component | basic-dropdown', function (hooks) {
         {{! template-lint-disable no-inline-styles }}
         <div style="position: absolute; top: 0">
           <HostWrapper>
-            <BasicDropdown @renderInPlace={{true}} @verticalPosition="auto" as |dropdown|>
+            <BasicDropdown
+              @renderInPlace={{true}}
+              @verticalPosition="auto"
+              as |dropdown|
+            >
               <dropdown.Trigger>Press me</dropdown.Trigger>
               <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
             </BasicDropdown>
