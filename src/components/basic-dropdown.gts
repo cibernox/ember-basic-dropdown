@@ -3,31 +3,31 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import calculatePosition from '../utils/calculate-position.ts';
+import { getOwner } from '@ember/owner';
+import { schedule } from '@ember/runloop';
+import { hash } from '@ember/helper';
+import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
+import BasicDropdownContent from './basic-dropdown-content.gts';
+import { or } from 'ember-truth-helpers';
+import { deprecate } from '@ember/debug';
+import { isTesting } from '@embroider/macros';
+import { config as utilConfig, _configSet, type Config } from '../config.ts';
+import type Owner from '@ember/owner';
+import type { ComponentLike } from '@glint/template';
 import type {
   CalculatePosition,
   CalculatePositionResult,
   HorizontalPosition,
   VerticalPosition,
 } from '../utils/calculate-position.ts';
-import { getOwner } from '@ember/application';
-import type Owner from '@ember/owner';
-import { schedule } from '@ember/runloop';
-import type { ComponentLike } from '@glint/template';
 import type { BasicDropdownTriggerSignature } from './basic-dropdown-trigger.gts';
 import type { BasicDropdownContentSignature } from './basic-dropdown-content.gts';
-import { hash } from '@ember/helper';
-import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
-import BasicDropdownContent from './basic-dropdown-content.gts';
-import { or } from 'ember-truth-helpers';
 import type {
   Dropdown,
   DropdownActions,
   RepositionChanges,
   TRootEventType,
 } from '../types.ts';
-import { deprecate } from '@ember/debug';
-import { isTesting } from '@embroider/macros';
-import { config as utilConfig, _configSet, type Config } from '../config.ts';
 
 // To avoid breaking the current types export we need this
 export type { Dropdown, DropdownActions, TRootEventType };
