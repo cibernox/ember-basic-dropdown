@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { getOwner } from '@ember/application';
+import { getOwner } from '@ember/owner';
 import { config as utilConfig, _configSet, type Config } from '../config.ts';
 import { deprecate } from '@ember/debug';
 
