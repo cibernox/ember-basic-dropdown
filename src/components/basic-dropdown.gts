@@ -47,7 +47,7 @@ export interface BasicDropdownDefaultBlock<
     Omit<BasicDropdownTriggerSignature<TriggerHtmlTag>, 'Args'> & {
       Args: Omit<
         BasicDropdownTriggerSignature<TriggerHtmlTag>['Args'],
-        'htmlTag'
+        'htmlTag' | 'dropdown' | 'hPosition' | 'vPosition' | 'renderInPlace'
       >;
     }
   >;
@@ -55,7 +55,21 @@ export interface BasicDropdownDefaultBlock<
     Omit<BasicDropdownContentSignature<ContentHtmlTag>, 'Args'> & {
       Args: Omit<
         BasicDropdownContentSignature<ContentHtmlTag>['Args'],
-        'htmlTag'
+        | 'htmlTag'
+        | 'dropdown'
+        | 'hPosition'
+        | 'vPosition'
+        | 'renderInPlace'
+        | 'destination'
+        | 'destinationElement'
+        | 'top'
+        | 'left'
+        | 'right'
+        | 'width'
+        | 'height'
+        | 'otherStyles'
+        | 'preventScroll'
+        | 'rootEventType'
       >;
     }
   >;
