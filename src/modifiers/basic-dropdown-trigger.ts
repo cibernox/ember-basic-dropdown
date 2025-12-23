@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { isDestroyed, registerDestructor } from '@ember/destroyable';
 import hasMoved from '../utils/has-moved.ts';
 import type Owner from '@ember/owner';
-import type { Dropdown } from '../types';
+import type { Dropdown } from '../types.ts';
 
 interface Signature {
   Element: HTMLElement;

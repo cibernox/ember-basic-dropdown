@@ -24,7 +24,7 @@ import type {
   DropdownActions,
   RepositionChanges,
   TRootEventType,
-} from '../types';
+} from '../types.ts';
 import { deprecate } from '@ember/debug';
 import { isTesting } from '@embroider/macros';
 import { config as utilConfig, _configSet, type Config } from '../config.ts';

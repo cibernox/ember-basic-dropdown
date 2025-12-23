@@ -1,4 +1,4 @@
-import type { VerticalPosition, HorizontalPosition } from '../types';
+import type { VerticalPosition, HorizontalPosition } from '../types.ts';
 
 // To avoid breaking the current types export we need this
 export type { VerticalPosition, HorizontalPosition };

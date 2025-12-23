@@ -21,7 +21,7 @@ import type {
   TRootEventType,
   HorizontalPosition,
   VerticalPosition,
-} from '../types';
+} from '../types.ts';
 
 export interface BasicDropdownContentSignature<
   T extends keyof HTMLElementTagNameMap = 'div',
