@@ -23,49 +23,6 @@ class TestApp extends EmberApp {
 
 Router.map(function () {});
 
-// let createdApp = null;
-
-// // @ts-expect-error Public property 'isFastBoot' of exported class
-// const isFastBoot = typeof FastBoot !== 'undefined';
-
-// export function initializeShadowDom() {
-//   if (isFastBoot || import.meta.env.VITE_SHADOW_DOM_BUILD !== 'true') {
-//     return;
-//   }
-
-//   const targetElement = document.getElementById('ember-testing');
-
-//   // customElements.define(
-//   //   'shadow-root',
-//   //   class extends HTMLElement {
-//   //     connectedCallback() {
-//   //       this.attachShadow({ mode: 'open' });
-//   //     }
-//   //   },
-//   // );
-
-//   const hostElement = document.createElement('div');
-//   hostElement.attachShadow({ mode: 'open' });
-
-//   const rootElement = document.createElement('div');
-//   const wormhole = document.createElement('div');
-//   wormhole.id = 'ember-basic-dropdown-wormhole';
-
-//   hostElement.shadowRoot?.appendChild(wormhole);
-//   hostElement.shadowRoot?.appendChild(rootElement);
-//   targetElement?.appendChild(hostElement);
-
-//   setConfig({
-//     rootElement: '#ember-basic-dropdown-wormhole',
-//   });
-
-//   console.log(createdApp);
-
-//   createdApp.rootElement = hostElement.shadowRoot;
-
-//   console.log(createdApp.rootElement);
-// }
-
 export function start() {
   setApplication(
     TestApp.create({

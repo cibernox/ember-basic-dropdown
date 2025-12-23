@@ -1,4 +1,4 @@
-import type { VerticalPosition, HorizontalPosition } from '../types.js';
+import type { VerticalPosition, HorizontalPosition } from '../types';
 
 // To avoid breaking the current types export we need this
 export type { VerticalPosition, HorizontalPosition };

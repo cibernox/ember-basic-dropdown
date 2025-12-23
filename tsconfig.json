@@ -13,7 +13,6 @@
   ],
   "compilerOptions": {
     "rootDir": ".",
-    "allowImportingTsExtensions": true,
     "types": [
       "ember-source/types",
       "vite/client",
