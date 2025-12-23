@@ -13,6 +13,7 @@ export default class extends Component {
   }
 
   <template>
+    {{! template-lint-disable require-input-label }}
     <input
       type="text"
       placeholder="Focus me and hit TAB to focus the trigger"

@@ -3,13 +3,13 @@
 $ember-basic-dropdown-overlay-background: rgba(#3b5998, 0.5);
 
 // Then import the styles, which will use your variable
-@import "ember-basic-dropdown";
+@import 'ember-basic-dropdown';
 
 // ember-basic-dropdown v9.x+
 // Define your variables first
-@use "ember-basic-dropdown/scss/variables.scss" with (
+@use 'ember-basic-dropdown/scss/variables.scss' with (
   $ember-basic-dropdown-overlay-background: rgba(#3b5998, 0.5)
 );
 
 // Then use the styles, which will use your variable
-@use "ember-basic-dropdown";
+@use 'ember-basic-dropdown';
