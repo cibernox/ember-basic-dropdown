@@ -89,14 +89,6 @@ import Position3Component from '../../../components/snippets/position-3';
     <Position2Component />
   </CodeExample>
 
-  <p>
-    Please note that when rendering the content in place, the vertical position
-    will not automatically detect the best position based on the space around
-    the trigger. You have to explicitly pass
-    <code>verticalPosition="above"</code>
-    to render it over the trigger.
-  </p>
-
   <h3><code>matchTriggerWidth</code></h3>
 
   <p>
