@@ -50,7 +50,7 @@ jobs:
       - name: Run Addon Build
         run: pnpm build
       - name: Run Tests
-        run: pnpm --filter docs test:ember
+        run: pnpm --filter docs test
 
   build-documentation:
     name: Build documentation
