@@ -2085,7 +2085,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await render(
       <template>
         {{! template-lint-disable no-inline-styles no-forbidden-elements }}
-        {{!-- #ember-testing is by default 200% width/height & has a scale. For this test we need to reset it --}}
+        {{! #ember-testing is by default 200% width/height & has a scale. For this test we need to reset it }}
         <style>
           #ember-testing {
             width: 100%;
@@ -2138,7 +2138,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
     await render(
       <template>
         {{! template-lint-disable no-inline-styles no-forbidden-elements }}
-        {{!-- #ember-testing is by default width/height 200% & has a scale. For this test we need to reset it --}}
+        {{! #ember-testing is by default width/height 200% & has a scale. For this test we need to reset it }}
         <style>
           #ember-testing {
             width: 100%;
