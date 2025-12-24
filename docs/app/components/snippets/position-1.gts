@@ -3,16 +3,17 @@ import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import { eq, not } from 'ember-truth-helpers';
+import { tracked } from '@glimmer/tracking';
 import type {
   HorizontalPosition,
   VerticalPosition,
 } from 'ember-basic-dropdown/types';
 
 export default class extends Component {
-  horizontalPosition: HorizontalPosition = 'auto';
-  verticalPosition: VerticalPosition = 'auto';
-  buttonPosition = 'left';
-  renderInPlace = false;
+  @tracked horizontalPosition: HorizontalPosition = 'auto';
+  @tracked verticalPosition: VerticalPosition = 'auto';
+  @tracked buttonPosition = 'left';
+  @tracked renderInPlace = false;
 
   <template>
     horizontalPosition:
@@ -57,6 +58,13 @@ export default class extends Component {
         {{on "change" (fn (mut this.horizontalPosition) "auto")}}
       />
       <label for="h-auto">auto</label>
+      <input
+        type="radio"
+        id="h-auto-left"
+        checked={{eq this.horizontalPosition "auto-left"}}
+        {{on "change" (fn (mut this.horizontalPosition) "auto-left")}}
+      />
+      <label for="h-auto-left">auto-left</label>
       <input
         type="radio"
         id="h-auto-right"
