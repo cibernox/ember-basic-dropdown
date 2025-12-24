@@ -2084,18 +2084,29 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(
       <template>
-        {{! template-lint-disable no-inline-styles }}
-        <div style="position: absolute; bottom: 0">
-          <HostWrapper>
-            <BasicDropdown
-              @renderInPlace={{true}}
-              @verticalPosition="auto"
-              as |dropdown|
-            >
-              <dropdown.Trigger>Press me</dropdown.Trigger>
-              <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
-            </BasicDropdown>
-          </HostWrapper>
+        {{! template-lint-disable no-inline-styles no-forbidden-elements }}
+        {{!-- #ember-testing is by default 200% width/height & has a scale. For this test we need to reset it --}}
+        <style>
+          #ember-testing {
+            width: 100%;
+            height: 100%;
+            transform: none;
+            overflow: hidden;
+          }
+        </style>
+        <div style="position: relative; width: 100%; height: 100vh">
+          <div style="position: absolute; bottom: 0">
+            <HostWrapper>
+              <BasicDropdown
+                @renderInPlace={{true}}
+                @verticalPosition="auto"
+                as |dropdown|
+              >
+                <dropdown.Trigger>Press me</dropdown.Trigger>
+                <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+              </BasicDropdown>
+            </HostWrapper>
+          </div>
         </div>
       </template>,
     );
@@ -2126,18 +2137,29 @@ module('Integration | Component | basic-dropdown', function (hooks) {
 
     await render(
       <template>
-        {{! template-lint-disable no-inline-styles }}
-        <div style="position: absolute; top: 0">
-          <HostWrapper>
-            <BasicDropdown
-              @renderInPlace={{true}}
-              @verticalPosition="auto"
-              as |dropdown|
-            >
-              <dropdown.Trigger>Press me</dropdown.Trigger>
-              <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
-            </BasicDropdown>
-          </HostWrapper>
+        {{! template-lint-disable no-inline-styles no-forbidden-elements }}
+        {{!-- #ember-testing is by default width/height 200% & has a scale. For this test we need to reset it --}}
+        <style>
+          #ember-testing {
+            width: 100%;
+            height: 100%;
+            transform: none;
+            overflow: hidden;
+          }
+        </style>
+        <div style="position: relative; width: 100%; height: 100vh">
+          <div style="position: absolute; top: 0">
+            <HostWrapper>
+              <BasicDropdown
+                @renderInPlace={{true}}
+                @verticalPosition="auto"
+                as |dropdown|
+              >
+                <dropdown.Trigger>Press me</dropdown.Trigger>
+                <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+              </BasicDropdown>
+            </HostWrapper>
+          </div>
         </div>
       </template>,
     );
