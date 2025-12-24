@@ -2078,4 +2078,110 @@ module('Integration | Component | basic-dropdown', function (hooks) {
       .dom(shadowRoot?.querySelector('#dropdown-is-opened'))
       .doesNotExist('The dropdown is closed again');
   });
+
+  test<ExtendedTestContext>('It adds the proper class above to trigger and content when it receives `renderInPlace={{true}}` and @verticalPosition="auto"', async function (assert) {
+    assert.expect(2);
+
+    await render(
+      <template>
+        {{! template-lint-disable no-inline-styles no-forbidden-elements }}
+        {{! #ember-testing is by default 200% width/height & has a scale. For this test we need to reset it }}
+        <style>
+          #ember-testing {
+            width: 100%;
+            height: 100%;
+            transform: none;
+            overflow: hidden;
+          }
+        </style>
+        <div style="position: relative; width: 100%; height: 100vh">
+          <div style="position: absolute; bottom: 0">
+            <HostWrapper>
+              <BasicDropdown
+                @renderInPlace={{true}}
+                @verticalPosition="auto"
+                as |dropdown|
+              >
+                <dropdown.Trigger>Press me</dropdown.Trigger>
+                <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+              </BasicDropdown>
+            </HostWrapper>
+          </div>
+        </div>
+      </template>,
+    );
+
+    await click(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
+    );
+
+    assert
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
+      .hasClass(
+        'ember-basic-dropdown-trigger--above',
+        'The proper class has been added',
+      );
+
+    assert
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
+      .hasClass(
+        'ember-basic-dropdown-content--above',
+        'The proper class has been added',
+      );
+  });
+
+  test<ExtendedTestContext>('It adds the proper class below to trigger and content when it receives `renderInPlace={{true}}` and @verticalPosition="auto"', async function (assert) {
+    assert.expect(2);
+
+    await render(
+      <template>
+        {{! template-lint-disable no-inline-styles no-forbidden-elements }}
+        {{! #ember-testing is by default width/height 200% & has a scale. For this test we need to reset it }}
+        <style>
+          #ember-testing {
+            width: 100%;
+            height: 100%;
+            transform: none;
+            overflow: hidden;
+          }
+        </style>
+        <div style="position: relative; width: 100%; height: 100vh">
+          <div style="position: absolute; top: 0">
+            <HostWrapper>
+              <BasicDropdown
+                @renderInPlace={{true}}
+                @verticalPosition="auto"
+                as |dropdown|
+              >
+                <dropdown.Trigger>Press me</dropdown.Trigger>
+                <dropdown.Content><h3>Content of the dropdown</h3></dropdown.Content>
+              </BasicDropdown>
+            </HostWrapper>
+          </div>
+        </div>
+      </template>,
+    );
+
+    await click(
+      getRootNode(this.element).querySelector(
+        '.ember-basic-dropdown-trigger',
+      ) as HTMLElement,
+    );
+
+    assert
+      .dom('.ember-basic-dropdown-trigger', getRootNode(this.element))
+      .hasClass(
+        'ember-basic-dropdown-trigger--below',
+        'The proper class has been added',
+      );
+
+    assert
+      .dom('.ember-basic-dropdown-content', getRootNode(this.element))
+      .hasClass(
+        'ember-basic-dropdown-content--below',
+        'The proper class has been added',
+      );
+  });
 });
