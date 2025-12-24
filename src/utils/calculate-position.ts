@@ -49,13 +49,18 @@ type GetViewDataResult = {
 type GetViewData = (
   trigger: Element,
   content: HTMLElement,
+  renderInPlace: boolean,
 ) => GetViewDataResult;
 
-const getViewData: GetViewData = (trigger, content) => {
-  const scroll = {
-    left: window.scrollX,
-    top: window.scrollY,
-  };
+const getViewData: GetViewData = (trigger, content, renderInPlace) => {
+  let scroll = { left: window.pageXOffset, top: window.pageYOffset };
+  if (renderInPlace) {
+    scroll = {
+      left: window.scrollX,
+      top: window.scrollY,
+    };
+  }
+
   const {
     left: triggerLeft,
     top: triggerTop,
@@ -72,8 +77,8 @@ const getViewData: GetViewData = (trigger, content) => {
     // The properties top and left of the trigger client rectangle need to be absolute to
     // the top left corner of the document as the value it's compared to is also the total
     // height and not only the viewport height (window client height + scroll offset).
-    triggerLeft: triggerLeft + window.scrollX,
-    triggerTop: triggerTop + window.scrollY,
+    triggerLeft: triggerLeft + (renderInPlace ? window.scrollX : 0),
+    triggerTop: triggerTop + (renderInPlace ? window.scrollY : 0),
     triggerWidth,
     triggerHeight,
     dropdownHeight,
@@ -96,7 +101,7 @@ export function calculateWormholedPosition(
   }: CalculatePositionOptions,
 ): CalculatePositionResult {
   // Collect information about all the involved DOM elements
-  const viewData = getViewData(trigger, content);
+  const viewData = getViewData(trigger, content, false);
   const {
     scroll,
     triggerWidth,
@@ -293,7 +298,7 @@ export function calculateInPlacePosition(
   } else {
     // Automatically determine if there is enough space above or below
     const { triggerTop, triggerHeight, dropdownHeight, viewportBottom } =
-      getViewData(trigger, content);
+      getViewData(trigger, content, true);
 
     const enoughRoomBelow =
       triggerTop + triggerHeight + dropdownHeight < viewportBottom;
