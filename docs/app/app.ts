@@ -12,7 +12,7 @@ if (macroCondition(isDevelopingApp())) {
 }
 
 setConfig({
-  rootElement: 'body',
+  rootElement: config.APP['rootElement'] as string | undefined,
 });
 
 export default class App extends Application {
