@@ -16,7 +16,7 @@ const tsConfig = resolve(rootDirectory, './tsconfig.publish.json');
 
 export default [
   {
-    input: './_index.scss',
+    input: './ember-basic-dropdown-for-css-generate.scss',
     output: {
       file: './src/vendor/ember-basic-dropdown.js',
       assetFileNames: '[name][extname]',
@@ -29,7 +29,7 @@ export default [
     ],
   },
   {
-    input: './_index.scss',
+    input: './ember-basic-dropdown-for-css-generate.scss',
     output: {
       file: './src/vendor/ember-basic-dropdown.js',
       assetFileNames: '[name][extname]',

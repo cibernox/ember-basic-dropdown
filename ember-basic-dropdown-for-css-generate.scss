@@ -1,0 +1,20 @@
+@use "scss/variables.scss" with (
+  $ember-basic-dropdown-content-background-color: var(
+      --ember-basic-dropdown-content-background-color,
+      #fff
+    ),
+  $ember-basic-dropdown-content-z-index: var(
+      --ember-basic-dropdown-content-z-index,
+      1000
+    ),
+  $ember-basic-dropdown-overlay-background: var(
+      --ember-basic-dropdown-overlay-background,
+      rgba(0, 0, 0, 0.5)
+    ),
+  $ember-basic-dropdown-overlay-pointer-events: var(
+      --ember-basic-dropdown-overlay-pointer-events,
+      none
+    )
+);
+
+@use "scss/base.scss";
