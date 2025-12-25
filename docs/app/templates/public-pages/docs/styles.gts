@@ -6,8 +6,8 @@ import CodeExample from '../../../components/code-example';
 
   <p>
     Since this component doesn't any visual theme, you can apply styles to it
-    just with CSS variables, plain CSS or even adding the classes your favorite CSS framework
-    gives you.
+    just with CSS variables, plain CSS or even adding the classes your favorite
+    CSS framework gives you.
   </p>
 
   <CodeExample @css="styles-0.css" @showResult={{false}} @activeTab="css" />
