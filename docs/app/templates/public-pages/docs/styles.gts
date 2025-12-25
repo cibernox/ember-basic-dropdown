@@ -6,20 +6,14 @@ import CodeExample from '../../../components/code-example';
 
   <p>
     Since this component doesn't any visual theme, you can apply styles to it
-    just with plain CSS or even adding the classes your favourite CSS framework
+    just with CSS variables, plain CSS or even adding the classes your favorite CSS framework
     gives you.
   </p>
 
-  <p>
-    If don't use any css pre-processor this is all. If you do use SASS, the
-    addon will know it and will have to
-    <code>@use</code>
-    the styles explicitly. This gives you the chance to set a few variables that
-    Ember Basic Dropdown will use.
-  </p>
+  <CodeExample @css="styles-0.css" @showResult={{false}} @activeTab="css" />
 
   <p>
-    There is only four variables you can tweak (Sass syntax)
+    If you use SASS you can override the default values by using the SASS syntax
   </p>
 
   <CodeExample @scss="styles-1.scss" @showResult={{false}} @activeTab="scss" />
