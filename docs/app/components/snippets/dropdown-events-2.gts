@@ -1,9 +1,8 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
-import BasicDropdown, {
-  type Dropdown,
-} from 'ember-basic-dropdown/components/basic-dropdown';
+import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
+import type { Dropdown } from 'ember-basic-dropdown/types';
 
 const users = [
   { name: 'Nathan', assignment: 'CLI' },
