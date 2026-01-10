@@ -27,9 +27,6 @@ import type {
   TRootEventType,
 } from '../types.ts';
 
-// To avoid breaking the current types export we need this
-export type { Dropdown, DropdownActions, TRootEventType };
-
 const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
