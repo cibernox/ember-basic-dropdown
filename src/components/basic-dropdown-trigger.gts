@@ -6,7 +6,11 @@ import { concat } from '@ember/helper';
 import basicDropdownTriggerModifier from '../modifiers/basic-dropdown-trigger.ts';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import type { Dropdown, HorizontalPosition, VerticalPosition } from '../types.ts';
+import type {
+  Dropdown,
+  HorizontalPosition,
+  VerticalPosition,
+} from '../types.ts';
 
 export interface BasicDropdownTriggerSignature<
   T extends keyof HTMLElementTagNameMap = 'div',
