@@ -20,6 +20,15 @@ import { LinkTo } from '@ember/routing';
     </li>
     <li>
       <p>
+        <code>@embroider/macros</code>
+        is now a peer dependency. Please add it to your
+        <code>package.json</code>
+        as a
+        <code>devDependency</code>.
+      </p>
+    </li>
+    <li>
+      <p>
         Passing
         <code>components</code>
         as strings is no longer supported. You must now pass all components as
