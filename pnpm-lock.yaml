@@ -11,9 +11,6 @@ importers:
       '@embroider/addon-shim':
         specifier: ^1.10.2
         version: 1.10.2
-      '@embroider/macros':
-        specifier: ^1.19.5
-        version: 1.19.5(@glint/template@1.7.3)
       decorator-transforms:
         specifier: ^2.3.0
         version: 2.3.0(@babel/core@7.28.5)
@@ -66,6 +63,9 @@ importers:
       '@embroider/core':
         specifier: ^4.4.1
         version: 4.4.1(@glint/template@1.7.3)
+      '@embroider/macros':
+        specifier: ^1.19.5
+        version: 1.19.5(@glint/template@1.7.3)
       '@embroider/vite':
         specifier: ^1.4.4
         version: 1.4.4(@embroider/core@4.4.1(@glint/template@1.7.3))(@glint/template@1.7.3)(rollup@4.54.0)(vite@7.3.0(@types/node@25.0.3)(jiti@2.6.1)(sass-embedded@1.97.1)(sass@1.97.1)(terser@5.44.1))

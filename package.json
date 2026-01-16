@@ -58,7 +58,6 @@
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.10.2",
-    "@embroider/macros": "^1.19.5",
     "decorator-transforms": "^2.3.0",
     "ember-element-helper": "^0.8.8",
     "ember-modifier": "^4.2.2",
@@ -117,6 +116,7 @@
     "vite": "^7.3.0"
   },
   "peerDependencies": {
+    "@embroider/macros": "^1.19.5",
     "@ember/test-helpers": "^5.0.0",
     "@glimmer/component": "^2.0.0"
   },
