@@ -60,6 +60,7 @@ export default [
       // is aligned to the config here.
       // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
       addon.publicEntrypoints([
+        'index.js',
         'config.js',
         'styles.js',
         'components/**/*.js',
