@@ -5,17 +5,16 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "https://github.com/cibernox/ember-basic-dropdown",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cibernox/ember-basic-dropdown.git"
+  },
   "license": "MIT",
   "author": "Miguel Camba",
   "imports": {
     "#src/*": "./src/*"
   },
   "exports": {
-    ".": {
-      "types": "./declarations/index.d.ts",
-      "default": "./dist/index.js"
-    },
     "./addon-main.js": "./addon-main.cjs",
     "./*": {
       "types": "./declarations/*.d.ts",
