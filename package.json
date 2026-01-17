@@ -3,7 +3,9 @@
   "version": "8.11.0",
   "description": "The basic dropdown that your ember app needs",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "dropdown",
+    "ui"
   ],
   "repository": {
     "type": "git",
