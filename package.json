@@ -1,0 +1,162 @@
+{
+  "name": "ember-basic-dropdown",
+  "version": "8.11.0",
+  "description": "The basic dropdown that your ember app needs",
+  "keywords": [
+    "ember",
+    "ember-addon",
+    "dropdown",
+    "ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cibernox/ember-basic-dropdown.git"
+  },
+  "license": "MIT",
+  "author": "Miguel Camba",
+  "imports": {
+    "#src/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./addon-main.js": "./addon-main.cjs",
+    "./*": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./ember-basic-dropdown.less": "./ember-basic-dropdown.less",
+    "./ember-basic-dropdown.scss": "./ember-basic-dropdown.scss",
+    "./_index.scss": "./_index.scss",
+    "./less/base.less": "./less/base.less",
+    "./scss/base.scss": "./scss/base.scss",
+    "./less/variables.less": "./less/variables.less",
+    "./scss/variables.scss": "./scss/variables.scss",
+    "./vendor/*": "./dist/vendor/*"
+  },
+  "files": [
+    "_index.scss",
+    "addon-main.cjs",
+    "declarations",
+    "dist",
+    "ember-basic-dropdown.less",
+    "ember-basic-dropdown.scss",
+    "less",
+    "scss",
+    "src"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "lint:types": "ember-tsc --noEmit",
+    "start": "vite dev",
+    "test": "vite build --mode=development --out-dir dist-tests && testem --file testem.cjs ci --port 0"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.10.2",
+    "decorator-transforms": "^2.3.0",
+    "ember-element-helper": "^0.8.8",
+    "ember-modifier": "^4.2.2",
+    "ember-style-modifier": "^4.5.1",
+    "ember-truth-helpers": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/eslint-parser": "^7.28.5",
+    "@babel/plugin-transform-typescript": "^7.28.5",
+    "@babel/runtime": "^7.28.4",
+    "@ember/app-tsconfig": "^2.0.0",
+    "@ember/library-tsconfig": "^2.0.0",
+    "@ember/string": "^4.0.1",
+    "@ember/test-helpers": "^5.4.1",
+    "@ember/test-waiters": "^4.1.1",
+    "@embroider/addon-dev": "^8.1.2",
+    "@embroider/compat": "^4.1.11",
+    "@embroider/core": "^4.4.1",
+    "@embroider/macros": "^1.19.5",
+    "@embroider/vite": "^1.4.4",
+    "@eslint/js": "^9.39.2",
+    "@glimmer/component": "^2.0.0",
+    "@glint/ember-tsc": "^1.0.8",
+    "@glint/template": "^1.7.3",
+    "@glint/tsserver-plugin": "^2.0.8",
+    "@release-it-plugins/lerna-changelog": "^8.0.1",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@types/qunit": "^2.19.13",
+    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "concurrently": "^9.2.1",
+    "ember-page-title": "^9.0.3",
+    "ember-qunit": "^9.0.4",
+    "ember-route-template": "^1.0.3",
+    "ember-source": "^6.9.0",
+    "ember-strict-application-resolver": "^0.1.1",
+    "ember-template-lint": "^7.9.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-ember": "^12.7.5",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.23.1",
+    "postcss": "^8.5.6",
+    "globals": "^16.5.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-ember-template-tag": "^2.1.2",
+    "qunit": "^2.24.3",
+    "qunit-dom": "^3.5.0",
+    "release-it": "^19.1.0",
+    "rollup": "^4.54.0",
+    "rollup-plugin-sass": "^1.15.3",
+    "sass-embedded": "^1.97.1",
+    "testem": "^3.17.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.50.1",
+    "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "@embroider/macros": "^1.19.5",
+    "@ember/test-helpers": "^5.0.0",
+    "@glimmer/component": "^2.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "@release-it-plugins/lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    },
+    "npm": false
+  },
+  "packageManager": "pnpm@10.26.1",
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./components/basic-dropdown-content.js": "./dist/_app_/components/basic-dropdown-content.js",
+      "./components/basic-dropdown-trigger.js": "./dist/_app_/components/basic-dropdown-trigger.js",
+      "./components/basic-dropdown-wormhole.js": "./dist/_app_/components/basic-dropdown-wormhole.js",
+      "./components/basic-dropdown.js": "./dist/_app_/components/basic-dropdown.js",
+      "./modifiers/basic-dropdown-trigger.js": "./dist/_app_/modifiers/basic-dropdown-trigger.js"
+    }
+  }
+}
