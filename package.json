@@ -3,6 +3,7 @@
   "version": "8.11.0",
   "description": "The basic dropdown that your ember app needs",
   "keywords": [
+    "ember",
     "ember-addon",
     "dropdown",
     "ui"
