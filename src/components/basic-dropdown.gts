@@ -215,6 +215,7 @@ export default class BasicDropdown<
     args: BasicDropdownArgs<TriggerHtmlTag, ContentHtmlTag>,
   ) {
     super(owner, args);
+    console.log(isTesting());
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
     }
