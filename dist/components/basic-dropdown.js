@@ -134,6 +134,7 @@ class BasicDropdown extends Component {
   // Lifecycle hooks
   constructor(owner, args) {
     super(owner, args);
+    console.log('ember-basic-dropdown, isTesting() value is', isTesting());
     if (this.args.onInit) {
       this.args.onInit(this.publicAPI);
     }
