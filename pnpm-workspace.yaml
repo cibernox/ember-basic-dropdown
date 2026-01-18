@@ -11,3 +11,4 @@ resolvePeersFromWorkspaceRoot: false
 packages:
   - .
   - docs
+  - my-addon-2
