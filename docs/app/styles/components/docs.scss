@@ -1,3 +1,6 @@
+@use "../variables";
+@use "../utilities";
+
 // Docs
 .docs {
   @extend %wrapper;
@@ -32,7 +35,7 @@
 }
 .section-selector {
   margin-bottom: 1rem;
-  @media only screen and (min-width: $medium-breakpoint) {
+  @media only screen and (min-width: variables.$medium-breakpoint) {
     display: none;
   }
 }
