@@ -13,7 +13,9 @@
           "options": [
             "--no-welcome",
             "--pnpm",
-            "--typescript"
+            "--typescript",
+            "--no-ember-data",
+            "--no-warp-drive"
           ]
         }
       ]
