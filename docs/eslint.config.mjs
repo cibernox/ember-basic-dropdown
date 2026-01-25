@@ -14,16 +14,18 @@
  */
 import globals from 'globals';
 import js from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 import ts from 'typescript-eslint';
 
 import ember from 'eslint-plugin-ember/recommended';
+import WarpDrive from 'eslint-plugin-warp-drive/recommended';
 
 import eslintConfigPrettier from 'eslint-config-prettier';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
 
-import babelParser from '@babel/eslint-parser';
+import babelParser from '@babel/eslint-parser/experimental-worker';
 
 const parserOptions = {
   esm: {
@@ -38,11 +40,13 @@ const parserOptions = {
   },
 };
 
-export default ts.config(
+export default defineConfig([
+  globalIgnores(['dist/', 'coverage/', '!**/.*']),
   js.configs.recommended,
   ember.configs.base,
   ember.configs.gjs,
   ember.configs.gts,
+  ...WarpDrive,
   eslintConfigPrettier,
   /**
    * Ignores must be in their own object
@@ -98,16 +102,7 @@ export default ts.config(
    * CJS node files
    */
   {
-    files: [
-      '**/*.cjs',
-      'config/**/*.js',
-      'testem.js',
-      'testem*.js',
-      '.prettierrc.js',
-      '.stylelintrc.js',
-      '.template-lintrc.js',
-      'ember-cli-build.js',
-    ],
+    files: ['**/*.cjs', 'config/**/*.js', 'ember-cli-build.js'],
     plugins: {
       n,
     },
@@ -138,4 +133,4 @@ export default ts.config(
       },
     },
   },
-);
+]);
