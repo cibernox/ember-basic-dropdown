@@ -40,25 +40,17 @@ const parserOptions = {
 };
 
 export default defineConfig([
-  globalIgnores(['dist/', 'coverage/', '!**/.*']),
+  globalIgnores([
+    'dist/',
+    'coverage/',
+    'app/components/snippets/*-snippet.*',
+    '!**/.*',
+  ]),
   js.configs.recommended,
   ember.configs.base,
   ember.configs.gjs,
   ember.configs.gts,
   eslintConfigPrettier,
-  /**
-   * Ignores must be in their own object
-   * https://eslint.org/docs/latest/use/configure/ignore
-   */
-  {
-    ignores: [
-      'dist/',
-      'node_modules/',
-      'coverage/',
-      'app/components/snippets/*-snippet.*',
-      '!**/.*',
-    ],
-  },
   /**
    * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
    */
