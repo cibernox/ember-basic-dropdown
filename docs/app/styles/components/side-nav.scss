@@ -1,10 +1,12 @@
+@use '../variables';
+
 $side-nav-color: #777;
 .side-nav {
   width: 200px;
   color: $side-nav-color;
   flex: 0 0 25%;
   margin-right: 2rem;
-  @media only screen and (max-width: $medium-breakpoint) {
+  @media only screen and (max-width: variables.$medium-breakpoint) {
     display: none;
   }
 }
@@ -35,7 +37,7 @@ $side-nav-color: #777;
   height: 30px;
   font-size: 16px;
 }
-@media only screen and (min-width: $medium-breakpoint) {
+@media only screen and (min-width: variables.$medium-breakpoint) {
   .section-selector {
     display: none;
   }

@@ -1,3 +1,4 @@
+@use 'sass:color';
 // Colors
 $text-color: #333;
 $headings-text-color: #313131;
@@ -33,7 +34,7 @@ $red-color-brighter: #f77f7f;
 
 // Brown-ish theme
 $brown-color: #d27303;
-$brown-color-brighter: lighten($brown-color, 10%);
+$brown-color-brighter: color.adjust($brown-color, $lightness: 10%);
 
 // // Red
 // $brand-color: $brown-color;

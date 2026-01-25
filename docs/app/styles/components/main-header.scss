@@ -1,3 +1,6 @@
+@use '../variables';
+@use '../utilities';
+
 // main header
 .main-header {
   /* more styles in brandification */
@@ -34,9 +37,6 @@
   text-align: center;
   border: 1px solid #f9efe4;
   box-shadow: 0 3px #f9efe4;
-  &:hover {
-    /* more styles in brandification */
-  }
   &[aria-expanded='true'] {
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     transform: translateY(3px);
@@ -72,7 +72,7 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
-@media only screen and (max-width: $small-breakpoint) {
+@media only screen and (max-width: variables.$small-breakpoint) {
   .main-header {
     line-height: 44px;
   }
@@ -86,7 +86,7 @@
     overflow-x: auto;
   }
 }
-@media only screen and (min-width: $small-breakpoint) {
+@media only screen and (min-width: variables.$small-breakpoint) {
   .main-header {
     line-height: 66px;
   }

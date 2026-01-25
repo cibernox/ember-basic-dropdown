@@ -1,34 +1,34 @@
 // Basic dropdown
 @use 'ember-basic-dropdown';
 
-@import 'variables';
-@import 'base';
-@import 'utilities';
-@import 'layout';
+@use 'variables';
+@use 'base';
+@use 'utilities';
+@use 'layout';
 
 // Components
-@import 'components/main-header';
-@import 'components/link-to-other-version';
-@import 'components/main-footer';
-@import 'components/index';
-@import 'components/side-nav';
-@import 'components/docs';
-@import 'components/cookbook';
-@import 'components/spinners';
-@import 'components/code-block';
+@use 'components/main-header';
+@use 'components/link-to-other-version';
+@use 'components/main-footer';
+@use 'components/index';
+@use 'components/side-nav';
+@use 'components/docs';
+@use 'components/cookbook';
+@use 'components/spinners';
+@use 'components/code-block';
 
 // Looks and feels for examples
-@import 'look-and-feels/animations';
-@import 'look-and-feels/bootstrap';
-@import 'look-and-feels/material';
+@use 'look-and-feels/animations';
+@use 'look-and-feels/bootstrap';
+@use 'look-and-feels/material';
 
 // Demos
-@import 'demos/content-mouse-enter-leave';
-@import 'demos/position';
-@import 'demos/scrollable-container';
+@use 'demos/content-mouse-enter-leave';
+@use 'demos/position';
+@use 'demos/scrollable-container';
 
 // Docs
-@import 'docs/code-example';
+@use 'docs/code-example';
 
 // Easter egg
-@import 'brandification';
+@use 'brandification';

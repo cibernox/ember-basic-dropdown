@@ -1,7 +1,10 @@
+@use '../variables';
+@use '../utilities';
+
 // Main footer
 .main-footer {
-  color: $gray;
-  background-color: $light-gray;
+  color: variables.$gray;
+  background-color: variables.$light-gray;
   border-top: 1px solid #bbb;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -10,7 +13,7 @@
   @extend %wrapper;
   padding: 1rem 0;
 }
-@media only screen and (min-width: $medium-breakpoint) {
+@media only screen and (min-width: variables.$medium-breakpoint) {
   .icons-attributions {
     float: right;
   }
@@ -23,7 +26,7 @@ body .contribute-call-to-action a {
   color: white;
   /* more styles in brandification */
 }
-@media only screen and (min-width: $small-breakpoint) {
+@media only screen and (min-width: variables.$small-breakpoint) {
   .contribute-call-to-action {
     float: right;
   }

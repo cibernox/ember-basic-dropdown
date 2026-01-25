@@ -1,3 +1,6 @@
+@use '../variables';
+@use '../utilities';
+
 // Headline
 .main-page-headline {
   /* more styles in brandification */
@@ -6,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @media only screen and (max-width: $medium-breakpoint) {
+  @media only screen and (max-width: variables.$medium-breakpoint) {
     height: 200px;
   }
 }
@@ -19,13 +22,13 @@
   img {
     vertical-align: top;
   }
-  @media only screen and (max-width: $small-breakpoint) {
+  @media only screen and (max-width: variables.$small-breakpoint) {
     font-size: 34px;
     img {
       height: 40px;
     }
   }
-  @media only screen and (min-width: $small-breakpoint) {
+  @media only screen and (min-width: variables.$small-breakpoint) {
     font-size: 42px;
     img {
       height: 48px;
@@ -36,7 +39,7 @@
 .selling-points {
   @extend %wrapper;
   display: flex;
-  @media only screen and (max-width: $small-breakpoint) {
+  @media only screen and (max-width: variables.$small-breakpoint) {
     flex-direction: column;
   }
 }
@@ -66,7 +69,7 @@
   }
 }
 .selling-point-text {
-  color: $gray;
+  color: variables.$gray;
   display: flex;
   flex-direction: column;
   justify-content: center;

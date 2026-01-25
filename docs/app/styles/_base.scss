@@ -1,3 +1,5 @@
+@use 'variables';
+
 * {
   box-sizing: border-box;
 }
@@ -16,7 +18,7 @@ html {
 }
 
 body {
-  color: $text-color;
+  color: variables.$text-color;
   // position: relative; Styles to demo non 0,0 positioned container
   // margin-top: 60px;
 }
@@ -41,7 +43,7 @@ h6 {
   margin-bottom: 0.5rem;
   font-weight: bold;
   line-height: 1.25;
-  color: $headings-text-color;
+  color: variables.$headings-text-color;
   text-rendering: optimizeLegibility;
 }
 h1 {
@@ -109,7 +111,7 @@ pre {
   font-family: Menlo, Monaco, 'Courier New', monospace;
 }
 code {
-  color: $code-text-color;
+  color: variables.$code-text-color;
   padding: 0.2em 0;
   margin: 0;
   font-size: 75%;
@@ -123,7 +125,7 @@ code {
   }
 }
 pre {
-  max-width: calc(100vw - #{2 * $wrapper-padding});
+  max-width: calc(100vw - #{2 * variables.$wrapper-padding});
   display: block;
   margin-top: 0;
   margin-bottom: 1rem;

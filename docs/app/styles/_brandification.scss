@@ -1,9 +1,13 @@
+@use 'sass:color';
+@use 'docs/code-example';
+@use 'variables';
+
 /* more styles in brandification */
 @mixin brandify($brand-color, $brand-color-brighter) {
   a {
     color: $brand-color;
   }
-  @include ember-code-example($brand-color);
+  @include code-example.ember-code-example($brand-color);
 
   .doc-page-nav-link-next,
   .doc-page-nav-link-prev {
@@ -21,10 +25,10 @@
 
   .contribute-call-to-action a {
     background-color: $brand-color;
-    border: 1px solid darken($brand-color, 12%);
-    box-shadow: 0 2px darken($brand-color, 18%);
+    border: 1px solid color.adjust($brand-color, $lightness: -12%);
+    box-shadow: 0 2px color.adjust($brand-color, $lightness: -18%);
     &:hover {
-      background-color: darken($brand-color, 5%);
+      background-color: color.adjust($brand-color, $lightness: -5%);
     }
   }
   .main-header {
@@ -34,13 +38,13 @@
   .logo-dropdown-button {
     background: $brand-color;
     &:hover {
-      background-color: lighten($brand-color, 3%);
+      background-color: color.adjust($brand-color, $lightness: 3%);
     }
   }
   .main-header-nav-link {
     color: inherit;
   }
-  @media only screen and (min-width: $small-breakpoint) {
+  @media only screen and (min-width: variables.$small-breakpoint) {
     .main-header-nav-link.active {
       color: $brand-color;
     }
@@ -57,46 +61,46 @@
 }
 
 .logo-dropdown-content-pantone-entry.brown {
-  background-color: $brown-color;
+  background-color: variables.$brown-color;
 }
 .logo-dropdown-content-pantone-entry.orange {
-  background-color: $orange-color;
+  background-color: variables.$orange-color;
 }
 .logo-dropdown-content-pantone-entry.blue {
-  background-color: $blue-color;
+  background-color: variables.$blue-color;
 }
 .logo-dropdown-content-pantone-entry.purple {
-  background-color: $purple-color;
+  background-color: variables.$purple-color;
 }
 .logo-dropdown-content-pantone-entry.line {
-  background-color: $line-color;
+  background-color: variables.$line-color;
 }
 .logo-dropdown-content-pantone-entry.pink {
-  background-color: $pink-color;
+  background-color: variables.$pink-color;
 }
 .logo-dropdown-content-pantone-entry.red {
-  background-color: $red-color;
+  background-color: variables.$red-color;
 }
 
-@include brandify($brown-color, $brown-color-brighter);
+@include brandify(variables.$brown-color, variables.$brown-color-brighter);
 
 .orange-brand {
-  @include brandify($orange-color, $orange-color-brighter);
+  @include brandify(variables.$orange-color, variables.$orange-color-brighter);
 }
 .blue-brand {
-  @include brandify($blue-color, $blue-color-brighter);
+  @include brandify(variables.$blue-color, variables.$blue-color-brighter);
 }
 .purple-brand {
-  @include brandify($purple-color, $purple-color-brighter);
+  @include brandify(variables.$purple-color, variables.$purple-color-brighter);
 }
 .line-brand {
-  @include brandify($line-color, $line-color-brighter);
+  @include brandify(variables.$line-color, variables.$line-color-brighter);
 }
 .pink-brand {
-  @include brandify($pink-color, $pink-color-brighter);
+  @include brandify(variables.$pink-color, variables.$pink-color-brighter);
 }
 .red-brand {
-  @include brandify($red-color, $red-color-brighter);
+  @include brandify(variables.$red-color, variables.$red-color-brighter);
 }
 .brown-brand {
   // @include brandify($brown-color, $brown-color-brighter);
