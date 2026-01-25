@@ -1,6 +1,6 @@
-@use "sass:color";
-@use "docs/code-example";
-@use "variables";
+@use 'sass:color';
+@use 'docs/code-example';
+@use 'variables';
 
 /* more styles in brandification */
 @mixin brandify($brand-color, $brand-color-brighter) {
