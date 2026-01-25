@@ -57,6 +57,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "lint:publish": "pnpm build && publint run --level error",
     "lint:types": "ember-tsc --noEmit",
     "prepack": "rollup --config",
     "start": "vite dev",
@@ -93,7 +94,7 @@
     "@release-it-plugins/lerna-changelog": "^8.0.1",
     "@rollup/plugin-babel": "^6.1.0",
     "@types/qunit": "^2.19.13",
-    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "babel-plugin-ember-template-compilation": "^4.0.0",
     "concurrently": "^9.2.1",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
@@ -106,10 +107,11 @@
     "eslint-plugin-ember": "^12.7.5",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.23.1",
-    "postcss": "^8.5.6",
     "globals": "^16.5.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-ember-template-tag": "^2.1.2",
+    "publint": "^0.3.16",
     "qunit": "^2.24.3",
     "qunit-dom": "^3.5.0",
     "release-it": "^19.1.0",
@@ -122,8 +124,8 @@
     "vite": "^7.3.0"
   },
   "peerDependencies": {
-    "@embroider/macros": "^1.19.5",
     "@ember/test-helpers": "^5.0.0",
+    "@embroider/macros": "^1.19.5",
     "@glimmer/component": "^2.0.0"
   },
   "publishConfig": {
