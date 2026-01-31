@@ -8,8 +8,7 @@ export default function hasMoved(
 
   if (
     !endEvent.changedTouches?.[0] ||
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    (moveEvent.changedTouches[0] as any).touchType !== 'stylus'
+    (moveEvent.changedTouches[0] as unknown as { touchType: string }).touchType !== 'stylus'
   ) {
     return true;
   }

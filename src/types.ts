@@ -2,8 +2,7 @@ export interface DropdownActions {
   toggle: (e?: Event) => void;
   close: (e?: Event, skipFocus?: boolean) => void;
   open: (e?: Event) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  reposition: (...args: any[]) => undefined | RepositionChanges;
+  reposition: () => undefined | RepositionChanges;
   registerTriggerElement: (e: HTMLElement) => void;
   registerDropdownElement: (e: HTMLElement) => void;
   getTriggerElement: () => HTMLElement | null;
