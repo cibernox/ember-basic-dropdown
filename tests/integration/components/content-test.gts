@@ -57,6 +57,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -101,6 +102,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -143,6 +145,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -181,6 +184,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -225,6 +229,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -267,6 +272,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -306,6 +312,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -348,6 +355,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -391,6 +399,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -435,6 +444,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -479,6 +489,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -520,6 +531,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -540,6 +552,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -592,6 +605,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -640,6 +654,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -698,6 +713,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -776,6 +792,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -828,6 +845,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
 
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -864,6 +882,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           assert.ok(false, 'Reposition is invoked exactly once');
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -899,6 +918,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -997,6 +1017,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1041,6 +1062,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1085,6 +1107,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1129,6 +1152,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1175,6 +1199,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1221,6 +1246,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           done();
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1279,6 +1305,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           repositions++;
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1323,6 +1350,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
         reposition: () => {
           return undefined;
         },
+        updatePublicApi: () => {},
         registerTriggerElement: () => {},
         registerDropdownElement: () => {},
         getTriggerElement: () => {
@@ -1370,6 +1398,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
           reposition: () => {
             return undefined;
           },
+          updatePublicApi: () => {},
           registerTriggerElement: () => {},
           registerDropdownElement: () => {},
           getTriggerElement: () => {
