@@ -32,6 +32,8 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
   desiredEventType!: string;
   stopPropagation: boolean | undefined;
 
+  private _previousDisabled: boolean | undefined = undefined;
+
   constructor(owner: Owner, args: ArgsFor<Signature>) {
     super(owner, args);
     registerDestructor(this, cleanup);
@@ -51,6 +53,17 @@ export default class DropdownTriggerModifier extends Modifier<Signature> {
       this.setup(element);
       this.didSetup = true;
     }
+
+    if (this._previousDisabled === undefined) {
+      this._previousDisabled = this.dropdown.disabled;
+    }
+
+    if (this.dropdown.disabled !== this._previousDisabled) {
+      this._previousDisabled = this.dropdown.disabled;
+
+      this.dropdown.actions.updatePublicApi();
+    }
+
     this.update(element, positional, named);
   }
 

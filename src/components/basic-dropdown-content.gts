@@ -175,7 +175,7 @@ export default class BasicDropdownContent<
       if (!triggerElement) {
         triggerElement = document.querySelector(selector) as HTMLElement;
       }
-      this.handleRootMouseDown = (e: MouseEvent | TouchEvent) => {
+      this.handleRootMouseDown = (e: MouseEvent | TouchEvent): void => {
         const target = (e.composedPath?.()[0] || e.target) as Element;
         if (target === null) return;
         if (

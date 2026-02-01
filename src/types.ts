@@ -3,6 +3,7 @@ export interface DropdownActions {
   close: (e?: Event, skipFocus?: boolean) => void;
   open: (e?: Event) => void;
   reposition: () => undefined | RepositionChanges;
+  updatePublicApi: () => void;
   registerTriggerElement: (e: HTMLElement) => void;
   registerDropdownElement: (e: HTMLElement) => void;
   getTriggerElement: () => HTMLElement | null;

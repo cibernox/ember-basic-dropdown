@@ -63,6 +63,7 @@ const dropdownBase: Dropdown = {
     reposition: () => {
       return undefined;
     },
+    updatePublicApi: () => {},
     registerTriggerElement: () => {},
     registerDropdownElement: () => {},
     getTriggerElement: () => {
