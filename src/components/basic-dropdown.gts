@@ -151,7 +151,7 @@ export default class BasicDropdown<
   }
 
   get isOpen(): boolean {
-    return !this.disabled && this._isOpen
+    return !this.disabled && this._isOpen;
   }
 
   set isOpen(v: boolean) {
