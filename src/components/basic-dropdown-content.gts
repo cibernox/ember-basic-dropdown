@@ -298,9 +298,6 @@ export default class BasicDropdownContent<
         }
       };
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
   );
 
   initiallyReposition = modifier(
@@ -310,9 +307,6 @@ export default class BasicDropdownContent<
         this.args.dropdown?.actions.reposition();
       });
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
   );
 
   animateInAndOut = modifier(
@@ -341,9 +335,6 @@ export default class BasicDropdownContent<
         });
       };
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
   );
 
   observeMutations = modifier(
@@ -377,9 +368,6 @@ export default class BasicDropdownContent<
         }
       };
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
   );
 
   @action
