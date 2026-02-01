@@ -157,230 +157,208 @@ export default class BasicDropdownContent<
     },
   );
 
-  respondToEvents = modifier(
-    (dropdownElement: Element): (() => void) => {
-      if (this.args.dropdown?.actions?.registerDropdownElement) {
-        this.args.dropdown.actions.registerDropdownElement(
-          dropdownElement as HTMLElement,
-        );
-      }
+  respondToEvents = modifier((dropdownElement: Element): (() => void) => {
+    if (this.args.dropdown?.actions?.registerDropdownElement) {
+      this.args.dropdown.actions.registerDropdownElement(
+        dropdownElement as HTMLElement,
+      );
+    }
 
-      const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
-      let triggerElement: HTMLElement | null = null;
+    const selector = `[data-ebd-id=${this.args.dropdown?.uniqueId}-trigger]`;
+    let triggerElement: HTMLElement | null = null;
+    if (typeof this.args.dropdown?.actions?.getTriggerElement === 'function') {
+      triggerElement = this.args.dropdown?.actions?.getTriggerElement();
+    }
+    if (!triggerElement) {
+      triggerElement = document.querySelector(selector) as HTMLElement;
+    }
+    this.handleRootMouseDown = (e: MouseEvent | TouchEvent): void => {
+      const target = (e.composedPath?.()[0] || e.target) as Element;
+      if (target === null) return;
       if (
-        typeof this.args.dropdown?.actions?.getTriggerElement === 'function'
+        hasMoved(e as TouchEvent, this.touchMoveEvent) ||
+        dropdownElement.contains(target) ||
+        (triggerElement && triggerElement.contains(target))
       ) {
-        triggerElement = this.args.dropdown?.actions?.getTriggerElement();
+        this.touchMoveEvent = undefined;
+        return;
       }
-      if (!triggerElement) {
-        triggerElement = document.querySelector(selector) as HTMLElement;
+
+      if (dropdownIsValidParent(triggerElement, target, this.dropdownId)) {
+        this.touchMoveEvent = undefined;
+        return;
       }
-      this.handleRootMouseDown = (e: MouseEvent | TouchEvent): void => {
-        const target = (e.composedPath?.()[0] || e.target) as Element;
-        if (target === null) return;
-        if (
-          hasMoved(e as TouchEvent, this.touchMoveEvent) ||
-          dropdownElement.contains(target) ||
-          (triggerElement && triggerElement.contains(target))
-        ) {
-          this.touchMoveEvent = undefined;
-          return;
-        }
 
-        if (dropdownIsValidParent(triggerElement, target, this.dropdownId)) {
-          this.touchMoveEvent = undefined;
-          return;
-        }
+      if (this.args.dropdown?.actions?.close) {
+        this.args.dropdown.actions.close(e, true);
+      }
+    };
+    document.addEventListener(
+      this.args.rootEventType || 'click',
+      this.handleRootMouseDown,
+      true,
+    );
 
-        if (this.args.dropdown?.actions?.close) {
-          this.args.dropdown.actions.close(e, true);
-        }
-      };
-      document.addEventListener(
+    // We need to register closing event on shadow dom element, otherwise all clicks inside a shadow dom are not closing the dropdown
+    // In additional store the rootElement for outside clicks (ensure that we do removeEventListener on correct element)
+    if (
+      this._contentWormhole &&
+      this._contentWormhole.getRootNode() instanceof ShadowRoot
+    ) {
+      this.rootElement = this._contentWormhole.getRootNode() as HTMLElement;
+    } else {
+      this.rootElement = undefined;
+    }
+
+    if (this.rootElement) {
+      this.rootElement.addEventListener(
         this.args.rootEventType || 'click',
         this.handleRootMouseDown,
         true,
       );
+    }
 
-      // We need to register closing event on shadow dom element, otherwise all clicks inside a shadow dom are not closing the dropdown
-      // In additional store the rootElement for outside clicks (ensure that we do removeEventListener on correct element)
-      if (
-        this._contentWormhole &&
-        this._contentWormhole.getRootNode() instanceof ShadowRoot
-      ) {
-        this.rootElement = this._contentWormhole.getRootNode() as HTMLElement;
-      } else {
-        this.rootElement = undefined;
-      }
+    window.addEventListener('resize', this.repositionBound);
+    window.addEventListener('orientationchange', this.repositionBound);
+
+    if (this.isTouchDevice) {
+      document.addEventListener(
+        'touchstart',
+        this.touchStartHandlerBound,
+        true,
+      );
+      document.addEventListener('touchend', this.handleRootMouseDown, true);
 
       if (this.rootElement) {
         this.rootElement.addEventListener(
-          this.args.rootEventType || 'click',
-          this.handleRootMouseDown,
-          true,
-        );
-      }
-
-      window.addEventListener('resize', this.repositionBound);
-      window.addEventListener('orientationchange', this.repositionBound);
-
-      if (this.isTouchDevice) {
-        document.addEventListener(
           'touchstart',
           this.touchStartHandlerBound,
           true,
         );
-        document.addEventListener('touchend', this.handleRootMouseDown, true);
-
-        if (this.rootElement) {
-          this.rootElement.addEventListener(
-            'touchstart',
-            this.touchStartHandlerBound,
-            true,
-          );
-          this.rootElement.addEventListener(
-            'touchend',
-            this.handleRootMouseDown,
-            true,
-          );
-        }
+        this.rootElement.addEventListener(
+          'touchend',
+          this.handleRootMouseDown,
+          true,
+        );
       }
-      if (
-        triggerElement !== null &&
-        !(triggerElement.getRootNode() instanceof ShadowRoot)
-      ) {
-        this.scrollableAncestors = getScrollableAncestors(triggerElement);
-      }
-      this.addScrollHandling(dropdownElement);
-      return () => {
-        this.removeGlobalEvents();
-        this.removeScrollHandling();
-        this.scrollableAncestors = [];
+    }
+    if (
+      triggerElement !== null &&
+      !(triggerElement.getRootNode() instanceof ShadowRoot)
+    ) {
+      this.scrollableAncestors = getScrollableAncestors(triggerElement);
+    }
+    this.addScrollHandling(dropdownElement);
+    return () => {
+      this.removeGlobalEvents();
+      this.removeScrollHandling();
+      this.scrollableAncestors = [];
 
-        document.removeEventListener(
+      document.removeEventListener(
+        this.args.rootEventType || 'click',
+        this.handleRootMouseDown as RootMouseDownHandler,
+        true,
+      );
+
+      if (this.rootElement) {
+        this.rootElement.removeEventListener(
           this.args.rootEventType || 'click',
+          this.handleRootMouseDown as RootMouseDownHandler,
+          true,
+        );
+      }
+
+      if (this.isTouchDevice) {
+        document.removeEventListener(
+          'touchstart',
+          this.touchStartHandlerBound,
+          true,
+        );
+        document.removeEventListener(
+          'touchend',
           this.handleRootMouseDown as RootMouseDownHandler,
           true,
         );
 
         if (this.rootElement) {
           this.rootElement.removeEventListener(
-            this.args.rootEventType || 'click',
-            this.handleRootMouseDown as RootMouseDownHandler,
-            true,
-          );
-        }
-
-        if (this.isTouchDevice) {
-          document.removeEventListener(
             'touchstart',
             this.touchStartHandlerBound,
             true,
           );
-          document.removeEventListener(
+          this.rootElement.removeEventListener(
             'touchend',
             this.handleRootMouseDown as RootMouseDownHandler,
             true,
           );
-
-          if (this.rootElement) {
-            this.rootElement.removeEventListener(
-              'touchstart',
-              this.touchStartHandlerBound,
-              true,
-            );
-            this.rootElement.removeEventListener(
-              'touchend',
-              this.handleRootMouseDown as RootMouseDownHandler,
-              true,
-            );
-          }
         }
-      };
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
-  );
+      }
+    };
+  });
 
-  initiallyReposition = modifier(
-    () => {
-      // Escape autotracking frame and avoid backtracking re-render
-      void Promise.resolve().then(() => {
-        this.args.dropdown?.actions.reposition();
+  initiallyReposition = modifier(() => {
+    // Escape autotracking frame and avoid backtracking re-render
+    void Promise.resolve().then(() => {
+      this.args.dropdown?.actions.reposition();
+    });
+  });
+
+  animateInAndOut = modifier((dropdownElement: Element): (() => void) => {
+    if (!this.animationEnabled) return () => {};
+    waitForAnimations(dropdownElement, () => {
+      this.animationClass = this.transitionedInClass;
+    });
+    return () => {
+      if (!this.animationEnabled) return;
+      let parentElement =
+        dropdownElement.parentElement ?? this.destinationElement;
+      if (parentElement === null) return;
+      if (this.args.renderInPlace) {
+        parentElement = parentElement.parentElement;
+      }
+      if (parentElement === null) return;
+      const clone = dropdownElement.cloneNode(true) as Element;
+      clone.id = `${clone.id}--clone`;
+      clone.classList.remove(...this.transitioningInClass.split(' '));
+      clone.classList.add(...this.transitioningOutClass.split(' '));
+      parentElement.appendChild(clone);
+      this.animationClass = this.transitioningInClass;
+      waitForAnimations(clone, function () {
+        (parentElement as HTMLElement).removeChild(clone);
       });
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
-  );
+    };
+  });
 
-  animateInAndOut = modifier(
-    (dropdownElement: Element): (() => void) => {
-      if (!this.animationEnabled) return () => {};
-      waitForAnimations(dropdownElement, () => {
-        this.animationClass = this.transitionedInClass;
-      });
-      return () => {
-        if (!this.animationEnabled) return;
-        let parentElement =
-          dropdownElement.parentElement ?? this.destinationElement;
-        if (parentElement === null) return;
-        if (this.args.renderInPlace) {
-          parentElement = parentElement.parentElement;
-        }
-        if (parentElement === null) return;
-        const clone = dropdownElement.cloneNode(true) as Element;
-        clone.id = `${clone.id}--clone`;
-        clone.classList.remove(...this.transitioningInClass.split(' '));
-        clone.classList.add(...this.transitioningOutClass.split(' '));
-        parentElement.appendChild(clone);
-        this.animationClass = this.transitioningInClass;
-        waitForAnimations(clone, function () {
-          (parentElement as HTMLElement).removeChild(clone);
-        });
-      };
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
-  );
+  observeMutations = modifier((dropdownElement: Element): (() => void) => {
+    this.mutationObserver = new MutationObserver((mutations) => {
+      let shouldReposition = mutations.some(
+        (record: MutationRecord) =>
+          containsRelevantMutation(record.addedNodes) ||
+          containsRelevantMutation(record.removedNodes),
+      );
 
-  observeMutations = modifier(
-    (dropdownElement: Element): (() => void) => {
-      this.mutationObserver = new MutationObserver((mutations) => {
-        let shouldReposition = mutations.some(
-          (record: MutationRecord) =>
-            containsRelevantMutation(record.addedNodes) ||
-            containsRelevantMutation(record.removedNodes),
+      if (shouldReposition && this.args.shouldReposition) {
+        shouldReposition = this.args.shouldReposition(
+          mutations,
+          this.args.dropdown,
         );
+      }
 
-        if (shouldReposition && this.args.shouldReposition) {
-          shouldReposition = this.args.shouldReposition(
-            mutations,
-            this.args.dropdown,
-          );
-        }
-
-        if (shouldReposition) {
-          this.reposition();
-        }
-      });
-      this.mutationObserver.observe(dropdownElement, {
-        childList: true,
-        subtree: true,
-      });
-      return () => {
-        if (this.mutationObserver !== undefined) {
-          this.mutationObserver.disconnect();
-          this.mutationObserver = undefined;
-        }
-      };
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { eager: false },
-  );
+      if (shouldReposition) {
+        this.reposition();
+      }
+    });
+    this.mutationObserver.observe(dropdownElement, {
+      childList: true,
+      subtree: true,
+    });
+    return () => {
+      if (this.mutationObserver !== undefined) {
+        this.mutationObserver.disconnect();
+        this.mutationObserver = undefined;
+      }
+    };
+  });
 
   @action
   touchStartHandler(): void {
