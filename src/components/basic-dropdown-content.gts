@@ -175,7 +175,8 @@ export default class BasicDropdownContent<
       if (!triggerElement) {
         triggerElement = document.querySelector(selector) as HTMLElement;
       }
-      this.handleRootMouseDown = (e: MouseEvent | TouchEvent) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.handleRootMouseDown = (e: MouseEvent | TouchEvent): any => {
         const target = (e.composedPath?.()[0] || e.target) as Element;
         if (target === null) return;
         if (

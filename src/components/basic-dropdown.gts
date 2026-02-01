@@ -3,7 +3,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import calculatePosition from '../utils/calculate-position.ts';
-import { schedule } from '@ember/runloop';
 import { hash } from '@ember/helper';
 import BasicDropdownTrigger from './basic-dropdown-trigger.gts';
 import BasicDropdownContent from './basic-dropdown-content.gts';
@@ -27,7 +26,6 @@ import type {
   TRootEventType,
 } from '../types.ts';
 
-const UNINITIALIZED = {};
 const IGNORED_STYLES = ['top', 'left', 'right', 'width', 'height'];
 
 export interface BasicDropdownDefaultBlock<
@@ -122,9 +120,10 @@ export default class BasicDropdown<
   @tracked width: string | undefined;
   @tracked height: string | undefined;
   @tracked otherStyles: Record<string, string | number | undefined> = {};
-  @tracked isOpen = this.args.initiallyOpened || false;
   @tracked renderInPlace =
     this.args.renderInPlace !== undefined ? this.args.renderInPlace : false;
+  @tracked private _isOpen = this.args.initiallyOpened || false;
+
   private previousVerticalPosition?: VerticalPosition | undefined;
   private previousHorizontalPosition?: HorizontalPosition | undefined;
   private triggerElement: HTMLElement | null = null;
@@ -132,23 +131,31 @@ export default class BasicDropdown<
 
   private _uid = guidFor(this);
   private _dropdownId: string = `ember-basic-dropdown-content-${this._uid}`;
-  private _previousDisabled = UNINITIALIZED;
   private _actions: DropdownActions = {
     open: this.open.bind(this),
     close: this.close.bind(this),
     toggle: this.toggle.bind(this),
     reposition: this.reposition.bind(this),
+    updatePublicApi: this.updatePublicApi.bind(this),
     registerTriggerElement: this.registerTriggerElement.bind(this),
     registerDropdownElement: this.registerDropdownElement.bind(this),
     getTriggerElement: () => this.triggerElement,
   };
 
-  private get horizontalPosition() {
+  private get horizontalPosition(): HorizontalPosition {
     return this.args.horizontalPosition || 'auto'; // auto-right | right | center | left
   }
 
-  private get verticalPosition() {
+  private get verticalPosition(): VerticalPosition {
     return this.args.verticalPosition || 'auto'; // above | below
+  }
+
+  get isOpen(): boolean {
+    return !this.disabled && this._isOpen
+  }
+
+  set isOpen(v: boolean) {
+    this._isOpen = v;
   }
 
   get destination(): string {
@@ -179,25 +186,7 @@ export default class BasicDropdown<
   }
 
   get disabled(): boolean {
-    const newVal = this.args.disabled || false;
-    if (
-      this._previousDisabled !== UNINITIALIZED &&
-      this._previousDisabled !== newVal
-    ) {
-      // eslint-disable-next-line ember/no-runloop
-      schedule('actions', () => {
-        if (newVal && this.publicAPI.isOpen) {
-          // eslint-disable-next-line ember/no-side-effects
-          this.isOpen = false;
-        }
-        if (this.args.registerAPI) {
-          this.args.registerAPI(this.publicAPI);
-        }
-      });
-    }
-    // eslint-disable-next-line ember/no-side-effects
-    this._previousDisabled = newVal;
-    return newVal;
+    return this.args.disabled || false;
   }
 
   get publicAPI(): Dropdown {
@@ -335,6 +324,15 @@ export default class BasicDropdown<
       },
     );
     return this.applyReposition(triggerElement, dropdownElement, positionData);
+  }
+
+  @action
+  updatePublicApi() {
+    if (!this.args.registerAPI) {
+      return;
+    }
+
+    this.args.registerAPI(this.publicAPI);
   }
 
   @action
