@@ -79,6 +79,18 @@ import { LinkTo } from '@ember/routing';
     </li>
     <li>
       <p>
+        If you are using the public API without the trigger modifier and change
+        <code>@disabled</code>
+        from
+        <code>false</code>
+        to
+        <code>true</code>, please follow the guidance
+        <a href="https://github.com/cibernox/ember-basic-dropdown/pull/1064">in
+          this PR</a>
+      </p>
+    </li>
+    <li>
+      <p>
         If you are using
         <code>@htmlTag</code>
         on the yielded content component (for example,
