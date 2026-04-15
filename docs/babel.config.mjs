@@ -44,7 +44,9 @@ export default {
         regenerator: false,
       },
     ],
-    fileURLToPath(import.meta.resolve('ember-concurrency/async-arrow-task-transform')),
+    fileURLToPath(
+      import.meta.resolve('ember-concurrency/async-arrow-task-transform'),
+    ),
     ...babelCompatSupport(),
   ],
 

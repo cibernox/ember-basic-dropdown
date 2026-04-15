@@ -1,4 +1,4 @@
-@use 'sass:color';
+@use "sass:color";
 .trigger-bootstrap-feel {
   display: inline-block;
   text-align: center;
@@ -19,7 +19,7 @@
   border-color: #8c8c8c;
 }
 
-.trigger-bootstrap-feel[aria-disabled='true'] {
+.trigger-bootstrap-feel[aria-disabled="true"] {
   background-color: #ccc;
   color: #666;
   border-color: #8c8c8c;
@@ -138,7 +138,7 @@
   right: 100%;
   top: 50%;
   border: solid transparent;
-  content: ' ';
+  content: " ";
   height: 0;
   width: 0;
   position: absolute;
