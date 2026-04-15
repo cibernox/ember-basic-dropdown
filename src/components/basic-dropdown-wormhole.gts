@@ -5,7 +5,7 @@ export interface BasicDropdownWormholeSignature {
   Element: HTMLElement;
 }
 
-export default class BasicDropdownWormholeComponent extends Component<BasicDropdownWormholeSignature> {
+export default class BasicDropdownWormhole extends Component<BasicDropdownWormholeSignature> {
   get getDestinationId(): string {
     const config = getConfig();
 
