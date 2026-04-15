@@ -112,7 +112,7 @@
     "prettier-plugin-ember-template-tag": "^2.1.4",
     "publint": "^0.3.18",
     "qunit": "^2.25.0",
-    "qunit-dom": "^3.5.0",
+    "qunit-dom": "^3.5.1",
     "release-it": "^20.0.0",
     "rollup": "^4.60.1",
     "rollup-plugin-sass": "^1.15.3",
