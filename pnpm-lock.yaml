@@ -318,7 +318,7 @@ importers:
         version: 8.2.6(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-warp-drive:
         specifier: ^5.8.1
-        version: 5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)
+        version: 5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)
       globals:
         specifier: ^17.5.0
         version: 17.5.0
@@ -2075,16 +2075,16 @@ packages:
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
 
-  '@warp-drive/build-config@5.8.1':
-    resolution: {integrity: sha512-uT0zdNf7vdHEYYdYJ/1+coE0MwRiV6dg/dTwAaYtlsTFd57NrxE+s+1qd5aAjuwdB/GVlBP/D/IlUwWggbxXbg==}
+  '@warp-drive/build-config@5.8.2':
+    resolution: {integrity: sha512-QU/6tSexAi/t149upEK3P04yGXdEwieTfQ5ihBON3A/3xGipveGIVJx6B8EYCot0AC2n91GmTc8ezzQmAK64/g==}
 
-  '@warp-drive/core@5.8.1':
-    resolution: {integrity: sha512-7Id5mvUjqRqlG2Tgz8Y/k1M5gmcUExfSWW3XBDbMDotF63YcmgukDLO145cFJtqiO3q8nZXC8PoftYCmoTwhuA==}
+  '@warp-drive/core@5.8.2':
+    resolution: {integrity: sha512-6dtfOaHK+9ErQMy6OlewRJw2nkAPb2CPMoTFncsZBbEAQlyn1zwjTSpk1Czr5TOc0YQ84vrTK6IOwTzdHG4r+A==}
 
-  '@warp-drive/utilities@5.8.1':
-    resolution: {integrity: sha512-55cJjxIj0lQwLmhflQH3GqQs3oGGytlYjrpT/7mcvA7/zEnvfjlJH5z9r6WnMQXh4BN6scvKaFBw/lqeDGlIig==}
+  '@warp-drive/utilities@5.8.2':
+    resolution: {integrity: sha512-AK0cf0ClOwxyr/EjqCrK4iLNRP+GVf73SSBycXhK05/FkiQBD8lowjV/w1Yp5ZTykFNQ5HWk3Eg613rS3Og8Hw==}
     peerDependencies:
-      '@warp-drive/core': 5.8.1
+      '@warp-drive/core': 5.8.2
 
   '@xmldom/xmldom@0.9.9':
     resolution: {integrity: sha512-qycIHAucxy/LXAYIjmLmtQ8q9GPnMbnjG1KXhWm9o5sCr6pOYDATkMPiTNa6/v8eELyqOQ2FsEqeoFYmgv/gJg==}
@@ -3517,8 +3517,8 @@ packages:
     peerDependencies:
       eslint: '>=8.38.0'
 
-  eslint-plugin-warp-drive@5.8.1:
-    resolution: {integrity: sha512-RJsU6wiApu5Uqqf4CS0A/bNk3q++D+91rp7a2DHbWqaUi/bIRMFpPvfFd9g/xTASpBNs4FJDO70T1X5DQSwoBw==}
+  eslint-plugin-warp-drive@5.8.2:
+    resolution: {integrity: sha512-fHoqi+vapz20C182cdCm9AK2lCIBpHLi7mcjnFKd3YdyuQpEKohMmjzTki6corziz50DbXKn0pXugOw5YFFw2g==}
 
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
@@ -8961,7 +8961,7 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
-  '@warp-drive/build-config@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)':
+  '@warp-drive/build-config@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)':
     dependencies:
       '@embroider/addon-shim': 1.10.2
       '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
@@ -8973,19 +8973,19 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@warp-drive/core@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)':
+  '@warp-drive/core@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)':
     dependencies:
       '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
-      '@warp-drive/build-config': 5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)
+      '@warp-drive/build-config': 5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)
     transitivePeerDependencies:
       - '@babel/core'
       - '@glint/template'
       - supports-color
 
-  '@warp-drive/utilities@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)(@warp-drive/core@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7))':
+  '@warp-drive/utilities@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)(@warp-drive/core@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7))':
     dependencies:
       '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
-      '@warp-drive/core': 5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)
+      '@warp-drive/core': 5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)
     transitivePeerDependencies:
       - '@babel/core'
       - '@glint/template'
@@ -10807,10 +10807,10 @@ snapshots:
       eslint: 9.39.4(jiti@2.6.1)
       requireindex: 1.2.0
 
-  eslint-plugin-warp-drive@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7):
+  eslint-plugin-warp-drive@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7):
     dependencies:
-      '@warp-drive/core': 5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)
-      '@warp-drive/utilities': 5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7)(@warp-drive/core@5.8.1(@babel/core@7.29.0)(@glint/template@1.7.7))
+      '@warp-drive/core': 5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)
+      '@warp-drive/utilities': 5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7)(@warp-drive/core@5.8.2(@babel/core@7.29.0)(@glint/template@1.7.7))
       requireindex: 1.2.0
     transitivePeerDependencies:
       - '@babel/core'
