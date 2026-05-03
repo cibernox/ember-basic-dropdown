@@ -1,0 +1,30 @@
+export interface DropdownActions {
+    toggle: (e?: Event) => void;
+    close: (e?: Event, skipFocus?: boolean) => void;
+    open: (e?: Event) => void;
+    reposition: () => undefined | RepositionChanges;
+    updatePublicApi: () => void;
+    registerTriggerElement: (e: HTMLElement) => void;
+    registerDropdownElement: (e: HTMLElement) => void;
+    getTriggerElement: () => HTMLElement | null;
+}
+export interface Dropdown {
+    uniqueId: string;
+    disabled: boolean;
+    isOpen: boolean;
+    actions: DropdownActions;
+}
+export type TRootEventType = 'click' | 'mousedown';
+export type RepositionChanges = {
+    hPosition: HorizontalPosition;
+    vPosition: VerticalPosition;
+    otherStyles: Record<string, string | number | undefined>;
+    top?: string | undefined;
+    left?: string | undefined;
+    right?: string | undefined;
+    width?: string | undefined;
+    height?: string | undefined;
+};
+export type VerticalPosition = 'auto' | 'above' | 'below';
+export type HorizontalPosition = 'auto' | 'auto-right' | 'auto-left' | 'left' | 'right' | 'center';
+//# sourceMappingURL=types.d.ts.map
