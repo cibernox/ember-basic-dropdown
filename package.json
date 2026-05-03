@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cibernox/ember-basic-dropdown.git"
+    "url": "git+https://github.com/ember-power-addons/ember-basic-dropdown.git"
   },
   "license": "MIT",
   "author": "Miguel Camba",

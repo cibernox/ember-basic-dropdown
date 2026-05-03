@@ -17,7 +17,7 @@
 ## v8.11.0 (2025-12-14)
 
 #### :rocket: Enhancement
-* [#1038](https://github.com/cibernox/ember-basic-dropdown/pull/1038) Add `@contentHtmlTag` ([@mkszepp](https://github.com/mkszepp))
+* [#1038](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1038) Add `@contentHtmlTag` ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -25,7 +25,7 @@
 ## v8.10.0 (2025-12-13)
 
 #### :rocket: Enhancement
-* [#1033](https://github.com/cibernox/ember-basic-dropdown/pull/1033) Add `@triggerHtmlTag` and add workaround to resolve a typing issue when `@htmlTag="button"` is passed ([@mkszepp](https://github.com/mkszepp))
+* [#1033](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1033) Add `@triggerHtmlTag` and add workaround to resolve a typing issue when `@htmlTag="button"` is passed ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -33,15 +33,15 @@
 ## v8.9.0 (2025-12-07)
 
 #### :rocket: Enhancement
-* [#1020](https://github.com/cibernox/ember-basic-dropdown/pull/1020) Add `setConfig` and deprecate passing config via `environment.js` ([@mkszepp](https://github.com/mkszepp))
+* [#1020](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1020) Add `setConfig` and deprecate passing config via `environment.js` ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#1021](https://github.com/cibernox/ember-basic-dropdown/pull/1021) Update installation docs and minor fixes in readme ([@mkszepp](https://github.com/mkszepp))
-* [#1019](https://github.com/cibernox/ember-basic-dropdown/pull/1019) Move docs to vite ([@mkszepp](https://github.com/mkszepp))
-* [#1018](https://github.com/cibernox/ember-basic-dropdown/pull/1018) Docs: Remove fastboot, ember-try & prember ([@mkszepp](https://github.com/mkszepp))
+* [#1021](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1021) Update installation docs and minor fixes in readme ([@mkszepp](https://github.com/mkszepp))
+* [#1019](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1019) Move docs to vite ([@mkszepp](https://github.com/mkszepp))
+* [#1018](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1018) Docs: Remove fastboot, ember-try & prember ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#1022](https://github.com/cibernox/ember-basic-dropdown/pull/1022) Update to @embroider/addon-dev v8 ([@mkszepp](https://github.com/mkszepp))
+* [#1022](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1022) Update to @embroider/addon-dev v8 ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -49,18 +49,18 @@
 ## v8.8.0 (2025-10-12)
 
 #### :rocket: Enhancement
-* [#1015](https://github.com/cibernox/ember-basic-dropdown/pull/1015) Support gts/gjs in blueprint ([@mkszepp](https://github.com/mkszepp))
-* [#1012](https://github.com/cibernox/ember-basic-dropdown/pull/1012) Add deprecation for `@dropdownId` (undocumented & not handled correctly) ([@mkszepp](https://github.com/mkszepp))
-* [#1005](https://github.com/cibernox/ember-basic-dropdown/pull/1005) Convert addon to gts ([@mkszepp](https://github.com/mkszepp))
+* [#1015](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1015) Support gts/gjs in blueprint ([@mkszepp](https://github.com/mkszepp))
+* [#1012](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1012) Add deprecation for `@dropdownId` (undocumented & not handled correctly) ([@mkszepp](https://github.com/mkszepp))
+* [#1005](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1005) Convert addon to gts ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#1009](https://github.com/cibernox/ember-basic-dropdown/pull/1009) Convert docs to GTS ([@mkszepp](https://github.com/mkszepp))
-* [#1008](https://github.com/cibernox/ember-basic-dropdown/pull/1008) Remove broken v1 docs link ([@mkszepp](https://github.com/mkszepp))
-* [#1007](https://github.com/cibernox/ember-basic-dropdown/pull/1007) Update ember-concurrency tasks in docs ([@mkszepp](https://github.com/mkszepp))
+* [#1009](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1009) Convert docs to GTS ([@mkszepp](https://github.com/mkszepp))
+* [#1008](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1008) Remove broken v1 docs link ([@mkszepp](https://github.com/mkszepp))
+* [#1007](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1007) Update ember-concurrency tasks in docs ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#1011](https://github.com/cibernox/ember-basic-dropdown/pull/1011) Activate test-app lint in CI ([@mkszepp](https://github.com/mkszepp))
-* [#1010](https://github.com/cibernox/ember-basic-dropdown/pull/1010) Convert test-app to TS ([@mkszepp](https://github.com/mkszepp))
+* [#1011](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1011) Activate test-app lint in CI ([@mkszepp](https://github.com/mkszepp))
+* [#1010](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1010) Convert test-app to TS ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -68,8 +68,8 @@
 ## v8.7.0 (2025-09-16)
 
 #### :rocket: Enhancement
-* [#1003](https://github.com/cibernox/ember-basic-dropdown/pull/1003) Allow `ember-truth-helpers` v5 as dependency ([@mkszepp](https://github.com/mkszepp))
-* [#1002](https://github.com/cibernox/ember-basic-dropdown/pull/1002) Remove use of `ember-lifeline` ([@bertdeblock](https://github.com/bertdeblock))
+* [#1003](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1003) Allow `ember-truth-helpers` v5 as dependency ([@mkszepp](https://github.com/mkszepp))
+* [#1002](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1002) Remove use of `ember-lifeline` ([@bertdeblock](https://github.com/bertdeblock))
 
 #### Committers: 2
 - Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
@@ -78,7 +78,7 @@
 ## v8.6.2 (2025-06-04)
 
 #### :bug: Bug Fix
-* [#973](https://github.com/cibernox/ember-basic-dropdown/pull/973) Fix removing event listener for shadow root element ([@mkszepp](https://github.com/mkszepp))
+* [#973](https://github.com/ember-power-addons/ember-basic-dropdown/pull/973) Fix removing event listener for shadow root element ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -86,7 +86,7 @@
 ## v8.6.1 (2025-05-13)
 
 #### :bug: Bug Fix
-* [#948](https://github.com/cibernox/ember-basic-dropdown/pull/948) Remove ember-source and glimmer tracking as a peer dependency ([@runspired](https://github.com/runspired))
+* [#948](https://github.com/ember-power-addons/ember-basic-dropdown/pull/948) Remove ember-source and glimmer tracking as a peer dependency ([@runspired](https://github.com/runspired))
 
 #### Committers: 2
 - Chris Thoburn ([@runspired](https://github.com/runspired))
@@ -95,12 +95,12 @@
 ## v8.6.0 (2025-02-22)
 
 #### :rocket: Enhancement
-* [#947](https://github.com/cibernox/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
-* [#946](https://github.com/cibernox/ember-basic-dropdown/pull/946) Test: Prefer `config.destination` and default `ember-basic-dropdown-wormhole` ([@dagroe](https://github.com/dagroe))
-* [#945](https://github.com/cibernox/ember-basic-dropdown/pull/945) Export interfaces `BasicDropdownSignature`, `BasicDropdownArgs` and `BasicDropdownDefaultBlock` ([@dagroe](https://github.com/dagroe))
+* [#947](https://github.com/ember-power-addons/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
+* [#946](https://github.com/ember-power-addons/ember-basic-dropdown/pull/946) Test: Prefer `config.destination` and default `ember-basic-dropdown-wormhole` ([@dagroe](https://github.com/dagroe))
+* [#945](https://github.com/ember-power-addons/ember-basic-dropdown/pull/945) Export interfaces `BasicDropdownSignature`, `BasicDropdownArgs` and `BasicDropdownDefaultBlock` ([@dagroe](https://github.com/dagroe))
 
 #### :house: Internal
-* [#947](https://github.com/cibernox/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
+* [#947](https://github.com/ember-power-addons/ember-basic-dropdown/pull/947) Improve typing and reactivate eslint rules in addon ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 2
 - Daniel Gröger ([@dagroe](https://github.com/dagroe))
@@ -109,10 +109,10 @@
 ## v8.5.0 (2025-01-27)
 
 #### :rocket: Enhancement
-* [#944](https://github.com/cibernox/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
+* [#944](https://github.com/ember-power-addons/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#944](https://github.com/cibernox/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
+* [#944](https://github.com/ember-power-addons/ember-basic-dropdown/pull/944) Allow `@ember/test-helpers` v5.x and update ember-cli to 6.1 ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -120,13 +120,13 @@
 ## v8.4.0 (2024-11-12)
 
 #### :rocket: Enhancement
-* [#941](https://github.com/cibernox/ember-basic-dropdown/pull/941) Allow `@glimmer/component` v2 ([@mkszepp](https://github.com/mkszepp))
+* [#941](https://github.com/ember-power-addons/ember-basic-dropdown/pull/941) Allow `@glimmer/component` v2 ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#940](https://github.com/cibernox/ember-basic-dropdown/pull/940) Remove `ember-prism`, use `primsjs` in docs ([@mkszepp](https://github.com/mkszepp))
+* [#940](https://github.com/ember-power-addons/ember-basic-dropdown/pull/940) Remove `ember-prism`, use `primsjs` in docs ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#938](https://github.com/cibernox/ember-basic-dropdown/pull/938) Replace scss to css compiler while rollup ([@mkszepp](https://github.com/mkszepp))
+* [#938](https://github.com/ember-power-addons/ember-basic-dropdown/pull/938) Replace scss to css compiler while rollup ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -134,10 +134,10 @@
 ## v8.3.0 (2024-08-27)
 
 #### :rocket: Enhancement
-* [#935](https://github.com/cibernox/ember-basic-dropdown/pull/935) Allow `@ember/test-helpers` v4 ([@mkszepp](https://github.com/mkszepp))
+* [#935](https://github.com/ember-power-addons/ember-basic-dropdown/pull/935) Allow `@ember/test-helpers` v4 ([@mkszepp](https://github.com/mkszepp))
 
 #### :bug: Bug Fix
-* [#937](https://github.com/cibernox/ember-basic-dropdown/pull/937) Remove test-specific behaviour for BasicDropdownWormhole ([@rohitpaulk](https://github.com/rohitpaulk))
+* [#937](https://github.com/ember-power-addons/ember-basic-dropdown/pull/937) Remove test-specific behaviour for BasicDropdownWormhole ([@rohitpaulk](https://github.com/rohitpaulk))
 
 #### Committers: 2
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -146,7 +146,7 @@
 ## v8.2.1 (2024-08-22)
 
 #### :bug: Bug Fix
-* [#934](https://github.com/cibernox/ember-basic-dropdown/pull/934) Export interface `CalculatePositionOptions` ([@mkszepp](https://github.com/mkszepp))
+* [#934](https://github.com/ember-power-addons/ember-basic-dropdown/pull/934) Export interface `CalculatePositionOptions` ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -154,18 +154,18 @@
 ## v8.2.0 (2024-07-31)
 
 #### :rocket: Enhancement
-* [#910](https://github.com/cibernox/ember-basic-dropdown/pull/910) Improve `rootEventType` type and export for EPS ([@mkszepp](https://github.com/mkszepp))
+* [#910](https://github.com/ember-power-addons/ember-basic-dropdown/pull/910) Improve `rootEventType` type and export for EPS ([@mkszepp](https://github.com/mkszepp))
 
 #### :bug: Bug Fix
-* [#930](https://github.com/cibernox/ember-basic-dropdown/pull/930) silence chrome warning for non-passive 'touchstart' event. ([@xomaczar](https://github.com/xomaczar))
-* [#927](https://github.com/cibernox/ember-basic-dropdown/pull/927) Fix dropdown not correctly positioned horizontally when body position is relative ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
+* [#930](https://github.com/ember-power-addons/ember-basic-dropdown/pull/930) silence chrome warning for non-passive 'touchstart' event. ([@xomaczar](https://github.com/xomaczar))
+* [#927](https://github.com/ember-power-addons/ember-basic-dropdown/pull/927) Fix dropdown not correctly positioned horizontally when body position is relative ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
 
 #### :memo: Documentation
-* [#903](https://github.com/cibernox/ember-basic-dropdown/pull/903) Document @rootEventType ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
+* [#903](https://github.com/ember-power-addons/ember-basic-dropdown/pull/903) Document @rootEventType ([@ArnaudWeyts](https://github.com/ArnaudWeyts))
 
 #### :house: Internal
-* [#929](https://github.com/cibernox/ember-basic-dropdown/pull/929) Add push dist workflow ([@mkszepp](https://github.com/mkszepp))
-* [#892](https://github.com/cibernox/ember-basic-dropdown/pull/892) Add missing addon blueprint config, fix vscode settings & package lint ([@mkszepp](https://github.com/mkszepp))
+* [#929](https://github.com/ember-power-addons/ember-basic-dropdown/pull/929) Add push dist workflow ([@mkszepp](https://github.com/mkszepp))
+* [#892](https://github.com/ember-power-addons/ember-basic-dropdown/pull/892) Add missing addon blueprint config, fix vscode settings & package lint ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 3
 - Andrey Khomenko ([@xomaczar](https://github.com/xomaczar))
@@ -175,10 +175,10 @@
 ## v8.1.0 (2024-05-06)
 
 #### :rocket: Enhancement
-* [#891](https://github.com/cibernox/ember-basic-dropdown/pull/891) Replace `@ember/runloop` with `ember-lifeline` ([@mkszepp](https://github.com/mkszepp))
+* [#891](https://github.com/ember-power-addons/ember-basic-dropdown/pull/891) Replace `@ember/runloop` with `ember-lifeline` ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#888](https://github.com/cibernox/ember-basic-dropdown/pull/888) Remove last ember-array using in docs ([@mkszepp](https://github.com/mkszepp))
+* [#888](https://github.com/ember-power-addons/ember-basic-dropdown/pull/888) Remove last ember-array using in docs ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
@@ -186,10 +186,10 @@
 ## v8.0.4 (2024-03-18)
 
 #### :bug: Bug Fix
-* [#836](https://github.com/cibernox/ember-basic-dropdown/pull/836) Test Support Helpers: Make scope optional ([@andreyfel](https://github.com/andreyfel))
+* [#836](https://github.com/ember-power-addons/ember-basic-dropdown/pull/836) Test Support Helpers: Make scope optional ([@andreyfel](https://github.com/andreyfel))
 
 #### :house: Internal
-* [#837](https://github.com/cibernox/ember-basic-dropdown/pull/837) Remove NodeJs info (not necessary for v2 addon) ([@mkszepp](https://github.com/mkszepp))
+* [#837](https://github.com/ember-power-addons/ember-basic-dropdown/pull/837) Remove NodeJs info (not necessary for v2 addon) ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 2
 - Andrey Fel ([@andreyfel](https://github.com/andreyfel))
@@ -198,7 +198,7 @@
 ## v8.0.3 (2024-03-13)
 
 #### :bug: Bug Fix
-* [#835](https://github.com/cibernox/ember-basic-dropdown/pull/835) Fix fastboot `ReferenceError: document is not defined` ([@mkszepp](https://github.com/mkszepp))
+* [#835](https://github.com/ember-power-addons/ember-basic-dropdown/pull/835) Fix fastboot `ReferenceError: document is not defined` ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -206,7 +206,7 @@
 ## v8.0.2 (2024-03-13)
 
 #### :bug: Bug Fix
-* [#834](https://github.com/cibernox/ember-basic-dropdown/pull/834) Fix fastboot `ReferenceError: document is not defined` ([@mkszepp](https://github.com/mkszepp))
+* [#834](https://github.com/ember-power-addons/ember-basic-dropdown/pull/834) Fix fastboot `ReferenceError: document is not defined` ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -214,7 +214,7 @@
 ## v8.0.1 (2024-03-12)
 
 #### :bug: Bug Fix
-* [#832](https://github.com/cibernox/ember-basic-dropdown/pull/832) Fix rollup config (style.js -> styles.js) ([@mkszepp](https://github.com/mkszepp))
+* [#832](https://github.com/ember-power-addons/ember-basic-dropdown/pull/832) Fix rollup config (style.js -> styles.js) ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -224,7 +224,7 @@
 For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migrate-7-0-to-8-0)
 
 #### :memo: Documentation
-* [#819](https://github.com/cibernox/ember-basic-dropdown/pull/819) DOCS: Add `destinationElement` to api-reference ([@mkszepp](https://github.com/mkszepp))
+* [#819](https://github.com/ember-power-addons/ember-basic-dropdown/pull/819) DOCS: Add `destinationElement` to api-reference ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -232,13 +232,13 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.8 (2024-03-05)
 
 #### :rocket: Enhancement
-* [#791](https://github.com/cibernox/ember-basic-dropdown/pull/791) Add shadow DOM support ([@mkszepp](https://github.com/mkszepp))
+* [#791](https://github.com/ember-power-addons/ember-basic-dropdown/pull/791) Add shadow DOM support ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#814](https://github.com/cibernox/ember-basic-dropdown/pull/814) Fix snippets in docs ([@mkszepp](https://github.com/mkszepp))
+* [#814](https://github.com/ember-power-addons/ember-basic-dropdown/pull/814) Fix snippets in docs ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#813](https://github.com/cibernox/ember-basic-dropdown/pull/813) Remove ember-data (unused package) ([@mkszepp](https://github.com/mkszepp))
+* [#813](https://github.com/ember-power-addons/ember-basic-dropdown/pull/813) Remove ember-data (unused package) ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -246,7 +246,7 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.7 (2024-02-12)
 
 #### :bug: Bug Fix
-* [#787](https://github.com/cibernox/ember-basic-dropdown/pull/787) Readd test-support in publicEntrypoints ([@mkszepp](https://github.com/mkszepp))
+* [#787](https://github.com/ember-power-addons/ember-basic-dropdown/pull/787) Readd test-support in publicEntrypoints ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -254,13 +254,13 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.6 (2024-02-12)
 
 #### :rocket: Enhancement
-* [#777](https://github.com/cibernox/ember-basic-dropdown/pull/777) Allow override `aria-owns` & `aria-controls` ([@mkszepp](https://github.com/mkszepp))
-* [#774](https://github.com/cibernox/ember-basic-dropdown/pull/774) Add `template-registry` and activate glint in `test-app` / `docs` ([@mkszepp](https://github.com/mkszepp))
-* [#753](https://github.com/cibernox/ember-basic-dropdown/pull/753) Introduce Horizontal and Vertical position union types ([@gwak](https://github.com/gwak))
+* [#777](https://github.com/ember-power-addons/ember-basic-dropdown/pull/777) Allow override `aria-owns` & `aria-controls` ([@mkszepp](https://github.com/mkszepp))
+* [#774](https://github.com/ember-power-addons/ember-basic-dropdown/pull/774) Add `template-registry` and activate glint in `test-app` / `docs` ([@mkszepp](https://github.com/mkszepp))
+* [#753](https://github.com/ember-power-addons/ember-basic-dropdown/pull/753) Introduce Horizontal and Vertical position union types ([@gwak](https://github.com/gwak))
 
 #### :house: Internal
-* [#776](https://github.com/cibernox/ember-basic-dropdown/pull/776) Stricter dep management ([@mkszepp](https://github.com/mkszepp))
-* [#775](https://github.com/cibernox/ember-basic-dropdown/pull/775) Update `babel.config.json` to latest blueprint ([@mkszepp](https://github.com/mkszepp))
+* [#776](https://github.com/ember-power-addons/ember-basic-dropdown/pull/776) Stricter dep management ([@mkszepp](https://github.com/mkszepp))
+* [#775](https://github.com/ember-power-addons/ember-basic-dropdown/pull/775) Update `babel.config.json` to latest blueprint ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 2
 - [@gwak](https://github.com/gwak)
@@ -269,19 +269,19 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.5 (2024-01-18)
 
 #### :rocket: Enhancement
-* [#739](https://github.com/cibernox/ember-basic-dropdown/pull/739) Allow passing attributes in wormhole component & add tests for wormhole ([@mkszepp](https://github.com/mkszepp))
-* [#736](https://github.com/cibernox/ember-basic-dropdown/pull/736) Types: Separate Args and Signature ([@mkszepp](https://github.com/mkszepp))
-* [#735](https://github.com/cibernox/ember-basic-dropdown/pull/735) Add option to use `ember-basic-dropdown.scss` ([@mkszepp](https://github.com/mkszepp))
+* [#739](https://github.com/ember-power-addons/ember-basic-dropdown/pull/739) Allow passing attributes in wormhole component & add tests for wormhole ([@mkszepp](https://github.com/mkszepp))
+* [#736](https://github.com/ember-power-addons/ember-basic-dropdown/pull/736) Types: Separate Args and Signature ([@mkszepp](https://github.com/mkszepp))
+* [#735](https://github.com/ember-power-addons/ember-basic-dropdown/pull/735) Add option to use `ember-basic-dropdown.scss` ([@mkszepp](https://github.com/mkszepp))
 
 #### :bug: Bug Fix
-* [#738](https://github.com/cibernox/ember-basic-dropdown/pull/738) Update appReexports ([@mkszepp](https://github.com/mkszepp))
+* [#738](https://github.com/ember-power-addons/ember-basic-dropdown/pull/738) Update appReexports ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#737](https://github.com/cibernox/ember-basic-dropdown/pull/737) DOCS: Fix typos ([@mkszepp](https://github.com/mkszepp))
-* [#734](https://github.com/cibernox/ember-basic-dropdown/pull/734) docs: Fix that code snippets were rendered as [object Object] ([@johanrd](https://github.com/johanrd))
+* [#737](https://github.com/ember-power-addons/ember-basic-dropdown/pull/737) DOCS: Fix typos ([@mkszepp](https://github.com/mkszepp))
+* [#734](https://github.com/ember-power-addons/ember-basic-dropdown/pull/734) docs: Fix that code snippets were rendered as [object Object] ([@johanrd](https://github.com/johanrd))
 
 #### :house: Internal
-* [#743](https://github.com/cibernox/ember-basic-dropdown/pull/743) Remove ember-get-config ([@mkszepp](https://github.com/mkszepp))
+* [#743](https://github.com/ember-power-addons/ember-basic-dropdown/pull/743) Remove ember-get-config ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 2
 - [@johanrd](https://github.com/johanrd)
@@ -290,10 +290,10 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.4 (2024-01-04)
 
 #### :bug: Bug Fix
-* [#733](https://github.com/cibernox/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
+* [#733](https://github.com/ember-power-addons/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
 
 #### :memo: Documentation
-* [#733](https://github.com/cibernox/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
+* [#733](https://github.com/ember-power-addons/ember-basic-dropdown/pull/733) Fix less import & improve docs for less / css ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -303,8 +303,8 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.2 (2024-01-02)
 
 #### :bug: Bug Fix
-* [#732](https://github.com/cibernox/ember-basic-dropdown/pull/732) Fix blueprint ([@mkszepp](https://github.com/mkszepp))
-* [#731](https://github.com/cibernox/ember-basic-dropdown/pull/731) docs: Bring back missing assets in docs after conversion to v2 addon ([@johanrd](https://github.com/johanrd))
+* [#732](https://github.com/ember-power-addons/ember-basic-dropdown/pull/732) Fix blueprint ([@mkszepp](https://github.com/mkszepp))
+* [#731](https://github.com/ember-power-addons/ember-basic-dropdown/pull/731) docs: Bring back missing assets in docs after conversion to v2 addon ([@johanrd](https://github.com/johanrd))
 
 #### Committers: 2
 - [@johanrd](https://github.com/johanrd)
@@ -313,10 +313,10 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.1 (2024-01-02)
 
 #### :bug: Bug Fix
-* [#730](https://github.com/cibernox/ember-basic-dropdown/pull/730) Fix blueprint export ([@mkszepp](https://github.com/mkszepp))
+* [#730](https://github.com/ember-power-addons/ember-basic-dropdown/pull/730) Fix blueprint export ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#729](https://github.com/cibernox/ember-basic-dropdown/pull/729) Fix doc ([@mkszepp](https://github.com/mkszepp))
+* [#729](https://github.com/ember-power-addons/ember-basic-dropdown/pull/729) Fix doc ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -324,16 +324,16 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v8.0.0-beta.0 (2024-01-02)
 
 #### :boom: Breaking Change
-* [#728](https://github.com/cibernox/ember-basic-dropdown/pull/728) Switch to v2 addon ([@mkszepp](https://github.com/mkszepp))
-* [#727](https://github.com/cibernox/ember-basic-dropdown/pull/727) Drop NodeJs v16 ([@mkszepp](https://github.com/mkszepp))
-* [#726](https://github.com/cibernox/ember-basic-dropdown/pull/726) Allow only latest version in dependencies ([@mkszepp](https://github.com/mkszepp))
-* [#725](https://github.com/cibernox/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
+* [#728](https://github.com/ember-power-addons/ember-basic-dropdown/pull/728) Switch to v2 addon ([@mkszepp](https://github.com/mkszepp))
+* [#727](https://github.com/ember-power-addons/ember-basic-dropdown/pull/727) Drop NodeJs v16 ([@mkszepp](https://github.com/mkszepp))
+* [#726](https://github.com/ember-power-addons/ember-basic-dropdown/pull/726) Allow only latest version in dependencies ([@mkszepp](https://github.com/mkszepp))
+* [#725](https://github.com/ember-power-addons/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#725](https://github.com/cibernox/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
-* [#724](https://github.com/cibernox/ember-basic-dropdown/pull/724) Drop `@types/ember-qunit` & `@types/ember__test-helpers` ([@mkszepp](https://github.com/mkszepp))
-* [#723](https://github.com/cibernox/ember-basic-dropdown/pull/723) Fix embroider-optimized ci build ([@mkszepp](https://github.com/mkszepp))
-* [#722](https://github.com/cibernox/ember-basic-dropdown/pull/722) Update devDependencies ([@mkszepp](https://github.com/mkszepp))
+* [#725](https://github.com/ember-power-addons/ember-basic-dropdown/pull/725) Update ember-cli to v5.4.0 (update ember-cli-babel to v8) ([@mkszepp](https://github.com/mkszepp))
+* [#724](https://github.com/ember-power-addons/ember-basic-dropdown/pull/724) Drop `@types/ember-qunit` & `@types/ember__test-helpers` ([@mkszepp](https://github.com/mkszepp))
+* [#723](https://github.com/ember-power-addons/ember-basic-dropdown/pull/723) Fix embroider-optimized ci build ([@mkszepp](https://github.com/mkszepp))
+* [#722](https://github.com/ember-power-addons/ember-basic-dropdown/pull/722) Update devDependencies ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 1
 - [@mkszepp](https://github.com/mkszepp)
@@ -341,16 +341,16 @@ For upgrade from v7 to v8 see [here](https://ember-basic-dropdown.com/docs/migra
 ## v7.3.0 (2023-11-16)
 
 #### :rocket: Enhancement
-* [#714](https://github.com/cibernox/ember-basic-dropdown/pull/714) Drop `@ember/render-modifiers` ([@gilest](https://github.com/gilest))
+* [#714](https://github.com/ember-power-addons/ember-basic-dropdown/pull/714) Drop `@ember/render-modifiers` ([@gilest](https://github.com/gilest))
 
 #### :bug: Bug Fix
-* [#721](https://github.com/cibernox/ember-basic-dropdown/pull/721) Fix peerDependency of ember-source in package.json ([@mkszepp](https://github.com/mkszepp))
+* [#721](https://github.com/ember-power-addons/ember-basic-dropdown/pull/721) Fix peerDependency of ember-source in package.json ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
-* [#720](https://github.com/cibernox/ember-basic-dropdown/pull/720) Add release-it ([@mkszepp](https://github.com/mkszepp))
-* [#718](https://github.com/cibernox/ember-basic-dropdown/pull/718) Remove `ember-cli-htmlbars` workaround in ember-try ([@mkszepp](https://github.com/mkszepp))
-* [#717](https://github.com/cibernox/ember-basic-dropdown/pull/717) Remove `ember-cli-memory-leak-detector` ([@mkszepp](https://github.com/mkszepp))
-* [#716](https://github.com/cibernox/ember-basic-dropdown/pull/716) Upgrade ember cli to 4.12.2 ([@mkszepp](https://github.com/mkszepp))
+* [#720](https://github.com/ember-power-addons/ember-basic-dropdown/pull/720) Add release-it ([@mkszepp](https://github.com/mkszepp))
+* [#718](https://github.com/ember-power-addons/ember-basic-dropdown/pull/718) Remove `ember-cli-htmlbars` workaround in ember-try ([@mkszepp](https://github.com/mkszepp))
+* [#717](https://github.com/ember-power-addons/ember-basic-dropdown/pull/717) Remove `ember-cli-memory-leak-detector` ([@mkszepp](https://github.com/mkszepp))
+* [#716](https://github.com/ember-power-addons/ember-basic-dropdown/pull/716) Upgrade ember cli to 4.12.2 ([@mkszepp](https://github.com/mkszepp))
 
 #### Committers: 2
 - Giles Thompson ([@gilest](https://github.com/gilest))

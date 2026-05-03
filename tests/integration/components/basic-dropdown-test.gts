@@ -1651,7 +1651,7 @@ module('Integration | Component | basic-dropdown', function (hooks) {
   });
 
   /**
-   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/615
+   * Tests related to https://github.com/ember-power-addons/ember-basic-dropdown/issues/615
    * Just in case animationEnabled on TEST ENV, this test would cover this change
    */
 

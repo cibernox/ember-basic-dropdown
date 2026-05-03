@@ -1382,7 +1382,7 @@ module('Integration | Component | basic-dropdown-content', function (hooks) {
   });
 
   /**
-   * Tests related to https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * Tests related to https://github.com/ember-power-addons/ember-basic-dropdown/issues/498
    * Can be removed when the template `V1` compatability event handlers are removed.
    */
   module('Content event handlers', function (hooks) {

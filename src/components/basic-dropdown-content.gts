@@ -146,7 +146,7 @@ export default class BasicDropdownContent<
    * Avoids adding extra dependencies.
    * Can be removed when the template `V1` compatability event handlers are removed.
    *
-   * @see https://github.com/cibernox/ember-basic-dropdown/issues/498
+   * @see https://github.com/ember-power-addons/ember-basic-dropdown/issues/498
    * @memberof BasicDropdownContent
    */
   noop(): void {}
