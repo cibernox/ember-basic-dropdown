@@ -90,7 +90,6 @@
     "@glint/ember-tsc": "^1.5.0",
     "@glint/template": "^1.7.7",
     "@glint/tsserver-plugin": "^2.4.0",
-    "@release-it-plugins/lerna-changelog": "^8.0.1",
     "@rollup/plugin-babel": "^6.1.0",
     "@types/qunit": "^2.19.13",
     "babel-plugin-ember-template-compilation": "^4.0.0",
@@ -113,7 +112,7 @@
     "publint": "^0.3.18",
     "qunit": "^2.25.0",
     "qunit-dom": "^3.5.1",
-    "release-it": "^20.0.0",
+    "release-plan": "^0.18.0",
     "rollup": "^4.60.1",
     "rollup-plugin-sass": "^1.15.3",
     "sass-embedded": "^1.99.0",
@@ -127,25 +126,10 @@
     "@embroider/macros": "^1.19.5",
     "@glimmer/component": "^2.0.0"
   },
+  "packageManager": "pnpm@10.33.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "release-it": {
-    "plugins": {
-      "@release-it-plugins/lerna-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    },
-    "npm": false
-  },
-  "packageManager": "pnpm@10.33.0",
   "ember": {
     "edition": "octane"
   },
