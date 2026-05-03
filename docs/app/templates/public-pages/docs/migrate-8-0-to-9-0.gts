@@ -85,7 +85,7 @@ import { LinkTo } from '@ember/routing';
         <code>false</code>
         to
         <code>true</code>, please follow the guidance
-        <a href="https://github.com/cibernox/ember-basic-dropdown/pull/1064">in
+        <a href="https://github.com/ember-power-addons/ember-basic-dropdown/pull/1064">in
           this PR</a>
       </p>
     </li>

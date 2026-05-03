@@ -69,7 +69,7 @@ export default class extends Component {
             class="main-header-nav-link"
           >Cookbook</LinkTo>
           <a
-            href="https://github.com/cibernox/ember-basic-dropdown"
+            href="https://github.com/ember-power-addons/ember-basic-dropdown"
             class="main-header-nav-link"
           >Github</a>
         </div>
