@@ -170,7 +170,7 @@ export default class BasicDropdownContent<
       triggerElement = this.args.dropdown?.actions?.getTriggerElement();
     }
     if (!triggerElement) {
-      triggerElement = document.querySelector(selector) as HTMLElement;
+      triggerElement = document.querySelector(selector);
     }
     this.handleRootMouseDown = (e: MouseEvent | TouchEvent): void => {
       const target = (e.composedPath?.()[0] || e.target) as Element;
