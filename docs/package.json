@@ -65,7 +65,7 @@
     "@glint/ember-tsc": "^1.5.0",
     "@glint/template": "^1.7.7",
     "@glint/tsserver-plugin": "^2.4.0",
-    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-babel": "^7.0.0",
     "@types/qunit": "^2.19.13",
     "@types/rsvp": "^4.0.9",
     "babel-plugin-ember-template-compilation": "^4.0.0",
@@ -98,11 +98,11 @@
     "rsvp": "^4.8.5",
     "sass-embedded": "^1.99.0",
     "shiki": "^4.0.2",
-    "stylelint": "^17.10.0",
+    "stylelint": "^17.11.0",
     "stylelint-config-standard": "^40.0.0",
     "testem": "^3.20.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.59.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.59.2",
     "vite": "^8.0.10"
   }
 }

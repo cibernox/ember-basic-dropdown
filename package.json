@@ -90,7 +90,7 @@
     "@glint/ember-tsc": "^1.5.0",
     "@glint/template": "^1.7.7",
     "@glint/tsserver-plugin": "^2.4.0",
-    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-babel": "^7.0.0",
     "@types/qunit": "^2.19.13",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "concurrently": "^9.2.1",
@@ -106,19 +106,19 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.24.0",
     "globals": "^17.6.0",
-    "postcss": "^8.5.13",
+    "postcss": "^8.5.14",
     "prettier": "^3.8.3",
     "prettier-plugin-ember-template-tag": "^2.1.5",
-    "publint": "^0.3.18",
+    "publint": "^0.3.19",
     "qunit": "^2.25.0",
     "qunit-dom": "^3.5.1",
     "release-plan": "^0.18.0",
-    "rollup": "^4.60.2",
+    "rollup": "^4.60.3",
     "rollup-plugin-sass": "^1.15.3",
     "sass-embedded": "^1.99.0",
     "testem": "^3.20.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.59.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.59.2",
     "vite": "^8.0.10"
   },
   "peerDependencies": {
@@ -126,7 +126,7 @@
     "@embroider/macros": "^1.19.5",
     "@glimmer/component": "^2.0.0"
   },
-  "packageManager": "pnpm@10.33.2",
+  "packageManager": "pnpm@10.33.3",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
