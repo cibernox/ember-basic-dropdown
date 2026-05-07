@@ -17,9 +17,12 @@
   "imports": {
     "#src/*": "./src/*"
   },
+  "sass": "./ember-basic-dropdown.scss",
+  "style": "./dist/vendor/ember-basic-dropdown.css",
   "exports": {
     ".": {
       "types": "./declarations/index.d.ts",
+      "sass": "./ember-basic-dropdown.scss",
       "default": "./dist/index.js"
     },
     "./addon-main.js": "./addon-main.cjs",
@@ -44,8 +47,7 @@
     "ember-basic-dropdown.less",
     "ember-basic-dropdown.scss",
     "less",
-    "scss",
-    "src"
+    "scss"
   ],
   "scripts": {
     "build": "rollup --config",
