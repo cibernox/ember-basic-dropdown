@@ -464,23 +464,13 @@ export default class BasicDropdown<
   get triggerComponent(): ComponentLike<
     BasicDropdownTriggerSignature<TriggerHtmlTag>
   > {
-    return (
-      this.args.triggerComponent ||
-      (BasicDropdownTrigger as ComponentLike<
-        BasicDropdownTriggerSignature<TriggerHtmlTag>
-      >)
-    );
+    return this.args.triggerComponent || BasicDropdownTrigger;
   }
 
   get contentComponent(): ComponentLike<
     BasicDropdownContentSignature<ContentHtmlTag>
   > {
-    return (
-      this.args.contentComponent ||
-      (BasicDropdownContent as ComponentLike<
-        BasicDropdownContentSignature<ContentHtmlTag>
-      >)
-    );
+    return this.args.contentComponent || BasicDropdownContent;
   }
 
   <template>
