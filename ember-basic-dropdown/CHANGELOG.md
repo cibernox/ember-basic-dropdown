@@ -14,6 +14,15 @@
 
 
 
+
+## v8.11.1 (2026-05-08)
+
+#### :bug: Bug Fix
+* [#1124](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1124) Add sass/css export into package.json ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v8.11.0 (2025-12-14)
 
 #### :rocket: Enhancement
