@@ -8,9 +8,12 @@
   "repository": "https://github.com/cibernox/ember-basic-dropdown",
   "license": "MIT",
   "author": "Miguel Camba",
+  "sass": "./ember-basic-dropdown.scss",
+  "style": "./dist/vendor/ember-basic-dropdown.css",
   "exports": {
     ".": {
       "types": "./declarations/index.d.ts",
+      "sass": "./ember-basic-dropdown.scss",
       "default": "./dist/index.js"
     },
     "./*": {
