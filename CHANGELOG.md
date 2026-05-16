@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-05-16)
+
+* ember-basic-dropdown 9.0.1 (patch)
+
+#### :memo: Documentation
+* `ember-basic-dropdown`
+  * [#1129](https://github.com/ember-power-addons/ember-basic-dropdown/pull/1129) Remove v8.x examples in docs ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## Release (2026-05-14)
 
 * ember-basic-dropdown 9.0.0 (major)
